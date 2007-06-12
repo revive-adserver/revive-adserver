@@ -243,7 +243,7 @@ class OA_DB_UpgradeAuditor
 
     function queryAuditForABackup($name)
     {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE tablename_backup = '{$name}'";
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE tablename_backup='{$name}' AND info2 IS NULL";
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
         {
@@ -252,9 +252,9 @@ class OA_DB_UpgradeAuditor
         return $aResult;
     }
 
-    function updateAuditBackupDropped($tablename_backup, $reason = '')
+    function updateAuditBackupDropped($tablename_backup, $reason = 'dropped')
     {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET tablename_backup='dropped {$reason}', updated='". OA::getNow() ."' WHERE tablename_backup='{$tablename_backup}'";
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET info2='{$reason}', updated='". OA::getNow() ."' WHERE tablename_backup='{$tablename_backup}'";
 
         $result = $this->oDbh->exec($query);
 

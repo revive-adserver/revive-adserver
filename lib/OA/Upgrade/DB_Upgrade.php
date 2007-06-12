@@ -362,7 +362,7 @@ class OA_DB_Upgrade
                 {
                     if (!$this->_executeTasks())
                     {
-                        $this->_logError('UPGRADE FAILED');
+                        $this->_logError('UPGRADE FAILED: '.$this->schema.'_'.$this->versionTo);
                         $this->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE FAILED',
                                                                  'info2'=>'ROLLING BACK',
                                                                  'action'=>DB_UPGRADE_ACTION_UPGRADE_FAILED,
@@ -370,12 +370,12 @@ class OA_DB_Upgrade
                                                           );
                         if ($this->rollback())
                         {
-                            $this->_logError('ROLLBACK SUCCEEDED');
+                            $this->_logError('ROLLBACK SUCCEEDED: '.$this->schema.'_'.$this->versionTo);
                             return false;
                         }
                         else
                         {
-                            $this->_logError('ROLLBACK FAILED');
+                            $this->_logError('ROLLBACK FAILED: '.$this->schema.'_'.$this->versionTo);
                             return false;
                         }
                     }
@@ -408,7 +408,7 @@ class OA_DB_Upgrade
             }
             else
             {
-                $this->_logError('TASKLIST CREATION FAILED');
+                $this->_logError('TASKLIST CREATION FAILED: '.$this->schema.'_'.$this->versionTo);
                 return false;
             }
         }
@@ -419,6 +419,11 @@ class OA_DB_Upgrade
         return true;
     }
 
+    /**
+     * not currently used
+     *
+     * @return boolean
+     */
     function _scheduleDestructive()
     {
         if (count($this->aChanges['affected_tables']['destructive'])>0)
@@ -659,7 +664,7 @@ class OA_DB_Upgrade
                                                                  'action'=>DB_UPGRADE_ACTION_ROLLBACK_TABLE_RESTORED,
                                                                 )
                                                           );
-                        if (!$this->dropBackupTable($aTable_bak['bak']))
+                        if (!$this->dropBackupTable($aTable_bak['bak'], 'dropped after successful restore'))
                         {
                             $this->_log("failed to drop backup table {$this->prefix}{$aTable_bak['bak']} after successfully restoring {$this->prefix}{$table}");
                         }
@@ -734,21 +739,26 @@ class OA_DB_Upgrade
         $aResult = array();
         foreach ($aTables AS $k=>$aAction)
         {
-            $table = $aAction['tablename'];
-            $table_bak = $aAction['tablename_backup'];
-            $aBakDef = unserialize($aAction['table_backup_schema']);
-            $aResult[$table] = array(
-                                    'bak'=>$table_bak,
-                                    'def'=>$aBakDef
-                                    );
-            $this->_log("Require backup table {$this->prefix}{$table_bak} to restore table: {$this->prefix}{$table}");
-            if (in_array($this->prefix.$table_bak, $this->aDBTables))
+            // info2 holds the reason for table having been dropped
+            // ie dropped by user, dropped after successful restore
+            if (is_null($aAction['info2']))
             {
-                $this->_log("Backup table {$this->prefix}{$table_bak} found in database");
-            }
-            else
-            {
-                $this->_logError("Backup table {$this->prefix}{$table_bak} not found in database");
+                $table = $aAction['tablename'];
+                $table_bak = $aAction['tablename_backup'];
+                $aBakDef = unserialize($aAction['table_backup_schema']);
+                $aResult[$table] = array(
+                                        'bak'=>$table_bak,
+                                        'def'=>$aBakDef
+                                        );
+                $this->_log("Require backup table {$this->prefix}{$table_bak} to restore table: {$this->prefix}{$table}");
+                if (in_array($this->prefix.$table_bak, $this->aDBTables))
+                {
+                    $this->_log("Backup table {$this->prefix}{$table_bak} found in database");
+                }
+                else
+                {
+                    $this->_logError("Backup table {$this->prefix}{$table_bak} not found in database");
+                }
             }
         }
         return $aResult;
@@ -1369,14 +1379,34 @@ class OA_DB_Upgrade
             {
                 if (isset($aTable_tasks['indexes']))
                 {
+                    $aDBIndexes     = $this->_listIndexes($this->prefix.$table);
+                    $aDBConstraints = $this->_listConstraints($this->prefix.$table);
                     foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
                     {
-                        if (isset($aIndex_tasks['add']))
+                        // if the index/constraint already exists on the table
+                        if ( (in_array($index, $aDBIndexes) || in_array($index, $aDBConstraints) ) )
                         {
-                            $method = $aIndex_tasks['add'];
-                            $this->_log('task found: '.$method);
-                            $this->aTaskList['indexes']['add'][] = $this->_compileTaskIndex('add', $table, $index);
+                            // and there is no task to remove it first
+                            if (!array_key_exists('remove', $aIndex_tasks))
+                            {
+                                $this->_logError('index '.$index.' already exists in table '.$this->prefix.$table.' in database '.$this->oSchema->db->database_name);
+                                $halt = true;
+                            }
                         }
+                        if (!$halt)
+                        {
+                            if (isset($aIndex_tasks['add']))
+                            {
+                                $method = $aIndex_tasks['add'];
+                                $this->_log('task found: '.$method);
+                                $this->aTaskList['indexes']['add'][] = $this->_compileTaskIndex('add', $table, $index);
+                            }
+                        }
+                    }
+                    if ($halt)
+                    {
+                        $this->_halt();
+                        return false;
                     }
                 }
             }
@@ -1397,13 +1427,18 @@ class OA_DB_Upgrade
             {
                 if (isset($aTable_tasks['indexes']))
                 {
+                    $aDBIndexes     = $this->_listIndexes($this->prefix.$table);
+                    $aDBConstraints = $this->_listConstraints($this->prefix.$table);
                     foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
                     {
-                        if (isset($aIndex_tasks['remove']))
+                        if (in_array($index, $aDBIndexes) || in_array($index, $aDBConstraints))
                         {
-                            $method = $aIndex_tasks['remove'];
-                            $this->_log('task found: '.$method);
-                            $this->aTaskList['indexes']['remove'][] = $this->_compileTaskIndex('remove', $table, $index);
+                            if (isset($aIndex_tasks['remove']))
+                            {
+                                $method = $aIndex_tasks['remove'];
+                                $this->_log('task found: '.$method);
+                                $this->aTaskList['indexes']['remove'][] = $this->_compileTaskIndex('remove', $table, $index);
+                            }
                         }
                     }
                 }
@@ -2021,6 +2056,28 @@ class OA_DB_Upgrade
      * @param string : any additional (post-prefix) string to search for
      * @return array
      */
+    function _doesConstraintExist($table_name, $index_name)
+    {
+        $aDBIndexes = $this->_listIndexes($table_name);
+        $aDBConstraints = $this->_listConstraints($table_name);
+        if (in_array($index_name, $aDBIndexes))
+        {
+            return true;
+        }
+        if (in_array($index_name, $aDBConstraints))
+        {
+            return true;
+        }
+    }
+
+    /**
+     * retrieve an array of table names from currently connected database
+     * uses the conf table prefix to search only for tables from the openads schema
+     *
+     *
+     * @param string : any additional (post-prefix) string to search for
+     * @return array
+     */
     function _listTables($prefix='')
     {
         OA_DB::setCaseSensitive();
@@ -2146,7 +2203,7 @@ class OA_DB_Upgrade
      * @param unknown_type $table
      * @return unknown
      */
-    function dropBackupTable($table, $logmsg = '')
+    function dropBackupTable($table, $logmsg = 'dropped')
     {
         if (!$this->dropTable($table))
         {

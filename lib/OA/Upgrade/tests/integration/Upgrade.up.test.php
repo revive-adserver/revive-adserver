@@ -315,7 +315,7 @@ class Test_OA_Upgrade extends UnitTestCase
 
         $this->assertFalse($oUpgrade->detectPAN(),'');
         $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version');
-        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_PAN_VERSION_FAILED,'wrong upgrade status code');
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_PAN_NOT_INSTALLED,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
 
         $this->assertTrue($oUpgrade->detectPAN(),'');
@@ -324,6 +324,68 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.0.11_to_2.3.32_beta.xml','wrong package file assigned');
 
         $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'pan_test', '');
+
+        $oUpgrade->tally();
+        $oUpgrade->oPAN->tally();
+        $oUpgrade->oIntegrity->tally();
+
+        TestEnv::restoreConfig();
+    }
+
+    /**
+     * testing for invalid version to upgrade and upgrade required
+     * does not test for absent database
+     *
+     */
+    function test_detectMAX01()
+    {
+        Mock::generatePartial(
+            'OA_Upgrade',
+            'OA_Upgrade_for_detectM01',
+            array('initDatabaseConnection')
+        );
+        $oUpgrade = new OA_Upgrade_for_detectM01($this);
+        $oUpgrade->setReturnValue('initDatabaseConnection', true);
+        $oUpgrade->expectCallCount('initDatabaseConnection', 3);
+        $oUpgrade->OA_Upgrade();
+
+        Mock::generatePartial(
+            'OA_phpAdsNew',
+            'OA_phpAdsNew_for_detectM01',
+            array('init', 'getPANversion')
+        );
+
+        $oUpgrade->oPAN = new OA_phpAdsNew_for_detectPAN($this);
+        $oUpgrade->oPAN->setReturnValue('init', true);
+        $oUpgrade->oPAN->expectCallCount('init', 2);
+        $oUpgrade->oPAN->setReturnValueAt(0, 'getPANversion', '0.000');
+        $oUpgrade->oPAN->expectCallCount('getPANversion',2);
+        $oUpgrade->oPAN->setReturnValueAt(1, 'getPANversion', '0.100');
+
+        $oUpgrade->oPAN->detected = true;
+        $oUpgrade->oPAN->aDsn['database']['name'] = 'm01_test';
+        $oUpgrade->oPAN->oDbh = null;
+
+        Mock::generatePartial(
+            'OA_DB_Integrity',
+            'OA_DB_Integrity_for_detectM01',
+            array('checkIntegrityQuick')
+        );
+        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
+        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+
+        $this->assertFalse($oUpgrade->detectMAX01(),'');
+        $this->assertEqual($oUpgrade->versionInitialApplication,'0.000','wrong initial application version');
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_M01_VERSION_FAILED,'wrong upgrade status code');
+        $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
+
+        $this->assertTrue($oUpgrade->detectMAX01(),'');
+        $this->assertEqual($oUpgrade->versionInitialApplication,'0.100','wrong initial application version');
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
+        $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.1.29_to_2.3.32_beta.xml','wrong package file assigned');
+
+        $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'm01_test', '');
 
         $oUpgrade->tally();
         $oUpgrade->oPAN->tally();

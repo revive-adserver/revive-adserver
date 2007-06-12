@@ -33,6 +33,12 @@
             </field>
           </add>
           <index>
+            <remove>
+              <name>channelid</name>
+            </remove>
+            <remove>
+              <name>channelid_executionorder</name>
+            </remove>
             <add>
               <name>channelid</name>
               <was>channelid</was>

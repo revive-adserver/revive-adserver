@@ -37,6 +37,11 @@ define('OA_STATUS_PAN_CONFIG_DETECTED',     1);
 define('OA_STATUS_PAN_DBCONNECT_FAILED',    2);
 define('OA_STATUS_PAN_VERSION_FAILED',      3);
 define('OA_STATUS_PAN_DBINTEG_FAILED',      5);
+define('OA_STATUS_M01_NOT_INSTALLED',      -1);
+define('OA_STATUS_M01_CONFIG_DETECTED',     1);
+define('OA_STATUS_M01_DBCONNECT_FAILED',    2);
+define('OA_STATUS_M01_VERSION_FAILED',      3);
+define('OA_STATUS_M01_DBINTEG_FAILED',      5);
 define('OA_STATUS_MAX_NOT_INSTALLED',      -1);
 define('OA_STATUS_MAX_CONFIG_DETECTED',     1);
 define('OA_STATUS_MAX_DBCONNECT_FAILED',    2);
@@ -202,6 +207,7 @@ class OA_Upgrade
     {
         $this->aDBPackages = $this->seekRecoveryFile();
         $this->detectPAN();
+        $this->detectMAX01();
         $this->detectMAX();
         if (!$this->initDatabaseConnection())
         {
@@ -260,7 +266,7 @@ class OA_Upgrade
                 $this->oLogger->log($strProductName.' '.$version.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
-                return false;
+                break;
             case OA_STATUS_PAN_DBINTEG_FAILED:
                 $this->oLogger->log($strProductName.' '.$this->versionInitialApplication.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
@@ -268,6 +274,35 @@ class OA_Upgrade
                 return false;
             case OA_STATUS_CAN_UPGRADE:
                 $this->oLogger->log($strProductName.' version '.$this->versionInitialApplication.' detected');
+                $this->oLogger->log($strCanUpgrade);
+                return true;
+        }
+
+        $this->detectMAX01();
+        $strProductName  = 'Openads 2.3';
+        $this->versionInitialAppOpenads = preg_replace('/v0.1/', 'v2.3', $this->versionInitialApplication);
+        switch ($this->existing_installation_status)
+        {
+            case OA_STATUS_M01_NOT_INSTALLED:
+                break;
+            case OA_STATUS_M01_CONFIG_DETECTED:
+                $this->oLogger->logError($strProductName.$strDetected);
+                break;
+            case OA_STATUS_M01_DBCONNECT_FAILED:
+                $this->oLogger->logError($strProductName.$strDetected);
+                $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                break;
+            case OA_STATUS_M01_DBINTEG_FAILED:
+                return false;
+            case OA_STATUS_M01_VERSION_FAILED:
+                $database = $GLOBALS['_MAX']['CONF']['database']['name'];
+                $version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
+                $this->oLogger->log($strProductName.' '.$version.' detected');
+                $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                $this->oLogger->logError($strNoUpgrade);
+                break;
+            case OA_STATUS_CAN_UPGRADE:
+                $this->oLogger->log('Openads '.$this->versionInitialAppOpenads.' detected');
                 $this->oLogger->log($strCanUpgrade);
                 return true;
         }
@@ -367,7 +402,6 @@ class OA_Upgrade
     /**
      * search for an existing phpAdsNew installation
      *
-     * @param string $database (used for error display message)
      * @return boolean
      */
     function detectPAN()
@@ -418,17 +452,22 @@ class OA_Upgrade
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 return true;
             }
-            $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
-            return false;
+            // if its not a max 0.1 installation
+            if (!version_compare($this->versionInitialApplication,'200.000')<0)
+            {
+                $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
+                return false;
+            }
         }
         $this->existing_installation_status = OA_STATUS_PAN_NOT_INSTALLED;
         return false;
     }
 
     /**
-     * search for an existing phpAdsNew installation
+     * search for an existing MMM 0.1 installation
+     * very similar to a PAN installation with config.inc.php and config table
+     * schema is half way between PAN and MAX
      *
-     * @param string $database (used for error display message)
      * @return boolean
      */
     function detectMAX01()
@@ -438,22 +477,22 @@ class OA_Upgrade
         {
             $GLOBALS['_MAX']['CONF']['database'] = $this->oPAN->aDsn['database'];
             $GLOBALS['_MAX']['CONF']['table']    = $this->oPAN->aDsn['table'];
-            $this->existing_installation_status = OA_STATUS_PAN_CONFIG_DETECTED;
+            $this->existing_installation_status = OA_STATUS_M01_CONFIG_DETECTED;
             if (PEAR::isError($this->oPAN->oDbh))
             {
-                $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
+                $this->existing_installation_status = OA_STATUS_M01_DBCONNECT_FAILED;
                 return false;
             }
             $this->oDbh = & $this->oPAN->oDbh;
             if (!$this->initDatabaseConnection())
             {
-                $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
+                $this->existing_installation_status = OA_STATUS_M01_DBCONNECT_FAILED;
                 return false;
             }
             $this->versionInitialApplication = $this->oPAN->getPANversion();
             if (!$this->versionInitialApplication)
             {
-                $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
+                $this->existing_installation_status = OA_STATUS_M01_VERSION_FAILED;
                 return false;
             }
 
@@ -463,12 +502,12 @@ class OA_Upgrade
                 $this->versionInitialSchema['tables_core'] = '300';
                 if (!$this->initDatabaseConnection())
                 {
-                    $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
+                    $this->existing_installation_status = OA_STATUS_M01_DBCONNECT_FAILED;
                     return false;
                 }
                 if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                 {
-                    $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
+                    $this->existing_installation_status = OA_STATUS_M01_DBINTEG_FAILED;
                     return false;
                 }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
@@ -477,7 +516,7 @@ class OA_Upgrade
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 return true;
             }
-            $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
+            $this->existing_installation_status = OA_STATUS_M01_VERSION_FAILED;
             return false;
         }
         $this->existing_installation_status = OA_STATUS_PAN_NOT_INSTALLED;
@@ -487,7 +526,6 @@ class OA_Upgrade
     /**
      * search for an existing Max Media Manager installation
      *
-     * @param string $database (used for error display message)
      * @return boolean
      */
     function detectMAX()
@@ -887,7 +925,7 @@ class OA_Upgrade
                 }
                 if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo']))
                 {
-                    $this->oLogger->log('Failed to update application version to '.$this->aPackage['versionTo']);
+                    $this->oLogger->logError('Failed to update application version to '.$this->aPackage['versionTo']);
                     $this->message = 'Failed to update application version to '.$this->aPackage['versionTo'];
                     return false;
                 }
@@ -895,13 +933,13 @@ class OA_Upgrade
             }
         }
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
-        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
-        $aConfig = $this->initDatabaseParameters($aConfig);
+        $aConfig['table']    = $GLOBALS['_MAX']['CONF']['table'];
+        $aConfig             = $this->initDatabaseParameters($aConfig);
         $this->saveConfigDB($aConfig);
 
         if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
         {
-            $this->oLogger->log('Failed to update application version to '.OA_VERSION);
+            $this->oLogger->logError('Failed to update application version to '.OA_VERSION);
             $this->message = 'Failed to update application version to '.OA_VERSION;
             return false;
         }
@@ -926,7 +964,7 @@ class OA_Upgrade
         }
         if (!$this->runScript($this->aPackage['prescript']))
         {
-            $this->oLogger->log('Failure from upgrade prescript '.$this->aPackage['prescript']);
+            $this->oLogger->logError('Failure from upgrade prescript '.$this->aPackage['prescript']);
             return false;
         }
         if (!$this->upgradeSchemas())
@@ -935,7 +973,7 @@ class OA_Upgrade
         }
         if (!$this->runScript($this->aPackage['postscript']))
         {
-            $this->oLogger->log('Failure from upgrade postscript '.$this->aPackage['postscript']);
+            $this->oLogger->logError('Failure from upgrade postscript '.$this->aPackage['postscript']);
             return false;
         }
         return true;
@@ -976,7 +1014,7 @@ class OA_Upgrade
 
         if (!$oPrefs->writePrefChange())
         {
-            $this->oLogger->log('error writing admin preference record');
+            $this->oLogger->logError('error writing admin preference record');
             return false;
         }
         return true;
@@ -1006,7 +1044,7 @@ class OA_Upgrade
 
         if (!$oPrefs->writePrefChange())
         {
-            $this->oLogger->log('Error inserting Community Preferences into database');
+            $this->oLogger->logError('Error inserting Community Preferences into database');
             return false;
         }
         return true;
@@ -1284,7 +1322,7 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
-                        $this->oLogger->_logError('ROLLBACK FAILED');
+                        $this->oLogger->logError('ROLLBACK FAILED: '.$aPkg['schema'].'_'.$aPkg['version']);
                         return false;
                     }
                     if (!$this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], true))
@@ -1297,10 +1335,10 @@ class OA_Upgrade
                     }
                     if (!$this->oDBUpgrader->rollback())
                     {
-                        $this->oLogger->_logError('ROLLBACK FAILED');
+                        $this->oLogger->logError('ROLLBACK FAILED: '.$aPkg['schema'].'_'.$aPkg['version']);
                         return false;
                     }
-                    $this->oLogger->logError('ROLLBACK SUCCEEDED');
+                    $this->oLogger->logError('ROLLBACK SUCCEEDED: '.$aPkg['schema'].'_'.$aPkg['version']);
                     $this->oVersioner->putSchemaVersion($aPkg['schema'], $aPkg['version']);
                 }
                 $this->oVersioner->putSchemaVersion($schema, $version);
