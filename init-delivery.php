@@ -80,44 +80,4 @@ MAX_commonInitVariables();
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 
-/**
- * A function to initialize the environmental constants and global
- * variables required by delivery.
- */
-function setupDeliveryConfigVariables()
-{
-    if (!defined('MAX_PATH')) {
-        define('MAX_PATH', dirname(__FILE__));
-    }
-    // Ensure that the initialisation has not been run before
-    if ( !(isset($GLOBALS['_MAX']['CONF']))) {
-        // Parse the Max configuration file
-        $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
-    }
-
-    // Set up the common configuration variables
-    setupConfigVariables();
-}
-
-/**
- * A function to define the PEAR include path in a separate method,
- * as it is required by delivery only in exceptional circumstances.
- */
-function setupIncludePath()
-{
-    static $checkIfAlreadySet;
-    if (isset($checkIfAlreadySet)) {
-        return;
-    }
-    $checkIfAlreadySet = true;
-
-    // Define the PEAR installation path
-    $existingPearPath = ini_get('include_path');
-    $newPearPath = MAX_PATH . '/lib/pear';
-    if (!empty($existingPearPath)) {
-        $newPearPath .= PATH_SEPARATOR . $existingPearPath;
-    }
-    ini_set('include_path', $newPearPath);
-}
-
 ?>

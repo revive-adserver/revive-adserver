@@ -70,17 +70,17 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
             // check for false here - it's possible file doesn't exist
             return $conf;
         }
-        echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+        echo "Openads could not read the default configuration file for the {$pluginType} plugin";
         exit(1);
     }
     
     // Check to ensure Max hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-        echo MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n";
+        echo "Openads has been installed, but no configuration file was found.\n";
         exit(1);
     }
     // Max hasn't been installed, so delivery engine can't run
-    echo MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n";
+    echo "Openads has not been installed yet -- please read the INSTALL.txt file.\n";
     exit(1);
 }
 
