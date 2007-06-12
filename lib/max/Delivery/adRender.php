@@ -315,7 +315,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     $code = "
 <div id='m3_$rnd' style='display: inline;'>$altImageAdCode</div>
 <script type='text/javascript'>
-   <!--// <![CDATA[
+   <!--/"."/ <![CDATA[
    var fo = new FlashObject('$fileUrl', 'mymovie', '$width', '$height', '$pluginVersion');";
 
     if (!empty($aBanner['transparent'])) {
@@ -325,7 +325,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
 
     $code .= "
    fo.write('m3_$rnd');
-   // ]]> -->
+   /"."/ ]]> -->
 </script>";
     $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$clickTag}{$aBanner['bannertext']}{$clickTagEnd}" : '';
     $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
