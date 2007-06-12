@@ -121,9 +121,15 @@ class OA_Upgrade_Config
         }
     }
 
-    function writeConfig()
+    /**
+     * Writes out the config file
+     *
+     * @param boolean $reparse should we reparse the config file after writing?
+     * @return boolean true if config is successfully written.  Otherwise, false.
+     */
+    function writeConfig($reparse = true)
     {
-        return $this->oConfig->writeConfigChange();
+        return $this->oConfig->writeConfigChange(null, null, $reparse);
     }
     
     /**

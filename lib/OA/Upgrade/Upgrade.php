@@ -871,7 +871,9 @@ class OA_Upgrade
     function saveConfig($aConfig)
     {
         $this->oConfiguration->setupConfigWebPath($aConfig['webpath']);
-        $this->oConfiguration->writeConfig();
+        
+        // Don't reparse the config file to prevent constants being parsed.
+        $this->oConfiguration->writeConfig(false);
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
         $this->oConfiguration->setupConfigDatabase($aConfig['database']);
