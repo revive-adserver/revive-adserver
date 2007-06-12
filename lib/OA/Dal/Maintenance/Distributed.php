@@ -174,13 +174,21 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     }
 
     /**
-     * A method to prune a raw table
+     * A method to prune a raw table, based on the config settings
      *
      * @param string $sTableName The table to prune
-     * @param Date   $oTimeStamp A PEAR_Date instance, prune until it
+     * @param Date   $oTimeStamp Prune until this timestamp
      */
     function _pruneTable($sTableName, $oTimestamp)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        if (empty($aConf['lb']['compactStats'])) {
+            return;
+        }
+
+        $oTimestamp->subtractSeconds($aConf['lb']['compactStatsGrace']);
+
         OA::debug(' - Pruning '.$sTableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
         $prefix = $this->getTablePrefix();
@@ -224,9 +232,9 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      * A method to retrieve the table content as a recordset.
      *
      * @param string $sTableName The table to process
-     * @param object $oStart A PEAR_Date instance, starting timestamp
-     * @param object $oEnd A PEAR_Date instance, ending timestamp
-     * @return object A recordset of the results
+     * @param Date $oStart A PEAR_Date instance, starting timestamp
+     * @param Date $oEnd A PEAR_Date instance, ending timestamp
+     * @return MySqlRecordSet A recordset of the results
      */
     function _getDataRawTableContent($sTableName, $oStart, $oEnd)
     {

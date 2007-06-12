@@ -327,6 +327,8 @@ username            =
 password            =
 name                =
 persistent          = false
+compactStats        = true
+compactStatsGrace   = 604800
 
 ;------------------------------------------------------------------------------------------;
 ; Sync / Dashboard Settings                                                                ;
