@@ -219,16 +219,11 @@ else if (array_key_exists('btn_adminsetup', $_POST))
             }
             else
             {
-                // Only need to merge configs on upgrade not install.
-                if ($oUpgrader->mergeConfig()) {
-                    //Hide the IDsetup, instead display the finish page
-                    //$action = OA_UPGRADE_IDSETUP;
-                    $message = 'Congratulations you have finished upgrading Openads';
-                    $oUpgrader->setOpenadsInstalledOn();
-                    $action = OA_UPGRADE_FINISH;
-                } else {
-                    $action = OA_UPGRADE_ERROR;
-                }
+                //Hide the IDsetup, instead display the finish page
+                //$action = OA_UPGRADE_IDSETUP;
+                $message = 'Congratulations you have finished upgrading Openads';
+                $oUpgrader->setOpenadsInstalledOn();
+                $action = OA_UPGRADE_FINISH;
             }
         }
     }

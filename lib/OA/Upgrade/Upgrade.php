@@ -882,17 +882,7 @@ class OA_Upgrade
         $this->oConfiguration->setupConfigPriority('');
         return $this->oConfiguration->writeConfig();
     }
-    
-    /**
-     * Backs up the existing config file and merges any changes from dist.conf.php.
-     *
-     * @return boolean true if config is successfully backed up and merged. Otherwise, false.
-     */
-    function mergeConfig()
-    {
-        return $this->oConfiguration->mergeConfig();
-    }
-    
+
     /**
      * prepare to execute the upgrade steps
      *
@@ -936,7 +926,12 @@ class OA_Upgrade
         $aConfig['table']    = $GLOBALS['_MAX']['CONF']['table'];
         $aConfig             = $this->initDatabaseParameters($aConfig);
         $this->saveConfigDB($aConfig);
-
+        // Backs up the existing config file and merges any changes from dist.conf.php.
+        if (!$this->oConfiguration->mergeConfig())
+        {
+            $this->oLogger->logError('Failed to merge configuration file');
+            return false;
+        }
         if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
         {
             $this->oLogger->logError('Failed to update application version to '.OA_VERSION);

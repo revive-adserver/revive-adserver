@@ -17,10 +17,10 @@ class OA_UpgradePostscript
         {
             return false;
         }
-//        if (!MAX_Maintenance_Priority::run())
-//        {
-//            return false;
-//        }
+        if (!MAX_Maintenance_Priority::run())
+        {
+            return false;
+        }
         return true;
     }
 
