@@ -67,16 +67,16 @@ if ($conf !== false) {
 // check for false here - it's possible file doesn't exist
 return $conf;
 }
-echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+echo "Openads could not read the default configuration file for the {$pluginType} plugin";
 exit(1);
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-echo MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n";
+echo "Openads has been installed, but no configuration file was found.\n";
 exit(1);
 }
 // Max hasn't been installed, so delivery engine can't run
-echo MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n";
+echo "Openads has not been installed yet -- please read the INSTALL.txt file.\n";
 exit(1);
 }
 function setupConfigVariables()
@@ -100,6 +100,16 @@ $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
 if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
 setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
 }
+}
+function setupDeliveryConfigVariables()
+{
+if (!defined('MAX_PATH')) {
+define('MAX_PATH', dirname(__FILE__).'/../..');
+}
+if ( !(isset($GLOBALS['_MAX']['CONF']))) {
+$GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
+}
+setupConfigVariables();
 }
 function setTimeZoneLocation($location)
 {
@@ -128,6 +138,20 @@ $host = $_SERVER['HTTP_HOST'];
 $host = $_SERVER['SERVER_NAME'];
 }
 return $host;
+}
+function setupIncludePath()
+{
+static $checkIfAlreadySet;
+if (isset($checkIfAlreadySet)) {
+return;
+}
+$checkIfAlreadySet = true;
+$existingPearPath = ini_get('include_path');
+$newPearPath = MAX_PATH . '/lib/pear';
+if (!empty($existingPearPath)) {
+$newPearPath .= PATH_SEPARATOR . $existingPearPath;
+}
+ini_set('include_path', $newPearPath);
 }
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -450,16 +474,16 @@ if ($conf !== false) {
 // check for false here - it's possible file doesn't exist
 return $conf;
 }
-echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
+echo "Openads could not read the default configuration file for the {$pluginType} plugin";
 exit(1);
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
-echo MAX_PRODUCT_NAME . " has been installed, but no configuration file was found.\n";
+echo "Openads has been installed, but no configuration file was found.\n";
 exit(1);
 }
 // Max hasn't been installed, so delivery engine can't run
-echo MAX_PRODUCT_NAME . " has not been installed yet -- please read the INSTALL.txt file.\n";
+echo "Openads has not been installed yet -- please read the INSTALL.txt file.\n";
 exit(1);
 }
 }
@@ -990,30 +1014,6 @@ MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
 MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
-function setupDeliveryConfigVariables()
-{
-if (!defined('MAX_PATH')) {
-define('MAX_PATH', dirname(__FILE__).'/../..');
-}
-if ( !(isset($GLOBALS['_MAX']['CONF']))) {
-$GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
-}
-setupConfigVariables();
-}
-function setupIncludePath()
-{
-static $checkIfAlreadySet;
-if (isset($checkIfAlreadySet)) {
-return;
-}
-$checkIfAlreadySet = true;
-$existingPearPath = ini_get('include_path');
-$newPearPath = MAX_PATH . '/lib/pear';
-if (!empty($existingPearPath)) {
-$newPearPath .= PATH_SEPARATOR . $existingPearPath;
-}
-ini_set('include_path', $newPearPath);
-}
 function MAX_limitationsCheckAcl($row, $source = '')
 {
 if (!empty($row['compiledlimitation'])) {
