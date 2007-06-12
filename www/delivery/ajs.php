@@ -1464,7 +1464,7 @@ $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] :
 $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
 $altImageAdCode = !empty($aBanner['alt_filename'])
 ? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false)
-: _adRenderBuildImageUrlPrefix() . '/1x1.gif';  //  an empty img is required because the javascript is parsed before the DOM tree
+: "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$aBanner['alt']."' title='".$aBanner['alt']."' border='0' />";
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {
 $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
