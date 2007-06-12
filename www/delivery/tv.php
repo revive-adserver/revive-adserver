@@ -483,6 +483,7 @@ $GLOBALS['_MAX']['CLIENT_GEO'] = $functionName();
 }
 function MAX_remotehostPrivateAddress($ip)
 {
+setupIncludePath();
 require_once 'Net/IPv4.php';
 $aPrivateNetworks = array(
 '10.0.0.0/8',
