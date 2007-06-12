@@ -871,6 +871,7 @@ $GLOBALS['strNoMoreImpressions']                = "there are no Impressions rema
 $GLOBALS['strNoMoreClicks']                     = "there are no Clicks remaining";
 $GLOBALS['strNoMoreConversions']                = "there are no Sales remaining";
 $GLOBALS['strWeightIsNull']                     = "its weight is set to zero";
+$GLOBALS['strTargetIsNull']                     = "its target is set to zero";
 $GLOBALS['strWarnClientTxt']                    = "The Impressions, Clicks, or Conversions left for your banners are getting below {limit}. \nYour banners will be disabled when there are no Impressions, Clicks, or Conversions left. ";
 $GLOBALS['strImpressionsClicksConversionsLow']  = "Impressions/Clicks/Conversions are low";
 $GLOBALS['strNoViewLoggedInInterval']           = "No Impressions were logged during the span of this report";

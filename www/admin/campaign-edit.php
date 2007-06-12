@@ -654,15 +654,18 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
 if (isset($row['active']) && $row['active'] == 'f')
 {
+    $activate_ts = mktime(23, 59, 59, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]);
     $expire_ts = mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);
     $inactivebecause = array();
 
     if ($row['impressions'] == 0) $inactivebecause[] =  $strNoMoreImpressions;
     if ($row['clicks'] == 0) $inactivebecause[] =  $strNoMoreClicks;
     if ($row['conversions'] == 0) $inactivebecause[] =  $strNoMoreConversions;
-    if (time() < mktime(0, 0, 0, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"])) $inactivebecause[] =  $strBeforeActivate;
-    if (time() > $expire_ts && $expire_ts > 0) $inactivebecause[] =  $strAfterExpire;
-    if ($row['target'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
+    if ($activate_ts > 0 && $activate_ts > time()) $inactivebecause[] =  $strBeforeActivate;
+    if ($expire_ts > 0 && time() > $expire_ts) $inactivebecause[] =  $strAfterExpire;
+
+    if ($row['priority'] == 0  && $row['weight'] == 0) $inactivebecause[] =  $strWeightIsNull;
+    if ($row['priority'] > 0  && $target_value == 0) $inactivebecause[] =  $strTargetIsNull;
 
     echo "<tr>"."\n";
     echo "\t"."<td width='30' valign='top'>&nbsp;</td>"."\n";
