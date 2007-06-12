@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Distributed.php';
 
 if (!empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
-    MAX_Maintenance_Distributed::run();
+    OA_Maintenance_Distributed::run();
 }
 
 ?>
