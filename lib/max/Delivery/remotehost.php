@@ -189,6 +189,7 @@ function MAX_remotehostSetGeoInfo()
  */
 function MAX_remotehostPrivateAddress($ip)
 {
+    setupIncludePath();
     require_once 'Net/IPv4.php';
     // Define the private address networks, see
     // http://rfc.net/rfc1918.html
