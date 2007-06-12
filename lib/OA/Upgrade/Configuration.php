@@ -131,7 +131,7 @@ class OA_Upgrade_Config
     {
         return $this->oConfig->writeConfigChange(null, null, $reparse);
     }
-    
+
     /**
      * Backs up the existing config file and merges any changes from dist.conf.php.
      *
@@ -144,6 +144,11 @@ class OA_Upgrade_Config
             return false;
         }
         return $this->oConfig->mergeConfigChanges();
+    }
+
+    function getConfigBackupName()
+    {
+        return $this->oConfig->backupFilename;
     }
 
     function setOpenadsInstalledOn()

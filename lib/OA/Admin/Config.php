@@ -35,7 +35,8 @@ require_once 'Config.php';
 class OA_Admin_Config
 {
     var $conf;
-    
+    var $backupFilename;
+
      /**
      * The constructor method. Stores the current parse result of the
      * configuration .ini file so that it can be (locally) modified.
@@ -48,7 +49,7 @@ class OA_Admin_Config
             $this->conf = $GLOBALS['_MAX']['CONF'];
         }
     }
-    
+
     /**
      * A method to test if the Openads configuration .ini file is writable by
      * the web server process.
@@ -79,7 +80,7 @@ class OA_Admin_Config
             return false;
         }
     }
-    
+
     /**
      * A method for defining bulk required changes to the Openads configuration
      * .ini file.
@@ -91,7 +92,7 @@ class OA_Admin_Config
     {
         $this->conf[$levelKey] = $value;
     }
-    
+
     /**
      * A method for defining required changes to the Openads configuration .ini
      * file.
@@ -105,7 +106,7 @@ class OA_Admin_Config
     {
         $this->conf[$levelKey][$itemKey] = $value;
     }
-    
+
     /**
      * A method for writing out required changes to Openads configuration .ini
      * files. Configuration files are prefixed with the host name being
@@ -225,10 +226,10 @@ class OA_Admin_Config
         }
         return true;
     }
-    
+
     /**
      * Merges any changes in dist.conf.php into $this->conf.
-     * 
+     *
      * @param string $distConfig the full path to the distributed conf file.
      * @return true if changes successfully merged. Otherwise, false.
      *
@@ -238,13 +239,13 @@ class OA_Admin_Config
         if (is_null($distConfig)) {
             $distConfig = MAX_PATH . '/etc/dist.conf.php';
         }
-        
+
         if (!is_readable($distConfig)) {
             return false;
         }
-        
+
         $aDistConf = @parse_ini_file($distConfig, true);
-        
+
         // Check for deprecated keys to remove from existing user conf
         foreach ($this->conf as $key => $value) {
         	if (array_key_exists($key, $aDistConf)) {
@@ -255,9 +256,9 @@ class OA_Admin_Config
         	    }
         	} else {
                 unset($this->conf[$key]);
-        	} 
+        	}
         }
-        
+
         // Check for new keys in dist to add to existing user conf
         foreach ($aDistConf as $key => $value) {
         	if (array_key_exists($key, $this->conf)) {
@@ -273,7 +274,7 @@ class OA_Admin_Config
 
         return true;
     }
-    
+
     /**
      * Makes a backup copy of the given file if it exists.
      *
@@ -284,15 +285,15 @@ class OA_Admin_Config
     {
         // Backup user's original config file
         if (file_exists($configFile)) {
-            $backupFilename = $this->_getBackupFilename($configFile);
-            return (copy($configFile, dirname($configFile) . '/' . $backupFilename));
+            $this->backupFilename = $this->_getBackupFilename($configFile);
+            return (copy($configFile, dirname($configFile) . '/' . $this->backupFilename));
         }
-        
+
         return false;
     }
-    
+
     /**
-     * Generates a unique filename for the backup config file. 
+     * Generates a unique filename for the backup config file.
      *
      * @param string $filename the full path of the file to generate a backup filename for.
      * @return string the new filename in format: "old.original.name-YYYYMMDD[_0]"
@@ -303,14 +304,14 @@ class OA_Admin_Config
         $basename = basename($filename);
         $now = date("Ymd");
         $newFilename = 'old.' . $basename . '-' . $now;
-        
+
         // Make sure we don't overwrite any old backup files.
         $i=0;
         while(file_exists($directory . '/' . $newFilename)){
             $newFilename = substr($newFilename, 0, strpos($newFilename, $now)) . $now . '_' . $i;
             $i++;
         }
-        
+
         return $newFilename;
     }
 }

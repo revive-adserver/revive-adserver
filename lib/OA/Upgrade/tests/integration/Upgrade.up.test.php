@@ -53,6 +53,7 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade = new OA_Upgrade();
         $this->assertIsA($oUpgrade->oDBAuditor,'OA_DB_UpgradeAuditor','class mismatch: OA_DB_UpgradeAuditor');
+        $this->assertIsA($oUpgrade->oAuditor,'OA_UpgradeAuditor','class mismatch: OA_UpgradeAuditor');
         $this->assertIsA($oUpgrade->oDBUpgrader,'OA_DB_Upgrade','class mismatch: OA_DB_Upgrade');
         $this->assertIsA($oUpgrade->oLogger,'OA_UpgradeLogger','class mismatch: OA_UpgradeLogger');
         $this->assertIsA($oUpgrade->oParser,'OA_UpgradePackageParser','class mismatch: OA_UpgradePackageParser');
@@ -103,6 +104,18 @@ class Test_OA_Upgrade extends UnitTestCase
     function test_upgradeOpenads()
     {
         $oUpgrade  = new OA_Upgrade();
+
+        Mock::generatePartial(
+            'OA_Upgrade_Config',
+            $mockConfig = 'OA_Upgrade_Config'.rand(),
+            array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
+        );
+        $oUpgrade->oConfiguration = new $mockConfig($this);
+        $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
+        $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
+        $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
+        $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
+        $oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
 
         // divert objects to test data
         $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/';
@@ -533,6 +546,17 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
 
         $oUpgrade  = new OA_Upgrade();
+        Mock::generatePartial(
+            'OA_Upgrade_Config',
+            $mockConfig = 'OA_Upgrade_Config'.rand(),
+            array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
+        );
+        $oUpgrade->oConfiguration = new $mockConfig($this);
+        $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
+        $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
+        $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
+        $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
+        $oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
 
         // divert objects to test data
         $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';

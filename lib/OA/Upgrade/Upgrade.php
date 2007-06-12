@@ -61,6 +61,7 @@ require_once 'MDB2/Schema.php';
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php');
+require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeAuditor.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradePackageParser.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/VersionController.php');
@@ -80,6 +81,7 @@ class OA_Upgrade
     var $oDBUpgrader;
     var $oVersioner;
     var $oDBAuditor;
+    var $oAuditor;
     var $oSystemMgr;
     var $oDbh;
     var $oPAN;
@@ -109,6 +111,7 @@ class OA_Upgrade
         $this->recoveryFile = MAX_PATH.'/var/recover.log';
 
         $this->oLogger      = new OA_UpgradeLogger();
+        $this->oAuditor     = new OA_UpgradeAuditor();
         $this->oParser      = new OA_UpgradePackageParser();
         $this->oDBUpgrader  = new OA_DB_Upgrade($this->oLogger);
         $this->oDBAuditor   = new OA_DB_UpgradeAuditor();
@@ -159,7 +162,7 @@ class OA_Upgrade
             $this->oDbh = null;
             return false;
         }
-
+        $this->oAuditor->init($this->oDbh, $this->oLogger);
         $this->oTable->oDbh = $this->oDbh;
         $this->oDBUpgrader->initMDB2Schema();
         $this->oVersioner->init($this->oDbh);
@@ -673,30 +676,37 @@ class OA_Upgrade
         $this->aDsn['database'] = $aConfig['database'];
         $this->aDsn['table']    = $aConfig['table'];
 
+        $this->oAuditor->setKeyParams(array('upgrade_name'=>'install_'.OA_VERSION,
+                                            'version_to'=>OA_VERSION,
+                                            'version_from'=>0,
+                                            'logfile'=>basename($this->oLogger->logFile)
+                                            )
+                                     );
         $this->oLogger->log('Installation started '.OA::getNow());
         $this->oLogger->log('Attempting to connect to database '.$this->aDsn['database']['name'].' with user '.$this->aDsn['database']['username']);
 
         if (!$this->_createDatabase())
         {
-            $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
+            $this->_auditInstallationFailure('Installation failed to create the database '.$this->aDsn['database']['name']);
             return false;
         }
         $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
         if (!$this->checkExistingTables())
         {
+            $this->_auditInstallationFailure();
             return false;
         }
 
         if (!$this->checkPermissionToCreateTable())
         {
-            $this->oLogger->logError('Insufficient database permissions to install');
+            $this->_auditInstallationFailure('Insufficient database permissions to install');
             return false;
         }
 
         if (!$this->initDatabaseConnection())
         {
-            $this->oLogger->logError('Installation failed to connect to the database '.$this->aDsn['database']['name']);
+            $this->_auditInstallationFailure('Installation failed to connect to the database '.$this->aDsn['database']['name']);
             $this->_dropDatabase();
             return false;
         }
@@ -705,7 +715,7 @@ class OA_Upgrade
 
         if (!$this->createCoreTables())
         {
-            $this->oLogger->logError('Installation failed to create the core tables');
+            $this->_auditInstallationFailure('Installation failed to create the core tables');
             $this->_dropDatabase();
             return false;
         }
@@ -713,7 +723,7 @@ class OA_Upgrade
 
         if (!$this->oVersioner->putSchemaVersion('tables_core', $this->oTable->aDefinition['version']))
         {
-            $this->oLogger->logError('Installation failed to update the schema version to '.$oTable->aDefinition['version']);
+            $this->_auditInstallationFailure('Installation failed to update the schema version to '.$oTable->aDefinition['version']);
             $this->_dropDatabase();
             return false;
         }
@@ -721,7 +731,7 @@ class OA_Upgrade
 
         if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
         {
-            $this->oLogger->logError('Installation failed to update the application version to '.OA_VERSION);
+            $this->_auditInstallationFailure('Installation failed to update the application version to '.OA_VERSION);
             $this->_dropDatabase();
             return false;
         }
@@ -730,7 +740,7 @@ class OA_Upgrade
         $this->oConfiguration->getInitialConfig();
         if (!$this->saveConfigDB($aConfig))
         {
-            $this->oLogger->logError('Installation failed to write database details to the configuration file '.$this->oConfiguration->configFile);
+            $this->_auditInstallationFailure('Installation failed to write database details to the configuration file '.$this->oConfiguration->configFile);
             if (file_exists($this->oConfiguration->configPath.$this->oConfiguration->configFile))
             {
                 unlink($this->oConfiguration->configPath.$this->oConfiguration->configFile);
@@ -739,7 +749,20 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
+        $this->oAuditor->logUpgradeAction(array('description'=>'UPGRADE SUCCEEDED',
+                                                'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                               )
+                                         );
         return true;
+    }
+
+    function _auditInstallationFailure($msg)
+    {
+        $this->oLogger->logError($msg);
+        $this->oAuditor->logUpgradeAction(array('description'=>'UPGRADE FAILED',
+                                                'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
+                                                )
+                                         );
     }
 
     /**
@@ -900,6 +923,8 @@ class OA_Upgrade
         {
             $this->initDatabaseConnection();
         }
+        $version_from = $this->versionInitialApplication;
+
         // ensure db user has db permissions
         if (!$this->checkPermissionToCreateTable())
         {
@@ -912,18 +937,47 @@ class OA_Upgrade
             {
                 if (!$this->upgradeExecute($this->package_file))
                 {
-                    $this->oLogger->logError('Failure during upgrade package '.$this->package_file);
                     return false;
                 }
-                if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo']))
-                {
-                    $this->oLogger->logError('Failed to update application version to '.$this->aPackage['versionTo']);
-                    $this->message = 'Failed to update application version to '.$this->aPackage['versionTo'];
-                    return false;
-                }
-                $this->versionInitialApplication = $this->aPackage['versionTo'];
             }
         }
+        $this->oAuditor->setKeyParams(array('upgrade_name'=>'version stamp',
+                                            'version_to'=>OA_VERSION,
+                                            'version_from'=>$version_from,
+                                            'logfile'=>basename($this->oLogger->logFile)
+                                            )
+                                     );
+        if (!$this->_upgradeConfig())
+        {
+            $this->_auditUpgradeFailure('Failed to upgrade configuration file');
+            return false;
+        }
+        if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+        {
+            $this->_auditUpgradeFailure('Failed to update application version to '.OA_VERSION);
+            $this->message = 'Failed to update application version to '.OA_VERSION;
+            return false;
+        }
+        $this->oLogger->log('Application version updated to '. OA_VERSION);
+        $this->oAuditor->logUpgradeAction(array('description'=>'UPGRADE SUCCEEDED',
+                                                'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                                'confbackup'=>$this->oConfiguration->getConfigBackupName()
+                                               )
+                                         );
+        return true;
+    }
+
+    function _auditUpgradeFailure($msg)
+    {
+        $this->oLogger->logError($msg);
+        $this->oAuditor->logUpgradeAction(array('description'=>'UPGRADE FAILED',
+                                                'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
+                                                )
+                                         );
+    }
+
+    function _upgradeConfig()
+    {
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $aConfig['table']    = $GLOBALS['_MAX']['CONF']['table'];
         $aConfig             = $this->initDatabaseParameters($aConfig);
@@ -934,13 +988,6 @@ class OA_Upgrade
             $this->oLogger->logError('Failed to merge configuration file');
             return false;
         }
-        if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
-        {
-            $this->oLogger->logError('Failed to update application version to '.OA_VERSION);
-            $this->message = 'Failed to update application version to '.OA_VERSION;
-            return false;
-        }
-        $this->oLogger->log('Application version updated to '. OA_VERSION);
         return true;
     }
 
@@ -959,20 +1006,38 @@ class OA_Upgrade
         {
             return false;
         }
+        $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
+                                            'version_to'=>$this->aPackage['versionTo'],
+                                            'version_from'=>$this->versionInitialApplication,
+                                            'logfile'=>basename($this->oLogger->logFile)
+                                            )
+                                     );
         if (!$this->runScript($this->aPackage['prescript']))
         {
-            $this->oLogger->logError('Failure from upgrade prescript '.$this->aPackage['prescript']);
+            $this->_auditUpgradeFailure('Failure from upgrade prescript '.$this->aPackage['prescript']);
             return false;
         }
         if (!$this->upgradeSchemas())
         {
+            $this->_auditUpgradeFailure('Failure while upgrading schemas');
             return false;
         }
         if (!$this->runScript($this->aPackage['postscript']))
         {
-            $this->oLogger->logError('Failure from upgrade postscript '.$this->aPackage['postscript']);
+            $this->_auditUpgradeFailure('Failure from upgrade postscript '.$this->aPackage['postscript']);
             return false;
         }
+        if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo']))
+        {
+            $this->_auditUpgradeFailure('Failed to update application version to '.$this->aPackage['versionTo']);
+            $this->message = 'Failed to update application version to '.$this->aPackage['versionTo'];
+            return false;
+        }
+        $this->versionInitialApplication = $this->aPackage['versionTo'];
+        $this->oAuditor->logUpgradeAction(array('description'=>'UPGRADE SUCCEEDED',
+                                                'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                               )
+                                         );
         return true;
     }
 
