@@ -70,7 +70,7 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      * A method to store details on the last time that the distributed maintenance
      * process ran.
      *
-     * @param object $oDate a PEAR_Date instance
+     * @param Date $oDate a PEAR_Date instance
      */
     function setMaintenanceDistributedLastRunInfo($oDate)
     {
@@ -112,13 +112,14 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     /**
      * A method to process all the tables and copy data to the main database.
      *
-     * @param object $oStart A PEAR_Date instance, starting timestamp
-     * @param object $oEnd A PEAR_Date instance, ending timestamp
+     * @param Date $oStart A PEAR_Date instance, starting timestamp
+     * @param Date $oEnd A PEAR_Date instance, ending timestamp
      */
     function processTables($oStart, $oEnd)
     {
         foreach ($this->aTables as $sTableName) {
             $this->_processTable($sTableName, $oStart, $oEnd);
+            $this->_pruneTable($sTableName, $oStart);
         }
     }
 
@@ -126,8 +127,8 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      * A private method to process a table and copy data to the main database.
      *
      * @param string $sTableName The table to process
-     * @param object $oStart A PEAR_Date instance, starting timestamp
-     * @param object $oEnd A PEAR_Date instance, ending timestamp
+     * @param Date $oStart A PEAR_Date instance, starting timestamp
+     * @param Date $oEnd A PEAR_Date instance, ending timestamp
      */
     function _processTable($sTableName, $oStart, $oEnd)
     {
@@ -170,6 +171,28 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
                 MAX::raiseError($oInsert, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
         }
+    }
+
+    /**
+     * A method to prune a raw table
+     *
+     * @param string $sTableName The table to prune
+     * @param Date   $oTimeStamp A PEAR_Date instance, prune until it
+     */
+    function _pruneTable($sTableName, $oTimestamp)
+    {
+        OA::debug(' - Pruning '.$TableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
+
+        $prefix = $this->getTablePrefix();
+        $query = "
+              DELETE FROM
+                {$prefix}$sTableName
+              WHERE
+                date_time < ".
+                    DBC::makeLiteral($oTimestamp->format('%Y-%m-%d %H:%M:%S'))."
+            ";
+
+        $this->oDbh->exec($query);
     }
 
     /**

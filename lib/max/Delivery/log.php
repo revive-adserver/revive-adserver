@@ -149,7 +149,11 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
     if (_viewersHostOkayToLog()) {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (empty($conf['rawDatabase']['host'])) {
-            $conf['rawDatabase']['host'] = 'singleDB';
+            if (!empty($conf['lb']['enabled'])) {
+                $conf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
+            } else {
+                $conf['rawDatabase']['host'] = 'singleDB';
+            }
         }
         if (isset($conf['rawDatabase']['serverRawIp'])) {
             $serverRawIp = $conf['rawDatabase']['serverRawIp'];
@@ -243,7 +247,7 @@ function _viewersHostOkayToLog()
     if (!empty($conf['logging']['ignoreHosts'])) {
         $hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
         $hosts = '#('.$hosts.')$#i';
-        
+
         // Format the hosts to ignore in a PCRE format
         $hosts = str_replace('.', '\.', $hosts);
         $hosts = str_replace('*', '[^.]+', $hosts);
@@ -291,7 +295,7 @@ function _prepareLogInfo()
             'dma_code' => null,
             'area_code' => null,
             'organisation' => null,
-            'netspeed' => null, 
+            'netspeed' => null,
             'continent' => null);
     }
     // Get the zone location information, if possible
@@ -327,10 +331,10 @@ function _prepareLogInfo()
     if (!isset($zoneInfo['host'])) $zoneInfo['host'] = null;
     if (!isset($zoneInfo['path'])) $zoneInfo['path'] = null;
     if (!isset($zoneInfo['query'])) $zoneInfo['query'] = null;
-    
+
     if (!isset($userAgentInfo['os'])) $userAgentInfo['os'] = '';
     if (!isset($userAgentInfo['browser'])) $userAgentInfo['browser'] = '';
-    
+
     return array($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps);
 }
 
