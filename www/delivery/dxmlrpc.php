@@ -579,7 +579,11 @@ function MAX_Delivery_log_logTrackerImpression($viewerId, $trackerId)
 if (_viewersHostOkayToLog()) {
 $conf = $GLOBALS['_MAX']['CONF'];
 if (empty($conf['rawDatabase']['host'])) {
+if (!empty($conf['lb']['enabled'])) {
+$conf['rawDatabase']['host'] = $_SERVER['SERVER_ADDR'];
+} else {
 $conf['rawDatabase']['host'] = 'singleDB';
+}
 }
 if (isset($conf['rawDatabase']['serverRawIp'])) {
 $serverRawIp = $conf['rawDatabase']['serverRawIp'];
