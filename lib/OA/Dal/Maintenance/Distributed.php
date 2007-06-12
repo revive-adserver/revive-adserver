@@ -98,9 +98,9 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
             return new Date((int)$doLbLocal->last_run);
         } else {
             $oDate = false;
-            foreach ($aTables as $sTableName) {
+            foreach ($this->aTables as $sTableName) {
                 $oTableDate = $this->_getFirstRecordTimestamp($sTableName);
-                if (($oDate) || ($oTableDate && $oDate->after(new Date($oTableDate)))) {
+                if ($oTableDate && (!$oDate || $oDate->after(new Date($oTableDate)))) {
                     $oDate = new Date($oTableDate);
                 }
             }
@@ -132,7 +132,7 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      */
     function _processTable($sTableName, $oStart, $oEnd)
     {
-        OA::debug(' - Copying '.$TableName.' from '.$oStart->format('%Y-%m-%d %H:%M:%S').' to '.$oEnd->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
+        OA::debug(' - Copying '.$sTableName.' from '.$oStart->format('%Y-%m-%d %H:%M:%S').' to '.$oEnd->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
         $prefix = $this->getTablePrefix();
         $oMainDbh =& OA_DB_Distributed::singleton();
@@ -181,7 +181,7 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      */
     function _pruneTable($sTableName, $oTimestamp)
     {
-        OA::debug(' - Pruning '.$TableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
+        OA::debug(' - Pruning '.$sTableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
         $prefix = $this->getTablePrefix();
         $query = "
