@@ -1989,12 +1989,14 @@ so that's why we do the following, i am not sure if that is standard SQL and abs
                                 );
         // $query['limit'] has preference!
         $limit = isset($query['limit']) ? $query['limit'] : $this->_limit;
-        if (!$isCalledViaGetCount && @$limit[1]) {    // is there a count set?
-            $queryString=$this->db->modifyLimitQuery($queryString,$limit[0],$limit[1]);
-            if (DB::isError($queryString)) {
-                $this->_errorSet('DB_QueryTool::db::modifyLimitQuery failed '.$queryString->getMessage());
-                $this->_errorLog($queryString->getUserInfo());
-                return false;
+        if (isset($limit[1])) {
+            if (!$isCalledViaGetCount && @$limit[1]) {    // is there a count set?
+                $queryString=$this->db->modifyLimitQuery($queryString,$limit[0],$limit[1]);
+                if (DB::isError($queryString)) {
+                    $this->_errorSet('DB_QueryTool::db::modifyLimitQuery failed '.$queryString->getMessage());
+                    $this->_errorLog($queryString->getUserInfo());
+                    return false;
+                }
             }
         }
 //        $this->_queryCache[$cacheKey] = $queryString;
