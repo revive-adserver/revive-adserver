@@ -702,31 +702,39 @@ class OA_Upgrade
 
         if (!$this->_createDatabase())
         {
-            $this->_auditInstallationFailure('Installation failed to create the database '.$this->aDsn['database']['name']);
+            $this->oLogger->logError('Installation failed to create the database '.$this->aDsn['database']['name']);
             return false;
         }
         $this->oLogger->log('Connected to database '.$this->oDbh->connected_database_name);
 
         if (!$this->checkExistingTables())
         {
-            $this->_auditInstallationFailure();
+            $this->oLogger->logError();
             return false;
         }
 
         if (!$this->checkPermissionToCreateTable())
         {
-            $this->_auditInstallationFailure('Insufficient database permissions to install');
+            $this->oLogger->logError('Insufficient database permissions to install');
             return false;
         }
 
         if (!$this->initDatabaseConnection())
         {
-            $this->_auditInstallationFailure('Installation failed to connect to the database '.$this->aDsn['database']['name']);
+            $this->oLogger->logError('Installation failed to connect to the database '.$this->aDsn['database']['name']);
             $this->_dropDatabase();
             return false;
         }
 
         $aConfig = $this->initDatabaseParameters($aConfig);
+
+        if (!$this->createCoreTables())
+        {
+            $this->oLogger->logError('Installation failed to create the core tables');
+            $this->_dropDatabase();
+            return false;
+        }
+        $this->oLogger->log('Installation created the core tables');
 
         $this->oAuditor->setKeyParams(array('upgrade_name'=>'install_'.OA_VERSION,
                                             'version_to'=>OA_VERSION,
@@ -734,14 +742,6 @@ class OA_Upgrade
                                             'logfile'=>basename($this->oLogger->logFile)
                                             )
                                      );
-
-        if (!$this->createCoreTables())
-        {
-            $this->_auditInstallationFailure('Installation failed to create the core tables');
-            $this->_dropDatabase();
-            return false;
-        }
-        $this->oLogger->log('Installation created the core tables');
 
         if (!$this->oVersioner->putSchemaVersion('tables_core', $this->oTable->aDefinition['version']))
         {
@@ -1240,12 +1240,12 @@ class OA_Upgrade
 
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {
-            $this->oLogger->logError('Your database contains a phpAdsNew configuration table: '.$this->aDsn['table']['prefix'].'config. If you are wanting to upgrade this database, please copy your config.inc.php file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.');
+            $this->oLogger->logError('Your database contains an old Openads configuration table: '.$this->aDsn['table']['prefix'].'config. If you are wanting to upgrade this database, please copy your config.inc.php file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.');
             return false;
         }
         if (in_array($this->aDsn['table']['prefix'].'preference', $aExistingTables))
         {
-            $this->oLogger->logError('Your database contains a Max Media Manager configuration table: '.$this->aDsn['table']['prefix'].'preference. If you are wanting to upgrade this database, please copy your domain.conf.ini file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database Name.');
+            $this->oLogger->logError('Your database contains an old Openads configuration table: '.$this->aDsn['table']['prefix'].'preference. If you are wanting to upgrade this database, please copy your domain.conf.ini file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database Name.');
             return false;
         }
         $tablePrefixError = false;
