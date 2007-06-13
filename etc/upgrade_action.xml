@@ -17,7 +17,7 @@
    <field>
     <name>upgrade_name</name>
     <type>openads_varchar</type>
-    <length>64</length>
+    <length>128</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -57,7 +57,7 @@
    <field>
     <name>logfile</name>
     <type>openads_varchar</type>
-    <length>64</length>
+    <length>128</length>
     <notnull>false</notnull>
     <default></default>
    </field>
@@ -65,7 +65,15 @@
    <field>
     <name>confbackup</name>
     <type>openads_varchar</type>
-    <length>64</length>
+    <length>128</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>dbschemas</name>
+    <type>openads_text</type>
+    <length></length>
     <notnull>false</notnull>
     <default></default>
    </field>

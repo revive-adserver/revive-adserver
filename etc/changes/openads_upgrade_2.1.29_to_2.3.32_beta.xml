@@ -9,7 +9,7 @@
     <authorUrl>http://www.openads.org</authorUrl>
     <license>LICENSE.txt</license>
     <description>Openads Upgrade 2.1.29 to 2.3.32 BETA</description>
-    <versionFrom>2.1.29</versionFrom>
+    <versionFrom>2.1.29-rc</versionFrom>
     <versionTo>2.3.32-beta</versionTo>
 
     <!-- Database Packages -->

@@ -41,6 +41,7 @@ class OA_UpgradePostscript
             $this->oUpgrade->oLogger->logError('Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)');
             $this->oUpgrade->message = 'Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)';
         }
+        $this->oUpgrade->oLogger->log('Removed old application version');
         return true;
     }
 

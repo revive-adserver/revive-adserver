@@ -17,6 +17,10 @@ class OA_UpgradePostscript
         {
             return false;
         }
+        if (!$this->configMax())
+        {
+            return false;
+        }
         if (!MAX_Maintenance_Priority::run())
         {
             return false;
@@ -40,6 +44,18 @@ class OA_UpgradePostscript
             $this->oUpgrade->oLogger->logError('Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)');
             $this->oUpgrade->message = 'Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)';
         }
+        return true;
+    }
+
+    function configMax()
+    {
+        if (!$this->oUpgrade->oVersioner->removeMaxVersion())
+        {
+            $this->oUpgrade->oLogger->logError('Failed to remove your old application version');
+            $this->oUpgrade->message = 'Failed to remove your old application version';
+            return false;
+        }
+        $this->oUpgrade->oLogger->log('Removed old application version');
         return true;
     }
 }

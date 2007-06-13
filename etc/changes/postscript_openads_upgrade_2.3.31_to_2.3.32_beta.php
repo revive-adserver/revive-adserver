@@ -39,7 +39,7 @@ class OA_UpgradePostscript
             $this->oUpgrade->message = 'Failed to remove your old application version';
             return false;
         }
-        $this->oUpgrade->oLogger->log('Removed MAX application version');
+        $this->oUpgrade->oLogger->log('Removed old application version');
         $this->oUpgrade->oConfiguration->setupConfigPriority('');
         if (!$this->oUpgrade->oConfiguration->writeConfig())
         {
