@@ -133,14 +133,24 @@ else if (array_key_exists('btn_syscheck', $_POST))
     $aSysInfo = $oUpgrader->checkEnvironment();
 
     // Do not check for an upgrade package if environment errors exist
-    if (!$aSysInfo['PERMS']['error'] && !$aSysInfo['PHP']['error'] && !$aSysInfo['FILES']['error']) {
+    if (!$aSysInfo['PERMS']['error'] && !$aSysInfo['PHP']['error'] && !$aSysInfo['FILES']['error'])
+    {
         $halt = !$oUpgrader->canUpgrade();
     } else {
         $message = $strFixErrorsBeforeContinuing;
     }
 
     $installStatus = $oUpgrader->existing_installation_status;
-    $action   = OA_UPGRADE_SYSCHECK;
+    if ($installStatus == OA_STATUS_CURRENT_VERSION)
+    {
+        $message = 'Openads is up to date';
+        $strInstallSuccess = '';
+        $action = OA_UPGRADE_FINISH;
+    }
+    else
+    {
+        $action   = OA_UPGRADE_SYSCHECK;
+    }
 }
 else if (array_key_exists('btn_appcheck', $_POST))
 {
@@ -152,7 +162,9 @@ else if (array_key_exists('btn_dbsetup', $_POST))
     {
         $aDatabase = $oUpgrader->aDsn;
         $action    = OA_UPGRADE_DBSETUP;
-    } else {
+    }
+    else
+    {
         $action    = OA_UPGRADE_ERROR;
     }
 }
