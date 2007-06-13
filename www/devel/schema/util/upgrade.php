@@ -90,7 +90,12 @@ else if (array_key_exists('btn_logfile_drop', $_REQUEST))
 else if (array_key_exists('btn_view_audit', $_REQUEST))
 {
     $oUpgrader->initDatabaseConnection();
-    $aAudit = $oUpgrader->oDBUpgrader->oAuditor->queryAuditAll();
+    $aAudit = $oUpgrader->oAuditor->queryAuditAll();
+}
+else if (array_key_exists('btn_view_dbaudit', $_REQUEST))
+{
+    $oUpgrader->initDatabaseConnection();
+    $aDBAudit = $oUpgrader->oDBAuditor->queryAuditAll();
 }
 else if (array_key_exists('btn_initialise', $_REQUEST))
 {

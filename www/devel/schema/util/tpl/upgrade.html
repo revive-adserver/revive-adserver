@@ -12,10 +12,11 @@ if ($welcome)
     <h2>Openads Schema Upgrade Utilities</h2>
     <form name="frmUpgrade" method="POST" action="upgrade.php">
         <!--button name="btn_initialise">hey! i see you need an upgrade, would you like me to help you with that?</button-->
+        <button name="btn_view_audit">view the upgrade audit trail</button>
         <button name="btn_view_available">view a list of available database upgrades</button>
         <button name="btn_view_changesets">view previous database upgrades</button>
         <button name="btn_view_logs">view a list of database upgrade log files</button>
-        <button name="btn_view_audit">view the database upgrade audit trail</button>
+        <button name="btn_view_dbaudit">view the database upgrade audit trail</button>
         <button name="btn_view_backups">view a list of backup tables</button>
         <button name="btn_view_environment">view system info</button>
     </form>
@@ -229,6 +230,72 @@ if (count($aAudit)>0)
 ?>
 <div class="tablediv">
     <table class="tablemain">
+    <tr><th class="tableheader" colspan="9">upgrade action table</th></tr>
+    <tr>
+        <th class="tableheader">updated</th>
+        <th class="tableheader">name</th>
+        <th class="tableheader">version to</th>
+        <th class="tableheader">version from</th>
+        <th class="tableheader">action</th>
+        <th class="tableheader">description</th>
+        <th class="tableheader"></th>
+    </tr>
+    <?php
+        foreach ($aAudit AS $k => $v)
+        {
+            $schemas = null;
+            if ($v['dbschemas']!='')
+            {
+                $schemas = "<table><tr><th class=\"tablebody\" colspan=\"50\">schemas</th>";
+                $aSchemas = unserialize($v['dbschemas']);
+                foreach ($aSchemas AS $schemaName => $aSchemas)
+                {
+                    $schemas.= "<tr><td class=\"tablebody\">{$schemaName}</td>";
+                    foreach ($aSchemas AS $k1 => $version)
+                    {
+                        $schemas.= "<td class=\"tablebody\">{$version}</td>";
+                    }
+                    $schemas.= "</tr></table>";
+                }
+            }
+            echo "<tr>
+                      <td class=\"tablebody\">{$v['updated']}</td>
+                      <td class=\"tablebody\">{$v['upgrade_name']}</td>
+                      <td class=\"tablebody\">{$v['version_to']}</td>
+                      <td class=\"tablebody\">{$v['version_from']}</td>
+                      <td class=\"tablebody\">{$v['action']}</td>
+                      <td class=\"tablebody\">{$v['description']}</td>";
+            if ($v['logfile']||$v['confbackup'])
+            {
+                echo "<td><table>";
+                if ($v['logfile'])
+                {
+                    echo "<tr><th class=\"tablebody\">logfile</th></tr>";
+                    echo  "<tr><td class=\"tablebody\">{$v['logfile']}</td></tr>";
+                }
+                if ($v['confbackup'])
+                {
+                    echo "<tr><th class=\"tablebody\">conf backup</th></tr>";
+                    echo  "<tr><td class=\"tablebody\">{$v['confbackup']}</td></tr>";
+                }
+                echo "</table></td>";
+            }
+            if ($schemas)
+            {
+                echo  "<td class=\"tablebody\">{$schemas}</td>";
+            }
+            echo "</tr>";
+        }
+    ?>
+    </table>
+</div>
+<?php
+}
+if (count($aDBAudit)>0)
+{
+?>
+<div class="tablediv">
+    <table class="tablemain">
     <tr><th class="tableheader" colspan="8">database action table</th></tr>
     <tr>
         <th class="tableheader">version</th>
@@ -236,13 +303,13 @@ if (count($aAudit)>0)
         <th class="tableheader">action</th>
         <th class="tableheader">info1</th>
         <th class="tableheader">info2</th>
-        <!--th class="tableheader">schema_backup</th-->
+        <--th class="tableheader">schema_backup</th-->
         <th class="tableheader">tablename</th>
         <th class="tableheader">tablename_backup</th>
         <th class="tableheader">updated</th>
     </tr>
     <?php
-        foreach ($aAudit AS $k => $v)
+        foreach ($aDBAudit AS $k => $v)
         {
             $timing = ($v['timing'] ? 'destructive' : 'constructive');
             echo "<tr>
