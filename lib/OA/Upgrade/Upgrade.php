@@ -697,12 +697,6 @@ class OA_Upgrade
         $this->aDsn['database'] = $aConfig['database'];
         $this->aDsn['table']    = $aConfig['table'];
 
-        $this->oAuditor->setKeyParams(array('upgrade_name'=>'install_'.OA_VERSION,
-                                            'version_to'=>OA_VERSION,
-                                            'version_from'=>0,
-                                            'logfile'=>basename($this->oLogger->logFile)
-                                            )
-                                     );
         $this->oLogger->log('Installation started '.OA::getNow());
         $this->oLogger->log('Attempting to connect to database '.$this->aDsn['database']['name'].' with user '.$this->aDsn['database']['username']);
 
@@ -733,6 +727,13 @@ class OA_Upgrade
         }
 
         $aConfig = $this->initDatabaseParameters($aConfig);
+
+        $this->oAuditor->setKeyParams(array('upgrade_name'=>'install_'.OA_VERSION,
+                                            'version_to'=>OA_VERSION,
+                                            'version_from'=>0,
+                                            'logfile'=>basename($this->oLogger->logFile)
+                                            )
+                                     );
 
         if (!$this->createCoreTables())
         {
