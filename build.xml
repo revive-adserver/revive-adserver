@@ -18,6 +18,16 @@
   <taskdef name="generatedelivery" classname="org.openads.ant.GenerateDeliveryTask"/>
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
+  <macrodef name="oa-version" description="Sets a value of the OA_VERSION constant in the constants.php file.">
+    <attribute name="versionstring" description="A version to be set."/>
+    <sequential>
+      <replaceregexp file="constants.php"
+        match="^.*OA_VERSION.*$"
+        replace="    define('OA_VERSION', '@{versionstring}');"
+        byline="true"/>
+    </sequential>
+  </macrodef>
+
   <target name="clean" description="Cleans all the files generated during the build.">
     <delete file="var/test.log" />
     <delete dir="build" />
@@ -102,10 +112,7 @@
 
   <target name="prepare-version-info" if="version" depends="init-release">
     <echo message="Setting OA_VERSION to '${version}'."/>
-    <replaceregexp file="constants.php"
-      match="^.*OA_VERSION.*$"
-      replace="    define('OA_VERSION', '${version}');"
-      byline="true"/>
+    <oa-version versionstring="${version}"/>
   </target>
 
   <target name="prepare-package" depends="prepare-version-info">
@@ -155,7 +162,13 @@
     <svn-tag tag="${release}"/>
   </target>
 
-  <target name="release-beta-rc" depends="clean, svn-update, tag, package, increase-rc" description="Creates a release candidate for beta line."/>
+  <target name="oa-save-version">
+    <property file="etc/version.properties" prefix="oa"/>
+    <oa-version versionstring="${oa.openads.version.major}.${oa.openads.version.minor}.${oa.openads.version.revision}-beta-rc${oa.openads.version.rc}"/>
+    <svn-commit file="constants.php" notes="A new release OA_VERSION constants auto-replacement."/>
+  </target>
+
+  <target name="release-beta-rc" depends="clean, svn-update, tag, package, increase-rc, oa-save-version" description="Creates a release candidate for beta line."/>
 
   <target name="test-prepare">
     <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
