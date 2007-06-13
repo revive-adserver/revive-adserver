@@ -49,6 +49,7 @@ class OA_UpgradePackageParser extends XML_Parser
     var $DBPkg_prescript = '';
     var $DBPkg_postscript = '';
     var $aDBPkgs        = array('files'=>array());
+    var $aSchemas       = array();
     var $aFiles         = array();
 
     var $elements   = array();
@@ -82,6 +83,7 @@ class OA_UpgradePackageParser extends XML_Parser
             $this->DBPkg_prescript = '';
             $this->DBPkg_postscript = '';
             $this->aDBPkgs = array();
+            $this->aDBPkgList = array();
             $this->aFiles = array();
             break;
           default:
@@ -103,8 +105,10 @@ class OA_UpgradePackageParser extends XML_Parser
                                                  'files'=>$this->aDBPkgs
                                                  );
             break;
+        case 'upgrade-database':
+            $this->aPackage['db_pkg_list'][$this->DBPkg_schema] = $this->aSchemas;
+            break;
         }
-
         unset($this->elements[--$this->count]);
         $this->element = implode('-', $this->elements);
     }
@@ -156,6 +160,10 @@ class OA_UpgradePackageParser extends XML_Parser
                 break;
             case 'upgrade-database-package-version':
                 $this->DBPkg_version = $data;
+                if ($data)
+                {
+                    $this->aSchemas[] = $this->DBPkg_version;
+                }
                 break;
             case 'upgrade-database-package-stamp':
                 $this->DBPkg_stamp = $data;

@@ -30,6 +30,7 @@
  *
  */
 
+define('UPGRADE_ACTION_PARTIAL_SUCCEEDED',                      2);
 define('UPGRADE_ACTION_UPGRADE_SUCCEEDED',                      1);
 define('UPGRADE_ACTION_UPGRADE_FAILED',                         0);
 
