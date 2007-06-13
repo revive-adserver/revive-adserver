@@ -8,8 +8,8 @@
     <authorEmail>support@openads.org</authorEmail>
     <authorUrl>http://www.openads.org</authorUrl>
     <license>LICENSE.txt</license>
-    <description>Openads Upgrade 2.0.11 to 2.3.32 BETA</description>
-    <versionFrom>2.0.11</versionFrom>
+    <description>Openads Upgrade 2.0.11-pr1 to 2.3.32-beta</description>
+    <versionFrom>2.0.11-pr1</versionFrom>
     <versionTo>2.3.32-beta</versionTo>
 
     <!-- Database Packages -->

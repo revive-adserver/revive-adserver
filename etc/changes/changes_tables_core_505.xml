@@ -331,19 +331,6 @@
                   </index>
                 </table>
                   <table>
-                    <name>data_summary_zone_impression_history</name>
-                  <index>
-                    <add>
-                      <name>data_summary_zone_impression_history_zone_id</name>
-                      <was>data_summary_zone_impression_history_zone_id</was>
-                      <indexfield>
-                        <name>zone_id</name>
-                        <sorting>ascending</sorting>
-                      </indexfield>
-                    </add>
-                  </index>
-                </table>
-                  <table>
                     <name>data_summary_zone_site_keyword_daily</name>
                   <index>
                     <add>
