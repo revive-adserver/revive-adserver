@@ -1,4 +1,8 @@
 <?php
+
+// takes globals for tests
+// takes arguments when run from cli
+
 global $readPath, $writeFile;
 
     if ($argc>0)
@@ -7,6 +11,14 @@ global $readPath, $writeFile;
         $writeFile = $argv[2];
         echo 'reading directory '.$readPath."\n";
         echo 'writing file '.$writeFile."\n";
+    }
+    if (is_null($readPath))
+    {
+        $readPath = MAX_PATH.'/etc/changes';
+    }
+    if (is_null($writeFile))
+    {
+        $writeFile = MAX_PATH.'/etc/changes/openads_upgrade_array.txt';
     }
 
     $fp = fopen($writeFile, 'w');
