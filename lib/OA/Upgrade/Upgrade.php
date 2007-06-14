@@ -711,7 +711,10 @@ class OA_Upgrade
 
         if (!$this->checkExistingTables())
         {
-            $this->oLogger->logError();
+            if (!$this->oLogger->errorExists)
+            {
+                $this->oLogger->logError();            
+            }
             return false;
         }
 
