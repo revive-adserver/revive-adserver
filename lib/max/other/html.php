@@ -1511,7 +1511,6 @@ function MAX_displayAcls($acls, $aParams) {
     echo "<img src='images/icon-acl-add.gif' align='absmiddle'>&nbsp;";
     echo "<select name='type' accesskey='{$GLOBALS['keyAddNew']}' tabindex='".($tabindex++)."'>";
 
-    //$deliveryLimitations = MAX_Plugin::getPlugins('deliveryLimitations');
     $deliveryLimitations = MAX_Plugin::getPlugins('deliveryLimitations', null, false);
     foreach ($deliveryLimitations as $pluginName => $plugin) {
         if ($plugin->isAllowed($page)) {
