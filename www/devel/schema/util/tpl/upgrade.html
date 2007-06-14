@@ -244,18 +244,35 @@ if (count($aAudit)>0)
         foreach ($aAudit AS $k => $v)
         {
             $schemas = null;
-            if ($v['dbschemas']!='')
+            if (is_array($v['dbschemas']))
             {
                 $schemas = "<table><tr><th class=\"tablebody\" colspan=\"50\">schemas</th>";
-                $aSchemas = unserialize($v['dbschemas']);
+                $aSchemas = $v['dbschemas'];
                 foreach ($aSchemas AS $schemaName => $aSchemas)
                 {
-                    $schemas.= "<tr><td class=\"tablebody\">{$schemaName}</td>";
-                    foreach ($aSchemas AS $k1 => $version)
+                    $schemas.= "<tr><td class=\"tablebody\" colspan=\"5\">{$schemaName}</td></tr>";
+                    $schemas.= "<tr><td class=\"tablebody\">version</td>";
+                    $schemas.= "<td class=\"tablebody\">backup</td>";
+                    $schemas.= "<td class=\"tablebody\">source</td>";
+                    $schemas.= "<td class=\"tablebody\">size</td>";
+                    $schemas.= "<td class=\"tablebody\">rows</td></tr>";
+                    foreach ($aSchemas AS $k1 => $aVersion)
                     {
-                        $schemas.= "<td class=\"tablebody\">{$version}</td>";
+                        foreach ($aVersion AS $version => $aItem)
+                        {
+                            $line = '';
+                            foreach ($aItem AS $k2 => $aDetails)
+                            {
+                                $line = "<tr><td class=\"tablebody\">{$version}</td>";
+                                $line.= "<td class=\"tablebody\">{$aDetails['backup']}</td>";
+                                $line.= "<td class=\"tablebody\">{$aDetails['source']}</td>";
+                                $line.= "<td class=\"tablebody\">{$aDetails['size']}</td>";
+                                $line.= "<td class=\"tablebody\">{$aDetails['rows']}</td></tr>";
+                            }
+                            $schemas.= $line;
+                        }
                     }
-                    $schemas.= "</tr></table>";
+                    $schemas.= "</table>";
                 }
             }
             echo "<tr>

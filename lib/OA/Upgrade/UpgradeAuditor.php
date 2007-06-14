@@ -41,6 +41,7 @@ class OA_UpgradeAuditor
 {
     var $oLogger;
     var $oDbh;
+    var $oDBAuditor;
 
     var $logTable   = 'upgrade_action';
 
@@ -69,9 +70,10 @@ class OA_UpgradeAuditor
         //this->__construct();
     }
 
-    function init(&$oDbh, $oLogger='')
+    function init(&$oDbh, $oLogger='', $oDBAuditor)
     {
         $this->oDbh = $oDbh;
+        $this->oDBAuditor = $oDBAuditor;
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         // so that this class can log to the caller's log
         // and write it's own log if necessary (testing)
@@ -192,6 +194,37 @@ class OA_UpgradeAuditor
         if ($this->isPearError($aResult, "error querying upgrade audit table"))
         {
             return false;
+        }
+        return $aResult;
+    }
+
+    function queryAuditAllWithArtifacts()
+    {
+        $aResult = $this->queryAuditAll();
+        foreach ($aResult AS $k => $aItem)
+        {
+            if (!is_null($aItem['dbschemas']))
+            {
+                $aSchemas = unserialize($aItem['dbschemas']);
+                foreach ($aSchemas AS $schemaName => $aVersions)
+                {
+                    foreach ($aVersions AS $k1 => $version)
+                    {
+                        $aDBArray = $this->oDBAuditor->queryAuditForBackupsBySchema($version, $schemaName);
+                        $aSchemas[$schemaName][$k1]= array($version=> array());
+                        foreach ($aDBArray AS $k2 => $aDBAudit)
+                        {
+                            $aStatus = $this->oDBAuditor->getTableStatus($aDBAudit['tablename_backup']);
+                            $aSchemas[$schemaName][$k1][$version][$k2]['backup'] = $aDBArray[0]['tablename_backup'];
+                            $aSchemas[$schemaName][$k1][$version][$k2]['source'] = $aDBArray[0]['tablename'];
+                            $aSchemas[$schemaName][$k1][$version][$k2]['size']   = $aStatus[0]['data_length']/1024;
+                            $aSchemas[$schemaName][$k1][$version][$k2]['rows']   = $aStatus[0]['rows'];
+                        }
+
+                    }
+                }
+                $aResult[$k]['dbschemas'] = $aSchemas;
+            }
         }
         return $aResult;
     }

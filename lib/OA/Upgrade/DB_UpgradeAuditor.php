@@ -252,6 +252,21 @@ class OA_DB_UpgradeAuditor
         return $aResult;
     }
 
+    function queryAuditForBackupsBySchema($version, $schema='tables_core')
+    {
+        $query =   "SELECT * FROM {$this->prefix}{$this->logTable}"
+                   ." WHERE schema_name ='{$schema}'"
+                   ." AND version ={$version}"
+                   ." AND action =".DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED
+                   ." AND info2 IS NULL";
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying (one) database audit table"))
+        {
+            return array();
+        }
+        return $aResult;
+    }
+
     function updateAuditBackupDropped($tablename_backup, $reason = 'dropped')
     {
         $query = "UPDATE {$this->prefix}{$this->logTable} SET info2='{$reason}', updated='". OA::getNow() ."' WHERE tablename_backup='{$tablename_backup}'";

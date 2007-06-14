@@ -162,11 +162,11 @@ class OA_Upgrade
             $this->oDbh = null;
             return false;
         }
-        $this->oAuditor->init($this->oDbh, $this->oLogger);
         $this->oTable->oDbh = $this->oDbh;
         $this->oDBUpgrader->initMDB2Schema();
         $this->oVersioner->init($this->oDbh);
         $this->oDBAuditor->init($this->oDbh, $this->oLogger);
+        $this->oAuditor->init($this->oDbh, $this->oLogger, $this->oDBAuditor);
         $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
         $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
