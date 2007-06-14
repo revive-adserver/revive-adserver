@@ -25,7 +25,7 @@
             <arg value="@{{db.port}}" />
             <arg value="@{{db.username}}" />
             <arg value="@{{db.password}}" />
-            <arg value="@{{db.name}}" />
+            <arg value="@{{php}}_@{{db.name}}" />
             <arg value="@{{db.table.type}}" />
           </exec>
           <fail message="Can't create configuration file for test: @{{test.name}}! Reason: ${{test.@{test.name}.error}}">
