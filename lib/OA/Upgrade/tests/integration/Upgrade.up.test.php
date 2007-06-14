@@ -137,7 +137,7 @@ class Test_OA_Upgrade extends UnitTestCase
         // perform the upgrade
         $this->assertTrue($oUpgrade->upgrade(),'upgrade');
 
-        $this->assertEqual($oUpgrade->versionInitialApplication,'2.4.1','wrong initial application version: '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version: '.$oUpgrade->versionInitialApplication);
         $this->_deleteTestAppVarRecordAllNames('oa_version');
     }
 
