@@ -25,7 +25,7 @@
 $Id $
 */
 
-
+require_once MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/UpgradeAuditor.php';
 
 /**
@@ -39,6 +39,8 @@ class Test_OA_UpgradeAuditor extends UnitTestCase
 {
     var $path;
 
+    var $oDBAuditor;
+
     /**
      * The constructor method.
      */
@@ -46,6 +48,13 @@ class Test_OA_UpgradeAuditor extends UnitTestCase
     {
         $this->UnitTestCase();
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+
+        Mock::generatePartial(
+            'OA_DB_UpgradeAuditor',
+            $mockDBAud = 'OA_DB_UpgradeAuditor'.rand(),
+            array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
+        );
+        $this->oDBAuditor = new $mockDBAud($this);
     }
 
     function test_constructor()
@@ -58,7 +67,7 @@ class Test_OA_UpgradeAuditor extends UnitTestCase
     {
         $oAuditor = $this->_getAuditObject();
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
-        $this->assertTrue($oAuditor->init($oAuditor->oDbh),'failed to initialise upgrade auditor');
+        $this->assertTrue($oAuditor->init($oAuditor->oDbh, '', $this->oDBAuditor),'failed to initialise upgrade auditor');
         $aDBTables = $oAuditor->oDbh->manager->listTables();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
     }
