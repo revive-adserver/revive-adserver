@@ -99,10 +99,10 @@ class OA_Upgrade
     var $package_file = '';
     var $recoveryFile;
 
-    var $remove_max_version = false;
     var $can_drop_database = false;
 
-    var $existing_installation_status = -1;
+    var $existing_installation_status = OA_STATUS_NOT_INSTALLED;
+    var $upgrading_from_milestone_version = false;
 
     function OA_Upgrade()
     {
@@ -473,6 +473,7 @@ class OA_Upgrade
                 $this->aPackageList[0] = 'openads_upgrade_2.0.11_to_2.3.32_beta.xml';
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                $this->upgrading_from_milestone_version = true;
                 return true;
             }
             // if its not a max 0.1 installation
@@ -537,6 +538,7 @@ class OA_Upgrade
                 $this->aPackageList[0] = 'openads_upgrade_2.1.29_to_2.3.32_beta.xml';
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                $this->upgrading_from_milestone_version = true;
                 return true;
             }
             $this->existing_installation_status = OA_STATUS_M01_VERSION_FAILED;
@@ -577,10 +579,10 @@ class OA_Upgrade
                     return false;
                 }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
-                //$this->remove_max_version = true;
                 $this->aPackageList[0]  = 'openads_upgrade_2.3.31_to_2.3.32_beta.xml';
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                $this->upgrading_from_milestone_version = true;
                 return true;
             }
             $this->existing_installation_status = OA_STATUS_MAX_VERSION_FAILED;
@@ -669,6 +671,7 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                $this->upgrading_from_milestone_version = false;
                 return true;
             }
             else if ($current)
@@ -944,15 +947,17 @@ class OA_Upgrade
         if (is_null($this->oDbh))
         {
             $this->initDatabaseConnection();
+            // ensure db user has db permissions
         }
-        $version_from = $this->getProductApplicationVersion();
-
-        // ensure db user has db permissions
         if (!$this->checkPermissionToCreateTable())
         {
             $this->oLogger->logError('Insufficient database permissions');
             return false;
         }
+        $version_from = $this->getProductApplicationVersion();
+
+        // first deal with each of the packages in the list
+        // that was compiled during detection
         if (count($this->aPackageList)>0)
         {
             foreach ($this->aPackageList AS $k => $this->package_file)
@@ -963,32 +968,49 @@ class OA_Upgrade
                 }
             }
         }
-        $this->oAuditor->setKeyParams(array('upgrade_name'=>'version stamp',
-                                            'version_to'=>OA_VERSION,
-                                            'version_from'=>$version_from,
-                                            'logfile'=>basename($this->oLogger->logFile)
-                                            )
-                                     );
-        if (!$this->_upgradeConfig())
+        // when upgrading from a milestone version such as pan or max
+        // run through this upgrade again
+        if ($this->upgrading_from_milestone_version)
         {
-            $this->_auditUpgradeFailure('Failed to upgrade configuration file');
-            return false;
-        }
-        if ($this->versionInitialApplication != OA_VERSION)
-        {
-            if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+            // if openads installed was not on
+            // set installed on so openads can be detected
+            $GLOBALS['_MAX']['CONF']['openads']['installed'] = 1;
+            if ($this->detectOpenads())
             {
-                $this->_auditUpgradeFailure('Failed to update application version to '.OA_VERSION);
-                $this->message = 'Failed to update application version to '.OA_VERSION;
+                $this->upgrade();
+            }
+        }
+        else
+        {
+            $this->oAuditor->setKeyParams(array('upgrade_name'=>'version stamp',
+                                                'version_to'=>OA_VERSION,
+                                                'version_from'=>$version_from,
+                                                'logfile'=>basename($this->oLogger->logFile)
+                                                )
+                                         );
+            if (!$this->_upgradeConfig())
+            {
+                // put the old config back if merge failed?
+                $this->_auditUpgradeFailure('Failed to upgrade configuration file');
                 return false;
             }
-            $this->oLogger->log('Application version updated to '. OA_VERSION);
+            if ($this->versionInitialApplication != OA_VERSION)
+            {
+                if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+                {
+                    $this->_auditUpgradeFailure('Failed to update application version to '.OA_VERSION);
+                    $this->message = 'Failed to update application version to '.OA_VERSION;
+                    return false;
+                }
+                $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
+                $this->oLogger->log('Application version updated to '. OA_VERSION);
+            }
+            $this->oAuditor->logUpgradeAction(array('description'=>'COMPLETE',
+                                                    'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                                    'confbackup'=>$this->oConfiguration->getConfigBackupName()
+                                                   )
+                                             );
         }
-        $this->oAuditor->logUpgradeAction(array('description'=>'COMPLETE',
-                                                'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                'confbackup'=>$this->oConfiguration->getConfigBackupName()
-                                               )
-                                         );
         return true;
     }
 
