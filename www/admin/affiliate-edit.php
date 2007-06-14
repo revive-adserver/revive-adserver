@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones',
-                               'errormessage', 'username', 'password', 'affiliatepermissions', 'submit',
+                               'errormessage', 'affiliateusername', 'affilaitepassword', 'affiliatepermissions', 'submit',
                                'publiczones_old', 'pwold', 'pw', 'pw2', 'mnemonic', 'comments',
                                'address', 'city', 'postcode', 'country', 'phone', 'fax', 'account_contact',
                                'payee_name', 'tax_id_present', 'tax_id', 'mode_of_payment', 'currency',
@@ -119,20 +119,20 @@ if (isset($submit)) {
         $affiliate['publiczones'] = isset($publiczones) ? 't' : 'f';
 
         // Password
-        if (isset($password)) {
-            if ($password == '') {
+        if (isset($affilaitepassword)) {
+            if ($affilaitepassword == '') {
                 $affiliate['password'] = '';
-            } elseif ($password != '********') {
-                $affiliate['password'] = md5($password);
+            } elseif ($affilaitepassword != '********') {
+                $affiliate['password'] = md5($affilaitepassword);
             }
         }
         // Username
-        if (!empty($username)) {
+        if (!empty($affiliateusername)) {
             $oldUserName = (isset($affiliate['username'])) ? $affiliate['username'] : '';
-            if (!MAX_Permission::isUsernameAllowed($oldUserName, $username)) {
+            if (!MAX_Permission::isUsernameAllowed($oldUserName, $affiliateusername)) {
                 $errormessage[] = $strDuplicateAgencyName;
             }
-            $affiliate['username'] = $username;
+            $affiliate['username'] = $affiliateusername;
     	}
         // Permissions
         $affiliate['permissions'] = 0;
@@ -283,7 +283,7 @@ if (isset($submit)) {
         exit;
     } else {
         // If an error occured set the password back to its previous value
-        $affiliate['password'] = $password;
+        $affiliate['password'] = $affilaitepassword;
     }
 }
 
@@ -511,7 +511,7 @@ if (isset($errormessage) && count($errormessage)) {
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
 
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<td width='370'><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='username' size='25' value='".phpAds_htmlQuotes($affiliate['username'])."' tabindex='".($tabindex++)."'></td>";
+    echo "<td width='370'><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='affiliateusername' size='25' value='".phpAds_htmlQuotes($affiliate['username'])."' tabindex='".($tabindex++)."'></td>";
 } else {
     echo "<td width='370'>".(isset($affiliate['username']) ? $affiliate['username'] : '');
 }
@@ -522,7 +522,7 @@ echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspac
 // Password
 if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-    echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".$affiliate['password']."' tabindex='".($tabindex++)."'>";
+    echo "<td width='370'><input class='flat' type='password' name='affilaitepassword' size='25' value='".$affiliate['password']."' tabindex='".($tabindex++)."'>";
     echo "</td></tr>";
 } else {
     echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strOldPassword."</td><td width='100%'>";
@@ -813,10 +813,10 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
 
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
-    max_formSetRequirements('username', '<?php echo addslashes($strUsername); ?>', false, 'unique');
+    max_formSetRequirements('affiliateusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 
     max_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-    max_formSetUnique('username', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
+    max_formSetUnique('affiliateusername', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
 
     function MMM_cascadePermissionsChange()
     {
