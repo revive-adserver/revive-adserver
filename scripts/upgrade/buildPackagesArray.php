@@ -60,42 +60,46 @@ global $readPath, $writeFile;
         {
             if (preg_match('/openads_upgrade_[\w\W]+\.xml/', $file, $aMatches))
             {
-                preg_match('/(?P<release>[\d]+)\.(?P<major>[\d]+)\.(?P<minor>[\d]+)(?P<beta>\-beta)?(?P<rc>\-rc)?(?P<build>[\d]+)?/', $file, $aParsed);
+                preg_match('/(?P<release>[\d]+)\.(?P<major>[\d]+)\.(?P<minor>[\d]+)(?P<beta>\-beta)?(?P<rc>\-rc)?(?P<build>[\d]+)?(?P<toversion>_to_)?/', $file, $aParsed);
 
-                $release    = $aParsed['release'];
-                $major      = $aParsed['major'];
-                $minor      = $aParsed['minor'];
-                $beta       = $aParsed['beta'];
-                $rc         = $aParsed['rc'];
-                $build      = $aParsed['build'];
+                // we don't want *milestone* packages included in this array  (openads_upgrade_n.n.nn_to_n.n.nn.xml)
+                if (!$aParsed['toversion'])
+                {
+                    $release    = $aParsed['release'];
+                    $major      = $aParsed['major'];
+                    $minor      = $aParsed['minor'];
+                    $beta       = $aParsed['beta'];
+                    $rc         = $aParsed['rc'];
+                    $build      = $aParsed['build'];
 
-                if (!isset($aVersions[$release]))
-                {
-                    $aVersions[$release] = array();
-                }
-                if (!isset($aVersions[$release][$major]))
-                {
-                    $aVersions[$release][$major] = array();
-                }
-                if (!isset($aVersions[$release][$major][$minor]))
-                {
-                    $aVersions[$release][$major][$minor] = array();
-                }
-                if ($rc && $beta)
-                {
-                    $aVersions[$release][$major][$minor][$beta.$rc][$build]['file'] = $file;
-                }
-                else if ($beta)
-                {
-                    $aVersions[$release][$major][$minor][$beta]['file'] = $file;
-                }
-                else if ($rc)
-                {
-                    $aVersions[$release][$major][$minor][$rc][$build]['file'] = $file;
-                }
-                else
-                {
-                    $aVersions[$release][$major][$minor]['file'] = $file;
+                    if (!isset($aVersions[$release]))
+                    {
+                        $aVersions[$release] = array();
+                    }
+                    if (!isset($aVersions[$release][$major]))
+                    {
+                        $aVersions[$release][$major] = array();
+                    }
+                    if (!isset($aVersions[$release][$major][$minor]))
+                    {
+                        $aVersions[$release][$major][$minor] = array();
+                    }
+                    if ($rc && $beta)
+                    {
+                        $aVersions[$release][$major][$minor][$beta.$rc][$build]['file'] = $file;
+                    }
+                    else if ($beta)
+                    {
+                        $aVersions[$release][$major][$minor][$beta]['file'] = $file;
+                    }
+                    else if ($rc)
+                    {
+                        $aVersions[$release][$major][$minor][$rc][$build]['file'] = $file;
+                    }
+                    else
+                    {
+                        $aVersions[$release][$major][$minor]['file'] = $file;
+                    }
                 }
             }
         }
