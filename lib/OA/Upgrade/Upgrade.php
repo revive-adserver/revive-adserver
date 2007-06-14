@@ -21,14 +21,8 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-/**
- * Openads Upgrade Class
- *
- * @author Monique Szpak <monique.szpak@openads.org>
- *
- * $Id $
- *
- */
+$Id$
+*/
 
 define('OA_STATUS_NOT_INSTALLED',          -1);
 define('OA_STATUS_CURRENT_VERSION',         0);
@@ -70,6 +64,11 @@ require_once MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/Configuration.php');
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
 
+/**
+ * Openads Upgrade Class
+ *
+ * @author Monique Szpak <monique.szpak@openads.org>
+ */
 class OA_Upgrade
 {
     var $upgradePath = '';

@@ -21,17 +21,16 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
+$Id$
+*/
+
+require_once MAX_PATH.'/lib/OA/Dal.php';
+
 /**
  * Openads Upgrade Class
  *
  * @author Monique Szpak <monique.szpak@openads.org>
- *
- * $Id $
- *
  */
-
-require_once MAX_PATH.'/lib/OA/Dal.php';
-
 class OA_Version_Controller
 {
 //    var $oDBUpgrader;

@@ -21,15 +21,14 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-/**
- * Writes an XML changeset file
- *
- * $Id $
- *
- */
+$Id$
+*/
 
 require_once("MDB2/Schema/Writer.php");
 
+/**
+ * Writes an XML changeset file
+ */
 class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
 {
     // {{{ properties

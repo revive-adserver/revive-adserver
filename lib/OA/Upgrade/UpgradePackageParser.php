@@ -21,22 +21,17 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-/**
- * Openads Schema Management Utility
- *
- * @author Monique Szpak <monique.szpak@openads.org>
- *
- * $Id $
- *
- */
-
-
+$Id$
+*/
 
 require_once 'XML/Parser.php';
 
 /**
+ * Openads Schema Management Utility.
+ *
  * Parses an XML schema file
  *
+ * @author Monique Szpak <monique.szpak@openads.org>
  * @package Openads
  * @category Upgrade
  */

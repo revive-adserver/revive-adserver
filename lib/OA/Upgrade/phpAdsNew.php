@@ -21,17 +21,16 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
+$Id$
+*/
+
+require_once MAX_PATH.'/lib/OA/DB.php';
+
 /**
  * Openads Upgrade Class
  *
  * @author Monique Szpak <monique.szpak@openads.org>
- *
- * $Id $
- *
  */
-
-require_once MAX_PATH.'/lib/OA/DB.php';
-
 class OA_phpAdsNew
 {
     var $oDbh;
@@ -123,7 +122,7 @@ class OA_phpAdsNew
 
             $aResult['table']['type']           = $phpAds_config['table_type'];
             $aResult['table']['prefix']         = $phpAds_config['table_prefix'];
-            
+
             return $aResult;
         }
         return array();
