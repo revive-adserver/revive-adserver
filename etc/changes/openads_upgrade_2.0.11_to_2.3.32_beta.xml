@@ -120,13 +120,6 @@
             <file>migration_tables_core_505.php</file>
         </package>
         <package>
-            <version>514</version>
-            <schema>tables_core</schema>
-            <file>schema_tables_core_514.xml</file>
-            <file>changes_tables_core_514.xml</file>
-            <file>migration_tables_core_514.php</file>
-        </package>
-        <package>
             <version>515</version>
             <stamp>515</stamp>
             <schema>tables_core</schema>
