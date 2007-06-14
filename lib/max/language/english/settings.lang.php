@@ -102,6 +102,10 @@ $GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data U
 $GLOBALS['strDbSetupTitle']               = "Database Setup";
 $GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses either a MySQL or a PostgreSQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
 $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. When you click continue, " . MAX_PRODUCT_NAME . " will proceed with performing upgrade tasks on your data. Please make sure that you have a proper backup of your data before continuing.";
+
+$GLOBALS['strOaUpToDate']               = "Your Openads database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the Openads administration panel.";
+$GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
+$GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
 $GLOBALS['strInstallSuccess']               = "<strong>Congratulations! You have finished installing Openads</strong>
 <p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>
 

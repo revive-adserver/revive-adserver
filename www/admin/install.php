@@ -143,7 +143,7 @@ else if (array_key_exists('btn_syscheck', $_POST))
     if ($installStatus == OA_STATUS_CURRENT_VERSION)
     {
         $message = 'Openads is up to date';
-        $strInstallSuccess = '';
+        $strInstallSuccess = $strOaUpToDate;
         $action = OA_UPGRADE_FINISH;
     }
     else
@@ -311,7 +311,8 @@ if ($action == OA_UPGRADE_FINISH)
 {
     if (!$oUpgrader->removeUpgradeTriggerFile())
     {
-        $message.= ' You must remove the UPGRADE file from the var folder.';
+        $message.= '. '.$strRemoveUpgradeFile;
+        $strInstallSuccess = '<div class="sysinfoerror">'.$strOaUpToDateCantRemove.'</div>'.$strInstallSuccess;
     }
 }
 
