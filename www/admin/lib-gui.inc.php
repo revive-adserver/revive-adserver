@@ -394,14 +394,8 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             $searchbar .= "\t\t</form>\n";
             $searchbar .= "\t\t</table>\n";
 
-            if (
-               (!empty($pref['updates_enabled']) && $pref['updates_enabled'] != 'f')
-               &&
-               (!empty($pref['updates_cs_data_enabled']) && $pref['updates_cs_data_enabled'] != 'f')
-               &&
-               ($pref['ad_clicks_sum'] || $pref['ad_views_sum'])
-               ) {
-
+            if (!empty($pref['updates_enabled']) && $pref['updates_enabled'] != 'f')
+            {
                 $iSecondsFromLastUpdate = 0;
                 if (!empty($pref['ad_cs_data_last_received']) && ($pref['ad_cs_data_last_received'] != OA_Dal::noDateValue())) {
                     $iSecondsFromLastUpdate = time() - strtotime($pref['ad_cs_data_last_received']);

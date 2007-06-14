@@ -53,7 +53,7 @@ $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobal('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
-                          'company_name', 'language', 'updates_enabled', 'updates_cs_data_enabled', 'admin_novice',
+                          'company_name', 'language', 'updates_enabled', 'admin_novice',
                           'userlog_email', 'timezone_location');
 
     //  Update config with timezone changes
@@ -104,7 +104,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $preferences->setPrefChange('language', $language);
     }
     $preferences->setPrefChange('updates_enabled', isset($updates_enabled));
-    $preferences->setPrefChange('updates_cs_data_enabled', isset($updates_cs_data_enabled));
     $preferences->setPrefChange('admin_novice', isset($admin_novice));
     $preferences->setPrefChange('userlog_email', isset($userlog_email));
 

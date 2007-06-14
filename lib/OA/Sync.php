@@ -168,36 +168,7 @@ class OA_Sync
                 'php_safe_mode'                => (bool)ini_get('safe_mode'),
                 'php_open_basedir'            => (bool)strlen(ini_get('open_basedir')),
                 'php_upload_tmp_readable'    => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR),
-
-                'updates_cs_data_enabled'   => ($this->pref['updates_cs_data_enabled'] != 'f' && $this->pref['updates_cs_data_enabled']),
             ));
-        }
-
-        if ($this->pref['updates_cs_data_enabled'] != 'f' && $this->pref['updates_cs_data_enabled']) {
-            $iLastUpdate = 0;
-            if (!empty($this->pref['ad_cs_data_last_sent']) && $this->pref['ad_cs_data_last_sent'] != '0000-00-00') {
-                $iLastUpdate = strtotime($this->pref['ad_cs_data_last_sent']);
-            }
-
-            // make sure there's only one report on clicks/impressions a day
-            if ($send_sw_data && $iLastUpdate+86400 < time()){
-
-                // get ratios for clicks and views
-                // move start and end timestamp one hour back in the past so it's possible to fetch
-                // clicks/views generated when update was running
-                $aData = $this->_getSummaries($iLastUpdate-3600, time()-3600);
-
-                // send community-size data only if there has been some data served from this installation
-                if ($aData['ad_views_sum'] || $aData['ad_clicks_sum']){
-                    $aHost = parse_url('http://'.$this->pref['webpath']['admin']);
-                    $params[] = XML_RPC_Encode(array(
-                        'ad_views_sum'                  => $aData['ad_views_sum'],
-                        'ad_clicks_sum'                 => $aData['ad_clicks_sum'],
-                        'seconds_since_previous_report' => $aData['seconds_since_previous_report'],
-                        'client_host'                   => $aHost['host'],
-                    ));
-                }
-            }
         }
 
         // Create XML-RPC request message
@@ -226,36 +197,6 @@ class OA_Sync
                     updates_cache = '".addslashes(serialize($cache))."',
                     updates_timestamp = ".time()."
             ";
-
-            if ($this->pref['updates_cs_data_enabled'] != 'f' && $this->pref['updates_cs_data_enabled']) {
-
-                if ($send_sw_data && $iLastUpdate+86400 < time()) {
-                    $sUpdate .= ",
-                    ad_cs_data_last_sent = '".date('Y-m-d', time())."'
-                    ";
-                }
-
-                // var $response is not needed from this point so we can reuse it
-                // get community-stats
-                $response = $client->send(new XML_RPC_Message('Openads.CommunityStats'),10);
-
-                // if response contains no error store community-stats values locally
-                if (!$response->faultCode()){
-                    $aCommunityStats = XML_RPC_Decode($response->value());
-
-                    if($aCommunityStats['day'] != $this->pref['ad_cs_data_last_received'] && ($aCommunityStats['ad_clicks_sum'] || $aCommunityStats['ad_views_sum'])) {
-
-                        $sUpdate .= ",
-                            ad_clicks_sum = ".(int)$aCommunityStats['ad_clicks_sum'].",
-                            ad_views_sum = ".(int)$aCommunityStats['ad_views_sum'].",
-                            ad_clicks_per_second = ".(float)$aCommunityStats['ad_clicks_per_second'].",
-                            ad_views_per_second = ".(float)$aCommunityStats['ad_views_per_second'].",
-                            ad_cs_data_last_received = '".$aCommunityStats['day']."'
-                        ";
-
-                    }
-                }
-            }
 
             $sUpdate .="
                 WHERE

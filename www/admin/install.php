@@ -125,10 +125,9 @@ if ($oUpgrader->isRecoveryRequired())
 }
 else if (array_key_exists('btn_syscheck', $_POST))
 {
-    // store updates_enabled and updates_cs_data_enabled values into session, so that they can be inserted into DB once DB has been created
+    // store updates_enabled value into session, so that they can be inserted into DB once DB has been created
     session_start();
     $_SESSION['updates_enabled']         = $_POST['updates_enabled'];
-    $_SESSION['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
 
     $aSysInfo = $oUpgrader->checkEnvironment();
 
@@ -214,7 +213,6 @@ else if (array_key_exists('btn_adminsetup', $_POST))
     $aCommunity = array();
     session_start();
     $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
-    $aCommunity['updates_cs_data_enabled'] = $_SESSION['updates_cs_data_enabled'];
 
     if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
     {
@@ -258,7 +256,6 @@ else if (array_key_exists('btn_datasetup', $_POST))
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
         $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
-        $_POST['aAdmin']['updates_cs_data_enabled'] = $_POST['updates_cs_data_enabled'];
         $oUpgrader->putAdmin($_POST['aAdmin']);
         $action = OA_UPGRADE_DATASETUP;
     }

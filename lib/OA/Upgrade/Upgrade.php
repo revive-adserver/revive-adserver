@@ -1145,7 +1145,6 @@ class OA_Upgrade
         $oPrefs->loadPrefs();
 
         $oPrefs->setPrefChange('updates_enabled', isset($aCommunity['updates_enabled'])?'t':'f');
-        $oPrefs->setPrefChange('updates_cs_data_enabled', isset($aCommunity['updates_cs_data_enabled'])?'t':'f');
         // Generate a new instance ID if empty
         if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
             $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
