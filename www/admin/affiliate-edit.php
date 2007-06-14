@@ -838,7 +838,7 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
         var e = document.getElementsByTagName('INPUT');
         var i;
 
-        if (!(o = findObj('account_type')) {
+        if (!(o = findObj('account_type'))) {
             return;
         }
 
