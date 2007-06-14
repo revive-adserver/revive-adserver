@@ -90,7 +90,7 @@ class Test_OA_Upgrade extends UnitTestCase
         global $readPath, $writeFile;
         $readPath = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes';
         $writeFile = MAX_PATH.'/var/openads_upgrade_array.txt';
-        include MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/build_upgrade_packages_array.php';
+        include MAX_PATH.'/scripts/upgrade/buildPackagesArray.php';
         $this->assertTrue(file_exists($writeFile),'array file was not written');
         return $aVersions;
     }
