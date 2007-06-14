@@ -378,21 +378,23 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                 // Mark as meant to be delivered
                 $this->aAdZoneImpressionAllocations[$key]['to_be_delivered'] = true;
                 // Is the required allocation in an over-subscribed zone?
-                if (isset($this->aOverSubscribedZones[$aRequiredAllocation['zone_id']])) {
-                    if ($this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['oversubscribed'] && $aRequiredAllocation['required_impressions']) {
-                        $adjustmentFactor = $this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['adjustmentFactorByCP'][$aRequiredAllocation['campaign_priority']];
-                        if ($adjustmentFactor == -1) {
-                            // Simply set the requested impressions as the required impressions
-                            $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =
-                                $aRequiredAllocation['required_impressions'];
-                            // Mark as not meant to be delivered
-                            $this->aAdZoneImpressionAllocations[$key]['to_be_delivered'] = false;
-                        } else {
-                            // Scale the requested impressions as required to calculated the
-                            // required impressions
-                            $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =
-                                round($aRequiredAllocation['required_impressions'] * $adjustmentFactor);
-                        }
+                if (
+                    isset($this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]) &&
+                    $this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['oversubscribed'] &&
+                    $aRequiredAllocation['required_impressions']
+                ) {
+                    $adjustmentFactor = $this->aOverSubscribedZones[$aRequiredAllocation['zone_id']]['adjustmentFactorByCP'][$aRequiredAllocation['campaign_priority']];
+                    if ($adjustmentFactor == -1) {
+                        // Simply set the requested impressions as the required impressions
+                        $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =
+                            $aRequiredAllocation['required_impressions'];
+                        // Mark as not meant to be delivered
+                        $this->aAdZoneImpressionAllocations[$key]['to_be_delivered'] = false;
+                    } else {
+                        // Scale the requested impressions as required to calculated the
+                        // required impressions
+                        $this->aAdZoneImpressionAllocations[$key]['requested_impressions'] =
+                            round($aRequiredAllocation['required_impressions'] * $adjustmentFactor);
                     }
                 } else {
                     // Simply set the requested impressions as the required impressions
