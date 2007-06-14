@@ -66,6 +66,7 @@
     <include name="etc/test.conf.php"/>
     <include name="lib/simpletest/**"/>
     <include name="scripts/db_dataobject/**"/>
+    <include name="scripts/upgrade/**"/>
     <include name="scripts/updateDocs.sh"/>
     <include name="tutorials/**"/>
     <include name="simulation/**"/>
