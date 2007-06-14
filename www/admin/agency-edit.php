@@ -45,9 +45,9 @@ phpAds_registerGlobalUnslashed (
 	,'name'
 	,'contact'
 	,'email'
-	,'language'
-	,'username'
-	,'password'
+	,'agencylanguage'
+	,'agencyusername'
+	,'agencypassword'
 	,'submit'
 	,'logout_url'
 	,'agencypermissions'
@@ -69,12 +69,12 @@ if (isset($submit)) {
 	    $agency = $doAgency->toArray();
 	}
 	// Name
-	$agency['name'] = trim($name);
+	$agency['name']           = trim($name);
 	// Default fields
-	$agency['contact'] 	 	= trim($contact);
-	$agency['email'] 	 	= trim($email);
-	$agency['language']   	= trim($language);
-	$agency['logout_url']   = trim($logout_url);
+	$agency['contact'] 	 	  = trim($contact);
+	$agency['email'] 	 	  = trim($email);
+	$agency['agencylanguage'] = trim($agencylanguage);
+	$agency['logout_url']     = trim($logout_url);
 	// Permissions
 	$agency['permissions'] = 0;
 	if (isset($agencypermissions) && is_array($agencypermissions)) {
@@ -83,21 +83,21 @@ if (isset($submit)) {
 		}
 	}
 	// Password
-	if (isset($password)) {
-		if ($password == '') {
+	if (isset($agencypassword)) {
+		if ($agencypassword == '') {
 			$agency['password'] = '';
-		} elseif ($password != '********') {
-			$agency['password'] = md5($password);
+		} elseif ($agencypassword != '********') {
+			$agency['password'] = md5($agencypassword);
 		}
 	}
 	// Username
-	if (!empty($username)) {
-        if (!MAX_Permission::isUsernameAllowed($agency['username'], $username)) {
+	if (!empty($agencyusername)) {
+        if (!MAX_Permission::isUsernameAllowed($agency['username'], $agencyusername)) {
             $errormessage[] = $strDuplicateAgencyName;
         }
 	}
 	if (count($errormessage) == 0) {
-		$agency['username'] = $username;
+		$agency['username'] = $agencyusername;
 	}
 	// Password
 	if (isset($pwold) && strlen($pwold) || isset($pw) && strlen($pw) ||	isset($pw2) && strlen($pw2)) {
@@ -125,7 +125,7 @@ if (isset($submit)) {
 		MAX_Admin_Redirect::redirect('agency-index.php');
 	} else {
 		// If an error occured set the password back to its previous value
-		$agency['password'] = $password;
+		$agency['password'] = $agencypassword;
 	}
 }
 
@@ -228,12 +228,12 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 
 // Language
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
-echo "<select name='language' tabindex='".($tabindex++)."'>";
+echo "<select name='agencylanguage' tabindex='".($tabindex++)."'>";
 echo "<option value='' SELECTED>".$strDefault."</option>";
 
 $languages = MAX_Admin_Languages::AvailableLanguages();
 while (list($k, $v) = each($languages)) {
-	if (isset($agency['language']) && $agency['language'] == $k) {
+	if (isset($agency['agencylanguage']) && $agency['agencylanguage'] == $k) {
 		echo "<option value='$k' selected>$v</option>";
 	} else {
 		echo "<option value='$k'>$v</option>";
@@ -275,13 +275,13 @@ if (isset($errormessage) && count($errormessage)) {
 }
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
-echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='username' size='25' value='".phpAds_htmlQuotes($agency['username'])."' tabindex='".($tabindex++)."'></td>";
+echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='agencyusername' size='25' value='".phpAds_htmlQuotes($agency['username'])."' tabindex='".($tabindex++)."'></td>";
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
 // Password
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-echo "<td width='370'><input class='flat' type='password' name='password' size='25' value='".$agency['password']."' tabindex='".($tabindex++)."'></td>";
+echo "<td width='370'><input class='flat' type='password' name='agencypassword' size='25' value='".$agency['password']."' tabindex='".($tabindex++)."'></td>";
 echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -327,10 +327,10 @@ $unique_users = MAX_Permission::getUniqueUserNames($agency['username']);
 	max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
 <?php if (phpAds_isUser(phpAds_Admin)) { ?>
 	max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
-	max_formSetRequirements('username', '<?php echo addslashes($strUsername); ?>', false, 'unique');
+	max_formSetRequirements('agencyusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 
 	max_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-	max_formSetUnique('username', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
+	max_formSetUnique('agencyusername', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
 <?php } ?>
 //-->
 </script>
