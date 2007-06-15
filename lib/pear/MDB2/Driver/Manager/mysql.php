@@ -318,6 +318,11 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                     $query.= ', ';
                 }
                 $query.= 'ADD ' . $db->getDeclaration($field['type'], $field_name, $field);
+                // OPENADS enhancement
+                if (array_key_exists('autoincrement', $field) && $field['autoincrement'])
+                {
+                    $query.= ' KEY';
+                }
             }
         }
 
