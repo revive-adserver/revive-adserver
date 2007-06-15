@@ -366,6 +366,8 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
                 }
             }
         }
+        // Calculate CTR and other columns
+        $this->_summarizeStats($this->aTotal);
     }
 
     /**

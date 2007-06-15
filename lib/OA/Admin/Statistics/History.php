@@ -204,6 +204,11 @@ class OA_Admin_Statistics_History
             }
             $aStats[$key]['date_f'] = $date_f;
 
+            // Calculate CTR and other columns, making sure that the method is available
+            if (is_callable(array($oCaller, '_summarizeStats'))) {
+                $oCaller->_summarizeStats($aStats[$key]);
+            }
+
             // Prepare the array of parameters for creating the LHC day-breakdown link,
             // if required - simply the $oCaller->aPageParams array with "entity" and
             // "breakdown" set as required
@@ -431,6 +436,10 @@ class OA_Admin_Statistics_History
             // Calculate the average values of the data based on the
             // number of days data that go into the week
             $aWeekData[$week]['avg'] = $oCaller->_summarizeAverages($aWeekData[$week]['data']);
+            // Calculate CTR and other columns, making sure that the method is available
+            if (is_callable(array($oCaller, '_summarizeStats'))) {
+                $oCaller->_summarizeStats($aWeekData[$week]);
+            }
             // Now that the averages and total are complete, fill any
             // remaining days in the week with empty data
             $days = count($aWeekData[$week]['data']);
