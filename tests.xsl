@@ -25,7 +25,7 @@
             <arg value="@{{db.port}}" />
             <arg value="@{{db.username}}" />
             <arg value="@{{db.password}}" />
-            <arg value="@{{db.name}}_@{{php}}" />
+            <arg value="@{{db.name}}" />
             <arg value="@{{db.table.type}}" />
           </exec>
           <fail message="Can't create configuration file for test: @{{test.name}}! Reason: ${{test.@{test.name}.error}}">
@@ -92,7 +92,7 @@
         <xsl:attribute name="db.port"><xsl:value-of select="@db.port"/></xsl:attribute>
         <xsl:attribute name="db.username"><xsl:value-of select="@db.username"/></xsl:attribute>
         <xsl:attribute name="db.password"><xsl:value-of select="@db.password"/></xsl:attribute>
-        <xsl:attribute name="db.name"><xsl:value-of select="@db.name"/></xsl:attribute>
+        <xsl:attribute name="db.name"><xsl:value-of select="@db.name"/>_<xsl:value-of select="$php/@name"/></xsl:attribute>
         <xsl:attribute name="db.table.type"><xsl:value-of select="@db.table.type"/></xsl:attribute>
       </xsl:element>
     </xsl:for-each>
