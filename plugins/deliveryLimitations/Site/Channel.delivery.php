@@ -31,7 +31,9 @@ $Id$
  * @author     Chris Nutting <chris@m3.net>
  */
 
-require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
+if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php'])) {
+    require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
+}
 
 /**
  * Check to see if this impression contains the valid channel.
