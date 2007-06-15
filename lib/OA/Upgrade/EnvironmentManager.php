@@ -74,7 +74,6 @@ class OA_Environment_Manager
 
         $this->aInfo['PHP']['expected']['version']              = '4.3.6';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
-        $this->aInfo['PHP']['expected']['memory_limit']         = '8192';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         //$this->aInfo['PHP']['expected']['date.timezone']        = true;
 
@@ -99,12 +98,8 @@ class OA_Environment_Manager
     function getPHPInfo()
     {
         $aResult['version'] = phpversion();
-
-        $aResult['memory_limit'] = ini_get('memory_limit');
-        if (preg_match('/^(\d+)M$/i', $aResult['memory_limit'], $m)) {
-            $aResult['memory_limit'] = $m[1] * 1024;
-        }
-
+        
+        $aResult['memory_limit'] = getMemorySizeInBytes();
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode'] = ini_get('safe_mode');
         $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
@@ -165,6 +160,22 @@ class OA_Environment_Manager
         return $this->aInfo;
     }
 
+    /**
+     * Check if amount of memory is enough for our application
+     *
+     * @return boolean  True if amount of memory is enough, else false
+     */
+    function checkMemory()
+    {
+        $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
+        $expected = getMinimumRequiredMemory();
+        if (($memlim > 0) && ($memlim < $expected))
+        {
+            return false;
+        }
+        return true;
+    }
+    
     function _checkCriticalPHP()
     {
         if (function_exists('version_compare'))
@@ -186,14 +197,7 @@ class OA_Environment_Manager
             $this->aInfo['PHP']['error'] = false;
         }
 
-        $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
-
-        // Double the required mem if PHP >= 5.2.0 - memory handling has changed and
-        // memory occupation info is mora accurate. The default has been raised
-        if (version_compare($this->aInfo['PHP']['actual']['version'], '5.2.0', '>=')) {
-            $memlim *= 2;
-        }
-        if (($memlim > 0) && ($memlim < $this->aInfo['PHP']['expected']['memory_limit']))
+        if (!$this->checkMemory())
         {
             $result = OA_ENV_ERROR_PHP_MEMORY;
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY] = 'memory_limit needs to be increased';
@@ -215,7 +219,7 @@ class OA_Environment_Manager
 //        }
         return $result;
     }
-
+    
     function _checkCriticalPermissions()
     {
         foreach ($this->aInfo['PERMS']['actual'] AS $k=>$v)

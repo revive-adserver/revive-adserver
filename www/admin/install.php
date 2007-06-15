@@ -53,6 +53,16 @@ if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INS
 
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
 
+// setup oUpgrader, determine whether they are installing or that they can Upgrade
+$oUpgrader = new OA_Upgrade();
+$oSystemMgr = &$oUpgrader->oSystemMgr;
+$oSystemMgr->getAllInfo();
+if (!$oSystemMgr->checkMemory()) {
+    echo 'The minimum requirement amount of memory of Openads is <b>'. getMinimumRequiredMemory() 
+        .' Bytes</b>. Please increase your PHP memory_limit before continuing.';
+    exit(1);
+}
+
 // required files for header & nav
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
@@ -65,9 +75,6 @@ define('phpAds_installing',     true);
 
 // changed form name for javascript dependent fields
 $GLOBALS['settings_formName'] = "frmOpenads";
-
-// setup oUpgrader, determine whether they are installing or that they can Upgrade
-$oUpgrader = new OA_Upgrade();
 
 $imgPath = '';
 $installStatus = 'unknown';

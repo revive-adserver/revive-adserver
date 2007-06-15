@@ -200,6 +200,12 @@ function setupConstants()
     define('MAX_LIMITATION_NOT_EQUAL', 1);
     define('MAX_LIMITATION_BITWISE', 2);
 
+    // define minimum amount of required memory
+    $GLOBALS['_MAX']['REQUIRED_MEMORY'] = array(
+        'PHP4' => 8388608, // 8MB in bytes (or should we use 16MB? 16777216)
+        'PHP5' => 20971520  // 20MB (or 25165824 - 24MB) in bytes - required by >PHP5.2
+    );
+    
     // Ensure that the initialisation has not been run before
     if (!(isset($GLOBALS['_MAX']['CONF']))) {
         // Define the Openads installation base path if not defined
