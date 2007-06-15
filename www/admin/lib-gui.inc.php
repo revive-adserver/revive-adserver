@@ -572,7 +572,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             echo "\t\t\t\t<a style='color: #$headerTextColor' href='logout.php'><b>$strLogout</b></a> \n";
             echo "\t\t\t\t<a href='logout.php'><img src='".$imgPath."images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
             //  bug reporter button
-            echo "&nbsp;&nbsp;&nbsp;<a href='bug.php'><img alt='Report a bug' src='".$imgPath."images/bug.png' border='0'></a>";
+            echo "&nbsp;&nbsp;&nbsp;<a href='https://developer.openads.org/wiki/ReportingBugs' target='_blank'><img alt='Report a bug' src='".$imgPath."images/bug.png' border='0' /></a>";
         }
         else
         {
