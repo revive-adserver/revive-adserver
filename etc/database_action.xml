@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>1</version>
+ <version>2</version>
  <status>final</status>
 
  <table>
@@ -13,6 +13,26 @@
   <name>database_action</name>
 
   <declaration>
+
+   <field>
+    <name>database_action_id</name>
+    <type>openads_int</type>
+    <unsigned>true</unsigned>
+    <length>10</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>upgrade_action_id</name>
+    <type>openads_int</type>
+    <unsigned>true</unsigned>
+    <length>10</length>
+    <notnull>false</notnull>
+    <default>0</default>
+    <autoincrement></autoincrement>
+   </field>
 
    <field>
     <name>schema_name</name>
@@ -92,6 +112,23 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+
+   <index>
+    <name>database_action_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>database_action_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>upgrade_action_id</name>
+    <field>
+     <name>upgrade_action_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
    <index>
     <name>schema_version_timing_action</name>

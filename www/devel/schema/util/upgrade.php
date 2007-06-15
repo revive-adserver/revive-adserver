@@ -28,14 +28,52 @@ $Id$
  * db upgrade class demonstration script
  */
 
+function getDBAuditTable($aAudit)
+{
+    $td = "<td class=\"tablebody\">%s</td>";
+    $schemas = "<table><tr><th class=\"tablebody\" colspan=\"50\">schemas</th></tr>";
+    $schemas.= "<tr>";
+    $schemas.= sprintf($td, 'schema');
+    $schemas.= sprintf($td, 'version');
+    $schemas.= sprintf($td, 'backup');
+    $schemas.= sprintf($td, 'source');
+    $schemas.= sprintf($td, 'size');
+    $schemas.= sprintf($td, 'rows');
+    $schemas.= "</tr>";
+    foreach ($aAudit AS $k => $aRec)
+    {
+        $schemas.= "<tr>";
+        $schemas.= sprintf($td, $aRec['schema_name']);
+        $schemas.= sprintf($td, $aRec['version']);
+        $schemas.= sprintf($td, $aRec['tablename_backup']);
+        $schemas.= sprintf($td, $aRec['tablename']);
+        $schemas.= sprintf($td, $aRec['backup_size']);
+        $schemas.= sprintf($td, $aRec['backup_rows']);
+        $schemas.= "</tr>";
+    }
+    $schemas.= "</table>";
+    return $schemas;
+}
+
 require_once '../../../../init.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+
+define('MAX_DEV', MAX_PATH.'/www/devel');
 
 $welcome = true;
 $backup  = false;
 $upgrade = false;
 
 $oUpgrader = new OA_Upgrade();
+
+if (array_key_exists('xajax', $_POST))
+{
+    $oUpgrader->initDatabaseConnection();
+    $aAudit = $oUpgrader->oAuditor->queryAuditBackupTablesByUpgradeId($_POST['xajaxargs'][0]);
+    $_POST['xajaxargs'][1] = getDBAuditTable($aAudit);
+}
+
+require_once MAX_DEV.'/lib/xajax.inc.php';
 
 if (array_key_exists('btn_view_available', $_REQUEST))
 {
@@ -90,7 +128,14 @@ else if (array_key_exists('btn_logfile_drop', $_REQUEST))
 else if (array_key_exists('btn_view_audit', $_REQUEST))
 {
     $oUpgrader->initDatabaseConnection();
-    $aAudit = $oUpgrader->oAuditor->queryAuditAllWithArtifacts();
+    $aAudit = $oUpgrader->oAuditor->queryAuditAllDescending();
+}
+else if (array_key_exists('btn_clean_audit', $_REQUEST))
+{
+    $upgrade_id = $_POST['btn_clean_audit'];
+    $oUpgrader->initDatabaseConnection();
+    $oUpgrader->oAuditor->updateAuditCleanup($upgrade_id);
+    $aAudit = $oUpgrader->oAuditor->queryAuditAllDescending();
 }
 else if (array_key_exists('btn_view_dbaudit', $_REQUEST))
 {

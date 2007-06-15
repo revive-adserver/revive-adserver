@@ -2,7 +2,15 @@
 <head>
     <title>Openads Schema Upgrade Utilities</title>
     <link rel="stylesheet" type="text/css" href="css/upgrade.css"/>
+
+    <script type="text/javascript" src="schema.js"></script>
+    <script type="text/javascript" src="../../lib/xajax/xajax_js/xajax.js"></script>
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL: ../lib/xajax/xajax_js/xajax.js'); } }, 6000);
+    </script>
+
 </head>
+<!--body onload="xajax_testAjax(''); return false"-->
 <body>
 <?php
 if ($welcome)
@@ -227,86 +235,7 @@ if (count($aSysInfo)>0)
 }
 if (count($aAudit)>0)
 {
-?>
-<div class="tablediv">
-    <table class="tablemain">
-    <tr><th class="tableheader" colspan="9">upgrade action table</th></tr>
-    <tr>
-        <th class="tableheader">updated</th>
-        <th class="tableheader">name</th>
-        <th class="tableheader">version to</th>
-        <th class="tableheader">version from</th>
-        <th class="tableheader">action</th>
-        <th class="tableheader">description</th>
-        <th class="tableheader"></th>
-    </tr>
-    <?php
-        foreach ($aAudit AS $k => $v)
-        {
-            $schemas = null;
-            if (is_array($v['dbschemas']))
-            {
-                $schemas = "<table><tr><th class=\"tablebody\" colspan=\"50\">schemas</th>";
-                $aSchemas = $v['dbschemas'];
-                foreach ($aSchemas AS $schemaName => $aSchemas)
-                {
-                    $schemas.= "<tr><td class=\"tablebody\" colspan=\"5\">{$schemaName}</td></tr>";
-                    $schemas.= "<tr><td class=\"tablebody\">version</td>";
-                    $schemas.= "<td class=\"tablebody\">backup</td>";
-                    $schemas.= "<td class=\"tablebody\">source</td>";
-                    $schemas.= "<td class=\"tablebody\">size</td>";
-                    $schemas.= "<td class=\"tablebody\">rows</td></tr>";
-                    foreach ($aSchemas AS $k1 => $aVersion)
-                    {
-                        foreach ($aVersion AS $version => $aItem)
-                        {
-                            $line = '';
-                            foreach ($aItem AS $k2 => $aDetails)
-                            {
-                                $line = "<tr><td class=\"tablebody\">{$version}</td>";
-                                $line.= "<td class=\"tablebody\">{$aDetails['backup']}</td>";
-                                $line.= "<td class=\"tablebody\">{$aDetails['source']}</td>";
-                                $line.= "<td class=\"tablebody\">{$aDetails['size']}</td>";
-                                $line.= "<td class=\"tablebody\">{$aDetails['rows']}</td></tr>";
-                            }
-                            $schemas.= $line;
-                        }
-                    }
-                    $schemas.= "</table>";
-                }
-            }
-            echo "<tr>
-                      <td class=\"tablebody\">{$v['updated']}</td>
-                      <td class=\"tablebody\">{$v['upgrade_name']}</td>
-                      <td class=\"tablebody\">{$v['version_to']}</td>
-                      <td class=\"tablebody\">{$v['version_from']}</td>
-                      <td class=\"tablebody\">{$v['action']}</td>
-                      <td class=\"tablebody\">{$v['description']}</td>";
-            if ($v['logfile']||$v['confbackup'])
-            {
-                echo "<td><table>";
-                if ($v['logfile'])
-                {
-                    echo "<tr><th class=\"tablebody\">logfile</th></tr>";
-                    echo  "<tr><td class=\"tablebody\">{$v['logfile']}</td></tr>";
-                }
-                if ($v['confbackup'])
-                {
-                    echo "<tr><th class=\"tablebody\">conf backup</th></tr>";
-                    echo  "<tr><td class=\"tablebody\">{$v['confbackup']}</td></tr>";
-                }
-                echo "</table></td>";
-            }
-            if ($schemas)
-            {
-                echo  "<td class=\"tablebody\">{$schemas}</td>";
-            }
-            echo "</tr>";
-        }
-    ?>
-    </table>
-</div>
-<?php
+    include 'tpl/upgradeauditajax.html';
 }
 if (count($aDBAudit)>0)
 {

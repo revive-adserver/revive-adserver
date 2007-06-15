@@ -15,6 +15,16 @@
   <declaration>
 
    <field>
+    <name>upgrade_action_id</name>
+    <type>openads_int</type>
+    <unsigned>true</unsigned>
+    <length>10</length>
+    <notnull>true</notnull>
+    <default>0</default>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
     <name>upgrade_name</name>
     <type>openads_varchar</type>
     <length>128</length>
@@ -84,6 +94,15 @@
     <notnull>false</notnull>
     <default></default>
    </field>
+
+   <index>
+    <name>upgrade_action_pkey</name>
+    <primary>true</primary>
+    <field>
+     <name>upgrade_action_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
 
    <index>
     <name>updated</name>

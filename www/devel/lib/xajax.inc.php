@@ -266,6 +266,29 @@ function addIndexField($field)
 	return $objResponse;
 }
 
+
+function expandOSURow($id, $html)
+{
+	$objResponse = new xajaxResponse();
+	$objResponse->addAssign('row_'.$id,"style.display", 'block');
+	$objResponse->addAssign('cell_'.$id, 'innerHTML', $html);
+	$objResponse->addAssign('img_expand_'.$id,"style.display", 'none');
+	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'inline');
+	return $objResponse;
+}
+
+function collapseOSURow($id)
+{
+	$objResponse = new xajaxResponse();
+	$objResponse->addAssign('row_'.$id,"style.display", 'none');
+	$objResponse->addAssign('cell_'.$id, 'innerHTML', '');
+	$objResponse->addAssign('img_expand_'.$id,"style.display", 'inline');
+	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'none');
+	return $objResponse;
+}
+
+
+
 require_once MAX_DEV.'/lib/xajax/xajax.inc.php';
 
 $xajax = new xajax();
@@ -283,6 +306,8 @@ $xajax->registerFunction("exitTableProperty");
 $xajax->registerFunction("editIndexProperty");
 $xajax->registerFunction("exitIndexProperty");
 $xajax->registerFunction("addIndexField");
+$xajax->registerFunction("expandOSURow");
+$xajax->registerFunction("collapseOSURow");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
 $xajax->processRequests();

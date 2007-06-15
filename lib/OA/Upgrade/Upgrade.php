@@ -1059,8 +1059,10 @@ class OA_Upgrade
         $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
                                             'version_to'=>$this->aPackage['versionTo'],
                                             'version_from'=>$this->aPackage['versionFrom'],
+                                            'logfile'=>basename($this->oLogger->logFile)
                                             )
                                      );
+        $this->oAuditor->setUpgradeActionId();  // links the upgrade_action record with database_action records
         if (!$this->runScript($this->aPackage['prescript']))
         {
             $this->_auditUpgradeFailure('Failure from upgrade prescript '.$this->aPackage['prescript']);
@@ -1083,8 +1085,8 @@ class OA_Upgrade
             return false;
         }
         $this->versionInitialApplication = $this->aPackage['versionTo'];
-        $this->oAuditor->logUpgradeAction(array('description'=>'PARTIAL',
-                                                'action'=>UPGRADE_ACTION_PARTIAL_SUCCEEDED,
+        $this->oAuditor->logUpgradeAction(array('description'=>'COMPLETE',
+                                                'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                 'dbschemas'=>serialize($this->aPackage['db_pkg_list'])
                                                )
                                          );
@@ -1304,7 +1306,7 @@ class OA_Upgrade
             }
             $ok = false;
             $this->_writeRecoveryFile($aPkg['schema'], $aPkg['version']);
-            if ($this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version']))
+            if ($this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], false))
             {
                 if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
                 {

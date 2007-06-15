@@ -63,6 +63,8 @@ class OA_DB_UpgradeAuditor
 
     var $logTable   = 'database_action';
 
+    var $auditId;
+
     var $prefix = '';
 
     var $aParams = array();
@@ -103,6 +105,7 @@ class OA_DB_UpgradeAuditor
 
     function setKeyParams($aParams='')
     {
+        $aParams['upgrade_action_id'] = $this->auditId;
         $this->aParams = $this->_escapeParams($aParams);
     }
 
@@ -120,7 +123,7 @@ class OA_DB_UpgradeAuditor
         $columns = implode(",", array_keys($this->aParams)).','.implode(",", array_keys($aParams));
         $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
 
-        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
+        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$this->logTable}_id,{$columns}, updated) VALUES ('',{$values}, '". OA::getNow() ."')";
         $result = $this->oDbh->exec($query);
 
         if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
@@ -171,6 +174,11 @@ class OA_DB_UpgradeAuditor
         return true;
     }
 
+    function upgradeAuditTable()
+    {
+
+    }
+
     /**
      * write a message to the logfile
      *
@@ -209,6 +217,41 @@ class OA_DB_UpgradeAuditor
     function queryAuditAll()
     {
         $query = "SELECT * FROM {$this->prefix}{$this->logTable}";
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying database audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
+    function queryAuditByUpgradeId($id)
+    {
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_action_id = {$id}";
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying database audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
+    function queryAuditBackupTablesByUpgradeId($id)
+    {
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_action_id = {$id}"
+                 ." AND action =".DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED
+                 ." AND info2 IS NULL";
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying database audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
+    function queryAuditByDBUpgradeId($id)
+    {
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE database_action_id = {$id}";
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
         {
