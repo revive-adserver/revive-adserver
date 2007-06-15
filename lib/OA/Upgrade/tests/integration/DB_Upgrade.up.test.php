@@ -896,16 +896,18 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],64,'wrong assigned length value');
 
 // OWING TO A BUG IN MDB2 manager mysql driver this will fail (wrong query declaration)
-/*        // Test 5 : change primary key field
+        // Test 5 : change primary key field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter5.xml');
         $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
         $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter5.xml';
         $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
         $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
 
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
-        $this->assertFalse($aDef['tables']['table1']['fields']['b_id_field']['autoincrement'],'','wrong original autoincrement value');
-        $this->assertEqual($aDef['tables']['table1']['fields']['b_id_field']['length'],9,'wrong original length value');
+        $this->assertFalse($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['autoincrement'],'','wrong original autoincrement value');
+        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],9,'wrong original length value');
 
         Mock::generatePartial(
             'Migration',
@@ -922,9 +924,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
         $oDB_Upgrade->oMigrator->tally();
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
-        $this->assertTrue($aDef['tables']['table1']['fields']['b_id_field']['autoincrement'],'wrong assigned autoincrement value');
-        $this->assertEqual($aDef['tables']['table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
-*/
+        $this->assertTrue($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['autoincrement'],'wrong assigned autoincrement value');
+        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
+
         // Test 4 : rename field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter4.xml');
         $aChanges_write                  = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);

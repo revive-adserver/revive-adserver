@@ -14,7 +14,7 @@
 
    <field>
     <name>field1</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <length>9</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -23,7 +23,7 @@
 
    <field>
     <name>field2</name>
-    <type>text</type>
+    <type>openads_varchar</type>
     <length>32</length>
     <notnull>true</notnull>
     <default></default>
@@ -41,7 +41,7 @@
 
   <field>
     <name>field1</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <length>9</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -50,7 +50,7 @@
 
    <field>
     <name>field2</name>
-    <type>text</type>
+    <type>openads_varchar</type>
     <length>32</length>
     <notnull>true</notnull>
     <default></default>
@@ -68,7 +68,7 @@
 
   <field>
     <name>field1</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <length>9</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -77,7 +77,7 @@
 
    <field>
     <name>field2</name>
-    <type>text</type>
+    <type>openads_varchar</type>
     <length>32</length>
     <notnull>true</notnull>
     <default></default>

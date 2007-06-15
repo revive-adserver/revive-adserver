@@ -14,7 +14,7 @@
 
    <field>
     <name>id_field</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <length>9</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -33,7 +33,7 @@
 
    <field>
     <name>id_field</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <length>9</length>
     <notnull>true</notnull>
     <default>0</default>
@@ -52,7 +52,7 @@
 
    <field>
     <name>id_field</name>
-    <type>integer</type>
+    <type>openads_int</type>
     <length>9</length>
     <notnull>true</notnull>
     <default>0</default>
