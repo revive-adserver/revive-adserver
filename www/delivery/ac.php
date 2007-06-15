@@ -153,6 +153,53 @@ $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
 ini_set('include_path', $newPearPath);
 }
+function getMinimumRequiredMemory()
+{
+if (version_compare(phpversion(), '5.2.0', '>=')) {
+return $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP5'];
+}
+return $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP4'];
+}
+function increaseMemoryLimit($setMemory) {
+$memory = getMemorySizeInBytes();
+if ($memory == -1) {
+return true;
+}
+if ($setMemory > $memory) {
+if (ini_set('memory_limit', $setMemory) === false) {
+return false;
+}
+}
+return true;
+}
+function getMemorySizeInBytes() {
+$phpMemory = ini_get('memory_limit');
+if (empty($phpMemory)) {
+$phpMemory = get_cfg_var('memory_limit');
+}
+if (empty($phpMemory)) {
+return 0;
+}
+if ($phpMemory == -1) {
+return $phpMemory;
+}
+$aSize = array(
+'G' => 1073741824,
+'M' => 1048576,
+'K' => 1024
+);
+$size = $phpMemory;
+foreach($aSize as $type => $multiplier) {
+$pos = strpos($phpMemory, $type);
+if (!$pos) {
+$pos = strpos($phpMemory, strtolower($type));
+}
+if ($pos) {
+$size = substr($phpMemory, 0, $pos) * $multiplier;
+}
+}
+return $size;
+}
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($conf['debug']['logfile']) {
