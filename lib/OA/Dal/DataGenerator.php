@@ -26,7 +26,23 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 
+/**
+ * This is the default value which will be used for all
+ * fields which don't have data set.
+ * If you do not want to use this default value use method:
+ * DataGenerator::defaultValueByType(MAX_DATAGENERATOR_DEFAULT_TYPE, 'your_default_data_here');
+ */
 define('MAX_DATAGENERATOR_DEFAULT_VALUE', 1);
+
+/**
+ * Use this this data type to set default data.
+ * @see MAX_DATAGENERATOR_DEFAULT_VALUE
+ */
+define('MAX_DATAGENERATOR_DEFAULT_TYPE', -1);
+
+/**
+ * Default date value used for generating default data for date fields
+ */
 define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
 
 /**
@@ -268,7 +284,7 @@ class DataGenerator
             if (!isset($do->$fieldName)) {
                 $fieldValue = DataGenerator::getFieldValueFromDataContainer($table, $fieldName, $counter);
                 if(!isset($fieldValue) && !in_array($fieldName, $keys)) {
-                    $fieldValue = DataGenerator::getDefaultValueByType($fieldType);
+                    $fieldValue = DataGenerator::defaultValueByType($fieldType);
                 }
                 if (isset($fieldValue)) {
                     $do->$fieldName = $fieldValue;
@@ -299,16 +315,27 @@ class DataGenerator
     }
 
     /**
-     * Return default field value based on field type
+     * Return (or set) a default field value based on field type
      *
-     * @todo This could be refactored if we will decide to add more types here
-     *
-     * @param string $fieldType
+     * @see DB_DataObject for list of defined field types
+     * 
+     * @param string $fieldType        Field type to set
+     * @param string $setDefaultValue  Value to set
      * @return string
      * @static
      */
-    function getDefaultValueByType($fieldType)
+    function defaultValueByType($fieldType, $setDefaultValue = null)
     {
+        static $aDefaultValues;
+        
+        if ($setDefaultValue !== null) {
+            $aDefaultValues[$fieldType] = $setDefaultValue;
+        }
+        if (isset($aDefaultValues[$fieldType])) {
+            return $aDefaultValues[$fieldType];
+        }
+        // This is the only exception we found so far, if we will find more we may need
+        // to refactor following
         if ($fieldType & DB_DATAOBJECT_DATE) {
             if ($fieldType & DB_DATAOBJECT_NOTNULL) {
                 return MAX_DATAGENERATOR_DEFAULT_DATE_VALUE;
@@ -316,6 +343,11 @@ class DataGenerator
             // According to https://developer.openads.org/wiki/DatabasePractices#UsingPEAR::MDB2
             return OA_Dal::noDateValue();
         }
+        // If no default set for this data type try default type
+        if (isset($aDefaultValues[MAX_DATAGENERATOR_DEFAULT_TYPE])) {
+            return $aDefaultValues[MAX_DATAGENERATOR_DEFAULT_TYPE];
+        }
+        // If still nothing found use a global default
         return MAX_DATAGENERATOR_DEFAULT_VALUE;
     }
 

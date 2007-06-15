@@ -53,6 +53,9 @@ class OA_Dummy_Data
 
     function insert()
     {
+        // Set default data value to empty string
+        DataGenerator::defaultValueByType(MAX_DATAGENERATOR_DEFAULT_TYPE, '');
+        
         $this->insertAgency();
         $this->insertAffiliate();
         $this->insertClient();
@@ -152,7 +155,7 @@ class OA_Dummy_Data
     function insertZone1()
     {
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->zonename      = 'Default Zone 1 468*60';
+        $doZones->zonename      = 'Default Zone 1 banner';
         $doZones->affiliateid   = $this->affiliateId;
         $doZones->zonetype      = 3;
         $doZones->width         = 468;
@@ -160,8 +163,8 @@ class OA_Dummy_Data
         $doZones->forceappend   = 'f';
         $doZones->updated       = OA::getNow();
         $doZones->description   = 'Default Banner Zone';
-        $doZones->delivery      = '3';
-//        $doZones->zonetype    = '';                       // int(6)  not_null
+        $doZones->delivery      = '0';
+//        $doZones->zonetype    = '3';                       // int(6)  not_null
 //        $doZones->category    = '';                       // blob(65535)  not_null blob
 //        $doZones->ad_selection    = '';                   // blob(65535)  not_null blob
 //        $doZones->chain    = '';                          // blob(65535)  not_null blob
@@ -185,7 +188,7 @@ class OA_Dummy_Data
     function insertZone2()
     {
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->zonename      = 'Default Zone 2 120*600';
+        $doZones->zonename      = 'Default Zone 2 Skyscraper';
         $doZones->affiliateid   = $this->affiliateId;
         $doZones->zonetype      = 3;
         $doZones->width         = 120;
@@ -193,8 +196,8 @@ class OA_Dummy_Data
         $doZones->forceappend   = 'f';
         $doZones->updated       = OA::getNow();
         $doZones->description   = 'Default Skyscraper Zone';
-        $doZones->delivery      = '3';
-//        $doZones->zonetype    = '';                       // int(6)  not_null
+        $doZones->delivery      = '0';
+//        $doZones->zonetype    = '3';                       // int(6)  not_null
 //        $doZones->category    = '';                       // blob(65535)  not_null blob
 //        $doZones->ad_selection    = '';                   // blob(65535)  not_null blob
 //        $doZones->chain    = '';                          // blob(65535)  not_null blob
