@@ -607,6 +607,23 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['fields']['rename'][0]['cargo']['rename']['b_id_field']),'b_id_field field not found in task change array');
         $this->assertEqual($aTaskList['fields']['rename'][0]['cargo']['rename']['b_id_field']['name'],'b_id_field_renamed','b_id_field wrong value in task change array');
 
+         // Test 6 : add primary key field
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter6.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter6.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: add primary key field');
+        $aTaskList = $oDB_Upgrade->aTaskList;
+        $this->assertTrue(isset($aTaskList['fields']['add']),'failed creating task list: fields add');
+        $this->assertEqual(count($aTaskList['fields']['add']),1, 'incorrect elements in task list: fields add');
+        $this->assertEqual($aTaskList['fields']['add'][0]['name'], 'table2', 'wrong table name');
+        $this->assertEqual($aTaskList['fields']['add'][0]['field'], 'b_id_field_pk', 'wrong field name');
+        $this->assertEqual(count($aTaskList['fields']['add'][0]['cargo']),1, 'incorrect number of add fields tasks in task list');
+        $this->assertTrue(isset($aTaskList['fields']['add'][0]['cargo']['add']['b_id_field_pk']),'b_id_field_pk field not found in task add array');
+
         // Test 3 : remove field
         $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter3.xml');
@@ -895,7 +912,6 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['default'],'foo','wrong assigned default value');
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],64,'wrong assigned length value');
 
-// OWING TO A BUG IN MDB2 manager mysql driver this will fail (wrong query declaration)
         // Test 5 : change primary key field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter5.xml');
         $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
@@ -972,6 +988,41 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertFalse(in_array('b_id_field', $aDBFields),'b_id_field found in table1');
         $this->assertTrue(in_array('b_id_field_renamed', $aDBFields),'b_id_field_renamed not found in table1');
+
+         // Test 6 : add primary key field
+        $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter6.xml');
+        $aChanges_write                 = $oDB_Upgrade->oSchema->compareDefinitions($oDB_Upgrade->aDefinitionNew, $aPrev_definition);
+        $this->aOptions['output']       = MAX_PATH.'/var/changes_test_tableAlter6.xml';
+        $result                         = $oDB_Upgrade->oSchema->dumpChangeset($aChanges_write, $this->aOptions);
+        $oDB_Upgrade->aChanges          = $oDB_Upgrade->oSchema->parseChangesetDefinitionFile($this->aOptions['output']);
+        $oDB_Upgrade->aDBTables         = $oDB_Upgrade->_listTables();
+        $oDB_Upgrade->aTaskList = array();
+        $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: add primary key field');
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue($this->_tableExists('table2', $oDB_Upgrade->aDBTables),'table2 not found');
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table2');
+        $this->assertFalse(in_array('b_id_field_pk', $aDBFields),'b_id_field_pk found in table2');
+
+        Mock::generatePartial(
+            'Migration',
+            $mockMigrator = 'Migration_'.rand(),
+            array('beforeAddField__table2__b_id_field_pk', 'afterAddField__table2__b_id_field_pk')
+        );
+
+        $oDB_Upgrade->oMigrator = new $mockMigrator($this);
+        $oDB_Upgrade->oMigrator->setReturnValue('beforeAddField__table2__b_id_field_pk', true);
+        $oDB_Upgrade->oMigrator->expectOnce('beforeAddField__table2__b_id_field_pk');
+        $oDB_Upgrade->oMigrator->setReturnValue('afterAddField__table2__b_id_field_pk', true);
+        $oDB_Upgrade->oMigrator->expectOnce('afterAddField__table2__b_id_field_pk');
+
+        $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: add primary key field');
+        $oDB_Upgrade->oMigrator->tally();
+
+        $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
+        $this->assertTrue($this->_tableExists('table2', $oDB_Upgrade->aDBTables),'table2 not found');
+        $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table2');
+        $this->assertTrue(in_array('b_id_field_pk', $aDBFields),'b_id_field_pk not found in table1');
 
         // Test 3 : remove field
         $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
