@@ -71,6 +71,8 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_MEMORY,'memory_limit too low');
 
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '16384';
+        $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP4'] = '16384';
+        $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP5'] = '16384';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'memory_limit');
 
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '';
