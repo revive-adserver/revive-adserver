@@ -2209,7 +2209,7 @@ class OA_DB_Upgrade
         {
             return false;
         }
-        $this->oAuditor->updateAuditBackupDropped($table, $logmsg);
+        $this->oAuditor->updateAuditBackupDroppedByName($table, $logmsg);
         return true;
     }
 

@@ -228,10 +228,10 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
         $this->assertEqual($aResult[0]['tablename_backup'],'test_table_bak','wrong tablename_backup for audit query result');
     }
 
-    function test_updateAuditBackupDropped()
+    function test_updateAuditBackupDroppedByName()
     {
         $oAuditor = $this->_getAuditObject();
-        $this->assertTrue($oAuditor->updateAuditBackupDropped('test_table_bak'),'error updating backup table (dropped) audit record');
+        $this->assertTrue($oAuditor->updateAuditBackupDroppedByName('test_table_bak'),'error updating backup table (dropped) audit record');
         $aResult = $oAuditor->queryAuditForABackup('test_table_bak');
         $this->assertIsa($aResult,'array','audit table query result is not an array');
         $this->assertEqual(count($aResult),0,'incorrect number of elements on audit backup query result');
