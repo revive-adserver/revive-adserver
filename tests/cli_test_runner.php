@@ -63,7 +63,7 @@ foreach ($aLayer as $layer) {
         $returncode = -1;
         $output_lines = '';
         $exec = "run.php --type=$layer --level=layer --layer=$subLayer --format=text --host=test";
-        exec("$php -q $exec", $output_lines, $returncode);
+        exec("$php -f $exec", $output_lines, $returncode);
         $message = "{$subLayer}\n" . join($output_lines, "\n");
         switch ($returncode) {
             case 0: $oReporter->paintPass($message); break;
