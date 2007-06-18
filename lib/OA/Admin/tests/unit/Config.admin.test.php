@@ -82,11 +82,12 @@ Class Test_OA_Admin_Config extends UnitTestCase
     }
     
     /**
-     * Tests a dummy config file is written out correctly.
-     *
+     * 1. Tests a config file is written out correctly.
+     * 2. Tests correct use of "dummy" and "real" config files.
      */
     function testWriteConfigChange()
     {
+        // Test 1.
         $oConf = new OA_Admin_Config(true);
         
         // Build the local conf array manually.
@@ -94,7 +95,6 @@ Class Test_OA_Admin_Config extends UnitTestCase
         $oConf->conf['webpath']['admin'] = 'localhost';
         $oConf->conf['webpath']['delivery'] = 'localhost';
         $oConf->conf['webpath']['deliverySSL'] = 'localhost';
-                
         $filename = 'oa_test_' . rand();
         $this->assertTrue($oConf->writeConfigChange('/tmp', $filename), 'Error writing config file');
         
@@ -104,7 +104,58 @@ Class Test_OA_Admin_Config extends UnitTestCase
         
         // Clean up
         unlink('/tmp/localhost.' . $filename . '.conf.php');
+        unset($oNewConf);
         
+        // Test 2.
+        // Write out a new "single host" config file
+        $oConf = new OA_Admin_Config(true);
+        
+        // Build the local conf array manually.
+        $oConf->conf['webpath']['admin'] = 'dummy';
+        $oConf->conf['webpath']['delivery'] = 'dummy';
+        $oConf->conf['webpath']['deliverySSL'] = 'dummy';
+        $this->assertTrue($oConf->writeConfigChange('/tmp'), 'Error writing config file');
+        $this->assertTrue(file_exists('/tmp/dummy.conf.php'), 'Config file does not exist');
+        
+        // Modify delivery settings to a different host
+        $oConf->conf['webpath']['delivery'] = 'delivery';
+        $oConf->conf['webpath']['deliverySSL'] = 'delivery';
+        $this->assertTrue($oConf->writeConfigChange('/tmp'), 'Error writing config file');
+        $this->assertTrue(file_exists('/tmp/dummy.conf.php'), 'Dummy config file does not exist');
+        $this->assertTrue(file_exists('/tmp/delivery.conf.php'), 'Real config file does not exist');
+                
+        // Test both config files are correct
+        $aRealConfig = parse_ini_file('/tmp/delivery.conf.php', true);
+        $aDummyConfig = parse_ini_file('/tmp/dummy.conf.php', true);
+        $this->assertEqual($oConf->conf, $aRealConfig, 'Real config has incorrect values');
+        $aExpected = array('realConfig' => 'delivery');
+        $this->assertEqual($aExpected, $aDummyConfig, 'Dummy config has incorrect values');
+        
+        // Modify the delivery to use three different hosts
+        $oConf->conf['webpath']['delivery'] = 'newhost';
+        $oConf->conf['webpath']['deliverySSL'] = 'newSSLhost';
+        $this->assertTrue($oConf->writeConfigChange('/tmp'), 'Error writing config file');
+        
+        // Test the files have been correctly created/deleted
+        $this->assertTrue(file_exists('/tmp/dummy.conf.php'), 'Dummy admin config file does not exist');
+        $this->assertTrue(file_exists('/tmp/newhost.conf.php'), 'Real config file does not exist');
+        $this->assertTrue(file_exists('/tmp/newSSLhost.conf.php'), 'Dummy SSL delivery file does not exist');
+        $this->assertFalse(file_exists('/tmp/delivery.conf.php'), 'Old real config file was not removed');
+
+        // Test config files are correct
+        $aRealConfig = parse_ini_file('/tmp/newhost.conf.php', true);
+        $aDummyAdminConfig = parse_ini_file('/tmp/dummy.conf.php', true);
+        $aDummySSLConfig = parse_ini_file('/tmp/newSSLhost.conf.php', true);
+        $this->assertEqual($oConf->conf, $aRealConfig, 'Real config has incorrect values');
+        $aExpected = array('realConfig' => 'newhost');
+        $this->assertEqual($aExpected, $aDummyAdminConfig, 'Dummy admin config has incorrect values');
+        $this->assertEqual($aExpected, $aDummySSLConfig, 'Dummy SSL config has incorrect values');
+        
+        // Clean up
+        unlink('/tmp/dummy.conf.php');
+        @unlink('/tmp/delivery.conf.php'); // File should have been cleaned up by test.
+        unlink('/tmp/newhost.conf.php');
+        unlink('/tmp/newSSLhost.conf.php');
     }
     
     function testMergeConfigChanges()

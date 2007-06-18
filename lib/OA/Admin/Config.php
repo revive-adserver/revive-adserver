@@ -202,13 +202,13 @@ class OA_Admin_Config
                 @unlink($file);
             }
         }
-        if ($newDeliveryHost != $oldDeliveryHost) {
+        if ($newDeliveryHost != $oldDeliveryHost && $oldDeliveryHost != $newAdminHost) {
             $file = $configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php';
             if($file != $mainConfigFile) {
                 @unlink($file);
             }
         }
-        if ($newDeliverySslHost != $oldDeliverySslHost) {
+        if ($newDeliverySslHost != $oldDeliverySslHost && $oldDeliverySslHost != $newAdminHost) {
             $file = $configPath . '/' . $oldDeliverySslHost . $configFile . '.conf.php';
             if($file != $mainConfigFile) {
                 @unlink($file);
