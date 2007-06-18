@@ -101,7 +101,7 @@ class OA_UpgradeAuditor
         $columns = implode(",", array_keys($this->aParams)).','.implode(",", array_keys($aParams));
         $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
 
-        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$this->logTable}_id,{$columns}, updated) VALUES ('',{$values}, '". OA::getNow() ."')";
+        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
         $result = $this->oDbh->exec($query);
 
         if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
@@ -342,15 +342,64 @@ class OA_UpgradeAuditor
         return $aResult;
     }
 
-    function updateAuditCleanup($upgrade_id, $reason = 'cleaned')
+    function cleanAuditArtifacts($upgrade_id, $reason = 'cleaned')
     {
-//        $query = "UPDATE {$this->prefix}{$this->logTable} SET confbackup='{$reason}', logfile='{$reason}' WHERE upgrade_action_id={$upgrade_id}";
-//
-//        $result = $this->oDbh->exec($query);
+        $aResult = $this->queryAuditByUpgradeId($upgrade_id);
+        $aResultDB = $this->queryAuditBackupTablesByUpgradeId($upgrade_id);
 
-        // drop the backup tables
+        foreach ($aResultDB AS $k => $aTable)
+        {
+            $result = $this->oDbh->manager->dropTable($this->prefix.$aTable['tablename_backup']);
+            if ($this->isPearError($result,'error dropping backup table'))
+            {
+                return false;
+            }
+            $this->oDBAuditor->updateAuditBackupDroppedById($aTable['database_action_id'],'cleaned by user');
+        }
 
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
+        foreach ($aResult AS $k => $aRec)
+        {
+            if ($aRec['logfile'] && file_exists(MAX_PATH.'/var/'.$aRec['logfile']))
+            {
+                if (!unlink(MAX_PATH.'/var/'.$aRec['logfile']))
+                {
+                    return false;
+                }
+                $this->updateAuditBackupLogDroppedById($upgrade_id, 'cleaned by user');
+            }
+            if ($aRec['confbackup'] && file_exists(MAX_PATH.'/var/'.$aRec['confbackup']))
+            {
+                if (!unlink(MAX_PATH.'/var/'.$aRec['confbackup']))
+                {
+                    return false;
+                }
+                $this->updateAuditBackupConfDroppedById($upgrade_id, 'cleaned by user');
+            }
+        }
+
+        return true;
+    }
+
+    function updateAuditBackupConfDroppedById($upgrade_action_id, $reason = 'dropped')
+    {
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET confbackup='{$reason}', updated='". OA::getNow() ."' WHERE upgrade_action_id='{$upgrade_action_id}'";
+
+        $result = $this->oDbh->exec($query);
+
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
+    {
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET logfile='{$reason}', updated='". OA::getNow() ."' WHERE upgrade_action_id='{$upgrade_action_id}'";
+
+        $result = $this->oDbh->exec($query);
+
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
         {
             return false;
         }

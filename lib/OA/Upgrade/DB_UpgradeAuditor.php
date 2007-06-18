@@ -123,7 +123,7 @@ class OA_DB_UpgradeAuditor
         $columns = implode(",", array_keys($this->aParams)).','.implode(",", array_keys($aParams));
         $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
 
-        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$this->logTable}_id,{$columns}, updated) VALUES ('',{$values}, '". OA::getNow() ."')";
+        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
         $result = $this->oDbh->exec($query);
 
         if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
@@ -310,9 +310,22 @@ class OA_DB_UpgradeAuditor
         return $aResult;
     }
 
-    function updateAuditBackupDropped($tablename_backup, $reason = 'dropped')
+    function updateAuditBackupDroppedByName($tablename_backup, $reason = 'dropped')
     {
         $query = "UPDATE {$this->prefix}{$this->logTable} SET info2='{$reason}', updated='". OA::getNow() ."' WHERE tablename_backup='{$tablename_backup}'";
+
+        $result = $this->oDbh->exec($query);
+
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    function updateAuditBackupDroppedById($database_action_id, $reason = 'dropped')
+    {
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET info2='{$reason}', updated='". OA::getNow() ."' WHERE database_action_id='{$database_action_id}'";
 
         $result = $this->oDbh->exec($query);
 
@@ -358,8 +371,9 @@ class OA_DB_UpgradeAuditor
 
     function getTableStatus($table)
     {
-        $query      = "SHOW TABLE STATUS LIKE '{$this->prefix}{$table}'";
-        $result     = $this->oDbh->queryAll($query);
+        $result = $this->oDbh->manager->getTableStatus($this->prefix.$table);
+//        $query      = "SHOW TABLE STATUS LIKE '{$this->prefix}{$table}'";
+//        $result     = $this->oDbh->queryAll($query);
         if (PEAR::isError($result))
         {
             return array();
