@@ -122,7 +122,7 @@
   </target>
 
   <target name="package-bzip2-canoo" depends="prepare-package">
-    <property name="canoo.package" value="openads-canoo.tar.gz"/>
+    <property name="canoo.package" value="openads-canoo-${version}.tar.gz"/>
     <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
     <tar destfile="${canoo.package.file}" basedir="." compression="gzip" longfile="gnu">
       <patternset refid="dist.included"/>
@@ -196,7 +196,7 @@
 
   <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2"/>
 
-  <target name="test-canoo-prepare" depends="clean, svn-update, checkconsistency, package-bzip2-canoo, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
+  <target name="test-canoo-prepare" depends="clean, svn-update, checkconsistency, init-version, package-bzip2-canoo, revert-after-packaging, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
 
 
   <target name="simpletest" depends="clean, init, test-all, package" />
