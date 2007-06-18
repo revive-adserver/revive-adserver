@@ -44,7 +44,7 @@
     <name>version_from</name>
     <type>openads_varchar</type>
     <length>64</length>
-    <notnull>true</notnull>
+    <notnull>false</notnull>
     <default></default>
    </field>
 

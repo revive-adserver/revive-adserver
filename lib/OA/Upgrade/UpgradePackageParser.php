@@ -79,7 +79,10 @@ class OA_UpgradePackageParser extends XML_Parser
             $this->DBPkg_postscript = '';
             $this->aDBPkgs = array();
             $this->aDBPkgList = array();
-            $this->aFiles = array();
+//            $this->aFiles = array();
+//            $this->aPackage = array();
+//            $this->aSchemas = array();
+//            $this->aFiles = array();
             break;
           default:
             break;

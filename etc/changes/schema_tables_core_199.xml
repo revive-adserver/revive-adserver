@@ -7868,6 +7868,14 @@
     </field>
    </index>
 
+   <index>
+    <name>affiliateid</name>
+    <field>
+     <name>affiliateid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>

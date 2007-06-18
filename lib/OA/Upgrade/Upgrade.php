@@ -713,7 +713,7 @@ class OA_Upgrade
         {
             if (!$this->oLogger->errorExists)
             {
-                $this->oLogger->logError();            
+                $this->oLogger->logError();
             }
             return false;
         }
@@ -967,9 +967,14 @@ class OA_Upgrade
             {
                 if (!$this->upgradeExecute($this->package_file))
                 {
-                    return false;
+                    $halt = true;
+                    break;
                 }
             }
+        }
+        if ($halt)
+        {
+            return false;
         }
         // when upgrading from a milestone version such as pan or max
         // run through this upgrade again
@@ -980,7 +985,10 @@ class OA_Upgrade
             $GLOBALS['_MAX']['CONF']['openads']['installed'] = 1;
             if ($this->detectOpenads())
             {
-                $this->upgrade();
+                if (!$this->upgrade())
+                {
+                    return false;
+                }
             }
         }
         else
@@ -1469,6 +1477,25 @@ class OA_Upgrade
      */
     function _parseUpgradePackageFile($input_file)
     {
+        $this->aPackage = array();
+        $this->aDBPackages = array();
+
+
+        $this->oParser->aPackage       = array('db_pkgs' => array());
+        $this->oParser->DBPkg_version  = '';
+        $this->oParser->DBPkg_stamp    = '';
+        $this->oParser->DBPkg_schema   = '';
+        $this->oParser->DBPkg_prescript = '';
+        $this->oParser->DBPkg_postscript = '';
+        $this->oParser->aDBPkgs        = array('files'=>array());
+        $this->oParser->aSchemas       = array();
+        $this->oParser->aFiles         = array();
+
+        $this->oParser->elements   = array();
+        $this->oParser->element    = '';
+        $this->oParser->count      = 0;
+        $this->oParser->error      ='';
+
         if ($input_file!='')
         {
             $result = $this->oParser->setInputFile($input_file);

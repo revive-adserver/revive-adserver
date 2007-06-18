@@ -3,7 +3,7 @@
 <instructionset>
   <name>openads</name>
   <version>131</version>
-  <comments>Added the missing indices: affiliates.agencyid, banners.campaignid, clients.agencyid.</comments>
+  <comments>Added the missing indices: affiliates.agencyid, banners.campaignid, clients.agencyid, zones.affiliateid.</comments>
   <constructive>
     <changeset>
       <name>openads</name>
@@ -43,6 +43,19 @@
             <was>agencyid</was>
             <indexfield>
               <name>agencyid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+        <table>
+          <name>zones</name>
+        <index>
+          <add>
+            <name>affiliateid</name>
+            <was>affiliateid</was>
+            <indexfield>
+              <name>affiliateid</name>
               <sorting>ascending</sorting>
             </indexfield>
           </add>
