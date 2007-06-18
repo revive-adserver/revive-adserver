@@ -36,8 +36,8 @@ class StatMigration extends Migration
     {
         $this->oDBH = &OA_DB::singleton();
     }
-    
-    
+
+
     function migrateData()
     {
         if ($this->statsCompacted()) {
@@ -80,40 +80,45 @@ class StatMigration extends Migration
 	    $timestamp = date('Y-m-d H:i:s', time());
 
 	    $this->_getOperationIntervalInfo($operationIntervalId, $operationInterval, $dateStart, $dateEnd);
-	    
+
 	    $tableTmpStatistics = 'tmp_statistics';
 
 	    // The temporary table doesn't get deleted on purpose -- it would obscure the code as
 	    // it does exists now.
-	    
+
 	    if ($this->oDBH->dbsyntax == 'mysql') {
-	        $tmpTableInformation = "TYPE={$aConf['table']['type']}";
-	    }
-	    else { // pgsql
-	        $tmpTableInformation = "AS";
-	    }
-	    
+            $tmpTableInformation = "TYPE={$aConf['table']['type']}";
+            $tmpCastDate = '';
+            $tmpCastInt = '';
+        } else {
+            // pgsql
+            $tmpTableInformation = "AS";
+            $tmpCastDate = '::date';
+            $tmpCastInt = '::integer';
+            OA_DB::createFunctions();
+        }
+
 	    $sql = "
 	       CREATE TEMPORARY TABLE $tableTmpStatistics
 	       $tmpTableInformation
-           SELECT bannerid ad_id, zoneid zone_id, date_format(t_stamp, '%Y-%m-%d') day, date_format(t_stamp, '%H') hour, count(*) impressions, 0 clicks
+           SELECT bannerid AS ad_id, zoneid AS zone_id, date_format(t_stamp, '%Y-%m-%d')$tmpCastDate AS day, date_format(t_stamp, '%H')$tmpCastInt AS hour, count(*) AS impressions, 0 AS clicks
                FROM $tableAdViews
                GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')
-               UNION ALL
-               SELECT bannerid ad_id, zoneid zone_id, date_format(t_stamp, '%Y-%m-%d') day, date_format(t_stamp, '%H') hour, 0 impressions, count(*) clicks
+           UNION ALL
+           SELECT bannerid AS ad_id, zoneid AS zone_id, date_format(t_stamp, '%Y-%m-%d')$tmpCastDate AS day, date_format(t_stamp, '%H')$tmpCastInt AS hour, 0 AS impressions, count(*) AS clicks
                FROM $tableAdClicks
                GROUP BY bannerid, zoneid, date_format(t_stamp, '%Y-%m-%d'), date_format(t_stamp, '%H')";
-	    
+
 	    $result = $this->oDBH->exec($sql);
 
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse($result);
 	    }
-	    
+
 	    $sql = "
            INSERT INTO $tableDataIntermediateAd
            (ad_id, zone_id, creative_id, day, hour, impressions, clicks, operation_interval, operation_interval_id, interval_start, interval_end, updated)
-           SELECT ad_id, zone_id, 0 creative_id, day, hour, sum(impressions) impressions, sum(clicks) clicks, $operationInterval, $operationIntervalId, $dateStart, $dateEnd, '$timestamp'
+           SELECT ad_id, zone_id, 0, day, hour, sum(impressions), sum(clicks), $operationInterval, $operationIntervalId, $dateStart, $dateEnd, '$timestamp'
            FROM $tableTmpStatistics
 	       GROUP BY ad_id, zone_id, day, hour";
 
