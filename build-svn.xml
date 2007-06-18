@@ -12,7 +12,7 @@
     <attribute name="file"/>
     <attribute name="notes"/>
     <sequential>
-      <exec dir="${basedir}" executable="svn" failonerror="true">
+      <exec dir="${basedir}" executable="${svn.path}" failonerror="true">
         <arg line="commit ${svn.options} -m '@{notes}' @{file}"/>
       </exec>
     </sequential>
@@ -21,7 +21,7 @@
   <macrodef name="svn-tag">
     <attribute name="tag"/>
     <sequential>
-      <exec dir="${basedir}" executable="svn" failonerror="true">
+      <exec dir="${basedir}" executable="${svn.path}" failonerror="true">
         <arg line="copy ${svn.options} . -m 'Created the tag: @{tag}.' https://svn.openads.org/openads/tags/2.3/QA/@{tag}"/>
       </exec>
     </sequential>
@@ -30,14 +30,14 @@
   <macrodef name="svn-revert">
     <attribute name="file"/>
     <sequential>
-      <exec dir="${basedir}" executable="svn" failonerror="true">
+      <exec dir="${basedir}" executable="${svn.path}" failonerror="true">
         <arg line="revert @{file}"/>
       </exec>
     </sequential>
   </macrodef>
 
   <target name="svn-update">
-    <exec dir="${basedir}" executable="svn" failonerror="true">
+    <exec dir="${basedir}" executable="${svn.path}" failonerror="true">
       <arg line="update ${svn.options}"/> 
     </exec>
   </target>
