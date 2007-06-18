@@ -61,7 +61,7 @@ define ("MAX_AffiliateViewOnlyApprPendConv", 256);
 /* Start or continue current session                     */
 /*-------------------------------------------------------*/
 
-function phpAds_Start()
+function phpAds_Start($checkRedirectFunc = 'phpAds_checkRedirect')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $session;
@@ -79,7 +79,7 @@ function phpAds_Start()
         Language_Default::load();
         // ???
         if (!defined('MAX_SKIP_LOGIN')) {
-            phpAds_SessionDataRegister(phpAds_Login());
+            phpAds_SessionDataRegister(phpAds_Login($checkRedirectFunc));
         } else {
             phpAds_SessionDataRegister(array(
                 "usertype" => phpAds_Agency,
@@ -121,6 +121,31 @@ function phpAds_checkAccess ($allowed)
         phpAds_PageHeader(0);
         phpAds_Die($strAccessDenied, $strNotAdmin);
     }
+}
+
+/*-------------------------------------------------------*/
+/* Check if application is running from appropriate dir  */
+/*-------------------------------------------------------*/
+
+function phpAds_checkRedirect($location = 'admin')
+{
+    $redirect = false;
+    // Is it possible to detect that we are NOT in the admin directory
+    // via the URL the user is accessing Openads with?
+    if (!preg_match('#/'. $location .'/?$#', $_SERVER['REQUEST_URI'])) {
+        $dirName = dirname($_SERVER['REQUEST_URI']);
+        if (!preg_match('#/'. $location .'$#', $dirName)) {
+            // The user is not in the "admin" folder directly. Are they
+            // in the admin folder as a result of a "full" virtual host
+            // configuration?
+            if ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != getHostName()) {
+                // Not a "full" virtual host setup, so re-direct
+                $redirect = true;
+            }
+        }
+    }
+
+    return $redirect;
 }
 
 /*-------------------------------------------------------*/
@@ -227,27 +252,12 @@ function phpAds_getHelpFile ()
 /*-------------------------------------------------------*/
 
 
-function phpAds_Login()
+function phpAds_Login($checkRedirectFunc = 'phpAds_checkRedirect')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     global $strPasswordWrong;
 
-    $redirect = false;
-    // Is it possible to detect that we are NOT in the admin directory
-    // via the URL the user is accessing Openads with?
-    if (!preg_match('#/admin/?$#', $_SERVER['REQUEST_URI'])) {
-        $dirName = dirname($_SERVER['REQUEST_URI']);
-        if (!preg_match('#/admin$#', $dirName)) {
-            // The user is not in the "admin" folder directly. Are they
-            // in the admin folder as a result of a "full" virtual host
-            // configuration?
-            if ($GLOBALS['_MAX']['CONF']['webpath']['admin'] != getHostName()) {
-                // Not a "full" virtual host setup, so re-direct
-                $redirect = true;
-            }
-        }
-    }
-    if ($redirect) {
+    if ($checkRedirectFunc()) {
         header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
         exit();
     }
