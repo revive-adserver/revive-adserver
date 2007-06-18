@@ -85,7 +85,7 @@ function init()
                 {
                     $path = '';
                 }
-                if ($GLOBALS['_MAX']['ROOT_INDEX'])
+                if (isset($GLOBALS['_MAX']['ROOT_INDEX']) && $GLOBALS['_MAX']['ROOT_INDEX'])
                 {
                     // The root index.php page was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
