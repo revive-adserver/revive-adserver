@@ -76,7 +76,7 @@ function init()
             if (OA_INSTALLATION_STATUS !== OA_INSTALLATION_STATUS_INSTALLED)
             {
                 // Do not redirect for maintenance scripts
-                if ($scriptName == 'maintenace.php' || $scriptName == 'maintenance-distributed.php') {
+                if ($scriptName == 'maintenance.php' || $scriptName == 'maintenance-distributed.php') {
                     exit;
                 }
 
@@ -113,7 +113,7 @@ function init()
     include_once MAX_PATH . '/lib/max/ErrorHandler.php';
     $eh = new MAX_ErrorHandler();
     $eh->startHandler();
-    
+
     // increase amount of required memory if necessery
     increaseMemoryLimit(getMinimumRequiredMemory());
 }
