@@ -2263,9 +2263,9 @@ $aZone['prepend'] = '';
 }
 $aBanner = MAX_cacheGetAd($bannerid);
 $prepend = !empty($aZone['prepend']) ? $aZone['prepend'] : '';
-$html = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
-$append = !empty($aZone['append']) ? $aZone['append'] : '';
-$title = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
+$html    = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
+$append  = !empty($aZone['append']) ? $aZone['append'] : '';
+$title   = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
 echo "
 <html>
 <head>
@@ -2274,8 +2274,9 @@ if ($timeout > 0) {
 $timeoutMs = $timeout * 1000;
 echo "
 <script type='text/javascript'>
-<!--
+<!--/"."/ <![CDATA[
 window.setTimeout(\"window.close()\",$timeoutMs);
+/"."/ ]]> -->
 </script>";
 }
 if ($aBanner['contenttype'] == 'swf') {
