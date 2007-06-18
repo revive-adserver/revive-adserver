@@ -39,6 +39,7 @@ function getDBAuditTable($aAudit)
     $schemas.= sprintf($td, 'source');
     $schemas.= sprintf($td, 'size');
     $schemas.= sprintf($td, 'rows');
+    $schemas.= sprintf($td, 'drop');
     $schemas.= "</tr>";
     foreach ($aAudit AS $k => $aRec)
     {
@@ -49,6 +50,7 @@ function getDBAuditTable($aAudit)
         $schemas.= sprintf($td, $aRec['tablename']);
         $schemas.= sprintf($td, $aRec['backup_size']);
         $schemas.= sprintf($td, $aRec['backup_rows']);
+        $schemas.= sprintf($td, "<input type=\"checkbox\" id=\"chk_tbl[{$aRec['database_action_id']}]\" name=\"chk_tbl[{$aRec['database_action_id']}]\" checked />");
         $schemas.= "</tr>";
     }
     $schemas.= "</table>";
@@ -68,9 +70,12 @@ $oUpgrader = new OA_Upgrade();
 
 if (array_key_exists('xajax', $_POST))
 {
-    $oUpgrader->initDatabaseConnection();
-    $aAudit = $oUpgrader->oAuditor->queryAuditBackupTablesByUpgradeId($_POST['xajaxargs'][0]);
-    $_POST['xajaxargs'][1] = getDBAuditTable($aAudit);
+    if ($_POST['xajax'] == 'expandOSURow')
+    {
+        $oUpgrader->initDatabaseConnection();
+        $aAudit = $oUpgrader->oAuditor->queryAuditBackupTablesByUpgradeId($_POST['xajaxargs'][0]);
+        $_POST['xajaxargs'][1] = getDBAuditTable($aAudit);
+    }
 }
 
 require_once MAX_DEV.'/lib/xajax.inc.php';
@@ -132,9 +137,9 @@ else if (array_key_exists('btn_view_audit', $_REQUEST))
 }
 else if (array_key_exists('btn_clean_audit', $_REQUEST))
 {
-    $upgrade_id = $_POST['btn_clean_audit'];
+    $upgrade_id = $_POST['upgrade_action_id'];
     $oUpgrader->initDatabaseConnection();
-    $oUpgrader->oAuditor->updateAuditCleanup($upgrade_id);
+    $oUpgrader->oAuditor->cleanAuditArtifacts($upgrade_id);
     $aAudit = $oUpgrader->oAuditor->queryAuditAllDescending();
 }
 else if (array_key_exists('btn_view_dbaudit', $_REQUEST))
