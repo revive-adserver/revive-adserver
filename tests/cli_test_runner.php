@@ -26,13 +26,17 @@ $Id$
 */
 
 /**
- * A command-line tool for running the test suite at the "layer" level.
+ * A command-line tool for finding broken tests.
  *
  * Identifies failures and those that cannot execute because of fatal errors.
+ *
+ * @since 07-Dec-2006
  *
  * @todo Consider implementing as a subclass of UnitTestCase, instead of calling
  * scorer manually. This would allow other outputs, as well as inclusion in
  * other test suites.
+ *
+ * @todo Consider running over all types, not just 'unit'.
  */
 
 require_once 'init.php';
@@ -60,18 +64,27 @@ foreach ($aLayer as $layer) {
     $oReporter->paintGroupStart("Layer $layer", count($aTestFiles));
     foreach ($aTestFiles as $subLayer => $aDirectories) {
         $oReporter->paintGroupStart("Sublayer $subLayer", count($aDirectories));
-        $returncode = -1;
-        $output_lines = '';
-        $exec = "run.php --type=$layer --level=layer --layer=$subLayer --format=text --host=test";
-        exec("$php -f $exec", $output_lines, $returncode);
-        $message = "{$subLayer}\n" . join($output_lines, "\n");
-        switch ($returncode) {
-            case 0: $oReporter->paintPass($message); break;
-            case 1:
-                $command = "Failed command (in /tests): php $exec\n";
-                $oReporter->paintFail($command . $message);
-                break;
-            default: $oReporter->paintException($message);
+        foreach ($aDirectories as $dirName => $aFiles) {
+            $oReporter->paintCaseStart("Directory $dirName ($testName)");
+            foreach ($aFiles as $fileName) {
+                $oReporter->paintMethodStart($fileName);
+                $returncode = -1;
+                $output_lines = '';
+                $exec = "run.php --type=$layer --level=file --layer=$subLayer --folder=$dirName"
+                    . " --file=$fileName --format=text --host=test";
+                exec("$php -f $exec", $output_lines, $returncode);
+                $message = "{$fileName}\n" . join($output_lines, "\n");
+                switch ($returncode) {
+                    case 0: $oReporter->paintPass($message); break;
+                    case 1:
+                        $command = "Failed command (in /tests): php $exec\n";
+                        $oReporter->paintFail($command . $message);
+                        break;
+                    default: $oReporter->paintException($message);
+                }
+                $oReporter->paintMethodEnd($fileName);
+            }
+            $oReporter->paintCaseEnd("Directory $dirName");
         }
         $oReporter->paintGroupEnd("Sublayer $subLayer");
     }
