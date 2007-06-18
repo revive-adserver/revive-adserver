@@ -41,7 +41,7 @@ MAX_commonRegisterGlobalsArray(array('timeout'));
 $timeout  = !empty($timeout) ? $timeout : 0;
 
 if ($zoneid > 0) {
-    // Get the zone from cache...
+    // Get the zone from cache
     $aZone = MAX_cacheGetZoneInfo($zoneid);
 } else {
     // Direct selection, or problem with admin DB
@@ -55,9 +55,9 @@ if ($zoneid > 0) {
 $aBanner = MAX_cacheGetAd($bannerid);
 
 $prepend = !empty($aZone['prepend']) ? $aZone['prepend'] : '';
-$html = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
-$append = !empty($aZone['append']) ? $aZone['append'] : '';
-$title = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
+$html    = MAX_adRender($aBanner, $zoneid, $source, $target, $ct0, $withtext);
+$append  = !empty($aZone['append']) ? $aZone['append'] : '';
+$title   = !empty($aBanner['alt']) ? $aBanner['alt'] : 'Advertisement';
 
 echo "
 <html>
