@@ -37,6 +37,7 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
+require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin);
@@ -49,6 +50,7 @@ phpAds_registerGlobal('action');
 
 phpAds_PageHeader("5.3");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_MaintenanceSelection("acls");
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
