@@ -54,17 +54,22 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobal('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
                           'company_name', 'language', 'updates_enabled', 'admin_novice',
-                          'userlog_email', 'timezone_location');
+                          'userlog_email', 'timezone_location', 'maintenance_autoMaintenance');
+
+    // Set up the config object
+    $config = new OA_Admin_Config();
 
     //  Update config with timezone changes
     if (isset($timezone_location)) {
         $timezone_location = OA_Admin_Timezones::getConfigTimezoneValue($timezone_location, $aTimezone);
-        $config = new OA_Admin_Config();
         $config->setConfigChange('timezone', 'location', $timezone_location);
-        if (!$config->writeConfigChange()) {
-            // Unable to write the config file out
-            $errormessage[0][] = $strUnableToWriteConfig;
-        }
+    }
+
+    $config->setConfigChange('maintenance', 'autoMaintenance', isset($maintenance_autoMaintenance));
+
+    if (!$config->writeConfigChange()) {
+        // Unable to write the config file out
+        $errormessage[0][] = $strUnableToWriteConfig;
     }
 
     // Set up the preferences object
@@ -236,6 +241,14 @@ $settings = array (
                 'type'    => 'checkbox',
                 'name'    => 'userlog_email',
                 'text'    => $strUserlogEmail
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'maintenance_autoMaintenance',
+                'text'	  => $strEnableAutoMaintenance
             ),
         )
     ),

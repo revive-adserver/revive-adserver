@@ -204,6 +204,8 @@ $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not corr
 $GLOBALS['strAdminSettingsTitle']                    = "Your Administrator Account";
 $GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to log into the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
 
+$GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
+
 // Openads ID Settings
 $GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Username";
 $GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Password";
