@@ -1516,6 +1516,7 @@ class OA_Upgrade
             }
             $this->aPackage     = $this->oParser->aPackage;
             $this->aDBPackages  = $this->aPackage['db_pkgs'];
+            $this->aPackage['versionFrom'] = ($this->aPackage['versionFrom'] ? $this->aPackage['versionFrom'] : $this->versionInitialApplication);
         }
         else
         {
