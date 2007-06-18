@@ -239,6 +239,9 @@ class OA_DB
     {
         $dsn = OA_DB::_getDefaultDsn();
         $oDbh = &OA_DB::singleton($dsn);
+        if (PEAR::isError($oDbh)) {
+            return $oDbh;
+        }
         OA::disableErrorHandling();
         $result = $oDbh->manager->createDatabase($name);
         OA::enableErrorHandling();
@@ -282,7 +285,7 @@ class OA_DB
      * Loads a new procedural language into the database.
      * This is postgresql specific.
      *
-     * @static 
+     * @static
      * @access private
      * @param string $lang the name of the language to load.
      * @return mixed true if the language is successfully loaded, otherwise PEAR_Error.
@@ -290,7 +293,7 @@ class OA_DB
     function _createLanguage($lang = 'plpgsql')
     {
         $oDbh = &OA_DB::singleton();
-        
+
         // Check if the language has been loaded.
         $query = "SELECT COUNT(*) FROM pg_catalog.pg_language WHERE lanname = '$lang'";
         OA::disableErrorHandling();
@@ -301,7 +304,7 @@ class OA_DB
         } elseif ($result) {
             return true;
         }
-        
+
         // Otherwise load the language.
         $query = 'CREATE LANGUAGE ' . $lang;
         OA::disableErrorHandling();
