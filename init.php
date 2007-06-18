@@ -52,8 +52,7 @@ function init()
     // generates PHP warnings in places
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
     // If not being called from the installation script...
-
-    if (!$GLOBALS['_MAX']['CONF']['openads']['installed'])
+    if ( (!isset($GLOBALS['_MAX']['CONF']['openads']['installed'])) || (!$GLOBALS['_MAX']['CONF']['openads']['installed']) )
     {
         define('OA_INSTALLATION_STATUS',    OA_INSTALLATION_STATUS_NOTINSTALLED);
     }
