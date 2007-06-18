@@ -685,5 +685,77 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
         return $result;
     }
+
+    /**
+     * New OPENADS method
+     *
+     * @param string $table
+     * @return array
+     */
+    function getTableStatus($table)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $autoIncrement = NULL;
+        $schemaName    = 'public';
+        $blockSz       = 8192;
+
+        $qSchemaName = $db->quote($schemaName);
+        $qTableName  = $db->quote($tableName);
+
+        $pkeyDefault = $db->queryOne("
+            SELECT
+                column_default
+            FROM
+                information_schema.table_constraints tc JOIN
+                information_schema.constraint_column_usage ccu USING (table_schema, table_name, constraint_name) JOIN
+                information_schema.columns c USING (table_schema, table_name, column_name)
+            WHERE
+                tc.table_schema = {$qSchemaName} AND
+                tc.table_name = {$qTableName} AND
+                tc.constraint_type = 'PRIMARY KEY' AND
+                c.column_default ILIKE 'nextval(%';
+            ");
+
+        if (!PEAR::isError($pkeyDefault) && preg_match('/^nextval\(\'(.+)\'.*\).*$/', $pkeyDefault, $aMatches)) {
+            $pkeySequence = $aMatches[1];
+
+            $autoIncrement = $db->queryOne("
+                SELECT
+                    last_value
+                FROM
+                    ".$db->quoteIdentifier($schemaName).".".$db->quoteIdentifier($pkeySequence));
+        }
+
+        $result = $db->queryRow("
+            SELECT
+                reltuples AS \"Rows\",
+                relpages * $blockSz AS \"Data_length\",
+                ".$db->quote($autoIncrement)."::integer AS \"Auto_Increment\"
+            FROM
+                pg_class c JOIN
+                pg_namespace n ON (c.relnamespace = n.oid)
+            WHERE
+                n.nspname = {$qSchemaName} AND
+                c.relname = {$qTableName};
+            ", null, MDB2_FETCHMODE_ASSOC);
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        $query      = "SHOW TABLE STATUS LIKE '{$table}'";
+        $result     = $db->queryAll($query);
+        if (PEAR::isError($result))
+        {
+            return array();
+        }
+        return $result;
+    }
+
+
 }
 ?>

@@ -910,5 +910,28 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
     }
 
     // }}}
+
+    /**
+     * New OPENADS method
+     *
+     * @param string $table
+     * @return array
+     */
+    function getTableStatus($table)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $query      = "SHOW TABLE STATUS LIKE '{$table}'";
+        $result     = $db->queryAll($query, null, MDB2_FETCHMODE_ASSOC);
+        if (PEAR::isError($result))
+        {
+            return array();
+        }
+        return $result;
+    }
+
 }
 ?>

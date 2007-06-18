@@ -74,7 +74,9 @@ class MDB2_Manager_TestCase extends MDB2_TestCase {
                 'default'  => 'M',
             ),
         );
-        if (!$this->tableExists($this->table)) {
+        //$this->db->setOption('default_table_type', 'INNODB');
+        if (!$this->tableExists($this->table))
+        {
             $this->db->manager->createTable($this->table, $this->fields);
         }
     }
@@ -542,6 +544,19 @@ class MDB2_Manager_TestCase extends MDB2_TestCase {
         $result = $this->db->manager->dropSequence($seq_name);
         $this->assertFalse(PEAR::isError($result), 'Error dropping a sequence');
         $this->assertFalse(in_array($seq_name, $this->db->manager->listSequences()), 'Error listing sequences');
+    }
+
+    function testGetTableStatus()
+    {
+        if (!$this->methodExists($this->db->manager, 'getTableStatus')) {
+            return;
+        }
+        $result = $this->db->manager->getTableStatus($this->table);
+        $this->assertTrue(is_array($result), 'table status did not return array');
+        $this->assertEquals(1,count($result), 'wrong table status array count');
+        $this->assertEquals($result[0]['auto_increment'],null, 'wrong auto_increment status value');
+        $this->assertEquals($result[0]['data_length'],0, 'wrong data_length status value');
+        $this->assertEquals($result[0]['rows'],0, 'wrong rows status value');
     }
 }
 ?>
