@@ -27,6 +27,7 @@
     <exclude name="etc/test.conf.php"/>
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
+    <include name="maintenance/**"/>
     <include name="plugins/**"/>
     <include name="scripts/maintenance/**"/>
     <include name="scripts/.htaccess"/>

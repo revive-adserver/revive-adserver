@@ -70,6 +70,12 @@ class OA_Maintenance
      */
     function run()
     {
+        // Do not run if distributed stats are enabled
+        if (!empty($this->conf['lb']['enabled'])) {
+            OA::debug('Distributed stats enabled, not running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+            return;
+        }
+
         // Acquire the maintenance lock
         $oLock =& OA_DB_AdvisoryLock::factory();
 

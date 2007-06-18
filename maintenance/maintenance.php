@@ -1,4 +1,3 @@
-#!/usr/bin/php -q
 <?php
 
 /*
@@ -26,19 +25,20 @@
 $Id$
 */
 
-/**
- * A script file to run the Maintenance Distributed Engine
- */
+// Set time limit and send headers to prevent client timeout
+set_time_limit(600);
+flush();
 
-// Require the initialisation file
-// Done differently from elsewhere so that it works in CLI MacOS X
-$path = dirname(__FILE__);
-require_once $path . '/../../init.php';
+// Prevent output
+ob_start();
 
-// Required files
-require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Distributed.php';
+// Run maintenance
+require '../scripts/maintenance/maintenance.php';
 
-OA_Maintenance_Distributed::run();
+// Get and clean output buffer
+$buffer = ob_get_clean();
+
+// Flush output buffer, stripping the
+echo preg_replace('/^#!.*\n/', '', $buffer);
 
 ?>

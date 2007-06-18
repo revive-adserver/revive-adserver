@@ -68,12 +68,18 @@ function init()
 
     global $installing;
     if ((!$installing) && (PHP_SAPI != 'cli')) {
-        if (basename($_SERVER['PHP_SELF']) != 'install.php' && PHP_SAPI != 'cli')
+        $scriptName = basename($_SERVER['PHP_SELF']);
+        if ($scriptName != 'install.php' && PHP_SAPI != 'cli')
         {
             // Direct the user to the installation script if not installed
             //if (!$GLOBALS['_MAX']['CONF']['openads']['installed'])
             if (OA_INSTALLATION_STATUS !== OA_INSTALLATION_STATUS_INSTALLED)
             {
+                // Do not redirect for maintenance scripts
+                if ($scriptName == 'maintenace.php' || $scriptName == 'maintenance-distributed.php') {
+                    exit;
+                }
+
                 $path = dirname($_SERVER['PHP_SELF']);
                 if ($path == DIRECTORY_SEPARATOR)
                 {

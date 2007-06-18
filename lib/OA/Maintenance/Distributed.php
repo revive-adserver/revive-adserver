@@ -50,6 +50,11 @@ class OA_Maintenance_Distributed
      */
     function run()
     {
+        if (empty($GLOBALS['_MAX']['CONF']['lb']['enabled'])) {
+            OA::debug('Distributed stats disabled, not running Maintenance Distributed Engine', PEAR_LOG_INFO);
+            return;
+        }
+
         $oLock =& OA_DB_AdvisoryLock::factory();
 
         if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
