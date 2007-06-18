@@ -51,7 +51,7 @@ if ($zoneid > 0) {
     $aZone['prepend'] = '';
 }
 
-// Get the banner from cache...
+// Get the banner from cache
 $aBanner = MAX_cacheGetAd($bannerid);
 
 $prepend = !empty($aZone['prepend']) ? $aZone['prepend'] : '';
