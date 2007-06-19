@@ -430,7 +430,7 @@ class OA_UpgradeAuditor
         }
         return $aResult;
     }
-/*
+
     function queryAuditAll()
     {
         $query = "SELECT * FROM {$this->prefix}{$this->logTable}";
@@ -471,7 +471,7 @@ class OA_UpgradeAuditor
         }
         return $aResult;
     }
-*/
+
 }
 
 ?>
