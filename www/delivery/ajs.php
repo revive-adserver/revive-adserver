@@ -2327,6 +2327,7 @@ $context[] = array ("!=" => $exclude[$i]);
 }
 }
 }
+$target = '';
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 if (isset($output['context']) && is_array($output['context'])) {
 $aContext = array_merge($context, $output['context']);
