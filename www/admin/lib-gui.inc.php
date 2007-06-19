@@ -30,6 +30,7 @@ $Id$
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Admin/Help.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
@@ -557,20 +558,18 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         echo "<span style='color:#$headerTextColor'><b>" . $session['username'] . "</b>&nbsp;[" . $_SERVER['REMOTE_ADDR']. "]</span>&nbsp;&nbsp;&nbsp;\n";
     }
     if (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing')) {
-        if ($helpLink = phpAds_getHelpFile()) {
-            echo "\t\t\t\t<a style='color: #$headerTextColor' href='{$helpLink}' target='_blank'";
-            echo "onClick=\"openWindow('{$helpLink}','',";
-            echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\"><b>$strHelp</b></a> \n";
-            echo "\t\t\t\t<a href='{$helpLink}' target='_blank'";
+        if ($helpLink = OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID)) {
+            echo "\t\t\t\t<a class='topLink' style='color: #$headerTextColor' href='{$helpLink}' target='_blank'";
             echo "onClick=\"openWindow('{$helpLink}','',";
             echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">";
-            echo "<img src='".$imgPath."images/help.gif' width='16' height='16' align='absmiddle' border='0'></a>";
+            echo "<span>$strHelp</span> \n";
+            echo "<img src='".$imgPath."images/help.gif'></a>";
             echo "&nbsp;&nbsp;&nbsp;\n";
         }
         if (!defined('phpAds_installing')) {
             // display logout button
-            echo "\t\t\t\t<a style='color: #$headerTextColor' href='logout.php'><b>$strLogout</b></a> \n";
-            echo "\t\t\t\t<a href='logout.php'><img src='".$imgPath."images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
+            echo "\t\t\t\t<a class='topLink' style='color: #$headerTextColor' href='logout.php'><span>$strLogout</span> \n";
+            echo "<img src='".$imgPath."images/logout.gif'></a>";
             //  bug reporter button
             echo "&nbsp;&nbsp;&nbsp;<a href='https://developer.openads.org/wiki/ReportingBugs' target='_blank'><img alt='Report a bug' src='".$imgPath."images/bug.png' border='0' /></a>";
         }
