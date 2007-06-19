@@ -207,6 +207,230 @@ class OA_UpgradeAuditor
         return false;
     }
 
+    /**
+     * return all columns from upgrade_action table for given upgrade_action_id
+     *
+     * @param integer $id
+     * @return array
+     */
+    function queryAuditByUpgradeId($id)
+    {
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_action_id = {$id}";
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying database audit table"))
+        {
+            return array();
+        }
+        return $aResult;
+    }
+
+    /**
+     * return all columns from database_action table for given upgrade_action_id
+     *
+     * @param integer $id
+     * @return array
+     */
+    function queryAuditArtifactsByUpgradeId($id)
+    {
+        $aResult = $this->oDBAuditor->queryAuditByUpgradeId($id);
+        if ($this->isPearError($aResult, "error querying upgrade audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
+    /**
+     * main backup tables query method
+     *
+     * @param integer $id
+     * @return array
+     */
+    function queryAuditBackupTablesByUpgradeId($id)
+    {
+        $aResult = $this->oDBAuditor->queryAuditBackupTablesByUpgradeId($id);
+        if ($this->isPearError($aResult, "error querying upgrade audit table"))
+        {
+            return false;
+        }
+        $aResult = $this->getBackupTableStatus($aResult);
+        return $aResult;
+    }
+
+    /**
+     * used by queryAuditBackupTablesByUpgradeId(0
+     *
+     * @param array $aTables
+     * @return array
+     */
+    function getBackupTableStatus($aTables)
+    {
+        foreach ($aTables AS $k => $aRec)
+        {
+            $aStatus = $this->oDBAuditor->getTableStatus($aRec['tablename_backup']);
+            $aTables[$k]['backup_size']   = $aStatus[0]['data_length']/1024;
+            $aTables[$k]['backup_rows']   = $aStatus[0]['rows'];
+        }
+        return $aTables;
+    }
+
+    /**
+     * main audit query method
+     * return all columns from the upgrade_action table
+     * along with a count of the backup table artifacts for each upgrade_action_id
+     *
+     * @return array
+     */
+    function queryAuditAllDescending()
+    {
+        $query = "SELECT u.*, COUNT(d.upgrade_action_id) AS backups"
+                 ." FROM {$this->prefix}{$this->logTable} AS u"
+                ." LEFT JOIN {$this->prefix}{$this->oDBAuditor->logTable} AS d ON u.upgrade_action_id = d.upgrade_action_id"
+                ." AND d.action=30 AND d.info2 IS NULL"
+                ." GROUP BY u.upgrade_action_id"
+                ." ORDER BY u.upgrade_action_id DESC";
+
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying upgrade audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
+    /**
+     * drops all backup artifacts for given upgrade_id
+     * logs a reason
+     *
+     * @param integer $upgrade_id
+     * @param string $reason
+     * @return boolean
+     */
+    function cleanAuditArtifacts($upgrade_id, $reason = 'cleaned')
+    {
+        $aResult = $this->queryAuditByUpgradeId($upgrade_id);
+        $aResultDB = $this->queryAuditBackupTablesByUpgradeId($upgrade_id);
+
+        foreach ($aResultDB AS $k => $aTable)
+        {
+            $result = $this->oDbh->manager->dropTable($this->prefix.$aTable['tablename_backup']);
+            if ($this->isPearError($result,'error dropping backup table'))
+            {
+                return false;
+            }
+            $this->oDBAuditor->updateAuditBackupDroppedById($aTable['database_action_id'],'cleaned by user');
+        }
+
+        foreach ($aResult AS $k => $aRec)
+        {
+            if ($aRec['logfile'] && file_exists(MAX_PATH.'/var/'.$aRec['logfile']))
+            {
+                if (!unlink(MAX_PATH.'/var/'.$aRec['logfile']))
+                {
+                    return false;
+                }
+                $this->updateAuditBackupLogDroppedById($upgrade_id, 'cleaned by user');
+            }
+            else
+            {
+                $this->updateAuditBackupLogDroppedById($upgrade_id, 'file not found');
+            }
+            if ($aRec['confbackup'] && file_exists(MAX_PATH.'/var/'.$aRec['confbackup']))
+            {
+                if (!unlink(MAX_PATH.'/var/'.$aRec['confbackup']))
+                {
+                    return false;
+                }
+                $this->updateAuditBackupConfDroppedById($upgrade_id, 'cleaned by user');
+            }
+            else
+            {
+                $this->updateAuditBackupConfDroppedById($upgrade_id, 'file not found');
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * replace the backup conf column with reason for deletion
+     *
+     * @param integer $upgrade_action_id
+     * @param string $reason
+     * @return boolean
+     */
+    function updateAuditBackupConfDroppedById($upgrade_action_id, $reason = 'dropped')
+    {
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET confbackup='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
+
+        $result = $this->oDbh->exec($query);
+
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * replace the logfile column with reason for deletion
+     *
+     * @param integer $upgrade_action_id
+     * @param string $reason
+     * @return boolean
+     */    function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
+    {
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET logfile='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
+
+        $result = $this->oDbh->exec($query);
+
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+    function queryAudit($versionTo=null, $versionFrom=null, $upgradeName=null, $action=null)
+    {
+        $query =   "SELECT * FROM {$this->prefix}{$this->logTable}"
+                   ." WHERE 1";
+        if ($versionTo)
+        {
+            $query.= " AND version_to ='{$versionTo}'";
+        }
+        if ($versionFrom)
+        {
+            $query.= " AND version_from ='{$versionFrom}'";
+        }
+        if ($upgradeName)
+        {
+            $query.= " AND upgrade_name ='{$upgradeName}'";
+        }
+        if (!is_null($action))
+        {
+            $query.= " AND action ={$action}";
+        }
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying (one) upgrade audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
+    function queryAuditForAnUpgradeByName($name)
+    {
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_name='{$name}'";
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying upgrade audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+/*
     function queryAuditAll()
     {
         $query = "SELECT * FROM {$this->prefix}{$this->logTable}";
@@ -247,194 +471,7 @@ class OA_UpgradeAuditor
         }
         return $aResult;
     }
-
-    function queryAuditByUpgradeId($id)
-    {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_action_id = {$id}";
-        $aResult = $this->oDbh->queryAll($query);
-        if ($this->isPearError($aResult, "error querying database audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function queryAuditArtifactsByUpgradeId($id)
-    {
-        $aResult = $this->oDBAuditor->queryAuditByUpgradeId($id);
-        if ($this->isPearError($aResult, "error querying upgrade audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function queryAuditBackupTablesByUpgradeId($id)
-    {
-        $aResult = $this->oDBAuditor->queryAuditBackupTablesByUpgradeId($id);
-        if ($this->isPearError($aResult, "error querying upgrade audit table"))
-        {
-            return false;
-        }
-        $aResult = $this->getBackupTableStatus($aResult);
-        return $aResult;
-    }
-
-
-    function getBackupTableStatus($aTables)
-    {
-        foreach ($aTables AS $k => $aRec)
-        {
-            $aStatus = $this->oDBAuditor->getTableStatus($aRec['tablename_backup']);
-            $aTables[$k]['backup_size']   = $aStatus[0]['data_length']/1024;
-            $aTables[$k]['backup_rows']   = $aStatus[0]['rows'];
-        }
-        return $aTables;
-    }
-
-    function queryAuditAllDescending()
-    {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable} ORDER BY updated DESC";
-        $aResult = $this->oDbh->queryAll($query);
-        if ($this->isPearError($aResult, "error querying upgrade audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function queryAudit($versionTo=null, $versionFrom=null, $upgradeName=null, $action=null)
-    {
-        $query =   "SELECT * FROM {$this->prefix}{$this->logTable}"
-                   ." WHERE 1";
-        if ($versionTo)
-        {
-            $query.= " AND version_to ='{$versionTo}'";
-        }
-        if ($versionFrom)
-        {
-            $query.= " AND version_from ='{$versionFrom}'";
-        }
-        if ($upgradeName)
-        {
-            $query.= " AND upgrade_name ='{$upgradeName}'";
-        }
-        if (!is_null($action))
-        {
-            $query.= " AND action ={$action}";
-        }
-        $aResult = $this->oDbh->queryAll($query);
-        if ($this->isPearError($aResult, "error querying (one) upgrade audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function queryAuditForAnUpgradeByName($name)
-    {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_name='{$name}'";
-        $aResult = $this->oDbh->queryAll($query);
-        if ($this->isPearError($aResult, "error querying upgrade audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function cleanAuditArtifacts($upgrade_id, $reason = 'cleaned')
-    {
-        $aResult = $this->queryAuditByUpgradeId($upgrade_id);
-        $aResultDB = $this->queryAuditBackupTablesByUpgradeId($upgrade_id);
-
-        foreach ($aResultDB AS $k => $aTable)
-        {
-            $result = $this->oDbh->manager->dropTable($this->prefix.$aTable['tablename_backup']);
-            if ($this->isPearError($result,'error dropping backup table'))
-            {
-                return false;
-            }
-            $this->oDBAuditor->updateAuditBackupDroppedById($aTable['database_action_id'],'cleaned by user');
-        }
-
-        foreach ($aResult AS $k => $aRec)
-        {
-            if ($aRec['logfile'] && file_exists(MAX_PATH.'/var/'.$aRec['logfile']))
-            {
-                if (!unlink(MAX_PATH.'/var/'.$aRec['logfile']))
-                {
-                    return false;
-                }
-                $this->updateAuditBackupLogDroppedById($upgrade_id, 'cleaned by user');
-            }
-            if ($aRec['confbackup'] && file_exists(MAX_PATH.'/var/'.$aRec['confbackup']))
-            {
-                if (!unlink(MAX_PATH.'/var/'.$aRec['confbackup']))
-                {
-                    return false;
-                }
-                $this->updateAuditBackupConfDroppedById($upgrade_id, 'cleaned by user');
-            }
-        }
-
-        return true;
-    }
-
-    function updateAuditBackupConfDroppedById($upgrade_action_id, $reason = 'dropped')
-    {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET confbackup='{$reason}', updated='". OA::getNow() ."' WHERE upgrade_action_id='{$upgrade_action_id}'";
-
-        $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
-    {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET logfile='{$reason}', updated='". OA::getNow() ."' WHERE upgrade_action_id='{$upgrade_action_id}'";
-
-        $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * retrieve an array of upgrade summaries
-     *
-     * @return array
-     */
-    function _listUpgrades()
-    {
-        $aResult = $this->queryAuditAllDescending();
-
-//        $prelen = strlen($prefix);
-//        krsort($aBakTables);
-//        foreach ($aBakTables AS $k => $name)
-//        {
-//            // workaround for mdb2 problem "show table like"
-//            if (substr($name,0,$prelen)==$prefix)
-//            {
-//                $name = str_replace($this->prefix, '', $name);
-//                $aInfo = $this->queryAuditForABackup($name);
-//                $aResult[$k]['backup_table'] = $name;
-//                $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
-//                $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
-//                $aStatus = $this->getTableStatus($name);
-//                $aResult[$k]['data_length'] = $aStatus[0]['data_length']/1024;
-//                $aResult[$k]['rows'] = $aStatus[0]['rows'];
-//            }
-//        }
-        return $aResult;
-    }
-
+*/
 }
 
 ?>

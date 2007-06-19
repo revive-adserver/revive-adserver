@@ -39,6 +39,8 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 {
     var $path;
 
+    var $aAuditParams = array();
+
     /**
      * The constructor method.
      */
@@ -46,6 +48,45 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
     {
         $this->UnitTestCase();
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+
+        $this->aAuditParams[0][0] = array('info1'=>'UPGRADE STARTED',
+                              'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
+                             );
+        $this->aAuditParams[0][1] = array('info1'=>'BACKUP STARTED',
+                              'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
+                             );
+        $this->aAuditParams[0][2] = array('info1'=>'copied table',
+                              'tablename'=>'test_table1',
+                              'tablename_backup'=>'test_table_bak1',
+                              'table_backup_schema'=>serialize($this->_getFieldDefinitionArray(1)),
+                              'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+                             );
+        $this->aAuditParams[0][3] = array('info1'=>'BACKUP COMPLETE',
+                              'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                             );
+        $this->aAuditParams[0][4] = array('info1'=>'UPGRADE SUCCEEDED',
+                              'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                             );
+
+        $this->aAuditParams[1][0] = array('info1'=>'UPGRADE STARTED',
+                              'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
+                             );
+        $this->aAuditParams[1][1] = array('info1'=>'BACKUP STARTED',
+                              'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
+                             );
+        $this->aAuditParams[1][2] = array('info1'=>'copied table',
+                              'tablename'=>'test_table2',
+                              'tablename_backup'=>'test_table_bak2',
+                              'table_backup_schema'=>serialize($this->_getFieldDefinitionArray(2)),
+                              'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+                             );
+        $this->aAuditParams[1][3] = array('info1'=>'BACKUP COMPLETE',
+                              'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                             );
+        $this->aAuditParams[1][4] = array('info1'=>'UPGRADE SUCCEEDED',
+                              'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                             );
+
     }
 
     function test_constructor()
@@ -106,23 +147,42 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
     function test_logDatabaseAction()
     {
         $oAuditor = $this->_getAuditObject();
+
+        $oAuditor->auditId = 1;
         $oAuditor->setKeyParams($this->_getAuditKeyParamsArray());
-        $aAuditParams = $this->_getAuditParamsArray();
-        $this->assertTrue($oAuditor->logDatabaseAction($aAuditParams[0]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($aAuditParams[1]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($aAuditParams[2]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($aAuditParams[3]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($aAuditParams[4]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][0]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][1]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][2]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][3]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][4]),'');
+
+        $oAuditor->auditId = 2;
+        $oAuditor->setKeyParams($this->_getAuditKeyParamsArray());
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][0]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][1]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][2]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][3]),'');
+        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][4]),'');
     }
 
-    function test_queryAuditAll()
+    function test_queryAuditByDBUpgradeId()
     {
         $oAuditor = $this->_getAuditObject();
+
+        $aResult = $oAuditor->queryAuditByDBUpgradeId(1);
+        $this->assertIsa($aResult,'array','not an array');
+        $this->assertEqual(count($aResult),1,'incorrect number of elements');
+    }
+
+    function test_queryAuditByUpgradeId()
+    {
+        $oAuditor = $this->_getAuditObject();
+
+        $aResult = $oAuditor->queryAuditByUpgradeId(1);
+        $this->assertIsa($aResult,'array','not an array');
+        $this->assertEqual(count($aResult),5,'incorrect number of elements');
         $aAuditKeyParams = $this->_getAuditKeyParamsArray();
-        $aAuditParams = $this->_getAuditParamsArray();
-        $aResult = $oAuditor->queryAuditAll();
-        $this->assertIsa($aResult,'array','audit table query all result is not an array');
-        $this->assertEqual(count($aResult),5,'incorrect number of elements on audit query result');
+        $aAuditParams = $this->aAuditParams[0];
         foreach ($aResult AS $k=>$v)
         {
             $this->assertEqual($v['schema_name'],$aAuditKeyParams['schema_name'],'wrong schema name for audit query result '.$k);
@@ -162,15 +222,15 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
             }
             if (array_key_exists('table_backup_schema',$aAuditParams[$k]))
             {
-                $aExpected = $this->_getFieldDefinitionArray();
+                $aExpected = $this->_getFieldDefinitionArray(1);
                 $aActual   = unserialize($v['table_backup_schema']);
                 $this->assertEqual($v['table_backup_schema'],$aAuditParams[$k]['table_backup_schema'],'wrong table_backup_schema for audit query result '.$k);
-                $this->assertTrue(isset($aActual['test']),'test table definition not found in unserialised table_backup_schema for audit query result '.$k);
-                $this->assertTrue(isset($aActual['test']['fields']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
-                $this->assertEqual($aActual['test']['fields']['type'],$aExpected['test']['fields']['type'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
-                $this->assertEqual($aActual['test']['fields']['length'],$aExpected['test']['fields']['length'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
-                $this->assertTrue(isset($aActual['test']['indexes']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
-                $this->assertEqual($aActual['test']['indexes']['primary'],$aExpected['test']['indexes']['primary'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+                $this->assertTrue(isset($aActual['test_table1']),'test table definition not found in unserialised table_backup_schema for audit query result '.$k);
+                $this->assertTrue(isset($aActual['test_table1']['fields']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
+                $this->assertEqual($aActual['test_table1']['fields']['type'],$aExpected['test_table1']['fields']['type'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+                $this->assertEqual($aActual['tetest_table1st']['fields']['length'],$aExpected['test_table1']['fields']['length'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+                $this->assertTrue(isset($aActual['test_table1']['indexes']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
+                $this->assertEqual($aActual['test_table1']['indexes']['primary'],$aExpected['test_table1']['indexes']['primary'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
             }
             else
             {
@@ -179,64 +239,165 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
         }
     }
 
-    function test_queryAudit()
-    {
-        $oAuditor = $this->_getAuditObject();
-        $aKeyParams = $this->_getAuditKeyParamsArray();
-
-        $version = $aKeyParams['version'];
-        $timing  = $aKeyParams['timing'];
-        $schema  = $aKeyParams['schema_name'];
-
-        $aResult = $oAuditor->queryAudit($version, $timing, $schema);
-        $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),5,'incorrect number of elements on audit query result');
-
-        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_UPGRADE_STARTED);
-        $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_STARTED);
-        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_UPGRADE_STARTED,'wrong action for audit query result');
-
-        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_STARTED);
-        $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_STARTED);
-        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_STARTED,'wrong action for audit query result');
-
-        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED);
-        $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED);
-        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,'wrong action for audit query result');
-
-        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_SUCCEEDED);
-        $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_SUCCEEDED);
-        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,'wrong action for audit query result');
-
-        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
-        $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
-        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,'wrong action for audit query result');
-    }
-
-    function test_queryAuditForABackup()
+    function test_queryAuditBackupTablesByUpgradeId()
     {
         $oAuditor = $this->_getAuditObject();
 
-        $aResult = $oAuditor->queryAuditForABackup('test_table_bak');
+        $aResult = $oAuditor->queryAuditBackupTablesByUpgradeId(1);
         $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit backup query result');
-        $this->assertEqual($aResult[0]['tablename_backup'],'test_table_bak','wrong tablename_backup for audit query result');
+        $this->assertEqual(count($aResult),1,'incorrect number of elements');
     }
 
-    function test_updateAuditBackupDroppedByName()
+    function test_updateAuditBackupDroppedById()
     {
         $oAuditor = $this->_getAuditObject();
-        $this->assertTrue($oAuditor->updateAuditBackupDroppedByName('test_table_bak'),'error updating backup table (dropped) audit record');
-        $aResult = $oAuditor->queryAuditForABackup('test_table_bak');
-        $this->assertIsa($aResult,'array','audit table query result is not an array');
-        $this->assertEqual(count($aResult),0,'incorrect number of elements on audit backup query result');
-        $this->assertNotEqual($aResult[0]['tablename_backup'],'test_table_bak','wrong tablename_backup for audit query result');
+        $this->assertTrue($oAuditor->updateAuditBackupDroppedById(3, 'dropped by test'),'error updating backup table (dropped) audit record');
+        $aResult = $oAuditor->queryAuditBackupTablesByUpgradeId(1);
+        $this->assertIsa($aResult,'array','not an array');
+        $this->assertEqual(count($aResult),0,'incorrect number of elements');
+        $aResult = $oAuditor->queryAuditByDBUpgradeId(3);
+        $this->assertEqual(DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED, $aResult[0]['action'], 'wrong action');
+        $this->assertEqual(1, $aResult[0]['upgrade_action_id'], 'wrong audit id');
+        $this->assertEqual(3, $aResult[0]['database_action_id'], 'wrong db audit id');
+        $this->assertEqual('test_table1',$aResult[0]['tablename'],'wrong tablename_backup for audit query result');
+        $this->assertEqual('test_table_bak1',$aResult[0]['tablename_backup'],'wrong tablename_backup for audit query result');
+        $this->assertEqual('dropped by test', $aResult[0]['info2'], 'wrong reason');
     }
+
+    function test_getTableStatus()
+    {
+        $oAuditor = $this->_getAuditObject();
+        $aResult = $oAuditor->getTableStatus('database_action');
+        $this->assertIsa($aResult,'array','not an array');
+        $this->assertEqual(count($aResult),1,'incorrect number of elements');
+        $this->assertEqual($aResult[0]['rows'],'10','incorrect rows');
+        $this->assertEqual($aResult[0]['auto_increment'],'11','incorrect auto_increment value');
+        $this->assertTrue($aResult[0]['data_length'],'incorrect data length');
+    }
+
+// DEPRECATED METHODS
+//    function test_queryAuditAll()
+//    {
+//        $oAuditor = $this->_getAuditObject();
+//        $aAuditKeyParams = $this->_getAuditKeyParamsArray();
+//        $aAuditParams = $this->_getAuditParamsArray();
+//        $aResult = $oAuditor->queryAuditAll();
+//        $this->assertIsa($aResult,'array','audit table query all result is not an array');
+//        $this->assertEqual(count($aResult),5,'incorrect number of elements on audit query result');
+//        foreach ($aResult AS $k=>$v)
+//        {
+//            $this->assertEqual($v['schema_name'],$aAuditKeyParams['schema_name'],'wrong schema name for audit query result '.$k);
+//            $this->assertEqual($v['version'],$aAuditKeyParams['version'],'wrong version for audit query result '.$k);
+//            $this->assertEqual($v['timing'],$aAuditKeyParams['timing'],'wrong timing for audit query result '.$k);
+//            $this->assertEqual($v['action'],$aAuditParams[$k]['action'],'wrong action for audit query result '.$k);
+//            $this->assertEqual($v['info1'],$aAuditParams[$k]['info1'],'wrong info1 for audit query result '.$k);
+//            $this->assertTrue(strtotime($v['updated']),'timestamp','invalid timestamp for audit query result '.$k);
+//            $aDate = getdate(strtotime($v['updated']));
+//            $aNow = getdate(strtotime(date('Y-m-d')));
+//            $this->assertEqual($aDate['year'],$aNow['year'],'wrong year in updated field for audit query result '.$k);
+//            $this->assertEqual($aDate['mon'],$aNow['mon'],'wrong month in updated field for audit query result '.$k);
+//            $this->assertEqual($aDate['mday'],$aNow['mday'],'wrong day in updated field for audit query result '.$k);
+//            if (array_key_exists('info2',$aAuditParams[$k]))
+//            {
+//                $this->assertEqual($v['info2'],$aAuditParams[$k]['info2'],'wrong info2 for audit query result '.$k);
+//            }
+//            else
+//            {
+//                $this->assertNull($v['info2'],'info2 should be null for audit query result '.$k);
+//            }
+//            if (array_key_exists('tablename',$aAuditParams[$k]))
+//            {
+//                $this->assertEqual($v['tablename'],$aAuditParams[$k]['tablename'],'wrong tablename for audit query result '.$k);
+//            }
+//            else
+//            {
+//                $this->assertNull($v['tablename'],'tablename should be null for audit query result '.$k);
+//            }
+//            if (array_key_exists('tablename_backup',$aAuditParams[$k]))
+//            {
+//                $this->assertEqual($v['tablename_backup'],$aAuditParams[$k]['tablename_backup'],'wrong tablename_backup for audit query result '.$k);
+//            }
+//            else
+//            {
+//                $this->assertNull($v['tablename_backup'],'tablename_backup should be null for audit query result '.$k);
+//            }
+//            if (array_key_exists('table_backup_schema',$aAuditParams[$k]))
+//            {
+//                $aExpected = $this->_getFieldDefinitionArray();
+//                $aActual   = unserialize($v['table_backup_schema']);
+//                $this->assertEqual($v['table_backup_schema'],$aAuditParams[$k]['table_backup_schema'],'wrong table_backup_schema for audit query result '.$k);
+//                $this->assertTrue(isset($aActual['test']),'test table definition not found in unserialised table_backup_schema for audit query result '.$k);
+//                $this->assertTrue(isset($aActual['test']['fields']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
+//                $this->assertEqual($aActual['test']['fields']['type'],$aExpected['test']['fields']['type'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+//                $this->assertEqual($aActual['test']['fields']['length'],$aExpected['test']['fields']['length'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+//                $this->assertTrue(isset($aActual['test']['indexes']),'test table definition fields not found in unserialised table_backup_schema for audit query result '.$k);
+//                $this->assertEqual($aActual['test']['indexes']['primary'],$aExpected['test']['indexes']['primary'],'test table definition field type incorrect unserialised table_backup_schema for audit query result '.$k);
+//            }
+//            else
+//            {
+//                $this->assertNull($v['table_backup_schema'],'table_backup_schema should be null for audit query result '.$k);
+//            }
+//        }
+//    }
+//
+//    function test_queryAudit()
+//    {
+//        $oAuditor = $this->_getAuditObject();
+//        $aKeyParams = $this->_getAuditKeyParamsArray();
+//
+//        $version = $aKeyParams['version'];
+//        $timing  = $aKeyParams['timing'];
+//        $schema  = $aKeyParams['schema_name'];
+//
+//        $aResult = $oAuditor->queryAudit($version, $timing, $schema);
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),5,'incorrect number of elements on audit query result');
+//
+//        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_UPGRADE_STARTED);
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_STARTED);
+//        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_UPGRADE_STARTED,'wrong action for audit query result');
+//
+//        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_STARTED);
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_STARTED);
+//        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_STARTED,'wrong action for audit query result');
+//
+//        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED);
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED);
+//        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,'wrong action for audit query result');
+//
+//        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_BACKUP_SUCCEEDED);
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_BACKUP_SUCCEEDED);
+//        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,'wrong action for audit query result');
+//
+//        $aResult = $oAuditor->queryAudit($version, $timing, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit query result: '.DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
+//        $this->assertEqual($aResult[0]['action'],DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,'wrong action for audit query result');
+//    }
+//
+//    function test_queryAuditForABackup()
+//    {
+//        $oAuditor = $this->_getAuditObject();
+//
+//        $aResult = $oAuditor->queryAuditForABackup('test_table_bak');
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),1,'incorrect number of elements on audit backup query result');
+//        $this->assertEqual($aResult[0]['tablename_backup'],'test_table_bak','wrong tablename_backup for audit query result');
+//    }
+//
+//    function test_updateAuditBackupDroppedByName()
+//    {
+//        $oAuditor = $this->_getAuditObject();
+//        $this->assertTrue($oAuditor->updateAuditBackupDroppedByName('test_table_bak'),'error updating backup table (dropped) audit record');
+//        $aResult = $oAuditor->queryAuditForABackup('test_table_bak');
+//        $this->assertIsa($aResult,'array','audit table query result is not an array');
+//        $this->assertEqual(count($aResult),0,'incorrect number of elements on audit backup query result');
+//        $this->assertNotEqual($aResult[0]['tablename_backup'],'test_table_bak','wrong tablename_backup for audit query result');
+//    }
 
     function _getAuditObject()
     {
@@ -268,35 +429,54 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
                     );
     }
 
-    function _getAuditParamsArray()
-    {
-        $aAudit[0] = array('info1'=>'UPGRADE STARTED',
-                           'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
-                          );
-        $aAudit[1] = array('info1'=>'BACKUP STARTED',
-                           'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
-                          );
-        $aAudit[2] = array('info1'=>'copied table',
-                           'tablename'=>'test_table',
-                           'tablename_backup'=>'test_table_bak',
-                           'table_backup_schema'=>serialize($this->_getFieldDefinitionArray()),
-                           'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
-                          );
-        $aAudit[3] = array('info1'=>'BACKUP COMPLETE',
-                           'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
-                          );
-        $aAudit[4] = array('info1'=>'UPGRADE SUCCEEDED',
-                           'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                          );
-        return $aAudit;
-    }
+//    function _getAuditParamsArray()
+//    {
+//        $aAudit[0][0] = array('info1'=>'UPGRADE STARTED',
+//                              'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
+//                             );
+//        $aAudit[0][1] = array('info1'=>'BACKUP STARTED',
+//                              'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
+//                             );
+//        $aAudit[0][2] = array('info1'=>'copied table',
+//                              'tablename'=>'test_table',
+//                              'tablename_backup'=>'test_table_bak',
+//                              'table_backup_schema'=>serialize($this->_getFieldDefinitionArray()),
+//                              'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+//                             );
+//        $aAudit[0][3] = array('info1'=>'BACKUP COMPLETE',
+//                              'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+//                             );
+//        $aAudit[0][4] = array('info1'=>'UPGRADE SUCCEEDED',
+//                              'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+//                             );
+//
+//        $aAudit[1][0] = array('info1'=>'UPGRADE STARTED',
+//                              'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
+//                             );
+//        $aAudit[1][1] = array('info1'=>'BACKUP STARTED',
+//                              'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
+//                             );
+//        $aAudit[1][2] = array('info1'=>'copied table',
+//                              'tablename'=>'test_table',
+//                              'tablename_backup'=>'test_table_bak',
+//                              'table_backup_schema'=>serialize($this->_getFieldDefinitionArray()),
+//                              'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
+//                             );
+//        $aAudit[1][3] = array('info1'=>'BACKUP COMPLETE',
+//                              'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+//                             );
+//        $aAudit[1][4] = array('info1'=>'UPGRADE SUCCEEDED',
+//                              'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+//                             );
+//        return $aAudit;
+//    }
 
-    function _getFieldDefinitionArray()
+    function _getFieldDefinitionArray($id)
     {
-        $table = 'test';
+        $table = 'test_table'.$id;
         $aDef  = array($table=>array('fields'=>array(), 'indexes'=>array()));
-        $aDef[$table]['fields']['test_field']  = array('type'=>'test_type','length'=>1);
-        $aDef[$table]['indexes']['test_index'] = array('primary'=>true);
+        $aDef[$table]['fields']['test_field'.$id]  = array('type'=>'test_type','length'=>1);
+        $aDef[$table]['indexes']['test_index'.$id] = array('primary'=>true);
         return $aDef;
     }
 
