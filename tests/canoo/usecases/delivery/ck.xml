@@ -19,7 +19,7 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="/delivery/ck.php?maxparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openads.example_url}" />
+        <invoke description="Invoke delivery file" url="/delivery/ck.php?oaparams=2__bannerid=3__zoneid=0__cb=5ec806661f__maxdest=${openads.example_url}" />
         &checkForErrors;
         <verifyTitle description="Check that browser was redirected to example page" text="Example Web Page" />
       </steps>

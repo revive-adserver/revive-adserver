@@ -19,7 +19,7 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke ti.php" url="delivery_dev/ti.php?trackerid=2&amp;cb=123" />
+        <invoke description="Invoke ti.php" url="delivery/ti.php?trackerid=2&amp;cb=123" />
         &checkForErrors;
       </steps>
     </testSpec>
@@ -30,8 +30,8 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke a tracker image page" url="ti.php" />
-        <verifyLinkedContent 
+        <invoke description="Invoke ti.php" url="ti.php" />
+        <verifyLinkedContent
             xpath="//img/@src"
             accept="image/gif" />
         &checkForErrors;
@@ -39,7 +39,7 @@
     </testSpec>
     
     <!-- test that impressions and variables were inserted into database -->
-    <sqlunit testFile="usecases/sqlunit/data_raw_tracker.xml" haltOnFailure="true" debug="${debug}" />
+    <sqlunit testFile="${basedir}/usecases/sqlunit/data_raw_tracker.xml" haltOnFailure="true" debug="${debug}" />
   </target>
   
   <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->

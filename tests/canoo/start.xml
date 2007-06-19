@@ -53,6 +53,8 @@
     <ant antfile="usecases/delivery/axmlrpc.xml" />
     <ant antfile="usecases/delivery/ck.xml" />
     <ant antfile="usecases/delivery/lg.xml" />
+    <ant antfile="usecases/delivery/ti.xml" />
+    <ant antfile="usecases/delivery/tjs.xml" />
   </target>
   
   <target name="test-one">

@@ -122,7 +122,7 @@
         <then>
           <!-- run locally -->
           <exec executable="${canoo.webtest.exec}" failonerror="true">
-            <arg line="-f ${canoo.basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
+            <arg line="-f ${basedir}/tests/canoo/start.xml -Drun.local=${run.local} @{target} @{properties}"/>
           </exec>
         </then>
         <else>

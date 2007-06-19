@@ -203,7 +203,7 @@ function increaseMemoryLimit($setMemory) {
     }
 
     if ($setMemory > $memory) {
-        if (ini_set('memory_limit', $setMemory) === false) {
+        if (@ini_set('memory_limit', $setMemory) === false) {
             return false;
         }
     }
