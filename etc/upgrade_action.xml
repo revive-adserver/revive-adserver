@@ -81,14 +81,6 @@
    </field>
 
    <field>
-    <name>dbschemas</name>
-    <type>openads_text</type>
-    <length></length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
     <name>updated</name>
     <type>openads_datetime</type>
     <notnull>false</notnull>
