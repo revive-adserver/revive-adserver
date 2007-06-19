@@ -63,6 +63,8 @@ if (!$oSystemMgr->checkMemory()) {
     exit(1);
 }
 
+@set_time_limit(60);
+
 // required files for header & nav
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
