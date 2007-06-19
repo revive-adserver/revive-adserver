@@ -60,6 +60,9 @@ if (isset($exclude) && $exclude != '' && $exclude != ',') {
     }
 }
 
+// Unset default value for $target causing target specified for banner to be used
+$target = '';
+
 // Get the banner
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
