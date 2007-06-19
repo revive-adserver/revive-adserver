@@ -543,6 +543,7 @@ return;
 }
 $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
+// There may have been a copy of $conf set in the global scope, this should also be updated
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
@@ -556,6 +557,8 @@ function MAX_remotehostPrivateAddress($ip)
 {
 setupIncludePath();
 require_once 'Net/IPv4.php';
+// Define the private address networks, see
+// http://rfc.net/rfc1918.html
 $aPrivateNetworks = array(
 '10.0.0.0/8',
 '172.16.0.0/12',
@@ -1055,11 +1058,14 @@ function MAX_header($value)
 header($value);
 }
 // Set the viewer's remote information used in logging
+// and delivery limitation evaluation
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
 MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
+// Set common delivery parameters in the global scope
 MAX_commonInitVariables();
+// Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 function MAX_limitationsCheckAcl($row, $source = '')
 {
@@ -1655,6 +1661,8 @@ if (!@rename($tmp_filename, $filename)) {
 // On some systems rename() doesn't overwrite destination
 @unlink($filename);
 if (!@rename($tmp_filename, $filename)) {
+// Make sure that no temporary file is left over
+// if the destination is not writable
 @unlink($tmp_filename);
 }
 }
@@ -1709,6 +1717,7 @@ return $result;
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
 if(!$isHash) {
+// If not a hash yet
 $name = md5($name);
 }
 return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
@@ -1794,12 +1803,14 @@ return $aVariables;
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
+// maximum cache expire time = 3600 seconds
 if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
 $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
 $now = MAX_commonGetTimeNow();
 $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
 $thisIntervalStartTime = $now - ($now % $interval);
+// if maintenance should be executed now there is no point in storing last run info in cache
 if ($lastRunTime < $thisIntervalStartTime) {
 return true;
 }
@@ -2146,11 +2157,14 @@ if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' && ($aAd['adserver'
 return false;
 }
 if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
+// It only matters if the initial call is to non-SSL (it can/could contain http:)
 return false;
 }
 if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
 return false;
 }
+// If any of the above failed, this function will have already returned false
+// So to get this far means that the ad was valid
 return true;
 }
 function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
@@ -2182,6 +2196,7 @@ case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
 case '==':
 if ($adArrayVar == 'cAds') {
 $includeCampaignID[$value] = true;
+// Rescale the priorities for the available companion campaigns...
 $companionPrioritySum = 0;
 foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
 if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
@@ -2212,6 +2227,8 @@ return $aContext;
 }
 function _adSelectBuildCompanionContext($aBanner, $context) {
 if (count($aBanner['zone_companion']) > 0) {
+// This zone call has companion banners linked to it.
+// So pass into the next call that we would like a banner from this campaign, and not from the other companion linked campaigns;
 foreach ($aBanner['zone_companion'] AS $companionCampaign) {
 $key = ($aBanner['placement_id'] == $companionCampaign) ? '==' : '!=';
 $context[] = array($key => "companionid:$companionCampaign");

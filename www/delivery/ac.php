@@ -543,6 +543,7 @@ return;
 }
 $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
+// There may have been a copy of $conf set in the global scope, this should also be updated
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
@@ -556,6 +557,8 @@ function MAX_remotehostPrivateAddress($ip)
 {
 setupIncludePath();
 require_once 'Net/IPv4.php';
+// Define the private address networks, see
+// http://rfc.net/rfc1918.html
 $aPrivateNetworks = array(
 '10.0.0.0/8',
 '172.16.0.0/12',
@@ -1055,11 +1058,14 @@ function MAX_header($value)
 header($value);
 }
 // Set the viewer's remote information used in logging
+// and delivery limitation evaluation
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
 MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
+// Set common delivery parameters in the global scope
 MAX_commonInitVariables();
+// Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 function MAX_limitationsCheckAcl($row, $source = '')
 {
@@ -1699,7 +1705,9 @@ MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row[
 }
 return $output;
 } else {
+// No banner found
 if (!empty($row['default'])) {
+// Return the default banner
 if (empty($target)) {
 $target = '_blank';  // Default
 }
@@ -1708,6 +1716,7 @@ $target . '\'><img src=\'' . $row['default_banner_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
 return array('html' => $outputbuffer, 'bannerid' => '' );
 } else {
+// No default banner was returned, return no banner
 $outputbuffer = $g_prepend . $g_append;
 return array('html' => $outputbuffer, 'bannerid' => '' );
 }
@@ -1749,6 +1758,7 @@ global $g_append, $g_prepend;
 while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
 $GLOBALS['_MAX']['followedChain'][] = $zoneId;
 $appendedThisZone = false;
+// Get all ads which are linked to the zone
 $aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
 if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneLinkedAds)) {
 $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
@@ -1793,23 +1803,35 @@ return false;
 }
 function _adSelectCommon($aAds, $context, $source, $richMedia)
 {
+// Are there any ads linked?
 if (!empty($aAds['count_active'])) {
+// Get an ad from the any exclusive campaigns first...
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'xAds');
+// If no ad selected, and a previous ad on the page has set that companion ads should be selected...
 if (!is_array($aLinkedAd) && isset($aAds['zone_companion']) && is_array($aAds['zone_companion']) && !empty($context)) {
+// Try to select a normal companion ad...
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'cAds');
+// If still no ad selected...
 if (!is_array($aLinkedAd)) {
+// Select one of the low-priority companion ads
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'clAds');
 }
 }
+// If still no ad selected...
 if (!is_array($aLinkedAd)) {
+// Select one of the normal ads
+// The normal ads are now grouped by campaign-priority so we need to iterate over the
 for ($i=10;$i>0;$i--) {
 if (!empty($aAds['ads'][$i])) {
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'ads', $i);
+// Did we pick an ad from this campaign-priority level?
 if (is_array($aLinkedAd)) { break; }
 }
 }
 }
+// If still no ad selected...
 if (!is_array($aLinkedAd)) {
+// Select one of the low-priority ads
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'lAds');
 }
 if (is_array($aLinkedAd)) {
@@ -1820,6 +1842,7 @@ return false;
 }
 function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'ads', $cp = null)
 {
+// If there are no linked ads, we can return
 if (!is_array($aLinkedAds)) { return; }
 if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
 $aAds = $aLinkedAds[$adArrayVar][$cp];
@@ -1828,11 +1851,16 @@ $aAds = $aLinkedAds[$adArrayVar];
 } else {
 $aAds = array();
 }
+// If there are no linked ads of the specified type, we can return
 if (count($aAds) == 0) { return; }
+// Build preconditions
 $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
+// New delivery algorithm: discard all invalid ads before iterating over them
 $aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
+// If there are no linked ads of the specified type, we can return
 if (count($aAds) == 0) { return; }
 if (!is_null($cp)) {
+// Scale priorities
 $total_priority = 0;
 foreach ($aAds as $ad) {
 $total_priority += $ad['priority'] * $ad['priority_factor'];
@@ -1844,6 +1872,7 @@ $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
 }
 }
 }
+// Seed the random number generator
 global $n;
 mt_srand(floor((isset($n) && strlen($n) > 5 ? hexdec($n[0].$n[2].$n[3].$n[4].$n[5]): 1000000) * (double)microtime()));
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -1860,22 +1889,35 @@ $low = 0;
 $high = 0;
 $paidPriorityCounter = 0;
 if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
+// Paid campaigns have a sum of priorities of unity, so pick
+// a random number between 0 and $prioritysum, inclusive.
 $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']) * $prioritysum;
 } else {
+// All other campaigns have integer-based priority values, so
+// select a random number between 0 and the sum of all the
+// priority values
 $ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
 }
+// Perform selection of an ad, based on the random number
 foreach($aAds as $adId => $aLinkedAd) {
 if (is_array($aLinkedAd)) {
 $placementId = $aLinkedAd['placement_id'];
 $low = $high;
 $high += $aLinkedAd['priority'];
 if ($high > $ranweight && $low <= $ranweight) {
+// We have already tested the delivery limitations against the current impression
 return $aLinkedAd;
 } else {
+// This ad did not match the random value generated. If we
+// are also looking for a paid placement ad, count the number
+// of iterations (ads we have looked at), so that we know
+// when we have selected the blank ad
 if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
 $paidPriorityCounter++;
 }
+// Have we tested all the ads yet?
 if ($paidPriorityCounter == count($aAds)) {
+// Yes, and no ad was suitable, so no paid ad should be shown
 return;
 }
 }
@@ -1886,19 +1928,23 @@ return;
 function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// Excludelist banners
 if (isset($aContext['banner']['exclude'][$aAd['ad_id']])) {
 return false;
 }
 if (isset($aContext['campaign']['exclude'][$aAd['placement_id']])) {
+// Excludelist campaigns
 return false;
 }
 if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
+// Includelist banners
 return false;
 }
 if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
+// Includelist campaigns
 return false;
 }
-if (
+if (   // Exclude richmedia banners if no alt image is specified
 $richMedia == false &&
 $aAd['alt_filename'] == '' &&
 !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
@@ -1914,11 +1960,14 @@ if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'html' && ($aAd['adserver'
 return false;
 }
 if ($_SERVER['SERVER_PORT'] == 443 && $aAd['type'] == 'url' && (substr($aAd['imageurl'], 0, 5) == 'http:')) {
+// It only matters if the initial call is to non-SSL (it can/could contain http:)
 return false;
 }
 if ($conf['delivery']['acls'] && !MAX_limitationsCheckAcl($aAd, $source)) {
 return false;
 }
+// If any of the above failed, this function will have already returned false
+// So to get this far means that the ad was valid
 return true;
 }
 function _adSelectBuildContextArray(&$aLinkedAds, $adArrayVar, $context)
@@ -1950,6 +1999,7 @@ case '!=': $aContext['campaign']['exclude'][$value]   = true; break;
 case '==':
 if ($adArrayVar == 'cAds') {
 $includeCampaignID[$value] = true;
+// Rescale the priorities for the available companion campaigns...
 $companionPrioritySum = 0;
 foreach ($aLinkedAds[$adArrayVar] as $iAdId => $aAd) {
 if (isset($aContext['campaign']['include'][$aAd['placement_id']])) {
@@ -1980,6 +2030,8 @@ return $aContext;
 }
 function _adSelectBuildCompanionContext($aBanner, $context) {
 if (count($aBanner['zone_companion']) > 0) {
+// This zone call has companion banners linked to it.
+// So pass into the next call that we would like a banner from this campaign, and not from the other companion linked campaigns;
 foreach ($aBanner['zone_companion'] AS $companionCampaign) {
 $key = ($aBanner['placement_id'] == $companionCampaign) ? '==' : '!=';
 $context[] = array($key => "companionid:$companionCampaign");
@@ -2078,6 +2130,8 @@ if (!@rename($tmp_filename, $filename)) {
 // On some systems rename() doesn't overwrite destination
 @unlink($filename);
 if (!@rename($tmp_filename, $filename)) {
+// Make sure that no temporary file is left over
+// if the destination is not writable
 @unlink($tmp_filename);
 }
 }
@@ -2132,6 +2186,7 @@ return $result;
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
 if(!$isHash) {
+// If not a hash yet
 $name = md5($name);
 }
 return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
@@ -2217,12 +2272,14 @@ return $aVariables;
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
+// maximum cache expire time = 3600 seconds
 if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
 $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
 $now = MAX_commonGetTimeNow();
 $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
 $thisIntervalStartTime = $now - ($now % $interval);
+// if maintenance should be executed now there is no point in storing last run info in cache
 if ($lastRunTime < $thisIntervalStartTime) {
 return true;
 }
@@ -2274,9 +2331,9 @@ if ($timeout > 0) {
 $timeoutMs = $timeout * 1000;
 echo "
 <script type='text/javascript'>
-<!--/"."/ <![CDATA[
+<!--// <![CDATA[
 window.setTimeout(\"window.close()\",$timeoutMs);
-/"."/ ]]> -->
+// ]]> -->
 </script>";
 }
 if ($aBanner['contenttype'] == 'swf') {

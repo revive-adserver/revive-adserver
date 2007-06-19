@@ -543,6 +543,7 @@ return;
 }
 $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
+// There may have been a copy of $conf set in the global scope, this should also be updated
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
@@ -556,6 +557,8 @@ function MAX_remotehostPrivateAddress($ip)
 {
 setupIncludePath();
 require_once 'Net/IPv4.php';
+// Define the private address networks, see
+// http://rfc.net/rfc1918.html
 $aPrivateNetworks = array(
 '10.0.0.0/8',
 '172.16.0.0/12',
@@ -1055,11 +1058,14 @@ function MAX_header($value)
 header($value);
 }
 // Set the viewer's remote information used in logging
+// and delivery limitation evaluation
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
 MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
+// Set common delivery parameters in the global scope
 MAX_commonInitVariables();
+// Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
@@ -1298,11 +1304,15 @@ if (!empty($filename)) {
 $aCreative = MAX_cacheGetCreative($filename);
 if (empty($aCreative)) {
 // Filename not found, show the admin user's default banner
+// (as the agency cannot be determined from a filename)
 $pref = MAX_Admin_Preferences::loadPrefs(0);
 if ($pref['default_banner_url'] != "") {
 Header("Location: ".$pref['default_banner_url']);
 }
 } else {
+// Filename found, dump contents to browser
+// Check if the browser sent a If-Modified-Since header and if the image was
+// modified since that date
 if (!isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ||
 $aCreative['t_stamp'] > strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 header("Last-Modified: ".gmdate('D, d M Y H:i:s', $aCreative['t_stamp']).' GMT');
@@ -1319,8 +1329,10 @@ echo $aCreative['contents'];
 } else {
 // Send "Not Modified" status header
 if (php_sapi_name() == 'cgi') {
+// PHP as CGI, use Status: [status-number]
 header('Status: 304 Not Modified');
 } else {
+// PHP as module, use HTTP/1.x [status-number]
 header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
 }
 }

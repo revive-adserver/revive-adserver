@@ -543,6 +543,7 @@ return;
 }
 $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
+// There may have been a copy of $conf set in the global scope, this should also be updated
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
@@ -556,6 +557,8 @@ function MAX_remotehostPrivateAddress($ip)
 {
 setupIncludePath();
 require_once 'Net/IPv4.php';
+// Define the private address networks, see
+// http://rfc.net/rfc1918.html
 $aPrivateNetworks = array(
 '10.0.0.0/8',
 '172.16.0.0/12',
@@ -1113,6 +1116,8 @@ if (!@rename($tmp_filename, $filename)) {
 // On some systems rename() doesn't overwrite destination
 @unlink($filename);
 if (!@rename($tmp_filename, $filename)) {
+// Make sure that no temporary file is left over
+// if the destination is not writable
 @unlink($tmp_filename);
 }
 }
@@ -1167,6 +1172,7 @@ return $result;
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
 if(!$isHash) {
+// If not a hash yet
 $name = md5($name);
 }
 return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
@@ -1252,12 +1258,14 @@ return $aVariables;
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
+// maximum cache expire time = 3600 seconds
 if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
 $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
 $now = MAX_commonGetTimeNow();
 $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
 $thisIntervalStartTime = $now - ($now % $interval);
+// if maintenance should be executed now there is no point in storing last run info in cache
 if ($lastRunTime < $thisIntervalStartTime) {
 return true;
 }
@@ -1363,7 +1371,9 @@ $dest = $aAd['url'];
 if (empty($dest)) {
 return;
 }
+//if (empty($dest)) {
 //    $dest = ($adId == 'DEFAULT') ? $pref['default_banner_destination'] : $_SERVER['HTTP_REFERER'];
+//}
 $aVariables = array();
 $aValidVariables = array(
 $conf['var']['adId'],
@@ -1376,6 +1386,7 @@ $conf['var']['zoneId'],
 $conf['var']['params'],
 $conf['var']['cookieTest']
 );
+// We also need to ensure that any variables already present in the dest are not duplicated...
 $destParams = parse_url($dest);
 if (!empty($destParams['query'])) {
 $destQuery = explode('&', $destParams['query']);
@@ -1404,6 +1415,7 @@ return $dest;
 function MAX_querystringParseStr($qs, &$aArr, $delim = '&')
 {
 $aArr = $_GET;
+// Parse the rest of the array and add to the request array.
 $aElements = explode($delim, $qs);
 foreach($aElements as $element) {
 $len = strpos($element, '=');
