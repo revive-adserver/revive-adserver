@@ -31,7 +31,7 @@ $Id$
 function getDBAuditTable($aAudit)
 {
     $td = "<td class=\"tablebody\">%s</td>";
-    $schemas = "<table><tr><th class=\"tablebody\" colspan=\"50\">schemas</th></tr>";
+    $schemas = "<table><tr><th class=\"tablebody\" colspan=\"7\">schemas</th></tr>";
     $schemas.= "<tr>";
     $schemas.= sprintf($td, 'schema');
     $schemas.= sprintf($td, 'version');
@@ -70,12 +70,7 @@ $oUpgrader = new OA_Upgrade();
 
 if (array_key_exists('xajax', $_POST))
 {
-    if ($_POST['xajax'] == 'expandOSURow')
-    {
-        $oUpgrader->initDatabaseConnection();
-        $aAudit = $oUpgrader->oAuditor->queryAuditBackupTablesByUpgradeId($_POST['xajaxargs'][0]);
-        $_POST['xajaxargs'][1] = getDBAuditTable($aAudit);
-    }
+    $_POST['xajaxargs'][1] = $oUpgrader;
 }
 
 require_once MAX_DEV.'/lib/xajax.inc.php';
