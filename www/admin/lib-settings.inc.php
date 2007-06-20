@@ -452,10 +452,6 @@ function phpAds_ShowSettings_Checkbox($item, $value)
     $sDocPath = '';
     $iAnchor = 0;
 
-    if ($item['text'] == $GLOBALS['strAdminShareCommunityData']) {
-        $sDocPath = 'http://docs.openads.org/openads-2.3-guide/community-statistics.html';
-    }
-
     if (!empty($sDocPath)) {
         $sDocLink = $sDocPath;
         echo '&nbsp;<a href="' . $sDocLink . '" class="inlineHelp__" ' .

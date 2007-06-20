@@ -188,7 +188,6 @@ $GLOBALS['strAdminEmail']                            = 'Admin\'s Email Address';
 $GLOBALS['strAdministratorEmail']                            = 'Administrator Email Address';
 $GLOBALS['strCompanyName']                           = 'Company Name';
 $GLOBALS['strAdminCheckUpdates']                     = 'Check for Updates';
-$GLOBALS['strAdminShareCommunityData']               = 'Participate in Community Intelligence program';
 $GLOBALS['strAdminCheckEveryLogin']                  = 'Every Login';
 $GLOBALS['strAdminCheckDaily']                       = 'Daily';
 $GLOBALS['strAdminCheckWeekly']                      = 'Weekly';
