@@ -1,4 +1,5 @@
 <project name="svn-commands" default="svn-update" basedir=".">
+  <property name="svn.path" value="svn"/>
   <condition property="svn.credentials" value="--username ${svn.username} --password ${svn.password}" else="">
     <and>
       <isset property="svn.username"/>
