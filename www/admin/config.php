@@ -83,8 +83,6 @@ $pref = MAX_Admin_Preferences::expandColumnPrefs();
 // Load the required language files
 Language_Default::load();
 
-$GLOBALS['aDashboardServer'] = $GLOBALS['_MAX']['CONF']['dashboard'];
-
 // Register variables
 phpAds_registerGlobalUnslashed(
      'affiliateid'
@@ -224,16 +222,7 @@ function MMM_buildNavigation()
               "5.6"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
                 "5.6.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
                 "5.6.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
-                "5.6.3"                 =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations']),
-
-//  Dashboard disabled 2007-06-01
-//  By Andrew Hill
-//  Dashboard not ready for production at time of v2.3.32-beta release.
-//            "6"                         =>  array("dashboard.php" => $GLOBALS['strDashboardCommunity']),
-//                "6.1"                   =>  array("dashboard.php" => $GLOBALS['strDashboardDashboard']),
-//                "6.2"                   =>  array("http://forum.openads.org" => $GLOBALS['strDashboardForum']),
-//                "6.3"                   =>  array("http://docs.openads.org" => $GLOBALS['strDashboardDocs'])
-
+                "5.6.3"                 =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations'])
         ),
 
         "agency"    => array (
@@ -979,16 +968,7 @@ function MMM_buildNavigation()
               "5.6"                     =>  array(),
                 "5.6.1"                 =>  array(),
                 "5.6.2"                 =>  array(),
-                "5.6.3"                 =>  array(),
-
-//  Dashboard disabled 2007-06-01
-//  By Andrew Hill
-//  Dashboard not ready for production at time of v2.3.32-beta release.
-//            "6"                         =>  array(),
-//                "6.1"                   =>  array(),
-//                "6.2"                   =>  array(),
-//                "6.3"                   =>  array()
-
+                "5.6.3"                 =>  array()
         ),
 
         "agency"    => array (

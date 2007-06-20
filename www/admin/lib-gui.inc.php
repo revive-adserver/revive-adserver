@@ -395,63 +395,6 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             $searchbar .= "\t\t</form>\n";
             $searchbar .= "\t\t</table>\n";
 
-            if (!empty($pref['updates_enabled']) && $pref['updates_enabled'] != 'f')
-            {
-                $iSecondsFromLastUpdate = 0;
-                if (!empty($pref['ad_cs_data_last_received']) && ($pref['ad_cs_data_last_received'] != OA_Dal::noDateValue())) {
-                    $iSecondsFromLastUpdate = time() - strtotime($pref['ad_cs_data_last_received']);
-                }
-                $fClicksSum = $pref['ad_clicks_sum']+($iSecondsFromLastUpdate*$pref['ad_clicks_per_second']);
-                $fViewsSum = $pref['ad_views_sum']+($iSecondsFromLastUpdate*$pref['ad_views_per_second']);
-
-                // prepare formatting vars
-                $s4Tab = "\t\t\t\t";
-                $s5Tab = $s4Tab."\t";
-                $s6Tab = $s5Tab."\t";
-                $s7Tab = $s6Tab."\t";
-                $s8Tab = $s7Tab."\t";
-
-                $sCommunityStats = $s4Tab."<div style='margin-right: 30px;text-align: right;'>\n<br />\n" .
-                    $s4Tab."<div id='ad_views_sum' style='font-weight:bold;white-space:nowrap;'>" .
-                    "".number_format($fViewsSum, 0, ' ', ',')."</div>" .
-                    " Ads served.<br />" .
-                    "<a style='font-size: smaller;' href='http://docs.openads.org/openads-2.3-guide/community-statistics.html'>Whats this?</a>" .
-                    "</div>\n";
-
-                $sCommunityStats .= $s4Tab."<script type='text/javascript'><!--// <![CDATA[\n" .
-                        $s5Tab . "var openads_communityStats={ \n" .
-                        $s6Tab . "clicks_sum:".$fClicksSum.", \n".
-                        $s6Tab . "views_sum:".$fViewsSum.", \n".
-                        $s6Tab . "clicks_per_second:".(float)$pref['ad_clicks_per_second'].", \n".
-                        $s6Tab . "views_per_second:".(float)$pref['ad_views_per_second'].", \n".
-                        $s6Tab . "refreshInterval:1, // in seconds \n".
-                        $s6Tab . "refresh:function(c_sum,v_sum,t){ \n".
-                        $s7Tab . "this.clicks_sum += this.clicks_per_second*this.refreshInterval \n".
-                        $s7Tab . "this.views_sum += this.views_per_second*this.refreshInterval \n\n".
-
-                        $s7Tab . "c_sum = String(Math.round(this.clicks_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'') \n".
-                        $s7Tab . "v_sum = String(Math.round(this.views_sum)).reverse().replace(/(\d{3})/g, '$1,').reverse().replace( /^,/,'') \n".
-                        $s7Tab . "document.getElementById('ad_views_sum').innerHTML=v_sum \n".
-                        $s7Tab . "// document.getElementById('ad_clicks_sum').innerHTML=c_sum \n".
-                        $s7Tab . "t=this \n".
-                        $s7Tab . "setTimeout(function(){t.refresh();},this.refreshInterval*1000) \n".
-                    $s6Tab . "} \n".
-                    $s5Tab . "} \n".
-                    $s5Tab . "String.prototype.reverse = function(){return this.split('').reverse().join('')} \n".
-                    $s5Tab . "openads_communityStats.refresh(); \n".
-                    $s4Tab."// ]]> -->\n" .
-                    $s4Tab."</script>\n";
-
-                    $sidebar .= $s4Tab."<br><br> \n";
-                    $sidebar .= $s4Tab."<table width='160' cellpadding='0' cellspacing='0' border='0'> \n";
-                    $sidebar .= $s4Tab."<tr><td colspan='2' class='nav'><b>Openads Community</b></td></tr> \n";
-                    $sidebar .= $s4Tab."<tr><td colspan='2'><img src='images/break.gif' height='1' width='160' vspace='4'></td></tr> \n";
-                    $sidebar .= $s4Tab."<tr><td colspan='2' width='140' class='nav'> \n";
-                    $sidebar .= $sCommunityStats;
-                    $sidebar .= $s4Tab."</td></tr> \n";
-                    $sidebar .= $s4Tab."</table><br> \n";
-
-            }
         } else {
             $searchbar = "\t\t&nbsp;\n";
         }
