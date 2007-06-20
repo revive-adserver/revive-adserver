@@ -241,7 +241,7 @@ class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
                 $table
             WHERE
                 channel_id = $channelId
-                AND day = '" . $oDate->format('%Y-%m-%d 00:00:00') . "'";
+                AND day = '" . $oDate->format('%Y-%m-%d') . "'";
         OA::debug('Selecting existing zones IDs from the ' . $table . ' table for channel ' .
                    $channelId . ' and day ' . $oDate->format('%Y-%m-%d'), PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
@@ -265,7 +265,7 @@ class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
                     SET
                         actual_impressions = $impressions
                     WHERE
-                        day = '" . $oDate->format('%Y-%m-%d 00:00:00') . "'
+                        day = '" . $oDate->format('%Y-%m-%d') . "'
                         AND channel_id = $channelId
                         AND zone_id = $zoneId";
             } else {
@@ -281,7 +281,7 @@ class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
                         )
                     VALUES
                         (
-                            '" . $oDate->format('%Y-%m-%d 00:00:00') . "',
+                            '" . $oDate->format('%Y-%m-%d') . "',
                             $channelId,
                             $zoneId,
                             $impressions
