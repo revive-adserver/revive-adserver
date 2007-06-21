@@ -43,8 +43,8 @@ $host = $_SERVER['argv'][2];
 $port = $_SERVER['argv'][3];
 $username = $_SERVER['argv'][4];
 $password = $_SERVER['argv'][5];
-$name = $_SERVER['argv'][6];
-$tableType = strtolower($_SERVER['argv'][7]);
+$name = strtolower($_SERVER['argv'][6]);
+$tableType = $_SERVER['argv'][7];
 
 $ccConfigWriter = new CCConfigWriter();
 $ccConfigWriter->configureTest($type, $host, $port, $username, $password, $name, $tableType);
