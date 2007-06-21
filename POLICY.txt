@@ -1,121 +1,121 @@
-                                  OPENADS 
+                                  OPENADS
                         PRIVACY AND DATA USAGE POLICY
 
-                This Privacy and Data Usage Policy explains how 
-                        Openads Limited ("Openads") 
-                    collects and uses information via the 
-                Openads website and Openads adserver software. 
+                This Privacy and Data Usage Policy explains how
+                        Openads Limited ("Openads")
+                    collects and uses information via the
+                Openads website and Openads adserver software.
 
 
     1. What is the Openads Community?
-The Openads Community is made up of website publishers and advertisers 
-who use Openads software to create, promote, manage and deliver online 
-ad campaigns. To become a member of the Openads Community and take 
-advantage of the benefits that this brings, you need to register and 
-create a profile and download Openads software. 
+The Openads Community is made up of website publishers and advertisers
+who use Openads software to create, promote, manage and deliver online
+ad campaigns. To become a member of the Openads Community and take
+advantage of the benefits that this brings, you need to register and
+create a profile and download Openads software.
 
 
     2. What type of information does Openads collect?
-Openads collects a variety of data listed below relating to members 
-of the Openads Community. 
+Openads collects a variety of data listed below relating to members
+of the Openads Community.
 
-Profile Data: This is information that you provide when you register 
-and create a profile with Openads. It includes your username and 
-password, a contact email address and other information that you 
-provide during the set-up process. 
+Profile Data: This is information that you provide when you register
+and create a profile with Openads. It includes your username and
+password, a contact email address and other information that you
+provide during the set-up process.
 
-Configuration Data: If you have enabled the "check for updates" 
-setting in the Openads software, then Openads will collect information 
-relating to the configuration of your server used to run Openads. 
-This information is used to identify which product update alerts 
-are relevant to you, and to profile the community so that we can 
-focus development and testing efforts on common adserver configurations. 
+Configuration Data: If you have enabled the "check for updates"
+setting in the Openads software, then Openads will collect information
+relating to the configuration of your server used to run Openads.
+This information is used to identify which product update alerts
+are relevant to you, and to profile the community so that we can
+focus development and testing efforts on common adserver configurations.
 This configuration data includes:
     * The version and basic configuration options of the adserver.
-    * Type and version information about other software which Openads 
+    * Type and version information about other software which Openads
       depends on, including: the webserver, PHP and MySQL.
 
-Community Intelligence Data: If you have enabled the 
-'Participate in Community Intelligence program' 
-setting in the Openads software, then 
-Openads also collects information relating to your use of the Openads 
-software to create and maintain your adserving history 
-("Community Intelligence Data"). 
-This Community Intelligence Data includes: 
-    - If you are a publisher - statistical information about your 
-      adserver and the ad campaigns that you run. 
-    - If you are an advertiser - statistical information about 
-      the ad campaigns that you deliver. 
-      
-Website Data: Openads also collects data regarding anonymous visitors 
-to the Openads website including: the IP address of the user's 
-computer (which may include a domain name), the referring URL (if any) 
-and details of the Internet browser software used by the user to view 
-the Openads website. If you use the online Contact us feature of the 
-website, we collect your name, email address and details of your message 
+Community Intelligence Data: If you have enabled the
+'Participate in Community Intelligence program'
+setting in the Openads software, then
+Openads also collects information relating to your use of the Openads
+software to create and maintain your adserving history
+("Community Intelligence Data").
+This Community Intelligence Data includes:
+    - If you are a publisher - statistical information about your
+      adserver and the ad campaigns that you run.
+    - If you are an advertiser - statistical information about
+      the ad campaigns that you deliver.
+
+Website Data: Openads also collects data regarding anonymous visitors
+to the Openads website including: the IP address of the user's
+computer (which may include a domain name), the referring URL (if any)
+and details of the Internet browser software used by the user to view
+the Openads website. If you use the online Contact us feature of the
+website, we collect your name, email address and details of your message
 to enable us to respond to your inquiry.
 
 
-    3. Why/how does Openads use Community Intelligence Data? 
-Openads combines total users' Community Intelligence Data to publish 
-aggregate statistical information about the Openads Community. 
-For example, as a service, we may share aggregate Community Intelligence 
-Data with the Openads Community to let you know how many ads are 
+    3. Why/how does Openads use Community Intelligence Data?
+Openads combines total users' Community Intelligence Data to publish
+aggregate statistical information about the Openads Community.
+For example, as a service, we may share aggregate Community Intelligence
+Data with the Openads Community to let you know how many ads are
 served in the community, and which ad networks are used by Openads users.
 
 
     4. Does Openads collect personally identifiable information?
-Openads only collects and processes personally identifiable information 
-that you provide to us when registering as an Openads Community user, 
-using the online Contact us feature of the website or participating 
-in the forums. 
+Openads only collects and processes personally identifiable information
+that you provide to us when registering as an Openads Community user,
+using the online Contact us feature of the website or participating
+in the forums.
 
 
     5. How does Openads use Profile Data?
-Openads uses your Profile Data to manage your online profile and 
-to send you details of software updates. If you have indicated through 
-your Openads profile that you wish to receive such information, then 
-we may also send you information about new products and/or services 
-that Openads provides. You can opt-out of receiving future marketing 
-material by changing the relevant setting in your Openads profile or by 
-writing to us via our online contact form at 
-http://www.openads.org/contact-us/. 
+Openads uses your Profile Data to manage your online profile and
+to send you details of software updates. If you have indicated through
+your Openads profile that you wish to receive such information, then
+we may also send you information about new products and/or services
+that Openads provides. You can opt-out of receiving future marketing
+material by changing the relevant setting in your Openads profile or by
+writing to us via our online contact form at
+http://www.openads.org/contact-us/.
 
 
     6. How to discontinue/suspend Community Intelligence Data collection
-If you would like to disable the sharing of Community Intelligence Data 
-you can do so via the Admin interface within the Openads product. 
-However, if you choose to stop sharing Community Intelligence Data 
-you will not be able to access the aggregate statistical information 
+If you would like to disable the sharing of Community Intelligence Data
+you can do so via the Admin interface within the Openads product.
+However, if you choose to stop sharing Community Intelligence Data
+you will not be able to access the aggregate statistical information
 and reports compiled from this information.
 
 
     7. Transfer of information to third parties
-Your individual Community Intelligence Data, Configuration Data and 
-Profile Data will not be shared with or re-sold to anyone, except 
-where we are required to do so by law or if Openads is sold or sells 
-a portion of its assets which includes user information. 
+Your individual Community Intelligence Data, Configuration Data and
+Profile Data will not be shared with or re-sold to anyone, except
+where we are required to do so by law or if Openads is sold or sells
+a portion of its assets which includes user information.
 
 
     8. Cookies
-We use cookies to help you use the Openads website and adserver 
-software but do not use cookies to capture personally identifiable 
-information.  We use these cookies to identify you as a valid Openads 
-user, to ensure that no one else can simultaneously log in and use 
-your Openads profile and to help personalise your Openads experience in 
-conjunction with your Openads profile.  
-For more information about how cookies work and how to disable them, 
-go to http://www.allaboutcookies.org/manage-cookies/. However, if you 
-choose to disable cookies, you won't be able to enjoy a significant 
+We use cookies to help you use the Openads website and adserver
+software but do not use cookies to capture personally identifiable
+information.  We use these cookies to identify you as a valid Openads
+user, to ensure that no one else can simultaneously log in and use
+your Openads profile and to help personalise your Openads experience in
+conjunction with your Openads profile.
+For more information about how cookies work and how to disable them,
+go to http://www.allaboutcookies.org/manage-cookies/. However, if you
+choose to disable cookies, you won't be able to enjoy a significant
 portion of the Openads website and software functionality.
 
 
     9. Questions/feedback
-If you have any questions or feedback regarding Openads' data collection 
-or usage practices, you can contact us online at hello@openads.org.
+If you have any questions or feedback regarding Openads' data collection
+or usage practices, you can contact us online at hello@openads.org .
 
 
-    10. Changes to this Privacy and Data Usage Policy 
-We may change this Privacy and Data Usage Policy from time to time. 
-These changes will be brought to your attention by publishing them 
+    10. Changes to this Privacy and Data Usage Policy
+We may change this Privacy and Data Usage Policy from time to time.
+These changes will be brought to your attention by publishing them
 on this website.
