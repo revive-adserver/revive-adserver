@@ -268,7 +268,6 @@ class OA_Upgrade
 
         $this->oLogger->logClear();
         $this->detectPAN();
-        //$strProductName = 'Openads 2.0';
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
@@ -282,7 +281,6 @@ class OA_Upgrade
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 break;
             case OA_STATUS_PAN_VERSION_FAILED:
-                //$version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
                 $this->oLogger->log($strProductName.' detected');
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
@@ -299,8 +297,6 @@ class OA_Upgrade
         }
 
         $this->detectMAX01();
-        //$strProductName  = 'Openads 2.3';
-        //$this->versionInitialAppOpenads = preg_replace('/v0.1/', 'v2.3', $this->versionInitialApplication);
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
@@ -316,8 +312,6 @@ class OA_Upgrade
             case OA_STATUS_M01_DBINTEG_FAILED:
                 return false;
             case OA_STATUS_M01_VERSION_FAILED:
-//                $version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
-//                $this->oLogger->log($strProductName.' '.$version.' detected');
                 $this->oLogger->log($strProductName.' detected');
                 $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
@@ -329,8 +323,6 @@ class OA_Upgrade
         }
 
         $this->detectMAX();
-        //$strProductName  = 'Openads 2.3';
-        //$this->versionInitialAppOpenads = preg_replace('/v0.3/', 'v2.3', $this->versionInitialApplication);
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
@@ -346,8 +338,6 @@ class OA_Upgrade
             case OA_STATUS_MAX_DBINTEG_FAILED:
                 return false;
             case OA_STATUS_MAX_VERSION_FAILED:
-                //$database = $GLOBALS['_MAX']['CONF']['database']['name'];
-                //$version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
                 $this->oLogger->log($strProductName.' detected');
                 $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
@@ -379,10 +369,7 @@ class OA_Upgrade
             case OA_STATUS_OAD_DBINTEG_FAILED:
                 return false;
             case OA_STATUS_OAD_VERSION_FAILED:
-                //$database = $GLOBALS['_MAX']['CONF']['database']['name'];
-                //$version = ($this->versionInitialApplication ? $this->versionInitialApplication : ' unknown version');
                 $this->oLogger->log($strProductName.' detected');
-                //$this->oLogger->logError('Openads '.$this->versionInitialApplication.' detected');
                 $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
@@ -452,9 +439,9 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_PAN_VERSION_FAILED;
                 return false;
             }
-            $valid = ( (version_compare($this->versionInitialApplication,'200.313')>=0)
+            $valid = ( (version_compare($this->versionInitialApplication,'200.313')==0)
                       ||
-                       (version_compare($this->versionInitialApplication,'200.314')>=0)
+                       (version_compare($this->versionInitialApplication,'200.314')==0)
                      );
             if ($valid)
             {
@@ -520,7 +507,7 @@ class OA_Upgrade
                 return false;
             }
 
-            $valid = (version_compare($this->versionInitialApplication,'0.100')>=0);
+            $valid = (version_compare($this->versionInitialApplication,'0.100')==0);
             if ($valid)
             {
                 $this->versionInitialSchema['tables_core'] = '300';
@@ -569,7 +556,7 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_MAX_VERSION_FAILED;
                 return false;
             }
-            $valid = (version_compare($this->versionInitialApplication,'v0.3.31-alpha')>=0);
+            $valid = (version_compare($this->versionInitialApplication,'v0.3.31-alpha')==0);
             if ($valid)
             {
                 $this->versionInitialSchema['tables_core'] = '500';
