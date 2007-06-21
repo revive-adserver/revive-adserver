@@ -352,10 +352,10 @@
                     </index>
                     <index>
                       <remove>
-                        <name>day</name>
+                        <name>zone_id</name>
                     </remove>
                       <remove>
-                        <name>zone_id</name>
+                        <name>day</name>
                     </remove>
                   </index>
                 </table>
