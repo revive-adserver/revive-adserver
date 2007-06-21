@@ -85,6 +85,7 @@
     <xsl:for-each select="/tests/database/version">
       <xsl:element name="fulltest">
         <xsl:variable name="db.table.type.trimmed"><xsl:value-of select="normalize-space(@db.table.type)"/></xsl:variable>
+        <xsl:variable name="db.name.suffix"><xsl:if test="$db.table.type.trimmed != ''">_<xsl:value-of select="$db.table.type.trimmed"/></xsl:if></xsl:variable>
         <xsl:attribute name="test.name"><xsl:value-of select="$php/@name"/>-<xsl:value-of select="@name"/>-<xsl:value-of select="$db.table.type.trimmed"/></xsl:attribute>
         <xsl:attribute name="php"><xsl:value-of select="$php/@executable"/></xsl:attribute>
         <xsl:attribute name="db.type"><xsl:value-of select="@db.type"/></xsl:attribute>
@@ -92,7 +93,7 @@
         <xsl:attribute name="db.port"><xsl:value-of select="@db.port"/></xsl:attribute>
         <xsl:attribute name="db.username"><xsl:value-of select="@db.username"/></xsl:attribute>
         <xsl:attribute name="db.password"><xsl:value-of select="@db.password"/></xsl:attribute>
-        <xsl:attribute name="db.name"><xsl:value-of select="@db.name"/>_<xsl:value-of select="$php/@name"/></xsl:attribute>
+        <xsl:attribute name="db.name"><xsl:value-of select="@db.name"/>_<xsl:value-of select="$php/@name"/><xsl:value-of select="$db.name.suffix"/></xsl:attribute>
         <xsl:attribute name="db.table.type"><xsl:value-of select="@db.table.type"/></xsl:attribute>
       </xsl:element>
     </xsl:for-each>
