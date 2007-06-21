@@ -63,17 +63,24 @@ table.sysinfotable {
  font-weight: bold;
 }
 
-td.sysinfoerror, .sysinfoerror {
+td.sysinfoerror, .sysinfoerror, td.sysinfowarning {
  color: #FFFFFF;
  font-weight: bold;
  text-align: center;
  line-height: 17px;
  background-color: #880000;
 }
+td.sysinfowarning {
+ background-color: #d26a0d;
+}
 
-td.sysinfoerror i {
+td.sysinfoerror i, td.sysinfowarning i {
  font-weight: normal;
  font-size: 12px;
+}
+.sysinfoerror a, .sysinfowarning a {
+ color: #FFFFFF;
+ text-decoration: underline;
 }
 
 .floatleft {

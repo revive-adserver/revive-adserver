@@ -32,12 +32,36 @@
         
         <?php
             $errorImage = "<img src='".$imgPath."images/icon-x.gif' width='10' height='9'>";
-            $passImage = "<img src='".$imgPath."images/icon-checkmark.gif' width='10' height='9'>";
+            $warnImage = "<img src='".$imgPath."images/icon-warning.gif' width='12' height='12'>";
+            $passImage = "<img src='".$imgPath."images/icon-checkmark.gif' width='10' height='9'>";            
+            
+            // Setup list of all timezones, calculate selected timezone
+            require_once('../../lib/OA/Admin/Timezones.php');
+            $aTimezone = OA_Admin_Timezones::getTimezone();
 
             $sysinfoarray = $aSysInfo['PHP'];
             
-            // remove date.timezone from the array
+            // remove date.timezone from the array, set the timezone as the detected TZ
             unset($sysinfoarray['actual']['date.timezone']);
+            $sysinfoarray['actual']['timezone'] = $aTimezone['tz'];
+            // if TZ was calculated, display a warning
+            if ($aTimezone['calculated']) 
+            {
+                if (version_compare($sysinfoarray['actual']['version'],'5.1', ">"))
+                {
+                    $docLink = "http://docs.openads.org";
+                }
+                else
+                {
+                    $docLink = "http://docs.openads.org";
+                }
+                $sysinfoarray['actual']['timezone'] .= ' ' . $warnImage;
+                $sysinfoarray['warning']['tz'] = $strTimezoneGuessedValue . '.<br>' . $strTimezoneDocs . '<br><a href="' . $docLink . '" target="_blank">' . $docLink . '</a>';
+            } 
+            else 
+            {
+                $sysinfoarray['actual']['timezone'] .= ' ' . $passImage;
+            }
                         
             $sysinfoarray['actual']['version'] = ($sysinfoarray['error'][OA_ENV_ERROR_PHP_VERSION] ? $sysinfoarray['actual']['version'].' '.$errorImage : $sysinfoarray['actual']['version'].' '.$passImage );
             

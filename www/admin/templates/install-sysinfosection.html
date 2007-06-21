@@ -30,7 +30,9 @@
             if ($sysinfoarray['error'])
             {
                 echo "<tr>
-                          <td colspan=\"2\" class=\"sysinfoerror\">";
+                          <td colspan=\"2\" class=\"sysinfoerror\">
+                            Error:<br />
+                     ";
                 foreach ($sysinfoarray['error'] AS $k => $v)
                 {
                     echo $v."<br />";
@@ -38,6 +40,20 @@
                 echo "</td>
                           </tr>";
             }
+            if ($sysinfoarray['warning'])
+            {
+                echo "<tr>
+                          <td colspan=\"2\" class=\"sysinfowarning\">
+                            Warning:<br />
+                    ";
+                foreach ($sysinfoarray['warning'] AS $k => $v)
+                {
+                    echo $v."<br />";
+                }
+                echo "</td>
+                          </tr>";
+            }
+            
             echo "
                               </table>
                           </td>
