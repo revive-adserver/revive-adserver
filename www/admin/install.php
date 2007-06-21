@@ -58,12 +58,12 @@ $oUpgrader = new OA_Upgrade();
 $oSystemMgr = &$oUpgrader->oSystemMgr;
 $oSystemMgr->getAllInfo();
 if (!$oSystemMgr->checkMemory()) {
-    echo 'The minimum requirement amount of memory of Openads is <b>'. getMinimumRequiredMemory() 
+    echo 'The minimum requirement amount of memory of Openads is <b>'. getMinimumRequiredMemory()
         .' Bytes</b>. Please increase your PHP memory_limit before continuing.';
     exit(1);
 }
 
-@set_time_limit(60);
+//@set_time_limit(60);
 
 // required files for header & nav
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
@@ -197,7 +197,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
             }
         }
     }
-    
+
     if ((($action != OA_UPGRADE_UPGRADE) && ($action != OA_UPGRADE_INSTALL)) || $oUpgrader->oLogger->errorExists)
     {
         // if they're being redirected from an install, they will have DB info in POST, otherwise they will have DBinfo in CONF
