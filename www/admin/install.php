@@ -197,7 +197,8 @@ else if (array_key_exists('btn_upgrade', $_POST))
             }
         }
     }
-    if (($action != OA_UPGRADE_UPGRADE) && ($action != OA_UPGRADE_INSTALL))
+    
+    if ((($action != OA_UPGRADE_UPGRADE) && ($action != OA_UPGRADE_INSTALL)) || $oUpgrader->oLogger->errorExists)
     {
         // if they're being redirected from an install, they will have DB info in POST, otherwise they will have DBinfo in CONF
         if ($_POST['aConfig']) {
