@@ -84,13 +84,13 @@ function init()
                 {
                     $path = '';
                 }
-                if (isset($GLOBALS['_MAX']['ROOT_INDEX']) && $GLOBALS['_MAX']['ROOT_INDEX'])
+                if (!empty($GLOBALS['_MAX']['ROOT_INDEX']))
                 {
                     // The root index.php page was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
                            getHostNameWithPort() . $path . '/www/admin/install.php';
                     header($location);
-                } elseif ($GLOBALS['_MAX']['WWW_INDEX'])
+                } elseif (!empty($GLOBALS['_MAX']['WWW_INDEX']))
                 {
                     // The index.php page in /www was called to get here
                     $location = 'Location: ' . $GLOBALS['_MAX']['HTTP'] .
