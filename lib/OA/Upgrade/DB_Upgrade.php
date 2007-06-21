@@ -1473,7 +1473,7 @@ class OA_DB_Upgrade
                         $aDBFields = $this->_listTableFields($table);
                         foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
                         {
-                            $this->_log('checking field: '.$field);
+                            $this->_log('checking field: '.$this->prefix.$table.$field);
                             if (!in_array($field, $aDBFields))
                             {
                                 if (array_key_exists('rename', $aField_tasks))
