@@ -29,8 +29,10 @@
         noerrors = max_formValidate(f);
         if (noerrors == true) {
             var errObj = new getObj('displayDbError');
+            var pgsqlWarn  = new getObj('pgSqlWarning');
             var dbLoader = new getObj('dbLoader');
             errObj.style.display='none';
+            pgsqlWarn.style.display = 'none';
             dbLoader.style.display='block';
             dbLoader.style.height='570px';
         }
@@ -41,17 +43,23 @@
         var dbType     = new getObj('aConfig[database][type]');
         var portObj    = new getObj('aConfig[database][port]');
         var TblTypeObj = new getObj('aConfig[table][type]');
+        var pgsqlWarn  = new getObj('pgSqlWarning');
         if (dbType.obj.value == 'mysql') {
             portObj.obj.value = 3306;
             if (!portObj.obj.disabled) {
                 TblTypeObj.obj.disabled = false;
             }
+            pgsqlWarn.style.display = 'none';
         } else if (dbType.obj.value == 'pgsql') {
             portObj.obj.value = 5432;
             TblTypeObj.obj.disabled = 'disabled';
+            pgsqlWarn.style.display = 'block';
         }
     }
     </script>
+
+<div id="pgSqlWarning" class="sysmessage sysinfoerror" style="display:none;">Please understand that support for PostgreSQL is currently experimental.</div>    
+
 <div id="dbLoader" class="pageLoader tab-s" style="display: none;"><div>Processing...</div></div>
 
 <form name="frmOpenads" id="frmOpenads" method="POST" action="install.php" onSubmit='return showLoader(this);' style="margin:0; padding:0;">
