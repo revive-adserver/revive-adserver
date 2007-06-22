@@ -308,7 +308,7 @@ class OA_Admin_Config
         // Make sure we don't overwrite any old backup files.
         $i=0;
         while(file_exists($directory . '/' . $newFilename)){
-            $newFilename = substr($newFilename, 0, strpos($newFilename, $now)) . $now . '_' . $i;
+            $newFilename = substr($newFilename, 0, strpos($newFilename, $now)) . $now . '_' . $i.'_old.'.$basename;
             $i++;
         }
 
