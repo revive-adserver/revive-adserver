@@ -79,7 +79,6 @@ class OA_Upgrade
     var $oParser;
     var $oDBUpgrader;
     var $oVersioner;
-    var $oDBAuditor;
     var $oAuditor;
     var $oSystemMgr;
     var $oDbh;
@@ -112,7 +111,6 @@ class OA_Upgrade
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
         $this->oDBUpgrader  = new OA_DB_Upgrade($this->oLogger);
-        $this->oDBAuditor   = new OA_DB_UpgradeAuditor();
         $this->oAuditor     = new OA_UpgradeAuditor();
         $this->oVersioner   = new OA_Version_Controller();
         $this->oPAN         = new OA_phpAdsNew();
@@ -164,9 +162,8 @@ class OA_Upgrade
         $this->oTable->oDbh = $this->oDbh;
         $this->oDBUpgrader->initMDB2Schema();
         $this->oVersioner->init($this->oDbh);
-        $this->oDBAuditor->init($this->oDbh, $this->oLogger);
-        $this->oAuditor->init($this->oDbh, $this->oLogger, $this->oDBAuditor);
-        $this->oDBUpgrader->oAuditor = &$this->oDBAuditor;
+        $this->oAuditor->init($this->oDbh, $this->oLogger);
+        $this->oDBUpgrader->oAuditor = &$this->oAuditor->oDBAuditor;
         $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
         return true;
@@ -1414,7 +1411,7 @@ class OA_Upgrade
                 krsort($this->aDBPackages);
                 foreach ($this->aDBPackages as $k=>$aPkg)
                 {
-                    $this->oDBAuditor->logDatabaseAction(array('info1'=>'UPGRADE FAILED',
+                    $this->oAuditor->oDBAuditor->logDatabaseAction(array('info1'=>'UPGRADE FAILED',
                                                                'info2'=>'ROLLING BACK',
                                                                'action'=>DB_UPGRADE_ACTION_UPGRADE_FAILED,
                                                               )
@@ -1577,7 +1574,7 @@ class OA_Upgrade
      */
     function _checkChangesetAudit($schema)
     {
-        $aResult = $this->oDBAuditor->queryAudit(null, null, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
+        $aResult = $this->oAuditor->oDBAuditor->queryAudit(null, null, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
         if ($aResult)
         {
             foreach ($aResult as $k=>$v)

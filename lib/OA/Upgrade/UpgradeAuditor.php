@@ -36,6 +36,7 @@ define('UPGRADE_ACTION_UPGRADE_FAILED',                         0);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
+require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 
 class OA_UpgradeAuditor
 {
@@ -70,7 +71,7 @@ class OA_UpgradeAuditor
         //this->__construct();
     }
 
-    function init(&$oDbh, $oLogger='', $oDBAuditor)
+    function init(&$oDbh, $oLogger='')
     {
         $this->oDbh = $oDbh;
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
@@ -80,7 +81,8 @@ class OA_UpgradeAuditor
         {
             $this->oLogger= $oLogger;
         }
-        $this->oDBAuditor = & $oDBAuditor;
+        $this->oDBAuditor = new OA_DB_UpgradeAuditor();
+        $this->oDBAuditor->init($this->oDbh, $this->oLogger);
         return $this->_checkCreateAuditTable();
     }
 
