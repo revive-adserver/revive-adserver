@@ -132,7 +132,7 @@ if ($oUpgrader->isRecoveryRequired())
     $oUpgrader->recoverUpgrade();
     $action = OA_UPGRADE_RECOVERY;
 }
-else if (array_key_exists('btn_syscheck', $_POST))
+else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPGRADE_SYSCHECK)
 {
     // store updates_enabled value into session, so that they can be inserted into DB once DB has been created
     session_start();
