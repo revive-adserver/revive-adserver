@@ -31,26 +31,27 @@ $Id$
 function getDBAuditTable($aAudit)
 {
     $td = "<td class=\"tablebody\">%s</td>";
-    $schemas = "<table><tr><th class=\"tablebody\" colspan=\"7\">schemas</th></tr>";
+    $th = "<th align=\"left\" style='background-color: #ddd; border-bottom: 1px solid #ccc;'><b>%s</b></th>";
+    $schemas = "<table width='100%' cellpadding='8' cellspacing='0' style='border: 1px solid #ccc; background-color: #eee;'>";
     $schemas.= "<tr>";
-    $schemas.= sprintf($td, 'schema');
-    $schemas.= sprintf($td, 'version');
-    $schemas.= sprintf($td, 'backup');
-    $schemas.= sprintf($td, 'source');
-    $schemas.= sprintf($td, 'size');
-    $schemas.= sprintf($td, 'rows');
-    $schemas.= sprintf($td, 'drop');
+    //$schemas.= sprintf($th, 'schema');
+    //$schemas.= sprintf($th, 'version');
+    $schemas.= sprintf($th, 'Table origin');
+    $schemas.= sprintf($th, 'Backup table');
+    $schemas.= sprintf($th, 'Size');
+    $schemas.= sprintf($th, 'Rows');
+    //$schemas.= sprintf($th, 'Delete');
     $schemas.= "</tr>";
     foreach ($aAudit AS $k => $aRec)
     {
         $schemas.= "<tr>";
-        $schemas.= sprintf($td, $aRec['schema_name']);
-        $schemas.= sprintf($td, $aRec['version']);
-        $schemas.= sprintf($td, $aRec['tablename_backup']);
+        //$schemas.= sprintf($td, $aRec['schema_name']);
+        //$schemas.= sprintf($td, $aRec['version']);
         $schemas.= sprintf($td, $aRec['tablename']);
-        $schemas.= sprintf($td, $aRec['backup_size']);
+        $schemas.= sprintf($td, $aRec['tablename_backup']);
+        $schemas.= sprintf($td, $aRec['backup_size'] * 1024 . ' kb');
         $schemas.= sprintf($td, $aRec['backup_rows']);
-        $schemas.= sprintf($td, "<input type=\"checkbox\" id=\"chk_tbl[{$aRec['database_action_id']}]\" name=\"chk_tbl[{$aRec['database_action_id']}]\" checked />");
+        //$schemas.= sprintf($td, "<input type=\"checkbox\" id=\"chk_tbl[{$aRec['database_action_id']}]\" name=\"chk_tbl[{$aRec['database_action_id']}]\" checked />");
         $schemas.= "</tr>";
     }
     $schemas.= "</table>";

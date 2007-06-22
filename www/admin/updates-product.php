@@ -52,6 +52,7 @@ if (isset($session['update_check']) && $session['update_check']) {
 
 phpAds_PageHeader("5.4");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_MaintenanceSelection("product", "updates");
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -88,7 +89,7 @@ if (!isset($session['maint_update'])) {
 
         echo "<script language='JavaScript'>\n";
         echo "<!--\n";
-        echo "document.location.replace('maintenance-updates.php');\n";
+        echo "document.location.replace('updates-product.php');\n";
         echo "//-->\n";
         echo "</script>\n";
         exit();

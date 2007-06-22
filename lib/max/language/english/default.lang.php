@@ -899,6 +899,8 @@ $GLOBALS['strAdminSettings']        = "Administration Settings";
 
 // Product Updates
 $GLOBALS['strProductUpdates']          = "Product Updates";
+$GLOBALS['strCheckForUpdates']          = "Check for Updates";
+$GLOBALS['strViewPastUpdates']          = "Manage Past Updates and Backups";
 
 // Agency
 $GLOBALS['strAgencyManagement']              = "Agency Management";

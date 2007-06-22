@@ -272,22 +272,25 @@ function expandOSURow($id, $oUpgrader)
     $html = getDBAuditTable($oUpgrader->oAuditor->queryAuditBackupTablesByUpgradeId($id));
 
 	$objResponse = new xajaxResponse();
-	$objResponse->addAssign('row_'.$id,"style.display", 'block');
-    $objResponse->addAssign('cell_'.$id, 'colspan', 20);
+	$objResponse->addAssign('cell_'.$id,"style.display", 'block');
     $objResponse->addAssign('cell_'.$id, 'text-align', 'center');
 	$objResponse->addAssign('cell_'.$id, 'innerHTML', $html);
 	$objResponse->addAssign('img_expand_'.$id,"style.display", 'none');
 	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'inline');
+	$objResponse->addAssign('text_expand_'.$id,"style.display", 'none');
+	$objResponse->addAssign('text_collapse_'.$id,"style.display", 'inline');
 	return $objResponse;
 }
 
 function collapseOSURow($id)
 {
 	$objResponse = new xajaxResponse();
-	$objResponse->addAssign('row_'.$id,"style.display", 'none');
+	$objResponse->addAssign('cell_'.$id,"style.display", 'none');
 	$objResponse->addAssign('cell_'.$id, 'innerHTML', '');
 	$objResponse->addAssign('img_expand_'.$id,"style.display", 'inline');
 	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'none');
+	$objResponse->addAssign('text_expand_'.$id,"style.display", 'inline');
+	$objResponse->addAssign('text_collapse_'.$id,"style.display", 'none');
 	return $objResponse;
 }
 

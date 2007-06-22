@@ -211,7 +211,7 @@ function MMM_buildNavigation()
               "5.2"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
                 "5.2.1"                 =>  array("userlog-details.php?userlogid=$userlogid" => $GLOBALS['strUserLogDetails']),
               "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance']),
-              "5.4"                     =>  array("maintenance-updates.php" => $GLOBALS['strProductUpdates']),
+              "5.4"                     =>  array("updates-product.php" => $GLOBALS['strProductUpdates']),
               "5.5"                     =>  array("agency-index.php" => $GLOBALS['strAgencyManagement']),
                 "5.5.1"                 =>  array("agency-edit.php" => $GLOBALS['strAddAgency']),
                 "5.5.2"                 =>  array("agency-edit.php?agencyid=$agencyid" => $GLOBALS['strAgencyProperties']),

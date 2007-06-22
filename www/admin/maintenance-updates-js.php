@@ -86,7 +86,7 @@ if (phpAds_isUser(phpAds_Admin))
         else
             echo "if (confirm('".$strUpdateAlert."'))\n\t";
 
-        echo "document.location.replace('maintenance-updates.php');\n";
+        echo "document.location.replace('updates-product.php');\n";
     }
 }
 

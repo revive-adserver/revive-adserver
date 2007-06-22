@@ -1,0 +1,267 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
+// Require the initialisation file
+require_once '../../init.php';
+
+// Required files
+require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
+require_once MAX_PATH . '/lib/OA/Sync.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+
+// Security check
+phpAds_checkAccess(phpAds_Admin);
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageHeader("5.4");
+phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_MaintenanceSelection("history", "updates");
+
+/*-------------------------------------------------------*/
+/* Main code                                             */
+/*-------------------------------------------------------*/
+
+$oUpgrader = new OA_Upgrade();
+$oUpgrader->initDatabaseConnection();
+
+if (array_key_exists('btn_clean_audit', $_POST))
+{
+    $upgrade_id = $_POST['upgrade_action_id'];
+    $oUpgrader->oAuditor->cleanAuditArtifacts($upgrade_id);
+}
+
+$aAudit = $oUpgrader->oAuditor->queryAuditAllDescending();
+
+?>
+
+    <script type="text/javascript" src="js/schema.js"></script>
+    <script type="text/javascript" src="js/xajax.js"></script>
+
+    <script type="text/javascript">
+        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL:js/xajax.js'); } }, 6000);
+    </script>
+<?php
+$aErrors = $oUpgrader->getErrors();
+if (count($aErrors)>0)
+{
+?>
+<div class='errormessage'><img class='errormessage' src='images/errormessage.gif' width='16' height='16' border='0' align='absmiddle'>
+    <?php
+        foreach ($aErrors AS $k => $err)
+        {
+            echo $err.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+$aMessages = $oUpgrader->getMessages();
+if (count($aMessages)>0)
+{
+?>
+<div class='errormessage' style='background-color: #eee;'><img class='errormessage' src='images/info.gif' width='16' height='16' border='0' align='absmiddle'>
+    <?php
+        foreach ($aMessages AS $k => $msg)
+        {
+            echo $msg.'<br />';
+        }
+    ?>
+</div>
+<?php
+}
+?>
+		<table width='100%' border='0' cellspacing='0' cellpadding='0'>
+		<tr>
+			<td width='40'>&nbsp;</td>
+			<td>
+                <br /><br />
+                <table border='0' width='90%' cellpadding='0' cellspacing='0'>
+                <tr height='25'>
+                    <td height='25'>&nbsp;</td>
+                    <td height='25'>
+                        <b>&nbsp;&nbsp;<a href='#'>Date</a></b>
+                    </td>
+                    <td height="25">
+                        <b><a href="#">From Version</a></b>
+                    </td>
+                    <td height="25">
+                        <b><a href="#">To Version</a></b>
+                    </td>
+                    <td height="25">
+                        <b><a href="#">Status</a></b>
+                    </td>
+                    <td height='25' width='70'>
+                        <b><a href="#">&nbsp;</a></b>
+                    </td>
+                </tr>
+                <tr height='1'>
+                    <td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+                </tr>                
+                <?php
+                $i=0;
+                foreach ($aAudit AS $k => $v)
+                {
+                ?>
+                    <form name="frmOpenads" action="updates-history.php" method="POST">
+                    <tr height='25' <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
+                        <?php
+                            if ($v['backups']) {
+                        ?>
+                        <td height='25' width='25'>
+                            &nbsp;<a href="#"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="click to view table" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="images/triangle-d.gif" style="display:none" alt="click to hide details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
+                        </td>
+                        <td height='25'>
+                            <b>&nbsp;<a href="#" id="text_expand_<?php echo $v['upgrade_action_id']; ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');"><?php echo $v['updated']; ?></a><a href="#" id="text_collapse_<?php echo $v['upgrade_action_id']; ?>" style="display:none" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');"><?php echo $v['updated']; ?></a></b>
+                        <?php
+                            } else {
+                        ?>
+                            <td colspan="2"><b style="color: #003399;">&nbsp;<?php echo $v['updated']; ?></a></b></td>
+                        <?php
+                            }
+                        ?>
+                        </td>
+                        <td height='25'>
+                            <?php echo ($v['version_from']) ? $v['version_from'] : '<b>Installation</b>'; ?>
+                        </td>
+                        <td height='25'>
+                            <?php echo $v['version_to']; ?>
+                        </td>
+                        <td height='25'>
+                            <span style="text-transform:lowercase;"><?php echo $v['description']; ?></span>
+                        </td>
+                        <td height='25' align='right'>
+                        
+                        </td>
+                    </tr>
+                    <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='images/spacer.gif' width='1' height='1'></td><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
+                <tr style="display:table-row;" <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
+                    <td colspan='2'>&nbsp;</td>
+                    <td colspan='4'>
+                        <table width='100%' cellpadding='5' cellspacing='0' border='0' style='border: 0px solid #ccc; margin: 10px 0 10px 0; '>
+                        <tr height='20'>
+                            <td width="235" style="border-bottom: 1px solid #ccc;">                            
+                            Artifacts: 
+                            </td>
+                            <td width="100" style="border-bottom: 1px solid #ccc;">
+                            <?php echo ($v['backups']) ? $v['backups'] + isset($v['logfile']) + isset($v['confbackup']) : 0; ?>
+                            </td>
+                            <td align="right" style="border-bottom: 1px solid #ccc;">
+                            <?php
+                            if ($v['backups']) {
+                            ?>
+                                <img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='Delete'><input type="submit" name="btn_clean_audit" onClick="return confirm('Do you really want to delete all backups created from this upgrade?')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="Delete Artifacts">
+                            <?php
+                            } else {
+                            ?>
+                                &nbsp;
+                            <?php
+                            }
+                            ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <?php
+                            if ($v['backups']) {
+                            ?>
+                            <td width="235">                            
+                            Backup database tables: 
+                            </td>
+                            <td width="100" colspan="2">
+                            <?php echo $v['backups']; ?>
+                            </td>
+                        </tr>
+                        <tr height='20'>
+                            <td>Log files:</td>
+                            <td colspan="2">
+                            <?php echo ($v['logfile']) ? '1' : '0'; ?> 
+                            </td>
+                        </tr>
+                        <tr height='20'>
+                            <td>Conf backups:</td>
+                            <td colspan="2">
+                            <?php echo ($v['confbackup']) ? '1' : '0'; ?>
+                            </td>
+                            <?php
+                            } else {
+                            ?>
+                            <td>&nbsp;</td>
+                            <?php
+                            }
+                            ?>
+            <?php
+            if ($v['logfile'] || $v['confbackup'])
+            {
+            }
+            ?>
+                        </tr>
+                        <tr>
+                            <td colspan='3'>
+                            <div id="cell_<?php echo $v['upgrade_action_id']; ?>"> </div>
+                            </td>
+                        </tr>
+                        </table>
+                    </td>
+                            <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
+                </tr>
+              </form>
+                <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+                <?php
+                    $i++;
+                }
+                ?>
+                <tr height='25'>
+                    <td colspan='6' height='25' align='right'>
+                    </td>
+                </tr>
+                </table>
+                <br /><br />
+            </td>
+			<td width='40'>&nbsp;</td>
+		</tr>
+		<tr>
+			<td width='40' height='20'>&nbsp;</td>
+			<td height='20'>&nbsp;</td>
+		</tr>
+		</table>
+
+<?php
+
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageFooter();
+
+?>

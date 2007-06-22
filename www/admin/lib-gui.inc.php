@@ -597,7 +597,7 @@ function phpAds_PageFooter($imgPath='')
     echo "</tr>\n";
     echo "</table>\n";
     echo "\n\n";
-    if (!ereg("/(index|maintenance-updates|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
+    if (!ereg("/(index|updates-product|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
         // Add Product Update redirector
         if (phpAds_isUser(phpAds_Admin) && function_exists('xml_parser_create') && !isset($session['update_check'])) {
             echo "<script language='JavaScript' type='text/javascript' src='maintenance-updates-js.php'></script>\n";
