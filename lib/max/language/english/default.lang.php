@@ -194,6 +194,7 @@ $GLOBALS['strLogout']                   = "Logout";
 $GLOBALS['strUsername']                 = "Username";
 $GLOBALS['strPassword']                 = "Password";
 $GLOBALS['strAccessDenied']             = "Access denied";
+$GLOBALS['strUsernameOrPasswordWrong']  = "The username and/or password were not correct. Please try again.";
 $GLOBALS['strPasswordWrong']            = "The password is not correct";
 $GLOBALS['strParametersWrong']          = "The parameters you supplied are not correct";
 $GLOBALS['strNotAdmin']                 = "You may not have enough privileges, if you know the correct user details, you may login again below";

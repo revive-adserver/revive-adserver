@@ -255,7 +255,7 @@ function phpAds_getHelpFile ()
 function phpAds_Login($checkRedirectFunc = 'phpAds_checkRedirect')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    global $strPasswordWrong;
+    global $$strUsernameOrPasswordWrong;
 
     if ($checkRedirectFunc()) {
         header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
@@ -279,7 +279,7 @@ function phpAds_Login($checkRedirectFunc = 'phpAds_checkRedirect')
         } else {
             // Password is not correct or user is not known
             // Set the session ID now, some server do not support setting a cookie during a redirect
-            MAX_Permission_Session::restartToLoginScreen($strPasswordWrong);
+            MAX_Permission_Session::restartToLoginScreen($strUsernameOrPasswordWrong);
         }
     } else {
         //if (!$conf['openads']['installed'])
