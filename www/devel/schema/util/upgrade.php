@@ -42,6 +42,8 @@ function getDBAuditTable($aAudit)
     $schemas.= sprintf($th, 'Rows');
     //$schemas.= sprintf($th, 'Delete');
     $schemas.= "</tr>";
+    $totalSize = 0;
+    $totalRows = 0;
     foreach ($aAudit AS $k => $aRec)
     {
         $schemas.= "<tr>";
@@ -53,7 +55,18 @@ function getDBAuditTable($aAudit)
         $schemas.= sprintf($td, $aRec['backup_rows']);
         //$schemas.= sprintf($td, "<input type=\"checkbox\" id=\"chk_tbl[{$aRec['database_action_id']}]\" name=\"chk_tbl[{$aRec['database_action_id']}]\" checked />");
         $schemas.= "</tr>";
+        $totalSize = $totalSize + $aRec['backup_size'];
+        $totalRows = $totalRows + $aRec['backup_rows'];
     }
+    
+    $schemas.= "<tr>";
+    $schemas.= sprintf($th, 'Total');
+    $schemas.= sprintf($th, count($aAudit) . ' tables');
+    $schemas.= sprintf($th, $totalSize * 1024 . ' kb');
+    $schemas.= sprintf($th, $totalRows);
+    //$schemas.= sprintf($th, 'Delete');
+    $schemas.= "</tr>";
+    
     $schemas.= "</table>";
     return $schemas;
 }
