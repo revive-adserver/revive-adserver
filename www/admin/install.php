@@ -31,6 +31,7 @@ define('OA_UPGRADE_TERMS',                     1);
 define('OA_UPGRADE_POLICY',                    5);
 define('OA_UPGRADE_SYSCHECK',                  10);
 define('OA_UPGRADE_APPCHECK',                  20);
+define('OA_UPGRADE_LOGIN',                     25);
 define('OA_UPGRADE_DBSETUP',                   30);
 define('OA_UPGRADE_UPGRADE',                   35);
 define('OA_UPGRADE_INSTALL',                   36);
@@ -127,6 +128,90 @@ function checkFolderPermissions($folder) {
     return true;
 }
 
+/**
+ * Check administrator login during the upgrade steps
+ *
+ * @todo Refactor and/or move parts of this function to a more appropriate place
+ *
+ * @return boolean True if login succeded
+ */
+function checkLogin()
+{
+    if (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
+        return true;
+    }
+
+    // Make sure that the preferences array wasn't injected
+    $GLOBALS['_MAX']['PREF'] = array();
+
+    $oUpgrader = new OA_Upgrade();
+
+    $openadsDetected = $oUpgrader->detectOpenads(true) ||
+        $oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION;
+
+    // Sequentially check, to avoid useless work
+    if (!$openadsDetected) {
+        if (!($panDetected = $oUpgrader->detectPAN(true))) {
+            if (!($maxDetected = $oUpgrader->detectMAX(true))) {
+                $max01Detected = $oUpgrader->detectMAX01(true);
+            }
+        }
+    }
+
+    if ($openadsDetected || $panDetected || $maxDetected || $max01Detected) {
+        if ($openadsDetected) {
+            // Openads 2.3+ - Load admin username and password using the preference DAL
+            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+            MAX_Admin_Preferences::loadPrefs();
+        } else {
+            // Old versions - Load admin username and password using hardcoded queries
+            $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+            if ($panDetected) {
+                $table = 'config';
+                $where = '';
+            } else {
+                $table = $max01Detected ? 'config' : 'preference';
+                $where = ' WHERE agencyid = 0';
+            }
+            $oDbh = OA_DB::singleton();
+            if (!PEAR::isError($oDbh)) {
+                $aPref = $oDbh->queryRow("SELECT admin, admin_pw FROM {$prefix}{$table}{$where}",
+                    null,
+                    MDB2_FETCHMODE_ASSOC);
+
+                if (is_array($aPref)) {
+                    $GLOBALS['_MAX']['PREF'] = $aPref;
+                }
+            }
+        }
+    }
+
+    phpAds_SessionStart();
+    phpAds_SessionDataFetch();
+
+    if (!empty($_POST['username']) && !empty($_POST['password'])) {
+        $username  = MAX_commonGetPostValueUnslashed('username');
+        $password  = MAX_commonGetPostValueUnslashed('password');
+
+        $md5digest = md5($password);
+
+
+        if (phpAds_isAdmin($username, $md5digest)) {
+            phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($username));
+        }
+    }
+
+    if (phpAds_isUser(phpAds_Admin)) {
+        phpAds_SessionDataStore();
+        return true;
+    }
+
+    return false;
+}
+
+
+
 if ($oUpgrader->isRecoveryRequired())
 {
     $oUpgrader->recoverUpgrade();
@@ -144,41 +229,58 @@ else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPG
     if (!$aSysInfo['PERMS']['error'] && !$aSysInfo['PHP']['error'] && !$aSysInfo['FILES']['error'])
     {
         $halt = !$oUpgrader->canUpgrade();
+        $installStatus = $oUpgrader->existing_installation_status;
+        if ($installStatus == OA_STATUS_CURRENT_VERSION) {
+            // Do not halt if the version is current
+            $halt = false;
+        }
     } else {
         $message = $strFixErrorsBeforeContinuing;
     }
 
-    $installStatus = $oUpgrader->existing_installation_status;
-    if ($installStatus == OA_STATUS_CURRENT_VERSION)
-    {
-        $message = 'Openads is up to date';
-        $strInstallSuccess = $strOaUpToDate;
-        $action = OA_UPGRADE_FINISH;
-    }
-    else
-    {
-        $action   = OA_UPGRADE_SYSCHECK;
-    }
+    $action   = OA_UPGRADE_SYSCHECK;
 }
 else if (array_key_exists('btn_appcheck', $_POST))
 {
     $action = OA_UPGRADE_APPCHECK;
 }
+else if (array_key_exists('btn_login', $_POST))
+{
+    $action = OA_UPGRADE_LOGIN;
+}
 else if (array_key_exists('btn_dbsetup', $_POST))
 {
-    if ($oUpgrader->canUpgrade())
+    if (!checkLogin()) {
+        $message = $strPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
+    }
+    elseif ($oUpgrader->canUpgrade())
     {
         $aDatabase = $oUpgrader->aDsn;
         $action    = OA_UPGRADE_DBSETUP;
     }
     else
     {
-        $action    = OA_UPGRADE_ERROR;
+        $installStatus = $oUpgrader->existing_installation_status;
+        if ($installStatus == OA_STATUS_CURRENT_VERSION)
+        {
+            $message = 'Openads is up to date';
+            $strInstallSuccess = $strOaUpToDate;
+            $action = OA_UPGRADE_FINISH;
+        }
+        else
+        {
+            $action = OA_UPGRADE_ERROR;
+        }
     }
 }
 else if (array_key_exists('btn_upgrade', $_POST))
 {
-    if ($oUpgrader->canUpgrade())
+    if (!checkLogin()) {
+        $message = $strPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
+    }
+    elseif ($oUpgrader->canUpgrade())
     {
         if ($oUpgrader->existing_installation_status == OA_STATUS_NOT_INSTALLED)
         {
@@ -214,65 +316,100 @@ else if (array_key_exists('btn_upgrade', $_POST))
 }
 else if (array_key_exists('btn_configsetup', $_POST))
 {
-    $aConfig = $oUpgrader->getConfig();
-    $action = OA_UPGRADE_CONFIGSETUP;
-}
-else if (array_key_exists('btn_adminsetup', $_POST))
-{
-    // acquire the community preferences from session in order to add them to preferences table using putCommunityPreferences
-    $aCommunity = array();
-    session_start();
-    $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
-
-    if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
-    {
-        if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
-            $aConfig                    = $_POST['aConfig'];
-            $aConfig['store']['webDir'] = stripslashes($aConfig['store']['webDir']);
-            $errMessage                 = $strImageDirLockedDetected;
-            $action                     = OA_UPGRADE_CONFIGSETUP;
-        } else {
-            if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
-            {
-                //$oUpgrader->getAdmin();
-                $action = OA_UPGRADE_ADMINSETUP;
-            }
-            else
-            {
-                //Hide the IDsetup, instead display the finish page
-                //$action = OA_UPGRADE_IDSETUP;
-                $message = 'Congratulations you have finished upgrading Openads';
-                $oUpgrader->setOpenadsInstalledOn();
-                $action = OA_UPGRADE_FINISH;
-            }
-        }
+    if (!checkLogin()) {
+        $message = $strPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
     }
     else
     {
-        $action = OA_UPGRADE_ERROR;
+        $aConfig = $oUpgrader->getConfig();
+        $action = OA_UPGRADE_CONFIGSETUP;
+    }
+}
+else if (array_key_exists('btn_adminsetup', $_POST))
+{
+    if (!checkLogin()) {
+        $message = $strPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
+    }
+    else
+    {
+        // acquire the community preferences from session in order to add them to preferences table using putCommunityPreferences
+        $aCommunity = array();
+        session_start();
+        $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
+
+        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
+        {
+            if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
+                $aConfig                    = $_POST['aConfig'];
+                $aConfig['store']['webDir'] = stripslashes($aConfig['store']['webDir']);
+                $errMessage                 = $strImageDirLockedDetected;
+                $action                     = OA_UPGRADE_CONFIGSETUP;
+            } else {
+                if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+                {
+                    //$oUpgrader->getAdmin();
+                    $action = OA_UPGRADE_ADMINSETUP;
+                }
+                else
+                {
+                    //Hide the IDsetup, instead display the finish page
+                    //$action = OA_UPGRADE_IDSETUP;
+                    $message = 'Congratulations you have finished upgrading Openads';
+                    $oUpgrader->setOpenadsInstalledOn();
+                    $action = OA_UPGRADE_FINISH;
+                }
+            }
+        }
+        else
+        {
+            $action = OA_UPGRADE_ERROR;
+        }
     }
 }
 else if (array_key_exists('btn_adminsetup_back', $_POST))
 {
-    $aAdmin = unserialize(stripslashes($_POST['aAdminPost']));
-    $action = OA_UPGRADE_ADMINSETUP;
-}
-else if (array_key_exists('btn_oaidsetup', $_POST))
-{
-    $action = OA_UPGRADE_IDSETUP;
-}
-else if (array_key_exists('btn_datasetup', $_POST))
-{
-    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
-    {
-        $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
-        $oUpgrader->putAdmin($_POST['aAdmin']);
-        $action = OA_UPGRADE_DATASETUP;
+    if (!checkLogin()) {
+        $message = $strPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
     }
     else
     {
-        $action = OA_UPGRADE_FINISH;
-        $message = 'Congratulations you have finished upgrading Openads';
+        $aAdmin = unserialize(stripslashes($_POST['aAdminPost']));
+        $action = OA_UPGRADE_ADMINSETUP;
+    }
+}
+else if (array_key_exists('btn_oaidsetup', $_POST))
+{
+    if (!checkLogin()) {
+        $message = $strPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
+    }
+    else
+    {
+        $action = OA_UPGRADE_IDSETUP;
+    }
+}
+else if (array_key_exists('btn_datasetup', $_POST))
+{
+    if (!checkLogin()) {
+        $message = $strPasswordWrong;
+        $action = OA_UPGRADE_LOGIN;
+    }
+    else
+    {
+        if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+        {
+            $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
+            $oUpgrader->putAdmin($_POST['aAdmin']);
+            $action = OA_UPGRADE_DATASETUP;
+        }
+        else
+        {
+            $action = OA_UPGRADE_FINISH;
+            $message = 'Congratulations you have finished upgrading Openads';
+        }
     }
 }
 else if (array_key_exists('btn_terms', $_POST))
@@ -292,6 +429,13 @@ else if (array_key_exists('btn_finish', $_POST))
             $oUpgrader->insertDummyData();
         }
         $message = 'Congratulations you have finished installing Openads';
+
+        // Log the user in
+        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+        MAX_Admin_Preferences::loadPrefs();
+        phpAds_SessionStart();
+        phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
+        phpAds_SessionDataStore();
     }
     else
     {
@@ -319,6 +463,9 @@ else
 
 if ($action == OA_UPGRADE_FINISH)
 {
+    // Delete the cookie
+    setcookie('oat', '');
+
     if (!$oUpgrader->removeUpgradeTriggerFile())
     {
         $message.= '. '.$strRemoveUpgradeFile;
@@ -329,10 +476,12 @@ if ($action == OA_UPGRADE_FINISH)
 if ($installStatus == OA_STATUS_OAD_NOT_INSTALLED)
 {
     setcookie('oat', OA_UPGRADE_INSTALL);
+    $_COOKIE['oat'] = OA_UPGRADE_INSTALL;
 }
-elseif ($installStatus != 'unknown')
+elseif ($installStatus !== 'unknown')
 {
     setcookie('oat', OA_UPGRADE_UPGRADE);
+    $_COOKIE['oat'] = OA_UPGRADE_UPGRADE;
 }
 
 // Used to detmine which page is active in nav
@@ -345,14 +494,18 @@ $activeNav = array (
                     OA_UPGRADE_DBSETUP        =>      '50',
                     OA_UPGRADE_UPGRADE        =>      '50',
                     OA_UPGRADE_INSTALL        =>      '50',
-                    OA_UPGRADE_CONFIGSETUP    =>      '60'
+                    OA_UPGRADE_CONFIGSETUP    =>      '60',
+                    OA_UPGRADE_FINISH         =>      '100'
                   );
 if ($_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
     $activeNav[OA_UPGRADE_ADMINSETUP]     =      '70';
     $activeNav[OA_UPGRADE_IDSETUP]        =      '70';
     $activeNav[OA_UPGRADE_DATASETUP]      =      '90';
+} else {
+    $activeNav[OA_UPGRADE_LOGIN]          =      '45';
 }
-$activeNav[OA_UPGRADE_FINISH] =      '100';
+
+ksort($activeNav);
 
 // setup the nav to determine whether or not to show a valid link
 $navLinks = array();
@@ -371,6 +524,7 @@ $phpAds_nav = array (
     '25'     =>  array($navLinks[OA_UPGRADE_POLICY]      => 'Policy'),
     '30'     =>  array($navLinks[OA_UPGRADE_SYSCHECK]    => 'System Check'),
     '40'     =>  array($navLinks[OA_UPGRADE_APPCHECK]    => 'Application Check'),
+    '45'     =>  array($navLinks[OA_UPGRADE_LOGIN]       => 'Login'),
     '50'     =>  array($navLinks[OA_UPGRADE_DBSETUP]     => 'Database Setup'),
     '60'     =>  array($navLinks[OA_UPGRADE_CONFIGSETUP] => 'Configuration Setup'),
     '70'     =>  array($navLinks[OA_UPGRADE_ADMINSETUP]  => 'Admin Setup'),

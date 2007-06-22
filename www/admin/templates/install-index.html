@@ -1,5 +1,5 @@
 <?php if (!defined('MAX_PATH')) { exit; } ?>
-<link rel="stylesheet" type="text/css" href="css/install.css"/>		
+<link rel="stylesheet" type="text/css" href="css/install.css"/>
 
 <script language='JavaScript' src='<?php echo $imgPath; ?>js-help.js'></script>
 
@@ -21,7 +21,7 @@ function changePage(page) {
         </div>
     </div>
     <br>
-    <?php                
+    <?php
         include '../admin/js/formValidation.php';
         switch ($action)
         {
@@ -31,6 +31,7 @@ function changePage(page) {
             case OA_UPGRADE_POLICY      : include 'templates/install-policy.html';       break;
             case OA_UPGRADE_SYSCHECK    : include 'templates/install-syscheck.html'; include 'templates/install-appcheck.html';    break;
             case OA_UPGRADE_APPCHECK    : include 'templates/install-appcheck.html';    break;
+            case OA_UPGRADE_LOGIN       : include 'templates/install-login.html';       break;
             case OA_UPGRADE_DBSETUP     : include 'templates/install-dbsetup.html';     break;
             case OA_UPGRADE_UPGRADE     : include 'templates/install-success.html';     break;
             case OA_UPGRADE_INSTALL     : include 'templates/install-success.html';     break;

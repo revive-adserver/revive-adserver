@@ -14,27 +14,28 @@
         </tr>
         <tr><td height='10' colspan='4'>&nbsp;</td></tr>
         <tr>
-            <td colspan='4' align='center'>      
-            <?php 
+            <td colspan='4' align='center'>
+            <?php
                 if ($message) {
-            ?>      
+            ?>
                     <table class="sysinfotable"><tr><td class="sysinfoerror"><?php echo $message; ?></table>
-            <?php 
+            <?php
                 } else {
-                    include 'templates/install-messages.html';  
-                }        
+                    include 'templates/install-messages.html';
+                }
             ?>
             </td>
         </tr>
         <tr><td height='10' colspan='4'>&nbsp;</td></tr>
         <tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1'></td></tr>
     </table>
-        
+
         <?php
             if (!$halt)
             {
+                $btn_name = $_COOKIE['oat'] == OA_UPGRADE_UPGRADE ? 'btn_login' : 'btn_dbsetup';
         ?>
-                <input type="submit" class="button" name="btn_dbsetup" value="<?php echo $strBtnContinue; ?>" tabindex="1" />                                <?php
+                <input type="submit" class="button" name="<?php echo $btn_name; ?>" value="<?php echo $strBtnContinue; ?>" tabindex="1" />                                <?php
             }
             else
             {
