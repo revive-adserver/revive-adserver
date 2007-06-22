@@ -55,10 +55,11 @@ class OA_Upgrade_Config
         $this->configPath = MAX_PATH.'/var/';
         if (file_exists($this->configPath.$host.'.conf.ini'))
         {
-            if (copy($this->configPath.$host.'.conf.ini', $this->configPath.$host.'.conf.php'))
-            copy($this->configPath.$host.'.conf.ini', $this->configPath.$host.'.conf.ini.old');
-            {
-                unlink($this->configPath.$host.'.conf.ini');
+            if ($this->oConfig->backupConfig($this->configPath.$host.'.conf.ini')) {
+                if (copy($this->configPath.$host.'.conf.ini', $this->configPath.$host.'.conf.php'))
+                {
+                    unlink($this->configPath.$host.'.conf.ini');
+                }
             }
         }
         return file_exists($this->configPath.$host.'.conf.php');
