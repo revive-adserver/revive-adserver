@@ -39,10 +39,15 @@ class OA_UpgradePostscript
         $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
         $this->oUpgrade->oConfiguration->setupConfigPan($aConfig);
         $this->oUpgrade->oConfiguration->writeConfig();
-        if (!$this->oUpgrade->oPAN->renamePANConfigFile())
+        //if (!$this->oUpgrade->oPAN->renamePANConfigFile('mmm_'))
+        if (!$this->oUpgrade->oConfiguration->oConfig->backupConfig(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg))
         {
             $this->oUpgrade->oLogger->logError('Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)');
             $this->oUpgrade->message = 'Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)';
+        }
+        if (file_exists(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg))
+        {
+            unlink(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg);
         }
         return true;
     }

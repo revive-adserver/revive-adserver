@@ -303,7 +303,7 @@ class OA_Admin_Config
         $directory = dirname($filename);
         $basename = basename($filename);
         $now = date("Ymd");
-        $newFilename = 'old.' . $basename . '-' . $now;
+        $newFilename =  $now.'_old.' . $basename;
 
         // Make sure we don't overwrite any old backup files.
         $i=0;

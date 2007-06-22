@@ -128,11 +128,11 @@ class OA_phpAdsNew
         return array();
     }
 
-    function renamePANConfigFile()
+    function renamePANConfigFile($prefix='backup_')
     {
         if (file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg))
         {
-            if (copy(MAX_PATH.$this->pathCfg.$this->fileCfg, MAX_PATH.$this->pathCfg.$this->fileCfg.'.AdsNew'))
+            if (copy(MAX_PATH.$this->pathCfg.$this->fileCfg, MAX_PATH.$this->pathCfg.$prefix.$this->fileCfg))
             {
                 unlink(MAX_PATH.$this->pathCfg.$this->fileCfg);
             }
