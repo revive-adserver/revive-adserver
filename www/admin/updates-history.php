@@ -31,6 +31,20 @@ $Id$
 // Require the initialisation file
 require_once '../../init.php';
 
+// Preliminary check before including config.php to prevent it from outputting HTML code
+// in case session is expired
+if (!empty($_POST['xajax'])) {
+    require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
+    require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+    unset($session);
+    phpAds_SessionDataFetch();
+    if (!phpAds_isUser(phpAds_Admin)) {
+        $_POST['xajax'] = 'sessionExpired';
+        $_POST['xajaxargs'] = array();
+        require_once MAX_PATH . '/lib/xajax.inc.php';
+    }
+}
+
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
@@ -85,7 +99,7 @@ function getDBAuditTable($aAudit)
         $totalSize = $totalSize + $aRec['backup_size'];
         $totalRows = $totalRows + $aRec['backup_rows'];
     }
-    
+
     $schemas.= "<tr>";
     $schemas.= sprintf($th, 'Total');
     $schemas.= sprintf($th, count($aAudit) . ' tables');
@@ -93,7 +107,7 @@ function getDBAuditTable($aAudit)
     $schemas.= sprintf($th, $totalRows);
     //$schemas.= sprintf($th, 'Delete');
     $schemas.= "</tr>";
-    
+
     $schemas.= "</table>";
     return $schemas;
 }
@@ -148,11 +162,11 @@ if (count($aMessages)>0)
 ?>
         <script type="text/javascript" src="js/xajax.js"></script>
         <script type="text/javascript">
-        <?php 
+        <?php
         include MAX_PATH . '/var/templates_compiled/schema.js';
         ?>
         </script>
-        
+
 		<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 		<tr>
 			<td width='40'>&nbsp;</td>
@@ -179,7 +193,7 @@ if (count($aMessages)>0)
                 </tr>
                 <tr height='1'>
                     <td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
-                </tr>                
+                </tr>
                 <?php
                 $i=0;
                 foreach ($aAudit AS $k => $v)
@@ -212,19 +226,19 @@ if (count($aMessages)>0)
                         <td height='25'>
                             <span style="text-transform:lowercase;"><?php echo $v['description']; ?></span>
                         </td>
-                        <td height='25' align='right'>                        
+                        <td height='25' align='right'>
                         </td>
                     </tr>
-                    
+
                     <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='images/spacer.gif' width='1' height='1'></td><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
-                    
+
                 <tr style="display:table-row;" <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
                     <td colspan='2'>&nbsp;</td>
                     <td colspan='4'>
                         <table width='100%' cellpadding='5' cellspacing='0' border='0' style='border: 0px solid #ccc; margin: 10px 0 10px 0; '>
                         <tr height='20'>
-                            <td width="235" style="border-bottom: 1px solid #ccc;">                            
-                            Artifacts: 
+                            <td width="235" style="border-bottom: 1px solid #ccc;">
+                            Artifacts:
                             </td>
                             <td width="100" style="border-bottom: 1px solid #ccc;">
                             <?php echo ($v['backups']) ? $v['backups'] + isset($v['logfile']) + isset($v['confbackup']) : 0; ?>
@@ -247,8 +261,8 @@ if (count($aMessages)>0)
                             <?php
                             if ($v['backups']) {
                             ?>
-                            <td width="235">                            
-                            Backup database tables: 
+                            <td width="235">
+                            Backup database tables:
                             </td>
                             <td width="100" colspan="2">
                             <?php echo $v['backups']; ?>
@@ -257,7 +271,7 @@ if (count($aMessages)>0)
                         <tr height='20'>
                             <td>Log files:</td>
                             <td colspan="2">
-                            <?php echo ($v['logfile']) ? '1' : '0'; ?> 
+                            <?php echo ($v['logfile']) ? '1' : '0'; ?>
                             </td>
                         </tr>
                         <tr height='20'>

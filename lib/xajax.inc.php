@@ -298,6 +298,12 @@ function collapseOSURow($id)
 	return $objResponse;
 }
 
+function sessionExpired()
+{
+    $objResponse = new xajaxResponse();
+    $objResponse->addAlert('Your session is expired, please reload the page and log in');
+    return $objResponse;
+}
 
 
 require_once MAX_PATH.'/lib/xajax/xajax.inc.php';
@@ -319,6 +325,7 @@ $xajax->registerFunction("exitIndexProperty");
 $xajax->registerFunction("addIndexField");
 $xajax->registerFunction("expandOSURow");
 $xajax->registerFunction("collapseOSURow");
+$xajax->registerFunction("sessionExpired");
 // Process any requests.  Because our requestURI is the same as our html page,
 // this must be called before any headers or HTML output have been sent
 $xajax->processRequests();
