@@ -286,6 +286,19 @@ class OA_Admin_Config
         // Backup user's original config file
         if (file_exists($configFile)) {
             $this->backupFilename = $this->_getBackupFilename($configFile);
+            if (substr($configFile, -4) == '.ini') {
+                // Add a PHP exit comment to ini files
+                $phpComment = ';<'.'?php exit; ?>';
+                $iniFile = file_get_contents($configFile);
+                if (strpos($iniFile, $phpComment) !== 0) {
+                    $iniFile = $phpComment."\r\n".$iniFile;
+                }
+                if ($fp = fopen($configFile, 'w')) {
+                    if (fwrite($fp, $iniFile)) {
+                        fclose($fp);
+                    }
+                }
+            }
             return (copy($configFile, dirname($configFile) . '/' . $this->backupFilename));
         }
 
@@ -302,6 +315,11 @@ class OA_Admin_Config
     {
         $directory = dirname($filename);
         $basename = basename($filename);
+
+        if (substr($basename, -4) == '.ini') {
+            $basename .= '.php';
+        }
+
         $now = date("Ymd");
         $newFilename =  $now.'_old.' . $basename;
 

@@ -230,6 +230,19 @@ Class Test_OA_Admin_Config extends UnitTestCase
         unlink('/tmp/' . $expected0);
         unlink('/tmp/' . $expected1);
 
+        // Test a .ini file
+        $originalFilename = 'oa_test_' . rand() . '.conf.ini';
+        $directory = '/tmp';
+        touch($directory . '/' . $originalFilename);
+        $now = date("Ymd");
+        $expected = $now.'_old.' . $originalFilename.'.php';
+        $this->assertTrue($oConfig->backupConfig($directory . '/' . $originalFilename));
+        $this->assertTrue(file_exists($directory . '/' . $expected));
+        $this->assertEqual(';<'.'?php exit; ?>'."\r\n", file_get_contents($directory . '/' . $expected));
+
+        // Clean up
+        unlink('/tmp/' . $originalFilename);
+        unlink('/tmp/' . $expected);
     }
 
     /**
@@ -258,6 +271,19 @@ Class Test_OA_Admin_Config extends UnitTestCase
          // Clean up
         unlink($directory . '/' . $originalFilename);
         unlink($directory . '/' . $existingBackupFile);
+
+
+        // Test when .ini backup filename doesn't already exist.
+        $originalFilename = 'oa_test_' . rand() . '.conf.ini';
+        $directory = '/tmp';
+        $now = date("Ymd");
+        touch($directory . '/' . $originalFilename);
+        $expected = $now.'_old.' . $originalFilename.'.php';
+        $this->assertEqual($expected, OA_Admin_Config::_getBackupFilename($directory . '/' . $originalFilename),
+            'Filenames don\'t match');
+
+         // Clean up
+        unlink($directory . '/' . $originalFilename);
     }
 }
 
