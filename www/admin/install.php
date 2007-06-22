@@ -127,91 +127,6 @@ function checkFolderPermissions($folder) {
     return true;
 }
 
-/**
- * Display the login screen and check for permissions during upgrades
- *
- * @todo Refactor and/or move this function to a more appropriate place
- *
- * @param OA_Upgrade $oUpgrader The upgrader instance
- */
-function displayLoginOnUpgrade($oUpgrader)
-{
-    // Make sure that the preferences array wasn't injected
-    $GLOBALS['_MAX']['PREF'] = array();
-
-    $openadsDetected = $oUpgrader->detectOpenads(true) ||
-        $oUpgrader->existing_installation_status == OA_STATUS_CURRENT_VERSION;
-
-    // Sequentially check, to avoid useless work
-    if (!$openadsDetected) {
-        if (!($panDetected = $oUpgrader->detectPAN(true))) {
-            if (!($maxDetected = $oUpgrader->detectMAX(true))) {
-                $max01Detected = $oUpgrader->detectMAX01(true);
-            }
-        }
-    }
-
-    // Login should be required if an upgrade is detected
-    $loginRequired = isset($_COOKIE['oat']) && $_COOKIE['oat'] == OA_UPGRADE_UPGRADE;
-
-    if ($openadsDetected || $panDetected || $maxDetected || $max01Detected) {
-        if ($openadsDetected) {
-            // Openads 2.3+ - Load admin username and password using the preference DAL
-            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-            MAX_Admin_Preferences::loadPrefs();
-            $loginRequired = true;
-        } else {
-            // Old versions - Load admin username and password using hardcoded queries
-            $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-
-            if ($panDetected) {
-                $table = 'config';
-                $where = '';
-            } else {
-                $table = $max01Detected ? 'config' : 'preference';
-                $where = ' WHERE agencyid = 0';
-            }
-            $oDbh = OA_DB::singleton();
-            if (!PEAR::isError($oDbh)) {
-                $aPref = $oDbh->queryRow("SELECT admin, admin_pw FROM {$prefix}{$table}{$where}",
-                    null,
-                    MDB2_FETCHMODE_ASSOC);
-
-                if (is_array($aPref)) {
-                    $GLOBALS['_MAX']['PREF'] = $aPref;
-                    $loginRequired = true;
-                }
-            }
-        }
-    }
-
-    if ($loginRequired) {
-        // Unfortunately we cannot rely on the upgrade needed detection and we get in here
-        // on clean installs too, so we'd better check the connection to the database
-        // before trying to load the session
-        $oDbh = OA_DB::singleton();
-        if (!PEAR::isError($oDbh)) {
-            phpAds_SessionStart();
-            phpAds_SessionDataFetch();
-
-            phpAds_Start();
-
-            if (!phpAds_isUser(phpAds_Admin)) {
-                // No permission to access this page!
-                phpAds_PageHeader(0);
-                phpAds_Die($strAccessDenied, $strServiceUnavalable);
-            }
-
-            phpAds_SessionDataStore();
-        }
-    }
-}
-
-
-
-// Display a login screen if needed and preliminary set up install status
-$installStatus = displayLoginOnUpgrade($oUpgrader);
-
 if ($oUpgrader->isRecoveryRequired())
 {
     $oUpgrader->recoverUpgrade();
@@ -377,13 +292,6 @@ else if (array_key_exists('btn_finish', $_POST))
             $oUpgrader->insertDummyData();
         }
         $message = 'Congratulations you have finished installing Openads';
-
-        // Log the user in
-        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-        MAX_Admin_Preferences::loadPrefs();
-        phpAds_SessionStart();
-        phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
-        phpAds_SessionDataStore();
     }
     else
     {
@@ -411,9 +319,6 @@ else
 
 if ($action == OA_UPGRADE_FINISH)
 {
-    // Delete the cookie
-    setcookie('oat', '');
-
     if (!$oUpgrader->removeUpgradeTriggerFile())
     {
         $message.= '. '.$strRemoveUpgradeFile;
