@@ -500,7 +500,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     if (phpAds_isLoggedIn()) {
         echo "<span style='color:#$headerTextColor'><b>" . $session['username'] . "</b>&nbsp;[" . $_SERVER['REMOTE_ADDR']. "]</span>&nbsp;&nbsp;&nbsp;\n";
     }
-    if (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing')) {
+    if ($ID != phpAds_Login && (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing'))) {
         if ($helpLink = OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID)) {
             echo "\t\t\t\t<a class='topLink' style='color: #$headerTextColor' href='{$helpLink}' target='_blank'";
             echo "onClick=\"openWindow('{$helpLink}','',";
@@ -678,14 +678,14 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
     echo "\t\t\t\t<table border='0' cellpadding='0' cellspacing='0'>\n";
     echo "\t\t\t\t<tr height='24'>\n";
     // Prepare Navigation
-    if (phpAds_isUser(phpAds_Admin)) {
+    if ($customNav != false) {
+        $pages  = $customNav;
+    } elseif (phpAds_isUser(phpAds_Admin)) {
         $pages  = $phpAds_nav['admin'];
     } elseif (phpAds_isUser(phpAds_Agency)) {
         $pages  = $phpAds_nav['agency'];
     } elseif (phpAds_isUser(phpAds_Client)) {
         $pages  = $phpAds_nav['client'];
-    } elseif ($customNav != false) {
-        $pages  = $customNav;
     } else {
         $pages  = $phpAds_nav['affiliate'];
     }

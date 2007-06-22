@@ -73,7 +73,8 @@ class OA_DB
         // If the configuration hasn't been defined prevent
         // loading mysql MDB2 driver.
         if (strpos($dsn, '//:@') !== false) {
-            return false;
+            // Return a silent error
+            return new PEAR_Error('Bad argument: Empty DSN');
         }
 
         // Create an MD5 checksum of the DSN

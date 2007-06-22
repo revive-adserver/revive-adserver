@@ -412,9 +412,10 @@ class OA_Upgrade
     /**
      * search for an existing phpAdsNew installation
      *
+     * @param string $skipIntegrityCheck If true the integrity test is skipped
      * @return boolean
      */
-    function detectPAN()
+    function detectPAN($skipIntegrityCheck = false)
     {
         $this->oPAN->init();
         if ($this->oPAN->detected)
@@ -451,7 +452,7 @@ class OA_Upgrade
                     $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
                     return false;
                 }
-                if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                 {
                     $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
                     return false;
@@ -479,9 +480,10 @@ class OA_Upgrade
      * very similar to a PAN installation with config.inc.php and config table
      * schema is half way between PAN and MAX
      *
+     * @param string $skipIntegrityCheck If true the integrity test is skipped
      * @return boolean
      */
-    function detectMAX01()
+    function detectMAX01($skipIntegrityCheck = false)
     {
         $this->oPAN->init();
         if ($this->oPAN->detected)
@@ -516,7 +518,7 @@ class OA_Upgrade
                     $this->existing_installation_status = OA_STATUS_M01_DBCONNECT_FAILED;
                     return false;
                 }
-                if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                 {
                     $this->existing_installation_status = OA_STATUS_M01_DBINTEG_FAILED;
                     return false;
@@ -538,9 +540,10 @@ class OA_Upgrade
     /**
      * search for an existing Max Media Manager installation
      *
+     * @param string $skipIntegrityCheck If true the integrity test is skipped
      * @return boolean
      */
-    function detectMAX()
+    function detectMAX($skipIntegrityCheck = false)
     {
         if ($GLOBALS['_MAX']['CONF']['max']['installed'])
         {
@@ -560,7 +563,7 @@ class OA_Upgrade
             if ($valid)
             {
                 $this->versionInitialSchema['tables_core'] = '500';
-                if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                 {
                     $this->existing_installation_status = OA_STATUS_MAX_DBINTEG_FAILED;
                     return false;
@@ -622,10 +625,10 @@ class OA_Upgrade
      * search for an existing Openads installation
      * WORK IN PROGRESS
      *
-     * @param string $database (used for error display message)
+     * @param string $skipIntegrityCheck If true the integrity test is skipped
      * @return boolean
      */
-    function detectOpenads()
+    function detectOpenads($skipIntegrityCheck = false)
     {
         if ($GLOBALS['_MAX']['CONF']['openads']['installed'])
         {
@@ -646,7 +649,7 @@ class OA_Upgrade
             if ($valid)
             {
                 $this->aPackageList = $this->getUpgradePackageList($this->versionInitialApplication, $this->_readUpgradePackagesArray());
-                if (count($this->aPackageList)>0)
+                if (!$skipIntegrityCheck && count($this->aPackageList)>0)
                 {
                     $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                     if (!$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))

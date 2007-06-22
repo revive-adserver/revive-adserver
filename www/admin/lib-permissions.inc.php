@@ -283,11 +283,11 @@ function phpAds_Login($checkRedirectFunc = 'phpAds_checkRedirect')
         }
     } else {
         //if (!$conf['openads']['installed'])
-        if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED)
-        {
-            // We are trying to install, grant access...
-            return MAX_Permission_User::getAAdminData('admin');
-        }
+//        if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED)
+//        {
+//            // We are trying to install, grant access...
+//            return MAX_Permission_User::getAAdminData('admin');
+//        }
         // Set the session ID now, some servers do not support setting a cookie during a redirect.
         MAX_Permission_Session::restartToLoginScreen();
     }
@@ -326,20 +326,22 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         phpAds_PageHeader(phpAds_Login);
     }
 
-    // Check environment settings
-    $oSystemMgr = new OA_Environment_Manager();
-    $aSysInfo = $oSystemMgr->checkSystem();
+    if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) {
+        // Check environment settings
+        $oSystemMgr = new OA_Environment_Manager();
+        $aSysInfo = $oSystemMgr->checkSystem();
 
-    foreach ($aSysInfo as $env => $vals) {
-        $errDetails = '';
-        if (is_array($vals['error'])) {
-            $errDetails = '<ul>';
-            foreach ($vals['actual'] as $key => $val) {
-                $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
-            }
-            $errDetails .= '</ul>';
-            foreach ($vals['error'] as $key => $err) {
-                phpAds_Die( ' Error: ' . $err, $errDetails );
+        foreach ($aSysInfo as $env => $vals) {
+            $errDetails = '';
+            if (is_array($vals['error'])) {
+                $errDetails = '<ul>';
+                foreach ($vals['actual'] as $key => $val) {
+                    $errDetails .= '<li>' . $key . ' &nbsp; => &nbsp; ' . $val . '</li>';
+                }
+                $errDetails .= '</ul>';
+                foreach ($vals['error'] as $key => $err) {
+                    phpAds_Die( ' Error: ' . $err, $errDetails );
+                }
             }
         }
     }
@@ -368,7 +370,9 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         echo "<tr height='24'><td>&nbsp;</td><td><input type='submit' name='login' id='login' value='".$strLogin."' tabindex=3></td></tr>";
         echo "</table>";
         echo "<img src='images/break-el.gif' width='400' height='1' vspace='8'><br>";
-        echo "<a href='password-recovery.php'>".$strForgotPassword."</a>";
+        if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) {
+            echo "<a href='password-recovery.php'>".$strForgotPassword."</a>";
+        }
         echo "</td></tr></table>";
         echo "</form>";
         echo "<script language='JavaScript'>";
