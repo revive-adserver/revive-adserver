@@ -196,18 +196,17 @@ function checkLogin()
 
         $md5digest = md5($password);
 
+        // Clean up session
+        $GLOLBALS['session'] = array();
 
         if (phpAds_isAdmin($username, $md5digest)) {
             phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($username));
         }
-    }
 
-    if (phpAds_isUser(phpAds_Admin)) {
         phpAds_SessionDataStore();
-        return true;
     }
 
-    return false;
+    return phpAds_isUser(phpAds_Admin);
 }
 
 

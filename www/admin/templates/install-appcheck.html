@@ -33,7 +33,7 @@
         <?php
             if (!$halt)
             {
-                $btn_name = $_COOKIE['oat'] == OA_UPGRADE_UPGRADE ? 'btn_login' : 'btn_dbsetup';
+                $btn_name = $_COOKIE['oat'] == OA_UPGRADE_UPGRADE && !checkLogin() ? 'btn_login' : 'btn_dbsetup';
         ?>
                 <input type="submit" class="button" name="<?php echo $btn_name; ?>" value="<?php echo $strBtnContinue; ?>" tabindex="1" />                                <?php
             }
