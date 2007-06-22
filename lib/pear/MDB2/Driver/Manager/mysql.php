@@ -321,7 +321,7 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
                 // OPENADS enhancement
                 if (array_key_exists('autoincrement', $field) && $field['autoincrement'])
                 {
-                    $query.= ' KEY';
+                    $query.= ' PRIMARY KEY';
                 }
             }
         }
