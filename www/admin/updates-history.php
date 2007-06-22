@@ -224,14 +224,15 @@ if (count($aMessages)>0)
                             <?php echo $v['version_to']; ?>
                         </td>
                         <td height='25'>
-                            <span style="text-transform:lowercase;"><?php echo $v['description']; ?></span>
+                            <span style="text-transform:lowercase;"><?php  echo ($v['upgrade_name'] == 'version stamp') ? 'Updated database version stamp' : $v['description']; ?></span>
                         </td>
                         <td height='25' align='right'>
                         </td>
                     </tr>
-
-                    <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='images/spacer.gif' width='1' height='1'></td><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
-
+            <?php
+            if ($v['upgrade_name'] != 'version stamp') {
+            ?>
+                <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='images/spacer.gif' width='1' height='1'></td><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
                 <tr style="display:table-row;" <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
                     <td colspan='2'>&nbsp;</td>
                     <td colspan='4'>
@@ -301,6 +302,9 @@ if (count($aMessages)>0)
                     </td>
                     <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
                 </tr>
+            <?php
+                }
+            ?>
               </form>
                 <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
                 <?php
