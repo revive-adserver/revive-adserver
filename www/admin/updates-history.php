@@ -63,15 +63,11 @@ if (array_key_exists('btn_clean_audit', $_POST))
 
 $aAudit = $oUpgrader->oAuditor->queryAuditAllDescending();
 
-?>
 
-    <script type="text/javascript" src="js/schema.js"></script>
-    <script type="text/javascript" src="js/xajax.js"></script>
+/*-------------------------------------------------------*/
+/* Error handling                                        */
+/*-------------------------------------------------------*/
 
-    <script type="text/javascript">
-        window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL:js/xajax.js'); } }, 6000);
-    </script>
-<?php
 $aErrors = $oUpgrader->getErrors();
 if (count($aErrors)>0)
 {
@@ -100,7 +96,18 @@ if (count($aMessages)>0)
 </div>
 <?php
 }
+
+/*-------------------------------------------------------*/
+/* Display                                               */
+/*-------------------------------------------------------*/
 ?>
+        <script type="text/javascript" src="js/schema.js"></script>
+        <script type="text/javascript" src="js/xajax.js"></script>
+    
+        <script type="text/javascript">
+            window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL:js/xajax.js'); } }, 6000);
+        </script>
+        
 		<table width='100%' border='0' cellspacing='0' cellpadding='0'>
 		<tr>
 			<td width='40'>&nbsp;</td>
@@ -160,11 +167,12 @@ if (count($aMessages)>0)
                         <td height='25'>
                             <span style="text-transform:lowercase;"><?php echo $v['description']; ?></span>
                         </td>
-                        <td height='25' align='right'>
-                        
+                        <td height='25' align='right'>                        
                         </td>
                     </tr>
+                    
                     <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='images/spacer.gif' width='1' height='1'></td><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
+                    
                 <tr style="display:table-row;" <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
                     <td colspan='2'>&nbsp;</td>
                     <td colspan='4'>
@@ -232,7 +240,7 @@ if (count($aMessages)>0)
                         </tr>
                         </table>
                     </td>
-                            <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
+                    <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
                 </tr>
               </form>
                 <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
@@ -254,12 +262,10 @@ if (count($aMessages)>0)
 			<td height='20'>&nbsp;</td>
 		</tr>
 		</table>
-
 <?php
 
-
 /*-------------------------------------------------------*/
-/* HTML framework                                        */
+/* Footer                                                */
 /*-------------------------------------------------------*/
 
 phpAds_PageFooter();
