@@ -927,8 +927,8 @@ class OA_Upgrade
      */
     function upgrade($input_file='', $timing='constructive')
     {
-        $this->oLogger->setLogFile($this->_getUpgradeLogFileName($timing));
-        $this->oDBUpgrader->logFile = $this->oLogger->logFile;
+//        $this->oLogger->setLogFile($this->_getUpgradeLogFileName($timing));
+//        $this->oDBUpgrader->logFile = $this->oLogger->logFile;
 
         // initialise database connection if necessary
         if (is_null($this->oDbh))
@@ -1040,6 +1040,9 @@ class OA_Upgrade
      */
     function upgradeExecute($input_file='')
     {
+        $this->oLogger->setLogFile($this->_getUpgradeLogFileName());
+        $this->oDBUpgrader->logFile = $this->oLogger->logFile;
+
         if ($input_file)
         {
             $input_file = $this->upgradePath.$input_file;
