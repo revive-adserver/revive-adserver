@@ -35,7 +35,10 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/lib/OA/Sync.php';
-require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
+$oUpgrader = new OA_Upgrade();
+require_once MAX_PATH . '/lib/xajax.inc.php';
+
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -52,7 +55,6 @@ phpAds_MaintenanceSelection("history", "updates");
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$oUpgrader = new OA_Upgrade();
 $oUpgrader->initDatabaseConnection();
 
 if (array_key_exists('btn_clean_audit', $_POST))
@@ -101,11 +103,11 @@ if (count($aMessages)>0)
 /* Display                                               */
 /*-------------------------------------------------------*/
 ?>
-        <script type="text/javascript" src="js/schema.js"></script>
         <script type="text/javascript" src="js/xajax.js"></script>
-    
         <script type="text/javascript">
-            window.setTimeout(function () { if (!xajaxLoaded) { alert('Error: the xajax Javascript file could not be included. Perhaps the URL is incorrect?\nURL:js/xajax.js'); } }, 6000);
+        <?php 
+        include MAX_PATH . '/var/templates_compiled/schema.js';
+        ?>
         </script>
         
 		<table width='100%' border='0' cellspacing='0' cellpadding='0'>
