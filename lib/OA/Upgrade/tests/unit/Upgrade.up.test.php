@@ -498,8 +498,8 @@ class Test_OA_Upgrade extends UnitTestCase
             array('logDatabaseAction')
         );
 
-        $oUpgrade->oDBAuditor = new $mockAuditor($this);
-        $oUpgrade->oDBAuditor->setReturnValue('logDatabaseAction', true);
+        $oUpgrade->oAuditor->oDBAuditor = new $mockAuditor($this);
+        $oUpgrade->oAuditor->oDBAuditor->setReturnValue('logDatabaseAction', true);
 
         $oUpgrade->aDBPackages = array(0=>array('version'=>'2','schema'=>'test_tables','files'=>''));
 
@@ -557,8 +557,8 @@ class Test_OA_Upgrade extends UnitTestCase
             array('logDatabaseAction')
         );
 
-        $oUpgrade->oDBAuditor = new $mockAuditor($this);
-        $oUpgrade->oDBAuditor->setReturnValue('logDatabaseAction', true);
+        $oUpgrade->oAuditor->oDBAuditor = new $mockAuditor($this);
+        $oUpgrade->oAuditor->oDBAuditor->setReturnValue('logDatabaseAction', true);
 
         $oUpgrade->aDBPackages = array(0=>array('version'=>'2','schema'=>'test_tables','files'=>''));
 
@@ -615,8 +615,8 @@ class Test_OA_Upgrade extends UnitTestCase
             array('logDatabaseAction')
         );
 
-        $oUpgrade->oDBAuditor = new $mockAuditor($this);
-        $oUpgrade->oDBAuditor->setReturnValue('logDatabaseAction', true);
+        $oUpgrade->oAuditor->oDBAuditor = new $mockAuditor($this);
+        $oUpgrade->oAuditor->oDBAuditor->setReturnValue('logDatabaseAction', true);
 
         $this->assertTrue($oUpgrade->rollbackSchemas(),'schema rollback method failed');
 
