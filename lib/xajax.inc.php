@@ -29,6 +29,9 @@
  * $Id$
  *
  */
+require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
+require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeAuditor.php');
+require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 
 function testAjax($form)
 {
@@ -268,6 +271,7 @@ function addIndexField($field)
 
 function expandOSURow($id)
 {
+    $oUpgrader = new OA_Upgrade();
     $oUpgrader->initDatabaseConnection();
     $html = getDBAuditTable($oUpgrader->oAuditor->queryAuditBackupTablesByUpgradeId($id));
 
