@@ -176,19 +176,19 @@ if (count($aMessages)>0)
                 <tr height='25'>
                     <td height='25'>&nbsp;</td>
                     <td height='25'>
-                        <b>&nbsp;&nbsp;<a href='#'>Date</a></b>
+                        <b style="color: #003399;">&nbsp;&nbsp;Date</b>
                     </td>
                     <td height="25">
-                        <b><a href="#">From Version</a></b>
+                        <b style="color: #003399;">From Version</b>
                     </td>
                     <td height="25">
-                        <b><a href="#">To Version</a></b>
+                        <b style="color: #003399;">To Version</b>
                     </td>
                     <td height="25">
-                        <b><a href="#">Status</a></b>
+                        <b style="color: #003399;">Status</b>
                     </td>
                     <td height='25' width='70'>
-                        <b><a href="#">&nbsp;</a></b>
+                        <b style="color: #003399;">&nbsp;</b>
                     </td>
                 </tr>
                 <tr height='1'>
