@@ -251,7 +251,7 @@ else if (array_key_exists('btn_login', $_POST))
 else if (array_key_exists('btn_dbsetup', $_POST))
 {
     if (!checkLogin()) {
-        $message = $strPasswordWrong;
+        $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     elseif ($oUpgrader->canUpgrade())
@@ -277,7 +277,7 @@ else if (array_key_exists('btn_dbsetup', $_POST))
 else if (array_key_exists('btn_upgrade', $_POST))
 {
     if (!checkLogin()) {
-        $message = $strPasswordWrong;
+        $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     elseif ($oUpgrader->canUpgrade())
@@ -317,7 +317,7 @@ else if (array_key_exists('btn_upgrade', $_POST))
 else if (array_key_exists('btn_configsetup', $_POST))
 {
     if (!checkLogin()) {
-        $message = $strPasswordWrong;
+        $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     else
@@ -329,7 +329,7 @@ else if (array_key_exists('btn_configsetup', $_POST))
 else if (array_key_exists('btn_adminsetup', $_POST))
 {
     if (!checkLogin()) {
-        $message = $strPasswordWrong;
+        $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     else
@@ -371,7 +371,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
 else if (array_key_exists('btn_adminsetup_back', $_POST))
 {
     if (!checkLogin()) {
-        $message = $strPasswordWrong;
+        $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     else
@@ -383,7 +383,7 @@ else if (array_key_exists('btn_adminsetup_back', $_POST))
 else if (array_key_exists('btn_oaidsetup', $_POST))
 {
     if (!checkLogin()) {
-        $message = $strPasswordWrong;
+        $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     else
@@ -394,7 +394,7 @@ else if (array_key_exists('btn_oaidsetup', $_POST))
 else if (array_key_exists('btn_datasetup', $_POST))
 {
     if (!checkLogin()) {
-        $message = $strPasswordWrong;
+        $message = $strUsernameOrPasswordWrong;
         $action = OA_UPGRADE_LOGIN;
     }
     else
