@@ -124,7 +124,7 @@ class OA_DB_XmlCache
     function _getId($fileName)
     {
         $fileName = preg_replace('/\.[^.]+?$/', '', $fileName);
-        return preg_replace('/[^a-z0-9]/i', '-', basename($fileName));
+        return preg_replace('/[^a-z0-9]/i', '-', basename($fileName)).'.bin';
     }
 
     /**

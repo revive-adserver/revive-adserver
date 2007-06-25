@@ -122,7 +122,7 @@ foreach (glob(MAX_PATH.'/etc/changes/changes_tables_*.xml') as $fileName) {
             clean_up();
             die("failed\n");
         } else {
-            $oCache->save($fileName);
+            $oCache->save($result, $fileName);
             echo "processed"; eol_flush();
         }
     }
