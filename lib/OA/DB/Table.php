@@ -190,8 +190,9 @@ class OA_DB_Table
                     if (isset($aIndex['primary']) && $aIndex['primary']) {
                         $aOptions['primary'] = $aIndex['fields'];
                         // Does the primary key name need to be udpated to match either
-                        // the prefixed table name, or the the split table name?
-                        if ($prefixed || $split) {
+                        // the prefixed table name, or the the split table name, or
+                        // simply it has a wrong name in the xml definition?
+                        if ($key != $tableName.'_pkey') {
                             $this->aDefinition['tables'][$table]['indexes'][$tableName . '_pkey']
                                 = $this->aDefinition['tables'][$table]['indexes'][$key];
                             unset($this->aDefinition['tables'][$table]['indexes'][$key]);
