@@ -30,7 +30,7 @@
    </field>
 
    <index>
-    <name>table1_pkey</name>
+    <name>table1_autoinc_pkey</name>
     <primary>true</primary>
     <field>
      <name>b_id_field</name>
