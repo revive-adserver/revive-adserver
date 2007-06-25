@@ -71,12 +71,12 @@ class Config_Container_IniCommented {
                 $currentSection->createBlank();
             } elseif (preg_match('/^\s*([a-zA-Z0-9_\-\.\s]*)\s*=\s*(.*)\s*$/', $line, $match)) {
                 // a directive
-                
+
                 $values = $this->_quoteAndCommaParser($match[2]);
                 if (PEAR::isError($values)) {
                     return PEAR::raiseError($values);
                 }
-                
+
                 if (count($values)) {
                     foreach($values as $value) {
                         if ($value[0] == 'normal') {
@@ -118,7 +118,7 @@ class Config_Container_IniCommented {
      * @access private
      */
     function _quoteAndCommaParser($text)
-    {   
+    {
         $text = trim($text);
         if ($text == '') {
             return array();
@@ -129,12 +129,12 @@ class Config_Container_IniCommented {
         $tokens['quote'] = array('"', '\\');
         $tokens['escape'] = false; // cycle
         $tokens['after_quote'] = array(',', ';');
-        
+
         // events
         $events['normal'] = array('"' => 'quote', ';' => 'comment', ',' => 'normal');
         $events['quote'] = array('"' => 'after_quote', '\\' => 'escape');
         $events['after_quote'] = array(',' => 'normal', ';' => 'comment');
-        
+
         // state stack
         $stack = array();
 
@@ -230,7 +230,7 @@ class Config_Container_IniCommented {
         } while (++$pos < strlen($text));
         return $return;
     } // end func _quoteAndCommaParser
-    
+
     /**
      * Retrieve the state off of a state stack for the Quote and Comma Parser
      * @param  array  $stack    The parser state stack
@@ -273,8 +273,15 @@ class Config_Container_IniCommented {
                           strpos($content, ',') !== false ||
                           strpos($content, ';') !== false ||
                           strpos($content, '"') !== false ||
-                          strpos($content, '%') !== false) {
-                    $content = '"'.addslashes($content).'"';          
+                          strpos($content, '%') !== false ||
+                          strpos($content, '~') !== false ||
+                          strpos($content, '!') !== false ||
+                          strpos($content, '|') !== false ||
+                          strpos($content, '&') !== false ||
+                          strpos($content, '(') !== false ||
+                          strpos($content, ')') !== false ||
+                          $content === 'none') {
+                    $content = '"'.addslashes($content).'"';
                 }
                 if ($count > 1) {
                     // multiple values for a directive are separated by a comma
