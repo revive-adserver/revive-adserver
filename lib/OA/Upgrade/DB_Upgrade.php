@@ -30,6 +30,10 @@
 *
 */
 
+require_once MAX_PATH . '/lib/OA/DB/XmlCache.php';
+
+
+
 class OA_DB_Upgrade
 {
     var $schema;
@@ -88,6 +92,13 @@ class OA_DB_Upgrade
     var $portability;
 
     /**
+     * OA_DB_XmlCache instance to load/save cached schema and changeset files
+     *
+     * @var OA_DB_XmlCache
+     */
+    var $oCache;
+
+    /**
      * php5 class constructor
      *
      * simpletest throws a BadGroupTest error
@@ -119,6 +130,7 @@ class OA_DB_Upgrade
         $this->schema = 'tables_core';
         $this->_setTiming('constructive');
 
+        $this->oCache = new OA_DB_XmlCache();
     }
 
     /**
@@ -242,7 +254,8 @@ class OA_DB_Upgrade
         }
         $this->_log('schema file found: '.$this->file_schema);
 
-        $this->oTable->init($this->file_schema);
+        // Load definitions from cache
+        $this->oTable->init($this->file_schema, true);
 
         if (!is_array($this->oTable->aDefinition))
         {
@@ -266,10 +279,19 @@ class OA_DB_Upgrade
             return false;
         }
 
-        $this->aChanges = $this->oSchema->parseChangesetDefinitionFile($this->file_changes);
-        if ($this->_isPearError($this->aChanges, 'failed to parse changeset ('.$this->file_changes.')'))
+        $this->aChanges = $this->oCache->get($this->file_changes);
+
+        if (!$this->aChanges)
         {
-            return false;
+            $this->aChanges = $this->oSchema->parseChangesetDefinitionFile($this->file_changes);
+
+            if ($this->_isPearError($this->aChanges, 'failed to parse changeset ('.$this->file_changes.')'))
+            {
+                return false;
+            }
+
+            // On-the fly cache writing disabled
+            //$this->oCache->save($this->aChanges, $this->file_changes);
         }
 
         $this->_log('successfully parsed the changeset');

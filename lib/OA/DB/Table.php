@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB/XmlCache.php';
 require_once 'Date.php';
 require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
@@ -100,11 +101,14 @@ class OA_DB_Table
      * A method to initialise the class by parsing a database XML schema file, so that
      * the class will be ready to create/drop tables for the supplied schema.
      *
-     * @param string $file The name of the database XML schema file to parse for the
-     *                     table definitions.
+     * @todo Better handling of cache files
+     *
+     * @param string $file     The name of the database XML schema file to parse for
+     *                         the table definitions.
+     * @param bool   $useCache If true definitions are loaded from the cache file
      * @return boolean True if the class was initialised correctly, false otherwise.
      */
-    function init($file)
+    function init($file, $useCache = false)
     {
         // Ensure that the schema XML file can be read
         if (!is_readable($file)) {
@@ -114,11 +118,26 @@ class OA_DB_Table
         // Create an instance of MDB2_Schema to parse the schema file
         $options = array('force_defaults'=>false);
         $this->oSchema = &MDB2_Schema::factory($this->oDbh, $options);
-        // Parse the schema file
-        $this->aDefinition = $this->oSchema->parseDatabaseDefinitionFile($file);
-        if (PEAR::isError($this->aDefinition)) {
-            MAX::debug('Error parsing the database XML schema file: ' . $file, PEAR_LOG_ERR);
-            return false;
+
+        if ($useCache) {
+            $oCache = new OA_DB_XmlCache();
+            $this->aDefinition = $oCache->get($file);
+        } else {
+            $this->aDefinition = false;
+        }
+
+        if (!$this->aDefinition) {
+            // Parse the schema file
+            $this->aDefinition = $this->oSchema->parseDatabaseDefinitionFile($file);
+            if (PEAR::isError($this->aDefinition)) {
+                MAX::debug('Error parsing the database XML schema file: ' . $file, PEAR_LOG_ERR);
+                return false;
+            }
+
+            // On-the fly cache writing disabled
+            //if ($useCache) {
+            //    $oCache->save($this->aDefinition, $file);
+            //}
         }
         return true;
     }
