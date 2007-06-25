@@ -82,7 +82,6 @@ class OA_DB_Upgrade
 
     var $logFile;
     var $logBuffer = array();
-    //var $recoveryFile;
 
     /**
      * A variable to store the default value of PEAR::MDB2 protability options.
@@ -119,7 +118,6 @@ class OA_DB_Upgrade
         //this->__construct();
         $this->path_changes = MAX_PATH.'/etc/changes/';
         $this->path_schema = $this->path_changes;
-        //$this->recoveryFile = MAX_PATH.'/var/recover.log';
 
         // so that this class can log to the caller's log
         // and write it's own log if necessary (testing)
@@ -365,7 +363,6 @@ class OA_DB_Upgrade
      */
     function upgrade()
     {
-        //$this->oTable->init($this->file_schema);
         $this->_log('verifying '.$this->timingStr.' changes');
         $result = $this->oSchema->verifyAlterDatabase($this->aChanges[$this->timingStr]);
         if (!$this->_isPearError($result, 'VERIFICATION FAILED'))
@@ -375,7 +372,6 @@ class OA_DB_Upgrade
             $result = $this->_verifyTasks();
             if ($result)
             {
-                //$this->_dropRecoveryFile();
                 $this->oAuditor->logDatabaseAction(array('info1'=>'UPGRADE STARTED',
                                                          'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
                                                         )
@@ -416,8 +412,7 @@ class OA_DB_Upgrade
                                                                  'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                                 )
                                                           );
-                        // currently we are executing constructive
-                        // immediately after destructive
+                        // currently we are executing constructive immediately after destructive
                         //$this->_scheduleDestructive();
                     }
                 }
@@ -426,7 +421,6 @@ class OA_DB_Upgrade
                     $this->_logError('failed to create backup');
                     return false;
                 }
-                //$this->_pickupRecoveryFile();
             }
             else
             {
@@ -523,7 +517,6 @@ class OA_DB_Upgrade
             foreach ($aChanges['constructive']['tables']['change'] AS $k => $v)
             {
                 // empty arrays should not exist
-                // suspect problem with the compare function somewhere (probably in driver)
                 if (count($v)>0)
                 {
                     if (isset($v['add']))
@@ -734,7 +727,6 @@ class OA_DB_Upgrade
                                                   );
             }
         }
-        //$this->_pickupRecoveryFile();
         return true;
     }
 
@@ -880,30 +872,34 @@ class OA_DB_Upgrade
         return true;
     }
 
-    function doRecovery()
-    {
-        if (!empty($this->aRestoreTables))
-        {
-            $this->_log('NOW ATTEMPTING TO RESTORE BACKUP TABLES');
-            $this->oAuditor->setKeyParams(array('schema_name'=>$this->schema,
-                                          'version'=>$this->versionTo,
-                                          'timing'=>$this->timingInt
-                                         ));
-            if ($this->rollback())
-            {
-                $this->_log('ROLLBACK SUCCESSFUL');
-                return true;
-            }
-            else
-            {
-                $this->_logError('ROLLBACK FAILED');
-                return false;
-            }
-        }
-        $this->_log('No tables need restoring');
-        //$this->_pickupRecoveryFile();
-        return true;
-    }
+    /**
+     * execute recovery
+     *
+     * @return boolean
+     */
+//    function doRecovery()
+//    {
+//        if (!empty($this->aRestoreTables))
+//        {
+//            $this->_log('NOW ATTEMPTING TO RESTORE BACKUP TABLES');
+//            $this->oAuditor->setKeyParams(array('schema_name'=>$this->schema,
+//                                          'version'=>$this->versionTo,
+//                                          'timing'=>$this->timingInt
+//                                         ));
+//            if ($this->rollback())
+//            {
+//                $this->_log('ROLLBACK SUCCESSFUL');
+//                return true;
+//            }
+//            else
+//            {
+//                $this->_logError('ROLLBACK FAILED');
+//                return false;
+//            }
+//        }
+//        $this->_log('No tables need restoring');
+//        return true;
+//    }
 
     /**
      * drop a given backup table
@@ -1151,25 +1147,8 @@ class OA_DB_Upgrade
                 else
                 {
                     $result = $this->oTable->createTable($table);
-                    //$result = $this->oSchema->db->manager->createTable($table, $aTask['cargo'], array());
                     if (($result) && (!$this->_isPearError($result, 'error creating table '.$this->prefix.$table)))
                     {
-                        // old mdb2 method of table creation required subsequent index creation
-                        // openads OA_DB_Table does not require this
-                        //                        $this->aAddedTables[] = $table;
-                        //                        if (isset($aTask['indexes']))
-                        //                        {
-                        //                            foreach ($aTask['indexes'] AS $index=>$aIndex_Def)
-                        //                            {
-                        //                                $aDef['indexes'][$aIndex_Def['name']] = $aIndex_Def['cargo'];
-                        //                                $this->_log('executing tables task : '.$table.'=>'.'create index');
-                        //                            }
-                        //                            if (!$this->_createAllIndexes($aDef, $table))
-                        //                            {
-                        //                                $this->_halt();
-                        //                                return false;
-                        //                            }
-                        //                        }
                         if (!$this->_executeMigrationMethodTable($table, 'afterAddTable'))
                         {
                             $this->_halt();
@@ -1491,7 +1470,6 @@ class OA_DB_Upgrade
                     }
                     else
                     {
-
                         $aDBFields = $this->_listTableFields($table);
                         foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
                         {
@@ -1755,19 +1733,19 @@ class OA_DB_Upgrade
         $aTableDef  = $this->_getTableDefinition($this->aDefinitionNew, $table);
 
         $aTable =  array(
-        'name'=>$table,
-        'cargo'=>$aTableDef['fields']
-        );
+                         'name'=>$table,
+                         'cargo'=>$aTableDef['fields']
+                        );
 
         if (isset($aTableDef['indexes']))
         {
             foreach ($aTableDef['indexes'] AS $index_name=>$aIndex_def)
             {
                 $aTable['indexes'][] = array(
-                'table'=>$table,
-                'name'=>$index_name,
-                'cargo'=>$aIndex_def
-                );
+                                                'table'=>$table,
+                                                'name'=>$index_name,
+                                                'cargo'=>$aIndex_def
+                                            );
             }
         }
         $this->aTaskList['tables'][$task][] = $aTable;
@@ -1799,38 +1777,38 @@ class OA_DB_Upgrade
         {
             case 'remove':
                 $result['cargo'] =  array(
-                $task=>array(
-                $field_name=>array()
-                )
-                );
+                                            $task=>array(
+                                                         $field_name=>array()
+                                                        )
+                                          );
                 break;
             case 'add':
                 $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
                 $result['cargo'] =  array(
-                $task=>array(
-                $field_name=>$aDef
-                )
-                );
+                                            $task=>array(
+                                                         $field_name=>$aDef
+                                                        )
+                                         );
                 break;
             case 'change':
                 $aDef['definition'] = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name);
                 $result['cargo'] =  array(
-                $task=>array(
-                $field_name=>$aDef
-                )
-                );
+                                            $task=>array(
+                                                         $field_name=>$aDef
+                                                        )
+                                          );
                 break;
             case 'rename':
                 $aDef = $this->_getFieldDefinition($this->aDefinitionNew, $table, $field_name_new);
                 $result['was'] = $field_name_new;
                 $result['cargo'] =  array(
-                $task=>array(
-                $field_name=>array(
-                'name'=>$field_name_new,
-                'definition'=>$aDef
-                )
-                )
-                );
+                                            $task=>array(
+                                                         $field_name=>array(
+                                                                            'name'=>$field_name_new,
+                                                                            'definition'=>$aDef
+                                                                            )
+                                                        )
+                                         );
                 break;
         }
         return $result;
@@ -1850,19 +1828,22 @@ class OA_DB_Upgrade
         switch($task)
         {
             case 'add':
-                //$aTableDef = $this->_getTableDefinition($this->aDefinitionNew, $table);
                 $result =   array(
-                'table'=>$table,
-                'name'=>$index_name,
-                'cargo'=>array('indexes'=>array($index_name=>$aTableDef['indexes'][$index_name]))
-                );
+                                 'table'=>$table,
+                                 'name'=>$index_name,
+                                 'cargo'=>array(
+                                                'indexes'=>array(
+                                                                 $index_name=>$aTableDef['indexes'][$index_name]
+                                                                 )
+                                               )
+                                 );
                 break;
                 case'remove':
                 $result =   array(
-                'table'=>$table,
-                'name'=>$index_name,
-                'primary'=>$aTableDef['indexes'][$index_name]['primary']
-                );
+                                    'table'=>$table,
+                                    'name'=>$index_name,
+                                    'primary'=>$aTableDef['indexes'][$index_name]['primary']
+                                  );
                 break;
         }
         return $result;
@@ -1878,9 +1859,9 @@ class OA_DB_Upgrade
     function _compileTaskTable($task, $table, $was='')
     {
         $result =   array(
-        'name'=>$table,
-        'cargo'=>array()
-        );
+                            'name'=>$table,
+                            'cargo'=>array()
+                          );
         switch($task)
         {
             case 'rename':
@@ -2124,32 +2105,6 @@ class OA_DB_Upgrade
         return $aDBFields;
     }
 
-    //    /**
-    //     * retrieve an array of table names from currently connected database
-    //     *
-    //     * @return array
-    //     */
-    //    function _listBackups()
-    //    {
-    //        $aResult = array();
-    //        $aBakTables = $this->_listTables('z\_');
-    //        $prefix = $this->prefix.'z_';
-    //        $prelen = strlen($prefix);
-    //        krsort($aBakTables);
-    //        foreach ($aBakTables AS $k => $name)
-    //        {
-    //            // workaround for mdb2 problem "show table like"
-    //            if (substr($name,0,$prelen)==$prefix)
-    //            {
-    //                $aInfo = $this->oAuditor->queryAuditForABackup($name);
-    //                $aResult[$k]['backup_table'] = $name;
-    //                $aResult[$k]['copied_table'] = $aInfo[0]['tablename'];
-    //                $aResult[$k]['copied_date']  = $aInfo[0]['updated'];
-    //            }
-    //        }
-    //        return $aResult;
-    //    }
-    //
     function _listConstraints($table_name)
     {
         return $this->oSchema->db->manager->listTableConstraints($table_name);
@@ -2222,8 +2177,8 @@ class OA_DB_Upgrade
     /**
      *
      *
-     * @param unknown_type $table
-     * @return unknown
+     * @param string $table
+     * @return boolean
      */
     function dropBackupTable($table, $logmsg = 'dropped')
     {
@@ -2235,9 +2190,14 @@ class OA_DB_Upgrade
         return true;
     }
 
+    /**
+     * drop a given table
+     *
+     * @param string $table
+     * @return boolean
+     */
     function dropTable($table)
     {
-        //$result = $this->oSchema->db->manager->dropTable($table);
         $this->aDBTables = $this->_listTables();
         if (in_array($this->prefix.$table, $this->aDBTables))
         {
@@ -2260,12 +2220,26 @@ class OA_DB_Upgrade
         return true;
     }
 
+    /**
+     * retrieve a schema definition
+     * from one table as specified in parameter
+     * or from all tables with openads prefix
+     * the definitions then have the openads prefix stripped from them
+     * to make the definition generic and suitable for schema comparison
+     *
+     * @param string $table
+     * @return boolean
+     */
     function _getDefinitionFromDatabase($table=null)
     {
         $aParams = null;
         if ($table)
         {
             $aParams = array($this->prefix.$table);
+        }
+        else
+        {
+            $aParams = $this->_listTables();
         }
         $aDef = $this->oSchema->getDefinitionFromDatabase($aParams);
         if (!$this->_isPearError($aDef, 'error getting database definition'))
@@ -2275,6 +2249,13 @@ class OA_DB_Upgrade
         return $aDef;
     }
 
+    /**
+     * remove openads prefixes from a definition array
+     * these will commonly be found in table names and index names
+     *
+     * @param array $aDefinition
+     * @return array
+     */
     function _stripPrefixesFromDatabaseDefinition($aDefinition)
     {
         if ($this->prefix !== '')

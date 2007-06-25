@@ -82,11 +82,84 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertIsA($oDB_Upgrade->oSchema->db, 'MDB2_Driver_Common', 'MDB2 Driver not instantiated');
     }
 
+    function test_listTables()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $prefixOld = $this->prefix;
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'xyz_';
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->_createTestTables($oDB_Upgrade->oSchema->db);
+        $aDbTables = $oDB_Upgrade->_listTables();
+
+//        $query = "SHOW /*!50002 FULL*/ TABLES/*!50002  WHERE Table_type = 'BASE TABLE'*/ LIKE 'xyz\_%'";
+//        $query = "SHOW TABLES LIKE 'xyz\_%'";
+//        $host = $GLOBALS['_MAX']['CONF']['database']['host'];
+//        $name = $GLOBALS['_MAX']['CONF']['database']['username'];
+//        $dbase = $GLOBALS['_MAX']['CONF']['database']['name'];
+//
+//        $db = mysql_connect($host,$name);
+//        if (is_resource($db))
+//        {
+//            if (mysql_selectdb($dbase))
+//            {
+//                $res = mysql_query($query);
+//                if (is_resource($res))
+//                {
+//                    while (list($key, $value) = each(mysql_fetch_assoc($res)))
+//                    {
+//                        $aDbTables[] = $value;
+//                    }
+//                }
+//            }
+//        }
+        $this->assertEqual(count($aDbTables),2,'');
+        $this->assertEqual($aDbTables[0],'xyz_table1','');
+        $this->assertEqual($aDbTables[1],'xyz_table2','');
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = $prefixOld;
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
+
+    function test_stripPrefixesFromDatabaseDefinition()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $aDefinition['tables'][$this->prefix.'table1'] = array();
+        $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey'] = array();
+        $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey']['primary'] = true;
+
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefinition);
+
+        $this->assertFalse(isset($aDefStripped['tables'][$this->prefix.'table1']), 'unstripped tablename found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']), 'stripped tablename not found in definition');
+
+        $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes'][$this->prefix.'table1_pkey']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['table1_pkey']), 'stripped indexname not found in definition');
+    }
+
+    function test_getDefinitionFromDatabase()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $prefixOld = $this->prefix;
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'xyz_';
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $aDefOrig = $this->_createTestTables($oDB_Upgrade->oSchema->db);
+        $aDefNew = $oDB_Upgrade->_getDefinitionFromDatabase();
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefOrig);
+        $this->assertEqual(count($aDiff),0,'definitions don\'t match');
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = $prefixOld;
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
+
     function test_checkSchemaIntegrity()
     {
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
 
-       $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
 //        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
         // new tables table1 and table2
 
@@ -136,28 +209,6 @@ class Test_DB_Upgrade extends UnitTestCase
         }
     }
 
-
-///*
-//seems to be a problem with LIKE in an MDB2 query
-//works in phpMyAdmin on MySQL 5.0.22 but not via this routine
-//*/
-//    function test_listBackups()
-//    {
-//        $oDB_Upgrade = $this->_newDBUpgradeObject();
-//        $oTable = new OA_DB_Table();
-//        $oTable->init($this->path.'schema_test_backups.xml');
-//        $this->assertTrue($oTable->createTable('z_test1'),'error creating test backup z_test1');
-//        $this->assertTrue($oTable->createTable('z_test2'),'error creating test backup z_test2');
-//        $this->assertTrue($oTable->createTable('z_test3'),'error creating test backup z_test3');
-//        $aExistingTables = $oTable->oDbh->manager->listTables();
-//        $this->assertTrue(in_array('z_test1', $aExistingTables), '_listBackups');
-//        $this->assertTrue(in_array('z_test2', $aExistingTables), '_listBackups');
-//        $this->assertTrue(in_array('z_test3', $aExistingTables), '_listBackups');
-//
-//        $aBackupTables = $oDB_Upgrade->_listBackups();
-//        $this->assertIsA($aBackupTables,'array','backup array not an array');
-//        $this->assertEqual(count($aBackupTables),3,'wrong number of backups found in database: expected 3 got '.count($aBackupTables));
-//    }
 
     /**
      * this test calls backup method then immediately rollsback
@@ -1080,6 +1131,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertTrue($this->_tableExists('table1', $aExistingTables), '_createTestTables');
         $this->assertTrue($this->_tableExists('table2', $aExistingTables), '_createTestTables');
+        return $oTable->aDefinition;
     }
 
     function _dropTestTables($oDbh)
