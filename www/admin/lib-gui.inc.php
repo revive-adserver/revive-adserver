@@ -116,17 +116,22 @@ function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $c
     }
     echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
     echo "<tr>\n";
-    $logo = !empty($pref['my_logo']) ? $imgPath.'images/'.$pref['my_logo'] : $imgPath.'images/logo-s.gif';
-    if (!empty($pref['name'])) {
-        $productName = $pref['name'];
-    } elseif (empty($pref['my_logo'])) {
-        $productName = MAX_PRODUCT_NAME;
+    if (empty($pref['name']) && empty($pref['my_logo'])) {
+        echo "<td height='48' bgcolor='#$headerBackgroundColor' valign='bottom'>";
+        echo "<img src='{$imgPath}images/logo.gif'>";
     } else {
-        $productName = '';
+        if (empty($pref['my_logo'])) {
+            $productName = $pref['name'];
+            $logo        = $imgPath.'images/logo-s.gif';
+        } else {
+            $productName = '';
+            $logo        = $imgPath.'images/'.$pref['my_logo'];
+        }
+    	$logo = !empty($pref['my_logo']) ? $imgPath.'images/'.$pref['my_logo'] : $imgPath.'images/logo-s.gif';
+        echo "<td height='48' bgcolor='#$headerBackgroundColor' valign='middle'>";
+        echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo}' align='top'>";
+        echo "<span class='phpAdsNew'>".$productName."</span>";
     }
-    echo "\t<td bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='48' width='10'>";
-    echo "<img src='".$logo."' align='absmiddle'><img src='".$imgPath."images/spacer.gif' height='48' width='20'>";
-    echo "<span class='phpAdsNew'>$productName</span>";
     echo "</td>\n";
     echo "\t<td bgcolor='#$headerBackgroundColor' valign='top' align='$phpAds_TextAlignRight'>\n";
     echo $searchbar;
