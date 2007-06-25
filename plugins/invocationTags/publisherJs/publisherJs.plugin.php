@@ -147,6 +147,7 @@ function {$varprefix}adjs(z,n)
     az+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'])."?n=\"+n+\"&zoneid=\"+z;
     az+=\"&source=\"+{$varprefix}channel+\"&exclude=\"+document.{$varprefix}used+\"&r=\"+{$varprefix}r;
     az+=\"&mmm_fo=\"+(document.mmm_fo)?'1':'0';
+    if (document.context) az+= \"&context=\" + escape(document.context);
     if (window.location) az+=\"&loc=\"+escape(window.location);
     if (document.referrer) az+=\"&referer=\"+escape(document.referrer);
     az+=\"'><\"+\"/script>\";
