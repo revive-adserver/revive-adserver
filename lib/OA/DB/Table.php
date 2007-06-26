@@ -108,7 +108,7 @@ class OA_DB_Table
      * @param bool   $useCache If true definitions are loaded from the cache file
      * @return boolean True if the class was initialised correctly, false otherwise.
      */
-    function init($file, $useCache = false)
+    function init($file, $useCache = true)
     {
         // Ensure that the schema XML file can be read
         if (!is_readable($file)) {
