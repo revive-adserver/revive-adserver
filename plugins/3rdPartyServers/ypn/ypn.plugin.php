@@ -40,7 +40,7 @@ require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
  *
  * @static
  */
-class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
+class Plugins_3rdPartyServers_ypn_ypn extends Plugins_3rdPartyServers
 {
 
     /**
@@ -53,7 +53,7 @@ class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
         include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
         MAX_Plugin_Translation::init($this->module, $this->package);
 
-        return MAX_Plugin_Translation::translate('Rich Media - Google AdSense', $this->module, $this->package);
+        return MAX_Plugin_Translation::translate('Rich Media - Yahoo! Publisher Network', $this->module, $this->package);
     }
 
     /**
@@ -64,7 +64,7 @@ class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
     function getBannerCache($buffer, &$noScript)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
+        if (preg_match('/<script.*?src=".*?ypn-js\.overture\.com/is', $buffer))
         {
             $buffer = "<span>".
                       "<script type='text/javascript'><!--// <![CDATA[\n".

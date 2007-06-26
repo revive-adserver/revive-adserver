@@ -25,59 +25,7 @@
 $Id$
 */
 
-/**
- * @package    MaxPlugin
- * @subpackage 3rdPartyServers
- * @author     Matteo Beccati <matteo.beccati@openads.org>
- *
- */
-
-require_once MAX_PATH . '/plugins/3rdPartyServers/3rdPartyServers.php';
-
-/**
- *
- * 3rdPartyServer plugin. Allow for generating different banner html cache
- *
- * @static
- */
-class Plugins_3rdPartyServers_google_google extends Plugins_3rdPartyServers
-{
-
-    /**
-     * Return the name of plugin
-     *
-     * @return string
-     */
-    function getName()
-    {
-        include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-        MAX_Plugin_Translation::init($this->module, $this->package);
-
-        return MAX_Plugin_Translation::translate('Rich Media - Google AdSense', $this->module, $this->package);
-    }
-
-    /**
-     * Return plugin cache
-     *
-     * @return string
-     */
-    function getBannerCache($buffer, &$noScript)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        if (preg_match('/<script.*?src=".*?googlesyndication\.com/is', $buffer))
-        {
-            $buffer = "<span>".
-                      "<script type='text/javascript'><!--// <![CDATA[\n".
-                      "/* {$conf['var']['openads']}={url_prefix} {$conf['var']['adId']}={bannerid} {$conf['var']['zoneId']}={zoneid} {$conf['var']['channel']}={source} */\n".
-                      "// ]]> --></script>".
-                      $buffer.
-                      "<script type='text/javascript' src='{url_prefix}/".$conf['file']['google']."'></script>".
-                      "</span>";
-        }
-
-        return $buffer;
-    }
-
-}
-
+    $words = array(
+        'Rich Media - Yahoo! Publisher Network' => 'Rich Media - Yahoo! Publisher Network',
+    );
 ?>

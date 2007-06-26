@@ -59,6 +59,10 @@ function MAX_googleGetJavaScript()
         $to[]   = preg_quote($v);
     }
 
+    // Supported networks
+    $from[] = "@@OA_DOMAINS_PREG@@";
+    $to[]   = "/googlesyndication\.com|ypn-js\.overture\.com/"
+
     $ag = str_replace($from, $to, $ag);
 
     return $ag;

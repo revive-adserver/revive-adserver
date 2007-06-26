@@ -26,6 +26,6 @@ $Id$
 */
 
     $words = array(
-        'Rich media - Google AdSense' => 'Rich media - Google AdSense',
+        'Rich Media - Google AdSense' => 'Rich Media - Google AdSense',
     );
 ?>
