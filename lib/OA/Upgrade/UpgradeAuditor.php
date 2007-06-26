@@ -1,4 +1,4 @@
-<?php
+<?php 
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
@@ -37,14 +37,16 @@ define('UPGRADE_ACTION_UPGRADE_FAILED',                         0);
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
+require_once MAX_PATH.'/lib/OA/Upgrade/BaseUpgradeAuditor.php';
 
-class OA_UpgradeAuditor
+class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
 {
     var $oLogger;
     var $oDbh;
     var $oDBAuditor;
 
     var $logTable   = 'upgrade_action';
+    var $action_table_xml_filename   = '/etc/upgrade_action.xml';
 
     var $prefix = '';
 
@@ -68,7 +70,7 @@ class OA_UpgradeAuditor
      */
     function OA_UpgradeAuditor()
     {
-        //this->__construct();
+    	$this->OA_BaseUpgradeAuditor();
     }
 
     function init(&$oDbh, $oLogger='')
@@ -86,32 +88,6 @@ class OA_UpgradeAuditor
         return $this->_checkCreateAuditTable();
     }
 
-    function setKeyParams($aParams='')
-    {
-        $this->aParams = $this->_escapeParams($aParams);
-    }
-
-    /**
-     * audit actions taken
-     *
-     * @param array $aParams
-     * @return boolean
-     */
-    function logUpgradeAction($aParams=array())
-    {
-        $aParams = $this->_escapeParams($aParams);
-        $columns = implode(",", array_keys($this->aParams)).','.implode(",", array_keys($aParams));
-        $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
-
-        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
-        $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
-        {
-            return false;
-        }
-        return true;
-    }
 
     function getUpgradeActionId()
     {
@@ -126,47 +102,6 @@ class OA_UpgradeAuditor
     function setUpgradeActionId()
     {
         $this->oDBAuditor->auditId = $this->getUpgradeActionId();
-    }
-
-    function _escapeParams($aParams)
-    {
-        foreach ($aParams AS $k => $v)
-        {
-            $aParams[$k] = $this->oDbh->quote($v);
-        }
-        return $aParams;
-    }
-
-    /**
-     * the database_action table must exist for all upgrade events
-     * currently the schema is stored in a separate xml file which is not part of an upgrade pkg
-     * eventually this table schema should be merged into the core tables schema
-     *
-     * @return boolean
-     */
-    function _createAuditTable()
-    {
-        $xmlfile = MAX_PATH.'/etc/upgrade_action.xml';
-
-        $oTable = new OA_DB_Table();
-        $oTable->init($xmlfile);
-        return $oTable->createTable($this->logTable);
-    }
-
-    function _checkCreateAuditTable()
-    {
-        $this->aDBTables = $this->oDbh->manager->listTables();
-        if (!in_array($this->prefix.$this->logTable, $this->aDBTables))
-        {
-            $this->log('creating upgrade_action audit table');
-            if (!$this->_createAuditTable())
-            {
-                $this->logError('failed to create upgrade_action audit table');
-                return false;
-            }
-            $this->log('successfully created upgrade_action audit table');
-        }
-        return true;
     }
 
     function upgradeAuditTable()
@@ -327,7 +262,7 @@ class OA_UpgradeAuditor
         {
             if ($aRec['logfile'] && file_exists(MAX_PATH.'/var/'.$aRec['logfile']))
             {
-                if (!unlink(MAX_PATH.'/var/'.$aRec['logfile']))
+                if (!@unlink(MAX_PATH.'/var/'.$aRec['logfile']))
                 {
                     return false;
                 }
@@ -339,7 +274,7 @@ class OA_UpgradeAuditor
             }
             if ($aRec['confbackup'] && file_exists(MAX_PATH.'/var/'.$aRec['confbackup']))
             {
-                if (!unlink(MAX_PATH.'/var/'.$aRec['confbackup']))
+                if (!@unlink(MAX_PATH.'/var/'.$aRec['confbackup']))
                 {
                     return false;
                 }
@@ -380,7 +315,8 @@ class OA_UpgradeAuditor
      * @param integer $upgrade_action_id
      * @param string $reason
      * @return boolean
-     */    function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
+     */    
+     function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
     {
         $query = "UPDATE {$this->prefix}{$this->logTable} SET logfile='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
 
@@ -393,7 +329,7 @@ class OA_UpgradeAuditor
         return true;
     }
 
-
+/*
     function queryAudit($versionTo=null, $versionFrom=null, $upgradeName=null, $action=null)
     {
         $query =   "SELECT * FROM {$this->prefix}{$this->logTable}"
@@ -472,7 +408,7 @@ class OA_UpgradeAuditor
             }
         }
         return $aResult;
-    }
+    }*/
 
 }
 

@@ -773,7 +773,7 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
-        $this->oAuditor->logUpgradeAction(array('description'=>'COMPLETE',
+        $this->oAuditor->logAuditAction(array('description'=>'COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
                                          );
@@ -783,7 +783,7 @@ class OA_Upgrade
     function _auditInstallationFailure($msg)
     {
         $this->oLogger->logError($msg);
-        $this->oAuditor->logUpgradeAction(array('description'=>'FAILED',
+        $this->oAuditor->logAuditAction(array('description'=>'FAILED',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
                                                 )
                                          );
@@ -1013,7 +1013,7 @@ class OA_Upgrade
                 $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
                 $this->oLogger->log('Application version updated to '. OA_VERSION);
             }
-            $this->oAuditor->logUpgradeAction(array('description'=>'COMPLETE',
+            $this->oAuditor->logAuditAction(array('description'=>'COMPLETE',
                                                     'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                     'confbackup'=>$this->oConfiguration->getConfigBackupName()
                                                    )
@@ -1026,7 +1026,7 @@ class OA_Upgrade
     function _auditUpgradeFailure($msg)
     {
         $this->oLogger->logError($msg);
-        $this->oAuditor->logUpgradeAction(array('description'=>'FAILED',
+        $this->oAuditor->logAuditAction(array('description'=>'FAILED',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
                                                 )
                                          );
@@ -1095,7 +1095,7 @@ class OA_Upgrade
             return false;
         }
         $this->versionInitialApplication = $this->aPackage['versionTo'];
-        $this->oAuditor->logUpgradeAction(array('description'=>'COMPLETE',
+        $this->oAuditor->logAuditAction(array('description'=>'COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                 'confbackup'=>$this->oConfiguration->getConfigBackupName()
                                                )
@@ -1430,7 +1430,7 @@ class OA_Upgrade
                 krsort($this->aDBPackages);
                 foreach ($this->aDBPackages as $k=>$aPkg)
                 {
-                    $this->oAuditor->oDBAuditor->logDatabaseAction(array('info1'=>'UPGRADE FAILED',
+                    $this->oAuditor->oDBAuditor->logAuditAction(array('info1'=>'UPGRADE FAILED',
                                                                'info2'=>'ROLLING BACK',
                                                                'action'=>DB_UPGRADE_ACTION_UPGRADE_FAILED,
                                                               )

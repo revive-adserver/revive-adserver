@@ -56,13 +56,16 @@ define('DB_UPGRADE_ACTION_IGNORE_OUTSTANDING_DROP_BACKUP',         170);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/BaseUpgradeAuditor.php';
 
-class OA_DB_UpgradeAuditor
+
+class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
 {
     var $oLogger;
     var $oDbh;
 
     var $logTable   = 'database_action';
+    var $action_table_xml_filename   = '/etc/database_action.xml';
 
     var $auditId;
 
@@ -88,6 +91,7 @@ class OA_DB_UpgradeAuditor
      */
     function OA_DB_UpgradeAuditor()
     {
+    	$this->OA_BaseUpgradeAuditor();
         //this->__construct();
     }
 
@@ -107,72 +111,7 @@ class OA_DB_UpgradeAuditor
     function setKeyParams($aParams='')
     {
         $aParams['upgrade_action_id'] = $this->auditId;
-        $this->aParams = $this->_escapeParams($aParams);
-    }
-
-    /**
-     * audit actions taken
-     *
-     * @param integer $action
-     * @param string $info1
-     * @param string $info2
-     * @return boolean
-     */
-    function logDatabaseAction($aParams=array())
-    {
-        $aParams = $this->_escapeParams($aParams);
-        $columns = implode(",", array_keys($this->aParams)).','.implode(",", array_keys($aParams));
-        $values  = implode(",", array_values($this->aParams)).','.implode(",", array_values($aParams));
-
-        $query = "INSERT INTO {$this->prefix}{$this->logTable} ({$columns}, updated) VALUES ({$values}, '". OA::getNow() ."')";
-        $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    function _escapeParams($aParams)
-    {
-        foreach ($aParams AS $k => $v)
-        {
-            $aParams[$k] = $this->oDbh->quote($v);
-        }
-        return $aParams;
-    }
-
-    /**
-     * the database_action table must exist for all upgrade events
-     * currently the schema is stored in a separate xml file which is not part of an upgrade pkg
-     * eventually this table schema should be merged into the core tables schema
-     *
-     * @return boolean
-     */
-    function _createAuditTable()
-    {
-        $xmlfile = MAX_PATH.'/etc/database_action.xml';
-
-        $oTable = new OA_DB_Table();
-        $oTable->init($xmlfile);
-        return $oTable->createTable($this->logTable);
-    }
-
-    function _checkCreateAuditTable()
-    {
-        $this->aDBTables = $this->oDbh->manager->listTables();
-        if (!in_array($this->prefix.$this->logTable, $this->aDBTables))
-        {
-            $this->log('creating database_action audit table');
-            if (!$this->_createAuditTable())
-            {
-                $this->logError('failed to create database_action audit table');
-                return false;
-            }
-            $this->log('successfully created database_action audit table');
-        }
-        return true;
+		parent::setKeyParams($aParams);
     }
 
     /**

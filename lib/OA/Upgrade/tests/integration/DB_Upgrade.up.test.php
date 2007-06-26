@@ -1238,8 +1238,8 @@ class Test_DB_Upgrade extends UnitTestCase
 //        );
 //
 //        $oDBAuditor = new $mockAuditor($this);
-//        $oDBAuditor->setReturnValue('logDatabaseAction', true);
-//        $oDBAuditor->expectOnce('logDatabaseAction');
+//        $oDBAuditor->setReturnValue('logAuditAction', true);
+//        $oDBAuditor->expectOnce('logAuditAction');
 
         $oDB_Upgrade->oAuditor = &$oDBAuditor;
 

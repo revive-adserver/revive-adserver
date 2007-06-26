@@ -27,6 +27,7 @@ $Id$
 
 
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/tests/integration/BaseUpgradeAuditor.up.test.php';
 
 /**
  * A class for testing the Openads_DB_Upgrade class.
@@ -35,20 +36,20 @@ require_once MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php';
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openads.org>
  */
-class Test_OA_DB_UpgradeAuditor extends UnitTestCase
-{
-    var $path;
 
-    var $aAuditParams = array();
+class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
+{ 
+    var $path;
 
     /**
      * The constructor method.
      */
     function Test_OA_DB_UpgradeAuditor()
     {
-        $this->UnitTestCase();
+        $this->Test_OA_BaseUpgradeAuditor();
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-
+        
+        
         $this->aAuditParams[0][0] = array('info1'=>'UPGRADE STARTED',
                               'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
                              );
@@ -86,7 +87,6 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
         $this->aAuditParams[1][4] = array('info1'=>'UPGRADE SUCCEEDED',
                               'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                              );
-
     }
 
     function test_constructor()
@@ -97,8 +97,8 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
     function test_init()
     {
-        $oAuditor = $this->_getAuditObject();
-        $this->_dropDBAuditTable($oAuditor->prefix.$oAuditor->logTable);
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
+        $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->init($oAuditor->oDbh),'failed to initialise upgrade auditor');
         $aDBTables = $oAuditor->oDbh->manager->listTables();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
@@ -111,7 +111,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
      */
     function test_setKeyParams()
     {
-        $oAuditor = $this->_getAuditObject();
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
         $oAuditor->setKeyParams(array(
                                         'string'=>'test_tables',
                                         'integer'=>10,
@@ -125,8 +125,8 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
     function test_createAuditTable()
     {
-        $oAuditor = $this->_getAuditObject();
-        $this->_dropDBAuditTable($oAuditor->prefix.$oAuditor->logTable);
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
+        $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->_createAuditTable(),'failed to createAuditTable');
         $aDBTables = $oAuditor->oDbh->manager->listTables();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
@@ -134,8 +134,8 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
     function test_checkCreateAuditTable()
     {
-        $oAuditor = $this->_getAuditObject();
-        $this->_dropDBAuditTable($oAuditor->prefix.$oAuditor->logTable);
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
+        $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         // test1 : table does not exist, should create table
         $this->assertTrue($oAuditor->_checkCreateAuditTable(),'failed to createAuditTable');
         $aDBTables = $oAuditor->oDbh->manager->listTables();
@@ -143,31 +143,18 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
         // test2 : table does exist, should return true
         $this->assertTrue($oAuditor->_checkCreateAuditTable(),'');
     }
+    
 
-    function test_logDatabaseAction()
+    function test_logAuditAction()
     {
-        $oAuditor = $this->_getAuditObject();
-
-        $oAuditor->auditId = 1;
-        $oAuditor->setKeyParams($this->_getAuditKeyParamsArray());
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][0]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][1]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][2]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][3]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[0][4]),'');
-
-        $oAuditor->auditId = 2;
-        $oAuditor->setKeyParams($this->_getAuditKeyParamsArray());
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][0]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][1]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][2]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][3]),'');
-        $this->assertTrue($oAuditor->logDatabaseAction($this->aAuditParams[1][4]),'');
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
+    	$this->_test_logDBAuditAction($oAuditor);
+		
     }
 
     function test_queryAuditByDBUpgradeId()
     {
-        $oAuditor = $this->_getAuditObject();
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
 
         $aResult = $oAuditor->queryAuditByDBUpgradeId(1);
         $this->assertIsa($aResult,'array','not an array');
@@ -176,12 +163,12 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
     function test_queryAuditByUpgradeId()
     {
-        $oAuditor = $this->_getAuditObject();
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
 
         $aResult = $oAuditor->queryAuditByUpgradeId(1);
         $this->assertIsa($aResult,'array','not an array');
         $this->assertEqual(count($aResult),5,'incorrect number of elements');
-        $aAuditKeyParams = $this->_getAuditKeyParamsArray();
+        $aAuditKeyParams = $this->_getDBAuditKeyParamsArray();
         $aAuditParams = $this->aAuditParams[0];
         foreach ($aResult AS $k=>$v)
         {
@@ -241,7 +228,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
     function test_queryAuditBackupTablesByUpgradeId()
     {
-        $oAuditor = $this->_getAuditObject();
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
 
         $aResult = $oAuditor->queryAuditBackupTablesByUpgradeId(1);
         $this->assertIsa($aResult,'array','audit table query result is not an array');
@@ -250,7 +237,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
     function test_updateAuditBackupDroppedById()
     {
-        $oAuditor = $this->_getAuditObject();
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
         $this->assertTrue($oAuditor->updateAuditBackupDroppedById(3, 'dropped by test'),'error updating backup table (dropped) audit record');
         $aResult = $oAuditor->queryAuditBackupTablesByUpgradeId(1);
         $this->assertIsa($aResult,'array','not an array');
@@ -266,7 +253,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 
     function test_getTableStatus()
     {
-        $oAuditor = $this->_getAuditObject();
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
         $aResult = $oAuditor->getTableStatus('database_action');
         $this->assertIsa($aResult,'array','not an array');
         $this->assertEqual(count($aResult),1,'incorrect number of elements');
@@ -278,7 +265,7 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 // DEPRECATED METHODS
 //    function test_queryAuditAll()
 //    {
-//        $oAuditor = $this->_getAuditObject();
+//        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
 //        $aAuditKeyParams = $this->_getAuditKeyParamsArray();
 //        $aAuditParams = $this->_getAuditParamsArray();
 //        $aResult = $oAuditor->queryAuditAll();
@@ -342,8 +329,8 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 //
 //    function test_queryAudit()
 //    {
-//        $oAuditor = $this->_getAuditObject();
-//        $aKeyParams = $this->_getAuditKeyParamsArray();
+//        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
+//        $aKeyParams = $this->_getDBAuditKeyParamsArray();
 //
 //        $version = $aKeyParams['version'];
 //        $timing  = $aKeyParams['timing'];
@@ -399,36 +386,6 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 //        $this->assertNotEqual($aResult[0]['tablename_backup'],'test_table_bak','wrong tablename_backup for audit query result');
 //    }
 
-    function _getAuditObject()
-    {
-        $oAuditor = new OA_DB_UpgradeAuditor();
-        $oDbh = OA_DB::singleton(OA_DB::getDsn());
-        $oAuditor->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $oAuditor->oDbh = &$oDbh;
-        return $oAuditor;
-    }
-
-    function _dropDBAuditTable($table_name)
-    {
-        $oTable = new OA_DB_Table();
-        $aDBTables = $oTable->oDbh->manager->listTables();
-        if (in_array($table_name, $aDBTables))
-        {
-            $this->assertTrue($oTable->dropTable($table_name),'error dropping db audit table '.$table_name);
-        }
-        $aDBTables = $oTable->oDbh->manager->listTables();
-        $this->assertFalse(in_array($table_name, $aDBTables), '_dropDBAuditTable');
-    }
-
-    function _getAuditKeyParamsArray()
-    {
-        return array(
-                     'schema_name'=>'test_schema',
-                     'version'=>2,
-                     'timing'=>0,
-                    );
-    }
-
 //    function _getAuditParamsArray()
 //    {
 //        $aAudit[0][0] = array('info1'=>'UPGRADE STARTED',
@@ -471,22 +428,13 @@ class Test_OA_DB_UpgradeAuditor extends UnitTestCase
 //        return $aAudit;
 //    }
 
-    function _getFieldDefinitionArray($id)
-    {
-        $table = 'test_table'.$id;
-        $aDef  = array($table=>array('fields'=>array(), 'indexes'=>array()));
-        $aDef[$table]['fields']['test_field'.$id]  = array('type'=>'test_type','length'=>1);
-        $aDef[$table]['indexes']['test_index'.$id] = array('primary'=>true);
-        return $aDef;
-    }
-
 /*
 seems to be a problem with LIKE in an MDB2 query
 works in phpMyAdmin on MySQL 5.0.22 but not via this routine
 */
     function test_listBackups()
     {
-        $oAuditor = $this->_getAuditObject();
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_backups.xml');
         $this->assertTrue($oTable->createTable('z_test1'),'error creating test backup z_test1');
@@ -501,6 +449,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertIsA($aBackupTables,'array','backup array not an array');
         $this->assertEqual(count($aBackupTables),3,'wrong number of backups found in database: expected 3 got '.count($aBackupTables));
     }
+    
 
 }
 
