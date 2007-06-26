@@ -652,8 +652,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $graphFilterArray = $graphVals;
         $imageFormat = null;
         if (!extension_loaded('gd')) {
-        	$this->aGraphData['noGraph'] = true;
-		} else {
+          $this->aGraphData['noGraph'] = true;
+    } else {
             $imgPath = 'http://' . $GLOBALS['_MAX']['CONF']['webpath']['admin'] . '/images';
             if (!function_exists('imagecreate')) {
                 $this->aGraphData['noGraph'] = $GLOBALS['strGDnotEnabled'];
@@ -671,15 +671,15 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $this->aGraphData['tmpUrl']          = $tmpUrl;
             $this->aGraphData['queryString']     = $_SERVER['QUERY_STRING'];
             $this->aGraphData['formSubmitLink']  = $formSubmitLink;
-		}
+    }
 
         // Set the Flexy tags to open/close Javascript
         $this->scriptOpen     = "\n<script type=\"text/javascript\"> <!--\n";
         $this->scriptClose    = "\n//--> </script>\n";
-        
+
         // Set whether to automatically display the Graph div, will return true if user has just changed the 'graphFields' value
-        $this->autoShowGraph  = strpos($_SERVER['QUERY_STRING'], 'graphFields');  
-echo $this->autoShowGraph;
+        $this->autoShowGraph  = strpos($_SERVER['QUERY_STRING'], 'graphFields');
+
         // Set the language vars for statistics display
         $this->strShowGraphOfStatistics   = $GLOBALS['strShowGraphOfStatistics'];
         $this->strExportStatisticsToExcel = $GLOBALS['strExportStatisticsToExcel'];
