@@ -209,6 +209,23 @@ class Test_DB_Upgrade extends UnitTestCase
         }
     }
 
+    function test_UpgradeWithNoBackups()
+    {
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $oDB_Upgrade->doBackups = false;
+        $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1');
+
+        $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
+
+        $aAuditRec = $oDB_Upgrade->oAuditor->queryAuditByDBUpgradeId(1);
+
+        $this->assertIsA($aAuditRec, 'array', 'aAuditRec not an array');
+        $this->assertEqual(count($aAuditRec),1,'wrong number of audit records');
+        $this->assertEqual($aAuditRec[0]['action'],DB_UPGRADE_ACTION_BACKUP_IGNORED,'wrong audit code');
+
+        $this->assertIsA($oDB_Upgrade->aRestoreTables, 'array', 'aRestoreTables not an array');
+        $this->assertEqual(count($oDB_Upgrade->aRestoreTables),0, 'aRestoreTables should be empty');
+    }
 
     /**
      * this test calls backup method then immediately rollsback

@@ -74,6 +74,8 @@ class OA_DB_Upgrade
     var $prefix = '';
     var $database = '';
 
+    var $doBackups = true;
+
     var $continue = true;
 
     var $aSQLStatements = array();
@@ -562,64 +564,74 @@ class OA_DB_Upgrade
      */
     function _backup()
     {
-        $aTables = $this->aChanges['affected_tables'][$this->timingStr];
-        $this->aDBTables = $this->_listTables();
-        if (!empty($aTables))
+        if ($this->doBackups)
         {
-            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP STARTED',
-                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
-                                                    )
-                                              );
-            foreach ($aTables AS $k => $table)
+            $aTables = $this->aChanges['affected_tables'][$this->timingStr];
+            $this->aDBTables = $this->_listTables();
+            if (!empty($aTables))
             {
-                if (in_array($this->prefix.$table, $this->aDBTables))
+                $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP STARTED',
+                                                         'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
+                                                        )
+                                                  );
+                foreach ($aTables AS $k => $table)
                 {
-                    $string     = $this->versionTo.$this->timingStr.$this->database.$this->prefix.$table.OA::getNow();
-                    $hash       = str_replace(array('+','/','='),array('_','_',''),base64_encode(pack("H*",md5($string)))); // packs down to 22 chars and removes illegal chars
-                    $table_bak  ="z_{$hash}";
-                    $this->aMessages[]  = "backing up table {$this->prefix}{$table} to table {$this->prefix}{$table_bak} ";
-
-                    $statement = $this->aSQLStatements['table_copy'];
-                    $query      = sprintf($statement, $this->prefix.$table_bak, $this->prefix.$table);
-                    $result     = $this->oSchema->db->exec($query);
-                    if ($this->_isPearError($result, 'error creating backup'))
+                    if (in_array($this->prefix.$table, $this->aDBTables))
                     {
-                        $this->_halt();
-                        $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP FAILED',
-                                                                 'info2'=>'creating backup table'.$table_bak,
-                                                                 'action'=>DB_UPGRADE_ACTION_BACKUP_FAILED,
+                        $string     = $this->versionTo.$this->timingStr.$this->database.$this->prefix.$table.OA::getNow();
+                        $hash       = str_replace(array('+','/','='),array('_','_',''),base64_encode(pack("H*",md5($string)))); // packs down to 22 chars and removes illegal chars
+                        $table_bak  ="z_{$hash}";
+                        $this->aMessages[]  = "backing up table {$this->prefix}{$table} to table {$this->prefix}{$table_bak} ";
+
+                        $statement = $this->aSQLStatements['table_copy'];
+                        $query      = sprintf($statement, $this->prefix.$table_bak, $this->prefix.$table);
+                        $result     = $this->oSchema->db->exec($query);
+                        if ($this->_isPearError($result, 'error creating backup'))
+                        {
+                            $this->_halt();
+                            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP FAILED',
+                                                                     'info2'=>'creating backup table'.$table_bak,
+                                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_FAILED,
+                                                                    )
+                                                              );
+                            return false;
+                        }
+                        $aDef = $this->_getDefinitionFromDatabase($table);
+                        $aBakDef = $aDef['tables'][$table];
+                        $this->aRestoreTables[$table] = array(
+                                                                'bak'=>$table_bak,
+                                                                'def'=>$aBakDef
+                                                             );
+                        $this->oAuditor->logDatabaseAction(array('info1'=>'copied table',
+                                                                 'tablename'=>$table,
+                                                                 'tablename_backup'=>$table_bak,
+                                                                 'table_backup_schema'=>serialize($aBakDef),
+                                                                 'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
                                                                 )
                                                           );
-                        return false;
                     }
-                    $aDef = $this->_getDefinitionFromDatabase($table);
-                    $aBakDef = $aDef['tables'][$table];
-                    $this->aRestoreTables[$table] = array(
-                                                            'bak'=>$table_bak,
-                                                            'def'=>$aBakDef
-                                                         );
-                    $this->oAuditor->logDatabaseAction(array('info1'=>'copied table',
-                                                             'tablename'=>$table,
-                                                             'tablename_backup'=>$table_bak,
-                                                             'table_backup_schema'=>serialize($aBakDef),
-                                                             'action'=>DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED,
-                                                            )
-                                                      );
+                    else
+                    {
+                        $this->aAddedTables[$table] = true;
+                    }
                 }
-                else
-                {
-                    $this->aAddedTables[$table] = true;
-                }
+                $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP COMPLETE',
+                                                         'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                                                        )
+                                                  );
             }
-            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP COMPLETE',
-                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
-                                                    )
-                                              );
+            else
+            {
+                $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP UNNECESSARY',
+                                                         'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+                                                        )
+                                                  );
+            }
         }
         else
         {
-            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP UNNECESSARY',
-                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_SUCCEEDED,
+            $this->oAuditor->logDatabaseAction(array('info1'=>'BACKUP IGNORED',
+                                                     'action'=>DB_UPGRADE_ACTION_BACKUP_IGNORED,
                                                     )
                                               );
         }

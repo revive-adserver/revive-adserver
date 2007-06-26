@@ -164,6 +164,7 @@ class OA_Upgrade
         $this->oVersioner->init($this->oDbh);
         $this->oAuditor->init($this->oDbh, $this->oLogger);
         $this->oDBUpgrader->oAuditor = &$this->oAuditor->oDBAuditor;
+        $this->oDBUpgrader->doBackups = $this->_doBackups();
         $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
         return true;
@@ -766,7 +767,7 @@ class OA_Upgrade
             $this->_auditInstallationFailure('Installation failed to write database details to the configuration file '.$this->oConfiguration->configFile);
             if (file_exists($this->oConfiguration->configPath.$this->oConfiguration->configFile))
             {
-                unlink($this->oConfiguration->configPath.$this->oConfiguration->configFile);
+                @unlink($this->oConfiguration->configPath.$this->oConfiguration->configFile);
                 $this->oLogger->log('Installation deleted the configuration file '.$this->oConfiguration->configFile);
             }
             $this->_dropDatabase();
@@ -998,7 +999,6 @@ class OA_Upgrade
                                          );
             if (!$this->_upgradeConfig())
             {
-                // put the old config back if merge failed?
                 $this->_auditUpgradeFailure('Failed to upgrade configuration file');
                 return false;
             }
@@ -1018,6 +1018,7 @@ class OA_Upgrade
                                                     'confbackup'=>$this->oConfiguration->getConfigBackupName()
                                                    )
                                              );
+            $this->_pickupNoBackupsFile();
         }
         return true;
     }
@@ -1645,12 +1646,12 @@ class OA_Upgrade
     {
         if (file_exists($this->recoveryFile))
         {
-            unlink($this->recoveryFile);
+            @unlink($this->recoveryFile);
         }
         return (!file_exists($this->recoveryFile));
     }
 
-    function seekRecoveryFile()
+     function seekRecoveryFile()
     {
         if (file_exists($this->recoveryFile))
         {
@@ -1672,6 +1673,17 @@ class OA_Upgrade
             return $aResult;
         }
         return false;
+    }
+
+    function _doBackups()
+    {
+        return (!file_exists(MAX_PATH.'/var/NOBACKUPS'));
+    }
+
+    function _pickupNoBackupsFile()
+    {
+        @unlink(MAX_PATH.'/var/NOBACKUPS');
+        return (!file_exists(MAX_PATH.'/var/NOBACKUPS'));
     }
 
     function _getUpgradeLogFileName($timing='constructive')
@@ -1696,7 +1708,7 @@ class OA_Upgrade
     {
         if (file_exists(MAX_PATH.'/var/UPGRADE'))
         {
-            return unlink(MAX_PATH.'/var/UPGRADE');
+            return @unlink(MAX_PATH.'/var/UPGRADE');
         }
         return true;
     }

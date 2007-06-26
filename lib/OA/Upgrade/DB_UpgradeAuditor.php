@@ -35,6 +35,7 @@ define('DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT',                    1);
 
 define('DB_UPGRADE_ACTION_UPGRADE_STARTED',                        10);
 define('DB_UPGRADE_ACTION_BACKUP_STARTED',                         20);
+define('DB_UPGRADE_ACTION_BACKUP_IGNORED',                         21);
 define('DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED',                    30);
 define('DB_UPGRADE_ACTION_BACKUP_SUCCEEDED',                       40);
 define('DB_UPGRADE_ACTION_BACKUP_FAILED',                          50);

@@ -402,6 +402,21 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->assertTrue($oUpgrade->runScript('prescript_openads_upgrade_1_to_2.php'));
     }
 
+    function test_doBackups_and_pickupNoBackupsFile()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        if (file_exists(MAX_PATH.'/var/NOBACKUPS'))
+        {
+            unlink(MAX_PATH.'/var/NOBACKUPS');
+        }
+        copy($this->MAX_PATH.'/lib/OA/Upgrade/tests/data/NOBACKUPS', MAX_PATH.'/var/NOBACKUPS');
+
+        $this->assertTrue($oUpgrade->_doBackups(), 'nobackups file undetected');
+
+        $this->assertTrue($oUpgrade->_pickupNoBackupsFile(), 'failed to pickup up nobackups file');
+        $this->assertFalse(file_exists(MAX_PATH.'/var/NOBACKUPS'),'nobackups file not removed');
+    }
+
     function test_writeRecoveryFile()
     {
         $oUpgrade  = new OA_Upgrade();
