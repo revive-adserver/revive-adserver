@@ -39,6 +39,7 @@ require_once $path . '/../../init.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Distributed.php';
 
+increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 OA_Maintenance_Distributed::run();
 
 ?>

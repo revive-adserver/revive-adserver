@@ -40,6 +40,8 @@ require_once $path . '/../../init.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA/Maintenance.php';
 
+increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+
 $oMaint = new OA_Maintenance();
 $oMaint->run();
 

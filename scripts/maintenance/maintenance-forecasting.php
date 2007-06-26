@@ -57,6 +57,7 @@ if (PEAR::isError($result)) {
 }
 
 // Run the Maintenance Forecasting Engine (MFE) process
+increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 MAX_Maintenance_Forecasting::run();
 
 MAX::debug('Maintenance Forecasting Completed', PEAR_LOG_INFO);
