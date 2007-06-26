@@ -1085,6 +1085,7 @@ class OA_Upgrade
         $this->versionInitialApplication = $this->aPackage['versionTo'];
         $this->oAuditor->logUpgradeAction(array('description'=>'COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                                'confbackup'=>$this->oConfiguration->getConfigBackupName()
                                                )
                                          );
         return true;
