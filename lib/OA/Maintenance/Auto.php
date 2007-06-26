@@ -63,7 +63,10 @@ class OA_Maintenance_Auto
 
 		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
 		{
-			require_once MAX_PATH . '/lib/OA/Maintenance.php';
+			// attempt to increase a memory limit
+		    increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+			
+		    require_once MAX_PATH . '/lib/OA/Maintenance.php';
 
 			$oMaint = new OA_Maintenance();
 
