@@ -1866,6 +1866,9 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if (empty($GLOBALS['source'])) {
 $GLOBALS['source'] = $source;
 }
+if (empty($GLOBALS['loc'])) {
+$GLOBALS['loc'] = $loc;
+}
 if (strpos($what,'zone:') === 0) {
 $originalZoneId = intval(substr($what,5));
 } elseif (strpos($what,'campaignid:') === 0) {
