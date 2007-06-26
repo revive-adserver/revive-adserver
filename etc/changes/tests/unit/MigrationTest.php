@@ -99,7 +99,7 @@ class MigrationTest extends DbTestCase
             $aDBTables = $this->oDBUpgrader->_listTables('z_');
             foreach ($aDBTables AS $table)
             {
-                $this->oDBUpgrader->oSchema->db->dropTable($table);
+                $this->oDBUpgrader->oSchema->db->manager->dropTable($table);
             }
         }
     }
