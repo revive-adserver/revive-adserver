@@ -409,9 +409,9 @@ class Test_OA_Upgrade extends UnitTestCase
         {
             unlink(MAX_PATH.'/var/NOBACKUPS');
         }
-        copy($this->MAX_PATH.'/lib/OA/Upgrade/tests/data/NOBACKUPS', MAX_PATH.'/var/NOBACKUPS');
+        copy(MAX_PATH.'/lib/OA/Upgrade/tests/data/NOBACKUPS', MAX_PATH.'/var/NOBACKUPS');
 
-        $this->assertTrue($oUpgrade->_doBackups(), 'nobackups file undetected');
+        $this->assertFalse($oUpgrade->_doBackups(), 'nobackups file wrongly detected');
 
         $this->assertTrue($oUpgrade->_pickupNoBackupsFile(), 'failed to pickup up nobackups file');
         $this->assertFalse(file_exists(MAX_PATH.'/var/NOBACKUPS'),'nobackups file not removed');
