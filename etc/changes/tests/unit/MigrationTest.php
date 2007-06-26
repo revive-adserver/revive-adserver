@@ -95,10 +95,12 @@ class MigrationTest extends DbTestCase
     
     function _dropAllBackupTables()
     {
-        $aDBTables = $this->oDBUpgrader->_listTables('z_');
-        foreach ($aDBTables AS $table)
-        {
-            $this->oDBUpgrader->oSchema->db->dropTable($table);
+        if (isset($this->oDBUpgrader)) {
+            $aDBTables = $this->oDBUpgrader->_listTables('z_');
+            foreach ($aDBTables AS $table)
+            {
+                $this->oDBUpgrader->oSchema->db->dropTable($table);
+            }
         }
     }
     
