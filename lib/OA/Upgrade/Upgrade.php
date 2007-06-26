@@ -930,9 +930,6 @@ class OA_Upgrade
      */
     function upgrade($input_file='', $timing='constructive')
     {
-//        $this->oLogger->setLogFile($this->_getUpgradeLogFileName($timing));
-//        $this->oDBUpgrader->logFile = $this->oLogger->logFile;
-
         // initialise database connection if necessary
         if (is_null($this->oDbh))
         {
@@ -980,6 +977,10 @@ class OA_Upgrade
         }
         else
         {
+            $this->package_file = '';
+            $this->oLogger->setLogFile($this->_getUpgradeLogFileName($timing));
+            $this->oDBUpgrader->logFile = $this->oLogger->logFile;
+
             $this->oAuditor->setKeyParams(array('upgrade_name'=>'version stamp',
                                                 'version_to'=>OA_VERSION,
                                                 'version_from'=>$version_from,
@@ -1045,6 +1046,7 @@ class OA_Upgrade
     {
         $this->oLogger->setLogFile($this->_getUpgradeLogFileName());
         $this->oDBUpgrader->logFile = $this->oLogger->logFile;
+        $this->oConfiguration->clearConfigBackupName();
 
         if ($input_file)
         {
@@ -1063,7 +1065,7 @@ class OA_Upgrade
         $this->oAuditor->setUpgradeActionId();  // links the upgrade_action record with database_action records
         if (!$this->runScript($this->aPackage['prescript']))
         {
-            $this->_auditUpgradeFailure('Failure from upgrade prescript '.$this->aPackage['prescript']);
+            $this->_auditUpgradeFailure('Failure in upgrade prescript '.$this->aPackage['prescript']);
             return false;
         }
         if (!$this->upgradeSchemas())
@@ -1073,7 +1075,7 @@ class OA_Upgrade
         }
         if (!$this->runScript($this->aPackage['postscript']))
         {
-            $this->_auditUpgradeFailure('Failure from upgrade postscript '.$this->aPackage['postscript']);
+            $this->_auditUpgradeFailure('Failure in upgrade postscript '.$this->aPackage['postscript']);
             return false;
         }
         if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo']))
@@ -1673,7 +1675,7 @@ class OA_Upgrade
         {
             $package = str_replace('.xml', '', $this->package_file);
         }
-        return $package.'_'.$timing.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
+        return $package.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
     }
 
     function getLogFileName()

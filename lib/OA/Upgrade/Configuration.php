@@ -152,6 +152,12 @@ class OA_Upgrade_Config
         return $this->oConfig->backupFilename;
     }
 
+    function clearConfigBackupName()
+    {
+        $this->oConfig->backupFilename = '';
+        return true;
+    }
+
     function setOpenadsInstalledOn()
     {
         $this->setValue('openads','installed', '1');
