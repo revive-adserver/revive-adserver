@@ -88,7 +88,7 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 //  build arrays used for sorting time zones
                 $origOffset = $_DATE_TIMEZONE_DATA[$key]['offset'];
                 if ($origOffset >= 0) {
-                    $aTimezone[$key] = "(GMT+$offset) $key";
+                    $aTimezone[$offset][$key] = "(GMT+$offset) $key";
                 } else {
                     $aNegTimezone[$key] = "(GMT-$offset) $key";
                 }
@@ -102,10 +102,25 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
         }
 
         //  sort time zones
-        arsort($aTimezone); asort($aNegTimezone);
+        asort($aNegTimezone);
+
+        //  reverse array element order while preserving alphabetical order
+        $hasRun       = false;
+        foreach ($aTimezone as $offset => $aValue) {
+            if ($hasRun == false) {
+                $aRevTimezone[] = $aValue;
+                $hasRun = true;
+            } else {
+                array_unshift($aRevTimezone, $aValue);
+            }
+        }
 
         //  build result array
-        $aResult = $aTimezone;
+        foreach($aRevTimezone as $aValue) {
+            foreach ($aValue as $k => $v) {
+                $aResult[$k] = $v;
+            }
+        }
         foreach ($aNegTimezone as $key => $value) {
             $aResult[$key] = $value;
         }
