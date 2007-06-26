@@ -941,7 +941,7 @@ class OA_Upgrade
             $this->oLogger->logError('Insufficient database permissions');
             return false;
         }
-        $version_from = $this->getProductApplicationVersion();
+        //$version_from = $this->getProductApplicationVersion();
 
         // first deal with each of the packages in the list
         // that was compiled during detection
@@ -983,7 +983,7 @@ class OA_Upgrade
 
             $this->oAuditor->setKeyParams(array('upgrade_name'=>'version stamp',
                                                 'version_to'=>OA_VERSION,
-                                                'version_from'=>$version_from,
+                                                'version_from'=>$this->getProductApplicationVersion(),
                                                 'logfile'=>basename($this->oLogger->logFile)
                                                 )
                                          );
