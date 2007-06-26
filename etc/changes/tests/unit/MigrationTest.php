@@ -47,8 +47,16 @@ class MigrationTest extends DbTestCase
      * The MDB2 driver handle.
      *
      * @var MDB2_Driver_Common
+     * 
      */
     var $oDbh;
+    
+    /**
+     * Upgrade class.
+     *
+     * @var OA_DB_Upgrade
+     */
+    var $oDBUpgrader;
     
     function setUp()
     {
@@ -60,6 +68,7 @@ class MigrationTest extends DbTestCase
     {
         if (isset($this->oaTable)) {
             $this->oaTable->dropAllTables();
+            $this->_dropAllBackupTables();
         }
     }
     
@@ -75,13 +84,22 @@ class MigrationTest extends DbTestCase
     
     function upgradeToVersion($version)
     {
-        $upgrader = new OA_DB_Upgrade();
-        $upgrader->initMDB2Schema();
+        $this->oDBUpgrader = new OA_DB_Upgrade();
+        $this->oDBUpgrader->initMDB2Schema();
         $auditor   = new OA_DB_UpgradeAuditor();
-        $upgrader->oAuditor = &$auditor;
-        $this->assertTrue($auditor->init($upgrader->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
-        $upgrader->init('constructive', 'tables_core', $version);
-        $this->assertTrue($upgrader->upgrade());
+        $this->oDBUpgrader->oAuditor = &$auditor;
+        $this->assertTrue($auditor->init($this->oDBUpgrader->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
+        $this->oDBUpgrader->init('constructive', 'tables_core', $version);
+        $this->assertTrue($this->oDBUpgrader->upgrade());
+    }
+    
+    function _dropAllBackupTables()
+    {
+        $aDBTables = $this->oDBUpgrader->_listTables('z_');
+        foreach ($aDBTables AS $table)
+        {
+            $this->oDBUpgrader->oSchema->db->dropTable($table);
+        }
     }
     
     function setupPanConfig()
