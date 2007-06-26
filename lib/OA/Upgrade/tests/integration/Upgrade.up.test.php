@@ -144,7 +144,7 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade = new OA_Upgrade();
         $oUpgrade->package_file = 'openads_upgrade_1_to_2.xml';
-        $pattern = '/openads_upgrade_1_to_2_constructive_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
+        $pattern = '/openads_upgrade_1_to_2_[\d]{4}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}_[\d]{2}\.log/';
         $logfile = $oUpgrade->_getUpgradeLogFileName();
         $this->assertWantedPattern($pattern, $logfile, 'wrong logfile pattern: '.$logfile);
     }
