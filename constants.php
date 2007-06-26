@@ -204,8 +204,9 @@ function setupConstants()
 
     // define minimum amount of required memory
     $GLOBALS['_MAX']['REQUIRED_MEMORY'] = array(
-        'PHP4' => 8388608, // 8MB in bytes (or should we use 16MB? 16777216)
-        'PHP5' => 20971520  // 20MB (or 25165824 - 24MB) in bytes - required by >PHP5.2
+        'PHP4' => 16777216, // 16MB in bytes (or should we use 8MB? 8388608)
+        'PHP5' => 25165824,  // 24MB in bytes - required by >PHP5.2
+        'MAINTENANCE' => 134217728  // 128MB - try to set this value inside all maintenance scripts
     );
 
     // Ensure that the initialisation has not been run before
