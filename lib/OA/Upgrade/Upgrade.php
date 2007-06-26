@@ -300,18 +300,27 @@ class OA_Upgrade
             case OA_STATUS_M01_NOT_INSTALLED:
                 break;
             case OA_STATUS_M01_CONFIG_DETECTED:
-                $this->oLogger->logError($strProductName.$strDetected);
+                if (!$this->oLogger->errorExists)
+                {
+                    $this->oLogger->logError($strProductName.$strDetected);
+                }
                 break;
             case OA_STATUS_M01_DBCONNECT_FAILED:
-                $this->oLogger->logError($strProductName.$strDetected);
-                $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                if (!$this->oLogger->errorExists)
+                {
+                    $this->oLogger->logError($strProductName.$strDetected);
+                    $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                }
                 break;
             case OA_STATUS_M01_DBINTEG_FAILED:
                 return false;
             case OA_STATUS_M01_VERSION_FAILED:
-                $this->oLogger->log($strProductName.' detected');
-                $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
-                $this->oLogger->logError($strNoUpgrade);
+                if (!$this->oLogger->errorExists)
+                {
+                    $this->oLogger->log($strProductName.' detected');
+                    $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                    $this->oLogger->logError($strNoUpgrade);
+                }
                 break;
             case OA_STATUS_CAN_UPGRADE:
                 $this->oLogger->log($strProductName.' detected');
