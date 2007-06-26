@@ -73,11 +73,13 @@ class OA_DB_XmlCache
      */
     function get($fileName)
     {
-        $id    = $this->_getId($fileName);
-        $group = $this->_getGroup($fileName);
+        if (extension_loaded('zlib')) {
+            $id    = $this->_getId($fileName);
+            $group = $this->_getGroup($fileName);
 
-        if ($result = $this->oCache->get($id, $group, true)) {
-            return unserialize(gzuncompress($result));
+            if ($result = $this->oCache->get($id, $group, true)) {
+                return unserialize(gzuncompress($result));
+            }
         }
 
         return false;
@@ -93,7 +95,7 @@ class OA_DB_XmlCache
      */
     function save($data, $fileName)
     {
-        if (is_writable($this->cachePath)) {
+        if (is_writable($this->cachePath) && extension_loaded('zlib')) {
             $id    = $this->_getId($fileName);
             $group = $this->_getGroup($fileName);
             return $this->oCache->save(gzcompress(serialize($data), 9), $id, $group);
