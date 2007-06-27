@@ -55,14 +55,14 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $oEnvMgr->aInfo['PHP']['actual']['magic_quotes_runtime'] = '0';
         //$oEnvMgr->aInfo['PHP']['actual']['date.timezone'] = 'Europe/London';
 
-        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.5';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.5');
+        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.9';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.9');
 
-        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.6';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.6');
+        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.10';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.10');
 
-        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.7';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.7');
+        $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.11';
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.11');
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '5.0.1';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 5.0.1');
