@@ -245,42 +245,42 @@ $settings = array (
                 'name'    => 'ignoreHosts',
                 'text'    => $strIgnoreHosts
             ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_blockAdImpressions',
-                'text'    => $strBlockAdViews,
-                'size'    => 12,
-                //'depends' => 'logging_adImpressions==true',
-                'enabled' => 'false',
-                'check'   => 'number+'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_blockAdClicks',
-                'text'    => $strBlockAdClicks,
-                'size'    => 12,
-                //'depends' => 'logging_adClicks==true',
-                'enabled' => 'false',
-                'check'   => 'number+'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'text',
-                'name'    => 'logging_blockTrackerImpressions',
-                'text'    => $strBlockAdConversions,
-                'size'    => 12,
-                //'depends' => 'logging_trackerImpressions==true',
-                'enabled' => 'false',
-                'check'   => 'number+'
-            )
+//            array (
+//                'type'    => 'break'
+//            ),
+//            array (
+//                'type'    => 'text',
+//                'name'    => 'logging_blockAdImpressions',
+//                'text'    => $strBlockAdViews,
+//                'size'    => 12,
+//                //'depends' => 'logging_adImpressions==true',
+//                'enabled' => 'false',
+//                'check'   => 'number+'
+//            ),
+//            array (
+//                'type'    => 'break'
+//            ),
+//            array (
+//                'type'    => 'text',
+//                'name'    => 'logging_blockAdClicks',
+//                'text'    => $strBlockAdClicks,
+//                'size'    => 12,
+//                //'depends' => 'logging_adClicks==true',
+//                'enabled' => 'false',
+//                'check'   => 'number+'
+//            ),
+//            array (
+//                'type'    => 'break'
+//            ),
+//            array (
+//                'type'    => 'text',
+//                'name'    => 'logging_blockTrackerImpressions',
+//                'text'    => $strBlockAdConversions,
+//                'size'    => 12,
+//                //'depends' => 'logging_trackerImpressions==true',
+//                'enabled' => 'false',
+//                'check'   => 'number+'
+//            )
         )
     ),
     array (
