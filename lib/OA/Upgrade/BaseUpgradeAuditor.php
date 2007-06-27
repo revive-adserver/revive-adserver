@@ -1,9 +1,11 @@
 <?php
-class OA_BaseUpgradeAuditor 
+class OA_BaseUpgradeAuditor
 {
-    
+
     // needs to be defined in the child class
     var $action_table_xml_filename;
+
+    var $logTable   = '';
 
 	function OA_BaseUpgradeAuditor()
 	{
@@ -30,12 +32,12 @@ class OA_BaseUpgradeAuditor
         }
         return true;
     }
-    
+
     function setKeyParams($aParams='')
     {
         $this->aParams = $this->_escapeParams($aParams);
     }
-    
+
     /**
      * the action_table_name table must exist for all upgrade events
      * currently the schema is stored in a separate xml file which is not part of an upgrade pkg
@@ -57,17 +59,17 @@ class OA_BaseUpgradeAuditor
         $this->aDBTables = $this->oDbh->manager->listTables();
         if (!in_array($this->prefix.$this->logTable, $this->aDBTables))
         {
-            $this->log('creating upgrade_action audit table');
+            $this->log('creating '.$this->logTable.' audit table');
             if (!$this->_createAuditTable())
             {
-                $this->logError('failed to create upgrade_action audit table');
+                $this->logError('failed to create '.$this->logTable.' audit table');
                 return false;
             }
-            $this->log('successfully created upgrade_action audit table');
+            $this->log('successfully created '.$this->logTable.' audit table');
         }
         return true;
     }
-    
+
     function _escapeParams($aParams)
     {
         foreach ($aParams AS $k => $v)
@@ -76,6 +78,6 @@ class OA_BaseUpgradeAuditor
         }
         return $aParams;
     }
-    
+
 }
 ?>
