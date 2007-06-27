@@ -46,20 +46,27 @@ $Id$
  * 
  */
 
+// Require the initialisation file
+// Note that MAX_PATH will have been defined by the invocated code
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
+// Set up the configuration .ini file path location
 if (!$configPath) {
 $configPath = MAX_PATH . '/var';
 }
 if ($configFile) {
 $configFile = '.' . $configFile;
 }
+// Is the .ini file for the hostname being used directly accessible?
 $host = getHostName();
+// Check if ini file is cached
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
+// Parse the configuration file
 $conf = @parse_ini_file($configFileName, true);
 if (!empty($conf)) {
 return $conf;
 } elseif ($configFile === '.plugin') {
+// For plugins, if no configuration file is found, return the sane default values
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
 $conf = @parse_ini_file($defaultConfig, $sections);
@@ -83,6 +90,7 @@ function setupConfigVariables()
 {
 $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
 $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
+// Set the URL access mechanism
 if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
 $GLOBALS['_MAX']['HTTP'] = 'https://';
 } else {
@@ -99,6 +107,7 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
+// Set time zone, for more info @see setTimeZoneLocation()
 if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
 setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
 }
@@ -108,16 +117,21 @@ function setupDeliveryConfigVariables()
 if (!defined('MAX_PATH')) {
 define('MAX_PATH', dirname(__FILE__).'/../..');
 }
+// Ensure that the initialisation has not been run before
 if ( !(isset($GLOBALS['_MAX']['CONF']))) {
+// Parse the Max configuration file
 $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 }
+// Set up the common configuration variables
 setupConfigVariables();
 }
 function setTimeZoneLocation($location)
 {
 if (version_compare(phpversion(), '5.1.0', '>=')) {
+// Set new time zone
 date_default_timezone_set($location);
 } else {
+// Set new time zone
 putenv("TZ={$location}");
 }
 }
@@ -148,6 +162,7 @@ if (isset($checkIfAlreadySet)) {
 return;
 }
 $checkIfAlreadySet = true;
+// Define the PEAR installation path
 $existingPearPath = ini_get('include_path');
 $newPearPath = MAX_PATH . '/lib/pear';
 if (!empty($existingPearPath)) {
@@ -165,6 +180,7 @@ return $GLOBALS['_MAX']['REQUIRED_MEMORY']['PHP4'];
 function increaseMemoryLimit($setMemory) {
 $memory = getMemorySizeInBytes();
 if ($memory == -1) {
+// unlimited
 return true;
 }
 if ($setMemory > $memory) {
@@ -180,9 +196,11 @@ if (empty($phpMemory)) {
 $phpMemory = get_cfg_var('memory_limit');
 }
 if (empty($phpMemory)) {
+// php is compiled without --enable-memory-limits
 return 0;
 }
 if ($phpMemory == -1) {
+// unlimited
 return $phpMemory;
 }
 $aSize = array(
@@ -204,12 +222,16 @@ return $size;
 }
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
+// Set the log file
 if ($conf['debug']['logfile']) {
 @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
+// Disable all notices and warnings, as some PAN code still
+// generates PHP warnings in places
 if ($conf['debug']['production']) {
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 } else {
+// show all errors when developing
 error_reporting(E_ALL);
 }
 $file = '/lib/max/Delivery/common.php';
@@ -228,6 +250,7 @@ function MAX_cookieSetViewerIdAndRedirect($viewerId) {
 $conf = $GLOBALS['_MAX']['CONF'];
 MAX_cookieSet($conf['var']['viewerId'], $viewerId, _getTimeYearFromNow());
 MAX_cookieFlush();
+// Determine if the access to Openads was made using HTTPS
 if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
 $url = MAX_commonConstructSecureDeliveryUrl(basename($_SERVER['PHP_SELF']));
 } else {
@@ -242,16 +265,22 @@ function MAX_cookieFlush()
 $conf = $GLOBALS['_MAX']['CONF'];
 MAX_cookieSendP3PHeaders();
 if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
+// Set cookies
 while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 list($value, $expire) = $v;
 MAX_setcookie($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
 }
+// Clear cache
 $GLOBALS['_MAX']['COOKIE']['CACHE'] = array();
 }
+// Compact all individual cookies into packed except for any cookies for the current bannerid
+// We only need to set these packed cookies if new capping data has been merged
 $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
 if (!is_array($cookieNames))
 return;
+// For each type of cookie, repack if necessary
 foreach ($cookieNames as $cookieName) {
+// We only need to write out the compacted cookie if a new item is to be inserted (or updated)
 if (empty($_COOKIE["_{$cookieName}"])) {
 continue;
 }
@@ -271,6 +300,9 @@ $data = array();
 foreach ($_COOKIE[$cookieName] as $adId => $value) {
 $data[] = "{$adId}.{$value}";
 }
+// RFC says that maximum cookie data length is 4096 bytes
+// So we are assuming that 2048 will be valid in most browsers
+// Discard oldest data until we are under the limit
 while (strlen(implode('_', $data)) > 2048) {
 $data = array_slice($data, 1);
 }
@@ -280,15 +312,15 @@ MAX_setcookie($cookieName, implode('_', $data), $expire, '/', (!empty($conf['coo
 }
 function _getTimeThirtyDaysFromNow()
 {
-return MAX_commonGetTimeNow() + 2592000;
+return MAX_commonGetTimeNow() + 2592000; // 30*24*60*60;
 }
 function _getTimeYearFromNow()
 {
-return MAX_commonGetTimeNow() + 31536000;
+return MAX_commonGetTimeNow() + 31536000; // 365*24*60*60;
 }
 function _getTimeYearAgo()
 {
-return MAX_commonGetTimeNow() - 31536000;
+return MAX_commonGetTimeNow() - 31536000; // 365*24*60*60;
 }
 function MAX_cookieUnpackCapping()
 {
@@ -296,6 +328,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $cookieNames = $GLOBALS['_MAX']['COOKIE']['LIMITATIONS']['arrCappingCookieNames'];
 if (!is_array($cookieNames))
 return;
+// For each type of cookie, unpack and add any newly set cookies to this array
 foreach ($cookieNames as $cookieName) {
 if (!empty($_COOKIE[$cookieName])) {
 if (!is_array($_COOKIE[$cookieName])) {
@@ -319,7 +352,9 @@ $_COOKIE[$cookieName][$adId] += $cookie;
 $_COOKIE[$cookieName][$adId] = $cookie;
 }
 }
+// Delete the temporary capping cookie
 MAX_cookieSet("_{$cookieName}[{$adId}]", false, _getTimeYearAgo());
+// Work around a bug in IE where the cookie name is sometimes URL-encoded
 MAX_cookieSet("%5F" . urlencode($cookieName.'['.$adId.']'), false, _getTimeYearAgo());
 }
 }
@@ -347,10 +382,12 @@ $userid = $_COOKIE[$conf['var']['viewerId']];
 if ($create) {
 $remote_address = $_SERVER['REMOTE_ADDR'];
 $local_address  = $conf['webpath']['delivery']; // How do I get the IP address of this server?
+// Get the exact time
 list($usec, $sec) = explode(" ", microtime());
 $time = (float) $usec + (float) $sec;
+// Get a random number
 $random = mt_rand(0,999999999);
-$userid = substr(md5($local_address.$time.$remote_address.$random),0,32);
+$userid = substr(md5($local_address.$time.$remote_address.$random),0,32);  // Need to find a way to generate this...
 $GLOBALS['_MAX']['COOKIE']['newViewerId'] = true;
 } else {
 $userid = null;
@@ -367,6 +404,7 @@ $cookiePrefix = $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'];
 return $cookiePrefix . substr(md5($_SERVER['REMOTE_ADDR'].$_SERVER['HTTP_USER_AGENT']), 0, 32-(strlen($cookiePrefix)));
 }
 function MAX_cookieSendP3PHeaders() {
+// Send P3P headers
 if ($GLOBALS['_MAX']['CONF']['p3p']['policies']) {
 MAX_header("P3P: ". _generateP3PHeader());
 }
@@ -385,11 +423,13 @@ $setBlock = false;
 if ($cap > 0) {
 // This capping cookie requires a "permanent" expiration time
 $expire = MAX_commonGetTimeNow() + $conf['cookie']['permCookieSeconds'];
+// The unpack capping cookies function adds this value to the counter, so to reset it we add a negative number
 if (!isset($_COOKIE[$conf['var']['cap' . $type]][$id])) {
 $value = 1;
 $setBlock = true;
 } else if ($_COOKIE[$conf['var']['cap' . $type]][$id] >= $cap) {
 $value = -$_COOKIE[$conf['var']['cap' . $type]][$id]+1;
+// Also reset the last-seen when resetting the frequency counter
 $setBlock = true;
 } else {
 $value = 1;
@@ -397,11 +437,15 @@ $value = 1;
 MAX_cookieSet("_{$conf['var']['cap' . $type]}[{$id}]", $value, $expire);
 }
 if ($sessionCap > 0) {
+// The unpack capping cookies function deals with imcrementing the counter
+// The expiry is set to 0 to make a session cookie
+// The unpack capping cookies function adds this value to the counter, so to reset it we add a negative number
 if (!isset($_COOKIE[$conf['var']['sessionCap' . $type]][$id])) {
 $value = 1;
 $setBlock = true;
 } else if ($_COOKIE[$conf['var']['sessionCap' . $type]][$id] >= $sessionCap) {
 $value = -$_COOKIE[$conf['var']['sessionCap' . $type]][$id]+1;
+// Also reset the last-seen when resetting the frequency counter
 $setBlock = true;
 } else {
 $value = 1;
@@ -409,6 +453,10 @@ $value = 1;
 MAX_cookieSet("_{$conf['var']['sessionCap' . $type]}[{$id}]", $value, 0);
 }
 if ($block > 0 || $setBlock) {
+// This blocking cookie is limited to 30 days
+// Store a cookie using the current time so that the system knows when
+// the last time this viewer saw this ad, an ad in this campaign or an
+// ad in this zone
 MAX_cookieSet("_{$conf['var']['block' . $type]}[{$id}]", MAX_commonGetTimeNow(), _getTimeThirtyDaysFromNow());
 }
 }
@@ -434,7 +482,9 @@ $GLOBALS['_MAX']['FILES'][$file] = true;
 function MAX_remotehostProxyLookup()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// Should proxy lookup conversion be performed?
 if ($conf['logging']['proxyLookup']) {
+// Determine if the viewer has come via an HTTP proxy
 $proxy = false;
 if (!empty($_SERVER['HTTP_VIA'])) {
 $proxy = true;
@@ -451,6 +501,7 @@ break;
 }
 }
 }
+// Has the viewer come via an HTTP proxy?
 if ($proxy) {
 // Try to find the "real" IP address the viewer has come from
 $aHeaders = array(
@@ -468,10 +519,14 @@ break;
 }
 if (!empty($ip)) {
 // The "remote IP" may be a list, ensure that
+// only the last item is used in that case
 $ip = explode(',', $ip);
 $ip = trim($ip[count($ip) - 1]);
+// If the found address is not unknown or a private network address
 if (($ip != 'unknown') && (!MAX_remotehostPrivateAddress($ip))) {
 // Set the "real" remote IP address, and unset
+// the remote host (as it will be wrong for the
+// newly found IP address) and HTTP_VIA header
 // (so that we don't accidently do this twice)
 $_SERVER['REMOTE_ADDR'] = $ip;
 $_SERVER['REMOTE_HOST'] = '';
@@ -506,18 +561,23 @@ function MAX_remotehostSetGeoInfo()
 if (!function_exists('parseDeliveryIniFile')) {
 function parseDeliveryIniFile($configPath = null, $configFile = null, $sections = true)
 {
+// Set up the configuration .ini file path location
 if (!$configPath) {
 $configPath = MAX_PATH . '/var';
 }
 if ($configFile) {
 $configFile = '.' . $configFile;
 }
+// Is the .ini file for the hostname being used directly accessible?
 $host = getHostName();
+// Check if ini file is cached
 $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
+// Parse the configuration file
 $conf = @parse_ini_file($configFileName, true);
 if (!empty($conf)) {
 return $conf;
 } elseif ($configFile === '.plugin') {
+// For plugins, if no configuration file is found, return the sane default values
 $pluginType = basename($configPath);
 $defaultConfig = MAX_PATH . '/plugins/' . $pluginType . '/default.plugin.conf.php';
 $conf = @parse_ini_file($defaultConfig, $sections);
@@ -547,6 +607,7 @@ return;
 }
 $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
+// There may have been a copy of $conf set in the global scope, this should also be updated
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
@@ -560,6 +621,8 @@ function MAX_remotehostPrivateAddress($ip)
 {
 setupIncludePath();
 require_once 'Net/IPv4.php';
+// Define the private address networks, see
+// http://rfc.net/rfc1918.html
 $aPrivateNetworks = array(
 '10.0.0.0/8',
 '172.16.0.0/12',
@@ -687,6 +750,7 @@ return false;
 function MAX_Delivery_log_logVariableValues($variables, $trackerId, $serverRawTrackerImpressionId, $serverRawIp)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// Get the variable information, including the Variable ID
 foreach ($variables as $variable) {
 if (isset($_GET[$variable['name']])) {
 $value = $_GET[$variable['name']];
@@ -695,9 +759,11 @@ if (!strlen($value) || $value == 'undefined') {
 unset($variables[$variable['variable_id']]);
 continue;
 }
+// Sanitize by datatype
 switch ($variable['type']) {
 case 'int':
 case 'numeric':
+// Strip useless chars, such as currency
 $value = preg_replace('/[^0-9.]/', '', $value);
 $value = floatval($value); break;
 case 'date':
@@ -862,6 +928,7 @@ function MAX_commonConstructSecureDeliveryUrl($file)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
 if ($conf['openads']['sslPort'] != 443) {
+// Fix the delivery host
 $path = preg_replace('#/#', ':' . $conf['openads']['sslPort'] . '/', $conf['webpath']['deliverySSL']);
 } else {
 $path = $conf['webpath']['deliverySSL'];
@@ -1011,6 +1078,7 @@ $whatName = 'zoneid';
 global $$whatName;
 $$whatName = $whatValue;
 }
+// 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid))  $clientid = '';
 $source = MAX_commonDeriveSource($source);
 if (!empty($loc)) {
@@ -1020,6 +1088,7 @@ $loc = $_SERVER['HTTP_REFERER'];
 } else {
 $loc = '';
 }
+// Set real referer - Only valid if passed in
 if (!empty($referer)) {
 $_SERVER['HTTP_REFERER'] = stripslashes($referer);
 } else {
@@ -1040,6 +1109,7 @@ function MAX_commonDisplay1x1()
 {
 MAX_header('Content-Type: image/gif');
 MAX_header('Content-Length: 43');
+// 1 x 1 gif
 echo base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==');
 }
 function MAX_commonGetTimeNow()
@@ -1066,12 +1136,16 @@ function MAX_header($value)
 header($value);
 }
 // Set the viewer's remote information used in logging
+// and delivery limitation evaluation
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
 MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
+// Set common delivery parameters in the global scope
 MAX_commonInitVariables();
+// Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
+// Include required files
 function MAX_limitationsCheckAcl($row, $source = '')
 {
 if (!empty($row['compiledlimitation'])) {
@@ -1079,7 +1153,9 @@ static $aIncludedPlugins;
 if (!isset($aIncludedPlugins)) {
 $aIncludedPlugins = array();
 }
+// Set to true in case of error in eval
 $result = true;
+// Include required delivery files...
 if(strlen($row['acl_plugins'])) {
 $acl_plugins = explode(',', $row['acl_plugins']);
 foreach ($acl_plugins as $acl_plugin) {
@@ -1134,25 +1210,34 @@ return _limitationsIsCapped('Zone', $zoneId, $cap, $sessionCap, $block);
 }
 function _limitationsIsCapped($type, $id, $cap, $sessionCap, $block)
 {
+// Always return true (capped) if cookies have been disabled by the viewer
 if (_areCookiesDisabled(($cap > 0) || ($sessionCap > 0) || ($block > 0))) {
 return true;
 }
+// Get the capping cookie name from the configuration file
 $conf = $GLOBALS['_MAX']['CONF'];
 $cookieName = $conf['var']['cap' . $type];
+// How many times (total) has the item been by the viewer?
 if (isset($_COOKIE[$cookieName][$id])) {
 $totalImpressions = $_COOKIE[$cookieName][$id];
 }
+// Get the session capping cookie name from the configuration file
 $cookieName = $conf['var']['sessionCap' . $type];
+// How many times (session) has the item been by the viewer?
 if (isset($_COOKIE[$cookieName][$id])) {
 $sessionImpressions = $_COOKIE[$cookieName][$id];
 }
+// When was the ad last seen
 $cookieName = $conf['var']['block' . $type];
 if (isset($_COOKIE[$cookieName][$id])) {
 $lastSeen = $_COOKIE[$cookieName][$id];
 }
+// If the ad has been seen the requisite number of times...
 if ((($cap > 0) && isset($totalImpressions) && ($totalImpressions >= $cap)) ||
 (($sessionCap > 0) && isset($sessionImpressions) && ($sessionImpressions >= $sessionCap))) {
 if ($block > 0 && MAX_commonGetTimeNow() > $lastSeen + $block) {
+// This ad was last seen outside the block window, so it can now be seen again
+// The log mechanism will deal with resetting the frequency counter
 return false;
 } else {
 return true;
@@ -1165,6 +1250,7 @@ return false;
 }
 function _areCookiesDisabled($filterActive = true)
 {
+// Since MAX_cookieGetUniqueViewerID() has to have been called by this point
 return !empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && $filterActive;
 }
 function MAX_adRender($aBanner, $zoneId=0, $source='', $target='', $ct0='', $withText=false, $logClick=true, $logView=true, $richMedia=true, $loc='', $referer='', $context = array())
@@ -1202,15 +1288,21 @@ $code = _adRenderText($aBanner, $zoneId, $source, $ct0, $withText, $logClick, $l
 }
 break;
 }
+// Transform any code
 $conf = $GLOBALS['_MAX']['CONF'];
+// Get the target
 if (empty($target))
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
+// Get a timestamp
 list($usec, $sec) = explode(' ', microtime());
 $time = (float)$usec + (float)$sec;
+// Get a random number
 $random = substr(md5(uniqid($time, true)), 0, 10);
-global $cookie_random;
+global $cookie_random;  // Temporary fix to get doubleclick tracking working (Bug # 88)
 $cookie_random = $random;
+// Get the click URL
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, urlencode($ct0), $logClick, true);
+// Get URL prefix, stripping the traling slash
 $urlPrefix = substr(MAX_commonGetDeliveryUrl(), 0, -1);
 $code = str_replace('{clickurl}', $clickUrl, $code);  // This step needs to be done separately because {clickurl} can contain {random}...
 if (strpos($code, '{logurl}') !== false) {
@@ -1228,6 +1320,7 @@ $code = str_replace('{clickurlparams}', $maxparams, $code);  // This step needs 
 $search = array('{timestamp}','{random}','{target}','{url_prefix}','{bannerid}','{zoneid}','{source}', '{pageurl}', '{width}', '{height}');
 $locReplace = isset($GLOBALS['loc']) ? $GLOBALS['loc'] : '';
 $replace = array($time, $random, $target, $urlPrefix, $aBanner['ad_id'], $zoneId, $source, urlencode($locReplace), $aBanner['width'], $aBanner['height']);
+// Arrival URLs
 if (preg_match('#^\?(m3_data=[a-z0-9]+)#i', $logClick, $arrivalClick)) {
 $arrivalClick = $arrivalClick[1];
 preg_match_all('#{arrivalurl:(.*?)}#', $code, $arrivals);
@@ -1254,8 +1347,9 @@ return _adRenderBuildFileUrl($aBanner, $useAlt, '{random}');
 }
 $prepend = (!empty($aBanner['prepend']) && $useAppend) ? $aBanner['prepend'] : '';
 $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
+// Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-if (!empty($clickUrl)) {
+if (!empty($clickUrl)) {  // There is a link
 $status = !empty($aBanner['status']) ? " onmouseover=\"self.status='{$aBanner['status']}'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
 //$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='{target}'$status>";
@@ -1264,6 +1358,7 @@ $clickTagEnd = '</a>';
 $clickTag = '';
 $clickTagEnd = '';
 }
+// Create the image tag..
 $imageUrl = _adRenderBuildFileUrl($aBanner, $useAlt);
 if (!empty($imageUrl)) {
 $imgStatus = empty($clickTag) ? $status : '';
@@ -1274,7 +1369,9 @@ $imageTag = "$clickTag<img src='$imageUrl' width='$width' height='$height' alt='
 } else {
 $imageTag = '';
 }
+// Get the text below the banner
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
+// Get the image beacon...
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $imageTag . $bannerText . $beaconTag . $append;
 }
@@ -1290,9 +1387,11 @@ $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] :
 $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
 $altImageAdCode = !empty($aBanner['alt_filename'])
 ? _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer, false)
+// An empty image is required because the javascript is parsed before the DOM tree
 : "<img src='" . _adRenderBuildImageUrlPrefix() . '/1x1.gif' . "' alt='".$aBanner['alt']."' title='".$aBanner['alt']."' border='0' />";
+// Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-if (!empty($clickUrl)) {
+if (!empty($clickUrl)) {  // There is a link
 $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTARGET='.$target.'&clickTAG=' . $clickUrl;
@@ -1306,6 +1405,7 @@ $clickTagEnd = '';
 if (!empty($aBanner['parameters'])) {
 $aAdParams = unserialize($aBanner['parameters']);
 if (isset($aAdParams['swf']) && is_array($aAdParams['swf'])) {
+// Converted SWF file, use paramters content
 $swfParams = array();
 $aBannerSwf = $aBanner;
 // Set the flag to let _adRenderBuildClickUrl know that we're not using clickTAG
@@ -1647,8 +1747,12 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $cache_complete = false;
 $cache_contents = '';
+// We are assuming that most of the time cache will exists
 $ok = @include($filename);
 if ($ok && $cache_complete == true) {
+// The method used to implement cache expiry imposes two cache writes if the cache is
+// expired and the database is available, but avoid the need to check for file existence
+// and modification time.
 if ($expiryTime === null) {
 $expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
 }
@@ -1656,6 +1760,7 @@ $now = MAX_commonGetTimeNow();
 if (    (isset($cache_time) && $cache_time < $now - $expiryTime)
 || (isset($cache_expire) && $cache_expire > $now) )
 {
+// Update expiry, needed to enable permanent caching if needed
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
 return false;
 }
@@ -1682,6 +1787,8 @@ $cache_literal .= "$"."cache_expire = ".$expireAt.";\n";
 }
 $cache_literal .= "$"."cache_complete = true;\n\n";
 $cache_literal .= "?".">";
+// Write cache to a temp file, then rename it, overwritng the old cache
+// On *nix systems this should guarantee atomicity
 $tmp_filename = tempnam($GLOBALS['OA_Delivery_Cache']['path'], $GLOBALS['OA_Delivery_Cache']['prefix'].'tmp_');
 if ($fp = @fopen($tmp_filename, 'wb')) {
 @fwrite ($fp, $cache_literal, strlen($cache_literal));
@@ -1690,6 +1797,8 @@ if (!@rename($tmp_filename, $filename)) {
 // On some systems rename() doesn't overwrite destination
 @unlink($filename);
 if (!@rename($tmp_filename, $filename)) {
+// Make sure that no temporary file is left over
+// if the destination is not writable
 @unlink($tmp_filename);
 }
 }
@@ -1744,6 +1853,7 @@ return $result;
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
 if(!$isHash) {
+// If not a hash yet
 $name = md5($name);
 }
 return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
@@ -1829,12 +1939,14 @@ return $aVariables;
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
+// maximum cache expire time = 3600 seconds
 if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
 $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
 $now = MAX_commonGetTimeNow();
 $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
 $thisIntervalStartTime = $now - ($now % $interval);
+// if maintenance should be executed now there is no point in storing last run info in cache
 if ($lastRunTime < $thisIntervalStartTime) {
 return true;
 }
@@ -1866,12 +1978,15 @@ return $output;
 function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// For local mode and XML-RPC calls the some parameters are not set in the global scope
+// So we need to override the empty globals with the values passed into this function.
 if (empty($GLOBALS['source'])) {
 $GLOBALS['source'] = $source;
 }
 if (empty($GLOBALS['loc'])) {
 $GLOBALS['loc'] = $loc;
 }
+// Store the original zone, campaign or banner IDs for later use
 if (strpos($what,'zone:') === 0) {
 $originalZoneId = intval(substr($what,5));
 } elseif (strpos($what,'campaignid:') === 0) {
@@ -1882,7 +1997,9 @@ $originalBannerId = intval(substr($what,9));
 $userid = MAX_cookieGetUniqueViewerID();
 MAX_cookieSet($conf['var']['viewerId'], $userid, MAX_commonGetTimeNow()+31536000); // 365*24*60*60
 $outputbuffer = '';
+// Set flag
 $found = false;
+// Reset followed zone chain
 $GLOBALS['_MAX']['followedChain'] = array();
 $GLOBALS['_MAX']['adChain'] = array();
 $first = true;
@@ -1891,6 +2008,7 @@ $g_append = '';
 $g_prepend = '';
 while ($first || ($what != '' && $found == false)) {
 $first = false;
+// Get first part, store second part
 $ix = strpos($what, '|');
 if ($ix === false) {
 $remaining = '';
@@ -1902,6 +2020,7 @@ if (strpos($what, 'zone:') === 0) {
 $zoneId  = intval(substr($what,5));
 $row = _adSelectZone($zoneId, $context, $source, $richmedia);
 } else {
+// Expand paths to regular statements
 if (strpos($what, '/') > 0) {
 if (strpos($what, '@') > 0) {
 list ($what, $append) = explode ('@', $what);
@@ -1921,10 +2040,12 @@ $remaining = strtok('').($remaining != '' ? '|'.$remaining : '');
 $row = _adSelectDirect($what, $campaignid, $context, $source, $richmedia, $remaining == '');
 }
 if (is_array($row) && empty($row['default'])) {
+// Log the ad request
 if ($conf['logging']['adRequests']) {
 MAX_Delivery_log_logAdRequest($userid, $row['bannerid'], null, $row['zoneid']);
 }
 if ($row['adserver'] == 'max' && preg_match("#{$conf['webpath']['delivery']}.*zoneid=([0-9]+)#", $row['htmltemplate'], $matches) && !stristr($row['htmltemplate'], $conf['file']['popup'])) {
+// The ad selected was an Openads HTML ad on the same server... do internal redirecty stuff
 $GLOBALS['_MAX']['adChain'][] = $row;
 $found = false;
 $what = "zone:{$matches[1]}";
@@ -1935,8 +2056,10 @@ $found = true;
 $what  = $remaining;
 }
 }
+// Return the banner information
 if ($found) {
 $zoneId = empty($row['zoneid']) ? 0 : $row['zoneid'];
+// For internal redirected creatives, make sure that any appended code in the adChain is appended
 if (!empty($GLOBALS['_MAX']['adChain'])) {
 foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
 if (($ad['ad_id'] != $row['ad_id']) && !empty($ad['append'])) {
@@ -2325,16 +2448,20 @@ return "<script type='text/javascript' src='{$url}'></script>";
 function MAX_flashGetFlashObjectInline()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// If a full URL is specified for the flashObject code
 if (substr($conf['file']['flash'], 0, 4) == 'http') {
+// Try to find the local copy (faster)
 if (file_exists(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']))) {
 return file_get_contents(MAX_PATH . '/www/delivery/' . basename($conf['file']['flash']));
 } else {
+// Last ditch - Try to read the file from the full URL
 return @file_get_contents($conf['file']['flash']);
 }
 } elseif (file_exists(MAX_PATH . '/www/delivery/' . $conf['file']['flash'])) {
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
+// This function is a wrapper to view raw, this allows for future migration
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {
 if (!((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
 if ($zoneid) {
