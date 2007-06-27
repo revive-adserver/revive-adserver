@@ -44,10 +44,10 @@ class Test_OA_Admin_Timezones extends UnitTestCase
         //  get time zones
         $aTimezone = OA_Admin_Timezones::availableTimezones(true);
 
-        //  test that it is an array, not empty and contains 447 items
+        //  test that it is an array, not empty and contains 448 items (447 + a blank)
         $this->assertTrue(is_array($aTimezone));
         $this->assertFalse(empty($aTimezone));
-        $this->assertEqual(count($aTimezone), 447);
+        $this->assertEqual(count($aTimezone), 448);
 
         //  remove blank element
         array_shift($aTimezone);
