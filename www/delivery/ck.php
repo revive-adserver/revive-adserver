@@ -96,7 +96,9 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 }
 }
 }
-$GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
+// Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
+$GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
+$GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
 setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
 }
@@ -481,7 +483,9 @@ $_SERVER['HTTP_VIA']    = '';
 }
 function MAX_remotehostReverseLookup()
 {
+// Is the remote host name already set?
 if (empty($_SERVER['REMOTE_HOST'])) {
+// Should reverse lookups be performed?
 if ($GLOBALS['_MAX']['CONF']['logging']['reverseLookup']) {
 $_SERVER['REMOTE_HOST'] = @gethostbyaddr($_SERVER['REMOTE_ADDR']);
 } else {
@@ -543,7 +547,6 @@ return;
 }
 $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
-// There may have been a copy of $conf set in the global scope, this should also be updated
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
@@ -557,8 +560,6 @@ function MAX_remotehostPrivateAddress($ip)
 {
 setupIncludePath();
 require_once 'Net/IPv4.php';
-// Define the private address networks, see
-// http://rfc.net/rfc1918.html
 $aPrivateNetworks = array(
 '10.0.0.0/8',
 '172.16.0.0/12',
@@ -725,6 +726,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if (!empty($conf['logging']['ignoreHosts'])) {
 $hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
 $hosts = '#('.$hosts.')$#i';
+// Format the hosts to ignore in a PCRE format
 $hosts = str_replace('.', '\.', $hosts);
 $hosts = str_replace('*', '[^.]+', $hosts);
 // Check if the viewer's IP address is in the ignore list
@@ -741,6 +743,7 @@ return true;
 function _prepareLogInfo()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// Get the Geotargeting information, if required
 $geotargeting = array();
 if (isset($conf['geotargeting']['saveStats']) && $conf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
 $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
@@ -758,6 +761,7 @@ $geotargeting = array(
 'netspeed' => null,
 'continent' => null);
 }
+// Get the zone location information, if possible
 $zoneInfo = array();
 if (!empty($_GET['loc'])) {
 $zoneInfo = parse_url($_GET['loc']);
@@ -770,6 +774,7 @@ $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
 if (isset($GLOBALS['_MAX']['CHANNELS'])) {
 $zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
 }
+// Get the operating system and browser type, if required
 if ($conf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
 $userAgentInfo = array(
 'os' => $GLOBALS['_MAX']['CLIENT']['os'],
@@ -779,9 +784,10 @@ $userAgentInfo = array(
 } else {
 $userAgentInfo = array();
 }
-$maxHttps = 0;
+// Determine if the access to Openads was made using HTTPS
+$maxHttps = 0;  // https is false
 if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
-$maxHttps = 1;
+$maxHttps = 1;   // https is true
 }
 if (!isset($zoneInfo['channel_ids'])) $zoneInfo['channel_ids'] = null;
 if (!isset($zoneInfo['scheme'])) $zoneInfo['scheme'] = null;
@@ -824,9 +830,11 @@ _setLimitations('Zone', $index, $aZones, $aCaps);
 }
 function _setLimitations($type, $index, $aItems, $aCaps)
 {
+// Ensure that the capping values for this item are set
 MAX_Delivery_log_ensureIntegerSet($aCaps['block'], $index);
 MAX_Delivery_log_ensureIntegerSet($aCaps['capping'], $index);
 MAX_Delivery_log_ensureIntegerSet($aCaps['session_capping'], $index);
+// Set the capping cookies
 MAX_Delivery_cookie_setCapping(
 $type,
 $aItems[$index],
@@ -1058,14 +1066,11 @@ function MAX_header($value)
 header($value);
 }
 // Set the viewer's remote information used in logging
-// and delivery limitation evaluation
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
 MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
-// Set common delivery parameters in the global scope
 MAX_commonInitVariables();
-// Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 function MAX_querystringConvertParams()
 {
@@ -1137,7 +1142,9 @@ $dest = $aAd['url'];
 if (empty($dest)) {
 return;
 }
+//if (empty($dest)) {
 //    $dest = ($adId == 'DEFAULT') ? $pref['default_banner_destination'] : $_SERVER['HTTP_REFERER'];
+//}
 $aVariables = array();
 $aValidVariables = array(
 $conf['var']['adId'],
@@ -1150,6 +1157,7 @@ $conf['var']['zoneId'],
 $conf['var']['params'],
 $conf['var']['cookieTest']
 );
+// We also need to ensure that any variables already present in the dest are not duplicated...
 $destParams = parse_url($dest);
 if (!empty($destParams['query'])) {
 $destQuery = explode('&', $destParams['query']);
@@ -1178,6 +1186,7 @@ return $dest;
 function MAX_querystringParseStr($qs, &$aArr, $delim = '&')
 {
 $aArr = $_GET;
+// Parse the rest of the array and add to the request array.
 $aElements = explode($delim, $qs);
 foreach($aElements as $element) {
 $len = strpos($element, '=');
@@ -1289,8 +1298,6 @@ if (!@rename($tmp_filename, $filename)) {
 // On some systems rename() doesn't overwrite destination
 @unlink($filename);
 if (!@rename($tmp_filename, $filename)) {
-// Make sure that no temporary file is left over
-// if the destination is not writable
 @unlink($tmp_filename);
 }
 }
@@ -1345,7 +1352,6 @@ return $result;
 function OA_Delivery_Cache_buildFileName($name, $isHash = false)
 {
 if(!$isHash) {
-// If not a hash yet
 $name = md5($name);
 }
 return $GLOBALS['OA_Delivery_Cache']['path'].$GLOBALS['OA_Delivery_Cache']['prefix'].$name.'.php';
@@ -1431,14 +1437,12 @@ return $aVariables;
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
-// maximum cache expire time = 3600 seconds
 if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
 MAX_Dal_Delivery_Include();
 $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
 $now = MAX_commonGetTimeNow();
 $interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
 $thisIntervalStartTime = $now - ($now % $interval);
-// if maintenance should be executed now there is no point in storing last run info in cache
 if ($lastRunTime < $thisIntervalStartTime) {
 return true;
 }

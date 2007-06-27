@@ -96,7 +96,9 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 }
 }
 }
-$GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
+// Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
+$GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
+$GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
 setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
 }
@@ -481,7 +483,9 @@ $_SERVER['HTTP_VIA']    = '';
 }
 function MAX_remotehostReverseLookup()
 {
+// Is the remote host name already set?
 if (empty($_SERVER['REMOTE_HOST'])) {
+// Should reverse lookups be performed?
 if ($GLOBALS['_MAX']['CONF']['logging']['reverseLookup']) {
 $_SERVER['REMOTE_HOST'] = @gethostbyaddr($_SERVER['REMOTE_ADDR']);
 } else {
@@ -543,7 +547,6 @@ return;
 }
 $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
 $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
-// There may have been a copy of $conf set in the global scope, this should also be updated
 if (isset($GLOBALS['conf'])) {
 $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
@@ -557,8 +560,6 @@ function MAX_remotehostPrivateAddress($ip)
 {
 setupIncludePath();
 require_once 'Net/IPv4.php';
-// Define the private address networks, see
-// http://rfc.net/rfc1918.html
 $aPrivateNetworks = array(
 '10.0.0.0/8',
 '172.16.0.0/12',
@@ -725,6 +726,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 if (!empty($conf['logging']['ignoreHosts'])) {
 $hosts = str_replace(',', '|', $conf['logging']['ignoreHosts']);
 $hosts = '#('.$hosts.')$#i';
+// Format the hosts to ignore in a PCRE format
 $hosts = str_replace('.', '\.', $hosts);
 $hosts = str_replace('*', '[^.]+', $hosts);
 // Check if the viewer's IP address is in the ignore list
@@ -741,6 +743,7 @@ return true;
 function _prepareLogInfo()
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// Get the Geotargeting information, if required
 $geotargeting = array();
 if (isset($conf['geotargeting']['saveStats']) && $conf['geotargeting']['saveStats'] && !empty($GLOBALS['_MAX']['CLIENT_GEO'])) {
 $geotargeting = $GLOBALS['_MAX']['CLIENT_GEO'];
@@ -758,6 +761,7 @@ $geotargeting = array(
 'netspeed' => null,
 'continent' => null);
 }
+// Get the zone location information, if possible
 $zoneInfo = array();
 if (!empty($_GET['loc'])) {
 $zoneInfo = parse_url($_GET['loc']);
@@ -770,6 +774,7 @@ $zoneInfo['scheme'] = ($zoneInfo['scheme'] == 'https') ? 1 : 0;
 if (isset($GLOBALS['_MAX']['CHANNELS'])) {
 $zoneInfo['channel_ids'] = $GLOBALS['_MAX']['CHANNELS'];
 }
+// Get the operating system and browser type, if required
 if ($conf['logging']['sniff'] && isset($GLOBALS['_MAX']['CLIENT'])) {
 $userAgentInfo = array(
 'os' => $GLOBALS['_MAX']['CLIENT']['os'],
@@ -779,9 +784,10 @@ $userAgentInfo = array(
 } else {
 $userAgentInfo = array();
 }
-$maxHttps = 0;
+// Determine if the access to Openads was made using HTTPS
+$maxHttps = 0;  // https is false
 if ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) {
-$maxHttps = 1;
+$maxHttps = 1;   // https is true
 }
 if (!isset($zoneInfo['channel_ids'])) $zoneInfo['channel_ids'] = null;
 if (!isset($zoneInfo['scheme'])) $zoneInfo['scheme'] = null;
@@ -824,9 +830,11 @@ _setLimitations('Zone', $index, $aZones, $aCaps);
 }
 function _setLimitations($type, $index, $aItems, $aCaps)
 {
+// Ensure that the capping values for this item are set
 MAX_Delivery_log_ensureIntegerSet($aCaps['block'], $index);
 MAX_Delivery_log_ensureIntegerSet($aCaps['capping'], $index);
 MAX_Delivery_log_ensureIntegerSet($aCaps['session_capping'], $index);
+// Set the capping cookies
 MAX_Delivery_cookie_setCapping(
 $type,
 $aItems[$index],
@@ -1058,14 +1066,11 @@ function MAX_header($value)
 header($value);
 }
 // Set the viewer's remote information used in logging
-// and delivery limitation evaluation
 MAX_remotehostProxyLookup();
 MAX_remotehostReverseLookup();
 MAX_remotehostSetClientInfo();
 MAX_remotehostSetGeoInfo();
-// Set common delivery parameters in the global scope
 MAX_commonInitVariables();
-// Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
 function MAX_limitationsCheckAcl($row, $source = '')
 {
@@ -1344,8 +1349,9 @@ $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] :
 // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
 $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
 $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
+// Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
-if (!empty($clickTag)) {
+if (!empty($clickTag)) {  // There is a link
 $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
@@ -1367,6 +1373,7 @@ $code = "
 <noembed>$altImageBannercode</noembed>
 </object>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
+// Get the image beacon...
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $code . $bannerText . $beaconTag . $append;
 }
@@ -1376,25 +1383,32 @@ $conf = $GLOBALS['_MAX']['CONF'];
 $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
 $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
 $code = !empty($aBanner['htmlcache']) ? $aBanner['htmlcache'] : '';
+// Parse PHP code
 if ($conf['delivery']['execPhp'])
 {
 if (preg_match ("#(\<\?php(.*)\?\>)#i", $code, $parser_regs))
 {
+// Extract PHP script
 $parser_php     = $parser_regs[2];
 $parser_result     = '';
+// Replace output function
 $parser_php = preg_replace ("#echo([^;]*);#i", '$parser_result .=\\1;', $parser_php);
 $parser_php = preg_replace ("#print([^;]*);#i", '$parser_result .=\\1;', $parser_php);
 $parser_php = preg_replace ("#printf([^;]*);#i", '$parser_result .= sprintf\\1;', $parser_php);
+// Split the PHP script into lines
 $parser_lines = explode (";", $parser_php);
 for ($parser_i = 0; $parser_i < sizeof($parser_lines); $parser_i++)
 {
 if (trim ($parser_lines[$parser_i]) != '')
 eval (trim ($parser_lines[$parser_i]).';');
 }
+// Replace the script with the result
 $code = str_replace ($parser_regs[1], $parser_result, $code);
 }
 }
+// Get the text below the banner
 $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
+// Get the image beacon...
 if ((strpos($code, '{logurl}') === false) && (strpos($code, '{logurl_enc}') === false)) {
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 } else {
@@ -1407,8 +1421,9 @@ function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
 $conf = $GLOBALS['_MAX']['CONF'];
 $prepend = !empty($aBanner['prepend']) ? $aBanner['prepend'] : '';
 $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
+// Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
-if (!empty($clickUrl)) {
+if (!empty($clickUrl)) {  // There is a link
 $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
@@ -1417,7 +1432,9 @@ $clickTagEnd = '</a>';
 $clickTag = '';
 $clickTagEnd = '';
 }
+// Get the text below the banner
 $bannerText = !empty($aBanner['bannertext']) ? "$clickTag{$aBanner['bannertext']}$clickTagEnd" : '';
+// Get the image beacon...
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $bannerText . $beaconTag . $append;
 }
@@ -1432,8 +1449,9 @@ $pluginVersion = !empty($aBanner['pluginversion']) ? $aBanner['pluginversion'] :
 // $imageUrlPrefix = ($_SERVER['SERVER_PORT'] == $conf['openads']['sslPort']) ? $conf['type_web_ssl_url'] : $conf['type_web_url'];
 $fileName = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
 $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $logClick, false, true, true, $loc, $referer);
+// Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
-if (!empty($clickTag)) {
+if (!empty($clickTag)) {  // There is a link
 $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
@@ -1455,6 +1473,7 @@ $code = "
 <noembed>$altImageBannercode</noembed>
 </object>";
 $bannerText = $withText && !empty($aBanner['bannertext']) ? "<br />{$anchor}{$aBanner['bannertext']}{$anchorEnd}" : '';
+// Get the image beacon...
 $beaconTag = ($logView && $conf['logging']['adImpressions']) ? _adRenderImageBeacon($aBanner, $zoneId, $source, $loc, $referer) : '';
 return $prepend . $code . $bannerText . $beaconTag . $append;
 }
@@ -1496,6 +1515,7 @@ return (!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == $conf['ope
 function _adRenderBuildLogURL($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '', $amp = '&amp;')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// If there is an Openads->Openads internal redirect, log both zones information
 $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
 if (!empty($GLOBALS['_MAX']['adChain'])) {
 foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
@@ -1538,6 +1558,7 @@ return $url;
 function _adRenderImageBeacon($aBanner, $zoneId = 0, $source = '', $loc = '', $referer = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];
+// Add beacon image for logging
 if (isset($_SERVER['HTTP_USER_AGENT']) && preg_match("#Mozilla/(1|2|3|4)#", $_SERVER['HTTP_USER_AGENT'])
 && !preg_match("#compatible#", $_SERVER['HTTP_USER_AGENT'])) {
 $div = "<layer id='beacon_{$aBanner['ad_id']}' width='0' height='0' border='0' visibility='hide'>";
@@ -1554,11 +1575,14 @@ return $beacon;
 }
 function _adRenderBuildParams($aBanner, $zoneId=0, $source='', $ct0='', $logClick=true, $overrideDest=false)
 {
+// HACK - sometimes $aBanner has the banner ID as bannerid, and others it is ad_id.  This needs
+//  to be sorted in all parts of the application to reference ad_id rather than bannerid.
 if (isset($aBanner['ad_id']) && empty($aBanner['bannerid'])) {
 $aBanner['bannerid'] = $aBanner['ad_id'];
 }
 $conf = $GLOBALS['_MAX']['CONF'];
 $delimiter = $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'];
+// If there is an Openads->Openads internal redirect, log both zones information
 if (!empty($GLOBALS['_MAX']['adChain'])) {
 foreach ($GLOBALS['_MAX']['adChain'] as $index => $ad) {
 $aBanner['bannerid'] .= $delimiter . $ad['bannerid'];
@@ -1569,15 +1593,19 @@ $zoneId .= $delimiter . $ad['zoneid'];
 $maxparams = '';
 $channelIds = '';
 if (!empty($aBanner['url']) || $overrideDest) {
+// There is a link
 $del = $conf['delivery']['ctDelimiter'];
 $delnum = strlen($del);
 $random = "{$del}cb={random}";
 $bannerId = !empty($aBanner['bannerid']) ? "{$del}bannerid={$aBanner['bannerid']}" : '';
 $source = !empty($source) ? "{$del}source=" . urlencode($source) : '';
 $log = $logClick ? '' : "{$del}log=no";
+// Determine the destination
 $dest = !empty($aBanner['url']) ? $aBanner['url'] : '';
+// If the passed in a ct0= value that is not a valid URL (simple checking), then ignore it
 $ct0 = (empty($ct0) || strtolower(substr($ct0, 0, 4)) != 'http') ? '' : $ct0;
 if ($aBanner['contenttype'] == "swf" && empty($aBanner['noClickTag'])) {
+// Strip maxdest with SWF banners using clickTAG
 $maxdest = '';
 } else {
 $maxdest = "{$del}maxdest={$ct0}{$dest}";
@@ -1588,6 +1616,7 @@ $channelIds = $del. "channel_ids=" . str_replace($delimiter, $conf['delivery']['
 $channelIds = '';
 }
 $maxparams = "{$delnum}{$bannerId}{$del}zoneid={$zoneId}{$channelIds}{$source}{$log}{$random}{$maxdest}";
+// hmmm... 2__bannerid=1__zoneid=1__cb={random}__maxdest=__channel_ids=__1__1__
 }
 return $maxparams;
 }
@@ -1708,9 +1737,7 @@ MAX_Delivery_cookie_setCapping('Zone', $row['zoneid'], $row['block_zone'], $row[
 }
 return $output;
 } else {
-// No banner found
 if (!empty($row['default'])) {
-// Return the default banner
 if (empty($target)) {
 $target = '_blank';  // Default
 }
@@ -1719,7 +1746,6 @@ $target . '\'><img src=\'' . $row['default_banner_url'] .
 '\' border=\'0\' alt=\'\'></a>' . $g_append;
 return array('html' => $outputbuffer, 'bannerid' => '' );
 } else {
-// No default banner was returned, return no banner
 $outputbuffer = $g_prepend . $g_append;
 return array('html' => $outputbuffer, 'bannerid' => '' );
 }
@@ -1761,7 +1787,6 @@ global $g_append, $g_prepend;
 while (!in_array($zoneId, $GLOBALS['_MAX']['followedChain'])) {
 $GLOBALS['_MAX']['followedChain'][] = $zoneId;
 $appendedThisZone = false;
-// Get all ads which are linked to the zone
 $aZoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId);
 if ($zoneId != 0 && MAX_limitationsIsZoneForbidden($zoneId, $aZoneLinkedAds)) {
 $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
@@ -1806,35 +1831,23 @@ return false;
 }
 function _adSelectCommon($aAds, $context, $source, $richMedia)
 {
-// Are there any ads linked?
 if (!empty($aAds['count_active'])) {
-// Get an ad from the any exclusive campaigns first...
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'xAds');
-// If no ad selected, and a previous ad on the page has set that companion ads should be selected...
 if (!is_array($aLinkedAd) && isset($aAds['zone_companion']) && is_array($aAds['zone_companion']) && !empty($context)) {
-// Try to select a normal companion ad...
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'cAds');
-// If still no ad selected...
 if (!is_array($aLinkedAd)) {
-// Select one of the low-priority companion ads
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'clAds');
 }
 }
-// If still no ad selected...
 if (!is_array($aLinkedAd)) {
-// Select one of the normal ads
-// The normal ads are now grouped by campaign-priority so we need to iterate over the
 for ($i=10;$i>0;$i--) {
 if (!empty($aAds['ads'][$i])) {
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'ads', $i);
-// Did we pick an ad from this campaign-priority level?
 if (is_array($aLinkedAd)) { break; }
 }
 }
 }
-// If still no ad selected...
 if (!is_array($aLinkedAd)) {
-// Select one of the low-priority ads
 $aLinkedAd = _adSelect($aAds, $context, $source, $richMedia, 'lAds');
 }
 if (is_array($aLinkedAd)) {
@@ -1845,7 +1858,6 @@ return false;
 }
 function _adSelect(&$aLinkedAds, $context, $source, $richMedia, $adArrayVar = 'ads', $cp = null)
 {
-// If there are no linked ads, we can return
 if (!is_array($aLinkedAds)) { return; }
 if (!is_null($cp) && isset($aLinkedAds[$adArrayVar][$cp])) {
 $aAds = $aLinkedAds[$adArrayVar][$cp];
@@ -1854,16 +1866,11 @@ $aAds = $aLinkedAds[$adArrayVar];
 } else {
 $aAds = array();
 }
-// If there are no linked ads of the specified type, we can return
 if (count($aAds) == 0) { return; }
-// Build preconditions
 $aContext = _adSelectBuildContextArray($aAds, $adArrayVar, $context);
-// New delivery algorithm: discard all invalid ads before iterating over them
 $aAds = _adSelectDiscardNonMatchingAds($aAds, $aContext, $source, $richMedia);
-// If there are no linked ads of the specified type, we can return
 if (count($aAds) == 0) { return; }
 if (!is_null($cp)) {
-// Scale priorities
 $total_priority = 0;
 foreach ($aAds as $ad) {
 $total_priority += $ad['priority'] * $ad['priority_factor'];
@@ -1875,7 +1882,6 @@ $aLinkedAds['priority'][$adArrayVar][$cp] / $total_priority;
 }
 }
 }
-// Seed the random number generator
 global $n;
 mt_srand(floor((isset($n) && strlen($n) > 5 ? hexdec($n[0].$n[2].$n[3].$n[4].$n[5]): 1000000) * (double)microtime()));
 $conf = $GLOBALS['_MAX']['CONF'];
@@ -1892,35 +1898,22 @@ $low = 0;
 $high = 0;
 $paidPriorityCounter = 0;
 if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
-// Paid campaigns have a sum of priorities of unity, so pick
-// a random number between 0 and $prioritysum, inclusive.
 $ranweight = (mt_rand(0, $GLOBALS['_MAX']['MAX_RAND']) / $GLOBALS['_MAX']['MAX_RAND']) * $prioritysum;
 } else {
-// All other campaigns have integer-based priority values, so
-// select a random number between 0 and the sum of all the
-// priority values
 $ranweight = ($prioritysum > 1) ? mt_rand(0, $prioritysum - 1) : 0;
 }
-// Perform selection of an ad, based on the random number
 foreach($aAds as $adId => $aLinkedAd) {
 if (is_array($aLinkedAd)) {
 $placementId = $aLinkedAd['placement_id'];
 $low = $high;
 $high += $aLinkedAd['priority'];
 if ($high > $ranweight && $low <= $ranweight) {
-// We have already tested the delivery limitations against the current impression
 return $aLinkedAd;
 } else {
-// This ad did not match the random value generated. If we
-// are also looking for a paid placement ad, count the number
-// of iterations (ads we have looked at), so that we know
-// when we have selected the blank ad
 if (($adArrayVar == 'ads') || ($adArrayVar == 'cAds')) {
 $paidPriorityCounter++;
 }
-// Have we tested all the ads yet?
 if ($paidPriorityCounter == count($aAds)) {
-// Yes, and no ad was suitable, so no paid ad should be shown
 return;
 }
 }
@@ -1931,23 +1924,19 @@ return;
 function _adSelectCheckCriteria($aAd, $aContext, $source, $richMedia)
 {
 $conf = $GLOBALS['_MAX']['CONF'];
-// Excludelist banners
 if (isset($aContext['banner']['exclude'][$aAd['ad_id']])) {
 return false;
 }
 if (isset($aContext['campaign']['exclude'][$aAd['placement_id']])) {
-// Excludelist campaigns
 return false;
 }
 if (sizeof($aContext['banner']['include']) && !isset($aContext['banner']['include'][$aAd['ad_id']])) {
-// Includelist banners
 return false;
 }
 if (sizeof($aContext['campaign']['include']) && !isset($aContext['campaign']['include'][$aAd['placement_id']])) {
-// Includelist campaigns
 return false;
 }
-if (   // Exclude richmedia banners if no alt image is specified
+if (
 $richMedia == false &&
 $aAd['alt_filename'] == '' &&
 !($aAd['contenttype'] == 'jpeg' || $aAd['contenttype'] == 'gif' || $aAd['contenttype'] == 'png') &&
@@ -2334,9 +2323,8 @@ if ($timeout > 0) {
 $timeoutMs = $timeout * 1000;
 echo "
 <script type='text/javascript'>
-<!--// <![CDATA[
+<!--
 window.setTimeout(\"window.close()\",$timeoutMs);
-// ]]> -->
 </script>";
 }
 if ($aBanner['contenttype'] == 'swf') {
