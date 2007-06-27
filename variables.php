@@ -54,7 +54,6 @@ function setupConfigVariables()
 {
     $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'] = '|';
     $GLOBALS['_MAX']['MAX_COOKIELESS_PREFIX'] = '__';
-
     // Set the URL access mechanism
     if (!empty($GLOBALS['_MAX']['CONF']['openads']['requireSSL'])) {
         $GLOBALS['_MAX']['HTTP'] = 'https://';
