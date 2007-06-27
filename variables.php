@@ -70,8 +70,9 @@ function setupConfigVariables()
         }
     }
 
-    // Maximum random number
-    $GLOBALS['_MAX']['MAX_RAND'] = $GLOBALS['_MAX']['CONF']['priority']['randmax'];
+    // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
+    $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ? 
+        $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 
     // Set time zone, for more info @see setTimeZoneLocation()
     if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
