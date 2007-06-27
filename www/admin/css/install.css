@@ -110,7 +110,7 @@ div.sysinfoerror li {
 }
 
 .pageLoader {
-    position: absolute;
+    position: fixed;
     background-color: #ffffff;
     width: 100%;
     height: 1px;
