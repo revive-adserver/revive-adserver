@@ -51,13 +51,13 @@ setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 
 // Set the log file
-if ($conf['debug']['logfile']) {
+if (!empty($conf['debug']['logfile'])) {
     @ini_set('error_log', MAX_PATH . '/var/' . $conf['debug']['logfile']);
 }
 
 // Disable all notices and warnings, as some PAN code still
 // generates PHP warnings in places
-if ($conf['debug']['production']) {
+if (!empty($conf['debug']['production'])) {
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 } else {
     // show all errors when developing

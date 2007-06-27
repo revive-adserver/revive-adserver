@@ -50,15 +50,13 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
     if ($configFile) {
         $configFile = '.' . $configFile;
     }
-    
-    // Is the .ini file for the hostname being used directly accessible?
     $host = getHostName();
-    
-    // Check if ini file is cached
     $configFileName = $configPath . '/' . $host . $configFile . '.conf.php';
-    
-    // Parse the configuration file
-    $conf = @parse_ini_file($configFileName, true);
+    $conf = @parse_ini_file($configFileName, $sections);
+    if (isset($conf['realConfig'])) {
+        // added for backward compatibility - realConfig points to different config
+        $conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+    }
     if (!empty($conf)) {
         return $conf;
     } elseif ($configFile === '.plugin') {
@@ -73,7 +71,6 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
         echo "Openads could not read the default configuration file for the {$pluginType} plugin";
         exit(1);
     }
-    
     // Check to ensure Max hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
         echo "Openads has been installed, but no configuration file was found.\n";
