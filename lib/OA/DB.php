@@ -192,15 +192,32 @@ class OA_DB
             $aConf = $GLOBALS['_MAX']['CONF'];
         }
         $dbType = $aConf['database']['type'];
-    	$protocol = isset($aConf['database']['protocol']) ? $aConf['database']['protocol'] . '+' : '';
-    	$port = !empty($aConf['database']['port']) ? ':' . $aConf['database']['port'] : '';
-        $dsn = $dbType . '://' .
-            $aConf['database']['username'] . ':' .
-            $aConf['database']['password'] . '@' .
-            $protocol .
-            $aConf['database']['host'] .
-            $port . '/' .
-            $aConf['database']['name'];
+        // only pan or mmmv0.1 will have a protocol set to unix
+        // otherwise no protocol is set and therefore defaults to tcp
+    	if (isset($aConf['database']['protocol']))
+    	{
+        	if ($aConf['database']['protocol']=='unix')
+        	{
+                $dsn = $dbType . '://' .
+                    $aConf['database']['username'] . ':' .
+                    $aConf['database']['password'] . '@' .
+                    $aConf['database']['protocol'] . '(' .
+                    $aConf['database']['port']     . ')/' .
+                    $aConf['database']['name'];
+        	}
+    	}
+    	else
+    	{
+    	    $protocol = '';
+    	    $port = !empty($aConf['database']['port']) ? ':' . $aConf['database']['port'] : '';
+            $dsn = $dbType . '://' .
+                $aConf['database']['username'] . ':' .
+                $aConf['database']['password'] . '@' .
+                $protocol .
+                $aConf['database']['host'] .
+                $port . '/' .
+                $aConf['database']['name'];
+    	}
         return $dsn;
     }
 

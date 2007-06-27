@@ -112,9 +112,7 @@ class OA_phpAdsNew
             $aResult['delivery']['acls'] = $phpAds_config['acl'];
             $aResult['delivery']['execPhp'] = $phpAds_config['type_html_php'];
 
-            $aResult['database']['host']        = $phpAds_config['dbhost'];
             $aResult['database']['type']        = 'mysql';
-            $aResult['database']['port']        = $phpAds_config['dbport'];
             $aResult['database']['username']    = $phpAds_config['dbuser'];
             $aResult['database']['password']    = $phpAds_config['dbpassword'];
             $aResult['database']['name']        = $phpAds_config['dbname'];
@@ -123,6 +121,23 @@ class OA_phpAdsNew
             $aResult['table']['type']           = $phpAds_config['table_type'];
             $aResult['table']['prefix']         = $phpAds_config['table_prefix'];
 
+            // pan has a setting dblocal to indicate a socket connection
+            // max v0.1 doesn't, just have to detect if the port is a port number or socket path
+            if (isset($phpAds_config['dblocal']) && $phpAds_config['dblocal'])
+            {
+                $aResult['database']['host']        = '';
+                $aResult['database']['port']        = $phpAds_config['dbhost'];
+                $aResult['database']['protocol']    = 'unix';
+            }
+            else
+            {
+                $aResult['database']['host']        = $phpAds_config['dbhost'];
+                $aResult['database']['port']        = $phpAds_config['dbport'];
+                if (!is_numeric($phpAds_config['dbport']))
+                {
+                    $aResult['database']['protocol']    = 'unix';
+                }
+            }
             return $aResult;
         }
         return array();
