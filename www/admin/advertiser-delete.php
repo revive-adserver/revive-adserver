@@ -67,6 +67,9 @@ if (!empty($clientid)) {
     }
 }
 
+// We run the maintenance - attempt to increase the PHP memory
+increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+
 // Run the Maintenance Priority Engine process
 MAX_Maintenance_Priority::run();
 

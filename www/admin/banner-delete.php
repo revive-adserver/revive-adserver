@@ -60,6 +60,9 @@ if (!empty($bannerid)) {
     $doBanners->delete();
 }
 
+// Increase the memory for running the maintenance
+increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+
 // Run the Maintenance Priority Engine process
 MAX_Maintenance_Priority::run();
 
