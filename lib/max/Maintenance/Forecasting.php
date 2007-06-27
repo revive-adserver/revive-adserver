@@ -55,6 +55,10 @@ class MAX_Maintenance_Forecasting
             @set_time_limit($conf['maintenance']['timeLimitScripts']);
             @ignore_user_abort(true);
         }
+        
+        // Attempt to increase PHP memory
+        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+        
         // Ensure the the current time is registered with the ServiceLocator
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');

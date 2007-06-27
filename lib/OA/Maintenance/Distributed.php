@@ -60,6 +60,9 @@ class OA_Maintenance_Distributed
         if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
         {
             OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
+            
+            // Attempt to increase PHP memory
+            increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 
             $oDal = new OA_Dal_Maintenance_Distributed();
 

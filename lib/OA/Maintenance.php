@@ -81,6 +81,9 @@ class OA_Maintenance
 
         if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
+            
+            // Attempt to increase PHP memory
+            increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();

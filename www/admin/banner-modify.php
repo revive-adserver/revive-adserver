@@ -100,9 +100,6 @@ if (!empty($bannerid)) {
         $doBanners->get($bannerid);
         $new_bannerid = $doBanners->duplicate();
 
-        // Increase the memory for running the maintenance
-        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
-
         // Run the Maintenance Priority Engine process
         MAX_Maintenance_Priority::run();
 

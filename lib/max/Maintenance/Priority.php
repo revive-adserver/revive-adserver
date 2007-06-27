@@ -73,6 +73,8 @@ class MAX_Maintenance_Priority
             @set_time_limit($conf['maintenance']['timeLimitScripts']);
             @ignore_user_abort(true);
         }
+        // Attempt to increase PHP memory
+        increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
         // Create a Maintenance DAL object
         $oDal = new OA_Dal_Maintenance_Priority();
         // Try to get the MPE database-level lock
