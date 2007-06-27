@@ -52,20 +52,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'geotargeting_geoipNetspeedLocation',
                           'geotargeting_saveStats',
                           'geotargeting_showUnavailable');
-    // Set up the main configuration .ini file
+    // Set up the top level geotargeting configuration file
     $config = new OA_Admin_Config($newConfig = true);
     $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
     $config->setConfigChange('geotargeting', 'saveStats', $geotargeting_saveStats);
     $config->setConfigChange('geotargeting', 'showUnavailable', $geotargeting_showUnavailable);
-    // geotargeting type has to be saved to the main config file
-    //$c = new Config();
-    //$c->parseConfig($config->conf, 'phpArray');
-    //$c->writeConfig(MAX_Plugin::getConfigFileName('geotargeting'), 'inifile')
     if (!MAX_Plugin::writePluginConfig($config->conf, 'geotargeting')) {
         // Unable to write the config file out
         $errormessage[0][] = $strUnableToWriteConfig;
     }
-    // Set up the configuration .ini file
+
+    // Set up the geotargting type configuration file, if required
     $config = new OA_Admin_Config($newConfig = true);
     $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
     if ($geotargeting_type != 'none') {
@@ -145,12 +142,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
     if (!count($errormessage)) {
         $configFileName = MAX_Plugin::getConfigFileName('geotargeting', $geotargeting_type);
-        if(!file_exists($configFileName)) {
+        if (!file_exists($configFileName)) {
             MAX_Plugin::copyDefaultConfig('geotargeting', $geotargeting_type);
         }
-        //$c = new Config();
-        //$c->parseConfig($config->conf, 'phpArray');
-        //$c->writeConfig($configFileName, 'inifile')
         if ($geotargeting_type != 'none' &&
             !MAX_Plugin::writePluginConfig($config->conf, 'geotargeting', $geotargeting_type)) {
             // Unable to write the config file out
