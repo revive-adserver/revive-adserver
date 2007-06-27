@@ -428,7 +428,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     function test_updateAuditBackupConfDroppedById()
     {
     	$upgrade_id = 1;
-    	$reason = "hey that was a super log msg ";
+    	$reason = "hey that was a super log msg";
     	
     	$oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
     	$oAuditor->init($oAuditor->oDbh, '');
@@ -439,7 +439,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 							FROM {$this->prefix}{$oAuditor->logTable}  
 							WHERE upgrade_action_id='{$upgrade_id}'");
 		
-        $this->assertEqual($result['confbackup'], $reason, "the message has not been correctly set");
+        $this->assertEqual($result['confbackup'], $reason, "the message '$reason' has not been correctly set '{$result['confbackup']}'");
 
     }
 
@@ -453,7 +453,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 	function test_updateAuditBackupLogDroppedById()
     {
     	$upgrade_id = 1;
-    	$reason = "hey that was a super log msg22243235 ";
+    	$reason = "hey that was a super log msg22243235";
     	
     	$oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
     	$oAuditor->init($oAuditor->oDbh, '');
@@ -464,7 +464,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 							FROM {$this->prefix}{$oAuditor->logTable}  
 							WHERE upgrade_action_id='{$upgrade_id}'");
 		
-        $this->assertEqual($result['logfile'], $reason, "the message has not been correctly set");
+        $this->assertEqual($result['logfile'], $reason, "the message '$reason' has not been correctly set : '{$result['logfile']}'");
 
     }
 
