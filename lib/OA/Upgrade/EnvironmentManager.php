@@ -56,14 +56,14 @@ class OA_Environment_Manager
                                                   MAX_PATH.'/var/plugins/config',
                                                   MAX_PATH.'/var/templates_compiled'
                                                  );
-                       
-        // if CONF file hasn't been created yet, use the default images folder                          
+
+        // if CONF file hasn't been created yet, use the default images folder
         if (!empty($conf['store']['webDir'])) {
             $this->aInfo['PERMS']['expected'][] = $conf['store']['webDir'];
         } else {
-            $this->aInfo['PERMS']['expected'][] = MAX_PATH.'/www/images';        
+            $this->aInfo['PERMS']['expected'][] = MAX_PATH.'/www/images';
         }
-        
+
         if (!empty($conf['delivery']['cachePath'])) {
             $this->aInfo['PERMS']['expected'][] = $conf['delivery']['cachePath'];
         }
@@ -72,7 +72,7 @@ class OA_Environment_Manager
         $this->aInfo['PERMS']['actual']     = array();
         $this->aInfo['FILES']['actual']     = array();
 
-        $this->aInfo['PHP']['expected']['version']              = '4.3.6';
+        $this->aInfo['PHP']['expected']['version']              = '4.3.10';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         //$this->aInfo['PHP']['expected']['date.timezone']        = true;
@@ -98,7 +98,7 @@ class OA_Environment_Manager
     function getPHPInfo()
     {
         $aResult['version'] = phpversion();
-        
+
         $aResult['memory_limit'] = getMemorySizeInBytes();
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode'] = ini_get('safe_mode');
@@ -175,7 +175,7 @@ class OA_Environment_Manager
         }
         return true;
     }
-    
+
     function _checkCriticalPHP()
     {
         if (function_exists('version_compare'))
@@ -188,7 +188,7 @@ class OA_Environment_Manager
         {
             $result = OA_ENV_ERROR_PHP_VERSION;
         }
-        if (!$result)
+        if ($result == OA_ENV_ERROR_PHP_VERSION)
         {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] = "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version {$this->aInfo['PHP']['expected']['version']}";
         }
@@ -219,23 +219,23 @@ class OA_Environment_Manager
 //        }
         return $result;
     }
-    
+
     function _checkCriticalPermissions()
     {
         foreach ($this->aInfo['PERMS']['actual'] AS $k=>$v)
         {
             if ($v!='OK')
-            {                       
+            {
                 if (!is_array($this->aInfo['PERMS']['error'])) {
-                    $this->aInfo['PERMS']['error'][] = $GLOBALS['strErrorWritePermissions'];                
+                    $this->aInfo['PERMS']['error'][] = $GLOBALS['strErrorWritePermissions'];
                 }
                 $this->aInfo['PERMS']['error'][] = sprintf($GLOBALS['strErrorFixPermissionsCommand'], $k);;
             }
         }
-        if (is_array($this->aInfo['PERMS']['error'])) {        
+        if (is_array($this->aInfo['PERMS']['error'])) {
             $this->aInfo['PERMS']['error'][] = $GLOBALS['strCheckDocumentation'];
             return false;
-        }        
+        }
         $this->aInfo['PERMS']['error'] = false;
         return true;
     }
