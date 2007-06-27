@@ -265,11 +265,13 @@ class OA_Upgrade
         $strTableError     = 'Error accessing Database Tables';
 
         $this->oLogger->logClear();
+        $this->oLogger->logOnly('looking for PAN');
         $this->detectPAN();
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_PAN_NOT_INSTALLED:
+                $this->oLogger->logOnly('PAN not detected');
                 break;
             case OA_STATUS_PAN_CONFIG_DETECTED:
                 $this->oLogger->logError($strProductName.$strDetected);
@@ -294,11 +296,13 @@ class OA_Upgrade
                 return true;
         }
 
+        $this->oLogger->logOnly('looking for MMM0.1');
         $this->detectMAX01();
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_M01_NOT_INSTALLED:
+                $this->oLogger->logOnly('MMM v0.1 not detected');
                 break;
             case OA_STATUS_M01_CONFIG_DETECTED:
                 if (!$this->oLogger->errorExists)
@@ -329,11 +333,13 @@ class OA_Upgrade
                 return true;
         }
 
+        $this->oLogger->logOnly('looking for MAX0.3');
         $this->detectMAX();
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)
         {
             case OA_STATUS_MAX_NOT_INSTALLED:
+                $this->oLogger->logOnly('MMM v0.3 not detected');
                 break;
             case OA_STATUS_MAX_CONFIG_DETECTED:
                 $this->oLogger->logError($strProductName.$strDetected);
@@ -355,6 +361,7 @@ class OA_Upgrade
                 return true;
         }
 
+        $this->oLogger->logOnly('looking for Openads');
         $this->detectOpenads();
         $strProductName = MAX_PRODUCT_NAME.' '.$this->getProductApplicationVersion();
         switch ($this->existing_installation_status)

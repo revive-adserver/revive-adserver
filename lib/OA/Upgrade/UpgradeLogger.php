@@ -104,6 +104,11 @@ class OA_UpgradeLogger
         $this->_logWrite($message);
     }
 
+    function logOnly($message)
+    {
+        $this->_logWrite($message);
+    }
+
     /**
      * write an error to the log file
      *
