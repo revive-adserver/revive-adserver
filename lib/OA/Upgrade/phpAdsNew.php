@@ -126,7 +126,7 @@ class OA_phpAdsNew
             if (isset($phpAds_config['dblocal']) && $phpAds_config['dblocal'])
             {
                 $aResult['database']['host']        = '';
-                $aResult['database']['port']        = $phpAds_config['dbhost'];
+                $aResult['database']['port']        = preg_replace('/^:/', '', $phpAds_config['dbhost']);
                 $aResult['database']['protocol']    = 'unix';
             }
             else
