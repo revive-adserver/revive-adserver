@@ -366,6 +366,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     $offetStartOperationId =
                         MAX_OperationInterval::previousOperationIntervalID(
                             $intervalId,
+                            null,
                             $this->getTrendOperationIntervalStartOffset()
                         );
                     // Set actual impressions and forecast values to zero

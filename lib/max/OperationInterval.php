@@ -232,17 +232,28 @@ class MAX_OperationInterval
      * @param integer $operationInterval Optional length of the operation interval
      *                                   in minutes. If not given, will use the
      *                                   currently defined operation interval.
+     * @param integer $intervals The number of intervals to go back. Default is 1.
      * @return integer The previous operation interval ID.
      */
-    function previousOperationIntervalID($operationIntervalID, $operationInterval = 0)
+    function previousOperationIntervalID($operationIntervalID, $operationInterval = null, $intervals = 1)
     {
-        if ($operationInterval < 1) {
+        // Set the operation interval length, if required
+        if (is_null($operationInterval)) {
             $operationInterval = MAX_OperationInterval::getOperationInterval();
         }
+        // Go backward one interval, looping back to the highest interval number, if required
         if ($operationIntervalID == 0) {
-            return ((MINUTES_PER_WEEK / $operationInterval) - 1);
+            $newOperationIntervalID = (MINUTES_PER_WEEK / $operationInterval) - 1;
         } else {
-            return ($operationIntervalID - 1);
+            $newOperationIntervalID = $operationIntervalID - 1;
+        }
+        // Going back more than one interval?
+        if ($intervals > 1) {
+            // Oooh! Recursion!
+            $intervals--;
+            return MAX_OperationInterval::previousOperationIntervalID($newOperationIntervalID, $operationInterval, $intervals);
+        } else {
+            return $newOperationIntervalID;
         }
     }
 
@@ -254,17 +265,28 @@ class MAX_OperationInterval
      * @param integer $operationInterval Optional length of the operation interval
      *                                   in minutes. If not given, will use the
      *                                   currently defined operation interval.
+     * @param integer $intervals The number of intervals to go forward. Default is 1.
      * @return integer The next operation interval ID.
      */
-    function nextOperationIntervalID($operationIntervalID, $operationInterval = 0)
+    function nextOperationIntervalID($operationIntervalID, $operationInterval = null, $intervals = 1)
     {
-        if ($operationInterval < 1) {
+        // Set the operation interval length, if required
+        if (is_null($operationInterval)) {
             $operationInterval = MAX_OperationInterval::getOperationInterval();
         }
+        // Go forward one interval, looping back to zero, if required
         if ($operationIntervalID == ((MINUTES_PER_WEEK / $operationInterval) - 1)) {
-            return 0;
+            $newOperationIntervalID = 0;
         } else {
-            return ($operationIntervalID + 1);
+            $newOperationIntervalID = $operationIntervalID + 1;
+        }
+        // Going forward more than one interval?
+        if ($intervals > 1) {
+            // Oooh! Recursion!
+            $intervals--;
+            return MAX_OperationInterval::nextOperationIntervalID($newOperationIntervalID, $operationInterval, $intervals);
+        } else {
+            return $newOperationIntervalID;
         }
     }
 
