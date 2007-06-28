@@ -55,7 +55,7 @@ class OA_Dummy_Data
     {
         // Set default data value to empty string
         DataGenerator::defaultValueByType(MAX_DATAGENERATOR_DEFAULT_TYPE, '');
-        
+
         $this->insertAgency();
         $this->insertAffiliate();
         $this->insertClient();
@@ -173,10 +173,10 @@ class OA_Dummy_Data
         $doZones->appendtype    = '0';
 //        $doZones->inventory_forecast_type    = '';         // int(6)  not_null
 //        $doZones->comments    = '';                        // blob(65535)  blob
-//        $doZones->cost    = '';                            // unknown(12)
+        $doZones->cost    = 0;                            // unknown(12)
 //        $doZones->cost_type    = '';                       // int(6)
 //        $doZones->cost_variable_id    = '';                // string(255)
-//        $doZones->technology_cost    = '';                 // unknown(12)
+        $doZones->technology_cost    = 0;                 // unknown(12)
 //        $doZones->technology_cost_type    = '';            // int(6)
         $doZones->block    = 0;                           // int(11)  not_null
         $doZones->capping    = 0;                         // int(11)  not_null
@@ -206,10 +206,10 @@ class OA_Dummy_Data
         $doZones->appendtype    = '0';
 //        $doZones->inventory_forecast_type    = '';         // int(6)  not_null
 //        $doZones->comments    = '';                        // blob(65535)  blob
-//        $doZones->cost    = '';                            // unknown(12)
+        $doZones->cost    = 0;                            // unknown(12)
 //        $doZones->cost_type    = '';                       // int(6)
 //        $doZones->cost_variable_id    = '';                // string(255)
-//        $doZones->technology_cost    = '';                 // unknown(12)
+        $doZones->technology_cost    = 0;                 // unknown(12)
 //        $doZones->technology_cost_type    = '';            // int(6)
         $doZones->block    = 0;                           // int(11)  not_null
         $doZones->capping    = 0;                         // int(11)  not_null
