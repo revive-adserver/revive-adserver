@@ -222,17 +222,15 @@ class OA_Dummy_Data
     {
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_zone_assoc_id = $this->bannerId1;
-        //$doAdZoneAssoc->ad_id = $this->bannerId1;
-        $doAdZoneAssoc->find();
+        $doAdZoneAssoc->ad_id = $this->bannerId1;
         $doAdZoneAssoc->zone_id = $this->zoneId1;
-        $doAdZoneAssoc->update();
+        $doAdZoneAssoc->insert();
 
         $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
         $doAdZoneAssoc->ad_zone_assoc_id = $this->bannerId2;
-        //$doAdZoneAssoc->ad_id = $this->bannerId2;
-        $doAdZoneAssoc->find();
+        $doAdZoneAssoc->ad_id = $this->bannerId2;
         $doAdZoneAssoc->zone_id = $this->zoneId2;
-        $doAdZoneAssoc->update();
+        $doAdZoneAssoc->insert();
     }
 
     function insertBanner1()
