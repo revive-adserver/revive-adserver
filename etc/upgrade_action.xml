@@ -97,7 +97,7 @@
    </index>
 
    <index>
-    <name>updated</name>
+    <name>upgrade_action_updated</name>
     <field>
      <name>updated</name>
      <sorting>ascending</sorting>

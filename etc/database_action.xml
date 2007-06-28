@@ -123,7 +123,7 @@
    </index>
 
    <index>
-    <name>upgrade_action_id</name>
+    <name>database_action_upgrade_action_id</name>
     <field>
      <name>upgrade_action_id</name>
      <sorting>ascending</sorting>
@@ -135,7 +135,7 @@
    </index>
 
    <index>
-    <name>schema_version_timing_action</name>
+    <name>database_action_schema_version_timing_action</name>
     <field>
      <name>schema_name</name>
      <sorting>descending</sorting>
@@ -155,7 +155,7 @@
    </index>
 
    <index>
-    <name>updated</name>
+    <name>database_action_updated</name>
     <field>
      <name>updated</name>
      <sorting>ascending</sorting>
