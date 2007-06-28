@@ -1187,10 +1187,9 @@ $arr = array(
 );
 if (isset($arr[$iStatusCode])) {
 $text = $iStatusCode . ' ' . $arr[$iStatusCode];
-if ( preg_match('/cgi/', php_sapi_name()) ) {
+if (stristr(php_sapi_name(), 'cgi')) {
 header('Status: ' . $text);
-}
-else {
+} else {
 header('HTTP/1.x ' . $text);
 }
 }
