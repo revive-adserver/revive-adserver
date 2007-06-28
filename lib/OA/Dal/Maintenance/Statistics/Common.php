@@ -1714,6 +1714,12 @@ class OA_Dal_Maintenance_Statistics_Common
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
+        $message = '  Summarised ' . $rows . 'rows of ' . implode('s, ', $aActions['types']) . 's';
+        if ($aConf['modules']['Tracker']) {
+            $message .= ' and conversions';
+        }
+        $message .= '.';
+        MAX::debug($message, PEAR_LOG_DEBUG);
         // Update the recently summarised data with basic financial information
         $this->_saveSummaryUpdateWithFinanceInfo($oStartDate, $oEndDate, $toTable);
     }
