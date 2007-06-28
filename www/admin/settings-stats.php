@@ -161,7 +161,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         }
     }
     if (isset($admin_email_headers)) {
-        $admin_email_headers = trim(ereg_replace('\r?\n', '\\r\\n', $admin_email_headers));
+        $admin_email_headers = trim(ereg_replace("\r?\n", '\\r\\n', $admin_email_headers));
         $preferences->setPrefChange('admin_email_headers', $admin_email_headers);
     }
     $preferences->setPrefChange('qmail_patch', isset($qmail_patch));
