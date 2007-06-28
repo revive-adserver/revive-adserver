@@ -209,9 +209,6 @@ class OA_DB_Table
                     if (isset($aIndex['primary']) && $aIndex['primary']) {
                         $aOptions['primary'] = $aIndex['fields'];
                         $indexName = $tableName.'_pkey';
-                    } elseif ($prefixed) {
-                        // Add the table prefix to the index name
-                        $indexName = $aConf['table']['prefix'].$key;
                     } else {
                         // Disabled
                         //
