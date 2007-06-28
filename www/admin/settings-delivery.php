@@ -38,6 +38,8 @@ require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 phpAds_checkAccess(phpAds_Admin);
 
 $errormessage = array();
+$redirectUploadFile = false;
+
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('webpath_admin', 'webpath_delivery', 'webpath_deliverySSL',
                           'webpath_images', 'webpath_imagesSSL',
@@ -75,6 +77,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Check that the web directory is writable
         if (is_writable($store_webDir)) {
             $config->setConfigChange('store', 'webDir',  $store_webDir);
+
+            //  if path has changed copy 1x1.gif to new location else create it
+            if ($conf['store']['webDir'] != $store_webDir) {
+                if (file_exists($conf['store']['webDir'] .'/1x1.gif')) {
+                    copy($conf['store']['webDir'].'/1x1.gif', $store_webDir.'/1x1.gif');
+                } else {
+                    $fp = fopen($store_webDir.'/1x1.gif', 'w');
+                    fwrite($fp, base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='));
+                    fclose($fp);
+                }
+            }
         } else {
             $errormessage[1][] = $strTypeDirError;
         }
@@ -82,17 +95,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($store_ftpHost)) {
         // Check that the FTP host can be contacted
 
-
-    if(!function_exists(ftp_connect)) {
-        include_once MAX_PATH . '/www/admin/lib-ftp.inc.php';
-    }
+        if(!function_exists(ftp_connect)) {
+            include_once MAX_PATH . '/www/admin/lib-ftp.inc.php';
+        }
 
         if ($ftpsock = @ftp_connect($store_ftpHost)) {
             if (@ftp_login($ftpsock, $store_ftpUsername, $store_ftpPassword)) {
 
-                // old library has no support for second param to chec if passive should be enabled
+                // old library has no support for second param to check if passive should be enabled
                 if( $store_ftpPassive ) {
-                	ftp_pasv( $ftpsock, true );
+                  ftp_pasv( $ftpsock, true );
                 }
 
                 if (empty($store_ftpPath) || @ftp_chdir($ftpsock, $store_ftpPath)) {
@@ -102,6 +114,18 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                     $config->setConfigChange('store', 'ftpUsername', $store_ftpUsername);
                     $config->setConfigChange('store', 'ftpPassword', $store_ftpPassword);
                     $config->setConfigChange('store', 'ftpPassive', $store_ftpPassive);
+
+                    //  save the 1x1.gif temporarily
+                    $filename = MAX_PATH .'/var/1x1.gif';
+                    $fp = fopen($filename, 'w+');
+                    fwrite($fp, base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='));
+
+                    //  upload to server
+                    ftp_put($ftpsock, $filename, $store_ftpPath.'/1x1.gif', FTP_BINARY);
+
+                    //  delete temp 1x1.gif file
+                    fclose($fp);
+                    unlink($filename);
                 } else {
                     $errormessage[1][] = $strTypeFTPErrorDir;
                 }
@@ -203,7 +227,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             // Unable to write the config file out
             $errormessage[0][] = $strUnableToWriteConfig;
         } else {
-            MAX_Admin_Redirect::redirect('settings-general.php');
+            if ($redirectUploadFile) {
+                MAX_Admin_Redirect::redirect('settings-upload.php');
+            } else {
+                MAX_Admin_Redirect::redirect('settings-general.php');
+            }
         }
     }
 }
@@ -261,77 +289,77 @@ $settings = array(
         )
     ),
     array (
-    	'text' 	=> $strTypeWebSettings,
-    	'items'	=> array (
-    		array (
-    			'type' 	  => 'select',
-    			'name' 	  => 'store_mode',
-    			'text' 	  => $strTypeWebMode,
-    			'items'   => array('local' => $strTypeWebModeLocal,
-    			                   'ftp'   => $strTypeWebModeFtp)
-    		),
-    		array (
-    			'type'    => 'break',
-    			'size'	  => 'full'
-    		),
-    		array (
-    			'type' 	  => 'text',
-    			'name' 	  => 'store_webDir',
-    			'text' 	  => $strTypeWebDir,
-    			'size'	  => 35,
-    			'depends' => 'store_mode==0'
-    		),
-    		array (
-    			'type'    => 'break',
-    			'size'	  => 'full'
-    		),
-    		array (
-    			'type' 	  => 'text',
-    			'name' 	  => 'store_ftpHost',
-    			'text' 	  => $strTypeFTPHost,
-    			'size'	  => 35,
-    			'depends' => 'store_mode==1'
-    		),
-    		array (
-    			'type'    => 'break'
-    		),
-    		array (
-    			'type' 	  => 'text',
-    			'name' 	  => 'store_ftpPath',
-    			'text' 	  => $strTypeFTPDirectory,
-    			'size'	  => 35,
-    			'depends' => 'store_mode==1'
-    		),
-    		array (
-    			'type'    => 'break'
-    		),
-    		array (
-    			'type' 	  => 'text',
-    			'name' 	  => 'store_ftpUsername',
-    			'text' 	  => $strTypeFTPUsername,
-    			'size'	  => 35,
-    			'depends' => 'store_mode==1'
-    		),
-    		array (
-    			'type'    => 'break'
-    		),
-    		array (
-    			'type' 	  => 'password',
-    			'name' 	  => 'store_ftpPassword',
-    			'text' 	  => $strTypeFTPPassword,
-    			'size'	  => 35,
-    			'depends' => 'store_mode==1'
-    		),
-    		array (
-    			'type'    => 'break'
-    		),
-    		array (
-    			'type' 	  => 'checkbox',
-    			'name' 	  => 'store_ftpPassive',
-    			'text' 	  => $strTypeFTPPassive,
-    			'depends' => 'store_mode==1'
-    		)
-    	)
+      'text' 	=> $strTypeWebSettings,
+      'items'	=> array (
+        array (
+          'type' 	  => 'select',
+          'name' 	  => 'store_mode',
+          'text' 	  => $strTypeWebMode,
+          'items'   => array('local' => $strTypeWebModeLocal,
+                             'ftp'   => $strTypeWebModeFtp)
+        ),
+        array (
+          'type'    => 'break',
+          'size'	  => 'full'
+        ),
+        array (
+          'type' 	  => 'text',
+          'name' 	  => 'store_webDir',
+          'text' 	  => $strTypeWebDir,
+          'size'	  => 35,
+          'depends' => 'store_mode==0'
+        ),
+        array (
+          'type'    => 'break',
+          'size'	  => 'full'
+        ),
+        array (
+          'type' 	  => 'text',
+          'name' 	  => 'store_ftpHost',
+          'text' 	  => $strTypeFTPHost,
+          'size'	  => 35,
+          'depends' => 'store_mode==1'
+        ),
+        array (
+          'type'    => 'break'
+        ),
+        array (
+          'type' 	  => 'text',
+          'name' 	  => 'store_ftpPath',
+          'text' 	  => $strTypeFTPDirectory,
+          'size'	  => 35,
+          'depends' => 'store_mode==1'
+        ),
+        array (
+          'type'    => 'break'
+        ),
+        array (
+          'type' 	  => 'text',
+          'name' 	  => 'store_ftpUsername',
+          'text' 	  => $strTypeFTPUsername,
+          'size'	  => 35,
+          'depends' => 'store_mode==1'
+        ),
+        array (
+          'type'    => 'break'
+        ),
+        array (
+          'type' 	  => 'password',
+          'name' 	  => 'store_ftpPassword',
+          'text' 	  => $strTypeFTPPassword,
+          'size'	  => 35,
+          'depends' => 'store_mode==1'
+        ),
+        array (
+          'type'    => 'break'
+        ),
+        array (
+          'type' 	  => 'checkbox',
+          'name' 	  => 'store_ftpPassive',
+          'text' 	  => $strTypeFTPPassive,
+          'depends' => 'store_mode==1'
+        )
+      )
     ),
     array (
         'text'  => $strDeliveryFilenames,
@@ -582,35 +610,35 @@ $settings = array(
         )
     ),
     array (
-    	'text' 	=> $strP3PSettings,
-    	'items'	=> array (
-    		array (
-    			'type'    => 'checkbox',
-    			'name'    => 'p3p_policies',
-    			'text'	  => $strUseP3P
-    		),
-    		array (
-    			'type'    => 'break'
-    		),
-    		array (
-    			'type' 	  => 'text',
-    			'name' 	  => 'p3p_compactPolicy',
-    			'text' 	  => $strP3PCompactPolicy,
-    			'size'	  => 35,
-    			'depends' => 'p3p_policies==true'
-    		),
-    		array (
-    			'type'    => 'break'
-    		),
-    		array (
-    			'type' 	  => 'text',
-    			'name' 	  => 'p3p_policyLocation',
-    			'text' 	  => $strP3PPolicyLocation,
-    			'size'	  => 35,
-    			'depends' => 'p3p_policies==true',
-    			'check'   => 'url'
-    		)
-    	)
+      'text' 	=> $strP3PSettings,
+      'items'	=> array (
+        array (
+          'type'    => 'checkbox',
+          'name'    => 'p3p_policies',
+          'text'	  => $strUseP3P
+        ),
+        array (
+          'type'    => 'break'
+        ),
+        array (
+          'type' 	  => 'text',
+          'name' 	  => 'p3p_compactPolicy',
+          'text' 	  => $strP3PCompactPolicy,
+          'size'	  => 35,
+          'depends' => 'p3p_policies==true'
+        ),
+        array (
+          'type'    => 'break'
+        ),
+        array (
+          'type' 	  => 'text',
+          'name' 	  => 'p3p_policyLocation',
+          'text' 	  => $strP3PPolicyLocation,
+          'size'	  => 35,
+          'depends' => 'p3p_policies==true',
+          'check'   => 'url'
+        )
+      )
     )
 );
 
