@@ -471,7 +471,7 @@ class OA_Dal_Maintenance_Statistics_Common
         // Get the operation interval ID
         $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         // Ensure the temporary table for storing connections is created
-        $this->tempTables->createTable('tmp_ad_connection');
+        $this->tempTables->createTable('tmp_ad_connection', null, true);
         // Summarise the connections
         $returnRows = 0;
         $oCurrentDate = new Date();
