@@ -92,7 +92,7 @@ function getDBAuditTable($aAudit)
         //$schemas.= sprintf($td, $aRec['version']);
         $schemas.= sprintf($td, $aRec['tablename']);
         $schemas.= sprintf($td, $aRec['tablename_backup']);
-        $schemas.= sprintf($td, $aRec['backup_size'] * 1024 . ' kb');
+        $schemas.= sprintf($td, round($aRec['backup_size'] * 10, 2) . ' kb');
         $schemas.= sprintf($td, $aRec['backup_rows']);
         //$schemas.= sprintf($td, "<input type=\"checkbox\" id=\"chk_tbl[{$aRec['database_action_id']}]\" name=\"chk_tbl[{$aRec['database_action_id']}]\" checked />");
         $schemas.= "</tr>";
@@ -103,7 +103,7 @@ function getDBAuditTable($aAudit)
     $schemas.= "<tr>";
     $schemas.= sprintf($th, 'Total');
     $schemas.= sprintf($th, count($aAudit) . ' tables');
-    $schemas.= sprintf($th, $totalSize * 1024 . ' kb');
+    $schemas.= sprintf($th, round($totalSize * 10, 2) . ' kb');
     $schemas.= sprintf($th, $totalRows);
     //$schemas.= sprintf($th, 'Delete');
     $schemas.= "</tr>";
