@@ -433,13 +433,13 @@ class OA_Dal_Maintenance_Statistics_Common
      * or click data) to a temporary table.
      *
      * @access private
-     * @param PEAR::Date $oStart     The start date/time to summarise from.
-     * @param PEAR::Date $oEnd       The end date/time to summarise to.
-     * @param string     $action     Type of action to summarise. Either "impression", or "click".
-     * @param integer    $connection Action The defined connection action integer that
-     *                               matches the $action. Either MAX_CONNECTION_AD_IMPRESSION,
-     *                               or MAX_CONNECTION_AD_CLICK.
-     * @param boolean    $split      Optional flag, when true, tables are split.
+     * @param PEAR::Date $oStart           The start date/time to summarise from.
+     * @param PEAR::Date $oEnd             The end date/time to summarise to.
+     * @param string     $action           Type of action to summarise. Either "impression", or "click".
+     * @param integer    $connectionAction The defined connection action integer that
+     *                                     matches the $action. Either MAX_CONNECTION_AD_IMPRESSION,
+     *                                     or MAX_CONNECTION_AD_CLICK.
+     * @param boolean    $split            Optional flag, when true, tables are split.
      * @return integer The number of connection rows summarised.
      *
      * Note: The method tests to see if $GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']
@@ -597,7 +597,7 @@ class OA_Dal_Maintenance_Statistics_Common
             } else {
                 // Query ran okay
                 OA::debug('Selected ' . $trackerImpressionRows . ' tracker impressions that may connect to ad ' .
-                           $type . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
+                           $action . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
                 if ($trackerImpressionRows > 0) {
                     // Connect the tracker impressions with raw connection types, where possible,
                     // by looking over the necessary past raw tables, given the maximum connection
@@ -2561,8 +2561,8 @@ class OA_Dal_Maintenance_Statistics_Common
                     if ($aPrefs['warn_admin'] == 't' || $aPrefs['warn_agency'] == 't' || $aPrefs['warn_client'] == 't') {
                         // Test the placement to see if the expiration is imminent,
                         // or not, based on the placement's expiration date
-                        if (isset($aPrefs['warn_limit_days']) && 
-                            $aPrefs['warn_limit_days'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue()) 
+                        if (isset($aPrefs['warn_limit_days']) &&
+                            $aPrefs['warn_limit_days'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue())
                         {
                             // One day is added to the warn days limit, so that it warns at the start of the day
                             // before the warn limit - eg, if warn days is 1 day, warn at the start of the day
