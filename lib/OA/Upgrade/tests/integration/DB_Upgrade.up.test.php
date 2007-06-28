@@ -124,6 +124,13 @@ class Test_DB_Upgrade extends UnitTestCase
 
     function test_stripPrefixesFromDatabaseDefinition()
     {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $defaultPrefix = $this->prefix;
+
+        // Set a random prefix
+        $conf['table']['prefix'] =
+            $this->prefix = sprintf('t%05d_', mt_rand(0, 99999));
+
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $aDefinition['tables'][$this->prefix.'table1'] = array();
         $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey'] = array();
@@ -136,7 +143,10 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes'][$this->prefix.'table1_pkey']), 'unstripped indexname found in definition');
         $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['table1_pkey']), 'stripped indexname not found in definition');
-    }
+
+        $conf['table']['prefix'] =
+            $this->prefix = $defaultPrefix;
+   }
 
     function test_getDefinitionFromDatabase()
     {
