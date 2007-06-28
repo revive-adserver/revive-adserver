@@ -110,17 +110,19 @@ div.sysinfoerror li {
 }
 
 .pageLoader {
-    position: fixed;
+    position: absolute;
+    left: 0px;
+    *left: 40px;
     background-color: #ffffff;
     width: 100%;
     height: 1px;
-    opacity:.85;filter: alpha(opacity=85); -moz-opacity: 0.85;
+    opacity:.8;filter: alpha(opacity=75); -moz-opacity: 0.8;
     z-index:100;
 }
 .pageLoader div {
     position: relative;
-    left: 25%;
-    top: 140px;
+    left: 30%;
+    top: 180px;
     height: 50px;
     width: 275px;
     text-align: center;
@@ -143,7 +145,7 @@ div.sysinfoerror li {
     text-align: center;
 }
 .graph {
-    position: relative; /* IE is dumb */
+    position: relative; /* IE */
     width: 396px !important;
     width: 406px;
     height: 18px !important;

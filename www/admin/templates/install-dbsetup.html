@@ -30,6 +30,10 @@
         if (noerrors == true) {
             var errObj = new getObj('displayDbError');
             var pgsqlWarn  = new getObj('pgSqlWarning');
+            var dbType     = new getObj('aConfig[database][type]');
+            var TblTypeObj = new getObj('aConfig[table][type]');
+            dbType.obj.disabled = 'disabled';
+            TblTypeObj.obj.disabled = 'disabled';
             errObj.style.display='none';
             pgsqlWarn.style.display = 'none';
             showLoader();
