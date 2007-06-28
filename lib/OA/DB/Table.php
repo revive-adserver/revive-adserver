@@ -166,10 +166,13 @@ class OA_DB_Table
      * @param string $table The name of the table to create, excluding table prefix.
      * @param Date $oDate An optional date for creating split tables. Will use current
      *                    date if the date is required for creation, but not supplied.
+     * @param boolean $suppressTempTableError When true, do not produce an error debugging
+     *                                        message if trying to create a temporary table
+     *                                        that already exists.
      * @return mixed The name of the table created, or false if the table was not able
      *               to be created.
      */
-    function createTable($table, $oDate = null)
+    function createTable($table, $oDate = null, $suppressTempTableError = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if (!$this->_checkInit()) {
@@ -239,7 +242,13 @@ class OA_DB_Table
         $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
         PEAR::popErrorHandling();
         if (PEAR::isError($result) || (!$result)) {
-            MAX::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
+            $showError = true;
+            if ($this->temporary && $suppressTempTableError) {
+                $showError = false;
+            }
+            if ($showError) {
+                MAX::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
+            }
             return false;
         }
         return $tableName;
