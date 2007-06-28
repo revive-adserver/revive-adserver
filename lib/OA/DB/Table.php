@@ -209,11 +209,19 @@ class OA_DB_Table
                     if (isset($aIndex['primary']) && $aIndex['primary']) {
                         $aOptions['primary'] = $aIndex['fields'];
                         $indexName = $tableName.'_pkey';
+                    } elseif ($prefixed) {
+                        // Add the table prefix to the index name
+                        $indexName = $aConf['table']['prefix'].$key;
                     } else {
+                        // Disabled
+                        //
                         // Eventually strip the leading table name prefix from the index and
                         // add the currently generated table name. This should ensure that
                         // index names are unique database-wide, required at least by PgSQL
-                        $indexName = $tableName . '_' . preg_replace("/^{$table}_/", '', $key);
+                        //
+                        //$indexName = $tableName . '_' . preg_replace("/^{$table}_/", '', $key);
+
+                        continue;
                     }
                     // Does the index name need to be udpated to match either
                     // the prefixed table name, or the the split table name, or
