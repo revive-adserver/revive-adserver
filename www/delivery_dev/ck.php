@@ -90,7 +90,7 @@ $destination = MAX_querystringGetDestinationUrl($adId[0]);
 if (!empty($destination) && empty($_GET['trackonly'])) {
     // Prevent HTTP response split attacks
     if (!preg_match('/[\r\n]/', $destination)) {
-        header ("Location: $destination");
+        MAX_redirect($destination);
     }
 }
 

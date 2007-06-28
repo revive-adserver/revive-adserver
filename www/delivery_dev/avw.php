@@ -73,7 +73,7 @@ if (!empty($row['html'])) {
     // Redirect to the banner
     MAX_cookieSet($conf['var']['vars'] . "[$n]", serialize($cookie));
     MAX_cookieFlush();
-	header("Location: {$row['html']}");
+	MAX_redirect($row['html']);
 } else {
 	MAX_cookieSet($conf['var']['vars'] . "[$n]", 'DEFAULT');
 	MAX_cookieFlush();

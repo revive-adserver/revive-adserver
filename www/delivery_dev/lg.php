@@ -98,7 +98,7 @@ MAX_cookieFlush();
 MAX_querystringConvertParams();
 
 if (!empty($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']])) {
-    MAX_header("Location: {$_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]}");
+    MAX_redirect($_REQUEST[$GLOBALS['_MAX']['CONF']['var']['dest']]);
 } else {
     // Display a 1x1 pixel gif
     MAX_commonDisplay1x1();

@@ -45,7 +45,7 @@ if (!empty($filename)) {
 		// (as the agency cannot be determined from a filename)
 		$pref = MAX_Admin_Preferences::loadPrefs(0);
 		if ($pref['default_banner_url'] != "") {
-			Header("Location: ".$pref['default_banner_url']);
+		    MAX_redirect($pref['default_banner_url']);
 		}
 	} else {
 		// Filename found, dump contents to browser
@@ -80,7 +80,7 @@ if (!empty($filename)) {
 	// (as the agency cannot be determined from a filename)
 	$pref = MAX_Admin_Preferences::loadPrefs(0);
 	if ($pref['default_banner_url'] != "") {
-		header("Location: ".$pref['default_banner_url']);
+	    MAX_redirect($pref['default_banner_url']);
 	}
 }
 
