@@ -208,14 +208,22 @@ class OA_DB_Table
                 foreach ($this->aDefinition['tables'][$table]['indexes'] as $key => $aIndex) {
                     if (isset($aIndex['primary']) && $aIndex['primary']) {
                         $aOptions['primary'] = $aIndex['fields'];
-                        // Does the primary key name need to be udpated to match either
-                        // the prefixed table name, or the the split table name, or
-                        // simply it has a wrong name in the xml definition?
-                        if ($key != $tableName.'_pkey') {
-                            $this->aDefinition['tables'][$table]['indexes'][$tableName . '_pkey']
-                                = $this->aDefinition['tables'][$table]['indexes'][$key];
-                            unset($this->aDefinition['tables'][$table]['indexes'][$key]);
-                        }
+                        $indexName = $tableName.'_pkey';
+                    } else {
+                        // Eventually strip the leading table name prefix from the index and
+                        // add the currently generated table name. This should ensure that
+                        // index names are unique database-wide, required at least by PgSQL
+                        $indexName = $tableName . '_' . preg_replace("/^{$table}_/", '', $key);
+                    }
+                    // Does the index name need to be udpated to match either
+                    // the prefixed table name, or the the split table name, or
+                    // simply it has a wrong name in the xml definition?
+                    if ($key != $indexName) {
+                        // Eventually strip the hardcoded leading table name and add the
+                        // correct prefix to the index name
+                        $this->aDefinition['tables'][$table]['indexes'][$indexName] =
+                            $this->aDefinition['tables'][$table]['indexes'][$key];
+                        unset($this->aDefinition['tables'][$table]['indexes'][$key]);
                     }
                 }
             }
