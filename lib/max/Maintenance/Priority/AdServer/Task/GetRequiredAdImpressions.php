@@ -463,7 +463,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
             }
         }
         // Save the required impressions into the temporary database table
-        $this->oTable->createTable('tmp_ad_required_impression');
+        $this->oTable->createTable('tmp_ad_required_impression', null, true);
         $this->oDal->saveRequiredAdImpressions($aRequiredAdImpressions);
     }
 
