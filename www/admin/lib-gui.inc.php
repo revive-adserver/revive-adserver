@@ -810,7 +810,8 @@ function phpAds_sqlDie()
     global $phpAds_last_query;
     $error = phpAds_dbError();
     $corrupt = false;
-    if (phpAds_dbmsname == 'MySQL') {
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
         $errornumber = phpAds_dbErrorNo();
         if ($errornumber == 1027 || $errornumber == 1039) {
             $corrupt = true;
@@ -826,6 +827,12 @@ function phpAds_sqlDie()
                 $corrupt = true;
             }
         }
+
+        $dbmsName = 'MySQL';
+    } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
+        $dbmsName = 'PostgreSQL';
+    } else {
+        $dbmsName = 'Unknown';
     }
     if ($corrupt) {
         $title    = $GLOBALS['strErrorDBSerious'];
@@ -838,7 +845,7 @@ function phpAds_sqlDie()
     } else {
         $title    = $GLOBALS['strErrorDBPlain'];
         $message  = $GLOBALS['strErrorDBNoDataPlain'];
-        if (phpAds_isLoggedIn() && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))) {
+        if ((phpAds_isLoggedIn() && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))) || defined('phpAds_installing')) {
 
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
@@ -850,7 +857,7 @@ function phpAds_sqlDie()
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
             $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".MAX_PRODUCT_NAME." v".OA_VERSION.")</td></tr>";
-            $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".phpAds_dbmsname." " . $dbVersion . "</td></tr>";
+            $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".$dbmsName." " . $dbVersion . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$_SERVER['PHP_SELF']."</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".$error."</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Query:</b></td><td><pre>".$last_query."</pre></td></tr>";

@@ -749,8 +749,10 @@ class DB_DataObjectCommon extends DB_DataObject
 	           $GLOBALS['_MAX']['ERRORS'][] = $ret;
 	        }
     	    if ($this->triggerSqlDie && function_exists('phpAds_sqlDie')) {
-    	        global $phpAds_last_query;
-                $phpAds_last_query = $ret->userinfo;
+                $GLOBALS['phpAds_last_query'] = $string;
+                if (empty($GLOBALS['_MAX']['PAN']['DB'])) {
+                    $GLOBALS['_MAX']['PAN']['DB'] = $GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5];
+                }
                 phpAds_sqlDie();
     	    }
 	    }
