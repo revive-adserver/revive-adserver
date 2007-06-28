@@ -283,6 +283,8 @@ function expandOSURow($id)
 	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'inline');
 	$objResponse->addAssign('text_expand_'.$id,"style.display", 'none');
 	$objResponse->addAssign('text_collapse_'.$id,"style.display", 'inline');
+	$objResponse->addAssign('info_expand_'.$id,"style.display", 'none');
+	$objResponse->addAssign('info_collapse_'.$id,"style.display", 'inline');
 	return $objResponse;
 }
 
@@ -295,6 +297,8 @@ function collapseOSURow($id)
 	$objResponse->addAssign('img_collapse_'.$id,"style.display", 'none');
 	$objResponse->addAssign('text_expand_'.$id,"style.display", 'inline');
 	$objResponse->addAssign('text_collapse_'.$id,"style.display", 'none');
+	$objResponse->addAssign('info_expand_'.$id,"style.display", 'inline');
+	$objResponse->addAssign('info_collapse_'.$id,"style.display", 'none');
 	return $objResponse;
 }
 

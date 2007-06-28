@@ -196,8 +196,13 @@ if (count($aMessages)>0)
                 </tr>
                 <?php
                 $i=0;
+                asort($aAudit);
                 foreach ($aAudit AS $k => $v)
                 {
+                    if (($v['backups'] || !empty($v['logfile']) || !empty($v['confbackup'])) && $v['logfile'] != 'cleaned by user' && $v['logfile'] != 'file not found'&& $v['confbackup'] != 'cleaned by user' && $v['confbackup'] != 'file not found') 
+                    {
+                        $v['backupsExist'] = true;
+                    }
                 ?>
                     <form name="frmOpenads" action="updates-history.php" method="POST">
                     <tr height='25' <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
@@ -205,10 +210,10 @@ if (count($aMessages)>0)
                             if ($v['backups']) {
                         ?>
                         <td height='25' width='25'>
-                            &nbsp;<a href="#"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="click to view table" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="images/triangle-d.gif" style="display:none" alt="click to hide details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
+                            &nbsp;<a href="#" onclick="return false;" title="Toggle data backup details"><img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="images/<?php echo $phpAds_TextDirection; ?>/triangle-l.gif" alt="click to view backup details" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="images/triangle-d.gif" style="display:none" alt="click to hide backup details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
                         </td>
                         <td height='25'>
-                            <b>&nbsp;<a href="#" id="text_expand_<?php echo $v['upgrade_action_id']; ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');"><?php echo $v['updated']; ?></a><a href="#" id="text_collapse_<?php echo $v['upgrade_action_id']; ?>" style="display:none" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');"><?php echo $v['updated']; ?></a></b>
+                            <b>&nbsp;<a href="#" title="Show data backup details" id="text_expand_<?php echo $v['upgrade_action_id']; ?>" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a><a href="#" title="Hide data backup details" id="text_collapse_<?php echo $v['upgrade_action_id']; ?>" style="display:none" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');return false;"><?php echo $v['updated']; ?></a></b>
                         <?php
                             } else {
                         ?>
@@ -228,10 +233,7 @@ if (count($aMessages)>0)
                         </td>
                         <td height='25' align='right'>
                         </td>
-                    </tr>
-            <?php
-            if ($v['upgrade_name'] != 'version stamp') {
-            ?>
+                </tr>
                 <tr height='1'><td colspan='2' bgcolor='#F6F6F6'><img src='images/spacer.gif' width='1' height='1'></td><td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>
                 <tr style="display:table-row;" <?php echo ($i%2==0?"bgcolor='#F6F6F6'":""); ?>>
                     <td colspan='2'>&nbsp;</td>
@@ -242,11 +244,11 @@ if (count($aMessages)>0)
                             Artifacts:
                             </td>
                             <td width="100" style="border-bottom: 1px solid #ccc;">
-                            <?php echo ($v['backups']) ? $v['backups'] + isset($v['logfile']) + isset($v['confbackup']) : 0; ?>
+                            <?php echo ($v['backups']) ? "<b>" : ""; echo ($v['backupsExist']) ? $v['backups'] + !empty($v['logfile']) + !empty($v['confbackup']) : 0; echo ($v['backups']) ? "</b>" : ""; ?>
                             </td>
                             <td align="right" style="border-bottom: 1px solid #ccc;">
                             <?php
-                            if ($v['backups']) {
+                            if ($v['backupsExist']) {
                             ?>
                                 <img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='Delete'><input type="submit" name="btn_clean_audit" onClick="return confirm('Do you really want to delete all backups created from this upgrade?')" style="cursor: pointer; border: 0; background: 0; color: #003399;font-size: 13px;" value="Delete Artifacts">
                             <?php
@@ -260,13 +262,19 @@ if (count($aMessages)>0)
                         </tr>
                         <tr>
                             <?php
-                            if ($v['backups']) {
+                            if ($v['backupsExist']) {
                             ?>
                             <td width="235">
                             Backup database tables:
                             </td>
                             <td width="100" colspan="2">
-                            <?php echo $v['backups']; ?>
+                            <?php echo $v['backups']; 
+                            if ($v['backups']) {
+                            ?>
+                            <a href="#" onclick="return false;" title="Toggle data backup details"><img id="info_expand_<?php echo $v['upgrade_action_id']; ?>" src="images/info.gif" alt="click to view backup details" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="info_collapse_<?php echo $v['upgrade_action_id']; ?>" src="images/info.gif" style="display:none" alt="click to hide backup details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
+                            <?php
+                            }                            
+                            ?>
                             </td>
                         </tr>
                         <tr height='20'>
@@ -302,9 +310,6 @@ if (count($aMessages)>0)
                     </td>
                     <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
                 </tr>
-            <?php
-                }
-            ?>
               </form>
                 <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
                 <?php
