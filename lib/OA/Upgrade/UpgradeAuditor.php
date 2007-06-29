@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
@@ -30,9 +30,12 @@
  *
  */
 
-//define('UPGRADE_ACTION_PARTIAL_SUCCEEDED',                      2);
 define('UPGRADE_ACTION_UPGRADE_SUCCEEDED',                      1);
 define('UPGRADE_ACTION_UPGRADE_FAILED',                         0);
+
+define('UPGRADE_ACTION_ROLLBACK_SUCCEEDED',                     2);
+define('UPGRADE_ACTION_ROLLBACK_FAILED',                        3);
+
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
@@ -51,6 +54,8 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     var $prefix = '';
 
     var $aParams = array();
+
+    var $aEvents = array();
 
     /**
      * php5 class constructor
@@ -89,7 +94,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     }
 
 
-    function getUpgradeActionId()
+    function getNextUpgradeActionId()
     {
         $aAuditTableStatus = $this->oDBAuditor->getTableStatus($this->logTable);
         if (count($aAuditTableStatus)<1)
@@ -101,12 +106,12 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
 
     function setUpgradeActionId()
     {
-        $this->oDBAuditor->auditId = $this->getUpgradeActionId();
+        $this->oDBAuditor->auditId = $this->getNextUpgradeActionId();
     }
 
-    function upgradeAuditTable()
+    function getUpgradeActionId()
     {
-
+        return $this->oDBAuditor->auditId;
     }
 
     /**
@@ -191,6 +196,22 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
             return false;
         }
         $aResult = $this->getBackupTableStatus($aResult);
+        return $aResult;
+    }
+
+    /**
+     * get list of tables that were added for an upgrade_action_id
+     *
+     * @param integer $id
+     * @return array
+     */
+    function queryAuditAddedTablesByUpgradeId($id)
+    {
+        $aResult = $this->oDBAuditor->queryAuditAddedTablesByUpgradeId($id);
+        if ($this->isPearError($aResult, "error querying upgrade audit table"))
+        {
+            return false;
+        }
         return $aResult;
     }
 
@@ -315,7 +336,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
      * @param integer $upgrade_action_id
      * @param string $reason
      * @return boolean
-     */    
+     */
      function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
     {
         $query = "UPDATE {$this->prefix}{$this->logTable} SET logfile='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
@@ -328,87 +349,6 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
         }
         return true;
     }
-
-/*
-    function queryAudit($versionTo=null, $versionFrom=null, $upgradeName=null, $action=null)
-    {
-        $query =   "SELECT * FROM {$this->prefix}{$this->logTable}"
-                   ." WHERE 1";
-        if ($versionTo)
-        {
-            $query.= " AND version_to ='{$versionTo}'";
-        }
-        if ($versionFrom)
-        {
-            $query.= " AND version_from ='{$versionFrom}'";
-        }
-        if ($upgradeName)
-        {
-            $query.= " AND upgrade_name ='{$upgradeName}'";
-        }
-        if (!is_null($action))
-        {
-            $query.= " AND action ={$action}";
-        }
-        $aResult = $this->oDbh->queryAll($query);
-        if ($this->isPearError($aResult, "error querying (one) upgrade audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function queryAuditForAnUpgradeByName($name)
-    {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_name='{$name}'";
-        $aResult = $this->oDbh->queryAll($query);
-        if ($this->isPearError($aResult, "error querying upgrade audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function queryAuditAll()
-    {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable}";
-        $aResult = $this->oDbh->queryAll($query);
-        if ($this->isPearError($aResult, "error querying upgrade audit table"))
-        {
-            return false;
-        }
-        return $aResult;
-    }
-
-    function queryAuditAllWithArtifacts()
-    {
-        $aResult = $this->queryAuditAll();
-        foreach ($aResult AS $k => $aItem)
-        {
-            if (!is_null($aItem['dbschemas']))
-            {
-                $aSchemas = unserialize($aItem['dbschemas']);
-                foreach ($aSchemas AS $schemaName => $aVersions)
-                {
-                    foreach ($aVersions AS $k1 => $version)
-                    {
-                        $aDBArray = $this->oDBAuditor->queryAuditForBackupsBySchema($version, $schemaName);
-                        $aSchemas[$schemaName][$k1]= array($version=> array());
-                        foreach ($aDBArray AS $k2 => $aDBAudit)
-                        {
-                            $aStatus = $this->oDBAuditor->getTableStatus($aDBAudit['tablename_backup']);
-                            $aSchemas[$schemaName][$k1][$version][$k2]['backup'] = $aDBArray[0]['tablename_backup'];
-                            $aSchemas[$schemaName][$k1][$version][$k2]['source'] = $aDBArray[0]['tablename'];
-                            $aSchemas[$schemaName][$k1][$version][$k2]['size']   = $aStatus[0]['data_length']/1024;
-                            $aSchemas[$schemaName][$k1][$version][$k2]['rows']   = $aStatus[0]['rows'];
-                        }
-                    }
-                }
-                $aResult[$k]['dbschemas'] = $aSchemas;
-            }
-        }
-        return $aResult;
-    }*/
 
 }
 

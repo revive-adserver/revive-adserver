@@ -91,55 +91,6 @@ class Test_OA_Upgrade extends UnitTestCase
 //        $GLOBALS['_MAX']['CONF']['table']    = $aTblOld;
     }
 
-    /**
-     * tests an openads upgrade where a series of upgrade packages may be required
-     * the upgrade method will detectOpenads and cycle through the list of upgrade packages
-     * executing the upgrade packages in the right order
-     * until it runs out of upgrade packages
-     * when no more upgrade packages are found
-     * the application is stamped with the latest version
-     *
-     */
-    function test_upgradeOpenads()
-    {
-        $oUpgrade  = new OA_Upgrade();
-
-        Mock::generatePartial(
-            'OA_Upgrade_Config',
-            $mockConfig = 'OA_Upgrade_Config'.rand(),
-            array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
-        );
-        $oUpgrade->oConfiguration = new $mockConfig($this);
-        $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
-        $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
-        $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
-        $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
-        $oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
-
-        // divert objects to test data
-        $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/';
-        $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
-        // just in case of error, lose this so we can continue afresh
-        $oUpgrade->_pickupRecoveryFile();
-        // fake the versions we are starting with
-        $this->_createTestAppVarRecord('oa_version', '2.3.32-beta-rc1');
-        // mock the integrity checker
-        Mock::generatePartial(
-            'OA_DB_Integrity',
-            $mockInteg = 'OA_DB_Integrity'.rand(),
-            array('checkIntegrityQuick')
-        );
-        $oUpgrade->oIntegrity = new $mockInteg($this);
-        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-        // do the initial detection
-        $this->assertTrue($oUpgrade->detectOpenads());
-        // perform the upgrade
-        $this->assertTrue($oUpgrade->upgrade(),'upgrade');
-
-        $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version: '.$oUpgrade->versionInitialApplication);
-        $this->_deleteTestAppVarRecordAllNames('oa_version');
-    }
-
     function test_getUpgradeLogFileName()
     {
         $oUpgrade = new OA_Upgrade();
@@ -163,11 +114,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $testid    = 'openads_upgrade_1_to_2';
         $testfile  = $testid.'.xml';
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-//        if (file_exists($testpath.$testfile))
-//        {
-//            $this->assertTrue(copy($testpath.$testfile, $oUpgrade->upgradePath.$testfile));
-//        }
-//        $this->assertTrue(file_exists($oUpgrade->upgradePath.$testfile));
 
         $oUpgrade->_parseUpgradePackageFile($testpath.$testfile);
         $this->assertIsA($oUpgrade->aPackage,'array','problem with package array');
@@ -253,10 +199,6 @@ class Test_OA_Upgrade extends UnitTestCase
 
     function _createTestTableConfig($oDbh, $name)
     {
-        //$this->_dropTestTableConfig($oDbh, $name);
-        //$conf = &$GLOBALS['_MAX']['CONF'];
-        //$conf['table']['prefix'] = 'test_';
-        //$conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oTable->init($testpath.'schema_test_config.xml');
@@ -267,9 +209,6 @@ class Test_OA_Upgrade extends UnitTestCase
 
     function _dropTestTableConfig($oDbh, $name)
     {
-        //$conf = &$GLOBALS['_MAX']['CONF'];
-        //$conf['table']['prefix'] = 'test_';
-        //$conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oTable->init($testpath.'schema_test_config.xml');
@@ -280,6 +219,25 @@ class Test_OA_Upgrade extends UnitTestCase
         }
         $aExistingTables = $oDbh->manager->listTables();
         $this->assertFalse(in_array($this->prefix.$name, $aExistingTables), '_dropTestTableConfig');
+    }
+
+    function _dropAuditTables($oDbh)
+    {
+        $oTable = new OA_DB_Table();
+        $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $oTable->init($testpath.'schema_test_config.xml');
+        $aExistingTables = $oDbh->manager->listTables();
+        if (in_array($this->prefix.'database_action', $aExistingTables))
+        {
+            $this->assertTrue($oTable->dropTable($this->prefix.'database_action'),'error dropping test '.$this->prefix.'database_action');
+        }
+        if (in_array($this->prefix.'upgrade_action', $aExistingTables))
+        {
+            $this->assertTrue($oTable->dropTable($this->prefix.'upgrade_action'),'error dropping test '.$this->prefix.'upgrade_action');
+        }
+        $aExistingTables = $oDbh->manager->listTables();
+        $this->assertFalse(in_array($this->prefix.'database_action', $aExistingTables), 'database_action');
+        $this->assertFalse(in_array($this->prefix.'upgrade_action', $aExistingTables), 'upgrade_action');
     }
 
     /**
@@ -489,12 +447,10 @@ class Test_OA_Upgrade extends UnitTestCase
     }
 
     /**
-     * tests a set of constructive & destructive changes
-     * over 2 upgrade packages
-     * and ensures that they rollback correctly
+     * tests an upgrade package containing two schema upgrades
      *
      */
-    function test_schemaUpgradeRollback()
+    function test_upgradeSchemas()
     {
         $this->_deleteTestAppVarRecord('tables_core', '');
         $this->assertEqual($this->_getTestAppVarValue('tables_core', ''), '', '');
@@ -518,15 +474,104 @@ class Test_OA_Upgrade extends UnitTestCase
         $this->_checkTablesUpgraded($oUpgrade);
         $this->assertEqual($this->_getTestAppVarValue('tables_core', '999'), '999', '');
 
-        $this->assertTrue($oUpgrade->rollbackSchemas(),'rollbackSchemas');
-
-        $this->assertEqual($this->_getTestAppVarValue('tables_core', '997'), '997', '');
-
-        $this->_checkTablesRolledBack($oUpgrade);
-
         // remove the fake application variable records
         $this->_deleteTestAppVarRecordAllNames('oa_version');
         $this->_deleteTestAppVarRecordAllNames('tables_core');
+
+        TestEnv::restoreConfig();
+    }
+
+    /**
+     * tests an openads upgrade where a series of upgrade packages may be required
+     * the upgrade method will detectOpenads and cycle through the list of upgrade packages
+     * executing the upgrade packages in the right order
+     * until it runs out of upgrade packages
+     * when no more upgrade packages are found
+     * the application is stamped with the latest version
+     *
+     */
+    function test_upgradeIncremental()
+    {
+        $oUpgrade  = new OA_Upgrade();
+
+        Mock::generatePartial(
+                                'OA_Upgrade_Config',
+                                $mockConfig = 'OA_Upgrade_Config'.rand(),
+                                array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
+                             );
+        $oUpgrade->oConfiguration = new $mockConfig($this);
+
+        $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
+        $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
+        $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
+        //$oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
+
+        $oUpgrade->oConfiguration->expectCallCount('mergeConfig', 1);
+        $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
+
+        $oUpgrade->oConfiguration->expectCallCount('getConfigBackupName', 13);
+        for ($i = 0; $i < 13; $i++)
+        {
+            $oUpgrade->oConfiguration->setReturnValueAt($i, 'getConfigBackupName', $i.'_www.mysite.net');
+        }
+
+        // divert objects to test data
+        $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/';
+        $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
+        // just in case of error, lose this so we can continue afresh
+        $oUpgrade->_pickupRecoveryFile();
+        // fake the versions we are starting with
+        $this->_createTestAppVarRecord('oa_version', '2.3.32-beta-rc1');
+        // mock the integrity checker
+        Mock::generatePartial(
+                                'OA_DB_Integrity',
+                                $mockInteg = 'OA_DB_Integrity'.rand(),
+                                array('checkIntegrityQuick')
+                             );
+        $oUpgrade->oIntegrity = new $mockInteg($this);
+        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+
+        // do the initial detection
+        $this->assertTrue($oUpgrade->detectOpenads());
+
+        // this should identify 12 upgrade packages to be executed
+        // (from /lib/OA/Upgrade/tests/data/changes)
+        $this->assertEqual(count($oUpgrade->aPackageList),12,'wrong number of packages in upgrader package list');
+
+        // perform the upgrade
+        $this->assertTrue($oUpgrade->upgrade(),'upgrade');
+
+        $aAudit = $oUpgrade->oAuditor->queryAuditAllDescending();
+        // we should have 13 records in the upgrade_action audit table
+        // we should have 13 logfiles in the var folder
+        // one for each package plus a version stamp
+        $this->assertEqual(count($aAudit),13,'wrong number of audit records');
+        $aPackageList = $oUpgrade->aPackageList;
+        krsort($aPackageList, SORT_NUMERIC);
+        foreach ($aAudit as $k => $aRec)
+        {
+            $idx = 12-$k;
+            $this->assertEqual($aRec['upgrade_action_id'],$idx+1,'');
+            $this->assertEqual($aRec['confbackup'],$idx.'_www.mysite.net');
+            $this->assertTrue(file_exists(MAX_PATH.'/var/'.$aRec['logfile']));
+            @unlink(MAX_PATH.'/var/'.$aRec['logfile']);
+            if ($k > 0)
+            {
+                $this->assertEqual($aRec['upgrade_name'],$aPackageList[$idx],'package mismatch: '.$aRec['upgrade_name'].' and '.$aPackageList[$idx]);
+            }
+            else
+            {
+                $this->assertEqual($aRec['upgrade_name'],'openads_version_stamp_'.OA_VERSION, 'wrong package name for version stamp');
+            }
+        }
+        // the application variable should match the code version stamp
+        $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version: '.$oUpgrade->versionInitialApplication);
+        $this->_deleteTestAppVarRecordAllNames('oa_version');
+
+        $oUpgrade->oConfiguration->tally();
+        $oUpgrade->oIntegrity->tally();
+
+        TestEnv::restoreConfig();
     }
 
     /**
@@ -537,65 +582,67 @@ class Test_OA_Upgrade extends UnitTestCase
      * and that the tables are restored correctly
      *
      */
-    function test_recover()
+    function test_recoverUpgrade()
     {
-        $schema = 'tables_core';
-
-        $this->_createTestAppVarRecord($schema, '997');
-        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
-
-        $oUpgrade  = new OA_Upgrade();
-        Mock::generatePartial(
-            'OA_Upgrade_Config',
-            $mockConfig = 'OA_Upgrade_Config'.rand(),
-            array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
-        );
-        $oUpgrade->oConfiguration = new $mockConfig($this);
-        $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
-        $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
-        $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
-        $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
-        $oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
-
-        // divert objects to test data
-        $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-        $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
-        $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
-        $oUpgrade->aPackageList[0] = 'openads_upgrade_2.3.00_to_2.3.02_beta.xml';
-        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
-
-        // just in case of error, lose this so we can continue afresh
-        $oUpgrade->_pickupRecoveryFile();
-
-        // fake the versions we are starting with
-        $this->_createTestAppVarRecord('oa_version', '2.3.00');
-        $oUpgrade->versionInitialSchema[$schema] = 997;
-        $oUpgrade->versionInitialApplication = '0.3.31';
-
-        // perform a good upgrade
-        $this->assertTrue($oUpgrade->upgrade(),'upgrade');
-
-        // check the upgraded tables
-        $this->_checkTablesUpgraded($oUpgrade);
-        $this->assertEqual($this->_getTestAppVarValue($schema, '999'), '999', '');
-
-        // emulate a partial upgrade...
-        $this->assertTrue($oUpgrade->_writeRecoveryFile($schema, 998),'failed to write recovery file');
-        $this->assertTrue($oUpgrade->_writeRecoveryFile($schema, 999),'failed to write recovery file');
-
-        // perform recovery
-        $this->assertTrue($oUpgrade->recoverUpgrade(),'recoverUpgrade');
-
-        // check the restored tables
-        $this->_checkTablesRolledBack($oUpgrade);
-        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
-
-        // remove the fake application variable records
-        $this->_deleteTestAppVarRecordAllNames('oa_version');
-        $this->_deleteTestAppVarRecordAllNames($schema);
-
-        // just in case of error, lose this so we can continue afresh
-        $oUpgrade->_pickupRecoveryFile();
+//        $schema = 'tables_core';
+//
+//        $this->_createTestAppVarRecord($schema, '997');
+//        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
+//
+//        $oUpgrade  = new OA_Upgrade();
+//        Mock::generatePartial(
+//                              'OA_Upgrade_Config',
+//                              $mockConfig = 'OA_Upgrade_Config'.rand(),
+//                              array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
+//                             );
+//        $oUpgrade->oConfiguration = new $mockConfig($this);
+//        $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
+//        $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
+//        $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
+//        $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
+//        $oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
+//
+//        // divert objects to test data
+//        $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+//        $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
+//        $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
+//        $oUpgrade->aPackageList[0] = 'openads_upgrade_2.3.00_to_2.3.02_beta.xml';
+//        //$oDB_Upgrade->logFile = MAX_PATH . "/var/openads_upgrade_2.3.00_to_2.3.02_beta.log";
+//
+//        // just in case of error, lose this so we can continue afresh
+//        $oUpgrade->_pickupRecoveryFile();
+//
+//        // fake the versions we are starting with
+//        $this->_createTestAppVarRecord('oa_version', '2.3.00');
+//        $oUpgrade->versionInitialSchema[$schema] = 997;
+//        $oUpgrade->versionInitialApplication = '0.3.31';
+//
+//        // perform a good upgrade
+//        $this->assertTrue($oUpgrade->upgrade(),'upgrade');
+//
+//        // check the upgraded tables
+//        $this->_checkTablesUpgraded($oUpgrade);
+//        $this->assertEqual($this->_getTestAppVarValue($schema, '999'), '999', '');
+//
+//        // emulate a partial upgrade...
+//        $oUpgrade->oAuditor->oDBAuditor->auditId = 1;
+//        $oUpgrade->package_file = "openads_upgrade_2.3.00_to_2.3.02_beta.xml";
+//        $this->assertTrue($oUpgrade->_writeRecoveryFile(),'failed to write recovery file');
+//
+//
+//        // perform recovery
+//        $this->assertTrue($oUpgrade->recoverUpgrade(),'recoverUpgrade');
+//
+//        // check the restored tables
+//        $this->_checkTablesRolledBack($oUpgrade);
+//        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
+//
+//        // remove the fake application variable records
+//        $this->_deleteTestAppVarRecordAllNames('oa_version');
+//        $this->_deleteTestAppVarRecordAllNames($schema);
+//
+//        // just in case of error, lose this so we can continue afresh
+//        $oUpgrade->_pickupRecoveryFile();
     }
 
     function _checkTablesUpgraded($oUpgrade)

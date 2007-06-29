@@ -97,6 +97,7 @@ class OA_Upgrade
 
     var $package_file = '';
     var $recoveryFile;
+    var $nobackupsFile;
 
     var $can_drop_database = false;
 
@@ -106,7 +107,8 @@ class OA_Upgrade
     function OA_Upgrade()
     {
         $this->upgradePath  = MAX_PATH.'/etc/changes/';
-        $this->recoveryFile = MAX_PATH.'/var/recover.log';
+        $this->recoveryFile = MAX_PATH.'/var/RECOVER';
+        $this->nobackupsFile = MAX_PATH.'/var/NOBACKUPS';
 
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
@@ -199,25 +201,148 @@ class OA_Upgrade
     }
 
     /**
-     * execute the db_upgrade recovery method
+     * the recovery trigger file contains a record for each upgrade package
+     * that was executed during the previous ugprade
+     * this method reads that file and cycles through the upgrade audit ids
+     * to retrieve, compile and execute the steps taken in reverse order
+     * restoring tables that were changed and dropping tables that were added
      *
-     * @return unknown
+     * steps are audited and logged as per an upgrade
+     *
+     * @return boolean
      */
     function recoverUpgrade()
     {
-        $this->aDBPackages = $this->seekRecoveryFile();
-        $this->detectPAN();
-        $this->detectMAX01();
-        $this->detectMAX();
-        if (!$this->initDatabaseConnection())
+        $aRecover = $this->seekRecoveryFile();
+        if (is_array($aRecover))
         {
-            return false;
-        }
-        if (!$this->rollbackSchemas())
-        {
-            return false;
+            $this->detectPAN();
+            $this->detectMAX01();
+            $this->detectMAX();
+            if (!$this->initDatabaseConnection())
+            {
+                return false;
+            }
+            $this->oDBUpgrader->prefix   = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+            $n = count($aRecover);
+            for ($i = $n-1;$i>-1;$i--)
+            {
+                $aRec = $aRecover[$i];
+
+                $this->oLogger->log('attempting to roll back upgrade action id '.$aRec['auditId']);
+                $this->oLogger->log('retrieving upgrade actions');
+
+                $aResult = $this->oAuditor->queryAuditByUpgradeId($aRec['auditId']);
+
+                if ($aResult[0]['upgrade_name'] != $aRec['package'])
+                {
+                    $this->oLogger->logError('cannot recover using this recovery file: package name mismatch');
+                    return false;
+                }
+
+                $this->package_file = $aRec['package'];
+                //$this->oLogger->setLogFile($this->_getRollbackLogFileName());
+                $this->oLogger->setLogFile($aResult[0]['logfile'].'.rollback');
+                $this->oDBUpgrader->logFile = $this->oLogger->logFile;
+                $this->oConfiguration->clearConfigBackupName();
+
+                $this->oLogger->log('retrieved upgrade actions ok');
+
+                $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
+                                                    'version_to'=>$aResult[0]['version_from'],
+                                                    'version_from'=>$aResult[0]['version_to'],
+                                                    'logfile'=>basename($this->oLogger->logFile)
+                                                   )
+                                             );
+                $this->oAuditor->setUpgradeActionId();
+
+                $this->oLogger->log('preparing to rollback package '.$this->package_file);
+                if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId']))
+                {
+                    $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
+                                                          'action'=>UPGRADE_ACTION_ROLLBACK_FAILED,
+                                                          'confbackup'=>''
+                                                         )
+                                                   );
+                    return false;
+                }
+                $this->oLogger->log('starting to rollback package '.$this->package_file);
+                if (!$this->oDBUpgrader->rollback())
+                {
+                    $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
+                                                          'action'=>UPGRADE_ACTION_ROLLBACK_FAILED,
+                                                          'confbackup'=>''
+                                                         )
+                                                   );
+                    return false;
+                }
+
+                if (! $this->_restoreConfigBackup($aResult[0]['confbackup'], $aRec['auditId']))
+                {
+                    //return false;
+                    // do we really want to halt rollback because of a conf file?
+                }
+
+                if (!file_exists(MAX_PATH.'/var/UPGRADE'))
+                {
+                    if (! copy(MAX_PATH.'/var/install.log',MAX_PATH.'/var/UPGRADE'))
+                    {
+                        $this->oLogger->log('failed to replace teh UPGRADE trigger file');
+                    }
+                }
+                $this->oLogger->log('finished rollback package '.$this->package_file);
+                $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
+                                                      'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
+                                                      'confbackup'=>''
+                                                     )
+                                               );
+            }
         }
         $this->_pickupRecoveryFile();
+        return true;
+    }
+
+    /**
+     * delete the existing conf file
+     * copy the backup conf file to it's old name
+     * delete the backup conf file and audit
+     *
+     * @param string $confBackup
+     * @param integer $auditId
+     */
+    function _restoreConfigBackup($confBackup, $auditId)
+    {
+        if ($confBackup)
+        {
+            $host = getHostName();
+            $confFile = $host.'.conf.php';
+            if (file_exists(MAX_PATH.'/var/'.$confFile))
+            {
+                if (! @unlink(MAX_PATH.'/var/'.$confFile))
+                {
+                    $this->oLogger->logError('failed to remove current configuration file');
+                    return false;
+                }
+            }
+            if (!file_exists(MAX_PATH.'/var/'.$confBackup))
+            {
+                $this->oLogger->logError('failed to find backup configuration file');
+                return false;
+            }
+            $confOldName = substr($confBackup, strpos($confBackup,'old.')+4);
+            if (! copy(MAX_PATH.'/var/'.$confBackup,MAX_PATH.'/var/'.$confOldName))
+            {
+                return false;
+            }
+            $this->oLogger->log('restored config file '.$confOldName);
+            if (! @unlink(MAX_PATH.'/var/'.$confBackup))
+            {
+                $this->oLogger->log('failed to remove backup configuration file');
+                return false;
+            }
+            $this->oLogger->log('removed backup config file '.$confBackup);
+            $this->oAuditor->updateAuditBackupConfDroppedById($auditId, 'dropped during recovery');
+        }
         return true;
     }
 
@@ -426,7 +551,7 @@ class OA_Upgrade
     /**
      * search for an existing phpAdsNew installation
      *
-     * @param string $skipIntegrityCheck If true the integrity test is skipped
+     * @param boolean $skipIntegrityCheck
      * @return boolean
      */
     function detectPAN($skipIntegrityCheck = false)
@@ -494,7 +619,7 @@ class OA_Upgrade
      * very similar to a PAN installation with config.inc.php and config table
      * schema is half way between PAN and MAX
      *
-     * @param string $skipIntegrityCheck If true the integrity test is skipped
+     * @param boolean $skipIntegrityCheck
      * @return boolean
      */
     function detectMAX01($skipIntegrityCheck = false)
@@ -554,7 +679,7 @@ class OA_Upgrade
     /**
      * search for an existing Max Media Manager installation
      *
-     * @param string $skipIntegrityCheck If true the integrity test is skipped
+     * @param boolean $skipIntegrityCheck
      * @return boolean
      */
     function detectMAX($skipIntegrityCheck = false)
@@ -596,6 +721,13 @@ class OA_Upgrade
         return false;
     }
 
+    /**
+     * compare the schema of the connected database
+     * with that of a given schema
+     *
+     * @param string $version
+     * @return boolean
+     */
     function _checkDBIntegrity($version)
     {
         $path_schema = $this->oDBUpgrader->path_schema;
@@ -603,8 +735,6 @@ class OA_Upgrade
         $path_changes = $this->oDBUpgrader->path_changes;
         $file_changes = $this->oDBUpgrader->file_changes;
 
-//        require_once MAX_PATH.'/lib/OA/Upgrade/DB_Integrity.php';
-//        $oIntegrity = new OA_DB_Integrity();
         $this->oIntegrity->oUpgrader = $this;
         $result =$this->oIntegrity->checkIntegrityQuick($version);
 
@@ -637,9 +767,8 @@ class OA_Upgrade
 
     /**
      * search for an existing Openads installation
-     * WORK IN PROGRESS
      *
-     * @param string $skipIntegrityCheck If true the integrity test is skipped
+     * @param boolean $skipIntegrityCheck
      * @return boolean
      */
     function detectOpenads($skipIntegrityCheck = false)
@@ -780,7 +909,7 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
-        $this->oAuditor->logAuditAction(array('description'=>'COMPLETE',
+        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
                                          );
@@ -790,7 +919,7 @@ class OA_Upgrade
     function _auditInstallationFailure($msg)
     {
         $this->oLogger->logError($msg);
-        $this->oAuditor->logAuditAction(array('description'=>'FAILED',
+        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE FAILED',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
                                                 )
                                          );
@@ -942,6 +1071,10 @@ class OA_Upgrade
     /**
      * prepare to execute the upgrade steps
      * assumes that you have run canUpgrade first (to detect install and determine versionInitialApplication)
+     * execute milestones followed by incremental packages
+     * this method is called recursively for incremental packages
+     * audit each package execution
+     *
      *
      * @return boolean
      */
@@ -951,15 +1084,12 @@ class OA_Upgrade
         if (is_null($this->oDbh))
         {
             $this->initDatabaseConnection();
-            // ensure db user has db permissions
         }
         if (!$this->checkPermissionToCreateTable())
         {
             $this->oLogger->logError('Insufficient database permissions');
             return false;
         }
-        //$version_from = $this->getProductApplicationVersion();
-
         // first deal with each of the packages in the list
         // that was compiled during detection
         if (count($this->aPackageList)>0)
@@ -979,6 +1109,7 @@ class OA_Upgrade
         }
         // when upgrading from a milestone version such as pan or max
         // run through this upgrade again
+        // else finish by doing a *version stamp* upgrade
         if ($this->upgrading_from_milestone_version)
         {
             // if openads installed was not on
@@ -988,17 +1119,18 @@ class OA_Upgrade
             {
                 if (!$this->upgrade())
                 {
+                    $GLOBALS['_MAX']['CONF']['openads']['installed'] = 0;
                     return false;
                 }
             }
         }
         else
         {
-            $this->package_file = '';
+            $this->package_file = 'openads_version_stamp_'.OA_VERSION;
             $this->oLogger->setLogFile($this->_getUpgradeLogFileName($timing));
             $this->oDBUpgrader->logFile = $this->oLogger->logFile;
-
-            $this->oAuditor->setKeyParams(array('upgrade_name'=>'version stamp',
+            $this->oAuditor->setUpgradeActionId();
+            $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
                                                 'version_to'=>OA_VERSION,
                                                 'version_from'=>$this->getProductApplicationVersion(),
                                                 'logfile'=>basename($this->oLogger->logFile)
@@ -1020,25 +1152,37 @@ class OA_Upgrade
                 $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
                 $this->oLogger->log('Application version updated to '. OA_VERSION);
             }
-            $this->oAuditor->logAuditAction(array('description'=>'COMPLETE',
-                                                    'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                    'confbackup'=>$this->oConfiguration->getConfigBackupName()
-                                                   )
-                                             );
+            $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
+                                                  'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                                  'confbackup'=>$this->oConfiguration->getConfigBackupName()
+                                                 )
+                                           );
+            $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
+        $this->_pickupRecoveryFile();
         return true;
     }
 
+    /**
+     * log and audit a failed upgrade
+     *
+     * @param string $msg
+     */
     function _auditUpgradeFailure($msg)
     {
         $this->oLogger->logError($msg);
         $this->oAuditor->logAuditAction(array('description'=>'FAILED',
-                                                'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
-                                                )
-                                         );
+                                              'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
+                                             )
+                                       );
     }
 
+    /**
+     * save database settings and merge new settings from dist config
+     *
+     * @return boolean
+     */
     function _upgradeConfig()
     {
         $aConfig['database'] = $GLOBALS['_MAX']['CONF']['database'];
@@ -1055,7 +1199,8 @@ class OA_Upgrade
     }
 
     /**
-     * execute the upgrade steps
+     * execute an upgrade package and audit
+     *
      *
      * @return boolean
      */
@@ -1080,6 +1225,7 @@ class OA_Upgrade
                                             )
                                      );
         $this->oAuditor->setUpgradeActionId();  // links the upgrade_action record with database_action records
+        $this->_writeRecoveryFile();
         if (!$this->runScript($this->aPackage['prescript']))
         {
             $this->_auditUpgradeFailure('Failure in upgrade prescript '.$this->aPackage['prescript']);
@@ -1102,30 +1248,13 @@ class OA_Upgrade
             return false;
         }
         $this->versionInitialApplication = $this->aPackage['versionTo'];
-        $this->oAuditor->logAuditAction(array('description'=>'COMPLETE',
+        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                 'confbackup'=>$this->oConfiguration->getConfigBackupName()
                                                )
                                          );
         return true;
     }
-
-/*
-    function getAdmin()
-    {
-        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-        $oPrefs = new MAX_Admin_Preferences();
-        $aAdmin = $oPrefs->loadPrefs();
-        if (empty($aAdmin))
-        {
-            if ($this->putAdmin())
-            {
-                $aAdmin = $oPrefs->loadPrefs();
-            }
-        }
-        return $aAdmin;
-    }
-*/
 
     /**
      * insert admin record into preferences table
@@ -1322,7 +1451,6 @@ class OA_Upgrade
                 $this->versionInitialSchema[$aPkg['schema']] = $this->oVersioner->getSchemaVersion($aPkg['schema']);
             }
             $ok = false;
-            $this->_writeRecoveryFile($aPkg['schema'], $aPkg['version']);
             if ($this->oDBUpgrader->init('constructive', $aPkg['schema'], $aPkg['version'], false))
             {
                 if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
@@ -1362,14 +1490,9 @@ class OA_Upgrade
             }
             else
             {
-                if ($this->rollbackSchemas())
-                {
-                    $this->_pickupRecoveryFile();
-                }
                 return false;
             }
         }
-        $this->_pickupRecoveryFile();
         return true;
     }
 
@@ -1428,7 +1551,7 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function rollbackSchemas()
+/*    function rollbackSchemas()
     {
         foreach ($this->versionInitialSchema AS $schema => $version)
         {
@@ -1475,8 +1598,7 @@ class OA_Upgrade
             }
         }
         return true;
-    }
-
+    }*/
 
     /**
      * use the xml parser to parse the upgrade package
@@ -1540,78 +1662,6 @@ class OA_Upgrade
     }
 
     /**
-     * not used in actual upgrader
-     * retrieve a list of available upgrade packages
-     *
-     * @return array
-     */
-    function _getPackageList()
-    {
-        $aFiles = array();
-        $dh = opendir($this->upgradePath);
-        if ($dh) {
-            while (false !== ($file = readdir($dh)))
-            {
-                $aMatches = array();
-                if (preg_match('/openads_upgrade_[\w\W\d]+_to_([\w\W\d])+\.xml/', $file, $aMatches))
-                {
-                    $aFiles[] = $file;
-                }
-            }
-        }
-        closedir($dh);
-        return $aFiles;
-    }
-
-    /**
-     * Open each changeset and determine the version and timings
-     * THIS IS NOT USED BY THE UPGRADER
-     *
-     * @return boolean
-     */
-    function _compileChangesetInfo()
-    {
-        $this->aChangesetList = $this->_getChangesetList();
-        foreach ($this->aChangesetList as $version=>$aFiles)
-        {
-            $file       = MAX_PATH.'/etc/changes/'.$aFiles['changeset'];
-            $aChanges   = $this->oDBUpgrader->oSchema->parseChangesetDefinitionFile($file);
-            if (!$this->_isPearError($aChanges, "failed to parse changeset ({$file})"))
-            {
-                $this->_log('changeset found in file: '.$file);
-                $this->_log('name: '.$aChanges['name']);
-                $this->_log('version: '.$aChanges['version']);
-                $this->_log('comments: '.$aChanges['comments']);
-                $this->_log(($aChanges['constructive'] ? 'constructive changes found' : 'constructive changes not found'));
-                $this->_log(($aChanges['destructive'] ? 'destructive changes found' : 'destructive changes not found'));
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * THIS IS NOT USED BY THE UPGRADER
-     *
-     * @return boolean
-     */
-    function _checkChangesetAudit($schema)
-    {
-        $aResult = $this->oAuditor->oDBAuditor->queryAudit(null, null, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
-        if ($aResult)
-        {
-            foreach ($aResult as $k=>$v)
-            {
-                $this->oLogger->log($v['schema_name'].' upgraded to version '.$v['version'].' on '.$v['updated']);
-            }
-        }
-        return true;
-    }
-
-    /**
      * retrieve the message errary
      *
      * @return boolean
@@ -1640,15 +1690,21 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function _writeRecoveryFile($schema, $version)
+    function _writeRecoveryFile()
     {
-        $log = fopen($this->recoveryFile, 'a');
-        $date = date('Y-m-d h:i:s');
-        fwrite($log, "{$schema}/{$version}/{$date}/{$this->versionInitialSchema[$schema]}/{$this->versionInitialApplication};\r\n");
+        $log     = fopen($this->recoveryFile, 'a');
+        $date    = date('Y-m-d h:i:s');
+        $auditId = $this->oAuditor->getUpgradeActionId();
+        fwrite($log, "{$auditId}/{$this->package_file}/{$date};\r\n");
         fclose($log);
         return file_exists($this->recoveryFile);
     }
 
+    /**
+     * remove the recovery file
+     *
+     * @return boolean
+     */
     function _pickupRecoveryFile()
     {
         if (file_exists($this->recoveryFile))
@@ -1658,6 +1714,11 @@ class OA_Upgrade
         return (!file_exists($this->recoveryFile));
     }
 
+    /**
+     * retrieves the contents of the recovery file into an array
+     *
+     * @return array | false
+     */
      function seekRecoveryFile()
     {
         if (file_exists($this->recoveryFile))
@@ -1669,11 +1730,9 @@ class OA_Upgrade
                 {
                     $aLine = explode('/', trim($v));
                     $aResult[] = array(
-                                        'schema'    =>$aLine[0],
-                                        'version'   =>$aLine[1],
+                                        'auditId'   =>$aLine[0],
+                                        'package'   =>$aLine[1],
                                         'updated'   =>$aLine[2],
-                                        'versionInitialSchema'      =>$aLine[3],
-                                        'versionInitialApplication' =>$aLine[4],
                                         );
                 }
             }
@@ -1682,17 +1741,34 @@ class OA_Upgrade
         return false;
     }
 
+    /**
+     * identifies if upgrade without backups is requested
+     *
+     * @return boolean
+     */
     function _doBackups()
     {
-        return (!file_exists(MAX_PATH.'/var/NOBACKUPS'));
+        return (!file_exists($this->nobackupsFile));
     }
 
+    /**
+     * remove the nobackups file
+     *
+     * @return boolean
+     */
     function _pickupNoBackupsFile()
     {
-        @unlink(MAX_PATH.'/var/NOBACKUPS');
-        return (!file_exists(MAX_PATH.'/var/NOBACKUPS'));
+        @unlink($this->nobackupsFile);
+        return (!file_exists($this->nobackupsFile));
     }
 
+    /**
+     * build a string for naming a logfile
+     * should identify it's purpose
+     *
+     * @param string $timing -- not used currently
+     * @return string
+     */
     function _getUpgradeLogFileName($timing='constructive')
     {
         if ($this->package_file=='')
@@ -1706,11 +1782,34 @@ class OA_Upgrade
         return $package.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
     }
 
+    /**
+     * build a string for naming a rollback logfile
+     *
+     * @param string $timing -- not used currently
+     * @return string
+     */
+    function _getRollbackLogFileName($timing='constructive')
+    {
+        $package = $this->_getUpgradeLogFileName();
+        $package = str_replace('upgrade', 'rollback', $package);
+        return $package;
+    }
+
+    /**
+     * get the name of the logfile currently assigned to the logger
+     *
+     * @return string
+     */
     function getLogFileName()
     {
         return $this->oLogger->logFile;
     }
 
+    /**
+     * remove the upgrade file
+     *
+     * @return boolean
+     */
     function removeUpgradeTriggerFile()
     {
         if (file_exists(MAX_PATH.'/var/UPGRADE'))
@@ -1720,6 +1819,13 @@ class OA_Upgrade
         return true;
     }
 
+    /**
+     * retrieve the contents of the upgrade package file into an array
+     * this file contains a list of all valid openads 2.3 upgrade packages
+     *
+     * @param string $file
+     * @return array
+     */
     function _readUpgradePackagesArray($file='')
     {
         if (!$file)
@@ -1808,7 +1914,7 @@ class OA_Upgrade
     /**
      * compile a list of changesets available in /etc/changes
      * could be used for a changeset manager
-     *
+     * THIS IS NOT USED BY THE UPGRADER
      *
      * @return array
      */
@@ -1848,6 +1954,75 @@ class OA_Upgrade
     }
     */
 
-}
+    /**
+     * Open each changeset and determine the version and timings
+     * THIS IS NOT USED BY THE UPGRADER
+     *
+     * @return boolean
+     */
+/*    function _compileChangesetInfo()
+    {
+        $this->aChangesetList = $this->_getChangesetList();
+        foreach ($this->aChangesetList as $version=>$aFiles)
+        {
+            $file       = MAX_PATH.'/etc/changes/'.$aFiles['changeset'];
+            $aChanges   = $this->oDBUpgrader->oSchema->parseChangesetDefinitionFile($file);
+            if (!$this->_isPearError($aChanges, "failed to parse changeset ({$file})"))
+            {
+                $this->_log('changeset found in file: '.$file);
+                $this->_log('name: '.$aChanges['name']);
+                $this->_log('version: '.$aChanges['version']);
+                $this->_log('comments: '.$aChanges['comments']);
+                $this->_log(($aChanges['constructive'] ? 'constructive changes found' : 'constructive changes not found'));
+                $this->_log(($aChanges['destructive'] ? 'destructive changes found' : 'destructive changes not found'));
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return true;
+    } */
 
+    /**
+     * THIS IS NOT USED BY THE UPGRADER
+     *
+     * @return boolean
+     */
+/*    function _checkChangesetAudit($schema)
+    {
+        $aResult = $this->oAuditor->oDBAuditor->queryAudit(null, null, $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
+        if ($aResult)
+        {
+            foreach ($aResult as $k=>$v)
+            {
+                $this->oLogger->log($v['schema_name'].' upgraded to version '.$v['version'].' on '.$v['updated']);
+            }
+        }
+        return true;
+    }*/}
+
+    /**
+     * retrieve a list of available upgrade packages
+     * THIS IS NOT USED BY THE UPGRADER
+     *
+     * @return array
+     */
+/*    function _getPackageList()
+    {
+        $aFiles = array();
+        $dh = opendir($this->upgradePath);
+        if ($dh) {
+            while (false !== ($file = readdir($dh)))
+            {
+                $aMatches = array();
+                if (preg_match('/openads_upgrade_[\w\W\d]+_to_([\w\W\d])+\.xml/', $file, $aMatches))
+                {
+                    $aFiles[] = $file;
+                }
+            }
+        }
+        closedir($dh);
+        return $aFiles;
+    }*/
 ?>

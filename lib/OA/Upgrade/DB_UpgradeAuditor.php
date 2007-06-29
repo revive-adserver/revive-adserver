@@ -175,6 +175,20 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
     {
         $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_action_id = {$id}"
                  ." AND action =".DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED
+                 ." AND info2 IS NULL"
+                 ." ORDER BY database_action_id DESC";
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying database audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
+    function queryAuditAddedTablesByUpgradeId($id)
+    {
+        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_action_id = {$id}"
+                 ." AND action =".DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED
                  ." AND info2 IS NULL";
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
@@ -193,19 +207,6 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
             return false;
         }
         return $aResult;
-    }
-
-    function updateAuditBackupDroppedById($database_action_id, $reason = 'dropped')
-    {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET info2='{$reason}' WHERE database_action_id='{$database_action_id}'";
-
-        $result = $this->oDbh->exec($query);
-
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
-        {
-            return false;
-        }
-        return true;
     }
 
     function queryAudit($version='', $timing=null, $schema='tables_core', $action=null)
@@ -271,6 +272,20 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
         return true;
     }
 
+    function updateAuditBackupDroppedById($database_action_id, $reason = 'dropped')
+    {
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET info2='{$reason}' WHERE database_action_id='{$database_action_id}'";
+
+        $result = $this->oDbh->exec($query);
+
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        {
+            return false;
+        }
+        return true;
+    }
+
+
     /**
      * retrieve an array of table names from currently connected database
      *
@@ -313,7 +328,6 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
         }
         return $result;
     }
-
 
 }
 
