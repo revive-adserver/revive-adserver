@@ -1169,10 +1169,8 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-        //$this->_pickupRecoveryFile();
-        //return true;
-        $this->oLogger->logError('Upgrade failed cos I say so');
-        return false;
+        $this->_pickupRecoveryFile();
+        return true;
     }
 
     /**
