@@ -52,17 +52,18 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
 
         $this->_aFields = array(
             'sum_revenue'               => array('name'   => MAX_Plugin_Translation::translate('_Revenue', $this->module, $this->package),
-                                                 'short'  => MAX_Plugin_Translation::translate('Revenue', $this->module, $this->package),
-                                                 'pref'   => 'gui_column_revenue',
-                                                 'format' => 'currency'),
+                                                'short'  => MAX_Plugin_Translation::translate('Revenue', $this->module, $this->package),
+                                                'rank'   => 4,
+                                                'pref'   => 'gui_column_revenue',
+                                                'format' => 'currency'),
             'sum_cost'                  => array('name'   => MAX_Plugin_Translation::translate('_Cost', $this->module, $this->package),
-                                                 'short'  => MAX_Plugin_Translation::translate('Cost', $this->module, $this->package),
-                                                 'pref'   => 'gui_column_cost',
-                                                 'format' => 'currency'),
+                                                'short'  => MAX_Plugin_Translation::translate('Cost', $this->module, $this->package),
+                                                'pref'   => 'gui_column_cost',
+                                                'format' => 'currency'),
             'sum_bv'                    => array('name'   => MAX_Plugin_Translation::translate('_Basket value', $this->module, $this->package),
-                                                 'short'  => MAX_Plugin_Translation::translate('Basket value', $this->module, $this->package),
-                                                 'pref'   => 'gui_column_bv',
-                                                 'format' => 'currency'),
+                                                'short'  => MAX_Plugin_Translation::translate('Basket value', $this->module, $this->package),
+                                                'pref'   => 'gui_column_bv',
+                                                'format' => 'currency'),
             'sum_num_items'             => array('name'   => MAX_Plugin_Translation::translate('_Number of items', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('Number of items', $this->module, $this->package),
                                                 'pref'   => 'gui_column_num_items',
@@ -122,6 +123,7 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                                                 'format' => 'currency'),
             'sum_ecpm'                  => array('name'   => MAX_Plugin_Translation::translate('_ECPM', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('ECPM', $this->module, $this->package),
+                                                'rank'   => 5,
                                                 'pref'   => 'gui_column_ecpm',
                                                 'format' => 'currency'),
             'sum_ecpc'                  => array('name'   => MAX_Plugin_Translation::translate('_ECPC', $this->module, $this->package),
@@ -132,18 +134,20 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                                                 'short'  => MAX_Plugin_Translation::translate('ECPS', $this->module, $this->package),
                                                 'pref'   => 'gui_column_ecps',
                                                 'format' => 'currency'),
+/* Disabled ePP*
             'sum_eppm'                  => array('name'   => MAX_Plugin_Translation::translate('_EPPM', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('EPPM', $this->module, $this->package),
-                                                'pref'   => 'gui_column_ecpm',
+                                                'pref'   => 'gui_column_eppm',
                                                 'format' => 'currency'),
             'sum_eppc'                  => array('name'   => MAX_Plugin_Translation::translate('_EPPC', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('EPPC', $this->module, $this->package),
-                                                'pref'   => 'gui_column_ecpc',
+                                                'pref'   => 'gui_column_eppc',
                                                 'format' => 'currency'),
             'sum_epps'                  => array('name'   => MAX_Plugin_Translation::translate('_EPPS', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('EPPS', $this->module, $this->package),
                                                 'pref'   => 'gui_column_epps',
-                                                'format' => 'currency')
+                                                'format' => 'currency'),
+*/
         );
     }
 
@@ -224,9 +228,9 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
         $row['sum_ecpm']            = $row['sum_views'] ? $row['sum_cost'] / $row['sum_views'] * 1000 : 0;
         $row['sum_ecpc']            = $row['sum_clicks'] ? $row['sum_cost'] / $row['sum_clicks']: 0;
         $row['sum_ecps']            = $row['sum_conversions'] ? $row['sum_cost'] / $row['sum_conversions']: 0;
-        $row['sum_eppm']            = $row['sum_views'] ? $row['sum_profit'] / $row['sum_views'] * 1000 : 0;
-        $row['sum_eppc']            = $row['sum_clicks'] ? $row['sum_profit'] / $row['sum_clicks']: 0;
-        $row['sum_epps']            = $row['sum_conversions'] ? $row['sum_profit'] / $row['sum_conversions']: 0;
+//        $row['sum_eppm']            = $row['sum_views'] ? $row['sum_profit'] / $row['sum_views'] * 1000 : 0;
+//        $row['sum_eppc']            = $row['sum_clicks'] ? $row['sum_profit'] / $row['sum_clicks']: 0;
+//        $row['sum_epps']            = $row['sum_conversions'] ? $row['sum_profit'] / $row['sum_conversions']: 0;
     }
 }
 

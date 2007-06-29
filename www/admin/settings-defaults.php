@@ -43,7 +43,7 @@ phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affilia
 
 // Load and sort statisticsFieldsDelivery plugins
 $statisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
-uasort($statisticsFieldsDeliveryPlugins, array('StatsController', '_pluginSort'));
+uasort($statisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));
 
 // Load inventory plugins
 $invPlugins = &MAX_Plugin::getPlugins('inventoryProperties');
@@ -383,6 +383,7 @@ $settings = array (
 // Add column visibility settings from plugins
 $i = 0;
 foreach ($statisticsFieldsDeliveryPlugins as $plugin) {
+    $defaultRanks = $plugin->getDefaultRanks();
     foreach ($plugin->getVisibilitySettings() as $k => $v) {
         // Prepare fake serialized preferences for the next blocks
         $GLOBALS['_MAX']['PREF'][$k.'_label'] = array();
@@ -391,6 +392,16 @@ foreach ($statisticsFieldsDeliveryPlugins as $plugin) {
             foreach ($GLOBALS['_MAX']['PREF'][$k.'_array'] as $kk => $vv) {
                 $GLOBALS['_MAX']['PREF'][$k.'_label'][$kk] = $vv['label'];
                 $GLOBALS['_MAX']['PREF'][$k.'_rank'][$kk]  = $vv['rank'];
+            }
+        } elseif ($GLOBALS['_MAX']['PREF'][$k] == -1) {
+            if (isset($defaultRanks[$k])) {
+                $rank = $defaultRanks[$k];
+                $GLOBALS['_MAX']['PREF'][$k] = 15;
+                $GLOBALS['_MAX']['PREF'][$k.'_rank']  = array(1 => $rank, 2 => $rank, 4 => $rank, 8 => $rank);
+            } else {
+                $rank = '';
+                $GLOBALS['_MAX']['PREF'][$k] = 0;
+                $GLOBALS['_MAX']['PREF'][$k.'_rank']  = array(1 => $rank, 2 => $rank, 4 => $rank, 8 => $rank);
             }
         }
         $GLOBALS['_MAX']['PREF'][$k.'_label'] = serialize($GLOBALS['_MAX']['PREF'][$k.'_label']);

@@ -46,9 +46,11 @@ $words = array(
     '_EIPM'            => 'EIPM',
     '_EIPC'            => 'EIPC',
     '_EIPS'            => 'EIPS',
+    '_ECPM'            => 'ECPM',
+    '_ECPC'            => 'ECPC',
+    '_ECPS'            => 'ECPS',
     '_EPPM'            => 'EPPM',
     '_EPPC'            => 'EPPC',
-    '_ECPS'            => 'ECPS',
     '_EPPS'            => 'EPPS',
 
     // Short names
@@ -69,9 +71,11 @@ $words = array(
     'EIPM'            => 'EIPM',
     'EIPC'            => 'EIPC',
     'EIPS'            => 'EIPS',
+    'ECPM'            => 'ECPM',
+    'ECPC'            => 'ECPC',
+    'ECPS'            => 'ECPS',
     'EPPM'            => 'EPPM',
     'EPPC'            => 'EPPC',
-    'ECPS'            => 'ECPS',
     'EPPS'            => 'EPPS',
 );
 

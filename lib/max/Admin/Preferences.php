@@ -382,7 +382,7 @@ class MAX_Admin_Preferences
 
         // Adjust missing column preferences
         foreach ($missing_cols as $k) {
-            $GLOBALS['_MAX']['PREF'][$k]          = 15; // Any user
+            $GLOBALS['_MAX']['PREF'][$k]          = -1; // Magic value
             $GLOBALS['_MAX']['PREF'][$k.'_rank']  = ++$max_rank;
         }
 

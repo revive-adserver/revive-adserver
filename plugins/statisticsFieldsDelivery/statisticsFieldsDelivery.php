@@ -162,11 +162,16 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         $aPref = $GLOBALS['_MAX']['PREF'];
         $aColumns = array();
         foreach ($this->_aFields as $k => $v) {
+            $aColumns[$k] = false;
             if (isset($v['pref'])) {
                 $var = $v['pref'];
-                $aColumns[$k] = isset($aPref[$var]) && phpAds_isUser($aPref[$var]);
-            } else {
-                $aColumns[$k] = false;
+                if (isset($aPref[$var])) {
+                    if ($aPref[$var] == -1) {
+                        $aColumns[$k] = !empty($v['rank']);
+                    } else {
+                        $aColumns[$k] = phpAds_isUser($aPref[$var]);
+                    }
+                }
             }
         }
         return $aColumns;
@@ -284,6 +289,18 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         foreach ($this->_aFields as $k => $v) {
             if (isset($v['pref'])) {
                 $prefs[$k] = $v['pref'];
+            }
+        }
+
+        return $prefs;
+    }
+
+    function getDefaultRanks()
+    {
+        $prefs = array();
+        foreach ($this->_aFields as $k => $v) {
+            if (isset($v['pref']) && isset($v['rank'])) {
+                $prefs[$v['pref']] = $v['rank'];
             }
         }
 
