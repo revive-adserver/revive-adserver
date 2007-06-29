@@ -80,14 +80,14 @@
 
             $sysinfoarray['actual']['safe_mode'] = ($sysinfoarray['actual']['safe_mode']==0 ? 'OFF '.$passImage : 'ON '.$errorImage);
             $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF '.$passImage : 'ON '.$errorImage);
-            $sysinfoarray['actual']['file_uploads'] = $sysinfoarray['actual']['file_uploads'] == 0 ? 'OFF' . $errorImage : 'ON' . $passImage;
+            $sysinfoarray['actual']['file_uploads'] = $sysinfoarray['actual']['file_uploads'] == 0 ? 'OFF ' . $errorImage : 'ON ' . $passImage;
             
             // Only warn if register_argc_argv is off
             if ($sysinfoarray['actual']['register_argc_argv'] == 0) {
-                $sysinfoarray['actual']['register_argc_argv'] = 'OFF' . $warnImage;
+                $sysinfoarray['actual']['register_argc_argv'] = 'OFF ' . $warnImage;
                 $sysinfoarray['warning']['register_arc_argv'] = $strWarningRegisterArgcArv;
             } else {
-                $sysinfoarray['actual']['register_argc_argv'] = 'ON' . $passImage;
+                $sysinfoarray['actual']['register_argc_argv'] = 'ON ' . $passImage;
             }            
             $halt = (($halt) || ($sysinfoarray['error']));
 
