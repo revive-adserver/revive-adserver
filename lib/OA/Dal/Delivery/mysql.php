@@ -757,43 +757,43 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     $query .= "
                 max_https,";
-    if (isset($geotargeting['geo_region'])) {
+    if (isset($geotargeting['region'])) {
         $query .= "
                 geo_region,";
     }
-    if (isset($geotargeting['geo_city'])) {
+    if (isset($geotargeting['city'])) {
         $query .= "
                 geo_city,";
     }
-    if (isset($geotargeting['geo_postal_code'])) {
+    if (isset($geotargeting['postal_code'])) {
         $query .= "
                 geo_postal_code,";
     }
-    if (isset($geotargeting['geo_latitude'])) {
+    if (isset($geotargeting['latitude'])) {
         $query .= "
                 geo_latitude,";
     }
-    if (isset($geotargeting['geo_longitude'])) {
+    if (isset($geotargeting['longitude'])) {
         $query .= "
                 geo_longitude,";
     }
-    if (isset($geotargeting['geo_dma_code'])) {
+    if (isset($geotargeting['dma_code'])) {
         $query .= "
                 geo_dma_code,";
     }
-    if (isset($geotargeting['geo_area_code'])) {
+    if (isset($geotargeting['area_code'])) {
         $query .= "
                 geo_area_code,";
     }
-    if (isset($geotargeting['geo_organisation'])) {
+    if (isset($geotargeting['organisation'])) {
         $query .= "
                 geo_organisation,";
     }
-    if (isset($geotargeting['geo_netspeed'])) {
+    if (isset($geotargeting['netspeed'])) {
         $query .= "
                 geo_netspeed,";
     }
-    if (isset($geotargeting['geo_continent'])) {
+    if (isset($geotargeting['continent'])) {
         $query .= "
                 geo_continent,";
     }
@@ -942,7 +942,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     $referer = isset($_GET['referer']) ? $_GET['referer'] : '';
     $httpUserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
     $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
-    
+
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     OA_Dal_Delivery_query("
