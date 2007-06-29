@@ -921,6 +921,14 @@ class OA_Upgrade
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
                                          );
+        if (file_exists(MAX_PATH.'/var/UPGRADE'))
+        {
+            if ($this->upgrading_from_milestone_version)
+            {
+                @unlink(MAX_PATH.'/var/UPGRADE');
+            }
+        }
+
         return true;
     }
 
@@ -1169,10 +1177,10 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-        $this->_pickupRecoveryFile();
-        return true;
-//        $this->oLogger->logError('UPGRADE FAILED');
-//        return false;
+//        $this->_pickupRecoveryFile();
+//        return true;
+        $this->oLogger->logError('UPGRADE FAILED');
+        return false;
     }
 
     /**
