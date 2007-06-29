@@ -241,20 +241,14 @@ class MAX_OperationInterval
         if (is_null($operationInterval)) {
             $operationInterval = MAX_OperationInterval::getOperationInterval();
         }
-        // Go backward one interval, looping back to the highest interval number, if required
-        if ($operationIntervalID == 0) {
-            $newOperationIntervalID = (MINUTES_PER_WEEK / $operationInterval) - 1;
-        } else {
-            $newOperationIntervalID = $operationIntervalID - 1;
+        // Go backward the required number of intervals
+        $newOperationIntervalID = $operationIntervalID - $intervals;
+        // Have we passed the end?
+        $highestIntervalID = (MINUTES_PER_WEEK / $operationInterval) - 1;
+        if ($newOperationIntervalID < 0) {
+            $newOperationIntervalID = $highestIntervalID - ($intervals - $operationIntervalID) + 1;
         }
-        // Going back more than one interval?
-        if ($intervals > 1) {
-            // Oooh! Recursion!
-            $intervals--;
-            return MAX_OperationInterval::previousOperationIntervalID($newOperationIntervalID, $operationInterval, $intervals);
-        } else {
-            return $newOperationIntervalID;
-        }
+        return $newOperationIntervalID;
     }
 
     /**
@@ -274,20 +268,14 @@ class MAX_OperationInterval
         if (is_null($operationInterval)) {
             $operationInterval = MAX_OperationInterval::getOperationInterval();
         }
-        // Go forward one interval, looping back to zero, if required
-        if ($operationIntervalID == ((MINUTES_PER_WEEK / $operationInterval) - 1)) {
-            $newOperationIntervalID = 0;
-        } else {
-            $newOperationIntervalID = $operationIntervalID + 1;
+        // Go forward the required number of intervals
+        $newOperationIntervalID = $operationIntervalID + $intervals;
+        // Have we passed the end?
+        $highestIntervalID = (MINUTES_PER_WEEK / $operationInterval) - 1;
+        if ($newOperationIntervalID > $highestIntervalID) {
+            $newOperationIntervalID = $highestIntervalID - $operationIntervalID;
         }
-        // Going forward more than one interval?
-        if ($intervals > 1) {
-            // Oooh! Recursion!
-            $intervals--;
-            return MAX_OperationInterval::nextOperationIntervalID($newOperationIntervalID, $operationInterval, $intervals);
-        } else {
-            return $newOperationIntervalID;
-        }
+        return $newOperationIntervalID;
     }
 
     /**

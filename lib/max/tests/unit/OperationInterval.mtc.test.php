@@ -167,6 +167,8 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         $intervals           = 3;
         $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 166);
+        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $this->assertEqual($operationIntervalID, 163);
 
         $operationIntervalID = 1;
         $operationInterval   = 30;
@@ -182,6 +184,8 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         $intervals           = 3;
         $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 334);
+        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $this->assertEqual($operationIntervalID, 331);
     }
 
     /**
