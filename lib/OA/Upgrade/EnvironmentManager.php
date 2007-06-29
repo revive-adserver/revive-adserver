@@ -219,7 +219,7 @@ class OA_Environment_Manager
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'magic_quotes_runtime must be OFF';
         }
         if (!$this->aInfo['PHP']['actual']['file_uploads']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'file uploads must be ON';
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'file_uploads must be ON';
         }
 //        if (!$this->aInfo['PHP']['actual']['date.timezone'])
 //        {
