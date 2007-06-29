@@ -149,7 +149,7 @@ function MAX_remotehostSetClientInfo()
  * A function to set the viewer's geotargeting information in the
  * $GLOBALS['_MAX']['CLIENT_GEO'] global variable, if a plugin for
  * geotargeting information is configured.
- * 
+ *
  * @todo This is a workaround to avoid having to include the entire plugin architecure
  *       just to be able to load the config information. The plugin system should be
  *       refactored to allow the Delivery Engine to load the information independently
@@ -159,18 +159,12 @@ function MAX_remotehostSetGeoInfo()
     if (!function_exists('parseDeliveryIniFile')) {
         require_once MAX_PATH . '/init-delivery-parse.php';
     }
-    $pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
-    $type = (!empty($pluginTypeConfig['geotargeting']['type'])) ? $pluginTypeConfig['geotargeting']['type'] : null;
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
     if (!is_null($type) && $type != 'none') {
         $functionName = 'MAX_Geo_'.$type.'_getInfo';
         if (function_exists($functionName)) {
             return;
-        }
-        $pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
-        $GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
-        // There may have been a copy of $conf set in the global scope, this should also be updated
-        if (isset($GLOBALS['conf'])) {
-            $GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
         }
         @include(MAX_PATH . '/plugins/geotargeting/' . $type . '/' . $type . '.delivery.php');
         if (function_exists($functionName)) {
