@@ -600,18 +600,12 @@ echo "Openads has not been installed yet -- please read the INSTALL.txt file.\n"
 exit(1);
 }
 }
-$pluginTypeConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting', 'plugin');
-$type = (!empty($pluginTypeConfig['geotargeting']['type'])) ? $pluginTypeConfig['geotargeting']['type'] : null;
+$aConf = $GLOBALS['_MAX']['CONF'];
+$type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
 if (!is_null($type) && $type != 'none') {
 $functionName = 'MAX_Geo_'.$type.'_getInfo';
 if (function_exists($functionName)) {
 return;
-}
-$pluginConfig = parseDeliveryIniFile(MAX_PATH . '/var/plugins/config/geotargeting/' . $type, 'plugin');
-$GLOBALS['_MAX']['CONF']['geotargeting'] = array_merge($pluginTypeConfig['geotargeting'], $pluginConfig['geotargeting']);
-// There may have been a copy of $conf set in the global scope, this should also be updated
-if (isset($GLOBALS['conf'])) {
-$GLOBALS['conf']['geotargeting'] = $GLOBALS['_MAX']['CONF']['geotargeting'];
 }
 @include(MAX_PATH . '/plugins/geotargeting/' . $type . '/' . $type . '.delivery.php');
 if (function_exists($functionName)) {
