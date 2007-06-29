@@ -587,10 +587,11 @@ class OA_DB_Upgrade
 	                    }
 	                    $aDef = $this->_getDefinitionFromDatabase($table);
 	                    $aBakDef = $aDef['tables'][$table];
-	                    $this->aRestoreTables[$table] = array(
-	                                                          'bak'=>$table_bak,
-	                                                          'def'=>$aBakDef
-	                                                         );
+//                      keeping the restore array alive is no longer necessary after refactored recovery
+//	                    $this->aRestoreTables[$table] = array(
+//	                                                          'bak'=>$table_bak,
+//	                                                          'def'=>$aBakDef
+//	                                                         );
 	                    $this->oAuditor->logAuditAction(array('info1'=>'copied table',
 	                                                          'tablename'=>$table,
 	                                                          'tablename_backup'=>$table_bak,

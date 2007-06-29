@@ -229,8 +229,8 @@ class OA_Upgrade
             {
                 $aRec = $aRecover[$i];
 
-                $this->oLogger->log('attempting to roll back upgrade action id '.$aRec['auditId']);
-                $this->oLogger->log('retrieving upgrade actions');
+                $this->oLogger->logOnly('attempting to roll back upgrade action id '.$aRec['auditId']);
+                $this->oLogger->logOnly('retrieving upgrade actions');
 
                 $aResult = $this->oAuditor->queryAuditByUpgradeId($aRec['auditId']);
 
@@ -245,7 +245,7 @@ class OA_Upgrade
                 $this->oDBUpgrader->logFile = $this->oLogger->logFile;
                 $this->oConfiguration->clearConfigBackupName();
 
-                $this->oLogger->log('retrieved upgrade actions ok');
+                $this->oLogger->logOnly('retrieved upgrade actions ok');
 
                 $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
                                                     'version_to'=>$aResult[0]['version_from'],
@@ -1171,6 +1171,8 @@ class OA_Upgrade
         }
         $this->_pickupRecoveryFile();
         return true;
+//        $this->oLogger->logError('UPGRADE FAILED');
+//        return false;
     }
 
     /**

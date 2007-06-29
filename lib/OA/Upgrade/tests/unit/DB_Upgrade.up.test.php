@@ -29,6 +29,7 @@ $Id$
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php';
+require_once(MAX_PATH.'/lib/OA/Upgrade/DB_UpgradeAuditor.php');
 
 
 /**
@@ -135,6 +136,140 @@ class Test_DB_Upgrade extends UnitTestCase
         return $oDB_Upgrade;
     }
 
+    function test_prepRollbackByAuditId()
+    {
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+
+        Mock::generatePartial(
+                                'MDB2_Schema',
+                                $mockSchema = 'MDB2_Schema'.rand(),
+                                array()
+                             );
+        $oDB_Upgrade->oSchema = new $mockSchema($this);
+
+        Mock::generatePartial(
+                                'MDB2_Driver_Common',
+                                $mockDb = 'MDB2_Driver_Common'.rand(),
+                                array()
+                             );
+        $oDB_Upgrade->oSchema->db = new $mockDb($this);
+
+        Mock::generatePartial(
+                                'MDB2_Driver_Manager_Common',
+                                $mockDbMgr = 'MDB2_Driver_Manager_Common'.rand(),
+                                array('listTables')
+                             );
+        $oDB_Upgrade->oSchema->db->manager = new $mockDbMgr($this);
+
+        $aDBTables = array(0=>$this->prefix.'z_table1_bak1',
+                           1=>$this->prefix.'z_table1_bak2',
+                           2=>$this->prefix.'z_table1_bak3',
+                           3=>$this->prefix.'table2',
+                           4=>$this->prefix.'table3',
+                          );
+        $oDB_Upgrade->oSchema->db->manager->setReturnValue('listTables', $aDBTables);
+        $oDB_Upgrade->oSchema->db->manager->expectOnce('listTables');
+
+        Mock::generatePartial(
+                                'OA_DB_UpgradeAuditor',
+                                $mockAuditor = 'OA_DB_UpgradeAuditor'.rand(),
+                                array('queryAuditBackupTablesByUpgradeId','queryAuditAddedTablesByUpgradeId')
+                             );
+        $oDB_Upgrade->oAuditor = new $mockAuditor($this);
+
+        $aBackups   = array(
+                            0 => array(
+                                        'database_action_id'=>1,
+                                        'upgrade_action_id'=>1,
+                                        'schema_name'=>'tables_core',
+                                        'version'=>'900',
+                                        'timing'=>0,
+                                        'tablename'=>'table1',
+                                        'tablename_backup'=>'z_table1_bak1',
+                                        'table_backup_schema'=>'',
+                                      ),
+                            1 => array(
+                                        'database_action_id'=>2,
+                                        'upgrade_action_id'=>1,
+                                        'schema_name'=>'tables_core',
+                                        'version'=>'900',
+                                        'timing'=>1,
+                                        'tablename'=>'table1',
+                                        'tablename_backup'=>'z_table1_bak2',
+                                        'table_backup_schema'=>'',
+                                      ),
+                            2 => array(
+                                        'database_action_id'=>3,
+                                        'upgrade_action_id'=>1,
+                                        'schema_name'=>'tables_core',
+                                        'version'=>'901',
+                                        'timing'=>0,
+                                        'tablename'=>'table1',
+                                        'tablename_backup'=>'z_table1_bak3',
+                                        'table_backup_schema'=>'',
+                                      ),
+                           );
+        $oDB_Upgrade->oAuditor->setReturnValue('queryAuditBackupTablesByUpgradeId', $aBackups);
+        $oDB_Upgrade->oAuditor->expectOnce('queryAuditBackupTablesByUpgradeId');
+
+        $aAdded     = array(
+                            0 => array(
+                                        'database_action_id'=>10,
+                                        'upgrade_action_id'=>1,
+                                        'schema_name'=>'tables_core',
+                                        'version'=>'910',
+                                        'timing'=>0,
+                                        'tablename'=>'table2',
+                                        'tablename_backup'=>'',
+                                        'table_backup_schema'=>'',
+                                      ),
+                            1 => array(
+                                        'database_action_id'=>11,
+                                        'upgrade_action_id'=>1,
+                                        'schema_name'=>'tables_core',
+                                        'version'=>'910',
+                                        'timing'=>0,
+                                        'tablename'=>'table3',
+                                        'tablename_backup'=>'',
+                                        'table_backup_schema'=>'',
+                                      ),
+                           );
+
+        $oDB_Upgrade->oAuditor->setReturnValue('queryAuditAddedTablesByUpgradeId', $aAdded);
+        $oDB_Upgrade->oAuditor->expectOnce('queryAuditAddedTablesByUpgradeId');
+
+        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(1));
+
+        $this->assertEqual(count($oDB_Upgrade->aRestoreTables),'1','wrong count tables restore array');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']),'schema not found in restore array');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']['900']),'version not found in restore array');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']['900']['table1']),'table not found in restore array');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']['900']['table1'][0]),'timing not found in restore array');
+        $aDiff = array_diff_assoc($oDB_Upgrade->aRestoreTables['tables_core']['900']['table1'][0], $aBackups[0]);
+        $this->assertEqual(count($aDiff),0,'array mismatch');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']['900']['table1'][1]),'timing not found in restore array');
+        $aDiff = array_diff_assoc($oDB_Upgrade->aRestoreTables['tables_core']['900']['table1'][1], $aBackups[1]);
+        $this->assertEqual(count($aDiff),0,'array mismatch');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']['901']),'version not found in restore array');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']['901']['table1']),'table not found in restore array');
+        $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']['901']['table1'][0]),'timing not found in restore array');
+        $aDiff = array_diff_assoc($oDB_Upgrade->aRestoreTables['tables_core']['901']['table1'][0], $aBackups[2]);
+        $this->assertEqual(count($aDiff),0,'array mismatch');
+
+        $this->assertEqual(count($oDB_Upgrade->aAddedTables),'1','wrong count tables added array');
+        $this->assertTrue(isset($oDB_Upgrade->aAddedTables['tables_core']),'schema not found in added array');
+        $this->assertTrue(isset($oDB_Upgrade->aAddedTables['tables_core']['910']),'version not found in added array');
+        $this->assertTrue(isset($oDB_Upgrade->aAddedTables['tables_core']['910']['table2']),'table not found in added array');
+        $aDiff = array_diff_assoc($oDB_Upgrade->aAddedTables['tables_core']['910']['table2'], $aAdded[0]);
+        $this->assertEqual(count($aDiff),0,'array mismatch');
+        $aDiff = array_diff_assoc($oDB_Upgrade->aAddedTables['tables_core']['910']['table3'], $aAdded[1]);
+        $this->assertEqual(count($aDiff),0,'array mismatch');
+
+        $oDB_Upgrade->oSchema->db->manager->tally();
+        $oDB_Upgrade->oAuditor->tally();
+
+    }
 }
 
 ?>
