@@ -53,17 +53,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'geotargeting_saveStats',
                           'geotargeting_showUnavailable');
     // Set up the top level geotargeting configuration file
-    $config = new OA_Admin_Config($newConfig = true);
+    $config = new OA_Admin_Config();
     $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
     $config->setConfigChange('geotargeting', 'saveStats', $geotargeting_saveStats);
     $config->setConfigChange('geotargeting', 'showUnavailable', $geotargeting_showUnavailable);
-    if (!MAX_Plugin::writePluginConfig($config->conf, 'geotargeting')) {
+    if (!$config->writeConfigChange()) { //MAX_Plugin::writePluginConfig($config->conf, 'geotargeting')) {
         // Unable to write the config file out
         $errormessage[0][] = $strUnableToWriteConfig;
     }
 
     // Set up the geotargting type configuration file, if required
-    $config = new OA_Admin_Config($newConfig = true);
+    $config = new OA_Admin_Config();
     $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
     if ($geotargeting_type != 'none') {
         // Test the supplied files
@@ -146,7 +146,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             MAX_Plugin::copyDefaultConfig('geotargeting', $geotargeting_type);
         }
         if ($geotargeting_type != 'none' &&
-            !MAX_Plugin::writePluginConfig($config->conf, 'geotargeting', $geotargeting_type)) {
+            !$config->writeConfigChange()) { //!MAX_Plugin::writePluginConfig($config->conf, 'geotargeting', $geotargeting_type)) {
             // Unable to write the config file out
             $errormessage[0][] = $strUnableToWriteConfig;
         } else {
@@ -158,19 +158,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 phpAds_PageHeader("5.1");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("geotargeting");
-
-// read plugin config
-$GLOBALS['_MAX']['CONF']['geotargeting'] = MAX_Plugin::getConfig('geotargeting');
-$geo = MAX_Plugin::factoryPluginByModuleConfig('geotargeting');
-if($geo) {
-    $pluginConfig = $geo->getConfig();
-    if(!empty($pluginConfig)) {
-        // overwrite
-        foreach($pluginConfig as $key => $value) {
-            $GLOBALS['_MAX']['CONF']['geotargeting'][$key] = $value;
-        }
-    }
-}
 
 $settings = array (
     array (

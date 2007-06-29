@@ -345,3 +345,16 @@ host                = sync.openads.org
 path                = /dashboard-sync/dashboard/dashboard_iframe.php
 
 ;------------------------------------------------------------------------------------------;
+; Plugins Settings                                                                ;
+;------------------------------------------------------------------------------------------;
+
+[channelDerivation]
+cacheExpire=86400
+cachePath=/var/plugins/cache/channelDerivation/
+xmlrpcScript=/www/delivery/delivery-xmlrpc.php
+
+[geotargeting]
+type="none"
+saveStats=false
+
+;------------------------------------------------------------------------------------------;

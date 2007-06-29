@@ -457,16 +457,27 @@ class MAX_Plugin
      */
     function getConfig($module, $package = null, $name = null, $processSections = false, $copyDefaultIfNotExists = true)
     {
-        $configFileName = MAX_Plugin::getConfigFileName($module, $package, $name);
-        $conf = MAX_Plugin::getConfigByFileName($configFileName, $processSections, false);
+        // First lets see if the config is saved in our global config file
+        $conf = isset($GLOBALS['_MAX']['CONF'][$module]) ? $GLOBALS['_MAX']['CONF'][$module] : false;
+        if (!empty($package)) {
+            $conf = isset($conf[$package]) ? $conf[$package] : false;
+        }
+        
+        // Try plugin config
+        if ($conf === false) {
+            $configFileName = MAX_Plugin::getConfigFileName($module, $package, $name);
+            $conf = MAX_Plugin::getConfigByFileName($configFileName, $processSections, false);
+        }
+
         if ($conf !== false) {
             return $conf;
-        } elseif ($copyDefaultIfNotExists) {
+        }
+        if ($copyDefaultIfNotExists) {
             MAX_Plugin::copyDefaultConfig($module, $package, $name);
             $defaultConfigFileName = MAX_Plugin::getConfigFileName($module, $package, $name, true);
-            return MAX_Plugin::getConfigByFileName($configFileName, $processSections, false);
+            return MAX_Plugin::getConfigByFileName($defaultConfigFileName, $processSections, false);
         }
-        MAX::raiseError("Config file '{$configFileName}' does not exist.", MAX_ERROR_NOFILE);
+        MAX::raiseError("Config for $package/$module/$name does not exist.", MAX_ERROR_NOFILE);
         return false;
     }
 
@@ -536,7 +547,7 @@ class MAX_Plugin
         }
         $conf = parse_ini_file($configFileName, $processSections);
         if (isset($conf['realConfig'])) {
-            if (ereg('.*\/(.*)\.plugin\.conf\.ini', $configFileName, $match = null)) {
+            if (ereg('.*\/(.*)\.plugin\.conf\.php', $configFileName, $match = null)) {
                 $configFileName = str_replace($match[1], $conf['realConfig'], $configFileName);
                 return MAX_Plugin::getConfigByFileName($configFileName, $processSections, $raiseErrors);
             } else {

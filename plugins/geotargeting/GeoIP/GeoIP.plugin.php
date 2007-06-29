@@ -43,23 +43,6 @@ class Plugins_Geotargeting_GeoIP_GeoIP extends Plugins_Geotargeting
 {
 
     /**
-     * The constructor method.
-     */
-    function Plugins_Geotargeting_GeoIP_GeoIP()
-    {
-        // Add the geotargeting configuration data to the main
-        // configuration that has been already parsed
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['geotargeting'] = array();
-        $aConfig = MAX_Plugin::getConfig('geotargeting');
-    	$conf['geotargeting'] = array_merge($conf['geotargeting'], $aConfig);
-        $aConfig = MAX_Plugin::getConfig('geotargeting', $conf['geotargeting']['type']);
-        if (is_array($aConfig)) {
-        	$conf['geotargeting'] = array_merge($conf['geotargeting'], $aConfig);
-        }
-    }
-
-    /**
      * Return plugin name
      *
      * @return string A string describing the class.
