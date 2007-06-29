@@ -241,7 +241,6 @@ class OA_Upgrade
                 }
 
                 $this->package_file = $aRec['package'];
-                //$this->oLogger->setLogFile($this->_getRollbackLogFileName());
                 $this->oLogger->setLogFile($aResult[0]['logfile'].'.rollback');
                 $this->oDBUpgrader->logFile = $this->oLogger->logFile;
                 $this->oConfiguration->clearConfigBackupName();
@@ -287,10 +286,19 @@ class OA_Upgrade
                 {
                     if (! copy(MAX_PATH.'/var/install.log',MAX_PATH.'/var/UPGRADE'))
                     {
-                        $this->oLogger->log('failed to replace teh UPGRADE trigger file');
+                        $this->oLogger->log('failed to replace the UPGRADE trigger file');
+                    }
+                    if ($this->upgrading_from_milestone_version)
+                    {
+                        @unlink(MAX_PATH.'/var/INSTALLED');
                     }
                 }
                 $this->oLogger->log('finished rollback package '.$this->package_file);
+                $this->oLogger->log('database and conf files have been rolled back to version '.$aResult[0]['version_from']);
+                $this->oLogger->log('information regarding the problems encountered during the upgrade can be found in');
+                $this->oLogger->log($aResult[0]['logfile']);
+                $this->oLogger->log('information regarding steps taken during rollback can be found in');
+                $this->oLogger->log($this->oLogger->logFile);
                 $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
                                                       'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
                                                       'confbackup'=>''
@@ -1120,6 +1128,7 @@ class OA_Upgrade
                 if (!$this->upgrade())
                 {
                     $GLOBALS['_MAX']['CONF']['openads']['installed'] = 0;
+                    @unlink(MAX_PATH.'/var/INSTALLED');
                     return false;
                 }
             }
@@ -1160,8 +1169,10 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-        $this->_pickupRecoveryFile();
-        return true;
+        //$this->_pickupRecoveryFile();
+        //return true;
+        $this->oLogger->logError('Upgrade failed cos I say so');
+        return false;
     }
 
     /**
@@ -1780,19 +1791,6 @@ class OA_Upgrade
             $package = str_replace('.xml', '', $this->package_file);
         }
         return $package.'_'.OA::getNow('Y_m_d_h_i_s').'.log';
-    }
-
-    /**
-     * build a string for naming a rollback logfile
-     *
-     * @param string $timing -- not used currently
-     * @return string
-     */
-    function _getRollbackLogFileName($timing='constructive')
-    {
-        $package = $this->_getUpgradeLogFileName();
-        $package = str_replace('upgrade', 'rollback', $package);
-        return $package;
     }
 
     /**

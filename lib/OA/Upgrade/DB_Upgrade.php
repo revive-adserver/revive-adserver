@@ -180,8 +180,8 @@ class OA_DB_Upgrade
                                             'timing'=>$this->timingInt
                                             )
                                      );
-        $this->_log('to version: '.$this->versionTo);
-        $this->_log('timing: '.$this->timingStr);
+        $this->_logOnly('to version: '.$this->versionTo);
+        $this->_logOnly('timing: '.$this->timingStr);
 
         // if only switching the timing
         // it should not be necessary to reparse the definitions
@@ -212,14 +212,14 @@ class OA_DB_Upgrade
             }
             else
             {
-                $this->_log('migration file found: '.$this->file_migrate);
+                $this->_logOnly('migration file found: '.$this->file_migrate);
                 require_once($this->file_migrate);
                 $classname = 'Migration_'.$this->versionTo;
                 $this->oMigrator = & new $classname();
                 if ($this->oMigrator)
                 {
                     $this->oMigrator->init($this->oSchema->db, $this->logFile);
-                    $this->_log('migration class '.$classname.' instantiated');
+                    $this->_logOnly('migration class '.$classname.' instantiated');
                     $this->oMigrator->aMessages = $this->aMessages;
                     $this->oMigrator->aErrors = $this->aErrors;
                 }
@@ -234,10 +234,10 @@ class OA_DB_Upgrade
         $this->prefix   = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->database = $GLOBALS['_MAX']['CONF']['database']['name'];
 
-        $this->_log('target database: '.$this->database);
-        $this->_log('table prefix: '.$this->prefix);
+        $this->_logOnly('target database: '.$this->database);
+        $this->_logOnly('table prefix: '.$this->prefix);
 
-        $this->_log('successfully initialised DB Upgrade');
+        $this->_logOnly('successfully initialised DB Upgrade');
         return true;
     }
 
@@ -252,7 +252,7 @@ class OA_DB_Upgrade
             $this->_logError('schema file not found: '.$this->file_schema);
             return false;
         }
-        $this->_log('schema file found: '.$this->file_schema);
+        $this->_logOnly('schema file found: '.$this->file_schema);
 
         // Load definitions from cache
         $this->oTable->init($this->file_schema, true);
@@ -264,10 +264,10 @@ class OA_DB_Upgrade
         }
 
         $this->aDefinitionNew = $this->oTable->aDefinition;
-        $this->_log('successfully parsed the schema');
-        $this->_log('schema name: '.$this->aDefinitionNew['name']);
-        $this->_log('schema version: '.$this->aDefinitionNew['version']);
-        $this->_log('schema status: '.$this->aDefinitionNew['status']);
+        $this->_logOnly('successfully parsed the schema');
+        $this->_logOnly('schema name: '.$this->aDefinitionNew['name']);
+        $this->_logOnly('schema version: '.$this->aDefinitionNew['version']);
+        $this->_logOnly('schema status: '.$this->aDefinitionNew['status']);
         return true;
     }
 
@@ -294,13 +294,13 @@ class OA_DB_Upgrade
             //$this->oCache->save($this->aChanges, $this->file_changes);
         }
 
-        $this->_log('successfully parsed the changeset');
-        $this->_log('changeset name: '.$this->aChanges['name']);
-        $this->_log('changeset version: '.$this->aChanges['version']);
-        $this->_log('changeset comments: '.$this->aChanges['comments']);
-        $this->_log(($this->aDefinitionNew['version']==$this->aChanges['version'] ? 'schema and changeset versions match' : 'hmmm.. schema and changeset versions don\'t match'));
-        $this->_log(($this->aChanges['constructive'] ? 'constructive changes found' : 'constructive changes not found'));
-        $this->_log(($this->aChanges['destructive'] ? 'destructive changes found' : 'destructive changes not found'));
+        $this->_logOnly('successfully parsed the changeset');
+        $this->_logOnly('changeset name: '.$this->aChanges['name']);
+        $this->_logOnly('changeset version: '.$this->aChanges['version']);
+        $this->_logOnly('changeset comments: '.$this->aChanges['comments']);
+        $this->_logOnly(($this->aDefinitionNew['version']==$this->aChanges['version'] ? 'schema and changeset versions match' : 'hmmm.. schema and changeset versions don\'t match'));
+        $this->_logOnly(($this->aChanges['constructive'] ? 'constructive changes found' : 'constructive changes not found'));
+        $this->_logOnly(($this->aChanges['destructive'] ? 'destructive changes found' : 'destructive changes not found'));
         return true;
     }
 
@@ -312,17 +312,17 @@ class OA_DB_Upgrade
         }
         else if (file_exists($file))
         {
-            $this->_log('acquiring script '.$file);
+            $this->_logOnly('acquiring script '.$file);
             require_once $file;
             $classname = $classprefix.'_'.$this->schema.'_'.$this->versionTo;
             if (class_exists($classname))
             {
-                $this->_log('instantiating class '.$classname);
+                $this->_logOnly('instantiating class '.$classname);
                 $this->$object = new $classname;
                 $method = 'execute_'.$this->timingStr;
                 if (is_callable(array($this->$object, $method)))
                 {
-                    $this->_log('method is callable '.$method);
+                    $this->_logOnly('method is callable '.$method);
                     return true;
                 }
                 $this->_logError('method not found '.$method);
@@ -365,7 +365,7 @@ class OA_DB_Upgrade
      */
     function upgrade()
     {
-        $this->_log('verifying '.$this->timingStr.' changes');
+        $this->_logOnly('verifying '.$this->timingStr.' changes');
         $result = $this->oSchema->verifyAlterDatabase($this->aChanges[$this->timingStr]);
         if (!$this->_isPearError($result, 'MDB2_SCHEMA verification failed'))
         {
@@ -390,7 +390,7 @@ class OA_DB_Upgrade
                     }
                     else
                     {
-                        $this->_log('UPGRADE SUCCEEDED');
+                        $this->_logOnly('UPGRADE SUCCEEDED');
                         foreach ($this->aAddedTables AS $table => $added)
                         {
                             $this->oAuditor->logAuditAction(array('info1'=>'added new table',
@@ -459,8 +459,8 @@ class OA_DB_Upgrade
      */
     function checkSchemaIntegrity($filename='changes_tables_core')
     {
-        $this->_log('running integrity check');
-        $this->_log('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
+        $this->_logOnly('running integrity check');
+        $this->_logOnly('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
         OA_DB::setCaseSensitive();
         // compare the schema and implemented definitions
         $aDefinitionOld = $this->_getDefinitionFromDatabase();
@@ -500,7 +500,7 @@ class OA_DB_Upgrade
         {
             foreach ($aChanges['constructive']['tables']['add'] AS $k => $v)
             {
-                $this->_log('table is missing: '.$k);
+                $this->_logOnly('table is missing: '.$k);
             }
         }
         if (array_key_exists('change', $aChanges['constructive']['tables']))
@@ -514,12 +514,12 @@ class OA_DB_Upgrade
                     {
                         foreach ($v['add']['fields'] AS $column => $bool)
                         {
-                            $this->_log('column missing from table: '.$k.'.'.$column);
+                            $this->_logOnly('column missing from table: '.$k.'.'.$column);
                         }
                     }
                     if (isset($v['change']))
                     {
-                        $this->_log('column definition does not match: '.$k.'.'.key($v['change']['fields']));
+                        $this->_logOnly('column definition does not match: '.$k.'.'.key($v['change']['fields']));
                     }
                     if (isset($v['indexes']))
                     {
@@ -527,7 +527,7 @@ class OA_DB_Upgrade
                         {
                             foreach ($v['indexes']['add'] AS $index => $def)
                             {
-                                $this->_log('index missing from table: '.$k.'.'.$index);
+                                $this->_logOnly('index missing from table: '.$k.'.'.$index);
                             }
                         }
                     }
@@ -538,7 +538,7 @@ class OA_DB_Upgrade
         {
             foreach ($aChanges['destructive']['tables']['remove'] AS $k => $v)
             {
-                $this->_log('table is not part of schema: '.$k);
+                $this->_logOnly('table is not part of schema: '.$k);
             }
         }
         $this->aChanges = $aChanges;
@@ -679,7 +679,7 @@ class OA_DB_Upgrade
                                                                        );
                                         return false;
                                     }
-                                    $this->_log("backup table restored: {$this->prefix}{$aTableRec['tablename_backup']} => $strSourceTable");
+                                    $this->_logOnly("backup table restored: {$this->prefix}{$aTableRec['tablename_backup']} => $strSourceTable");
                                     $this->oAuditor->logAuditAction(array('info1'=>'reverted table',
                                                                           'tablename'=>$table,
                                                                           'tablename_backup'=>$aTableRec['tablename_backup'],
@@ -724,7 +724,7 @@ class OA_DB_Upgrade
                                                          );
                             if ($this->dropTable($table))
                             {
-                                $this->_log("table dropped: {$aTable['schema_name']}:{$aTableRec['version']}:{$this->prefix}{$table}");
+                                $this->_logOnly("table dropped: {$aTable['schema_name']}:{$aTableRec['version']}:{$this->prefix}{$table}");
                                 $this->oAuditor->logAuditAction(array('info1'=>'dropped new table',
                                                                       'tablename'=>$table,
                                                                       'action'=>DB_UPGRADE_ACTION_ROLLBACK_TABLE_DROPPED,
@@ -772,10 +772,10 @@ class OA_DB_Upgrade
         foreach ($aResult as $k => $aAction)
         {
             $this->aRestoreTables[$aAction['schema_name']][$aAction['version']][$aAction['tablename']][$aAction['timing']] = $aAction;
-            $this->_log("require backup table {$this->prefix}{$aAction['tablename_backup']} to restore {$aAction['schema']}:{$aAction['version']} table: {$this->prefix}{$aAction['tablename']}");
+            $this->_logOnly("require backup table {$this->prefix}{$aAction['tablename_backup']} to restore {$aAction['schema']}:{$aAction['version']} table: {$this->prefix}{$aAction['tablename']}");
             if (in_array($this->prefix.$aAction['tablename_backup'], $this->aDBTables))
             {
-                $this->_log("backup table {$this->prefix}{$aAction['tablename_backup']} found in database");
+                $this->_logOnly("backup table {$this->prefix}{$aAction['tablename_backup']} found in database");
             }
             else
             {
@@ -793,7 +793,7 @@ class OA_DB_Upgrade
         {
             if (in_array($this->prefix.$aAction['tablename'], $this->aDBTables))
             {
-                $this->_log("new table {$this->prefix}{$aAction['tablename']} found in database");
+                $this->_logOnly("new table {$this->prefix}{$aAction['tablename']} found in database");
                 $this->aAddedTables[$aAction['schema_name']][$aAction['version']][$aAction['tablename']] = $aAction;
             }
             else
@@ -804,64 +804,6 @@ class OA_DB_Upgrade
         return true;
     }
 
-//    function prepRollback()
-//    {
-//        $this->aDBTables = $this->_listTables();
-//        $aResult = $this->oAuditor->queryAudit($this->versionTo, $this->timingInt, $this->schema, DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED);
-//        if (!is_array($aResult))
-//        {
-//            return false;
-//        }
-//        $this->aAddedTables = $this->_prepAddedTables($aResult);
-//        $aResult = $this->oAuditor->queryAudit($this->versionTo, $this->timingInt, $this->schema, DB_UPGRADE_ACTION_BACKUP_TABLE_COPIED);
-//        if (!is_array($aResult))
-//        {
-//            return false;
-//        }
-//        $this->aRestoreTables = $this->_prepRestoreTables($aResult);
-//        return true;
-//    }
-//
-//    function _prepRestoreTables($aTables)
-//    {
-//        $aResult = array();
-//        foreach ($aTables AS $k=>$aAction)
-//        {
-//            // info2 holds the reason for table having been dropped
-//            // ie dropped by user, dropped after successful restore
-//            if (is_null($aAction['info2']))
-//            {
-//                $table = $aAction['tablename'];
-//                $table_bak = $aAction['tablename_backup'];
-//                $aBakDef = unserialize($aAction['table_backup_schema']);
-//                $aResult[$table] = array(
-//                                        'bak'=>$table_bak,
-//                                        'def'=>$aBakDef
-//                                        );
-//                $this->_log("Require backup table {$this->prefix}{$table_bak} to restore table: {$this->prefix}{$table}");
-//                if (in_array($this->prefix.$table_bak, $this->aDBTables))
-//                {
-//                    $this->_log("Backup table {$this->prefix}{$table_bak} found in database");
-//                }
-//                else
-//                {
-//                    $this->_logError("Backup table {$this->prefix}{$table_bak} not found in database");
-//                }
-//            }
-//        }
-//        return $aResult;
-//    }
-//
-//    function _prepAddedTables($aTables)
-//    {
-//        $aResult = array();
-//        foreach ($aTables AS $k=>$aAction)
-//        {
-//            $table = $aAction['tablename'];
-//            $aResult[$table] = true;
-//        }
-//        return $aResult;
-//    }
     /**
      * restore individual tables
      * remove the backups?
@@ -954,7 +896,7 @@ class OA_DB_Upgrade
      */
     function _dropBackup($table)
     {
-        $this->_log('dropping your backup: '.$table);
+        $this->_logOnly('dropping your backup: '.$table);
 
         $result = $this->oSchema->db->manager->dropTable($table);
         if ($this->_isPearError($result, 'error dropping '.$table))
@@ -973,7 +915,7 @@ class OA_DB_Upgrade
      */
     function _verifyTasks()
     {
-        $this->_log('verifying/creating '.$this->timingStr.' tasklist');
+        $this->_logOnly('verifying/creating '.$this->timingStr.' tasklist');
         $this->aDBTables = $this->_listTables();
         if ($this->continue)
         {
@@ -1010,7 +952,7 @@ class OA_DB_Upgrade
      */
     function _executeTasks()
     {
-        $this->_log('executing '.$this->timingStr.' tasks');
+        $this->_logOnly('executing '.$this->timingStr.' tasks');
         if ($this->continue)
         {
             $this->_executeTasksIndexesRemove();
@@ -1050,7 +992,7 @@ class OA_DB_Upgrade
             foreach ($this->aTaskList['fields']['add'] as $k => $aTask)
             {
                 $table = $aTask['name'];
-                $this->_log($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
+                $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
                 $result = $this->_executeMigrationMethodField($table, $aTask['field'], 'beforeAddField');
                 if ($this->_isPearError($result, "data migration error beforeAddField: {$this->prefix}{$table}{$aTask['field']}"))
                 {
@@ -1060,7 +1002,7 @@ class OA_DB_Upgrade
                 $result = $this->oSchema->db->manager->alterTable($this->prefix.$table, $aTask['cargo'], false);
                 if (!$this->_isPearError($result, 'error altering table '.$table))
                 {
-                    $this->_log('successfully altered table '.$this->prefix.$table);
+                    $this->_logOnly('successfully altered table '.$this->prefix.$table);
                 }
                 else
                 {
@@ -1080,7 +1022,7 @@ class OA_DB_Upgrade
             foreach ($this->aTaskList['fields']['remove'] as $k => $aTask)
             {
                 $table = $aTask['name'];
-                $this->_log($this->_formatExecuteMsg($k,  $table, 'alter'));
+                $this->_logOnly($this->_formatExecuteMsg($k,  $table, 'alter'));
                 $result = $this->_executeMigrationMethodField($table, $aTask['field'], 'beforeRemoveField');
                 if ($this->_isPearError($result, "data migration error beforeRemoveField: {$this->prefix}{$table}{$aTask['field']}"))
                 {
@@ -1090,7 +1032,7 @@ class OA_DB_Upgrade
                 $result = $this->oSchema->db->manager->alterTable($this->prefix.$table, $aTask['cargo'], false);
                 if (!$this->_isPearError($result, 'error altering table '.$this->prefix.$table))
                 {
-                    $this->_log('successfully altered table '.$this->prefix.$table);
+                    $this->_logOnly('successfully altered table '.$this->prefix.$table);
                 }
                 else
                 {
@@ -1111,7 +1053,7 @@ class OA_DB_Upgrade
             foreach ($this->aTaskList['fields']['change'] as $k => $aTask)
             {
                 $table = $aTask['name'];
-                $this->_log($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
+                $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
                 $result = $this->_executeMigrationMethodField($table, $aTask['field'], 'beforeAlterField');
                 if ($this->_isPearError($result, "data migration error beforeAlterField: {$this->prefix}{$table}.{$aTask['field']}"))
                 {
@@ -1121,7 +1063,7 @@ class OA_DB_Upgrade
                 $result = $this->oSchema->db->manager->alterTable($this->prefix.$table, $aTask['cargo'], false);
                 if (!$this->_isPearError($result, 'error altering table '.$this->prefix.$table))
                 {
-                    $this->_log('successfully altered table '.$this->prefix.$table);
+                    $this->_logOnly('successfully altered table '.$this->prefix.$table);
                 }
                 else
                 {
@@ -1142,7 +1084,7 @@ class OA_DB_Upgrade
             foreach ($this->aTaskList['fields']['rename'] as $k => $aTask)
             {
                 $table = $aTask['name'];
-                $this->_log($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
+                $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'alter'));
                 $result = $this->_executeMigrationMethodField($table, $aTask['was'], 'beforeRenameField');
                 if ($this->_isPearError($result, "data migration error beforeRenameField: {$aTask['name']}.{$aTask['was']}"))
                 {
@@ -1152,7 +1094,7 @@ class OA_DB_Upgrade
                 $result = $this->oSchema->db->manager->alterTable($this->prefix.$table, $aTask['cargo'], false);
                 if (!$this->_isPearError($result, 'error altering table '.$this->prefix.$table))
                 {
-                    $this->_log('successfully altered table '.$this->prefix.$table);
+                    $this->_logOnly('successfully altered table '.$this->prefix.$table);
                 }
                 else
                 {
@@ -1182,7 +1124,7 @@ class OA_DB_Upgrade
             foreach ($this->aTaskList['tables']['add'] as $k => $aTask)
             {
                 $table = $aTask['name'];
-                $this->_log($this->_formatExecuteMsg($k,  $this->prefix.$table, 'create'));
+                $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'create'));
 
                 if (!$this->_executeMigrationMethodTable($table, 'beforeAddTable'))
                 {
@@ -1201,7 +1143,7 @@ class OA_DB_Upgrade
                         }
                         else
                         {
-                            $this->_log('successfully created table '.$this->prefix.$table);
+                            $this->_logOnly('successfully created table '.$this->prefix.$table);
                         }
                     }
                     else
@@ -1228,7 +1170,7 @@ class OA_DB_Upgrade
             {
                 $tbl_new = $this->prefix.$aTask['name'];
                 $tbl_old = $this->prefix.$aTask['cargo']['was'];
-                $this->_log($this->_formatExecuteMsg($k,  $tbl_old, 'rename'));
+                $this->_logOnly($this->_formatExecuteMsg($k,  $tbl_old, 'rename'));
 
                 $statement = $this->aSQLStatements['table_rename'];
                 $query     = sprintf($statement, $tbl_old, $tbl_new);
@@ -1250,7 +1192,7 @@ class OA_DB_Upgrade
                         }
                         else
                         {
-                            $this->_log('successfully renamed table '.$tbl_old.' to '.$tbl_new);
+                            $this->_logOnly('successfully renamed table '.$tbl_old.' to '.$tbl_new);
                         }
                     }
                     else
@@ -1276,7 +1218,7 @@ class OA_DB_Upgrade
             foreach ($this->aTaskList['tables']['remove'] as $k => $aTask)
             {
                 $table = $aTask['name'];
-                $this->_log($this->_formatExecuteMsg($k,  $this->prefix.$table, 'remove'));
+                $this->_logOnly($this->_formatExecuteMsg($k,  $this->prefix.$table, 'remove'));
                 if (!$this->_executeMigrationMethodTable($table, 'beforeRemoveTable'))
                 {
                     $this->_halt();
@@ -1295,7 +1237,7 @@ class OA_DB_Upgrade
                         }
                         else
                         {
-                            $this->_log('successfully removed table '.$this->prefix.$table);
+                            $this->_logOnly('successfully removed table '.$this->prefix.$table);
                         }
                     }
                     else
@@ -1444,7 +1386,7 @@ class OA_DB_Upgrade
                             if (isset($aIndex_tasks['add']))
                             {
                                 $method = $aIndex_tasks['add'];
-                                $this->_log('task found: '.$method);
+                                $this->_logOnly('task found: '.$method);
                                 $this->aTaskList['indexes']['add'][] = $this->_compileTaskIndex('add', $table, $index);
                             }
                         }
@@ -1482,7 +1424,7 @@ class OA_DB_Upgrade
                             if (isset($aIndex_tasks['remove']))
                             {
                                 $method = $aIndex_tasks['remove'];
-                                $this->_log('task found: '.$method);
+                                $this->_logOnly('task found: '.$method);
                                 $this->aTaskList['indexes']['remove'][] = $this->_compileTaskIndex('remove', $table, $index);
                             }
                         }
@@ -1518,17 +1460,17 @@ class OA_DB_Upgrade
                         $aDBFields = $this->_listTableFields($table);
                         foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
                         {
-                            $this->_log('checking field: '.$this->prefix.$table.$field);
+                            $this->_logOnly('checking field: '.$this->prefix.$table.$field);
                             if (!in_array($field, $aDBFields))
                             {
                                 if (array_key_exists('rename', $aField_tasks))
                                 {
                                     $method -= $aField_tasks['rename'];
-                                    $this->_log('task found: '.$method);
+                                    $this->_logOnly('task found: '.$method);
                                     $was = $this->_getPreviousFieldname($table, $field);
                                     if ($was)
                                     {
-                                        $this->_log('found that this field : '.$table.'.'.$field.' was called: '.$table.'.'.$was);
+                                        $this->_logOnly('found that this field : '.$table.'.'.$field.' was called: '.$table.'.'.$was);
                                         $this->aTaskList['fields']['rename'][] = $this->_compileTaskField('rename', $table, $was, $field);
                                     }
                                     else
@@ -1541,7 +1483,7 @@ class OA_DB_Upgrade
                                 else if (array_key_exists('add', $aField_tasks))
                                 {
                                     $method = $aField_tasks['add'];
-                                    $this->_log('task found: '.$method);
+                                    $this->_logOnly('task found: '.$method);
                                     $this->aTaskList['fields']['add'][] = $this->_compileTaskField('add', $table, $field, $field);
                                 }
                                 else
@@ -1553,7 +1495,7 @@ class OA_DB_Upgrade
                             }
                             else
                             {
-                                $this->_log('found field '.$field);
+                                $this->_logOnly('found field '.$field);
                                 foreach ($aField_tasks AS $task => $method)
                                 {
                                     if ($task != 'rename')
@@ -1588,10 +1530,10 @@ class OA_DB_Upgrade
                     {
                         if ($task == 'remove')
                         {
-                            $this->_log('task found: '.$method);
+                            $this->_logOnly('task found: '.$method);
                             if (in_array($this->prefix.$table, $this->aDBTables))
                             {
-                                $this->_log('found table in database: '.$this->prefix.$table);
+                                $this->_logOnly('found table in database: '.$this->prefix.$table);
                                 $this->aTaskList['tables']['remove'][] = $this->_compileTaskTable($task, $table);
                             }
                             else
@@ -1627,13 +1569,13 @@ class OA_DB_Upgrade
                     {
                         if ($task == 'rename')
                         {
-                            $this->_log('task found: '.$method);
+                            $this->_logOnly('task found: '.$method);
                             $table_was = $this->_getPreviousTablename($table);
                             if ($table_was)
                             {
                                 if (in_array($this->prefix.$table_was, $this->aDBTables))
                                 {
-                                    $this->_log('found that this table : '.$table.' was called: '.$table_was);
+                                    $this->_logOnly('found that this table : '.$table.' was called: '.$table_was);
                                     $this->aTaskList['tables']['rename'][] = $this->_compileTaskTable($task, $table, $table_was);
                                 }
                                 else
@@ -1675,7 +1617,7 @@ class OA_DB_Upgrade
                     {
                         if ($task == 'add')
                         {
-                            $this->_log('task found: '.$method);
+                            $this->_logOnly('task found: '.$method);
                             if (in_array($this->prefix.$table, $this->aDBTables))
                             {
                                 $this->_logError('table '.$this->prefix.$table.' already exists in database '.$this->oSchema->db->database_name);
@@ -2008,7 +1950,7 @@ class OA_DB_Upgrade
                 }
                 if (!$this->_isPearError($result, "error creating index {$index} on table {$table_name}"))
                 {
-                    $this->_log("success creating index {$index} on table {$table_name}");
+                    $this->_logOnly("success creating index {$index} on table {$table_name}");
                 }
                 else
                 {
@@ -2178,6 +2120,19 @@ class OA_DB_Upgrade
         if ($this->oLogger)
         {
             $this->oLogger->log($message);
+        }
+        else
+        {
+            $this->aMessages[] = $message;
+            $this->_logWrite($message);
+        }
+    }
+
+    function _logOnly($message)
+    {
+        if ($this->oLogger)
+        {
+            $this->oLogger->logOnly($message);
         }
         else
         {
