@@ -76,6 +76,7 @@ $GLOBALS['strFixErrorsBeforeContinuing']    = "Please fix all errors before cont
 $GLOBALS['strWarningDBavailable']           = "The version of PHP you are using doesn't have support for connecting to a ".phpAds_dbmsname." database server. You need to enable the PHP ".phpAds_dbmsname." extension before you can proceed.";
 $GLOBALS['strWarningPHPversion']            = MAX_PRODUCT_NAME." requires PHP 4.3.6 or higher to function correctly. You are currently using {php_version}.";
 $GLOBALS['strWarningRegisterGlobals']       = "The PHP configuration variable register_globals needs to be turned on.";
+$GLOBALS['strWarningRegisterArgcArv']       = "The PHP configuration variable register_argc_argv needs to be turned on to run maintenance from the command line.";
 $GLOBALS['strWarningMagicQuotesGPC']        = "The PHP configuration variable magic_quotes_gpc needs to be turned on.";
 $GLOBALS['strWarningMagicQuotesRuntime']    = "The PHP configuration variable magic_quotes_runtime needs to be turned off.";
 $GLOBALS['strWarningFileUploads']           = "The PHP configuration variable file_uploads needs to be turned on.";

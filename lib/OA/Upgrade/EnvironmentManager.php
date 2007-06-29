@@ -36,6 +36,8 @@ define('OA_ENV_ERROR_PHP_MEMORY',                    -2);
 define('OA_ENV_ERROR_PHP_SAFEMODE',                  -3);
 define('OA_ENV_ERROR_PHP_MAGICQ',                    -4);
 define('OA_ENV_ERROR_PHP_TIMEZONE',                  -5);
+define('OA_ENV_ERROR_PHP_UPLOADS',                   -6);
+define('OA_ENV_ERROR_PHP_ARGC',                      -7);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 
@@ -75,6 +77,8 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['version']              = '4.3.10';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
+        $this->aInfo['PHP']['expected']['file_uploads']         = '1';
+        $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
         //$this->aInfo['PHP']['expected']['date.timezone']        = true;
 
         $this->aInfo['FILES']['expected']                   = array();
@@ -103,6 +107,8 @@ class OA_Environment_Manager
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode'] = ini_get('safe_mode');
         $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
+        $aResult['register_argc_argv'] = ini_get('register_argc_argv');
+        $aResult['file_uploads'] = ini_get('file_uploads');
         //$aResult['register_globals'] = ini_get('register_globals');
         //$aResult['magic_quotes_gpc'] = get_magic_quotes_gpc();
 
@@ -211,6 +217,9 @@ class OA_Environment_Manager
         {
             $result = OA_ENV_ERROR_PHP_MAGICQ;
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'magic_quotes_runtime must be OFF';
+        }
+        if (!$this->aInfo['PHP']['actual']['file_uploads']) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'file uploads must be ON';
         }
 //        if (!$this->aInfo['PHP']['actual']['date.timezone'])
 //        {
