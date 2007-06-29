@@ -449,7 +449,9 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js-gui.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/sorttable.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/boxrow.js'></script>\n";
-    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/formValidation.php'></script>\n";
+    if (!defined('phpAds_installing')) {
+        echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/formValidation.php'></script>\n";
+    }
 
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/lang/calendar-en.js'></script>\n";
