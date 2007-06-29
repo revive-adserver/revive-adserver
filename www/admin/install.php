@@ -24,6 +24,7 @@
 $Id$
 */
 
+define('OA_UPGRADE_RECOVERY_INFORM',          -3);
 define('OA_UPGRADE_RECOVERY',                 -2);
 define('OA_UPGRADE_ERROR',                    -1);
 define('OA_UPGRADE_WELCOME',                   0);
@@ -209,12 +210,23 @@ function checkLogin()
     return phpAds_isUser(phpAds_Admin);
 }
 
-
+if (array_key_exists('btn_startagain', $_POST))
+{
+    // Delete the cookie if user is restarting upgrader
+    setcookie('oat', '');
+}
 
 if ($oUpgrader->isRecoveryRequired())
-{
-    $oUpgrader->recoverUpgrade();
-    $action = OA_UPGRADE_RECOVERY;
+{   
+    if (array_key_exists('btn_recovery', $_POST))
+    {
+        $oUpgrader->recoverUpgrade();
+        $action = OA_UPGRADE_RECOVERY;
+    }
+    else
+    {
+        $action = OA_UPGRADE_RECOVERY_INFORM;
+    }
 }
 else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPGRADE_SYSCHECK)
 {

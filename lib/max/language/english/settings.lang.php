@@ -53,6 +53,8 @@ $GLOBALS['strWarning']                      = "Warning";
 $GLOBALS['strFatalError']                   = "A fatal error occurred";
 $GLOBALS['strUpdateError']                  = "An error occured while updating";
 $GLOBALS['strBtnContinue']                  = "Continue &raquo;";
+$GLOBALS['strBtnRecover']                   = "Recover &raquo;";
+$GLOBALS['strBtnStartAgain']                   = "Start Upgrade Again &raquo;";
 $GLOBALS['strBtnGoBack']                    = "&laquo; Go Back";
 $GLOBALS['strBtnAgree']                     = "I Agree &raquo;";
 $GLOBALS['strBtnDontAgree']                 = "&laquo; I Don't Agree";
@@ -96,6 +98,8 @@ $GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_
 <p>We try very hard to make this installation or upgrade process as simple as possible. Please follow the instructions on the screen, and if you need more help, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 <p>If you still have questions after reading the documentation, visit the <a href='http://".MAX_PRODUCT_URL."/support/overview.html' target='_blank'><strong>support</strong></a> section of our website and the Openads <a href='http://".MAX_PRODUCT_FORUMURL."' target='_blank'><strong>community forum</strong></a>.</p>
 <p>Thank you for choosing Openads.</p>";
+$GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
+$GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and Openads must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "License information";
 $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and open source ad server, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
