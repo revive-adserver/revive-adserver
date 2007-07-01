@@ -27,7 +27,7 @@ $Id$
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once MAX_PATH . '/etc/changes/StatMigration.php';
-//require_once MAX_PATH . '/etc/changes/migration_tables_core_119.php';
+require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php');
 require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
 
@@ -678,11 +678,21 @@ class Migration_108 extends Migration
             $aValues['default_banner_url']         = $aPanConfig['default_banner_url'];
             $aValues['default_banner_destination'] = $aPanConfig['default_banner_target'];
 
-            $this->createGeoTargetingConfiguration(
+            $result = $this->createGeoTargetingConfiguration(
                 $aPanConfig['geotracking_type'],
                 $aPanConfig['geotracking_location'],
                 $aPanConfig['geotracking_stats'],
                 $aPanConfig['geotracking_conf']);
+            
+            if ($result === false) {
+            	return false;
+            }
+            
+            $configMigration = new ConfigMigration();
+            $result = $configMigration->mergeGeotargetingPLuginsConfig();
+            if ($result === false) {
+            	return false;
+            }
 
 	        $sql = OA_DB_SQL::sqlForInsert('preference', $aValues);
 	        $result = $this->oDBH->exec($sql);

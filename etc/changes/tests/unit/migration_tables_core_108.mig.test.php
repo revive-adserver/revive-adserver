@@ -89,6 +89,8 @@ class Migration_119Test extends MigrationTest
 
         $migration = new Migration_108();
         $migration->init($this->oDbh);
+        
+        $this->createConfigIfNotExists();
 
         $this->checkNoGeoTargeting($migration, $host);
         $this->checkGeoIp($migration, $host);
@@ -98,6 +100,19 @@ class Migration_119Test extends MigrationTest
 
         if (file_exists(TMP_GEOCONFIG_PATH)) {
             rename(TMP_GEOCONFIG_PATH, GEOCONFIG_PATH);
+        }
+    }
+    
+    /**
+     * This method creates config if it doesn't exist so test won't fail
+     *
+     */
+    function createConfigIfNotExists()
+    {
+        if (!(file_exists('/var/'.getHostName().'.conf.php'))) {
+        	$oConfig = new OA_Upgrade_Config();
+        	$oConfig->putNewConfigFile();
+        	$oConfig->writeConfig(true);
         }
     }
 
@@ -126,8 +141,12 @@ class Migration_119Test extends MigrationTest
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
             $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+        $configMigration = new ConfigMigration();
+        $this->assertTrue($configMigration->mergeGeotargetingPLuginsConfig());
+        
         $configContent = "[geotargeting]\ntype=GeoIP\ngeoipCountryLocation=/path/to/geoip/database.dat\n";
         $this->checkGeoPluginConfig('GeoIP', $geotracking_stats, $configContent, $host);
+        $this->checkGlobalConfigConsists('GeoIP', $host);
     }
 
 
@@ -140,7 +159,11 @@ class Migration_119Test extends MigrationTest
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
             $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+        $configMigration = new ConfigMigration();
+        $this->assertTrue($configMigration->mergeGeotargetingPLuginsConfig());
+        
         $this->checkGeoPluginConfig('ModGeoIP', $geotracking_stats, "[geotargeting]\ntype=ModGeoIP\n", $host);
+        $this->checkGlobalConfigConsists('ModGeoIP', $host);
     }
 
 
@@ -150,6 +173,7 @@ class Migration_119Test extends MigrationTest
         $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";
         $pluginConfigContents = "[geotargeting]\ntype=$type\nsaveStats=$saveStats\nshowUnavailable=false";
         $this->checkFileContents($pluginConfigPath, $pluginConfigContents);
+        $this->checkGlobalConfigConsists($type, $host);
 
         if (!empty($configContent)) {
             $configPath = MAX_PATH . "/var/plugins/config/geotargeting/$type/$host.plugin.conf.php";
@@ -162,6 +186,19 @@ class Migration_119Test extends MigrationTest
         if ($this->assertTrue(file_exists($filename), "File: '$filename' should exist!")) {
             $actualContents = file_get_contents($filename);
             $this->assertEqual($contents, $actualContents);
+        }
+    }
+    
+    function checkGlobalConfigConsists($type, $host)
+    {
+        $configPath = MAX_PATH . "/var/$host.conf.php";
+    	if ($this->assertTrue(file_exists($configPath), "File: '$configPath' should exist!")) {
+            $aContents = parse_ini_file($configPath, true);
+            if ($type == '"none"') {
+            	// "none" is read as none
+            	$type = 'none';
+            }
+            $this->assertEqual($aContents['geotargeting']['type'], $type);
         }
     }
 
