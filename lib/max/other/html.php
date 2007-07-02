@@ -681,7 +681,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         switch ($pageName) {
             case 'banner-zone.php'   : $tabValue = '4.1.3.4.4'; break;
             case 'banner-acl.php'    : $tabValue = '4.1.3.4.3'; break;
-            case 'banner-edit.php'   : $tabValue = ($bannerId == '') ? '4.1.3.4.1' : '4.1.3.4.2';
+            case 'banner-edit.php'   : $tabValue = ( empty( $bannerId ) ) ? '4.1.3.4.1' : '4.1.3.4.2';
                 ( empty( $bannerId ) ) ? $tabSections = array('4.1.3.4.1' ) : $tabSections = array('4.1.3.4.2' ); break;
             case 'banner-advanced.php' : $tabValue = '4.1.3.4.6'; break;
         }
