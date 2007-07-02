@@ -302,7 +302,13 @@ class OA_Upgrade
                 $this->oLogger->log($this->oLogger->logFile);
                 if ($this->oVersioner->tableAppVarsExists($this->oDBUpgrader->_listTables()))
                 {
-                    $this->oVersioner->putApplicationVersion($aResult[0]['version_from']);
+                    $product = 'oa';
+                    if ($aResult[0]['version_from'] == '2.3.31-alpha-pr3')
+                    {
+                        $product = 'max';
+                        $this->oVersioner->removeOpenadsVersion();
+                    }
+                    $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
                 }
                 $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
                                                       'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,

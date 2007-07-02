@@ -62,7 +62,7 @@ class OA_Version_Controller
 
     function tableAppVarsExists($aExistingTables)
     {
-        return (in_array($GLOBALS['_MAX']['CONF']['table']['prefix'].'application_variable'));
+        return (in_array($GLOBALS['_MAX']['CONF']['table']['prefix'].'application_variable',$aExistingTables));
     }
 
     function getSchemaVersion($schema)
@@ -100,45 +100,38 @@ class OA_Version_Controller
         return false;
     }
 
-    function getApplicationVersion($max='')
+    function getApplicationVersion($product='oa')
     {
-        if ($max)
-        {
-            return $this->_runQuery($this->_getQuerySelect('max_version'));
-        }
-        else
-        {
-            return $this->_runQuery($this->_getQuerySelect('oa_version'));
-        }
+        return $this->_runQuery($this->_getQuerySelect($product.'_version'));
     }
 
-    function _insertApplicationVersion($version)
+    function _insertApplicationVersion($version, $product='oa')
     {
-        if ($this->_execQuery($this->_getQueryInsert('oa_version', $version)))
+        if ($this->_execQuery($this->_getQueryInsert($product.'_version', $version)))
+        {
+            return $this->getApplicationVersion($product);
+        }
+        return false;
+    }
+
+    function _updateApplicationVersion($version, $product='oa')
+    {
+        if ($this->_execQuery($this->_getQueryUpdate($product.'_version', $version)))
         {
             return $this->getApplicationVersion();
         }
         return false;
     }
 
-    function _updateApplicationVersion($version)
+    function putApplicationVersion($version, $product='oa')
     {
-        if ($this->_execQuery($this->_getQueryUpdate('oa_version', $version)))
+        if ($this->getApplicationVersion($product))
         {
-            return $this->getApplicationVersion();
-        }
-        return false;
-    }
-
-    function putApplicationVersion($version)
-    {
-        if ($this->getApplicationVersion())
-        {
-            return $this->_updateApplicationVersion($version);
+            return $this->_updateApplicationVersion($version, $product);
         }
         else
         {
-            return $this->_insertApplicationVersion($version);
+            return $this->_insertApplicationVersion($version, $product);
         }
     }
 
@@ -219,7 +212,12 @@ class OA_Version_Controller
         return $this->_execQuery($query);
     }
 
-
+    // when rolling back to max
+    function removeOpenadsVersion()
+    {
+        $query = "DELETE FROM {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable WHERE name = 'oa_version'";
+        return $this->_execQuery($query);
+    }
 }
 
 ?>
