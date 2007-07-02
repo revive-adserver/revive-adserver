@@ -89,6 +89,10 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         $doImages = OA_Dal::staticGetDO('images', 'filename', 'foo.jpg');
         
         // Check the timestamp is > time at start of test and <= current time 
+        // Deal with MySQL 4.0 timestamps
+        if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doImages->t_stamp, $m)) {
+            $doImages->t_stamp = "{$m[1]}-{$m[2]}-{$m[3]} {$m[4]}:{$m[5]}:{$m[6]}";
+        }
         $actual = strtotime($doImages->t_stamp);
         $this->assertTrue($actual > $start && $actual <= time());
         
@@ -102,6 +106,10 @@ class DataObjects_ImagesTest extends DalUnitTestCase
         $doImages = OA_Dal::staticGetDO('images', 'filename', 'foo.jpg');
         
         $oldTime = $actual;
+        // Deal with MySQL 4.0 timestamps
+        if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doImages->t_stamp, $m)) {
+            $doImages->t_stamp = "{$m[1]}-{$m[2]}-{$m[3]} {$m[4]}:{$m[5]}:{$m[6]}";
+        }
         $actual = strtotime($doImages->t_stamp);
         $this->assertTrue($actual > $oldTime && $actual <= time());
     }
