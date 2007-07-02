@@ -2543,7 +2543,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         );
                     }
                     if ($aPlacement['send_activate_deactivate_email']) {
-                        $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaignid'], $disableReason);
+                        $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id'], $disableReason);
                         if ($aEmail !== false) {
                             OA_Email::sendMail(
                                 $aEmail['subject'],
@@ -2737,7 +2737,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     $advertisementRow['url']);
                         }
                         if ($aPlacement['send_activate_deactivate_email']) {
-                            $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaignid']);
+                            $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
                             if ($aEmail !== false) {
                                 OA_Email::sendMail(
                                     $aEmail['subject'],
