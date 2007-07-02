@@ -217,7 +217,7 @@ if (array_key_exists('btn_startagain', $_POST))
 }
 
 if ($oUpgrader->isRecoveryRequired())
-{   
+{
     if (array_key_exists('btn_recovery', $_POST))
     {
         $oUpgrader->recoverUpgrade();
@@ -232,7 +232,10 @@ else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPG
 {
     // store updates_enabled value into session, so that they can be inserted into DB once DB has been created
     session_start();
-    $_SESSION['updates_enabled']         = $_POST['updates_enabled'];
+    if (isset($_POST['updates_enabled']))
+    {
+        $_SESSION['updates_enabled']         = $_POST['updates_enabled'];
+    }
 
     $aSysInfo = $oUpgrader->checkEnvironment();
 
