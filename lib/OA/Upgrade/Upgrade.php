@@ -300,7 +300,10 @@ class OA_Upgrade
                 $this->oLogger->log($aResult[0]['logfile']);
                 $this->oLogger->log('information regarding steps taken during rollback can be found in');
                 $this->oLogger->log($this->oLogger->logFile);
-                $this->oVersioner->putApplicationVersion($aResult[0]['version_from']);
+                if ($this->oVersioner->tableAppVarsExists($this->oDBUpgrader->_listTables()))
+                {
+                    $this->oVersioner->putApplicationVersion($aResult[0]['version_from']);
+                }
                 $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
                                                       'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
                                                       'confbackup'=>''
@@ -1179,8 +1182,10 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-        $this->_pickupRecoveryFile();
-        return true;
+//        $this->_pickupRecoveryFile();
+//        return true;
+        $this->oLogger->logError('TESTING FAILURE');
+        return false;
     }
 
     /**

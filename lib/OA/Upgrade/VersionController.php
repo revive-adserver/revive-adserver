@@ -60,6 +60,11 @@ class OA_Version_Controller
 //        return $this->oDBUpgrader->_queryLogTable('', '', $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
 //    }
 
+    function tableAppVarsExists($aExistingTables)
+    {
+        return (in_array($GLOBALS['_MAX']['CONF']['table']['prefix'].'application_variable'));
+    }
+
     function getSchemaVersion($schema)
     {
         return $this->_runQuery($this->_getQuerySelect($schema));
