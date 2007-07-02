@@ -356,8 +356,8 @@ echo "&nbsp;<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;".$strTe
 echo "<tr><td><input type='radio' name='delivery' value='".MAX_ZoneEmail."'".($zone['delivery'] == MAX_ZoneEmail ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
 echo "&nbsp;<img src='images/icon-zone-email.gif' align='absmiddle'>&nbsp;".$strEmailAdZone."</td></tr>";
 
-echo "<tr><td><input type='radio' name='delivery' value='".MAX_ZoneClick."'".($zone['delivery'] == MAX_ZoneClick ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
-echo "&nbsp;<img src='images/icon-zone-click.gif' align='absmiddle'>&nbsp;".$strZoneClick."</td></tr>";
+//echo "<tr><td><input type='radio' name='delivery' value='".MAX_ZoneClick."'".($zone['delivery'] == MAX_ZoneClick ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' tabindex='".($tabindex++)."'>";
+//echo "&nbsp;<img src='images/icon-zone-click.gif' align='absmiddle'>&nbsp;".$strZoneClick."</td></tr>";
 
 echo "</table></td></tr>";
 
