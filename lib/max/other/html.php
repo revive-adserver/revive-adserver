@@ -813,7 +813,8 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         // Determine which tab is highlighted
         switch ($pageName) {
             case 'zone-include.php' :     $tabValue = '4.2.3.3'; break;
-            case 'zone-edit.php' :        $tabValue = '4.2.3.2'; if (empty($zoneId)) $tabSections = array('4.2.3.2'); break;
+            case 'zone-edit.php' :        $tabValue = ( empty ( $zoneId ) ) ? '4.2.3.1' : '4.2.3.2';
+                ( empty ( $zoneId ) ) ? $tabSections = array('4.2.3.1') : $tabSections = array('4.2.3.2'); break;
             case 'zone-advanced.php' :    $tabValue = '4.2.3.6'; break;
             case 'zone-probability.php' : $tabValue = '4.2.3.4'; break;
             case 'zone-invocation.php' :  $tabValue = '4.2.3.5'; break;
