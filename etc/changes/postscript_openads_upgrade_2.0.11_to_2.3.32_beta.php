@@ -1,9 +1,8 @@
 <?php
 
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once MAX_PATH . '/etc/changes/UpgradePostcriptTo2_3_32.php';
 
-class OA_UpgradePostscript extends OA_UpgradePostscriptTo2_3_32 
+class OA_UpgradePostscript 
 {
     var $oUpgrade;
 
@@ -18,9 +17,6 @@ class OA_UpgradePostscript extends OA_UpgradePostscriptTo2_3_32
         if (!$this->configPan())
         {
             return false;
-        }
-        if (!$this->migrateGeotargetingConfig()) {
-        	return false;
         }
         if (!MAX_Maintenance_Priority::run())
         {

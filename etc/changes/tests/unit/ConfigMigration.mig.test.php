@@ -37,22 +37,26 @@ require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
  */
 class ConfigMigrationTest extends UnitTestCase
 {
-	function setUp()
+	var $moduleDir;
+	var $packageDir;
+    
+    function setUp()
 	{
 		$GLOBALS['_MAX']['CONF']['webpath']['delivery'] = getHostName();
+		
+		// set up test folders
+    	$this->moduleDir = MAX_PATH . '/var/plugins/config/testModule';
+    	if(!file_exists($this->moduleDir)) {
+    		mkdir($this->moduleDir);
+    	}
+    	$this->packageDir = $this->moduleDir.'/testType';
+    	if (!file_exists($this->packageDir)) {
+    		mkdir($this->packageDir);
+    	}
 	}
 	
     function testGetGeotargetingConfig()
     {
-    	// set up test folders
-    	$moduleDir = MAX_PATH . '/var/plugins/config/testModule';
-    	if(!file_exists($moduleDir)) {
-    		mkdir($moduleDir);
-    	}
-    	if (!file_exists($moduleDir.'/testType')) {
-    		mkdir($moduleDir.'/testType');
-    	}
-    	
     	$array1 = array('type' => 'testType');
     	MAX_Plugin::writePluginConfig($array1, 'testModule');
     	$array2 = array('key2' => 'val2');
@@ -74,6 +78,34 @@ class ConfigMigrationTest extends UnitTestCase
     	$this->checkGlobalConfigConsists('testSection', $aTest);
     }
     
+    function testRenamePluginsConfigAffix()
+    {
+        // create testing files
+        touch($this->moduleDir.'/test_host.plugin.conf.ini');
+        touch($this->packageDir.'/test_host.plugin.conf.ini');
+        
+        $configMigration = new ConfigMigration();
+        $aFiles = $configMigration->getPluginsConfigFiles('testModule', 'ini');
+        $this->assertTrue(!empty($aFiles));
+        
+        // rename them
+        $configMigration->renamePluginsConfigAffix('ini', 'php');
+        
+        // get all config files and test that ini files doesn't exist anymore
+        $aFiles = $configMigration->getPluginsConfigFiles('testModule', 'ini');
+        $this->assertTrue(empty($aFiles));
+        
+        // Test that configs were correctly renamed
+        $this->assertTrue(file_exists($this->moduleDir.'/test_host.plugin.conf.php'));
+        $this->assertTrue(file_exists($this->packageDir.'/test_host.plugin.conf.php'));
+    }
+    
+    /**
+     * Checks if $testArray exists in $section in global config file
+     *
+     * @param string $testSection
+     * @param array $testArray
+     */
     function checkGlobalConfigConsists($testSection, $testArray)
     {
         $host = getHostName();

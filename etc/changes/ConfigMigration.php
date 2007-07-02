@@ -30,6 +30,12 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Configuration.php';
 require_once MAX_PATH.'/lib/max/FileScanner.php';
 
 /**
+ * Indicates all modules
+ *
+ */
+define('OA_PLUGINS_ALL_MODULES', 1);
+
+/**
  * Migrates configuration
  *
  */
@@ -92,26 +98,46 @@ class ConfigMigration
      */
     function renamePluginsConfigAffix($oldAffix, $newAffix)
     {
-        $aFiles = $this->getPluginsConfigFiles($oldAffix);
+        $aFiles = $this->getPluginsConfigFiles(OA_PLUGINS_ALL_MODULES, $oldAffix);
         foreach ($aFiles as $oldFileName) {
-            $newFileName = str_replace('.conf.'.$oldAffix, '.conf.'.$newAffix);
-            rename($oldFileName, $newFileName);
+            $newFileName = str_replace('.conf.'.$oldAffix, '.conf.'.$newAffix, $oldFileName);
+            if(!rename($oldFileName, $newFileName)) {
+                return false;
+            }
         }
+        return true;
     }
     
     /**
-     * Reads list of files from plugins config folder which includes
+     * Reads list of files from plugins with affix (ini)
      *
      * @param string $affix
      * @return array
      */
-    function getPluginsConfigFiles($affix)
+    function getPluginsConfigFiles($module = OA_PLUGINS_ALL_MODULES, $affix = 'php')
     {
         $oFileScanner = new MAX_FileScanner();
         $oFileScanner->addFileTypes(array($affix));
-        $oFileScanner->setFileMask(MAX_PLUGINS_FILE_MASK);
-        $oFileScanner->addDir(MAX_PATH.'/var/plugins/config', $recursive = true);
+        $readFromDir = MAX_PATH.'/var/plugins/config';
+        if($module != OA_PLUGINS_ALL_MODULES) {
+            $readFromDir .= '/'.$module;
+        }
+        $oFileScanner->addDir($readFromDir, $recursive = true);
         return $oFileScanner->getAllFiles();
+    }
+    
+    /**
+     * Removes geotargeting folder and all its subfolders - as it is not needed anymore
+     * after moving its configuration to main folder
+     *
+     */
+    function deleteGeotargetingConfigFiles()
+    {
+        $geotargetingDir = MAX_PATH.'/var/plugins/config/geotargeting';
+        if (System::rm(array('-rf', $geotargetingDir)) !== true) {
+            return false;
+        }
+        return true;
     }
 
 }
