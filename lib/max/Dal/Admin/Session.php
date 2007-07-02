@@ -46,6 +46,10 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
     {
         $doSession = OA_Dal::staticGetDO('session', $session_id);
         if ($doSession) {
+            // Deal with MySQL 4.0 timestamp format (YYYYMMDDHHIISS)
+            if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doSession->lastused, $m)) {
+                $doSession->lastused = "{$m[1]}-{$m[2]}-{$m[3]} {$m[4]}:{$m[5]}:{$m[6]}";
+            }
             $timeLastUsed = strtotime($doSession->lastused);
             if (time() - $timeLastUsed < 3600) {
                 return $doSession->sessiondata;
