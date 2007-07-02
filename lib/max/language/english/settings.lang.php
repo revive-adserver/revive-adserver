@@ -120,14 +120,8 @@ Openads is configured to automatically run some maintenance tasks every hour as 
 <p><strong>Security</strong><br>
 The Openads installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
 
-<p>Please click Continue to go the configuration page, where you can modify more settings.</p>";
-
-"Congratulations - Welcome to the Openads community! The installation of " . MAX_PRODUCT_NAME . " " . OA_VERSION ." is now nearly complete. There are two last steps that you need to do to get the most out of " . MAX_PRODUCT_NAME . ".
-<p><strong>Maintenance</strong><br>Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
-<p><strong>Security</strong><br> The " . MAX_PRODUCT_NAME . " installation needs the configuration file to be writable by the server. After making your configuration changes, it is highly recommended to enable read-only access to this file, to provide higher security. For more information, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.
-
-Please click Continue to go the configuration page, where you can modify more settings. ";
-
+<p>You are now ready to start using Openads. Clicking continue will take you to your newly installed/upgraded version.</p>
+<p>Before you start using Openads we suggest you take some time to review your configuration settings found within the \"Settings\" tab.";
 $GLOBALS['strInstallNotSuccessful']         = "<b>The installation of ".MAX_PRODUCT_NAME." was not succesful</b><br /><br />Some portions of the install process could not be completed.
                                                 It is possible these problems are only temporarily, in that case you can simply click <b>Proceed</b> and return to the
                                                 first step of the install process. If you want to know more on what the error message below means, and how to solve it,
