@@ -504,7 +504,6 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
         $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
         $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
-        //$oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
 
         $oUpgrade->oConfiguration->expectCallCount('mergeConfig', 1);
         $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
@@ -512,7 +511,9 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oConfiguration->expectCallCount('getConfigBackupName', 13);
         for ($i = 0; $i < 13; $i++)
         {
-            $oUpgrade->oConfiguration->setReturnValueAt($i, 'getConfigBackupName', $i.'_www.mysite.net');
+            $oUpgrade->oConfiguration->setReturnValueAt($i, 'getConfigBackupName', $i.'_old.www.mysite.net.conf.php');
+            // drop a fake conf backup
+            @copy(MAX_PATH.'/var/test.conf.php',MAX_PATH.'/var/'.$i.'_old.www.mysite.net.conf.php');
         }
 
         // divert objects to test data
@@ -552,7 +553,7 @@ class Test_OA_Upgrade extends UnitTestCase
         {
             $idx = 12-$k;
             $this->assertEqual($aRec['upgrade_action_id'],$idx+1,'');
-            $this->assertEqual($aRec['confbackup'],$idx.'_www.mysite.net');
+            $this->assertEqual($aRec['confbackup'],$idx.'_old.www.mysite.net.conf.php');
             $this->assertTrue(file_exists(MAX_PATH.'/var/'.$aRec['logfile']));
             @unlink(MAX_PATH.'/var/'.$aRec['logfile']);
             if ($k > 0)
@@ -566,7 +567,7 @@ class Test_OA_Upgrade extends UnitTestCase
         }
         // the application variable should match the code version stamp
         $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version: '.$oUpgrade->versionInitialApplication);
-        $this->_deleteTestAppVarRecordAllNames('oa_version');
+//        $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         $oUpgrade->oConfiguration->tally();
         $oUpgrade->oIntegrity->tally();
@@ -575,74 +576,66 @@ class Test_OA_Upgrade extends UnitTestCase
     }
 
     /**
-     * tests a set of constructive & destructive changes
-     * over 2 upgrade packages
-     * emulates an interruption, dropping a recovery file
-     * ensure that the recovery info is read correctly
-     * and that the tables are restored correctly
+     * rollback the upgrade executed during the previous test
+     * copy the *fake* RECOVER file to the var folder
+     * check the audit trail
+     * delete the RECOVER file after
      *
      */
     function test_recoverUpgrade()
     {
-//        $schema = 'tables_core';
-//
-//        $this->_createTestAppVarRecord($schema, '997');
-//        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
-//
-//        $oUpgrade  = new OA_Upgrade();
-//        Mock::generatePartial(
-//                              'OA_Upgrade_Config',
-//                              $mockConfig = 'OA_Upgrade_Config'.rand(),
-//                              array('mergeConfig','setupConfigDatabase','setupConfigTable','writeConfig','getConfigBackupName')
-//                             );
-//        $oUpgrade->oConfiguration = new $mockConfig($this);
-//        $oUpgrade->oConfiguration->setReturnValue('mergeConfig', true);
-//        $oUpgrade->oConfiguration->setReturnValue('setupConfigDatabase', true);
-//        $oUpgrade->oConfiguration->setReturnValue('setupConfigTable', true);
-//        $oUpgrade->oConfiguration->setReturnValue('writeConfig', true);
-//        $oUpgrade->oConfiguration->setReturnValue('getConfigBackupName', 'old.conf.ini.php');
-//
-//        // divert objects to test data
-//        $oUpgrade->upgradePath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-//        $oUpgrade->oDBUpgrader->path_changes = $oUpgrade->upgradePath;
-//        $oUpgrade->oDBUpgrader->path_schema = $oUpgrade->upgradePath;
-//        $oUpgrade->aPackageList[0] = 'openads_upgrade_2.3.00_to_2.3.02_beta.xml';
-//        //$oDB_Upgrade->logFile = MAX_PATH . "/var/openads_upgrade_2.3.00_to_2.3.02_beta.log";
-//
-//        // just in case of error, lose this so we can continue afresh
-//        $oUpgrade->_pickupRecoveryFile();
-//
-//        // fake the versions we are starting with
-//        $this->_createTestAppVarRecord('oa_version', '2.3.00');
-//        $oUpgrade->versionInitialSchema[$schema] = 997;
-//        $oUpgrade->versionInitialApplication = '0.3.31';
-//
-//        // perform a good upgrade
-//        $this->assertTrue($oUpgrade->upgrade(),'upgrade');
-//
-//        // check the upgraded tables
-//        $this->_checkTablesUpgraded($oUpgrade);
-//        $this->assertEqual($this->_getTestAppVarValue($schema, '999'), '999', '');
-//
-//        // emulate a partial upgrade...
-//        $oUpgrade->oAuditor->oDBAuditor->auditId = 1;
-//        $oUpgrade->package_file = "openads_upgrade_2.3.00_to_2.3.02_beta.xml";
-//        $this->assertTrue($oUpgrade->_writeRecoveryFile(),'failed to write recovery file');
-//
-//
-//        // perform recovery
-//        $this->assertTrue($oUpgrade->recoverUpgrade(),'recoverUpgrade');
-//
-//        // check the restored tables
-//        $this->_checkTablesRolledBack($oUpgrade);
-//        $this->assertEqual($this->_getTestAppVarValue($schema, '997'), '997', '');
-//
-//        // remove the fake application variable records
-//        $this->_deleteTestAppVarRecordAllNames('oa_version');
-//        $this->_deleteTestAppVarRecordAllNames($schema);
-//
-//        // just in case of error, lose this so we can continue afresh
-//        $oUpgrade->_pickupRecoveryFile();
+        $datapath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->_pickupRecoveryFile();
+
+        $this->assertTrue(file_exists($datapath.'RECOVER'),'test file RECOVER is missing');
+        $this->assertTrue(@copy($datapath.'RECOVER',MAX_PATH.'/var/RECOVER'),'failed to copy test RECOVER file');
+
+        $oUpgrade->recoverUpgrade();
+
+        $aAudit = $oUpgrade->oAuditor->queryAuditAllDescending();
+        // we should have another 13 records in the upgrade_action audit table
+        // we should have another 13 logfiles in the var folder
+        // we should have 13 backup conf files in the var folder
+        // one for each of the 12 packages plus a version stamp *package*
+        $this->assertEqual(count($aAudit),26,'wrong number of audit records');
+
+        foreach ($aAudit as $k => $aRec)
+        {
+            $idx = 25-$k;
+            if ($idx >12)
+            {
+                $this->assertEqual($aRec['upgrade_action_id'],$idx+1,'');
+                $this->assertEqual($aRec['action'],UPGRADE_ACTION_ROLLBACK_SUCCEEDED,'wrong action definition');
+
+                $result = $oUpgrade->oAuditor->queryAuditByUpgradeId($k+1);
+                $this->assertIsA($result,'array','failed to retrieve the original audit record array');
+                $this->assertTrue(isset($result[0]),'failed to retrieve the original audit record');
+                $aOriginalAuditRec = $result[0];
+
+                $this->assertEqual($aOriginalAuditRec['confbackup'],'dropped during recovery', 'failure to audit that conf was dropped'); //$aOriginalAuditRec['confbackup']);
+
+                // recovery should restore then drop the backup tables
+                if (file_exists(MAX_PATH.'/var/'.($k+11).'_old.www.mysite.net.conf.php'))
+                {
+                    $this->assertFalse(true,'conf backup was not deleted');
+                    @unlink(MAX_PATH.'/var/'.($k+11).'_old.www.mysite.net.conf.php');
+                }
+                $this->assertTrue(file_exists(MAX_PATH.'/var/'.$aRec['logfile']),'logfile does not exist');
+                $this->assertEqual($aRec['logfile'],$aOriginalAuditRec['logfile'].'.rollback','wrong log file');
+                @unlink(MAX_PATH.'/var/'.$aRec['logfile']);
+                $this->assertEqual($aRec['upgrade_name'],$aOriginalAuditRec['upgrade_name'],'package mismatch: '.$aRec['upgrade_name'].' and '.$aOriginalAuditRec['upgrade_name']);
+            }
+        }
+        // the application variable should match the initial version given in the previous test
+        $this->assertEqual($oUpgrade->oVersioner->getApplicationVersion(),'2.3.32-beta-rc1','wrong initial application version: '.$oUpgrade->versionInitialApplication);
+
+        $this->assertFalse(file_exists($oUpgrade->recoveryFile),'recovery file was not deleted after recovery');
+        // just in case of error, lose the recovery file so we can continue afresh
+        // and not screw up someone's installation next time they run
+        $oUpgrade->_pickupRecoveryFile();
+        // delete the *restored* dummy conf file
+        @unlink(MAX_PATH.'/var/www.mysite.net.conf.php');
     }
 
     function _checkTablesUpgraded($oUpgrade)

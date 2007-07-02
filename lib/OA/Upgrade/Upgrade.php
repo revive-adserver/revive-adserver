@@ -216,6 +216,7 @@ class OA_Upgrade
         $aRecover = $this->seekRecoveryFile();
         if (is_array($aRecover))
         {
+            // hmm, use canUpgrade() instead?
             $this->detectPAN();
             $this->detectMAX01();
             $this->detectMAX();
@@ -299,6 +300,7 @@ class OA_Upgrade
                 $this->oLogger->log($aResult[0]['logfile']);
                 $this->oLogger->log('information regarding steps taken during rollback can be found in');
                 $this->oLogger->log($this->oLogger->logFile);
+                $this->oVersioner->putApplicationVersion($aResult[0]['version_from']);
                 $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
                                                       'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
                                                       'confbackup'=>''
