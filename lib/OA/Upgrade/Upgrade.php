@@ -1182,10 +1182,8 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-//        $this->_pickupRecoveryFile();
-//        return true;
-        $this->oLogger->logError('TESTING FAILURE');
-        return false;
+        $this->_pickupRecoveryFile();
+        return true;
     }
 
     /**
