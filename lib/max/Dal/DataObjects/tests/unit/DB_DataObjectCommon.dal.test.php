@@ -372,8 +372,9 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $comments = 'comments updated';
         $doBanners = OA_Dal::staticGetDO('banners', $bannerId1);
         $doBanners->comments = $comments;
-        // wait 1s
         $time = time();
+        // wait 1s
+        sleep(1);
         $doBanners->update();
 
         $doBanners2 = OA_Dal::staticGetDO('banners', $bannerId1);
