@@ -17,6 +17,9 @@ class OA_UpgradePrescript
         {
             return false;
         }
+        if (!$this->migrateGeotargetingConfig()) {
+        	return false;
+        }
         return true;
     }
 
@@ -63,5 +66,16 @@ class OA_UpgradePrescript
 
         return $aCurr;
     }
+    
+    function migrateGeotargetingConfig()
+	{
+		$configMigration = new ConfigMigration();
+		$aGeoConfig = $configMigration->getGeotargetingConfig();
+		$this->oUpgrade->oConfiguration->setBulkValue('geotargeting', $aGeoConfig);
+        if(!$configMigration->mergeConfigWith('geotargeting', $aGeoConfig)) {
+        	$this->oUpgrade->oLogger->logError('Failed to merge geotargeting files (non-critical, you should set geotargeting options by yourself)');
+        }
+        return true;
+	}
 
 }

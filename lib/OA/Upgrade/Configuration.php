@@ -234,6 +234,11 @@ class OA_Upgrade_Config
         $this->oConfig->setConfigChange($section, $name, $value);
     }
 
+    function setBulkValue($section, $value)
+    {
+        $this->oConfig->setBulkConfigChange($section, $value);
+    }
+
     function getValue($section, $name, $value)
     {
         return $this->oConfig->conf[$section][$name];

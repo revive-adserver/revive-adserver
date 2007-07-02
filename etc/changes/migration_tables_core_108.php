@@ -27,7 +27,6 @@ $Id$
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once MAX_PATH . '/etc/changes/StatMigration.php';
-require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php');
 require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
 
@@ -39,8 +38,6 @@ class Migration_108 extends Migration
 
     function Migration_108()
     {
-        //$this->__construct();
-
 		$this->aTaskList_constructive[] = 'beforeAddTable__application_variable';
 		$this->aTaskList_constructive[] = 'afterAddTable__application_variable';
 		$this->aTaskList_constructive[] = 'beforeAddTable__data_intermediate_ad';
@@ -688,12 +685,6 @@ class Migration_108 extends Migration
             	return false;
             }
             
-            $configMigration = new ConfigMigration();
-            $result = $configMigration->mergeGeotargetingPLuginsConfig();
-            if ($result === false) {
-            	return false;
-            }
-
 	        $sql = OA_DB_SQL::sqlForInsert('preference', $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));

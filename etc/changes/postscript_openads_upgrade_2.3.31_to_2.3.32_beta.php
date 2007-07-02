@@ -1,6 +1,8 @@
 <?php
 
-class OA_UpgradePostscript
+require_once MAX_PATH . '/etc/changes/UpgradePostcriptTo2_3_32.php';
+
+class OA_UpgradePostscript extends OA_UpgradePostscriptTo2_3_32 
 {
     var $oUpgrade;
 
@@ -15,6 +17,9 @@ class OA_UpgradePostscript
         if (!$this->configMax())
         {
             return false;
+        }
+        if (!$this->migrateGeotargetingConfig()) {
+        	return false;
         }
         return true;
     }
@@ -49,7 +54,6 @@ class OA_UpgradePostscript
         }
         return true;
     }
-
 }
 
 ?>

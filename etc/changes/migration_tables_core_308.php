@@ -2,7 +2,6 @@
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 require_once MAX_PATH . '/etc/changes/StatMigration.php';
-require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/phpAdsNew.php');
 require_once(MAX_PATH.'/lib/OA/DB/Sql.php');
 
@@ -589,12 +588,6 @@ class Migration_308 extends Migration
             	return false;
             }
             
-            $configMigration = new ConfigMigration();
-            $configMigration->mergeGeotargetingPLuginsConfig();
-            if ($result === false) {
-            	return false;
-            }
-
 	        $sql = OA_DB_SQL::sqlForInsert('preference', $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));
