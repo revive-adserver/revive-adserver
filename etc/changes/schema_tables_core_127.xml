@@ -2334,14 +2334,6 @@
    </field>
 
    <field>
-    <name>updates_cs_data_enabled</name>
-    <type>openads_enum</type>
-    <length>'t','f'</length>
-    <notnull>true</notnull>
-    <default>f</default>
-   </field>
-
-   <field>
     <name>allow_invocation_plain</name>
     <type>openads_enum</type>
     <length>'t','f'</length>
@@ -2458,50 +2450,6 @@
     <length>11</length>
     <notnull>true</notnull>
     <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_clicks_sum</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_views_sum</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_clicks_per_second</name>
-    <type>openads_float</type>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_views_per_second</name>
-    <type>openads_float</type>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_cs_data_last_sent</name>
-    <type>openads_date</type>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>ad_cs_data_last_received</name>
-    <type>openads_date</type>
-    <notnull>false</notnull>
-    <default></default>
    </field>
 
    <index>
