@@ -568,7 +568,7 @@ class OA_Upgrade
         if ($this->oPAN->detected)
         {
             $GLOBALS['_MAX']['CONF']['database'] = $this->oPAN->aDsn['database'];
-            $GLOBALS['_MAX']['CONF']['table']    = $this->oPAN->aDsn['table'];
+            //$GLOBALS['_MAX']['CONF']['table']    = $this->oPAN->aDsn['table'];
             $this->existing_installation_status = OA_STATUS_PAN_CONFIG_DETECTED;
             if (PEAR::isError($this->oPAN->oDbh))
             {
