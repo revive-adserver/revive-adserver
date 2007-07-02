@@ -3054,58 +3054,6 @@
     <default>1</default>
    </field>
 
-   <field>
-    <name>updates_cs_data_enabled</name>
-    <type>openads_enum</type>
-    <length>'t','f'</length>
-    <notnull>false</notnull>
-    <default>t</default>
-   </field>
-
-   <field>
-    <name>ad_clicks_sum</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>false</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_views_sum</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>false</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_clicks_per_second</name>
-    <type>openads_float</type>
-    <notnull>false</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_views_per_second</name>
-    <type>openads_float</type>
-    <notnull>false</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>ad_cs_data_last_sent</name>
-    <type>openads_datetime</type>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>ad_cs_data_last_received</name>
-    <type>openads_datetime</type>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
    <index>
     <name>preference_pkey</name>
     <primary>true</primary>
