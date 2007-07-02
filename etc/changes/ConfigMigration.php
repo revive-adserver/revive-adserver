@@ -27,6 +27,7 @@ $Id: StatMigration.php 7557 2007-06-18 13:03:08Z matteo.beccati@openads.org $
 
 require_once MAX_PATH.'/lib/max/Plugin.php';
 require_once MAX_PATH.'/lib/OA/Upgrade/Configuration.php';
+require_once MAX_PATH.'/lib/max/FileScanner.php';
 
 /**
  * Migrates configuration
@@ -60,6 +61,13 @@ class ConfigMigration
         return $this->getPluginsConfigByType('geotargeting');
     }
     
+    /**
+     * Returns plugin config by its module merged with specifig package
+     * config. Package type is read from module config.
+     *
+     * @param string $module
+     * @return array
+     */
     function getPluginsConfigByType($module)
     {
     	if(isset($GLOBALS['_MAX']['CONF'][$module])) {
@@ -72,6 +80,38 @@ class ConfigMigration
             $conf = array_merge($conf, $aConfig); 
         }
         return $conf;
+    }
+    
+    /**
+     * Change the plugins config name affix (used to change all plugins affixes)
+     * For example from *.ini to *.php
+     *
+     * @param string $oldAffix
+     * @param string $newAffix
+     * @return boolean  True on success else false
+     */
+    function renamePluginsConfigAffix($oldAffix, $newAffix)
+    {
+        $aFiles = $this->getPluginsConfigFiles($oldAffix);
+        foreach ($aFiles as $oldFileName) {
+            $newFileName = str_replace('.conf.'.$oldAffix, '.conf.'.$newAffix);
+            rename($oldFileName, $newFileName);
+        }
+    }
+    
+    /**
+     * Reads list of files from plugins config folder which includes
+     *
+     * @param string $affix
+     * @return array
+     */
+    function getPluginsConfigFiles($affix)
+    {
+        $oFileScanner = new MAX_FileScanner();
+        $oFileScanner->addFileTypes(array($affix));
+        $oFileScanner->setFileMask(MAX_PLUGINS_FILE_MASK);
+        $oFileScanner->addDir(MAX_PATH.'/var/plugins/config', $recursive = true);
+        return $oFileScanner->getAllFiles();
     }
 
 }

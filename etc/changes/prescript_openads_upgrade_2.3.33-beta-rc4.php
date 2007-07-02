@@ -1,5 +1,7 @@
 <?php
 
+require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
+
 class OA_UpgradePrescript
 {
     var $oUpgrade;
