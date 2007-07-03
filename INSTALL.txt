@@ -28,14 +28,13 @@ http://docs.openads.org/. You should check this site for the latest
 available details on how to install. However, for convenience, the install
 process is essentially:
 
-1) Make sure your database (MySQL or PostgreSQL) is correctly installed and
-   running, and that your web server is setup with PHP and the appropriate
-   database driver for PHP is installed.
+1) Make sure your database is correctly installed and running, and that
+   your web server is setup with PHP and the appropriate database driver
+   for PHP is installed.
 
    Openads supports:
      - PHP        >= 4.3.11
      - MySQL      >= 4.0.12
-     - PostgreSQL >=
 
    If you would like to have support for displaying graphs in the Openads
    statistics pages, you will also need to make sure that PHP is installed
