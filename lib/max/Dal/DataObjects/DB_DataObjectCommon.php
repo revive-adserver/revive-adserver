@@ -652,7 +652,7 @@ class DB_DataObjectCommon extends DB_DataObject
         if ($this->refreshUpdatedFieldIfExists) {
             $fields = $this->table();
             if (array_key_exists('updated', $fields)) {
-                $this->updated = date('Y-m-d H:i:s');
+                $this->updated = date('Y-m-d H:i:s', time());
             }
         }
     }
