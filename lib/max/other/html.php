@@ -809,15 +809,20 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
 
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
         $tabSections = array('4.2.3.2', '4.2.3.6', '4.2.3.3', '4.2.3.4', '4.2.3.5');
-
         // Determine which tab is highlighted
         switch ($pageName) {
-            case 'zone-include.php' :     $tabValue = '4.2.3.3'; break;
-            case 'zone-edit.php' :        $tabValue = ( empty ( $zoneId ) ) ? '4.2.3.1' : '4.2.3.2';
-                ( empty ( $zoneId ) ) ? $tabSections = array('4.2.3.1') : $tabSections = array('4.2.3.2'); break;
-            case 'zone-advanced.php' :    $tabValue = '4.2.3.6'; break;
+            case 'zone-include.php'    : $tabValue = '4.2.3.3'; break;
+            case 'zone-edit.php'       :
+                if (empty($zoneId)) {
+                    $tabValue = '4.2.3.1';
+                    $tabSections = array('4.2.3.1');
+                } else {
+                    $tabValue = '4.2.3.2';
+                }
+                break;
+            case 'zone-advanced.php'    : $tabValue = '4.2.3.6'; break;
             case 'zone-probability.php' : $tabValue = '4.2.3.4'; break;
-            case 'zone-invocation.php' :  $tabValue = '4.2.3.5'; break;
+            case 'zone-invocation.php'  : $tabValue = '4.2.3.5'; break;
         }
     } elseif (phpAds_isUser(phpAds_Affiliate)) {
         $tabSections = array();
