@@ -22,14 +22,14 @@ function changePage(page) {
         </div>
     </div>
     <br>
-    <a name="mid">&nbsp;</a>
     <?php
+      define('phpAds_installing', true);
+        $constants = get_defined_constants();
         include '../admin/js/formValidation.php';
         switch ($action)
         {
             case OA_UPGRADE_ERROR       : include 'templates/install-messages.html';    break;
             case OA_UPGRADE_RECOVERY    : include 'templates/install-messages.html';    break;
-            case OA_UPGRADE_RECOVERY_INFORM    : include 'templates/install-recovery.html';    break;
             case OA_UPGRADE_TERMS       : include 'templates/install-terms.html';       break;
             case OA_UPGRADE_POLICY      : include 'templates/install-policy.html';       break;
             case OA_UPGRADE_SYSCHECK    : include 'templates/install-syscheck.html'; include 'templates/install-appcheck.html';    break;

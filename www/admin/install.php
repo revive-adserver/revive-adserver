@@ -228,7 +228,7 @@ if ($oUpgrader->isRecoveryRequired())
         $action = OA_UPGRADE_RECOVERY_INFORM;
     }
 }
-else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPGRADE_SYSCHECK)
+else if (array_key_exists('btn_syscheck', $_POST) || (array_key_exists('dirPage', $_POST) && $_POST['dirPage'] == OA_UPGRADE_SYSCHECK))
 {
     // store updates_enabled value into session, so that they can be inserted into DB once DB has been created
     session_start();
@@ -578,7 +578,7 @@ foreach($showSections as $key=>$val) {
     }
 }
 // display main template
-include 'templates/install-index.html';
+include 'templates/install-index.php';
 
 // display footer
 phpAds_PageFooter($imgPath);
