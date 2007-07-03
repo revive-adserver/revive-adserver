@@ -2270,18 +2270,20 @@ class OA_DB_Upgrade
     {
         if ($this->prefix !== '')
         {
+            $prefix = strtolower($this->prefix);
             foreach ($aDefinition['tables'] AS $tablename => $aDef)
             {
-                if (substr($tablename, 0, strlen($this->prefix))==$this->prefix)
+                $tablename = strtolower($tablename);
+                if (substr($tablename, 0, strlen($prefix))==$prefix)
                 {
-                    $strippedname = substr($tablename, strlen($this->prefix), strlen($tablename));
+                    $strippedname = substr($tablename, strlen($prefix), strlen($tablename));
                     if (isset($aDef['indexes']))
                     {
                         foreach ($aDef['indexes'] AS $indexname => $aIndex)
                         {
                             if (isset($aIndex['primary']))
                             {
-                                $strippedidx = str_replace($this->prefix, '', $indexname);
+                                $strippedidx = str_replace($prefix, '', $indexname);
                                 $aDef['indexes'][$strippedidx] = $aIndex;
                                 unset($aDef['indexes'][$indexname]);
                             }
