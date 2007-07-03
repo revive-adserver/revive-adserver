@@ -68,6 +68,7 @@ function phpAds_userlogAdd($action, $object, $details = '')
 		$usertype = phpAds_userAdministrator;
 		$userid   = 0;
 	}
+	$now = strtotime(OA::getNow());
     $query = "
         INSERT INTO
             {$conf['table']['prefix']}{$conf['table']['userlog']}
@@ -81,7 +82,7 @@ function phpAds_userlogAdd($action, $object, $details = '')
             )
         VALUES
             (
-                ". $oDbh->quote(OA::getNow(), 'timestamp') . ",
+                ". $oDbh->quote($now, 'integer') . ",
                 ". $oDbh->quote($usertype, 'integer') .",
                 ". $oDbh->quote($userid, 'integer') .",
                 ". $oDbh->quote($action, 'integer') .",
