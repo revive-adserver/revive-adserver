@@ -244,7 +244,8 @@ $settings = array (
             )
         )
     ),
-    array (
+    // These settings have no effect at the moment so they are removed from the interface.
+    /*array (
         'text'  => $strClientInterface,
         'items' => array (
             array (
@@ -298,7 +299,7 @@ $settings = array (
                 'depends' => 'publisher_agreement==true'
             )
         )
-    ),
+    ),*/
     array (
         'text'  => $strTracker,
         'items' => array (
@@ -327,7 +328,8 @@ $settings = array (
             )
         )
     ),
-    array (
+    // This setting has no effect at the moment so it is removed from the interface.
+    /*array (
         'text'  => $strReportsInterface,
         'items' => array (
             array (
@@ -336,7 +338,7 @@ $settings = array (
                 'text'    => $strAllowMoreReports
             )
         )
-    )
+    )*/
 );
 
 phpAds_ShowSettings($settings, $errormessage);
