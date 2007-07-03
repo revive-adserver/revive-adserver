@@ -88,7 +88,7 @@ class Max_Admin_DB
         // These values must be the same as used for the
         // data access layer file names!
         $types['mysql'] = 'mysql';
-        $types['pgsql'] = 'pgsql';
+        //$types['pgsql'] = 'pgsql';
         return $types;
     }
 
