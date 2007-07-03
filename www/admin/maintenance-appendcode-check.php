@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Dal/Inventory/Trackers.php';
+require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -48,6 +49,7 @@ phpAds_registerGlobal('action');
 
 phpAds_PageHeader("5.3");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_MaintenanceSelection("appendcodes");
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
