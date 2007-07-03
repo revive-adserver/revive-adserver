@@ -968,7 +968,14 @@ class OA_Email
     	}
     	// Add \r to linebreaks in the contents for MS Exchange compatibility
     	$contents = str_replace("\n", "\r\n", $contents);
-    	return @mail($toParam, $subject, $contents, $headersParam);
+    	// Send email, if possible!
+    	if (function_exists('mail')) {
+    	   $value = @mail($toParam, $subject, $contents, $headersParam);
+    	   return $value;
+    	} else {
+    	    OA::debug('Cannot send emails - mail() does not exist!', PEAR_LOG_ERR);
+    	    return false;
+    	}
     }
 
 }
