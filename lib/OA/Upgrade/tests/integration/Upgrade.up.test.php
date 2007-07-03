@@ -584,12 +584,14 @@ class Test_OA_Upgrade extends UnitTestCase
      */
     function test_recoverUpgrade()
     {
-        $datapath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+//        $datapath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->_pickupRecoveryFile();
 
-        $this->assertTrue(file_exists($datapath.'RECOVER'),'test file RECOVER is missing');
-        $this->assertTrue(@copy($datapath.'RECOVER',MAX_PATH.'/var/RECOVER'),'failed to copy test RECOVER file');
+//        $this->assertTrue(file_exists($datapath.'RECOVER'),'test file RECOVER is missing');
+//        $this->assertTrue(@copy($datapath.'RECOVER',MAX_PATH.'/var/RECOVER'),'failed to copy test RECOVER file');
+
+        $this->_writeTestRecoveryFile();
 
         $oUpgrade->recoverUpgrade();
 
@@ -709,6 +711,20 @@ class Test_OA_Upgrade extends UnitTestCase
         $doApplicationVariable          = OA_Dal::factoryDO('application_variable');
         $doApplicationVariable->name    = $name;
         $doApplicationVariable->delete();
+    }
+
+    function _writeTestRecoveryFile()
+    {
+        $datapath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $this->assertTrue(file_exists($datapath.'RECOVER'),'test file RECOVER is missing');
+        $this->assertTrue(@copy($datapath.'RECOVER',MAX_PATH.'/var/RECOVER'),'failed to copy test RECOVER file');
+
+        $fp = fopen(MAX_PATH.'/var/RECOVER','a');
+        if (is_resource($fp))
+        {
+            $line = '13/openads_version_stamp_'.OA_VERSION.'/2007-07-02 03:32:39;';
+            fwrite($fp, $line);
+        }
     }
 }
 
