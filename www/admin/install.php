@@ -272,8 +272,16 @@ else if (array_key_exists('btn_dbsetup', $_POST))
     }
     elseif ($oUpgrader->canUpgrade())
     {
-        $aDatabase = $oUpgrader->aDsn;
-        $action    = OA_UPGRADE_DBSETUP;
+        $installStatus = $oUpgrader->existing_installation_status;
+
+        if ($installStatus != OA_STATUS_NOT_INSTALLED &&
+            (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE)) {
+            // Hey, what's going on, we shouldn't be here, go back to login!
+            $action = OA_UPGRADE_LOGIN;            
+        } else {    
+            $aDatabase = $oUpgrader->aDsn;
+            $action    = OA_UPGRADE_DBSETUP;
+        }
     }
     else
     {
@@ -298,7 +306,9 @@ else if (array_key_exists('btn_upgrade', $_POST))
     }
     elseif ($oUpgrader->canUpgrade())
     {
-        if ($oUpgrader->existing_installation_status == OA_STATUS_NOT_INSTALLED)
+        $installStatus = $oUpgrader->existing_installation_status;
+
+        if ($installStatus == OA_STATUS_NOT_INSTALLED)
         {
             if ($oUpgrader->install($_POST['aConfig']))
             {
@@ -308,7 +318,11 @@ else if (array_key_exists('btn_upgrade', $_POST))
         }
         else
         {
-            if ($oUpgrader->upgrade($oUpgrader->package_file))
+            if (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
+                // Hey, what's going on, we shouldn't be here, go back to login!
+                $action = OA_UPGRADE_LOGIN;
+            }
+            elseif ($oUpgrader->upgrade($oUpgrader->package_file))
             {
                 $message = 'Your database has successfully been upgraded to Openads version '.OA_VERSION;
                 $action  = OA_UPGRADE_UPGRADE;
