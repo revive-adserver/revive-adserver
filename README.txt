@@ -8,7 +8,7 @@
     . Conversion Tracking Tools
 
 
-    Version 0.3.32-beta
+    Version 2.3.34-beta
     ------------------------------------------------------------------------
     THIS IS BETA SOFTWARE AND MAY NOT BE STABLE ENOUGH FOR USE
     IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
@@ -55,23 +55,6 @@
     other than LIB-FTP.  If you modify this file, you may extend this exception
     to your version of the file, but you are not obligated to do so.  If
     you do not wish to do so, delete this exception statement from your version.
-
-
-    System Requirements:
-    ------------------------------------------------------------------------
-    Any operating system/web server that supports MySQL and PHP
-    PHP (version 4.3.6 or later, including PHP5)
-    MySQL (version 4.0.12 or later)
-
-
-    Functionality:
-    ------------------------------------------------------------------------
-    For recent changes, please see the CHANGELOG.txt file.
-
-
-    Known Issues:
-    ------------------------------------------------------------------------
-    Please see the KNOWN_ISSUES.txt file in the docs/ directory.
 
 
     Support:
