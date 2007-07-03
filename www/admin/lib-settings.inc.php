@@ -233,7 +233,6 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
                         case 'break':     phpAds_ShowSettings_Break($item, $imgPath); break;
                         case 'checkbox':  phpAds_ShowSettings_Checkbox($item, $value); break;
                         case 'text':      phpAds_ShowSettings_Text($item, $value); break;
-                        case 'file':      phpAds_ShowSettings_File($item, $value); break;
                         case 'url':       phpAds_ShowSettings_Url($item, $value); break;
                         case 'urln':      phpAds_ShowSettings_Url($item, $value, 'n'); break;
                         case 'urls':      phpAds_ShowSettings_Url($item, $value, 's'); break;
@@ -472,20 +471,6 @@ function phpAds_ShowSettings_Text($item, $value)
     echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
     echo "<td width='100%' valign='top'>";
     echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled="disabled"' : '')." ";
-    echo "size='".$item['size']."' maxlength='".$item['maxlength']."' value=\"".htmlspecialchars($value)."\" tabindex='".($tabindex++)."' ".($item['autooff'] ? 'autocomplete="off"' : '').">";
-    echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
-}
-
-function phpAds_ShowSettings_File($item, $value)
-{
-    global $tabindex;
-    if (!isset($item['size'])) {
-        $item['size'] = 25;
-    }
-    echo "<tr><td>&nbsp;</td>\n";
-    echo "<td id='cell_".$item['name']."' class='".($item['enabled'] ? 'celldisabled' : 'cellenabled')."' valign='top'>".$item['text']."</td>\n";
-    echo "<td width='100%' valign='top'>";
-    echo "<input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='file' name='".$item['name']."' id='".$item['name']."'".($item['enabled'] ? ' disabled="disabled"' : '')." ";
     echo "size='".$item['size']."' maxlength='".$item['maxlength']."' value=\"".htmlspecialchars($value)."\" tabindex='".($tabindex++)."' ".($item['autooff'] ? 'autocomplete="off"' : '').">";
     echo "</td><td>".phpAds_ShowSettings_PadLock($item)."</td></tr>\n";
 }

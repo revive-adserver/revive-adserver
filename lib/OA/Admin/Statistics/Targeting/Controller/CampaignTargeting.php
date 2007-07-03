@@ -162,10 +162,29 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
      */
     function _summariseTotals(&$aRows)
     {
-        parent::_summariseTotals($aRows);
-
+        $showTotals = false;
+        reset($aRows);
+        while (list(, $aRow) = each($aRows)) {
+            reset($aRow);
+            while (list($key, $value) = each($aRow)) {
+                // Ensure that we only try to sum for those columns
+                // that are set in the initial empty row
+                if (isset($this->aColumns[$key])) {
+                    if (is_bool($value)) {
+                        if ($value) {
+                            $this->aTotal[$key] = $value;
+                        }
+                    } else {
+                        $this->aTotal[$key] += $value;
+                    }
+                    $showTotals = true;
+                }
+            }
+        }
         //  properly calculate the correct target ratio by dividing total impressions by total requested impressions
         $this->aTotal['target_ratio'] = $this->aTotal['placement_actual_impressions'] / $this->aTotal['placement_requested_impressions'];
+
+        $this->showTotals = $showTotals;
     }
 
 }
