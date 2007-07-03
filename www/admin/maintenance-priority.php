@@ -142,7 +142,7 @@ echo "<br /><br />";
 phpAds_ShowBreak();
 
 echo "<br /><br />";
-echo 'This page needs to be re-written to show an agency-based list of ad/zone priority data...';
+//echo 'This page needs to be re-written to show an agency-based list of ad/zone priority data...';
 echo "<br /><br />";
 
 echo "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
