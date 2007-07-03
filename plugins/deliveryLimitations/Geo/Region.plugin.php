@@ -136,6 +136,7 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
 
     function displayComparison()
     {
+        echo "<input type='hidden' name='acl[{$this->executionorder}][comparison]' value='=='>";
     }
 
     /**
