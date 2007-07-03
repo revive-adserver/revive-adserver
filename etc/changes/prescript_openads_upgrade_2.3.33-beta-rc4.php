@@ -72,21 +72,21 @@ class OA_UpgradePrescript
 
         return $aCurr;
     }
-    
+
     function migrateGeotargetingConfig()
 	{
 		$aGeoConfig = $this->oConfigMigration->getGeotargetingConfig();
 		$this->oUpgrade->oConfiguration->setBulkValue('geotargeting', $aGeoConfig);
         if(!$this->oConfigMigration->mergeConfigWith('geotargeting', $aGeoConfig)) {
-        	$this->oUpgrade->oLogger->logError('Failed to merge geotargeting files (non-critical, you should set geotargeting options by yourself)');
+        	$this->oUpgrade->oLogger->logOnly('Failed to merge geotargeting files (non-critical, you should set geotargeting options by yourself)');
         }
         return true;
 	}
-	
+
 	function migratePluginsIniConfigs()
 	{
 	    if (!$this->oConfigMigration->renamePluginsConfigAffix('ini', 'php')) {
-	        $this->oUpgrade->oLogger->logError('Failed to rename plugins config files from *.ini to *.php (non-critical, you should set geotargeting options by yourself)');
+	        $this->oUpgrade->oLogger->logOnly('Failed to rename plugins config files from *.ini to *.php (non-critical, you should set geotargeting options by yourself)');
 	    }
 	    return true;
 	}
