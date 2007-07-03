@@ -69,6 +69,8 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
      */
     function testAdServerBasic()
     {
+        TestEnv::restoreEnv();
+
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInteval'] = 60;
         $aConf['priority']['useZonePatterning'] = false;
