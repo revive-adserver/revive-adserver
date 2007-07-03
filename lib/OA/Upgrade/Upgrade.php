@@ -277,12 +277,6 @@ class OA_Upgrade
                     return false;
                 }
 
-                if (! $this->_restoreConfigBackup($aResult[0]['confbackup'], $aRec['auditId']))
-                {
-                    //return false;
-                    // do we really want to halt rollback because of a conf file?
-                }
-
                 if (!file_exists(MAX_PATH.'/var/UPGRADE'))
                 {
                     if (! copy(MAX_PATH.'/var/install.log',MAX_PATH.'/var/UPGRADE'))
@@ -294,12 +288,11 @@ class OA_Upgrade
                         @unlink(MAX_PATH.'/var/INSTALLED');
                     }
                 }
-                $this->oLogger->log('finished rollback package '.$this->package_file);
-                $this->oLogger->log('database and conf files have been rolled back to version '.$aResult[0]['version_from']);
-                $this->oLogger->log('information regarding the problems encountered during the upgrade can be found in');
-                $this->oLogger->log($aResult[0]['logfile']);
-                $this->oLogger->log('information regarding steps taken during rollback can be found in');
-                $this->oLogger->log($this->oLogger->logFile);
+                if (! $this->_restoreConfigBackup($aResult[0]['confbackup'], $aRec['auditId']))
+                {
+                    //return false;
+                    // do we really want to halt rollback because of a conf file?
+                }
                 if ($this->oVersioner->tableAppVarsExists($this->oDBUpgrader->_listTables()))
                 {
                     $product = 'oa';
@@ -307,9 +300,19 @@ class OA_Upgrade
                     {
                         $product = 'max';
                         $this->oVersioner->removeOpenadsVersion();
+                        $this->oVersioner->putApplicationVersion('v0.3.31-alpha', $product);
                     }
-                    $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
+                    else
+                    {
+                        $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
+                    }
                 }
+                $this->oLogger->log('finished rollback package '.$this->package_file);
+                $this->oLogger->log('database and conf files have been rolled back to version '.$aResult[0]['version_from']);
+                $this->oLogger->log('information regarding the problems encountered during the upgrade can be found in');
+                $this->oLogger->log($aResult[0]['logfile']);
+                $this->oLogger->log('information regarding steps taken during rollback can be found in');
+                $this->oLogger->log($this->oLogger->logFile);
                 $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
                                                       'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
                                                       'confbackup'=>''
@@ -349,6 +352,9 @@ class OA_Upgrade
                 return false;
             }
             $confOldName = substr($confBackup, strpos($confBackup,'old.')+4);
+            if (substr($confOldName, -8, 4) == '.ini') {
+                $confOldName = str_replace('.php','',$confOldName);
+            }
             if (! copy(MAX_PATH.'/var/'.$confBackup,MAX_PATH.'/var/'.$confOldName))
             {
                 return false;
@@ -1188,8 +1194,10 @@ class OA_Upgrade
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
-        $this->_pickupRecoveryFile();
-        return true;
+        $this->oLogger->logError('TEST FAIL');
+        return false;
+//        $this->_pickupRecoveryFile();
+//        return true;
     }
 
     /**
