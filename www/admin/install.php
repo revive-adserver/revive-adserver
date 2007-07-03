@@ -60,8 +60,10 @@ $oUpgrader = new OA_Upgrade();
 $oSystemMgr = &$oUpgrader->oSystemMgr;
 $oSystemMgr->getAllInfo();
 if (!$oSystemMgr->checkMemory()) {
-    echo 'The minimum requirement amount of memory of Openads is <b>'. getMinimumRequiredMemory()
-        .' Bytes</b>. Please increase your PHP memory_limit before continuing.';
+    $memory = getMinimumRequiredMemory() / 1048576;
+    echo '<link rel="stylesheet" type="text/css" href="css/install.css"/><br />';
+    echo '<div class="sysmessage sysinfoerror" style="text-align: center;">The minimum amount of memory <a href="http://docs.openads.org/openads-2.3-guide/requirements.html" target="_blank" style="color: #990000">required</a> by Openads is <b>'. $memory
+        .' MB</b>. <br />Please increase your PHP memory_limit before continuing.</div>';
     exit(1);
 }
 
