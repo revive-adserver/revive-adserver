@@ -133,21 +133,7 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
             'sum_ecps'                  => array('name'   => MAX_Plugin_Translation::translate('_ECPS', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('ECPS', $this->module, $this->package),
                                                 'pref'   => 'gui_column_ecps',
-                                                'format' => 'currency'),
-/* Disabled ePP*
-            'sum_eppm'                  => array('name'   => MAX_Plugin_Translation::translate('_EPPM', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('EPPM', $this->module, $this->package),
-                                                'pref'   => 'gui_column_eppm',
-                                                'format' => 'currency'),
-            'sum_eppc'                  => array('name'   => MAX_Plugin_Translation::translate('_EPPC', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('EPPC', $this->module, $this->package),
-                                                'pref'   => 'gui_column_eppc',
-                                                'format' => 'currency'),
-            'sum_epps'                  => array('name'   => MAX_Plugin_Translation::translate('_EPPS', $this->module, $this->package),
-                                                'short'  => MAX_Plugin_Translation::translate('EPPS', $this->module, $this->package),
-                                                'pref'   => 'gui_column_epps',
-                                                'format' => 'currency'),
-*/
+                                                'format' => 'currency')
         );
     }
 
@@ -225,12 +211,9 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
         $row['sum_eipm']            = $row['sum_views'] ? $row['sum_income'] / $row['sum_views'] * 1000 : 0;
         $row['sum_eipc']            = $row['sum_conversions'] ? $row['sum_income'] / $row['sum_clicks']: 0;
         $row['sum_eips']            = $row['sum_conversions'] ? $row['sum_income'] / $row['sum_conversions']: 0;
-        $row['sum_ecpm']            = $row['sum_views'] ? $row['sum_cost'] / $row['sum_views'] * 1000 : 0;
-        $row['sum_ecpc']            = $row['sum_clicks'] ? $row['sum_cost'] / $row['sum_clicks']: 0;
-        $row['sum_ecps']            = $row['sum_conversions'] ? $row['sum_cost'] / $row['sum_conversions']: 0;
-//        $row['sum_eppm']            = $row['sum_views'] ? $row['sum_profit'] / $row['sum_views'] * 1000 : 0;
-//        $row['sum_eppc']            = $row['sum_clicks'] ? $row['sum_profit'] / $row['sum_clicks']: 0;
-//        $row['sum_epps']            = $row['sum_conversions'] ? $row['sum_profit'] / $row['sum_conversions']: 0;
+        $row['sum_ecpm']            = $row['sum_views'] ? $row['sum_revenue'] / $row['sum_views'] * 1000 : 0;
+        $row['sum_ecpc']            = $row['sum_clicks'] ? $row['sum_revenue'] / $row['sum_clicks']: 0;
+        $row['sum_ecps']            = $row['sum_conversions'] ? $row['sum_revenue'] / $row['sum_conversions']: 0;
     }
 }
 
