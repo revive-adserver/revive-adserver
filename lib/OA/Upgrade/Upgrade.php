@@ -1225,6 +1225,7 @@ class OA_Upgrade
             $this->oLogger->logError('Failed to merge configuration file');
             return false;
         }
+        $this->oConfiguration->writeConfig();
         return true;
     }
 
