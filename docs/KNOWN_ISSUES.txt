@@ -26,26 +26,6 @@ have been found.
 
 +---------------------------------------------------------------------------+
 
-- Openads v2.3 is undergoing major surgery to keywords. If you use keywords,
-  it is NOT advisable to use this build, as support is incomplete.
-
-  (Basically, keywords are becoming categories, which will have
-  similar behaviour to keywords. Some additional features will include
-  being able to select from one or more categories -- much like
-  selecting zones -- and the ability to see the volume of impressions
-  for a given category before linking an ad to the category. In
-  addition, there will be full support for SQL-like queries when using
-  direct selection.  What this means is that parentheses are handled
-  in addition to other direct selection criteria, and some of the
-  syntax is changed to be more 'industry standard'.  Full documentation
-  on direct selection will arrive when the new category support is
-  complete.)
-
-- Incomplete DAL (Data Access Layer) API for the user interface. Porting
-  to other databases is welcome, but please discuss your porting ideas
-  and efforts on the forums to ensure that effort isn't duplicated, and
-  to help fit your porting in with our future plans for the DAL.
-
 - Preferences don't cascade.
 
   (If the admin user sets preferences, and then creates an agency, the
