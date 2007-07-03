@@ -77,7 +77,7 @@ function maintenance_goto_section()
             echo "<option value='history'".($subSection == 'history' ? ' selected' : '').">".$strViewPastUpdates."</option>";        
         } else {
             echo "<option value='maintenance'".($subSection == 'maintenance' ? ' selected' : '').">".$strMaintenance."</option>";
-            echo "<option value='banners'".($subSection == 'banners' ? ' selected' : '').">".$strBanners."</option>";
+//            echo "<option value='banners'".($subSection == 'banners' ? ' selected' : '').">".$strBanners."</option>";
             echo "<option value='priority'".($subSection == 'priority' ? ' selected' : '').">".$strPriority."</option>";
     
             $login = 'ftp://' . $conf['store']['ftpUsername'] . ':' . $conf['store']['ftpPassword'] . '@' .
@@ -87,8 +87,8 @@ function maintenance_goto_section()
                 $login != '')) && $conf['webpath']['images'] != '')
                 echo "<option value='storage'".($subSection == 'storage' ? ' selected' : '').">".$strStorage."</option>";
     
-            if (!isset($conf['delivery']['cache']) || $conf['delivery']['cache'] != 'none')
-                echo "<option value='cache'".($subSection == 'zones' ? ' selected' : '').">".$strCache."</option>";
+//            if (!isset($conf['delivery']['cache']) || $conf['delivery']['cache'] != 'none')
+//                echo "<option value='cache'".($subSection == 'zones' ? ' selected' : '').">".$strCache."</option>";
     
             if ($conf['delivery']['acls']) {
                 echo "<option value='acls'".($subSection == 'acls' ? ' selected' : '').">Delivery Limitations</option>";
