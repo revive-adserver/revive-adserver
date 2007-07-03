@@ -201,6 +201,7 @@ function setupConstants()
     define('MAX_LIMITATION_BITWISE', 2);
 
     define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openads.org');
+    define('OA_DOCUMENTATION_PATH',     'help');
 
     // define minimum amount of required memory
     $GLOBALS['_MAX']['REQUIRED_MEMORY'] = array(

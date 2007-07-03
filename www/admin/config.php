@@ -435,431 +435,19 @@ function MMM_buildNavigation()
         }
     }
 
-    define( 'OPENADS_HELP_PAGES_ROTATE_CONSTRAINT_ANCHOR',        1 );
-
-    $GLOBALS['aHelpPages'] = array('elements' => array());
-
-    $GLOBALS['aHelpPages']['elements']['inventory'] = array(
-        'link'     => 'managing-your-inventory.html',
-        'id'       => 127,
-        'itemId'   => 189,
-        'name'     => 'Inventory overview',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['managing-your-inventory'] = array(
-        'link'     => 'managing-your-inventory.html',
-        'id'       => 127,
-        'itemId'   => 189,
-        'name'     => 'Managing your inventory',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['managing-your-inventory']['elements']['banners'] = array(
-        'link'     => 'managing-your-inventory/banners.html',
-        'itemId'   => 192,
-        'id'       => 29,
-        'name'     => 'Banners',
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['managing-your-inventory']['elements']['advertisers'] = array(
-        'link'     => 'managing-your-inventory/advertisers.html',
-        'itemId'   => 190,
-        'id'       => 128,
-        'name'     => 'Advertisers',
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['managing-your-inventory']['elements']['campaigns'] = array(
-        'link'     => 'managing-your-inventory/campaigns.html',
-        'itemId'   => 191,
-        'id'       => 130,
-        'name'     => 'Advertisers',
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['advanced-inventory-management'] = array(
-        'link'     => 'advanced-inventory-management/displaying-banners-using-direct-selection.html',
-        'id'       => 141,
-        'itemId'   => 205,
-        'name'     => 'Advanced inventory management',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['advanced-inventory-management']['elements']['direct-selection'] = array(
-        'link'     => 'advanced-inventory-management/displaying-banners-using-direct-selection.html',
-        'id'       => 141,
-        'itemId'   => 205,
-        'name'     => 'Displaying banners using direct selection',
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['displaying-banners'] = array(
-        'link'     => 'displaying-banners-on-your-website/displaying-banners-on-your-website.html',
-        'id'       => 137,
-        'itemId'   => 201,
-        'name'     => 'Displaying banners on your website',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['displaying-banners']['elements']['publishers'] = array(
-        'link'     => 'displaying-banners-on-your-website/publishers.html',
-        'id'       => 139,
-        'itemId'   => 203,
-        'name'     => 'Publishers',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['displaying-banners']['elements']['zones'] = array(
-        'link'     => 'displaying-banners-on-your-website/zones.html',
-        'id'       => 137,
-        'itemId'   => 201,
-        'name'     => 'Publishers',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['displaying-banners']['elements']['invocation-tags'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Invocation tags',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['targeting'] = array(
-        'link'     => 'targeting-your-advertising/overview-of-delivery-limitations.html',
-        'id'       => 132,
-        'itemId'   => 195,
-        'name'     => 'Targeting your advertising',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['targeting']['elements']['delivery-limitations'] = array(
-        'link'     => 'targeting-your-advertising/overview-of-delivery-limitations.html',
-        'id'       => 132,
-        'itemId'   => 195,
-        'name'     => 'Overview of delivery limitations',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['targeting']['elements']['website-properties'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Targeting by website properties',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['targeting']['elements']['browser-properties'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Targeting by client browser properties',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['targeting']['elements']['geography'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Targeting by geography',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['targeting']['elements']['time-of-day'] = array(
-        'link'     => 'unknown/in/the/time/of/writing.html',
-        'id'       => 10000,
-        'itemId'   => 20000,
-        'name'     => 'Targeting by time of day',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['inventory']['elements']['targeting']['elements']['delivery-capping'] = array(
-        'link'     => 'unknown/in/the/time/of/writing.html',
-        'id'       => 10000,
-        'itemId'   => 20000,
-        'name'     => 'Delivery capping',
-        'elements' => array(),
-    );
-
-
-    $GLOBALS['aHelpPages']['elements']['statistics'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Statistics',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['statistics']['elements']['advertisers-and-campaigns'] = array(
-        'link'     => 'unknown_advertisers_and_campaigns.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Advertisers & Campaigns',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['statistics']['elements']['publishers-and-zones'] = array(
-        'link'     => 'unknown_publisher_and_zones.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Publishers & Zones',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['statistics']['elements']['global-history'] = array(
-        'link'     => 'unknown_global_history.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Global History',
-        'elements' => array(),
-    );
-
-
-    $GLOBALS['aHelpPages']['elements']['reports'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Reports',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['reports']['elements']['advertiser-reports'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Advertiser Reports',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['reports']['elements']['agency-reports'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Agency Reports',
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['reports']['elements']['publisher-reports'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Publisher Reports',
-        'elements' => array(),
-    );
-
-
-    $GLOBALS['aHelpPages']['elements']['settings'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Main Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['maintenance'] = array(
-        'link'     => 'unknown_maintenance.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Maintenance',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['maintenance']['elements']['finance'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['admin'] = array(
-        'link'     => 'unknown_admin.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Administrator Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['banner'] = array(
-        'link'     => 'unknown_banner.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Banner Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['database'] = array(
-        'link'     => 'unknown_db.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Banner Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['debug'] = array(
-        'link'     => 'unknown_debug.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Debug Logging',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['delivery'] = array(
-        'link'     => 'unknown_delivery.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Delivery Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['general'] = array(
-        'link'     => 'unknown_general.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'General Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['geotargeting'] = array(
-        'link'     => 'unknown_geo.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Geotargeting Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['interface-defaults'] = array(
-        'link'     => 'unknown_interface_defaults.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Interface Defaults',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['invocation'] = array(
-        'link'     => 'unknown_invocation.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Invocation Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['statistics-and-maintenance'] = array(
-        'link'     => 'unknown_stats_maintenance.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Statistics &amp; Maintenance Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['settings']['elements']['main-settings']['elements']['user-interface'] = array(
-        'link'     => 'unknown_user_interface.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'User Interface Settings',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['advanced-configuration'] = array(
-        'link'     => 'unknown_adv_conf.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Advanced configuration',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['advanced-configuration']['elements']['using-agencies'] = array(
-        'link'     => 'unknown_using_agencies.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Devolved user administration using Agencies',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['advanced-configuration']['elements']['using-channels'] = array(
-        'link'     => 'unknown_using_channels.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Grouping delivery limitations using Channels',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['advanced-configuration']['elements']['customizing-interface'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Customising the admin interface',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['advanced-configuration']['elements']['affiliate-network'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Running an affiliate network',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['advanced-configuration']['elements']['conversion-tracking'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => 'Conversion tracking',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
-    $GLOBALS['aHelpPages']['elements']['advanced-configuration']['elements']['improve-performance'] = array(
-        'link'     => 'unknown.html',
-        'id'       => 100000,
-        'itemId'   => 200000,
-        'name'     => '10 ways to improve performance',
-        'anchors'  => array(),
-        'elements' => array(),
-    );
-
     $GLOBALS['navi2help'] = array(
         "admin" => array (
             "2"                         =>  array('statistics'),
-              "2.1"                     =>  array('statistics.advertisers-and-campaigns'),
-                "2.1.1"                 =>  array('statistics.advertisers-and-campaigns'),
-                  "2.1.1.1"             =>  array('statistics.advertisers-and-campaigns'),
-                "2.1.2"                 =>  array('statistics.advertisers-and-campaigns'),
+              "2.1"                     =>  array('statistics/advertisersAndCampaigns/'),
+                "2.1.1"                 =>  array(),
+                  "2.1.1.1"             =>  array(),
+                "2.1.2"                 =>  array(),
                   "2.1.2.1"             =>  array(),
                     "2.1.2.1.1"         =>  array(),
                   "2.1.2.2"             =>  array(),
                     "2.1.2.2.1"         =>  array(),
                       "2.1.2.2.1.1"     =>  array(),
-                    "2.1.2.2.2"         =>  array('statistics.publisher-and-zones'),
+                    "2.1.2.2.2"         =>  array(),
                       "2.1.2.2.2.1"     =>  array(),
                         "2.1.2.2.2.1.1" =>  array(),
                       "2.1.2.2.2.2"     =>  array(),
@@ -880,9 +468,9 @@ function MMM_buildNavigation()
                     "2.1.3.1.1"         =>  array(),
                   "2.1.3.2"             =>  array(),
                     "2.1.3.2.1"         =>  array(),
-              "2.2"                     =>  array('statistics.global-history'),
+              "2.2"                     =>  array('statistics/global'),
                 "2.2.1"                 =>  array(),
-              "2.4"                     =>  array('statistics.publishers-and-zones'),
+              "2.4"                     =>  array(),
                 "2.4.1"                 =>  array(),
                   "2.4.1.1"             =>  array(),
                 "2.4.2"                 =>  array(),
@@ -900,80 +488,67 @@ function MMM_buildNavigation()
                     "2.4.3.2.1"         =>  array(),
               "2.5"                     =>  array(),
             "3"                         =>  array('reports'),
-            "4"                         =>  array(),
-              "4.1"                     =>  array(),
-                "4.1.1"                 =>  array('inventory.managing-your-inventory.advertisers'),
-                "4.1.2"                 =>  array('inventory.managing-your-inventory.advertisers'),
-                "4.1.3"                 =>  array(),
-                  "4.1.3.1"             =>  array('inventory.managing-your-inventory.campaigns'),
-                  "4.1.3.2"             =>  array('inventory.managing-your-inventory.campaigns'),
-                  "4.1.3.3"             =>  array(),
-                  "4.1.3.4"             =>  array('inventory.managing-your-inventory.banners'),
-                    "4.1.3.4.1"         =>  array('inventory.managing-your-inventory.banners'),
-                    "4.1.3.4.2"         =>  array('inventory.managing-your-inventory.banners'),
-                    "4.1.3.4.3"         =>  array('inventory.targeting.delivery-limitations'),
-                    "4.1.3.4.4"         =>  array(),
-                    "4.1.3.4.5"         =>  array(),
-                    "4.1.3.4.6"         =>  array(),
-                  "4.1.3.5"             =>  array(),
-                "4.1.4"                 =>  array(),
-                  "4.1.4.1"             =>  array(),
-                  "4.1.4.2"             =>  array(),
-                  "4.1.4.3"             =>  array(),
-                  "4.1.4.4"             =>  array(),
-                  "4.1.4.6"             =>  array(),
-                  "4.1.4.5"             =>  array(),
-              "4.2"                     =>  array(),
-                "4.2.1"                 =>  array('inventory.displaying-banners.publishers'),
-                "4.2.2"                 =>  array('inventory.displaying-banners.publishers'),
-                "4.2.3"                 =>  array('inventory.displaying-banners.zones'),
-                  "4.2.3.1"             =>  array(),
-                  "4.2.3.2"             =>  array(),
-                  "4.2.3.3"             =>  array(),
-                  "4.2.3.4"             =>  array(),
-                  "4.2.3.5"             =>  array(),
-                  "4.2.3.6"             =>  array(),
-                "4.2.4"                 =>  array(),
-                  "4.2.4.1"             =>  array(),
-                  "4.2.4.2"             =>  array(),
-                  "4.2.4.3"             =>  array(),
+            "4"                         =>  array('inventory'),
+              "4.1"                     =>  array('inventory/advertisersAndCampaigns'),
+                "4.1.1"                 =>  array('inventory/advertisersAndCampaigns/addAdvertiser'),
+                "4.1.2"                 =>  array('inventory/advertisersAndCampaigns/editAdvertiser'),
+                "4.1.3"                 =>  array('inventory/advertisersAndCampaigns/campaigns'),
+                  "4.1.3.1"             =>  array('inventory/advertisersAndCampaigns/campaigns/addCampaign'),
+                  "4.1.3.2"             =>  array('inventory/advertisersAndCampaigns/campaigns/editCampaign'),
+                  "4.1.3.3"             =>  array('inventory/advertisersAndCampaigns/campaigns/linkedZones'),
+                  "4.1.3.4"             =>  array('inventory/advertisersAndCampaigns/campaigns/banners'),
+                    "4.1.3.4.1"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/addBanner'),
+                    "4.1.3.4.2"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner'),
+                    "4.1.3.4.3"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/deliveryOptions'),
+                    "4.1.3.4.4"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/linkedZones'),
+                    "4.1.3.4.5"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/convertFlashLinks'),
+                    "4.1.3.4.6"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/advanced'),
+                  "4.1.3.5"             =>  array('inventory/advertisersAndCampaigns/campaigns/linkedTrackers'),
+                "4.1.4"                 =>  array('inventory/advertisersAndCampaigns/trackers'),
+                  "4.1.4.1"             =>  array('inventory/advertisersAndCampaigns/trackers/addTracker'),
+                  "4.1.4.2"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker'),
+                  "4.1.4.3"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/linkedCampaigns'),
+                  "4.1.4.5"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/variables'),
+                  "4.1.4.6"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/appendCode'),
+                  "4.1.4.4"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/invocationCode'),
+              "4.2"                     =>  array('inventory/publishersAndZones'),
+                "4.2.1"                 =>  array('inventory/publishersAndZones/addPublisher'),
+                "4.2.2"                 =>  array('inventory/publishersAndZones/editPublisher'),
+                "4.2.3"                 =>  array('inventory/publishersAndZones/zones'),
+                  "4.2.3.1"             =>  array('inventory/publishersAndZones/zones/addZone'),
+                  "4.2.3.2"             =>  array('inventory/publishersAndZones/zones/editZone'),
+                  "4.2.3.6"             =>  array('inventory/publishersAndZones/zones/editZone/advanced'),
+                  "4.2.3.3"             =>  array('inventory/publishersAndZones/zones/editZone/linkedBanners'),
+                  "4.2.3.4"             =>  array('inventory/publishersAndZones/zones/editZone/probability'),
+                  "4.2.3.5"             =>  array('inventory/publishersAndZones/zones/editZone/invocationCode'),
+                "4.2.4"                 =>  array('inventory/publishersAndZones/channels'),
+                  "4.2.4.1"             =>  array('inventory/publishersAndZones/channels/addChannel'),
+                  "4.2.4.2"             =>  array('inventory/publishersAndZones/channels/editChannel'),
+                  "4.2.4.3"             =>  array('inventory/publishersAndZones/channels/editChannel/deliveryOptions'),
                 "4.2.5"                 =>  array(),
-              "4.3"                     =>  array('inventory.advanced-inventory-management.direct-selection'),
-            "5"                         =>  array('settigns'),
-              "5.1"                     =>  array('settings',
-                                              'use_file' => array(
-                                                'settings-db.php'             => array('settings.main-settings.database'),
-                                                'settings-invocation.php'     => array('settings.main-settings.invocation'),
-                                                'settings-geotargeting.php'   => array('settings.main-settings.geotargeting'),
-                                                'settings-stats.php'          => array('settings.main-settings.statistics-and-maintenance'),
-                                                'settings-banner.php'         => array('settings.main-settings.banner'),
-                                                'settings-admin.php'          => array('settings.main-settings.admin'),
-                                                'settings-interface.php'      => array('settings.main-settings.user-interface'),
-                                                'settings-defaults.php'       => array('settings.main-settings.interface-defaults'),
-                                                'settings-delivery.php'       => array('settings.main-settings.delivery'),
-                                                'settings-general.php'        => array('settings.main-settings.general'),
-                                              )
-                                        ),
-              "5.2"                     =>  array(),
+              "4.3"                     =>  array(),
+            "5"                         =>  array('settings'),
+              "5.1"                     =>  array('settings/mainSettings'),
+              "5.2"                     =>  array('settings/userLog'),
                 "5.2.1"                 =>  array(),
-              "5.3"                     =>  array(),
-              "5.4"                     =>  array(),
-              "5.5"                     =>  array(),
-                "5.5.1"                 =>  array(),
-                "5.5.2"                 =>  array(),
-                "5.5.3"                 =>  array(),
-                  "5.5.3.1"             =>  array(),
-                  "5.5.3.2"             =>  array(),
-                  "5.5.3.3"             =>  array(),
-              "5.6"                     =>  array(),
-                "5.6.1"                 =>  array(),
-                "5.6.2"                 =>  array(),
-                "5.6.3"                 =>  array()
+              "5.3"                     =>  array('settings/maintenance'),
+              "5.4"                     =>  array('settings/productUpdates'),
+              "5.5"                     =>  array('settings/agencyManagement'),
+                "5.5.1"                 =>  array('settings/agencyManagement/addAgency'),
+                "5.5.2"                 =>  array('settings/agencyManagement/editAgency'),
+                "5.5.3"                 =>  array('settings/agencyManagement/editAgency/channels'),
+                  "5.5.3.1"             =>  array('settings/agencyManagement/editAgency/channels/addChannel'),
+                  "5.5.3.2"             =>  array('settings/agencyManagement/editAgency/channels/editChannel'),
+                  "5.5.3.3"             =>  array('settings/agencyManagement/editAgency/channels/editChannel/deliveryOptions'),
+              "5.6"                     =>  array('settings/channelManagement'),
+                "5.6.1"                 =>  array('settings/channelManagement/addChannel'),
+                "5.6.2"                 =>  array('settings/channelManagement/editChannel'),
+                "5.6.3"                 =>  array('settings/channelManagement/editChannel/deliveryOptions')
         ),
 
         "agency"    => array (
-            "2"                         =>  array(),
-              "2.1"                     =>  array(),
+            "2"                         =>  array('statistics'),
+              "2.1"                     =>  array('statistics/advertisersAndCampaigns/'),
                 "2.1.1"                 =>  array(),
                   "2.1.1.1"             =>  array(),
                 "2.1.2"                 =>  array(),
@@ -1001,9 +576,9 @@ function MMM_buildNavigation()
                     "2.1.3.1.1"         =>  array(),
                   "2.1.3.2"             =>  array(),
                     "2.1.3.2.1"         =>  array(),
-              "2.2"                     =>  array(),
+              "2.2"                     =>  array('statistics/global'),
                 "2.2.1"                 =>  array(),
-              "2.4"                     =>  array(),
+              "2.4"                     =>  array('statistics/publishersAndZones/'),
                 "2.4.1"                 =>  array(),
                   "2.4.1.1"             =>  array(),
                 "2.4.2"                 =>  array(),
@@ -1020,49 +595,49 @@ function MMM_buildNavigation()
                   "2.4.3.2"             =>  array(),
                     "2.4.3.2.1"         =>  array(),
               "2.5"                     =>  array(),
-            "3"                         =>  array(),
-            "4"                         =>  array(),
-              "4.1"                     =>  array(),
-                "4.1.1"                 =>  array('inventory.managing-your-inventory.advertisers'),
-                "4.1.2"                 =>  array('inventory.managing-your-inventory.advertisers'),
-                "4.1.3"                 =>  array(),
-                  "4.1.3.1"             =>  array(),
-                  "4.1.3.2"             =>  array(),
-                  "4.1.3.3"             =>  array(),
-                  "4.1.3.4"             =>  array('inventory.managing-your-inventory.banners'),
-                    "4.1.3.4.1"         =>  array('inventory.managing-your-inventory.banners'),
-                    "4.1.3.4.2"         =>  array('inventory.managing-your-inventory.banners'),
-                    "4.1.3.4.3"         =>  array(),
-                    "4.1.3.4.4"         =>  array(),
-                    "4.1.3.4.5"         =>  array(),
-                    "4.1.3.4.6"         =>  array(),
-                  "4.1.3.5"             =>  array(),
-                "4.1.4"                 =>  array(),
-                  "4.1.4.1"             =>  array(),
-                  "4.1.4.2"             =>  array(),
-                  "4.1.4.3"             =>  array(),
-                  "4.1.4.4"             =>  array(),
-                  "4.1.4.6"             =>  array(),
-                  "4.1.4.5"             =>  array(),
-              "4.2"                     =>  array(),
-                "4.2.1"                 =>  array('inventory.displaying-banners.publishers'),
-                "4.2.2"                 =>  array('inventory.displaying-banners.publishers'),
-                "4.2.3"                 =>  array('inventory.displaying-banners.publishers'),
-                  "4.2.3.1"             =>  array(),
-                  "4.2.3.2"             =>  array(),
-                  "4.2.3.3"             =>  array(),
-                  "4.2.3.4"             =>  array(),
-                  "4.2.3.5"             =>  array(),
-                  "4.2.3.6"             =>  array(),
-                "4.2.4"                 =>  array(),
-                  "4.2.4.1"             =>  array(),
-                  "4.2.4.2"             =>  array(),
-                  "4.2.4.3"             =>  array(),
+            "3"                         =>  array('reports'),
+            "4"                         =>  array('inventory'),
+              "4.1"                     =>  array('inventory/advertisersAndCampaigns'),
+                "4.1.1"                 =>  array('inventory/advertisersAndCampaigns/addAdvertiser'),
+                "4.1.2"                 =>  array('inventory/advertisersAndCampaigns/editAdvertiser'),
+                "4.1.3"                 =>  array('inventory/advertisersAndCampaigns/campaigns'),
+                  "4.1.3.1"             =>  array('inventory/advertisersAndCampaigns/campaigns/addCampaign'),
+                  "4.1.3.2"             =>  array('inventory/advertisersAndCampaigns/campaigns/editCampaign'),
+                  "4.1.3.3"             =>  array('inventory/advertisersAndCampaigns/campaigns/linkedZones'),
+                  "4.1.3.4"             =>  array('inventory/advertisersAndCampaigns/campaigns/banners'),
+                    "4.1.3.4.1"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/addBanner'),
+                    "4.1.3.4.2"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner'),
+                    "4.1.3.4.3"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/deliveryOptions'),
+                    "4.1.3.4.4"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/linkedZones'),
+                    "4.1.3.4.5"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/convertFlashLinks'),
+                    "4.1.3.4.6"         =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner/advanced'),
+                  "4.1.3.5"             =>  array('inventory/advertisersAndCampaigns/campaigns/linkedTrackers'),
+                "4.1.4"                 =>  array('inventory/advertisersAndCampaigns/trackers'),
+                  "4.1.4.1"             =>  array('inventory/advertisersAndCampaigns/trackers/addTracker'),
+                  "4.1.4.2"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker'),
+                  "4.1.4.3"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/linkedCampaigns'),
+                  "4.1.4.5"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/variables'),
+                  "4.1.4.6"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/appendCode'),
+                  "4.1.4.4"             =>  array('inventory/advertisersAndCampaigns/trackers/editTracker/invocationCode'),
+              "4.2"                     =>  array('inventory/publishersAndZones'),
+                "4.2.1"                 =>  array('inventory/publishersAndZones/addPublisher'),
+                "4.2.2"                 =>  array('inventory/publishersAndZones/editPublisher'),
+                "4.2.3"                 =>  array('inventory/publishersAndZones/zones'),
+                  "4.2.3.1"             =>  array('inventory/publishersAndZones/zones/addZone'),
+                  "4.2.3.2"             =>  array('inventory/publishersAndZones/zones/editZone'),
+                  "4.2.3.6"             =>  array('inventory/publishersAndZones/zones/editZone/advanced'),
+                  "4.2.3.3"             =>  array('inventory/publishersAndZones/zones/editZone/linkedBanners'),
+                  "4.2.3.4"             =>  array('inventory/publishersAndZones/zones/editZone/probability'),
+                  "4.2.3.5"             =>  array('inventory/publishersAndZones/zones/editZone/invocationCode'),
+                "4.2.4"                 =>  array('inventory/publishersAndZones/channels'),
+                  "4.2.4.1"             =>  array('inventory/publishersAndZones/channels/addChannel'),
+                  "4.2.4.2"             =>  array('inventory/publishersAndZones/channels/editChannel'),
+                  "4.2.4.3"             =>  array('inventory/publishersAndZones/channels/editChannel/deliveryOptions'),
                 "4.2.5"                 =>  array(),
               "4.3"                     =>  array(),
-            "5"                         =>  array(),
-              "5.1"                     =>  array(),
-              "5.2"                     =>  array(),
+            "5"                         =>  array('settings'),
+              "5.1"                     =>  array('settings/mainSettings'),
+              "5.2"                     =>  array('settings/userLog'),
               "5.2.1"                   =>  array(),
               "5.2.2"                   =>  array(),
               "5.2.3"                   =>  array(),
@@ -1080,7 +655,7 @@ function MMM_buildNavigation()
                 "1.2.2"                 =>  array(),
                   "1.2.2.1"             =>  array(),
                     "1.2.2.1.1"         =>  array(),
-                  "1.2.2.2"             =>  array('inventory.managing-your-inventory.banners'),
+                  "1.2.2.2"             =>  array(),
                   "1.2.2.3"             =>  array(),
                   "1.2.2.4"             =>  array(),
                     "1.2.2.4.1"         =>  array(),
@@ -1105,9 +680,9 @@ function MMM_buildNavigation()
                     '2.1.1.2'           =>  array(),
                     '2.1.1.3'           =>  array(),
             */
-            "3"                         =>  array(),
-            "4"                         =>  array(),
-              "4.1"                     =>  array(),
+            "3"                         =>  array('reports'),
+            "4"                         =>  array('inventory'),
+              "4.1"                     =>  array('inventory/advertisersAndCampaigns'),
         ),
 
         "affiliate" => array (
@@ -1120,19 +695,20 @@ function MMM_buildNavigation()
                 "1.2.2"             =>  array(),
                   "1.2.2.1"         =>  array(),
                     "1.2.2.1.1"     =>  array(),
-                  "1.2.2.2"         =>  array('inventory.managing-your-inventory.banners'),
+                  "1.2.2.2"         =>  array(),
                     "1.2.2.2.1"     =>  array(),
               "1.3"                 =>  array(),
                 "1.3.1"             =>  array(),
                   "1.3.1.1"         =>  array(),
                 "1.3.2"             =>  array(),
                   "1.3.2.1"         =>  array(),
-            "3"                     =>  array(),
+            "3"                     =>  array('reports'),
 
         )
     );
 
 }
+
 MMM_buildNavigation();
 
 ?>
