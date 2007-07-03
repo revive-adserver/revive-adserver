@@ -2488,6 +2488,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             if (PEAR::isError($rows)) {
                                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                             }
+                            phpAds_userlogSetUser(phpAds_userMaintenance);
                             phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aPlacement['campaign_id']);
                         }
                     }
@@ -2514,6 +2515,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         if (PEAR::isError($rows)) {
                             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
+                        phpAds_userlogSetUser(phpAds_userMaintenance);
                         phpAds_userlogAdd(phpAds_actionDeactiveCampaign, $aPlacement['campaign_id']);
                     }
                 }
@@ -2713,6 +2715,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         if (PEAR::isError($rows)) {
                             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                         }
+                        phpAds_userlogSetUser(phpAds_userMaintenance);
                         phpAds_userlogAdd(phpAds_actionActiveCampaign, $aPlacement['campaign_id']);
                         // Get the advertisements associated with the placement
                         $query = "
