@@ -2252,11 +2252,11 @@ class OA_DB_Upgrade
             $aParams = $this->_listTables();
         }
         $aDef = $this->oSchema->getDefinitionFromDatabase($aParams);
-        if (!$this->_isPearError($aDef, 'error getting database definition'))
+        if ($this->_isPearError($aDef, 'error getting database definition'))
         {
-            $aDef = $this->_stripPrefixesFromDatabaseDefinition($aDef);
+            return array();
         }
-        return $aDef;
+        return $this->_stripPrefixesFromDatabaseDefinition($aDef);
     }
 
     /**
