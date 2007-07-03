@@ -7,12 +7,12 @@ Mock::generate('OA_UpgradeAuditor');
 class Test_OA_BaseUpgradeAuditor extends UnitTestCase
 {
     var $aAuditParams = array();
-    
+
 	function Test_OA_BaseUpgradeAuditor()
 	{
 		$this->UnitTestCase();
 	}
-		
+
 	function _getFieldDefinitionArray($id)
     {
         $table = 'test_table'.$id;
@@ -21,7 +21,7 @@ class Test_OA_BaseUpgradeAuditor extends UnitTestCase
         $aDef[$table]['indexes']['test_index'.$id] = array('primary'=>true);
         return $aDef;
     }
-	
+
 	function _getAuditObject( $classToTest )
     {
     	$oAuditor = new $classToTest();
@@ -41,8 +41,8 @@ class Test_OA_BaseUpgradeAuditor extends UnitTestCase
         }
         $aDBTables = $oTable->oDbh->manager->listTables();
         $this->assertFalse(in_array($table_name, $aDBTables), '_dropAuditTable');
-    }	
-    
+    }
+
    	function _test_logDBAuditAction($oAuditor, $auditDataToLog=null, $keyParamsToSet=null)
    	{
    		if(is_null($auditDataToLog))
@@ -61,20 +61,26 @@ class Test_OA_BaseUpgradeAuditor extends UnitTestCase
         $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[0][3]),'');
         $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[0][4]),'');
 
-		//case the array to log concerns two audit 
+		//case the array to log concerns two audit
 		// in some test cases we log only one test case
 		if(is_array($auditDataToLog[1]))
-		{		
+		{
 	        $oAuditor->auditId = 2;
 	        $oAuditor->setKeyParams($keyParamsToSet);
 	        $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[1][0]),'');
 	        $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[1][1]),'');
 	        $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[1][2]),'');
 	        $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[1][3]),'');
-	        $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[1][4]),'');		
-        }        
+	        $this->assertTrue($oAuditor->logAuditAction($auditDataToLog[1][4]),'');
+        }
 	}
-	
+
+    function test_updateAuditAction()
+    {
+
+        // to be written!
+    }
+
     function _getUpgradeAuditKeyParamsArray()
     {
         return array(
@@ -84,7 +90,7 @@ class Test_OA_BaseUpgradeAuditor extends UnitTestCase
                      'logfile'=>'test/openads_upgrade_2.0.0.log',
                     );
     }
-	
+
     function _getDBAuditKeyParamsArray()
     {
         return array(
@@ -93,6 +99,6 @@ class Test_OA_BaseUpgradeAuditor extends UnitTestCase
                      'timing'=>0,
                     );
     }
-        
+
 }
 ?>

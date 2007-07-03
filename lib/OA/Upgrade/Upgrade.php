@@ -302,6 +302,12 @@ class OA_Upgrade
                         $this->oVersioner->removeOpenadsVersion();
                         $this->oVersioner->putApplicationVersion('v0.3.31-alpha', $product);
                     }
+                    else if ($aResult[0]['version_from'] == '2.1.29-rc')
+                    {
+                        $product = 'max';
+                        $this->oVersioner->removeOpenadsVersion();
+                        $this->oVersioner->putApplicationVersion('v0.1.29-rc', $product);
+                    }
                     else
                     {
                         $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
@@ -1170,46 +1176,36 @@ class OA_Upgrade
                                                 'logfile'=>basename($this->oLogger->logFile)
                                                 )
                                          );
+            $this->oAuditor->logAuditAction(array('description'=>'FAILED',
+                                                  'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
+                                                 )
+                                           );
             if (!$this->_upgradeConfig())
             {
-                $this->_auditUpgradeFailure('Failed to upgrade configuration file');
+                $this->oLogger->logError('Failed to upgrade configuration file');
                 return false;
             }
             if ($this->versionInitialApplication != OA_VERSION)
             {
                 if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
                 {
-                    $this->_auditUpgradeFailure('Failed to update application version to '.OA_VERSION);
+                    $this->$this->oLogger->logError('Failed to update application version to '.OA_VERSION);
                     $this->message = 'Failed to update application version to '.OA_VERSION;
                     return false;
                 }
                 $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
                 $this->oLogger->log('Application version updated to '. OA_VERSION);
             }
-            $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
-                                                  'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                  'confbackup'=>$this->oConfiguration->getConfigBackupName()
-                                                 )
-                                           );
+            $this->oAuditor->updateAuditAction(array('description'=>'UPGRADE COMPLETE',
+                                                     'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                                     'confbackup'=>$this->oConfiguration->getConfigBackupName()
+                                                    )
+                                              );
             $this->_writeRecoveryFile();
             $this->_pickupNoBackupsFile();
         }
         $this->_pickupRecoveryFile();
         return true;
-    }
-
-    /**
-     * log and audit a failed upgrade
-     *
-     * @param string $msg
-     */
-    function _auditUpgradeFailure($msg)
-    {
-        $this->oLogger->logError($msg);
-        $this->oAuditor->logAuditAction(array('description'=>'FAILED',
-                                              'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
-                                             )
-                                       );
     }
 
     /**
@@ -1252,41 +1248,48 @@ class OA_Upgrade
         {
             return false;
         }
+        $this->oAuditor->setUpgradeActionId();  // links the upgrade_action record with database_action records
         $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
                                             'version_to'=>$this->aPackage['versionTo'],
                                             'version_from'=>$this->aPackage['versionFrom'],
                                             'logfile'=>basename($this->oLogger->logFile)
                                             )
                                      );
-        $this->oAuditor->setUpgradeActionId();  // links the upgrade_action record with database_action records
+        // do this here in case there is a fatal error
+        // in one of the upgrade methods
+        // this ensures that there is recovery info available after
+        $this->oAuditor->logAuditAction(array('description'=>'FAILED',
+                                              'action'=>UPGRADE_ACTION_UPGRADE_FAILED,
+                                             )
+                                       );
         $this->_writeRecoveryFile();
         if (!$this->runScript($this->aPackage['prescript']))
         {
-            $this->_auditUpgradeFailure('Failure in upgrade prescript '.$this->aPackage['prescript']);
+            $this->oLogger->logError('Failure in upgrade prescript '.$this->aPackage['prescript']);
             return false;
         }
         if (!$this->upgradeSchemas())
         {
-            $this->_auditUpgradeFailure('Failure while upgrading schemas');
+            $this->oLogger->logError('Failure while upgrading schemas');
             return false;
         }
         if (!$this->runScript($this->aPackage['postscript']))
         {
-            $this->_auditUpgradeFailure('Failure in upgrade postscript '.$this->aPackage['postscript']);
+            $this->oLogger->logError('Failure in upgrade postscript '.$this->aPackage['postscript']);
             return false;
         }
         if (!$this->oVersioner->putApplicationVersion($this->aPackage['versionTo']))
         {
-            $this->_auditUpgradeFailure('Failed to update application version to '.$this->aPackage['versionTo']);
+            $this->oLogger->logError('Failed to update application version to '.$this->aPackage['versionTo']);
             $this->message = 'Failed to update application version to '.$this->aPackage['versionTo'];
             return false;
         }
         $this->versionInitialApplication = $this->aPackage['versionTo'];
-        $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
-                                                'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
-                                                'confbackup'=>$this->oConfiguration->getConfigBackupName()
-                                               )
-                                         );
+        $this->oAuditor->updateAuditAction(array('description'=>'UPGRADE COMPLETE',
+                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
+                                                 'confbackup'=>$this->oConfiguration->getConfigBackupName()
+                                                )
+                                          );
         return true;
     }
 

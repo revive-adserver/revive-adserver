@@ -33,6 +33,28 @@ class OA_BaseUpgradeAuditor
         return true;
     }
 
+    function updateAuditAction($aParams=array())
+    {
+        $id = $this->getUpgradeActionId();
+        $aParams = $this->_escapeParams($aParams);
+
+        $values = '';
+        foreach ($aParams AS $k => $v)
+        {
+            $values.= "{$k}={$v},";
+        }
+        $values.= "updated='".OA::getNow()."'";
+
+        $query = "UPDATE {$this->prefix}{$this->logTable} SET {$values} WHERE upgrade_action_id={$id}";
+        $result = $this->oDbh->exec($query);
+
+        if ($this->isPearError($result, "error inserting {$this->prefix}{$this->logTable}"))
+        {
+            return false;
+        }
+        return true;
+    }
+
     function setKeyParams($aParams='')
     {
         $this->aParams = $this->_escapeParams($aParams);
