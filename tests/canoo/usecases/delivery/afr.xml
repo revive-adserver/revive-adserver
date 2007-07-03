@@ -56,7 +56,7 @@
     </testSpec>
     
     <!-- test that ad requests and requests are logged in database -->
-    <sqlunit testFile="${basedir}/usecases/sqlunit/data_raw_ad_request.xml" haltOnFailure="true" debug="${debug}" />
+    <!--sqlunit testFile="${basedir}/usecases/sqlunit/data_raw_ad_request.xml" haltOnFailure="true" debug="${debug}" /-->
 
 </target>
 
