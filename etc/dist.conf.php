@@ -27,6 +27,7 @@ password                            =
 name                                =
 persistent                          = false
 mysql4_compatibility                = false
+protocol			    = tcp
 
 [databaseMysql]
 statisticsSortBufferSize            =
