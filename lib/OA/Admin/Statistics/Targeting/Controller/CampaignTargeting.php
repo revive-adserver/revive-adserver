@@ -150,6 +150,43 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
         $this->prepare($aParams, 'stats.php');
     }
 
+    /**
+     * A private method that can be inherited and used by children classes to
+     * calculate the total sum of all data rows, and store it in the
+     * {@link $this->aTotal} array.
+     *
+     * Also sets {@link $this->showTotals} to true, if required.
+     *
+     * @access private
+     * @param array $aRows An array of rows of statistics to summarise.
+     */
+    function _summariseTotals(&$aRows)
+    {
+        $showTotals = false;
+        reset($aRows);
+        while (list(, $aRow) = each($aRows)) {
+            reset($aRow);
+            while (list($key, $value) = each($aRow)) {
+                // Ensure that we only try to sum for those columns
+                // that are set in the initial empty row
+                if (isset($this->aColumns[$key])) {
+                    if (is_bool($value)) {
+                        if ($value) {
+                            $this->aTotal[$key] = $value;
+                        }
+                    } else {
+                        $this->aTotal[$key] += $value;
+                    }
+                    $showTotals = true;
+                }
+            }
+        }
+        //  properly calculate the correct target ratio by dividing total impressions by total requested impressions
+        $this->aTotal['target_ratio'] = $this->aTotal['placement_actual_impressions'] / $this->aTotal['placement_requested_impressions'];
+
+        $this->showTotals = $showTotals;
+    }
+
 }
 
 ?>
