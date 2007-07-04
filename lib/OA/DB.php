@@ -194,17 +194,14 @@ class OA_DB
         $dbType = $aConf['database']['type'];
         // only pan or mmmv0.1 will have a protocol set to unix
         // otherwise no protocol is set and therefore defaults to tcp
-    	if (isset($aConf['database']['protocol']))
+    	if (isset($aConf['database']['protocol']) && $aConf['database']['protocol']=='unix')
     	{
-        	if ($aConf['database']['protocol']=='unix')
-        	{
-                $dsn = $dbType . '://' .
-                    $aConf['database']['username'] . ':' .
-                    $aConf['database']['password'] . '@' .
-                    $aConf['database']['protocol'] . '(' .
-                    $aConf['database']['port']     . ')/' .
-                    $aConf['database']['name'];
-        	}
+            $dsn = $dbType . '://' .
+                $aConf['database']['username'] . ':' .
+                $aConf['database']['password'] . '@' .
+                $aConf['database']['protocol'] . '(' .
+                $aConf['database']['port']     . ')/' .
+                $aConf['database']['name'];
     	}
     	else
     	{
