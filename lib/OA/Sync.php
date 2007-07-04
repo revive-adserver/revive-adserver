@@ -63,28 +63,28 @@ class OA_Sync
      *
      * The Openads version "number" is converted to an int using the following table:
      *
-     * 'beta-rc' => 1
-     * 'beta'    => 2
-     * 'rc'      => 3
-     * ''        => 4
+     * 'beta-rc' => 0.1
+     * 'beta'    => 0.2
+     * 'rc'      => 0.3
+     * ''        => 0.4
      *
      * i.e.
      * v0.3.29-beta-rc10 becomes:
-     * 0  *  10000 +
-     * 3  *   1000 +
-     * 29 *     10 +    // Cannot exceed 100 patch releases!
-     * 1           +
-     * 10 /    100 =
+     *  0   *   1000 +
+     *  3   *    100 +
+     * 29   *      1 +    // Cannot exceed 100 patch releases!
+     *  0.1          +
+     * 10   /   1000 =
      * -------------
      *        3293.1
      */
     function getConfigVersion($version)
     {
         $a = array(
-            'beta-rc' => 1,
-            'beta'    => 2,
-            'rc'      => 3,
-            'stable'  => 4
+            'beta-rc' => 0.1,
+            'beta'    => 0.2,
+            'rc'      => 0.3,
+            'stable'  => 0.4
         );
 
         if (preg_match('/^v/', $version)) {
@@ -94,7 +94,7 @@ class OA_Sync
         }
 
         // Prepare value from the first 3 items
-        $returnValue = $v[0] * 10000 + $v[1] * 1000 + $v[2] * 10;
+        $returnValue = $v[0] * 1000 + $v[1] * 100 + $v[2];
 
         // How many items were there?
         if (count($v) == 5) {
@@ -103,7 +103,7 @@ class OA_Sync
                 return false;
             }
             // Add the beta-rc
-            $returnValue += $a['beta-rc'] + $aMatches[1] / 100;
+            $returnValue += $a['beta-rc'] + $aMatches[1] / 1000;
             return $returnValue;
         } else if (count($v) == 4) {
             // Check that it is either a beta or rc release
@@ -113,7 +113,7 @@ class OA_Sync
                 return $returnValue;
             } else if (preg_match('/^rc(\d+)/', $v[3], $aMatches)) {
                 // Add the rc
-                $returnValue += $a['rc'] + $aMatches[1] / 100;
+                $returnValue += $a['rc'] + $aMatches[1] / 1000;
                 return $returnValue;
             }
             return false;
@@ -141,7 +141,7 @@ class OA_Sync
             $this->_openadsServer['host'], $this->_openadsServer['port']);
 
         $params = array(
-            new XML_RPC_Value('MMM-0.3', 'string'),
+            new XML_RPC_Value('Openads', 'string'),
             new XML_RPC_Value($this->getConfigVersion(OA_VERSION), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value('', 'string'),
