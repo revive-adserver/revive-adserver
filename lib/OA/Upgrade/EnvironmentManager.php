@@ -40,6 +40,7 @@ define('OA_ENV_ERROR_PHP_UPLOADS',                   -6);
 define('OA_ENV_ERROR_PHP_ARGC',                      -7);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/Admin/Config.php';
 
 class OA_Environment_Manager
 {
@@ -149,6 +150,11 @@ class OA_Environment_Manager
             {
                 $aErrors[$file] = 'NOT writeable';
             }
+        }
+
+        $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
+        if (!OA_Admin_Config::isConfigWritable($configFile)) {
+            $aErrors[$configFile] = 'NOT writeable';
         }
 
         if (count($aErrors))
