@@ -36,6 +36,11 @@ class OA_BaseUpgradeAuditor
     function updateAuditAction($aParams=array())
     {
         $id = $this->getUpgradeActionId();
+        if (!$id)
+        {
+            $this->logError('upgrade_action_id is empty');
+            return false;
+        }
         $aParams = $this->_escapeParams($aParams);
 
         $values = '';

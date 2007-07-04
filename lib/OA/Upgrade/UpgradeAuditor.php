@@ -97,7 +97,7 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
     function getNextUpgradeActionId()
     {
         $aAuditTableStatus = $this->oDBAuditor->getTableStatus($this->logTable);
-        if (count($aAuditTableStatus)<1)
+        if ((!is_array($aAuditTableStatus) || (count($aAuditTableStatus)<1)) || (!isset($aAuditTableStatus[0]['auto_increment'])))
         {
             return false;
         }
