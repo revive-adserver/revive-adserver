@@ -277,8 +277,8 @@ else if (array_key_exists('btn_dbsetup', $_POST))
         if ($installStatus != OA_STATUS_NOT_INSTALLED &&
             (empty($_COOKIE['oat']) || $_COOKIE['oat'] != OA_UPGRADE_UPGRADE)) {
             // Hey, what's going on, we shouldn't be here, go back to login!
-            $action = OA_UPGRADE_LOGIN;            
-        } else {    
+            $action = OA_UPGRADE_LOGIN;
+        } else {
             $aDatabase = $oUpgrader->aDsn;
             $action    = OA_UPGRADE_DBSETUP;
         }
@@ -394,7 +394,13 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         }
         else
         {
-            $action = OA_UPGRADE_ERROR;
+            $aConfig    = $_POST['aConfig'];
+            if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL) {
+                $errMessage = 'We are unable to create your configuration file. Please re-check the permissions of the Openads var folder.';
+            } else {
+                $errMessage = 'We are unable to update your configuration file. Please re-check the permissions of the Openads var folder, and also check the permissions of the previous install\'s config file that you copied into this folder.';
+            }
+            $action     = OA_UPGRADE_CONFIGSETUP;
         }
     }
 }
