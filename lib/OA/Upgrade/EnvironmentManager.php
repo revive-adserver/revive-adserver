@@ -152,10 +152,12 @@ class OA_Environment_Manager
             }
         }
 
-        $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
-        if (file_exists($configFile)) {
-            if (!OA_Admin_Config::isConfigWritable($configFile)) {
-                $aErrors[$configFile] = 'NOT writeable';
+        if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
+            $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
+            if (file_exists($configFile)) {
+                if (!OA_Admin_Config::isConfigWritable($configFile)) {
+                    $aErrors[$configFile] = 'NOT writeable';
+                }
             }
         }
 
