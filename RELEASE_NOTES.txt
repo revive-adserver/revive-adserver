@@ -154,9 +154,9 @@ FAQ
 
     We need help from developers and the testing community to provide as much
     feedback as possible to make Openads even better. Please read these notes
-    and how to report a bug [https://developer.openads.org/wiki/ReportingBugs].
-    You can also give us your feedback through the forum
-    [http://forum.openads.org/].
+    and how to report a bug [https://developer.openads.org/wiki/ReportingBugs]
+    before reporting any bugs. You can also give us your feedback through the
+    Openads forum [http://forum.openads.org/].
 
  2. Can I upgrade from phpAdsNew?
 
