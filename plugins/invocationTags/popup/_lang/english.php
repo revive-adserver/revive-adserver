@@ -34,11 +34,11 @@ $words = array(
     'Third Party Comment' => "
   -- Don't forget to replace the 'Insert_Clicktrack_URL_Here' text with
   -- the click tracking URL if this ad is to be delivered through a 3rd
-  -- party (non-Max) ad server.
+  -- party (non-Max) adserver.
   --
   -- Don't forget to replace the 'Insert_Random_Number_Here' text with
   -- a cache-buster random number each time you deliver the tag through
-  -- a 3rd party (non-Max) ad server.
+  -- a 3rd party (non-Max) adserver.
   --",
 
     'Comment' => "

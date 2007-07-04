@@ -37,7 +37,7 @@ Please tell us what you think on the Openads 2.3 forum
 What's New in Openads 2.3.34-beta
 ---------------------------------
 
- * Release Date: July 4, 2007
+ * Release date: July 4, 2007
 
  * Enhanced power and simplicity: Delivery engine enhancements & updated
    targeting statistics screens, improved installation and upgrade process
@@ -53,17 +53,17 @@ What's New in Openads 2.3.34-beta
    period, addition of capping to the campaign and zone levels, additional
    banner targeting options.
 
- * Improved Reporting: Conversion tracking, simplified report generation
+ * Improved reporting: Conversion tracking, simplified report generation
    and event reporting.
 
- * Openads 2.3 Features: For an overview, please see Openads 2.3 product
+ * Openads 2.3 features: For an overview, please see Openads 2.3 product
    page [http://www.openads.org/products/openads-2.3.html].
 
 
 System Requirements
 -------------------
 
-Before installing, please make sure your computer meets the system
+Before installing, please make sure your server meets the system
 requirements [http://docs.openads.org/openads-2.3-guide/requirements.html].
 
 
@@ -164,7 +164,7 @@ FAQ
     first upgrade to the latest version of Openads 2.0 before using the Openads
     2.3 upgrader.
 
- 3. Does Opeands 2.3.34-beta support PostgreSQL?
+ 3. Does Openads 2.3.34-beta support PostgreSQL?
 
     No, there is currently no support for PostgreSQL in Openads 2.3.34-beta.
     Installing and upgrading from Openads 2.0 for PostgreSQL are likely to be

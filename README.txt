@@ -1,10 +1,10 @@
 
-    Openads - Open Source Ad Server
+    Openads - Open Source Adserver
     ------------------------------------------------------------------------
     Openads is a set of tools which enable online marketing campaigns.
     Primarily, Openads is written in PHP, and is loosely based on phpAdsNew.
     The core modules of Openads include:
-    . Ad Server
+    . Adserver
     . Conversion Tracking Tools
 
 

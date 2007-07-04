@@ -101,7 +101,7 @@ $GLOBALS['strInstallIntro']                 = "Welcome to <a href='http://".MAX_
 $GLOBALS['strRecoveryRequiredTitle']    = "Your previous upgrade attempt encountered an error";
 $GLOBALS['strRecoveryRequired']         = "There was an error while processing your previous upgrade and Openads must attempt to recover the upgrade process. Please click the Recover button below.";
 $GLOBALS['strTermsTitle']               = "License information";
-$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and open source ad server, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
+$GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and open source adserver, distributed under the GPL license. Please review this license, and agree to its terms to continue installation.";
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
 $GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Setup";

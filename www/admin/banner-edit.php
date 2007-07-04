@@ -883,7 +883,7 @@ if ($type == 'html') {
     echo "<td colspan='2'><textarea class='code' cols='45' rows='10' name='banner' wrap='off' dir='ltr' style='width:550px;";
     echo "' tabindex='".($tabindex++)."'>".htmlentities($row['htmltemplate'])."</textarea></td></tr>";
 
-    // checkbox and dropdown list allowing user to choose whether to alter the html so it can be tracked by other ad servers
+    // checkbox and dropdown list allowing user to choose whether to alter the html so it can be tracked by other adservers
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td colspan='2'>";
     echo "<table><tr>";
