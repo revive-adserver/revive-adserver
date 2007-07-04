@@ -1222,10 +1222,12 @@ class OA_Upgrade
         // Backs up the existing config file and merges any changes from dist.conf.php.
         if (!$this->oConfiguration->mergeConfig())
         {
-            $this->oLogger->logError('Failed to merge configuration file');
             return false;
         }
-        $this->oConfiguration->writeConfig();
+        if (! $this->oConfiguration->writeConfig())
+        {
+            return false;
+        }
         return true;
     }
 
