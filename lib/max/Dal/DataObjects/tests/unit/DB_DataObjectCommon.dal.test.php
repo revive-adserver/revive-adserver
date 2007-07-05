@@ -389,7 +389,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertTrue(strtotime($doBanners1->updated) <= strtotime($doBanners2->updated));
 
         // Test updates is equal or greater than our checkpoint time
-        $this->assertTrue($time <= strtotime($doBanners1->updated), 'Test that timestamp was refreshed (timestamp: '.$time.' is lower than ' . strtotime($doBanners1->updated));
+        $this->assertTrue($time <= strtotime($doBanners2->updated), 'Test that timestamp was refreshed (timestamp: '.$time.' is lower than ' . strtotime($doBanners2->updated));
     }
 
     function testInsert()
