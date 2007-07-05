@@ -61,7 +61,8 @@ class OA_DB_XmlCache
         $this->oCache = new Cache_Lite(array(
             'cacheDir'               => $this->cachePath,
             'fileNameProtection'     => false,
-            'lifeTime'               => null
+            'lifeTime'               => null,
+            'readControlType'        => 'md5'
         ));
     }
 
