@@ -614,14 +614,14 @@ class MDB2_Schema_Changeset_Writer extends MDB2_Schema_Writer
         {
             if (is_array($k))
             {
-                $this->array_to_xml($k, &$buffer, $eol);
+                $this->array_to_xml($k, $buffer, $eol);
             }
             else
             {
                 $buffer.= "<{$k}>";
                 if (is_array($v))
                 {
-                    $this->array_to_xml($v, &$buffer, $eol);
+                    $this->array_to_xml($v, $buffer, $eol);
                 }
                 else
                 {
