@@ -60,7 +60,7 @@ class Test_prescript_2_3_33_beta_rc4 extends UnitTestCase
         $oTable->init($testfile);
         $this->assertTrue($oTable->dropTable($this->prefix.$table),'error dropping '.$this->prefix.$table);
         $this->assertTrue($oTable->createTable($table),'error creating '.$this->prefix.$table);
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($this->prefix.$table, $aExistingTables), 'old database_action table not found');
 
         $this->assertTrue($oUpgrade->runScript('prescript_openads_upgrade_2.3.33-beta-rc4.php'));

@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
+require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php');
 require_once MAX_PATH . '/lib/OA/Upgrade/DB_Upgrade.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/DB_UpgradeAuditor.php';
 require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
@@ -47,23 +48,23 @@ class MigrationTest extends DbTestCase
      * The MDB2 driver handle.
      *
      * @var MDB2_Driver_Common
-     * 
+     *
      */
     var $oDbh;
-    
+
     /**
      * Upgrade class.
      *
      * @var OA_DB_Upgrade
      */
     var $oDBUpgrader;
-    
+
     function setUp()
     {
         $this->oDbh = &OA_DB::singleton();
     }
-    
-    
+
+
     function tearDown()
     {
         if (isset($this->oaTable)) {
@@ -71,7 +72,7 @@ class MigrationTest extends DbTestCase
             $this->_dropAllBackupTables();
         }
     }
-    
+
     function initDatabase($schemaVersion, $aTables)
     {
         $prefix = $this->getPrefix();
@@ -81,10 +82,21 @@ class MigrationTest extends DbTestCase
             $this->oaTable->truncateTable($prefix . $table);
         }
     }
-    
+
     function upgradeToVersion($version)
     {
-        $this->oDBUpgrader = new OA_DB_Upgrade();
+        Mock::generatePartial(
+            'OA_UpgradeLogger',
+            $mockLogger = 'OA_UpgradeLogger'.rand(),
+            array('logOnly', 'logError', 'log')
+        );
+
+        $oLogger = new $mockLogger($this);
+        $oLogger->setReturnValue('logOnly', true);
+        $oLogger->setReturnValue('logError', true);
+        $oLogger->setReturnValue('log', true);
+
+        $this->oDBUpgrader = new OA_DB_Upgrade($oLogger);
         $this->oDBUpgrader->initMDB2Schema();
         $auditor   = new OA_DB_UpgradeAuditor();
         $this->oDBUpgrader->oAuditor = &$auditor;
@@ -92,32 +104,32 @@ class MigrationTest extends DbTestCase
         $this->oDBUpgrader->init('constructive', 'tables_core', $version);
         $this->assertTrue($this->oDBUpgrader->upgrade());
     }
-    
+
     function _dropAllBackupTables()
     {
         if (isset($this->oDBUpgrader)) {
             $aDBTables = $this->oDBUpgrader->_listTables('z_');
             foreach ($aDBTables AS $table)
             {
-                $this->oDBUpgrader->oSchema->db->manager->dropTable($table);
+                $this->oDBUpgrader->_dropBackup($table);
             }
         }
     }
-    
+
     function setupPanConfig()
     {
         if (file_exists(CONFIG_PATH)) {
             rename(CONFIG_PATH, TMP_CONFIG_PATH);
         }
-        
+
         copy(TEST_CONFIG_PATH, CONFIG_PATH);
     }
-    
-    
+
+
     function restorePanConfig()
     {
         unlink(CONFIG_PATH);
-        
+
         if (file_exists(TMP_CONFIG_PATH)) {
             rename(TMP_CONFIG_PATH, CONFIG_PATH);
         }

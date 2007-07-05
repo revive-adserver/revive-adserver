@@ -1416,7 +1416,7 @@ class OA_Upgrade
      */
     function checkPermissionToCreateTable()
     {
-        $aExistingTables = $this->oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables))
         {
             $this->oLogger->logError('Unable to list the tables that exist in the database');
@@ -1476,7 +1476,7 @@ class OA_Upgrade
     {
         $result = true;
 
-        $aExistingTables = $this->oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {

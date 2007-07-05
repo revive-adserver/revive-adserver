@@ -296,7 +296,7 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
         $aResult = array();
         $prefix = $this->prefix.'z_';
         OA_DB::setCaseSensitive();
-        $aBakTables = $this->oDbh->manager->listTables(null, $prefix);
+        $aBakTables = OA_DB_Table::listOATablesCaseSensitive();
         OA_DB::disableCaseSensitive();
 
         $prelen = strlen($prefix);

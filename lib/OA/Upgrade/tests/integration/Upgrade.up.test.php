@@ -203,7 +203,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oTable->init($testpath.'schema_test_config.xml');
         $this->assertTrue($oTable->createTable($name),'error creating '.$this->prefix.$name);
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($this->prefix.$name, $aExistingTables), '_createTestTableConfig');
     }
 
@@ -212,12 +212,12 @@ class Test_OA_Upgrade extends UnitTestCase
         $oTable = new OA_DB_Table();
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oTable->init($testpath.'schema_test_config.xml');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (in_array($this->prefix.$name, $aExistingTables))
         {
             $this->assertTrue($oTable->dropTable($this->prefix.$name),'error dropping test '.$this->prefix.$name);
         }
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse(in_array($this->prefix.$name, $aExistingTables), '_dropTestTableConfig');
     }
 
@@ -226,7 +226,7 @@ class Test_OA_Upgrade extends UnitTestCase
         $oTable = new OA_DB_Table();
         $testpath  = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
         $oTable->init($testpath.'schema_test_config.xml');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (in_array($this->prefix.'database_action', $aExistingTables))
         {
             $this->assertTrue($oTable->dropTable($this->prefix.'database_action'),'error dropping test '.$this->prefix.'database_action');
@@ -235,7 +235,7 @@ class Test_OA_Upgrade extends UnitTestCase
         {
             $this->assertTrue($oTable->dropTable($this->prefix.'upgrade_action'),'error dropping test '.$this->prefix.'upgrade_action');
         }
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse(in_array($this->prefix.'database_action', $aExistingTables), 'database_action');
         $this->assertFalse(in_array($this->prefix.'upgrade_action', $aExistingTables), 'upgrade_action');
     }

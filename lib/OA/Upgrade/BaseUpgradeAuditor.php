@@ -83,9 +83,7 @@ class OA_BaseUpgradeAuditor
 
     function _checkCreateAuditTable()
     {
-        OA_DB::setCaseSensitive();
-        $this->aDBTables = $this->oDbh->manager->listTables(null, $this->prefix);
-        OA_DB::disableCaseSensitive();
+        $this->aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         if (!in_array($this->prefix.$this->logTable, $this->aDBTables))
         {
             $this->log('creating '.$this->logTable.' audit table');

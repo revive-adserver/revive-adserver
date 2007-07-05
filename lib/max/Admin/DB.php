@@ -102,8 +102,7 @@ class Max_Admin_DB
     {
         $oDbh = &OA_DB::singleton();
         $oTable = OA_DB_Table_Core::singleton();
-        $aTables = array();
-        $aTables = $oDbh->manager->listTables();
+        $aTables = OA_DB_Table::listOATablesCaseSensitive();
         $result = false;
         foreach ($oTable->tables as $k => $v) {
             if (is_array($aTables) && in_array($installvars['table_prefix'] . $k, $aTables)) {

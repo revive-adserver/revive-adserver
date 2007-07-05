@@ -138,7 +138,7 @@ class Test_Migration extends UnitTestCase
         $conf['table']['split'] = false;
         $this->assertTrue($this->oTable->createTable('table1'),'error creating test table1');
         $this->assertTrue($this->oTable->createTable('table2'),'error creating test table2');
-        $aExistingTables = $this->oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array('table1', $aExistingTables), '_createTestTables');
         $this->assertTrue(in_array('table2', $aExistingTables), '_createTestTables');
     }
@@ -161,7 +161,7 @@ class Test_Migration extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
-        $aExistingTables = $this->oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (in_array('table1', $aExistingTables))
         {
             $this->assertTrue($this->oTable->dropTable('table1'),'error dropping test table1');
@@ -170,7 +170,7 @@ class Test_Migration extends UnitTestCase
         {
             $this->assertTrue($this->oTable->dropTable('table2'),'error dropping test table2');
         }
-        $aExistingTables = $this->oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse(in_array('table1', $aExistingTables), '_dropTestTables');
         $this->assertFalse(in_array('table2', $aExistingTables), '_dropTestTables');
     }

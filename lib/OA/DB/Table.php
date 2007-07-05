@@ -77,6 +77,8 @@ class OA_DB_Table
      */
     var $temporary = false;
 
+    var $cached_definition = true;
+
     /**
      * The class constructor method.
      */
@@ -122,11 +124,13 @@ class OA_DB_Table
         if ($useCache) {
             $oCache = new OA_DB_XmlCache();
             $this->aDefinition = $oCache->get($file);
+            $this->cached_definition = true;
         } else {
             $this->aDefinition = false;
         }
 
         if (!$this->aDefinition) {
+            $this->cached_definition = false;
             // Parse the schema file
             $this->aDefinition = $this->oSchema->parseDatabaseDefinitionFile($file);
             if (PEAR::isError($this->aDefinition)) {
@@ -158,6 +162,26 @@ class OA_DB_Table
             return false;
         }
         return true;
+    }
+
+    /**
+     * return an array of tables in currently connected database
+     * ensuring case is preserved
+     * and that only tables with openads configured prefix are listed
+     * optional 2nd prefix 'like' for narrowing the filter
+     * this 'like' must be a simple string, no reg ex type stuff
+     * e.g. $like= 'data_summary_'
+     *
+     * @param string $like
+     * @return array
+     */
+    function listOATablesCaseSensitive($like='')
+    {
+        OA_DB::setCaseSensitive();
+        $oDbh = &OA_DB::singleton();
+        $aDBTables = $oDbh->manager->listTables(null, $GLOBALS['_MAX']['CONF']['table']['prefix'].$like);
+        OA_DB::disableCaseSensitive();
+        return $aDBTables;
     }
 
     /**
@@ -239,7 +263,9 @@ class OA_DB_Table
         // Create the table
         MAX::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
         PEAR::pushErrorHandling(null);
+        OA_DB::setCaseSensitive();
         $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
+        OA_DB::disableCaseSensitive();
         PEAR::popErrorHandling();
         if (PEAR::isError($result) || (!$result)) {
             $showError = true;
@@ -397,7 +423,7 @@ class OA_DB_Table
         $allTablesTruncated = true;
         // Do we need to truncate split tables?
         if ($aConf['table']['split']) {
-            $aTables = $this->oDbh->manager->listTables();
+            $aTables = OA_DB_Table::listOATablesCaseSensitive();
         }
         // Iterate over each known table, and truncate
         foreach ($this->aDefinition['tables'] as $tableName => $aTable) {

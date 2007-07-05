@@ -2876,7 +2876,7 @@ class OA_Dal_Maintenance_Statistics_Common
         }
         $tablesDropped = 0;
         // As split tables are in use, look over all possible tables
-        $aTables = $this->oDbh->manager->listTables();
+        $aTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aTables)) {
             return MAX::raiseError($aTables, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }

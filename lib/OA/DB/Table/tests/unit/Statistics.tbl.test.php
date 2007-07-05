@@ -109,7 +109,7 @@ class Test_OA_DB_Table_Statistics extends UnitTestCase
         foreach ($tmpTables as $tableName) {
             $oTable->createTable($tableName);
         }
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         foreach ($tmpTables as $tableName) {
             // Test that the table has been created
             $query = "SELECT * FROM $tableName";

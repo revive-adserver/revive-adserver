@@ -60,27 +60,27 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
             array()
         );
         $this->oDBAuditor = new $mockDBAud($this);
-        
-        
+
+
         $this->aAuditParams[0] = array('description'=>'COMPLETE',
                         'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED
-                       
+
                        );
         $this->aAuditParams[1] = array('description'=>'COMPLETE',
                         'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                         'confbackup'=>'/etc/test_backupconffile.ini' // do not change, used in test_cleanAuditArtifacts
                        );
-                       
+
         $this->aDBAuditParams[0][0] = array('info1'=>'UPGRADE STARTED',
                               'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
                              );
         $this->aDBAuditParams[0][1] = array('info1'=>'BACKUP STARTED',
                               'action'=>DB_UPGRADE_ACTION_BACKUP_STARTED,
                              );
-          
-        // do not edit the index ; they are used in the test_cleanAuditArtifacts()                   
+
+        // do not edit the index ; they are used in the test_cleanAuditArtifacts()
         $this->tableBackupName = 'z_test1';
-        
+
         $this->aDBAuditParams[0][2] = array('info1'=>'copied table',
                               'tablename'=>'test_table1',
                               'tablename_backup'=>$this->tableBackupName,
@@ -105,10 +105,10 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     {
         $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
         $this->prefix = $oAuditor->prefix;
-        
+
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->init($oAuditor->oDbh, '', $this->oDBAuditor),'failed to initialise upgrade auditor');
-        $aDBTables = $oAuditor->oDbh->manager->listTables();
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
     }
 
@@ -131,13 +131,31 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->assertEqual($oAuditor->aParams['escape'],"'openad\'s value'",'wrong param value: escape');
     }
 
+    /**
+     * Test 1: with lowercase prefix
+     * Test 2: with uppercase prefix
+     */
     function test_createAuditTable()
     {
+        // Test 1
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'oa_';
         $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->_createAuditTable(),'failed to createAuditTable');
-        $aDBTables = $oAuditor->oDbh->manager->listTables();
-        $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertTrue(in_array('oa_'.$oAuditor->logTable, $aDBTables));
+        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
+
+        // Test 2
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'OA_';
+        $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
+        $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
+        $this->assertTrue($oAuditor->_createAuditTable(),'failed to createAuditTable');
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertTrue(in_array('OA_'.$oAuditor->logTable, $aDBTables));
+        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
     }
 
     function test_checkCreateAuditTable()
@@ -146,23 +164,23 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         // test1 : table does not exist, should create table
         $this->assertTrue($oAuditor->_checkCreateAuditTable(),'failed to createAuditTable');
-        $aDBTables = $oAuditor->oDbh->manager->listTables();
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
         // test2 : table does exist, should return true
         $this->assertTrue($oAuditor->_checkCreateAuditTable(),'');
     }
 
-    
+
 	function test_logAuditAction()
     {
         $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
         $oAuditor->setKeyParams($this->_getUpgradeAuditKeyParamsArray());
-        
+
 	    $this->assertTrue($oAuditor->logAuditAction($this->aAuditParams[0]),'');
         $this->assertTrue($oAuditor->logAuditAction($this->aAuditParams[1]),'');
     }
-    
-    
+
+
     /**
      * main audit query method
      * return all columns from the upgrade_action table
@@ -172,19 +190,19 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
      */
     function test_queryAuditAllDescending()
     {
-    	
+
     	$oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
     	$oAuditor->init($oAuditor->oDbh, '');
-    	
+
     	$aResult = $oAuditor->queryAuditAllDescending();
-    	
+
     	$this->assertIsA($aResult,'array','not an array');
     	$this->assertIsA($aResult[0],'array','subelement is not an array');
     	$this->assertTrue($aResult[0]['backups'] >= 0,'count <= 0');
-    	
-    	$this->assertTrue($aResult[0]['upgrade_action_id'] > $aResult[1]['upgrade_action_id'], 
+
+    	$this->assertTrue($aResult[0]['upgrade_action_id'] > $aResult[1]['upgrade_action_id'],
 							'the result set is not in descending order' );
-    	
+
     	// check that the resulting aResultAfter is identical to what we've recorded
     	$aAuditKeyParams = $this->_getUpgradeAuditKeyParamsArray();
         $aAuditParams = array_reverse($this->aAuditParams);
@@ -197,7 +215,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
             $this->assertEqual($v['logfile'],	  $aAuditKeyParams['logfile'],'wrong logfile for audit query result '.$k);
             $this->assertEqual($v['description'], $aAuditParams[$k]['description'],'wrong description for audit query result '.$k);
             $this->assertEqual($v['info'],		  $aAuditParams[$k]['info'],'wrong info for audit query result '.$k);
-            
+
             if (array_key_exists('confbackup',$aAuditParams[$k]))
             {
                 $this->assertEqual($v['confbackup'],$aAuditParams[$k]['confbackup'],'wrong confbackup for audit query result '.$k);
@@ -206,10 +224,10 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
             {
                 $this->assertNull($v['confbackup'],'confbackup should be null for audit query result '.$k);
             }
-        } 
+        }
     }
-    
-    
+
+
     /**
      * return all columns from upgrade_action table for given upgrade_action_id
      *
@@ -218,13 +236,13 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
      */
     function test_queryAuditByUpgradeId()
     {
-    	
+
         $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
 
         $aResult = $oAuditor->queryAuditByUpgradeId(1);
         $this->assertIsa($aResult,'array','audit table query result is not an array');
         $this->assertEqual(count($aResult),1,'incorrect number of elements');
-        
+
     }
 
     /**
@@ -236,14 +254,14 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     function test_queryAuditArtifactsByUpgradeId()
     {
     	$mockDBAuditor = new MockOA_DB_UpgradeAuditor();
-    	
+
     	$toTest = array('1', '2', '3');
     	$mockDBAuditor->setReturnValue('queryAuditByUpgradeId', $toTest, array(1));
-    	
-    	
+
+
         $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
         $oAuditor->oDBAuditor = $mockDBAuditor;
-        
+
         $this->assertEqual($toTest, $oAuditor->queryAuditArtifactsByUpgradeId(1),
         				'input array is different from output array');
     }
@@ -257,23 +275,23 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     function test_queryAuditBackupTablesByUpgradeId()
     {
     	$aResult = array('1','2');
-    	
+
     	$mockDBAuditor = new MockOA_DB_UpgradeAuditor();
     	$toTest = array(0 => array('tablename_backup' => 'upgrade_action'));
     	$mockDBAuditor->setReturnValue('queryAuditBackupTablesByUpgradeId', $toTest, array(1));
-       
+
 	    Mock::generatePartial(
 	        'OA_UpgradeAuditor',
 	        'OA_UpgradeAuditorTest',
 	        array('getBackupTableStatus'));
-       
+
         $oMockAuditor = new OA_UpgradeAuditorTest($this);
         $oMockAuditor->setReturnValue('getBackupTableStatus', $aResult, array($toTest));
         $oMockAuditor->oDBAuditor = $mockDBAuditor;
-        
+
         $aResultFinal = $oMockAuditor->queryAuditBackupTablesByUpgradeId(1);
-        
-        
+
+
         $this->assertEqual($aResultFinal, $aResult,
         					'result is different for the main backup tables');
     }
@@ -294,9 +312,9 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	$this->assertTrue($aResult[0]['backup_size'] > 0, 'data length < 0');
     	$this->assertTrue($aResult[0]['backup_rows'] > 0, 'number of rows < 0');
     }
-    
+
     function _setupLogFile($logFile)
-    {    	
+    {
     	if(is_dir( dirname($logFile) ))
     	{
     		chmod( dirname($logFile), 0777 );
@@ -316,15 +334,15 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     {
         return in_array($this->prefix.$tablename, $aExistingTables);
     }
-    
+
     /**
      * internal function to set up some test tables
      *
      * @param mdb2 connection $oDbh
      */
     function _createTestTables($oDbh)
-    { 
-    	$aExistingTables = $oDbh->manager->listTables();
+    {
+    	$aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 	    if(!$this->_tableExists('z_test1', $aExistingTables))
     	{
     		$conf = &$GLOBALS['_MAX']['CONF'];
@@ -333,9 +351,9 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 	        $oTable = new OA_DB_Table();
 	        $oTable->init($this->path.'schema_test_backups.xml');
 	        $this->assertTrue($oTable->createTable('z_test1'),'error creating test table1');
-	        $aExistingTables = $oDbh->manager->listTables();
+	        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 	        $this->assertTrue($this->_tableExists('z_test1', $aExistingTables), '_createTestTables');
-	        return $oTable->aDefinition;    	
+	        return $oTable->aDefinition;
       	}
       	return false;
     }
@@ -353,69 +371,69 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     {
     	// put some data with 2 different upgrade_id
         $oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
-        
+
         Mock::generatePartial(
             'OA_UpgradeLogger',
             $mockDBAud = 'OA_UpgradeLogger'.rand(),
             array('isPearError', 'logError')
         );
         $oLoggerMock = new $mockDBAud($this);
-        
+
     	$oAuditor->init($oAuditor->oDbh, $oLoggerMock);
     	$this->_test_logDBAuditAction($oAuditor->oDBAuditor, $this->aDBAuditParams, $this->_getDBAuditKeyParamsArray());
-    	
-    	
+
+
     	// init data to be able to compare later
         $initData1 = $oAuditor->queryAuditByUpgradeId(1);
         $initDataBackup1 = $oAuditor->queryAuditBackupTablesByUpgradeId(1);
         $initDataAll = $oAuditor->queryAuditAllDescending();
-    	
+
     	// delete one upgrade_id that doesn't exist, it shouldn't delete anything
     	$aResult = $oAuditor->cleanAuditArtifacts(11);
 		$this->assertEqual($initDataAll, $oAuditor->queryAuditAllDescending());
-        
+
         // the log file of the upgrade_id = 0 is "openads_upgrade_2.0.0.log"
         // the confbackup file of the upgrade_id = 0 is "/etc/test_backupconffile.ini"
         $prefixLogFile = MAX_PATH.'/var/';
         $suffixLogFile = "test/openads_upgrade_2.0.0.log";
         $logFile = $prefixLogFile . $suffixLogFile;
         $backupFile = '/etc/test_backupconffile.ini';
-        
-    	// setup 
+
+    	// setup
     	$this->_setupLogFile($logFile);
     	$this->_createTestTables($oAuditor->oDbh);
-    	
+
     	// delete one with existing logfile but no write permission => false
     	mkdir( dirname($logFile));
     	touch( $logFile );
     	chmod( $logFile, 0444);
     	chmod( dirname($logFile), 0555); //You need execution permission to traverse a directory.
-    	
+
     	$this->assertEqual($oAuditor->cleanAuditArtifacts(1), false);
     	$logResult=$oAuditor->queryAuditByUpgradeId(1);
     	$logResult=$logResult[0]['logfile'];
     	$this->assertEqual($logResult, $suffixLogFile);
-    	    	
-    	// setup 
+
+    	// setup
     	$this->_setupLogFile($logFile);
     	$this->_createTestTables($oAuditor->oDbh);
-    	
+
     	// delete one with existing logfile and rights => true
     	mkdir( dirname($logFile));
     	touch($logFile );
     	chmod($logFile, 0777);
     	$this->assertEqual($oAuditor->cleanAuditArtifacts(1), true);
-    	
-    	// setup 
+
+    	// setup
     	$this->_setupLogFile($logFile);
     	$this->_createTestTables($oAuditor->oDbh);
-    	
+
     	// delete one with non existing logfile => true
         $oAuditor->setKeyParams($this->_getUpgradeAuditKeyParamsArray());
         $this->assertTrue($oAuditor->logAuditAction($this->aAuditParams[0]),'');
     	// we use the previous logfile = "cleaned record" because the logfile field was set to "cleaned by user"
         $this->assertEqual($oAuditor->cleanAuditArtifacts(1), true);
-    	
+
     }
 
     /**
@@ -429,16 +447,16 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     {
     	$upgrade_id = 1;
     	$reason = "hey that was a super log msg";
-    	
+
     	$oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
     	$oAuditor->init($oAuditor->oDbh, '');
-    	
+
     	$this->assertTrue($oAuditor->updateAuditBackupConfDroppedById($upgrade_id, $reason));
-    	
-    	$result = $oAuditor->oDbh->queryRow("SELECT confbackup 
-							FROM {$this->prefix}{$oAuditor->logTable}  
+
+    	$result = $oAuditor->oDbh->queryRow("SELECT confbackup
+							FROM {$this->prefix}{$oAuditor->logTable}
 							WHERE upgrade_action_id='{$upgrade_id}'");
-		
+
         $this->assertEqual($result['confbackup'], $reason, "the message '$reason' has not been correctly set '{$result['confbackup']}'");
 
     }
@@ -449,21 +467,21 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
      * @param integer $upgrade_action_id
      * @param string $reason
      * @return boolean
-     */    
+     */
 	function test_updateAuditBackupLogDroppedById()
     {
     	$upgrade_id = 1;
     	$reason = "hey that was a super log msg22243235";
-    	
+
     	$oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
     	$oAuditor->init($oAuditor->oDbh, '');
-    	
+
     	$this->assertTrue($oAuditor->updateAuditBackupLogDroppedById($upgrade_id, $reason));
-    	
-    	$result = $oAuditor->oDbh->queryRow("SELECT logfile 
-							FROM {$this->prefix}{$oAuditor->logTable}  
+
+    	$result = $oAuditor->oDbh->queryRow("SELECT logfile
+							FROM {$this->prefix}{$oAuditor->logTable}
 							WHERE upgrade_action_id='{$upgrade_id}'");
-		
+
         $this->assertEqual($result['logfile'], $reason, "the message '$reason' has not been correctly set : '{$result['logfile']}'");
 
     }
@@ -479,7 +497,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 
         $oAuditor->setKeyParams($this->_getUpgradeAuditKeyParamsArray());
         $this->assertTrue($oAuditor->logAuditAction($this->aAuditParams[1][0]),'');
-	}	
+	}
 }
 
 ?>

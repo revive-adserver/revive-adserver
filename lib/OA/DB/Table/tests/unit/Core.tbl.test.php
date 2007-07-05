@@ -94,7 +94,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->dropAllTables();
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);
@@ -102,7 +102,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $this->assertEqual(count($aExistingTables), 0);
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->createAllTables();
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         foreach ($conf['table'] as $key => $tableName) {
             if ($key == 'prefix' || $key == 'split' || $key == 'lockfile' || $key == 'type') {
                 continue;
@@ -111,7 +111,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             $this->assertTrue(in_array($tableName, $aExistingTables));
         }
         $oTable->dropAllTables();
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);
@@ -128,7 +128,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->dropAllTables();
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);
@@ -136,7 +136,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $this->assertEqual(count($aExistingTables), 0);
         $oDate = new Date('2007-04-19');
         $oTable->createAllTables($oDate);
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         foreach ($conf['table'] as $key => $tableName) {
             if ($key == 'prefix' || $key == 'split' || $key == 'lockfile' || $key == 'type') {
                 continue;
@@ -151,7 +151,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         }
         $oTable->dropAllTables();
         $splitTableCount = count($conf['splitTables']);
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);
@@ -161,7 +161,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             $dropSplitTableName = $conf['table']['prefix'] . $splitTableName . '_' . $oDate->format('%Y%m%d');
             $oTable->dropTable($dropSplitTableName);
         }
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!
             $this->assertTrue(false);

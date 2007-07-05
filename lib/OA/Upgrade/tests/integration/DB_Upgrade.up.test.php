@@ -123,14 +123,18 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
 
+    /**
+     * Test 1: Set a random prefix
+     * Test 2: Set an uppercase prefix
+     */
     function test_stripPrefixesFromDatabaseDefinition()
     {
+        // Test 1
         $conf = &$GLOBALS['_MAX']['CONF'];
         $defaultPrefix = $this->prefix;
 
         // Set a random prefix
-        $conf['table']['prefix'] =
-            $this->prefix = sprintf('t%05d_', mt_rand(0, 99999));
+        $conf['table']['prefix'] = $this->prefix = 'oaxyz_';
 
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $aDefinition['tables'][$this->prefix.'table1'] = array();
@@ -150,14 +154,77 @@ class Test_DB_Upgrade extends UnitTestCase
 
         TestEnv::restoreConfig();
         TestEnv::restoreEnv();
-   }
 
+        // Test 2
+        $conf['table']['prefix'] = $this->prefix = 'OAXYZ_';
+
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $aDefinition = array();
+        $aDefinition['tables'][$this->prefix.'table1'] = array();
+        $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey'] = array();
+        $aDefinition['tables'][$this->prefix.'table1']['indexes'][$this->prefix.'table1_pkey']['primary'] = true;
+
+        $aDefStripped = $oDB_Upgrade->_stripPrefixesFromDatabaseDefinition($aDefinition);
+
+        $this->assertFalse(isset($aDefStripped['tables'][$this->prefix.'table1']), 'unstripped tablename found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']), 'stripped tablename not found in definition');
+
+        $this->assertFalse(isset($aDefStripped['tables']['table1']['indexes'][$this->prefix.'table1_pkey']), 'unstripped indexname found in definition');
+        $this->assertTrue(isset($aDefStripped['tables']['table1']['indexes']['table1_pkey']), 'stripped indexname not found in definition');
+
+        $conf['table']['prefix'] = $this->prefix = $defaultPrefix;
+
+        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
+    }
+
+    /**
+     * Test 1: get definition from table with lowercase prefix
+     * Test 2: get definition from table with uppercase prefix
+     * Test 3: get definition from table with no prefix
+     *
+     */
     function test_getDefinitionFromDatabase()
     {
+        // Test 1
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $this->_dropTestTables($oDB_Upgrade->oSchema->db);
         $prefixOld = $this->prefix;
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'xyz_';
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $aDefOrig = $this->_createTestTables($oDB_Upgrade->oSchema->db);
+        $aDefNew = $oDB_Upgrade->_getDefinitionFromDatabase();
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefOrig);
+        $this->assertEqual(count($aDiff),0,'definitions don\'t match');
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = $prefixOld;
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
+
+        // Test 2
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $prefixOld = $this->prefix;
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'XYZ_';
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $aDefOrig = $this->_createTestTables($oDB_Upgrade->oSchema->db);
+        $aDefNew = $oDB_Upgrade->_getDefinitionFromDatabase();
+        $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefOrig);
+        $this->assertEqual(count($aDiff),0,'definitions don\'t match');
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = $prefixOld;
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
+
+        // Test 3
+        $oDB_Upgrade = $this->_newDBUpgradeObject();
+        $this->_dropTestTables($oDB_Upgrade->oSchema->db);
+        $prefixOld = $this->prefix;
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = '';
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $oDB_Upgrade->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $aDefOrig = $this->_createTestTables($oDB_Upgrade->oSchema->db);
@@ -176,11 +243,18 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
 
         $oDB_Upgrade = $this->_newDBUpgradeObject();
-        // new tables table1 and table2
 
         $oTable = new OA_DB_Table();
         $oTable->init(MAX_PATH.'/etc/tables_core.xml');
         $oTable->dropAllTables();
+
+        $prefixOld = $this->prefix;
+
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'oA_';
+        $oDB_Upgrade->prefix = 'oA_';
+        $this->prefix = 'oA_';
+        // new tables table1 and table2
+        $this->_createTestTables($oDB_Upgrade->oSchema->db);
 
         // get the current definition
         $oTable->init($this->path.'schema_test_tables_core2.xml');
@@ -222,6 +296,8 @@ class Test_DB_Upgrade extends UnitTestCase
         {
             unlink(MAX_PATH.'/var/changes_tables_core2');
         }
+        $oTable->dropAllTables();
+        $this->prefix = $prefixOld;
         TestEnv::restoreConfig();
         TestEnv::restoreEnv();
     }
@@ -520,6 +596,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual(count($aTaskList['indexes']['remove']),1, 'incorrect elements in task list: indexes remove');
         $this->assertEqual($aTaskList['indexes']['remove'][0]['name'], 'index2', 'wrong index name');
         $this->assertEqual($aTaskList['indexes']['remove'][0]['table'], 'table1', 'wrong table name');
+        if (file_exists(MAX_PATH.'/var/changes_test_indexRemove.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_indexRemove.xml');
+        }
     }
 
     /**
@@ -575,6 +655,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['fields']),'index fields not found in task add array');
         $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['fields']['b_id_field2']),'index field not found in task add array');
         $this->assertTrue(isset($aTaskList['indexes']['add'][2]['cargo']['indexes']['index_new']['fields']['b_id_field2']['sorting']),'sorting not defined for field in task add array');
+        if (file_exists(MAX_PATH.'/var/changes_test_indexAdd.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_indexAdd.xml');
+        }
     }
 
     function test_verifyTasksTablesAdd()
@@ -602,7 +686,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][0]['table'],'table_new','wrong table in task index array');
         $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][1]['name'],'index2_new','index2_new not found in task index array');
         $this->assertEqual($aTaskList['tables']['add'][0]['indexes'][1]['table'],'table_new','wrong table in task index array');
-
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAdd.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAdd.xml');
+        }
     }
 
     function test_verifyTasksTablesRemove()
@@ -622,6 +709,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['tables']['remove']),'failed creating task list: tables remove');
         $this->assertEqual(count($aTaskList['tables']['remove']),1, 'incorrect elements in task list: tables remove');
         $this->assertEqual($aTaskList['tables']['remove'][0]['name'], 'table2', 'wrong table name');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableRemove.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableRemove.xml');
+        }
     }
 
     function test_verifyTasksTablesRename()
@@ -652,6 +743,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual(count($aTaskList['tables']['rename']),1, 'incorrect elements in task list: tables rename');
         $this->assertEqual($aTaskList['tables']['rename'][0]['name'], 'table1_rename', 'wrong new table name');
         $this->assertEqual($aTaskList['tables']['rename'][0]['cargo']['was'], 'table1', 'wrong old table name');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableRename.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableRename.xml');
+        }
     }
 
     /**
@@ -680,6 +775,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['fields']['add'][0]['field'], 'c_date_field_new', 'wrong field name');
         $this->assertEqual(count($aTaskList['fields']['add'][0]['cargo']),1, 'incorrect number of add fields tasks in task list');
         $this->assertTrue(isset($aTaskList['fields']['add'][0]['cargo']['add']['c_date_field_new']),'c_date_field_new field not found in task add array');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter1.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter1.xml');
+        }
 
         // Test 2 : change field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter2.xml');
@@ -699,6 +798,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['fields']['change'][0]['cargo']['change']['a_text_field']),'a_text_field field not found in task change array');
         $this->assertEqual($aTaskList['fields']['change'][0]['cargo']['change']['a_text_field']['definition']['default'],'foo','a_text_field default property not set in task change array');
         $this->assertEqual($aTaskList['fields']['change'][0]['cargo']['change']['a_text_field']['definition']['length'],64,'a_text_field length property not set in task change array');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter2.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter2.xml');
+        }
 
         // Test 5 : change primary key field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter5.xml');
@@ -718,6 +821,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(isset($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']),'b_id_field field not found in task change array');
         $this->assertTrue($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']['definition']['autoincrement'],'b_id_field autoincrement property not set in task change array');
         $this->assertEqual($aTaskList['fields']['change'][0]['cargo']['change']['b_id_field']['definition']['length'],11,'b_id_field length property not set in task change array');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
+        }
 
         // Test 4 : rename field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter4.xml');
@@ -745,6 +852,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual(count($aTaskList['fields']['rename'][0]['cargo']['rename']),1, 'incorrect number of rename fields tasks in task list');
         $this->assertTrue(isset($aTaskList['fields']['rename'][0]['cargo']['rename']['b_id_field']),'b_id_field field not found in task change array');
         $this->assertEqual($aTaskList['fields']['rename'][0]['cargo']['rename']['b_id_field']['name'],'b_id_field_renamed','b_id_field wrong value in task change array');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter4.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter4.xml');
+        }
 
          // Test 6 : add primary key field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter6.xml');
@@ -762,6 +873,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['fields']['add'][0]['field'], 'b_id_field_pk', 'wrong field name');
         $this->assertEqual(count($aTaskList['fields']['add'][0]['cargo']),1, 'incorrect number of add fields tasks in task list');
         $this->assertTrue(isset($aTaskList['fields']['add'][0]['cargo']['add']['b_id_field_pk']),'b_id_field_pk field not found in task add array');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
+        }
 
         // Test 3 : remove field
         $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
@@ -780,7 +895,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['fields']['remove'][0]['field'], 'a_text_field', 'wrong field name');
         $this->assertEqual(count($aTaskList['fields']['remove'][0]['cargo']['remove']),1, 'incorrect number of remove fields tasks in task list');
         $this->assertTrue(isset($aTaskList['fields']['remove'][0]['cargo']['remove']['a_text_field']),'a_text_field field not found in task change array');
-
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter3.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter3.xml');
+        }
     }
 
     /**
@@ -811,6 +929,10 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table1');
         $this->assertFalse(in_array('index2', $aConstraints),'index2 found');
+        if (file_exists(MAX_PATH.'/var/changes_test_indexRemove.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_indexRemove.xml');
+        }
     }
 
     /**
@@ -846,6 +968,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(in_array('index_unique', $aConstraints),'index_unique not found');
         $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes($this->prefix.'table2');
         $this->assertTrue(in_array('index_new', $aIndexes),'index_new not found');
+        if (file_exists(MAX_PATH.'/var/changes_test_indexAdd.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_indexAdd.xml');
+        }
     }
 
     function test_executeTasksTablesAdd()
@@ -885,6 +1011,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table_new');
         $this->assertTrue(in_array('b_id_field_new', $aDBFields),'b_id_field_new not found in table_new');
         $this->assertTrue(in_array('a_text_field_new', $aDBFields),'a_text_field_new not found in table_new');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAdd.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAdd.xml');
+        }
     }
 
     function test_executeTasksTablesRemove()
@@ -921,6 +1051,10 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertFalse($this->_tableExists('table2', $oDB_Upgrade->aDBTables),'table2 found');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableRemove.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableRemove.xml');
+        }
     }
 
     function test_executeTasksTablesRename()
@@ -972,6 +1106,11 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $oTable = new OA_DB_Table();
         $this->assertTrue($oTable->dropTable($this->prefix.'table1_rename'),'error dropping table1_rename');
+
+        if (file_exists(MAX_PATH.'/var/changes_test_tableRename.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableRename.xml');
+        }
     }
 
     /**
@@ -1018,6 +1157,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables),'table1 not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertTrue(in_array('c_date_field_new', $aDBFields),'c_date_field_new not found in table1');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter1.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter1.xml');
+        }
 
         // Test 2 : change field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter2.xml');
@@ -1050,6 +1193,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['default'],'foo','wrong assigned default value');
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],64,'wrong assigned length value');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter2.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter2.xml');
+        }
 
         // Test 5 : change primary key field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter5.xml');
@@ -1081,6 +1228,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
         $this->assertTrue($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['autoincrement'],'wrong assigned autoincrement value');
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
+        }
 
         // Test 4 : rename field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter4.xml');
@@ -1127,6 +1278,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertFalse(in_array('b_id_field', $aDBFields),'b_id_field found in table1');
         $this->assertTrue(in_array('b_id_field_renamed', $aDBFields),'b_id_field_renamed not found in table1');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter4.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter4.xml');
+        }
 
          // Test 6 : add primary key field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter6.xml');
@@ -1162,6 +1317,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($this->_tableExists('table2', $oDB_Upgrade->aDBTables),'table2 not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table2');
         $this->assertTrue(in_array('b_id_field_pk', $aDBFields),'b_id_field_pk not found in table1');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
+        }
 
         // Test 3 : remove field
         $oDB_Upgrade = $this->_newDBUpgradeObject('destructive');
@@ -1194,6 +1353,10 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table1');
         $this->assertFalse(in_array('a_text_field', $aDBFields),'a_text_field found in table1');
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter3.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter3.xml');
+        }
     }
 
     function _tableExists($tablename, $aExistingTables)
@@ -1215,7 +1378,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oTable->init($this->path.'schema_test_original.xml');
         $this->assertTrue($oTable->createTable('table1'),'error creating test table1');
         $this->assertTrue($oTable->createTable('table2'),'error creating test table2');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue($this->_tableExists('table1', $aExistingTables), '_createTestTables');
         $this->assertTrue($this->_tableExists('table2', $aExistingTables), '_createTestTables');
         return $oTable->aDefinition;
@@ -1227,7 +1390,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_original.xml');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if ($this->_tableExists('table1', $aExistingTables))
         {
             $this->assertTrue($oTable->dropTable($this->prefix.'table1'),'error dropping test table1');
@@ -1236,7 +1399,7 @@ class Test_DB_Upgrade extends UnitTestCase
         {
             $this->assertTrue($oTable->dropTable($this->prefix.'table2'),'error dropping test table2');
         }
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse($this->_tableExists('table1', $aExistingTables), '_dropTestTables');
         $this->assertFalse($this->_tableExists('table2', $aExistingTables), '_dropTestTables');
     }
@@ -1254,7 +1417,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_autoinc.xml');
         $this->assertTrue($oTable->createTable('table1_autoinc'),'error creating test table1_autoinc');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue($this->_tableExists('table1_autoinc', $aExistingTables), '_createTestTableAutoInc');
     }
 
@@ -1264,12 +1427,12 @@ class Test_DB_Upgrade extends UnitTestCase
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_autoinc.xml');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if ($this->_tableExists('table1_autoinc', $aExistingTables))
         {
             $this->assertTrue($oTable->dropTable($this->prefix.'table1_autoinc'),'error dropping test table1_autoinc');
         }
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse($this->_tableExists('table1_autoinc', $aExistingTables), '_dropTestTableAutoInc');
     }
     /**
@@ -1297,19 +1460,7 @@ class Test_DB_Upgrade extends UnitTestCase
                                         'version'=>$oDB_Upgrade->versionTo,
                                         'timing'=>$oDB_Upgrade->timingInt
                                         ));
-
-//        Mock::generatePartial(
-//            'OA_DB_UpgradeAuditor',
-//            $mockAuditor = 'OA_DB_UpgradeAuditor'.rand(),
-//            array('beforeAddTable__table_new', 'afterAddTable__table_new')
-//        );
-//
-//        $oDBAuditor = new $mockAuditor($this);
-//        $oDBAuditor->setReturnValue('logAuditAction', true);
-//        $oDBAuditor->expectOnce('logAuditAction');
-
         $oDB_Upgrade->oAuditor = &$oDBAuditor;
-
         return $oDB_Upgrade;
     }
 

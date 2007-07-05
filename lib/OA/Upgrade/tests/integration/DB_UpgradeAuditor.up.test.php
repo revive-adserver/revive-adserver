@@ -38,7 +38,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/tests/integration/BaseUpgradeAuditor.up.t
  */
 
 class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
-{ 
+{
     var $path;
 
     /**
@@ -48,8 +48,8 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     {
         $this->Test_OA_BaseUpgradeAuditor();
         $this->path = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
-        
-        
+
+
         $this->aAuditParams[0][0] = array('info1'=>'UPGRADE STARTED',
                               'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
                              );
@@ -100,7 +100,7 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->init($oAuditor->oDbh),'failed to initialise upgrade auditor');
-        $aDBTables = $oAuditor->oDbh->manager->listTables();
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
     }
 
@@ -123,13 +123,31 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->assertEqual($oAuditor->aParams['escape'],"'openad\'s value'",'wrong param value: escape');
     }
 
+    /**
+     * Test 1: with lowercase prefix
+     * Test 2: with uppercase prefix
+     */
     function test_createAuditTable()
     {
+        // Test 1
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'oa_';
         $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         $this->assertTrue($oAuditor->_createAuditTable(),'failed to createAuditTable');
-        $aDBTables = $oAuditor->oDbh->manager->listTables();
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
+        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
+
+        // Test 2
+        $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'OA_';
+        $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
+        $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
+        $this->assertTrue($oAuditor->_createAuditTable(),'failed to createAuditTable');
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
+        TestEnv::restoreConfig();
+        TestEnv::restoreEnv();
     }
 
     function test_checkCreateAuditTable()
@@ -138,18 +156,18 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         // test1 : table does not exist, should create table
         $this->assertTrue($oAuditor->_checkCreateAuditTable(),'failed to createAuditTable');
-        $aDBTables = $oAuditor->oDbh->manager->listTables();
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
         // test2 : table does exist, should return true
         $this->assertTrue($oAuditor->_checkCreateAuditTable(),'');
     }
-    
+
 
     function test_logAuditAction()
     {
         $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
     	$this->_test_logDBAuditAction($oAuditor);
-		
+
     }
 
     function test_queryAuditByDBUpgradeId()
@@ -440,7 +458,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertTrue($oTable->createTable('z_test1'),'error creating test backup z_test1');
         $this->assertTrue($oTable->createTable('z_test2'),'error creating test backup z_test2');
         $this->assertTrue($oTable->createTable('z_test3'),'error creating test backup z_test3');
-        $aExistingTables = $oTable->oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($oAuditor->prefix.'z_test1', $aExistingTables), '_listBackups');
         $this->assertTrue(in_array($oAuditor->prefix.'z_test2', $aExistingTables), '_listBackups');
         $this->assertTrue(in_array($oAuditor->prefix.'z_test3', $aExistingTables), '_listBackups');
@@ -449,7 +467,7 @@ works in phpMyAdmin on MySQL 5.0.22 but not via this routine
         $this->assertIsA($aBackupTables,'array','backup array not an array');
         $this->assertEqual(count($aBackupTables),3,'wrong number of backups found in database: expected 3 got '.count($aBackupTables));
     }
-    
+
 
 }
 

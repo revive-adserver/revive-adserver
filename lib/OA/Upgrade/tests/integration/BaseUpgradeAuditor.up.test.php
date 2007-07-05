@@ -34,12 +34,12 @@ class Test_OA_BaseUpgradeAuditor extends UnitTestCase
     function _dropAuditTable($table_name)
     {
         $oTable = new OA_DB_Table();
-        $aDBTables = $oTable->oDbh->manager->listTables();
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         if (in_array($table_name, $aDBTables))
         {
             $this->assertTrue($oTable->dropTable($table_name),'error dropping audit table '.$table_name);
         }
-        $aDBTables = $oTable->oDbh->manager->listTables();
+        $aDBTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse(in_array($table_name, $aDBTables), '_dropAuditTable');
     }
 

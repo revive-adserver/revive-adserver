@@ -227,12 +227,24 @@ class Test_OA_DB_Table extends UnitTestCase
     }
 
     /**
+     * A method to test the listing of openads tables with case sensitivity *on*
+     *
+     */
+    function test_listOATablesCaseSensitive()
+    {
+        $aTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertIsA($aTables,'array','');
+    }
+
+    /**
      * A method to test the create table method.
      *
      * Requirements:
      * Test 1: Test that a table can be created.
      * Test 2: Test that a split table can be created.
      * Test 3: Test character sets are set correctly (mysql specific).
+     * Test 4: Test table created with prefix
+     * Test 5: Test table created with uppercase prefix
      */
     function testCreateTable()
     {
@@ -245,7 +257,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oTable->createTable('test_table');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'test_table');
         $oTable->dropTable('test_table');
 
@@ -260,7 +272,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oDate = new Date();
         $oTable->createTable('test_table', $oDate);
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
         unlink(MAX_PATH . '/var/test.xml');
         $oTable->dropTable('test_table_' . $oDate->format('%Y%m%d'));
@@ -349,6 +361,32 @@ class Test_OA_DB_Table extends UnitTestCase
             }
         }
 
+        // Test 4
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
+        $conf['table']['prefix'] = 'oatest_';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $this->_writeTestDatabaseSchema();
+        $oTable->init(MAX_PATH . '/var/test.xml');
+        $oTable->createTable('test_table');
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual($aExistingTables[0], 'oatest_test_table');
+        $oTable->dropTable('oatest_test_table');
+
+        // Test 5
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
+        $conf['table']['prefix'] = 'OATEST_';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $this->_writeTestDatabaseSchema();
+        $oTable->init(MAX_PATH . '/var/test.xml');
+        $oTable->createTable('test_table');
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual($aExistingTables[0], 'OATEST_test_table');
+        $oTable->dropTable('OATEST_test_table');
+
         TestEnv::restoreConfig();
     }
 
@@ -370,7 +408,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oTable->createAllTables();
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'test_table');
         $oTable->dropTable('test_table');
 
@@ -385,7 +423,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oDate = new Date();
         $oTable->createAllTables($oDate);
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
         $this->assertEqual($aExistingTables[1], 'the_second_table');
         unlink(MAX_PATH . '/var/test.xml');
@@ -402,14 +440,14 @@ class Test_OA_DB_Table extends UnitTestCase
      * Test 1: Test with the Openads_Table_Core class, using
      *         the banners table.
      */
-    function testCreateRequriedTables()
+    function testCreateRequiredTables()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $oDbh = &OA_DB::singleton();
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->createRequiredTables('banners');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'agency');
         $this->assertEqual($aExistingTables[1], 'banners');
         $this->assertEqual($aExistingTables[2], 'campaigns');
@@ -428,19 +466,21 @@ class Test_OA_DB_Table extends UnitTestCase
      * Requirements:
      * Test 1: Test that a table can be dropped.
      * Test 2: Test that a temporary table can be dropped.
+     * Test 2: Test that a tablename with uppercase prefix can be dropped.
      */
     function testDropTable()
     {
         // Test 1
         $conf = &$GLOBALS['_MAX']['CONF'];
+        $prefix = $conf['table']['prefix'];
         $oDbh = &OA_DB::singleton();
         $oTable = new OA_DB_Table();
-        $query = "CREATE TABLE foo ( a INTEGER )";
+        $query = "CREATE TABLE {$prefix}foo ( a INTEGER )";
         $oDbh->query($query);
-        $aExistingTables = $oDbh->manager->listTables();
-        $this->assertEqual($aExistingTables[0], 'foo');
-        $oTable->dropTable('foo');
-        $aExistingTables = $oDbh->manager->listTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual($aExistingTables[0], $prefix.'foo');
+        $oTable->dropTable($prefix.'foo');
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual(count($aExistingTables), 0);
         TestEnv::restoreEnv();
 
@@ -448,19 +488,33 @@ class Test_OA_DB_Table extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oTable = new OA_DB_Table();
-        $query = "CREATE TEMPORARY TABLE foo ( a INTEGER )";
+        $query = "CREATE TEMPORARY TABLE {$prefix}foo ( a INTEGER )";
         $oDbh->query($query);
         // Test table exists with an insert
-        $query = "INSERT INTO foo (a) VALUES (37)";
+        $query = "INSERT INTO {$prefix}foo (a) VALUES (37)";
         $result = $oDbh->query($query);
         $this->assertTrue($result);
-        $oTable->dropTable('foo');
+        $oTable->dropTable($prefix.'foo');
         // Test table does not exist with an insert
-        $query = "INSERT INTO foo (a) VALUES (37)";
+        $query = "INSERT INTO {$prefix}foo (a) VALUES (37)";
         PEAR::pushErrorHandling(null);
         $result = $oDbh->query($query);
         PEAR::popErrorHandling();
         $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
+        TestEnv::restoreEnv();
+
+        // Test 3
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = 'OA_';
+        $oDbh = &OA_DB::singleton();
+        $oTable = new OA_DB_Table();
+        $query = "CREATE TABLE OA_foo ( a INTEGER )";
+        $oDbh->query($query);
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual($aExistingTables[0], 'OA_foo');
+        $oTable->dropTable('OA_foo');
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual(count($aExistingTables), 0);
         TestEnv::restoreEnv();
     }
 

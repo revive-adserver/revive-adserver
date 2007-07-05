@@ -41,48 +41,55 @@ class Test_OA_DB_XmlCache extends UnitTestCase
     var $oDbh;
     var $oCache;
     var $aOptions;
-    
+    var $oSchema;
+
     /**
      * The constructor method.
      */
     function Test_OA_DB_XmlCache()
     {
         $this->UnitTestCase();
-        
+
         $this->oDbh    = OA_DB::singleton();
         $this->oCache  = new OA_DB_XmlCache();
         $this->aOption = array('force_defaults'=>false);
-
+        $this->oSchema = &MDB2_Schema::factory($this->oDbh, $this->aOptions);
     }
 
     function test_Etc()
     {
-        foreach (glob(MAX_PATH.'/etc/tables_*.xml') as $fileName) {
-            $oSchema = &MDB2_Schema::factory($this->oDbh, $this->aOptions);
-            $result = $oSchema->parseDatabaseDefinitionFile($fileName, true);
+        foreach (glob(MAX_PATH.'/etc/tables_*.xml') as $fileName)
+        {
+            $result = $this->oSchema->parseDatabaseDefinitionFile($fileName, true);
+            $this->assertIsA($result,'array','parsed definition is not an array: '.$fileName);
             $cache  = $this->oCache->get($fileName);
-            $this->assertEqual($result, $cache);
+            $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
+            $this->assertEqual($result, $cache, 'FILE: '.$fileName);
         }
-        
+
     }
 
     function test_EtcChangesSchema()
     {
-        foreach (glob(MAX_PATH.'/etc/changes/schema_tables_*.xml') as $fileName) {
-            $oSchema = &MDB2_Schema::factory($this->oDbh, $this->aOptions);
-            $result = $oSchema->parseDatabaseDefinitionFile($fileName, true);
+        foreach (glob(MAX_PATH.'/etc/changes/schema_tables_*.xml') as $fileName)
+        {
+            $result = $this->oSchema->parseDatabaseDefinitionFile($fileName, true);
+            $this->assertIsA($result,'array','parsed definition is not an array: '.$fileName);
             $cache  = $this->oCache->get($fileName);
-            $this->assertEqual($result, $cache);
+            $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
+            $this->assertEqual($result, $cache, 'FILE: '.$fileName);
         }
     }
 
     function test_EtcChangesChanges()
     {
-        foreach (glob(MAX_PATH.'/etc/changes/changes_tables_*.xml') as $fileName) {
-            $oSchema = &MDB2_Schema::factory($this->oDbh, $this->aOptions);
-            $result = $oSchema->parseChangesetDefinitionFile($fileName);
+        foreach (glob(MAX_PATH.'/etc/changes/changes_tables_*.xml') as $fileName)
+        {
+            $result = $this->oSchema->parseChangesetDefinitionFile($fileName);
+            $this->assertIsA($result,'array','parsed definition is not an array: '.$fileName);
             $cache  = $this->oCache->get($fileName);
-            $this->assertEqual($result, $cache);
+            $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
+            $this->assertEqual($result, $cache, 'FILE: '.$fileName);
         }
     }
 

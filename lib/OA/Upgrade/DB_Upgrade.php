@@ -257,6 +257,8 @@ class OA_DB_Upgrade
         // Load definitions from cache
         $this->oTable->init($this->file_schema, true);
 
+        $this->oLogger->logOnly('schema definition from cache '. ($this->oTable->cached_definition ? 'TRUE':'FALSE'));
+
         if (!is_array($this->oTable->aDefinition))
         {
             $this->_logError('problem with parsing schema definition');
@@ -283,15 +285,19 @@ class OA_DB_Upgrade
 
         if (!$this->aChanges)
         {
+            $this->oLogger->logOnly('changeset definition from cache FALSE');
             $this->aChanges = $this->oSchema->parseChangesetDefinitionFile($this->file_changes);
 
             if ($this->_isPearError($this->aChanges, 'failed to parse changeset ('.$this->file_changes.')'))
             {
                 return false;
             }
-
             // On-the fly cache writing disabled
             //$this->oCache->save($this->aChanges, $this->file_changes);
+        }
+        else
+        {
+            $this->oLogger->logOnly('changeset definition from cache TRUE');
         }
 
         $this->_logOnly('successfully parsed the changeset');
@@ -461,22 +467,19 @@ class OA_DB_Upgrade
     {
         $this->_logOnly('running integrity check');
         $this->_logOnly('comparing database '.$this->oSchema->db->connected_database_name.' with schema '.$this->file_schema);
-        OA_DB::setCaseSensitive();
         // compare the schema and implemented definitions
         $aDefinitionOld = $this->_getDefinitionFromDatabase();
         if ($this->_isPearError($aDefinitionOld, 'error getting database definition'))
         {
-            OA_DB::disableCaseSensitive();
             return false;
         }
+        OA_DB::setCaseSensitive();
         $aDiffs = $this->oSchema->compareDefinitions($this->aDefinitionNew, $aDefinitionOld);
+        OA_DB::disableCaseSensitive();
         if ($this->_isPearError($aDiffs, 'error comparing definitions'))
         {
-            OA_DB::disableCaseSensitive();
             return false;
         }
-
-        OA_DB::disableCaseSensitive();
         $aOptions = array (
                             'output_mode'   =>    'file',
                             'output'        =>    $filename,
@@ -2071,10 +2074,7 @@ class OA_DB_Upgrade
      */
     function _listTables($prefix='')
     {
-        OA_DB::setCaseSensitive();
-        $aDBTables = $this->oSchema->db->manager->listTables(null, $this->prefix.$prefix);
-        OA_DB::disableCaseSensitive();
-        return $aDBTables;
+        return OA_DB_Table::listOATablesCaseSensitive($prefix);
     }
 
     /**
@@ -2251,7 +2251,9 @@ class OA_DB_Upgrade
         {
             $aParams = $this->_listTables();
         }
+        OA_DB::setCaseSensitive();
         $aDef = $this->oSchema->getDefinitionFromDatabase($aParams);
+        OA_DB::disableCaseSensitive();
         if ($this->_isPearError($aDef, 'error getting database definition'))
         {
             return array();
@@ -2283,7 +2285,7 @@ class OA_DB_Upgrade
                         {
                             if (isset($aIndex['primary']))
                             {
-                                $strippedidx = str_replace($prefix, '', $indexname);
+                                $strippedidx = str_replace($prefix, '', strtolower($indexname));
                                 $aDef['indexes'][$strippedidx] = $aIndex;
                                 unset($aDef['indexes'][$indexname]);
                             }

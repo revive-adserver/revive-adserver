@@ -139,28 +139,21 @@ class Test_DB_Upgrade extends UnitTestCase
     function test_prepRollbackByAuditId()
     {
 
-        $oDB_Upgrade = $this->_newDBUpgradeObject();
-
         Mock::generatePartial(
-                                'MDB2_Schema',
-                                $mockSchema = 'MDB2_Schema'.rand(),
-                                array()
+                                'OA_DB_Upgrade',
+                                $mockDBUpgrade = 'OA_DB_Upgrade'.rand(),
+                                array('_listTables')
                              );
-        $oDB_Upgrade->oSchema = new $mockSchema($this);
+        $oDB_Upgrade = new $mockDBUpgrade($this);
 
-        Mock::generatePartial(
-                                'MDB2_Driver_Common',
-                                $mockDb = 'MDB2_Driver_Common'.rand(),
-                                array()
-                             );
-        $oDB_Upgrade->oSchema->db = new $mockDb($this);
-
-        Mock::generatePartial(
-                                'MDB2_Driver_Manager_Common',
-                                $mockDbMgr = 'MDB2_Driver_Manager_Common'.rand(),
-                                array('listTables')
-                             );
-        $oDB_Upgrade->oSchema->db->manager = new $mockDbMgr($this);
+        $oDB_Upgrade->initMDB2Schema();
+        $oDB_Upgrade->timingStr = $timing;
+        $oDB_Upgrade->timingInt = ($timing ? 0 : 1);
+        $oDB_Upgrade->schema = 'tables_core';
+        $oDB_Upgrade->prefix = '';
+        $oDB_Upgrade->versionFrom = 1;
+        $oDB_Upgrade->versionTo = 2;
+        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
 
         $aDBTables = array(0=>$this->prefix.'z_table1_bak1',
                            1=>$this->prefix.'z_table1_bak2',
@@ -168,8 +161,8 @@ class Test_DB_Upgrade extends UnitTestCase
                            3=>$this->prefix.'table2',
                            4=>$this->prefix.'table3',
                           );
-        $oDB_Upgrade->oSchema->db->manager->setReturnValue('listTables', $aDBTables);
-        $oDB_Upgrade->oSchema->db->manager->expectOnce('listTables');
+        $oDB_Upgrade->setReturnValue('_listTables', $aDBTables);
+        $oDB_Upgrade->expectOnce('_listTables');
 
         Mock::generatePartial(
                                 'OA_DB_UpgradeAuditor',
@@ -266,7 +259,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $aDiff = array_diff_assoc($oDB_Upgrade->aAddedTables['tables_core']['910']['table3'], $aAdded[1]);
         $this->assertEqual(count($aDiff),0,'array mismatch');
 
-        $oDB_Upgrade->oSchema->db->manager->tally();
+        $oDB_Upgrade->tally();
         $oDB_Upgrade->oAuditor->tally();
 
     }
