@@ -387,7 +387,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
                     //Hide the IDsetup, instead display the finish page
                     //$action = OA_UPGRADE_IDSETUP;
                     $message = 'Congratulations you have finished upgrading Openads';
-                    $oUpgrader->setOpenadsInstalledOn();
+                    //$oUpgrader->setOpenadsInstalledOn();
                     $action = OA_UPGRADE_FINISH;
                 }
             }
@@ -477,7 +477,7 @@ else if (array_key_exists('btn_finish', $_POST))
     {
         $message = 'Congratulations you have finished upgrading Openads';
     }
-    $oUpgrader->setOpenadsInstalledOn();
+    //$oUpgrader->setOpenadsInstalledOn();
     $action = OA_UPGRADE_FINISH;
 }
 else if (array_key_exists('dirPage', $_POST) && !empty($_POST['dirPage']))
@@ -501,6 +501,7 @@ if ($action == OA_UPGRADE_FINISH)
 {
     // Delete the cookie
     setcookie('oat', '');
+    $oUpgrader->setOpenadsInstalledOn();
 
     if (!$oUpgrader->removeUpgradeTriggerFile())
     {

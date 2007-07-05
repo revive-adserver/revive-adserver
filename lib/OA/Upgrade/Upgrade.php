@@ -804,7 +804,7 @@ class OA_Upgrade
      */
     function detectOpenads($skipIntegrityCheck = false)
     {
-        if ($GLOBALS['_MAX']['CONF']['openads']['installed'])
+        if ($GLOBALS['_MAX']['CONF']['openads']['installed'] || file_exists(MAX_PATH.'/var/INSTALLED'))
         {
             $this->existing_installation_status = OA_STATUS_CONFIG_FOUND;
             if (!$this->initDatabaseConnection())
