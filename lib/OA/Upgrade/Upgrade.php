@@ -1046,6 +1046,7 @@ class OA_Upgrade
     {
         if ($this->oTable->init(MAX_PATH.'/etc/tables_core.xml'))
         {
+            $this->oLogger->logOnly('schema definition from cache '. ($this->oTable->cached_definition ? 'TRUE':'FALSE'));
             $this->oTable->dropAllTables();
             return $this->oTable->createAllTables();
         }
