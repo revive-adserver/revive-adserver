@@ -1336,7 +1336,7 @@ class OA_Upgrade
         // Load preferences, needed below to check instance_id existance
         $oPrefs->loadPrefs();
 
-        $oPrefs->setPrefChange('updates_enabled', isset($aCommunity['updates_enabled'])?'t':'f');
+        $oPrefs->setPrefChange('updates_enabled', !empty($aCommunity['updates_enabled'])?'t':'f');
         // Generate a new instance ID if empty
         if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
             $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
