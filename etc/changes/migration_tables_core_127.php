@@ -231,13 +231,13 @@ class Migration_127 extends Migration
 	    $rsZones = DBC::NewRecordSet($query);
 	    $result = $rsZones->find();
 	    if (PEAR::isError($result)) {
-	        $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating Zone data during migration 127: '.$result->getUserInfo());
 	    }
 
 	    $aZoneAdObjectHandlers = array();
 	    while($result = $rsZones->fetch()) {
 	        if (PEAR::isError($result)) {
-	            $this->_logErrorAndReturnFalse($result);
+	            return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 127: '.$result->getUserInfo());
 	        }
 	        $zonetype = $rsZones->get('zonetype');
 	        $what = $rsZones->get('what');
@@ -254,15 +254,15 @@ class Migration_127 extends Migration
 	    foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
 	        $result = $zoneAdObjectHandler->insertAssocs($this->oDBH);
 	        if (PEAR::isError($result)) {
-	            return $this->_logErrorAndReturnFalse($result);
+	            return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 127: '.$result->getUserInfo());
 	        }
 	    }
-	    
+
 	    $tableAdZoneAssoc = "{$prefix}ad_zone_assoc";
 	    $tablePlacementZoneAssoc = "{$prefix}placement_zone_assoc";
 	    $tableBanners = "{$prefix}banners";
 	    $tableZones = "{$prefix}zones";
-	    
+
 	    $sql = "
 	    INSERT INTO $tableAdZoneAssoc (zone_id, ad_id)
 	    SELECT zoneid, bannerid
@@ -275,15 +275,15 @@ class Migration_127 extends Migration
     	           AND (z.width < 0 OR z.width = b.width)))";
 	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
-	        $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 127: '.$result->getUserInfo());
 	    }
-	    
+
 	    $sql = "INSERT INTO $tableAdZoneAssoc (zone_id, ad_id, link_type)
 	     SELECT 0 zone_id, bannerid ad_id, 0 link_type FROM $tableBanners";
-	    
+
 	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
-	        $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 127: '.$result->getUserInfo());
 	    }
 	    return true;
 	}

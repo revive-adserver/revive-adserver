@@ -93,7 +93,7 @@ class Migration_128 extends Migration
 	       WHERE transparent = 2";
 	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating SWF properties during migration 128: '.$result->getUserInfo());
 	    }
 
 	    $sql = "
@@ -107,7 +107,7 @@ class Migration_128 extends Migration
 	    ";
 	    $aBanners = $this->oDBH->getAssoc($sql);
 	    if (PEAR::isError($aBanners)) {
-	        return $this->_logErrorAndReturnFalse($aBanners);
+	        return $this->_logErrorAndReturnFalse('Error migrating SWF properties during migration 128: '.$aBanners->getUserInfo());
 	    }
 	    foreach ($aBanners as $bannerId => $code) {
 	        $code = preg_replace('/^.*(<object.*<\/object>).*$/s', '$1', $code);
@@ -129,7 +129,7 @@ class Migration_128 extends Migration
                 ";
         	    $result = $this->oDBH->exec($sql);
         	    if (PEAR::isError($result)) {
-        	        return $this->_logErrorAndReturnFalse($result);
+        	        return $this->_logErrorAndReturnFalse('Error migrating SWF properties during migration 128: '.$result->getUserInfo());
         	    }
             }
 	    }
@@ -152,7 +152,7 @@ class Migration_128 extends Migration
 	    ";
 	    $aBanners = $this->oDBH->getAssoc($sql);
 	    if (PEAR::isError($aBanners)) {
-	        return $this->_logErrorAndReturnFalse($aBanners);
+	        return $this->_logErrorAndReturnFalse('Error migrating GoogleAdSense during migration 128: '.$aBanners->getUserInfo());
 	    }
 
 	    foreach ($aBanners as $bannerId => $code) {
@@ -171,7 +171,7 @@ class Migration_128 extends Migration
                 ";
         	    $result = $this->oDBH->exec($sql);
         	    if (PEAR::isError($result)) {
-        	        return $this->_logErrorAndReturnFalse($result);
+        	        return $this->_logErrorAndReturnFalse('Error migrating GoogleAdSense during migration 128: '.$result->getUserInfo());
         	    }
             }
 	    }
@@ -243,7 +243,7 @@ class Migration_128 extends Migration
 
         $result = MAX_AclReCompileAll(true);
         if (PEAR::isError($result)) {
-            $this->_logErrorAndReturnFalse($result);
+            return $this->_logErrorAndReturnFalse('Error migrating ACLS during migration 128: '.$result->getUserInfo());
         }
 
 	    return true;

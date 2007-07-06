@@ -680,16 +680,23 @@ class Migration_108 extends Migration
                 $aPanConfig['geotracking_location'],
                 $aPanConfig['geotracking_stats'],
                 $aPanConfig['geotracking_conf']);
-            
-            if ($result === false) {
-            	return false;
+
+            if ($result === false)
+            {
+                return $this->_logErrorAndReturnFalse('Error configuring geotargeting');
             }
-            
+
 	        $sql = OA_DB_SQL::sqlForInsert('preference', $aValues);
 	        $result = $this->oDBH->exec($sql);
-	        return (!PEAR::isError($result));
+	        if (PEAR::isError($result))
+	        {
+                return $this->_logErrorAndReturnFalse('Error inserting preferences during data migration 108: '.$result->getUserInfo());
+	        }
+	        return true;
+
 	    }
-	    else {
+	    else
+	    {
 	        return false;
 	    }
 	}
@@ -712,8 +719,9 @@ class Migration_108 extends Migration
 	    elseif ($geotracking_type == 'geoip') {
 	        $result = $this->writeGeoPluginConfig('GeoIP', $geotracking_stats, $host);
 	        $databaseSetting = $this->getDatabaseSetting($geotracking_conf, $geotracking_location);
-	        if ($databaseSetting === false) {
-	            return false;
+	        if ($databaseSetting === false)
+	        {
+                return $this->_logErrorAndReturnFalse('Unable to configure geoip');
 	        }
 	        return $result && $this->writeGeoSpecificConfig('GeoIP', $databaseSetting, $host);
 	    }
@@ -723,8 +731,9 @@ class Migration_108 extends Migration
 	function getDatabaseSetting($geotracking_conf, $geotracking_location)
 	{
 	    $sDatabaseType = $this->getDatabaseType($geotracking_conf);
-	    if ($sDatabaseType === false) {
-	        return false;
+	    if ($sDatabaseType === false)
+	    {
+	        return $this->_logErrorAndReturnFalse('Could not set the geotracking database configuration');
 	    }
 	    return "$sDatabaseType=$geotracking_location\n";
 	}
@@ -748,15 +757,18 @@ class Migration_108 extends Migration
 	                                                          // MaxMind
 	    );
 	    $aGeotrackingConf = unserialize($geotracking_conf);
-	    if ($aGeotrackingConf === false) {
-	        return false;
+	    if ($aGeotrackingConf === false)
+	    {
+	        return $this->_logErrorAndReturnFalse('Could not retrieve geotracking configuration information, geotracking_conf is empty');
 	    }
-	    if (!isset($aGeotrackingConf['databaseType'])) {
-	        return false;
+	    if (!isset($aGeotrackingConf['databaseType']))
+	    {
+            return $this->_logErrorAndReturnFalse('Could not retrieve geotracking database type');
 	    }
 	    $databaseType = $aGeotrackingConf['databaseType'];
-	    if (!isset($aLocationStrings[$databaseType])) {
-	        return false;
+	    if (!isset($aLocationStrings[$databaseType]))
+	    {
+            return $this->_logErrorAndReturnFalse('Could not determine the geotracking location string');
 	    }
 	    return $aLocationStrings[$databaseType];
 	}
@@ -765,8 +777,9 @@ class Migration_108 extends Migration
 	function writeGeoPluginConfig($type, $geotracking_stats, $host)
 	{
 	    $result = $this->createConfigDirectory(GEOCONFIG_PATH);
-        if ($result === false) {
-            return false;
+        if ($result === false)
+        {
+            return $this->_logErrorAndReturnFalse('Could not create the geotargeting plugin configuration directory');
         }
 	    $saveStats = $geotracking_stats ? 'true' : 'false';
 	    $pluginConfigPath = MAX_PATH . "/var/plugins/config/geotargeting/$host.plugin.conf.php";

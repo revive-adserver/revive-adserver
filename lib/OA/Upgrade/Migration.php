@@ -107,7 +107,7 @@ class Migration
     {
         $this->aErrors[] = $message;
         $log = fopen($this->logFile, 'a');
-        fwrite($log, "ERROR: {$message}\n");
+        fwrite($log, "#! {$message}\n");
         fclose($log);
     }
 
@@ -134,8 +134,8 @@ class Migration
                 break;
         }
     }
-    
-    
+
+
     /**
      * Puts the $sql query template into the $this->aSQLStatements array
      * if and only if current database syntax is equal to the $syntax
@@ -166,6 +166,7 @@ class Migration
      */
     function _logErrorAndReturnFalse($error)
     {
+        $this->_logError($error);
         return false;
     }
 

@@ -215,7 +215,7 @@ class Migration_124 extends Migration
 	       set campaignid = clientid";
 	    $result = $this->oDBH->exec($query);
 	    if (PEAR::isError($result)) {
-	        $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating CampaignId during migration 124: '.$result->getUserInfo());
 	    }
 	    return true;
 	}

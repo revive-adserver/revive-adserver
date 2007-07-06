@@ -397,14 +397,14 @@ class OA_DB_Upgrade
                     else
                     {
                         $this->_logOnly('UPGRADE SUCCEEDED');
-                        foreach ($this->aAddedTables AS $table => $added)
-                        {
-                            $this->oAuditor->logAuditAction(array('info1'=>'added new table',
-                                                                  'tablename'=>$table,
-                                                                  'action'=>DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
-                                                                 )
-                                                           );
-                        }
+//                        foreach ($this->aAddedTables AS $table => $added)
+//                        {
+//                            $this->oAuditor->logAuditAction(array('info1'=>'added new table',
+//                                                                  'tablename'=>$table,
+//                                                                  'action'=>DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+//                                                                 )
+//                                                           );
+//                        }
                         $this->oAuditor->logAuditAction(array('info1'=>'UPGRADE SUCCEEDED',
                                                               'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                              )
@@ -1140,6 +1140,11 @@ class OA_DB_Upgrade
                     $result = $this->oTable->createTable($table);
                     if (($result) && (!$this->_isPearError($result, 'error creating table '.$this->prefix.$table)))
                     {
+                        $this->oAuditor->logAuditAction(array('info1'=>'added new table',
+                                                              'tablename'=>$table,
+                                                              'action'=>DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+                                                             )
+                                                       );
                         if (!$this->_executeMigrationMethodTable($table, 'afterAddTable'))
                         {
                             $this->_halt();

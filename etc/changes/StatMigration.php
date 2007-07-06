@@ -112,7 +112,7 @@ class StatMigration extends Migration
 	    $result = $this->oDBH->exec($sql);
 
 	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
 	    }
 
 	    $sql = "
@@ -150,7 +150,7 @@ class StatMigration extends Migration
 	    $result = $this->oDBH->exec($sql);
 
 	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
 	    }
 
 	    $sql = "
@@ -161,7 +161,7 @@ class StatMigration extends Migration
 	    $result = $this->oDBH->exec($sql);
 
 	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating stats: '.$result->getUserInfo());
 	    }
 
 	    return true;

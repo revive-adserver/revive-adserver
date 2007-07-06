@@ -191,13 +191,13 @@ class Migration_327 extends Migration
 	    $rsZones = DBC::NewRecordSet($query);
 	    $result = $rsZones->find();
 	    if (PEAR::isError($result)) {
-	        $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 327: '.$result->getUserInfo());
 	    }
 
 	    $aZoneAdObjectHandlers = array();
 	    while($result = $rsZones->fetch()) {
 	        if (PEAR::isError($result)) {
-	            $this->_logErrorAndReturnFalse($result);
+	            return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 327: '.$result->getUserInfo());
 	        }
 	        $zonetype = $rsZones->get('zonetype');
 	        $what = $rsZones->get('what');
@@ -214,7 +214,7 @@ class Migration_327 extends Migration
 	    foreach ($aZoneAdObjectHandlers as $zoneAdObjectHandler) {
 	        $result = $zoneAdObjectHandler->insertAssocs($this->oDBH);
 	        if (PEAR::isError($result)) {
-	            return $this->_logErrorAndReturnFalse($result);
+	            return $this->_logErrorAndReturnFalse('Error migrating Zones data during migration 327: '.$result->getUserInfo());
 	        }
 	    }
 
@@ -235,7 +235,7 @@ class Migration_327 extends Migration
     	           AND (z.width < 0 OR z.width = b.width)))";
 	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
-	        $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error inserting AdZoneAssoc data during migration 327: '.$result->getUserInfo());
 	    }
 
 	    $sql = "INSERT INTO $tableAdZoneAssoc (zone_id, ad_id, link_type)
@@ -243,7 +243,7 @@ class Migration_327 extends Migration
 
 	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
-	        $this->_logErrorAndReturnFalse($result);
+	        return $this->_logErrorAndReturnFalse('Error inserting AdZoneAssoc data during migration 327: '.$result->getUserInfo());
 	    }
 	    return true;
 	}

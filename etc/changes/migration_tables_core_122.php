@@ -209,13 +209,13 @@ class Migration_122 extends Migration
             parent > 0";
         $result = $this->oDBH->exec($sql);
         if (PEAR::isError($result)) {
-            return $this->_logErrorAndReturnFalse($result);
+            return $this->_logErrorAndReturnFalse('Error migrating campaign/client data during migration 122: '.$result->getUserInfo());
         }
 
         $sql = "DELETE from $tableClients WHERE parent <> 0";
         $result = $this->oDBH->exec($sql);
         if (PEAR::isError($result)) {
-            return $this->_logErrorAndReturnFalse($result);
+            return $this->_logErrorAndReturnFalse('Error deleting data during migration 122: '.$result->getUserInfo());
         }
 
         return true;
