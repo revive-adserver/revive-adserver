@@ -279,13 +279,16 @@ class OA_Upgrade
 
                 if (!file_exists(MAX_PATH.'/var/UPGRADE'))
                 {
-                    if (! copy(MAX_PATH.'/var/install.log',MAX_PATH.'/var/UPGRADE'))
+                    if (! $this->_createEmptyVarFile('UPGRADE'))
                     {
                         $this->oLogger->log('failed to replace the UPGRADE trigger file');
                     }
-                    if ($this->upgrading_from_milestone_version)
+                }
+                if ($this->upgrading_from_milestone_version)
+                {
+                    if ( ! $this->_removeInstalledFlagFile())
                     {
-                        @unlink(MAX_PATH.'/var/INSTALLED');
+                        $this->oLogger->log('failed to remove the INSTALLED flag file');
                     }
                 }
                 if (! $this->_restoreConfigBackup($aResult[0]['confbackup'], $aRec['auditId']))
@@ -313,18 +316,23 @@ class OA_Upgrade
                         $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
                     }
                 }
-                $this->oLogger->log('finished rollback package '.$this->package_file);
-                $this->oLogger->log('database and conf files have been rolled back to version '.$aResult[0]['version_from']);
-                $this->oLogger->log('information regarding the problems encountered during the upgrade can be found in');
+                $this->oLogger->log('Finished rolling back package '.$this->package_file);
+                $this->oLogger->log('Information regarding the problems encountered during the upgrade can be found in');
                 $this->oLogger->log($aResult[0]['logfile']);
-                $this->oLogger->log('information regarding steps taken during rollback can be found in');
+                $this->oLogger->log('Information regarding steps taken during rollback can be found in');
                 $this->oLogger->log($this->oLogger->logFile);
+                $this->oLogger->log('Database and configuration files have been rolled back to version '.$aResult[0]['version_from']);
                 $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
                                                       'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
                                                       'confbackup'=>''
                                                      )
                                                );
             }
+            $this->oLogger->log('Recovery complete');
+        }
+        else
+        {
+            $this->oLogger->log('No recovery information found');
         }
         $this->_pickupRecoveryFile();
         return true;
@@ -944,14 +952,13 @@ class OA_Upgrade
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
                                          );
-        if (file_exists(MAX_PATH.'/var/UPGRADE'))
+        if ($this->upgrading_from_milestone_version)
         {
-            if ($this->upgrading_from_milestone_version)
+            if ( ! $this->_removeUpgradeTriggerFile())
             {
-                @unlink(MAX_PATH.'/var/UPGRADE');
+                $this->oLogger->log('failed to remove the UPGRADE trigger file');
             }
         }
-
         return true;
     }
 
@@ -1160,7 +1167,7 @@ class OA_Upgrade
                 if (!$this->upgrade())
                 {
                     $GLOBALS['_MAX']['CONF']['openads']['installed'] = 0;
-                    @unlink(MAX_PATH.'/var/INSTALLED');
+                    $this->_removeInstalledFlagFile();
                     return false;
                 }
             }
@@ -1867,13 +1874,35 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function removeUpgradeTriggerFile()
+    function _removeUpgradeTriggerFile()
     {
         if (file_exists(MAX_PATH.'/var/UPGRADE'))
         {
             return @unlink(MAX_PATH.'/var/UPGRADE');
         }
         return true;
+    }
+
+    /**
+     * remove the upgrade file
+     *
+     * @return boolean
+     */
+    function _removeInstalledFlagFile()
+    {
+        if (file_exists(MAX_PATH.'/var/INSTALLED'))
+        {
+            return @unlink(MAX_PATH.'/var/INSTALLED');
+        }
+        return true;
+    }
+
+    function _createEmptyVarFile($filename)
+    {
+        $fp = fopen(MAX_PATH.'/var/'.$filename, 'a');
+        fwrite($fp, "");
+        fclose($fp);
+        return (file_exists(MAX_PATH.'/var/'.$filename));
     }
 
     /**

@@ -462,6 +462,17 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->_pickupRecoveryFile();
     }
 
+    function test_createEmptyVarFile()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        $this->assertTrue($oUpgrade->_createEmptyVarFile('TESTEMPTYVARFILE'),'TESTEMPTYVARFILE');
+        $this->assertTrue(file_exists(MAX_PATH.'/var/TESTEMPTYVARFILE'),'');
+        if (file_exists(MAX_PATH.'/var/TESTEMPTYVARFILE'))
+        {
+            @unlink(MAX_PATH.'/var/TESTEMPTYVARFILE');
+        }
+    }
+
     function test_parseUpgradePackageFile()
     {
         $oUpgrade  = new OA_Upgrade();
