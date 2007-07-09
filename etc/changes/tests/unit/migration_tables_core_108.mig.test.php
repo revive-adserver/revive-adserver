@@ -53,15 +53,17 @@ class Migration_119Test extends MigrationTest
         $migration->init($this->oDbh);
 
         $aValues = array(
-            'gui_show_parents' => 't',
-            'updates_enabled'  => 'f'
+            'gui_show_parents'   => 't',
+            'updates_enabled'    => 'f',
+            'client_welcome_msg' => '',
+            'updates_cache'      => ''
         );
         $sql = OA_DB_Sql::sqlForInsert('config', $aValues);
         $this->oDbh->exec($sql);
 
         $aValues += array(
-            'warn_admin'       => 't',
-            'warn_limit'       => '100'
+            'warn_admin' => 't',
+            'warn_limit' => '100'
         );
 
         $migration->migrateData();
