@@ -256,7 +256,7 @@ class OA_Upgrade
                                              );
                 $this->oAuditor->setUpgradeActionId();
 
-                $this->oLogger->log('preparing to rollback package '.$this->package_file);
+                $this->oLogger->log('Preparing to rollback package '.$this->package_file);
                 if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId']))
                 {
                     $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
@@ -266,7 +266,7 @@ class OA_Upgrade
                                                    );
                     return false;
                 }
-                $this->oLogger->log('starting to rollback package '.$this->package_file);
+                $this->oLogger->log('Starting to rollback package '.$this->package_file);
                 if (!$this->oDBUpgrader->rollback())
                 {
                     $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
@@ -954,7 +954,7 @@ class OA_Upgrade
                                          );
         if ($this->upgrading_from_milestone_version)
         {
-            if ( ! $this->_removeUpgradeTriggerFile())
+            if ( ! $this->removeUpgradeTriggerFile())
             {
                 $this->oLogger->log('failed to remove the UPGRADE trigger file');
             }
@@ -1874,7 +1874,7 @@ class OA_Upgrade
      *
      * @return boolean
      */
-    function _removeUpgradeTriggerFile()
+    function removeUpgradeTriggerFile()
     {
         if (file_exists(MAX_PATH.'/var/UPGRADE'))
         {
