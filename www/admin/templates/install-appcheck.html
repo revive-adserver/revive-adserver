@@ -15,10 +15,10 @@
         <tr><td height='10' colspan='4'>&nbsp;</td></tr>
         <tr>
             <td colspan='4' align='center' style='margin: 0 50px 0 50px;'>
-            <?php
+            <?php  
                 if ($message) {
             ?>
-                    <table class="sysinfotable"><tr><td class="sysinfoerror"><?php echo $message; ?></table>
+                    <table class="sysinfotable"><tr><td class="sysinfoerror centered"><?php echo $message; ?></table>
             <?php
                 } else {
                     include 'templates/install-messages.html';
