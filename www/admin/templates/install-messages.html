@@ -14,12 +14,23 @@
                     }
                     foreach ($aMessages AS $k => $msg)
                     {
-                        $c = '#! ';
-                        if (substr($msg,0,3)==$c)
+                        $sErr  = '#! ';
+                        $sWarn = '#> ';
+                        if (substr($msg,0,3)==$sErr)
                         {
-                            $msg = str_replace($c, '', $msg);
+                            $msg = str_replace($sErr, '', $msg);
                             if ($errorOpen == false) {
                                 echo '<div class="sysmessage sysinfoerror"><ul>';
+                                $errorOpen = true;
+                            }
+                            echo '<li>'.$msg . '</li>';
+
+                        }
+                        else if (substr($msg,0,3)==$sWarn)
+                        {
+                            $msg = str_replace($sWarn, '', $msg);
+                            if ($errorOpen == false) {
+                                echo '<div class="sysmessage sysinfowarning"><ul>';
                                 $errorOpen = true;
                             }
                             echo '<li>'.$msg . '</li>';

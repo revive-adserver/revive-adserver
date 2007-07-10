@@ -70,7 +70,13 @@ td.sysinfoerror, .sysinfoerror, td.sysinfowarning {
  line-height: 17px;
  background-color: #880000;
 }
-td.sysinfowarning {
+div.sysinfowarning {
+ border: 1px dotted #eee;
+ width: 50%;
+ margin: 5px auto 0 auto;
+ color: #fff;
+}
+td.sysinfowarning, .sysinfowarning {
  background-color: #d26a0d;
 }
 
