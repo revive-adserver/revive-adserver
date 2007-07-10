@@ -54,7 +54,7 @@ function MAX_checkGeo_Region($limitation, $op, $aParams = array())
 
     if ($aParams && $aParams['region'] && $aParams['country_code']) {
         return MAX_limitationsMatchStringValue($aParams['country_code'], $sCountry, '==')
-            && MAX_limitationsMatchArrayValue($aParams['region'], $sRegions, '=~');
+            && MAX_limitationsMatchArrayValue($aParams['region'], $sRegions, $op);
     } else {
         return false; // Do not show the ad if user has no data about region and country.
     }

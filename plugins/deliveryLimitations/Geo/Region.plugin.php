@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';
+require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
 
 /**
  * A Geo delivery limitation plugin, for filtering delivery of ads on the
@@ -48,13 +48,8 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';
  *
  * @TODO Does this need to be updated to use =~ and !~ comparison operators?
  */
-class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
+class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations_CommaSeparatedData
 {
-    function Plugins_DeliveryLimitations_Geo_Region()
-    {
-        $this->Plugins_DeliveryLimitations();
-    }
-
 
     function init($data)
     {
@@ -134,11 +129,6 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
         $this->data = $this->_flattenData($this->data);
     }
 
-    function displayComparison()
-    {
-        echo "<input type='hidden' name='acl[{$this->executionorder}][comparison]' value='=='>";
-    }
-
     /**
      * A private method to "flatten" a delivery limitation into the string format that is
      * saved to the database (either in the acls, acls_channel or banners table, when part
@@ -152,7 +142,9 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
      */
     function _flattenData($data = null)
     {
-        $data = parent::_flattenData($data);
+        if (is_null($data)) {
+            $data = $this->data;
+        }
         if (is_array($data)) {
             $country = $data[0];
             unset($data[0]);
@@ -176,7 +168,9 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
      */
     function _expandData($data = null)
     {
-        $data = parent::_expandData($data);
+        if (is_null($data)) {
+            $data = $this->data;
+        }
         if (!is_array($data)) {
             $aData = strlen($data) ? explode('|', $data) : array();
             $aRegions = MAX_limitationsGetAFromS($aData[1]);
