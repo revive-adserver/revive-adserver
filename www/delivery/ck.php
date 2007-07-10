@@ -1287,7 +1287,8 @@ $conf['var']['logClick'],
 $conf['var']['n'],
 $conf['var']['zoneId'],
 $conf['var']['params'],
-$conf['var']['cookieTest']
+$conf['var']['cookieTest'],
+'channel_ids'
 );
 // We also need to ensure that any variables already present in the dest are not duplicated...
 $destParams = parse_url($dest);

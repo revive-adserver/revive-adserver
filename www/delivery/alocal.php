@@ -1764,7 +1764,7 @@ $maxdest = '';
 } else {
 $maxdest = "{$del}maxdest={$ct0}{$dest}";
 }
-if (isset($GLOBALS['_MAX']['CHANNELS'])) {
+if (isset($GLOBALS['_MAX']['CHANNELS']) && ($GLOBALS['_MAX']['CHANNELS'] != $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'])) {
 $channelIds = $del. "channel_ids=" . str_replace($delimiter, $conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['CHANNELS']);
 } else {
 $channelIds = '';
