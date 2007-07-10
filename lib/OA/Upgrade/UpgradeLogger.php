@@ -31,9 +31,10 @@ $Id$
  */
 class OA_UpgradeLogger
 {
-    var $aErrors     = array();
-    var $aMessages   = array();
-    var $errorExists = false;
+    var $aErrors       = array();
+    var $aMessages     = array();
+    var $warningExists = false;
+    var $errorExists   = false;
     var $logFile;
 
     /**
@@ -107,6 +108,18 @@ class OA_UpgradeLogger
     function logOnly($message)
     {
         $this->_logWrite($message);
+    }
+
+    /**
+     * write a warning to the log file
+     *
+     * @param string $message
+     */
+    function logWarning($message)
+    {
+        $this->aMessages[] = "#> {$message}";
+        $this->_logWrite("#> {$message}");
+        $this->warningExists = true;
     }
 
     /**

@@ -708,7 +708,7 @@ class Migration_108 extends Migration
 	    $upgradeConfig = new OA_Upgrade_Config();
 	    $host = getHostName();
 
-	    if (empty($geotracking_type)) {
+	    if (empty($geotracking_type) || $geotracking_type == 'ip2country') {
 	        return $this->writeGeoPluginConfig('"none"', $geotracking_stats, $host);
 	    }
 	    elseif ($geotracking_type == 'mod_geoip') {
@@ -730,7 +730,11 @@ class Migration_108 extends Migration
 
 	function getDatabaseSetting($geotracking_conf, $geotracking_location)
 	{
-	    $sDatabaseType = $this->getDatabaseType($geotracking_conf);
+        if (empty($geotracking_conf)) {
+            $geotracking_conf = OA_phpAdsNew::phpAds_geoip_getConf($geotracking_location);
+        }
+
+        $sDatabaseType = $this->getDatabaseType($geotracking_conf);
 	    if ($sDatabaseType === false)
 	    {
 	        return $this->_logErrorAndReturnFalse('Could not set the geotracking database configuration');

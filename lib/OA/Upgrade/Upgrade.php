@@ -31,21 +31,25 @@ define('OA_STATUS_PAN_CONFIG_DETECTED',     1);
 define('OA_STATUS_PAN_DBCONNECT_FAILED',    2);
 define('OA_STATUS_PAN_VERSION_FAILED',      3);
 define('OA_STATUS_PAN_DBINTEG_FAILED',      5);
+define('OA_STATUS_PAN_CONFINTEG_FAILED',    6);
 define('OA_STATUS_M01_NOT_INSTALLED',      -1);
 define('OA_STATUS_M01_CONFIG_DETECTED',     1);
 define('OA_STATUS_M01_DBCONNECT_FAILED',    2);
 define('OA_STATUS_M01_VERSION_FAILED',      3);
 define('OA_STATUS_M01_DBINTEG_FAILED',      5);
+define('OA_STATUS_M01_CONFINTEG_FAILED',    6);
 define('OA_STATUS_MAX_NOT_INSTALLED',      -1);
 define('OA_STATUS_MAX_CONFIG_DETECTED',     1);
 define('OA_STATUS_MAX_DBCONNECT_FAILED',    2);
 define('OA_STATUS_MAX_VERSION_FAILED',      3);
 define('OA_STATUS_MAX_DBINTEG_FAILED',      5);
+define('OA_STATUS_MAX_CONFINTEG_FAILED',    6);
 define('OA_STATUS_OAD_NOT_INSTALLED',      -1);
 define('OA_STATUS_OAD_CONFIG_DETECTED',     1);
 define('OA_STATUS_OAD_DBCONNECT_FAILED',    2);
 define('OA_STATUS_OAD_VERSION_FAILED',      3);
 define('OA_STATUS_OAD_DBINTEG_FAILED',      5);
+define('OA_STATUS_OAD_CONFINTEG_FAILED',    6);
 define('OA_STATUS_CAN_UPGRADE',            10);
 
 
@@ -454,6 +458,11 @@ class OA_Upgrade
                 $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 $this->oLogger->logError($strNoUpgrade);
                 return false;
+            case OA_STATUS_PAN_CONFINTEG_FAILED:
+                $this->oLogger->log($strProductName.' detected');
+                $this->oLogger->log($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
+                $this->oLogger->logError($strNoUpgrade);
+                return false;
             case OA_STATUS_CAN_UPGRADE:
                 $this->oLogger->log($strProductName.' detected');
                 $this->oLogger->log($strCanUpgrade);
@@ -482,6 +491,8 @@ class OA_Upgrade
                 }
                 break;
             case OA_STATUS_M01_DBINTEG_FAILED:
+                return false;
+            case OA_STATUS_M01_CONFINTEG_FAILED:
                 return false;
             case OA_STATUS_M01_VERSION_FAILED:
                 if (!$this->oLogger->errorExists)
@@ -514,6 +525,8 @@ class OA_Upgrade
                 break;
             case OA_STATUS_MAX_DBINTEG_FAILED:
                 return false;
+            case OA_STATUS_MAX_CONFINTEG_FAILED:
+                return false;
             case OA_STATUS_MAX_VERSION_FAILED:
                 $this->oLogger->log($strProductName.' detected');
                 $this->oLogger->logError($strConnected.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
@@ -545,6 +558,8 @@ class OA_Upgrade
                 $this->oLogger->logError($strNoConnect.' : '.$GLOBALS['_MAX']['CONF']['database']['name']);
                 return false;
             case OA_STATUS_OAD_DBINTEG_FAILED:
+                return false;
+            case OA_STATUS_OAD_CONFINTEG_FAILED:
                 return false;
             case OA_STATUS_OAD_VERSION_FAILED:
                 $this->oLogger->log($strProductName.' detected');
@@ -633,6 +648,10 @@ class OA_Upgrade
                 if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                 {
                     $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
+                    return false;
+                }
+                if (!$skipIntegrityCheck && !$this->oPAN->checkPANConfigIntegrity($this)) {
+                    $this->existing_installation_status = OA_STATUS_PAN_CONFINTEG_FAILED;
                     return false;
                 }
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;

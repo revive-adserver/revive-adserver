@@ -157,7 +157,203 @@ class OA_phpAdsNew
         return (!file_exists(MAX_PATH.$this->pathCfg.$this->fileCfg));
     }
 
+    /**
+     * A method to check the integrity of a PAN configuration array.
+     *
+     * @param OA_Upgrade Parent Upgrader class
+     * @return bool True on success
+     */
+    function checkPANConfigIntegrity(&$oUpgrader)
+    {
+        $phpAds_config = $this->_getPANConfig();
 
+        // Geo-targeting checks
+        if (!empty($phpAds_config['geotracking_type'])) {
+            if ($phpAds_config['geotracking_type'] == 'geoip') {
+                if (file_exists($phpAds_config['geotracking_location'])) {
+
+                    if (empty($phpAds_config['geotracking_conf'])) {
+                        if (is_readable($phpAds_config['geotracking_location'])) {
+                            $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
+                        } else {
+                            $oUpgrader->oLogger->logWarning("GeoIP database not readable, Geotargeting settings won't be migrated");
+                        }
+                    }
+
+                    if (empty($phpAds_config['geotracking_conf']) || !@unserialize($phpAds_config['geotracking_conf'])) {
+                        $oUpgrader->oLogger->logWarning("GeoIP database malformed, Geotargeting settings won't be migrated");
+                    }
+                } else {
+                    $oUpgrader->oLogger->logWarning("GeoIP database not found, Geotargeting settings won't be migrated");
+                }
+            } elseif ($phpAds_config['geotracking_type'] == 'ip2country') {
+                $oUpgrader->oLogger->logWarning("Ip2Country database not supported, Geotargeting settings won't be migrated");
+            }
+        }
+
+        return true;
+    }
+
+
+    function phpAds_geoip_getConf($db)
+    {
+    	$ret = '';
+
+    	if ($db && ($fp = @fopen($db, "rb")))
+    	{
+    		$info = OA_phpAdsNew::phpAds_geoip_get_info($fp);
+
+    		$info['plugin_conf']['databaseTimestamp'] = filemtime($db);
+
+    		$ret = serialize($info['plugin_conf']);
+
+    		@fclose($fp);
+    	}
+
+    	return $ret;
+    }
+
+    function phpAds_geoip_get_defaults()
+    {
+    	return array(
+    		'COUNTRY_BEGIN'				=> 16776960,
+    		'STATE_BEGIN_REV0'			=> 16700000,
+    		'STATE_BEGIN_REV1'			=> 16000000,
+    		'GEOIP_STANDARD'			=> 0,
+    		'GEOIP_MEMORY_CACHE'		=> 1,
+    		'GEOIP_SHARED_MEMORY'		=> 2,
+    		'STRUCTURE_INFO_MAX_SIZE'	=> 20,
+    		'DATABASE_INFO_MAX_SIZE'	=> 100,
+
+    		'GEOIP_COUNTRY_EDITION'		=> 1,
+    		'GEOIP_PROXY_EDITION'		=> 8,
+    		'GEOIP_ASNUM_EDITION'		=> 9,
+    		'GEOIP_NETSPEED_EDITION'	=> 10,
+    		'GEOIP_REGION_EDITION_REV0'	=> 7,
+    		'GEOIP_REGION_EDITION_REV1'	=> 3,
+    		'GEOIP_CITY_EDITION_REV0'	=> 6,
+    		'GEOIP_CITY_EDITION_REV1'	=> 2,
+    		'GEOIP_ORG_EDITION'			=> 5,
+    		'GEOIP_ISP_EDITION'			=> 4,
+
+    		'SEGMENT_RECORD_LENGTH'		=> 3,
+    		'STANDARD_RECORD_LENGTH'	=> 3,
+    		'ORG_RECORD_LENGTH'			=> 4,
+    		'MAX_RECORD_LENGTH'			=> 4,
+    		'MAX_ORG_RECORD_LENGTH'		=> 300,
+    		'FULL_RECORD_LENGTH'		=> 50,
+
+    		'US_OFFSET'					=> 1,
+    		'CANADA_OFFSET'				=> 677,
+    		'WORLD_OFFSET'				=> 1353,
+    		'FIPS_RANGE'				=> 360,
+
+    		'GEOIP_UNKNOWN_SPEED'		=> 0,
+    		'GEOIP_DIALUP_SPEED'		=> 1,
+    		'GEOIP_CABLEDSL_SPEED'		=> 2,
+    		'GEOIP_CORPORATE_SPEED'		=> 3
+    	);
+    }
+
+    function phpAds_geoip_get_info($fp)
+    {
+    	// Default variables
+    	extract(OA_phpAdsNew::phpAds_geoip_get_defaults());
+
+    	/* default to GeoIP Country Edition */
+    	$databaseType = $GEOIP_COUNTRY_EDITION;
+    	$record_length = $STANDARD_RECORD_LENGTH;
+    	fseek($fp, -3, SEEK_END);
+
+    	$buf = str_repeat('\0', $SEGMENT_RECORD_LENGTH);
+
+    	for ($i = 0; $i < $STRUCTURE_INFO_MAX_SIZE; $i++)
+    	{
+    		$delim = fread($fp, 3);
+
+    		if ($delim == "\xFF\xFF\xFF")
+    		{
+
+    			$databaseType = ord(fread($fp, 1));
+
+    			if ($databaseType >= 106)
+    			{
+    				/* backwards compatibility with databases from April 2003 and earlier */
+    				$databaseType -= 105;
+    			}
+
+    			if ($databaseType == $GEOIP_REGION_EDITION_REV0)
+    			{
+    				/* Region Edition, pre June 2003 */
+    				$databaseSegments = $STATE_BEGIN_REV0;
+    			}
+    			elseif ($databaseType == $GEOIP_REGION_EDITION_REV1)
+    			{
+    				/* Region Edition, post June 2003 */
+    				$databaseSegments = $STATE_BEGIN_REV1;
+    			}
+    			elseif ($databaseType == $GEOIP_CITY_EDITION_REV0 ||
+    					$databaseType == $GEOIP_CITY_EDITION_REV1 ||
+    					$databaseType == $GEOIP_ORG_EDITION ||
+    					$databaseType == $GEOIP_ISP_EDITION ||
+    					$databaseType == $GEOIP_ASNUM_EDITION)
+    			{
+    				/* City/Org Editions have two segments, read offset of second segment */
+    				$databaseSegments = 0;
+    				$buf = fread($fp, $SEGMENT_RECORD_LENGTH);
+    				for ($j = 0; $j < $SEGMENT_RECORD_LENGTH; $j++)
+    				{
+    					$databaseSegments |= (ord($buf{$j}) << ($j << 3));
+    				}
+    				if ($databaseType == $GEOIP_ORG_EDITION ||
+    					$databaseType == $GEOIP_ISP_EDITION)
+    				{
+    					$record_length = $ORG_RECORD_LENGTH;
+    				}
+    			}
+    			break;
+    		}
+    		else
+    		{
+    			fseek($fp, -4, SEEK_CUR);
+    		}
+    	}
+
+    	if ($databaseType == $GEOIP_COUNTRY_EDITION ||
+    		$databaseType == $GEOIP_PROXY_EDITION ||
+    		$databaseType == $GEOIP_NETSPEED_EDITION)
+    	{
+    		$databaseSegments = $COUNTRY_BEGIN;
+    	}
+
+    	if (!isset($databaseSegments))
+    	{
+    		// There was an error: db not supported?
+    		return false;
+    	}
+
+    	return array(
+    		'plugin_conf'	=> array(
+    			'databaseType' 		=> $databaseType,
+    			'databaseSegments'	=> $databaseSegments,
+    			'record_length'		=> $record_length
+    		),
+    		'capabilities'	=> array(
+    			'country'		=> in_array($databaseType, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'continent'		=> in_array($databaseType, array($GEOIP_COUNTRY_EDITION, $GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'region'		=> in_array($databaseType, array($GEOIP_REGION_EDITION_REV0, $GEOIP_REGION_EDITION_REV1, $GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'fips_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'city'			=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'postal_code'	=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'latitude'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'longitude'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'dma_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'area_code'		=> in_array($databaseType, array($GEOIP_CITY_EDITION_REV0, $GEOIP_CITY_EDITION_REV1)),
+    			'org_isp'		=> in_array($databaseType, array($GEOIP_ORG_EDITION, $GEOIP_ISP_EDITION)),
+    			'netspeed'		=> $databaseType == $GEOIP_NETSPEED_EDITION
+    		)
+    	);
+    }
 }
 
 ?>
