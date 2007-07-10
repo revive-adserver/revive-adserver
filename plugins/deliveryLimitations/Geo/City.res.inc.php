@@ -32,6 +32,7 @@ $Id$
  */
 
 $res = array(
+    ''   => MAX_Plugin_Translation::translate('---Any---', $this->module, $this->package),
 	'AD' => MAX_Plugin_Translation::translate('Andorra', $this->module, $this->package),
 	'AE' => MAX_Plugin_Translation::translate('United Arab Emirates', $this->module, $this->package),
 	'AF' => MAX_Plugin_Translation::translate('Afghanistan', $this->module, $this->package),

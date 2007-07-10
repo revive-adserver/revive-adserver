@@ -50,10 +50,15 @@ function MAX_checkGeo_City($limitation, $op, $aParams = array())
     if ($aParams && $aParams['city'] && $aParams['country_code']) {
         $aLimitation = MAX_limitationsGeoCityUnserialize($limitation);
         $sCities = MAX_limitationsGetSCities($aLimitation);
-        return MAX_limitationsMatchStringValue(
-                $aParams['country_code'], $aLimitation[0], '==')
-            && MAX_limitationsMatchArrayValue(
-                $aParams['city'], $sCities, '=~');
+        if (!empty($aLimitation[0])) {
+            return MAX_limitationsMatchStringValue(
+                    $aParams['country_code'], $aLimitation[0], '==')
+                && MAX_limitationsMatchArrayValue(
+                    $aParams['city'], $sCities, $op);
+        } else {
+            return MAX_limitationsMatchArrayValue(
+                    $aParams['city'], $sCities, $op);
+        }
     } else {
         return false; // If client has no data about city, do not show the ad
     }

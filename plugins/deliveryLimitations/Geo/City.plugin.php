@@ -103,7 +103,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
                     &nbsp;<input type='image' name='action[none]' src='images/{$GLOBALS['phpAds_TextDirection']}/go_blue.gif' border='0' align='absmiddle' alt='{$GLOBALS['strSave']}'></td>
                 </tr>";
 
-        if (!empty($this->data[0])) {
+        if (isset($this->data[0])) {
             // A country has been selected, show city list for this country...
             // Note: Since a disabled field does not pass it's value through, we need to pass the selected country in...
             echo "<tr><th>" . MAX_Plugin_Translation::translate('City(s)', $this->module, $this->package) . "</th><td>";
@@ -118,6 +118,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
 
     function displayComparison()
     {
+        echo "<input type='hidden' name='acl[{$this->executionorder}][comparison]' value='=~' />";
     }
 
     /**
