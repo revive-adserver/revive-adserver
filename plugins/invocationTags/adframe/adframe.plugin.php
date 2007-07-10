@@ -202,7 +202,7 @@ class Plugins_InvocationTags_adframe_adframe extends Plugins_InvocationTags
             $buffer .= "' width='".$mi->width."' height='".$mi->height."' visibility='hidden' onload=\"moveToAbsolute(layer".$uniqueid.".pageX,layer".$uniqueid.".pageY);clip.width=".$mi->width.";clip.height=".$mi->height.";visibility='show';\"></layer>";
         }
 
-        if (isset($mi->iframetracking) && $mi->iframetracking == 1) {
+        if (!isset($mi->iframetracking) || $mi->iframetracking != 0) {
             $buffer .= "<script type='text/javascript' src='".MAX_commonConstructDeliveryUrl($conf['file']['google'])."'></script>";
         }
 
