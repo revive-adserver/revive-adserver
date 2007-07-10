@@ -34,7 +34,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
 {
     var $table = 'banners';
 
-	var $orderListName = array(
+    var $orderListName = array(
         'name' => 'description',
         'id'   => 'bannerid',
     );
@@ -171,7 +171,7 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
         " AND m.clientid=". DBC::makeLiteral($advertiser_id) .
         " AND m.active='t'".
         " AND b.active='t'";
-        $number_of_active_banners = $this->dbh->getOne($query_active_banners);
+        $number_of_active_banners = $this->oDbh->getOne($query_active_banners);
         return $number_of_active_banners;
     }
 

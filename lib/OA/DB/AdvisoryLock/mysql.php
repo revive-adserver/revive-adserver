@@ -45,7 +45,7 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
     function _getLock($iWaitTime)
     {
         // Acquire lock
-        $iAcquired = $this->oDbh->extended->GetOne(
+        $iAcquired = $this->oDbh->extended->getOne(
             "SELECT GET_LOCK(?, ?)",
             'integer',
             array(
@@ -65,7 +65,7 @@ class OA_DB_AdvisoryLock_mysql extends OA_DB_AdvisoryLock
     function _releaseLock()
     {
         // Relase lock
-        $iReleased = $this->oDbh->extended->GetOne(
+        $iReleased = $this->oDbh->extended->getOne(
             "SELECT RELEASE_LOCK(?)",
             'integer',
             array(

@@ -47,7 +47,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
         $aParams = unserialize($this->_sId);
 
         // Acquire lock
-        $bAcquired = $this->oDbh->extended->GetOne(
+        $bAcquired = $this->oDbh->extended->getOne(
             "SELECT pg_try_advisory_lock(?, ?)",
             'boolean',
             $aParams
