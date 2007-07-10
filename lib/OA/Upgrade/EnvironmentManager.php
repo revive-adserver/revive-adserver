@@ -122,8 +122,7 @@ class OA_Environment_Manager
     }
 
     /**
-     * check access to an array of requried files/folders
-     *
+     * Check access to an array of requried files/folders
      *
      * @return array of error messages
      */
@@ -188,42 +187,89 @@ class OA_Environment_Manager
         return true;
     }
 
+    /**
+     * A private method to test the configuration of the user's PHP environment.#
+     *
+     * Tests the following values, and in the event of a fatal error or a
+     * warning, the value set is listed below:
+     *
+     *  - The PHP version
+     *      Sets: $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION]
+     *
+     *  - The PHP configuration's memory_limit value
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY]
+     *
+     *  - The PHP configuration's safe_mode value
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE]
+     *
+     *  - The PHP configuration's magic_quotes_runtime value
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ]
+     *
+     *  - The PHP configuration's file_uploads value
+     *      Sets: $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS]
+     *
+     * Otherwise, if there are no errors or warnings, then $this->aInfo['PHP']['error']
+     * is set to "false".
+     *
+     * @access private
+     * @return void
+     */
     function _checkCriticalPHP()
     {
+        // Test the PHP version
         if (function_exists('version_compare'))
         {
-            $result = version_compare($this->aInfo['PHP']['actual']['version'],
-                                      $this->aInfo['PHP']['expected']['version'], "<");
-            $result = ($result ? OA_ENV_ERROR_PHP_VERSION : OA_ENV_ERROR_PHP_NOERROR);
+            $result = version_compare(
+                $this->aInfo['PHP']['actual']['version'],
+                $this->aInfo['PHP']['expected']['version'],
+                "<"
+            );
+            if ($result) {
+                $result = OA_ENV_ERROR_PHP_VERSION;
+            } else {
+                $result = OA_ENV_ERROR_PHP_NOERROR;
+            }
         }
         else
         {
+            // The user's PHP version is well old - it doesn't
+            // even have the version_compare() function!
             $result = OA_ENV_ERROR_PHP_VERSION;
         }
         if ($result == OA_ENV_ERROR_PHP_VERSION)
         {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] = "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version {$this->aInfo['PHP']['expected']['version']}";
+            $this->aInfo['PHP']['warning'][OA_ENV_ERROR_PHP_VERSION] =
+                "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}" .
+                "<br />Although you can install Openads, this is not a supported version, and it is not possible to guarantee that everything will work correctly. " .
+                "Please see the <a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
         }
         else
         {
             $this->aInfo['PHP']['error'] = false;
         }
 
+        // Test the PHP configuration's memory_limit value
         if (!$this->checkMemory())
         {
             $result = OA_ENV_ERROR_PHP_MEMORY;
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY] = 'memory_limit needs to be increased';
         }
+
+        // Test the PHP configuration's safe_mode value
         if ($this->aInfo['PHP']['actual']['safe_mode'])
         {
             $result = OA_ENV_ERROR_PHP_SAFEMODE;
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE] = 'safe_mode must be OFF';
         }
+
+        // Test the PHP configuration's magic_quotes_runtime value
         if ($this->aInfo['PHP']['actual']['magic_quotes_runtime'])
         {
             $result = OA_ENV_ERROR_PHP_MAGICQ;
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'magic_quotes_runtime must be OFF';
         }
+
+        // Test the PHP configuration's file_uploads value
         if (!$this->aInfo['PHP']['actual']['file_uploads']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'file_uploads must be ON';
         }

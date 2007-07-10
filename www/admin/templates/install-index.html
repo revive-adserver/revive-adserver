@@ -27,23 +27,23 @@ function changePage(page) {
         include '../admin/js/formValidation.php';
         switch ($action)
         {
-            case OA_UPGRADE_ERROR       : include 'templates/install-messages.html';    break;
-            case OA_UPGRADE_RECOVERY    : include 'templates/install-messages.html';    break;
-            case OA_UPGRADE_RECOVERY_INFORM    : include 'templates/install-recovery.html';    break;
-            case OA_UPGRADE_TERMS       : include 'templates/install-terms.html';       break;
-            case OA_UPGRADE_POLICY      : include 'templates/install-policy.html';       break;
-            case OA_UPGRADE_SYSCHECK    : include 'templates/install-syscheck.html'; include 'templates/install-appcheck.html';    break;
-            case OA_UPGRADE_APPCHECK    : include 'templates/install-appcheck.html';    break;
-            case OA_UPGRADE_LOGIN       : include 'templates/install-login.html';       break;
-            case OA_UPGRADE_DBSETUP     : include 'templates/install-dbsetup.html';     break;
-            case OA_UPGRADE_UPGRADE     : include 'templates/install-success.html';     break;
-            case OA_UPGRADE_INSTALL     : include 'templates/install-success.html';     break;
-            case OA_UPGRADE_CONFIGSETUP : include 'templates/install-configsetup.html'; break;
-            case OA_UPGRADE_ADMINSETUP  : include 'templates/install-adminsetup.html';  break;
-            case OA_UPGRADE_IDSETUP     : include 'templates/install-oaidsetup.html';   break;
-            case OA_UPGRADE_DATASETUP   : include 'templates/install-datasetup.html';   break;
-            case OA_UPGRADE_FINISH      : include 'templates/install-finish.html';      break;
-            default                     : include 'templates/install-welcome.html';     break;
+            case OA_UPGRADE_ERROR               : include 'templates/install-messages.html';    break;
+            case OA_UPGRADE_RECOVERY            : include 'templates/install-messages.html';    break;
+            case OA_UPGRADE_RECOVERY_INFORM     : include 'templates/install-recovery.html';    break;
+            case OA_UPGRADE_TERMS               : include 'templates/install-terms.html';       break;
+            case OA_UPGRADE_POLICY              : include 'templates/install-policy.html';      break;
+            case OA_UPGRADE_SYSCHECK            : include 'templates/install-syscheck.html';    include 'templates/install-appcheck.html';    break;
+            case OA_UPGRADE_APPCHECK            : include 'templates/install-appcheck.html';    break;
+            case OA_UPGRADE_LOGIN               : include 'templates/install-login.html';       break;
+            case OA_UPGRADE_DBSETUP             : include 'templates/install-dbsetup.html';     break;
+            case OA_UPGRADE_UPGRADE             : include 'templates/install-success.html';     break;
+            case OA_UPGRADE_INSTALL             : include 'templates/install-success.html';     break;
+            case OA_UPGRADE_CONFIGSETUP         : include 'templates/install-configsetup.html'; break;
+            case OA_UPGRADE_ADMINSETUP          : include 'templates/install-adminsetup.html';  break;
+            case OA_UPGRADE_IDSETUP             : include 'templates/install-oaidsetup.html';   break;
+            case OA_UPGRADE_DATASETUP           : include 'templates/install-datasetup.html';   break;
+            case OA_UPGRADE_FINISH              : include 'templates/install-finish.html';      break;
+            default                             : include 'templates/install-welcome.html';     break;
         }
     ?>
     <input type="hidden" name="dirPage" id="dirPage" value="" />

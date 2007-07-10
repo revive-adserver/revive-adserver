@@ -45,10 +45,11 @@
 
             $sysinfoarray = $aSysInfo['PHP'];
 
-            // remove date.timezone from the array, set the timezone as the detected TZ
+            // Remove date.timezone from the array, set the timezone as the detected TZ
             unset($sysinfoarray['actual']['date.timezone']);
             $sysinfoarray['actual']['timezone'] = $aTimezone['tz'];
-            // if TZ was calculated, display a warning
+
+            // If TZ was calculated, display a warning
             if ($aTimezone['calculated'])
             {
                 if (version_compare($sysinfoarray['actual']['version'],'5.1', ">"))
@@ -73,7 +74,7 @@
                 $sysinfoarray['actual']['timezone'] .= ' ' . $passImage;
             }
 
-            $sysinfoarray['actual']['version'] = ($sysinfoarray['error'][OA_ENV_ERROR_PHP_VERSION] ? $sysinfoarray['actual']['version'].' '.$errorImage : $sysinfoarray['actual']['version'].' '.$passImage );
+            $sysinfoarray['actual']['version'] = ($sysinfoarray['warning'][OA_ENV_ERROR_PHP_VERSION] ? $sysinfoarray['actual']['version'].' '.$warnImage : $sysinfoarray['actual']['version'].' '.$passImage );
 
             $sysinfoarray['actual']['memory_limit'] = ($sysinfoarray['actual']['memory_limit']!='' ? $sysinfoarray['actual']['memory_limit'] : 'Not Set');
             $sysinfoarray['actual']['memory_limit'] = ($sysinfoarray['error'][OA_ENV_ERROR_PHP_MEMORY] ? $sysinfoarray['actual']['memory_limit'].' '.$errorImage : $sysinfoarray['actual']['memory_limit'].' '.$passImage );

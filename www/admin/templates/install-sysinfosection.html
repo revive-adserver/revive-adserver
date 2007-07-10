@@ -29,28 +29,17 @@
             }
             if ($sysinfoarray['error'])
             {
-                echo "<tr>
-                          <td colspan=\"2\" class=\"sysinfoerror\">
-                            Error:<br />
-                     ";
                 foreach ($sysinfoarray['error'] AS $k => $v)
                 {
-                    echo $v."<br />";
+                    echo "<tr><td class=\"sysinfoerror\">Warning:</td><td class=\"sysinfoerror\">".$v."</td></tr>";
                 }
-                echo "</td>
-                          </tr>";
             }
             if ($sysinfoarray['warning'])
             {
-                echo "<tr>
-                          <td colspan=\"2\" class=\"sysinfowarning\">
-                            Warning: ";
                 foreach ($sysinfoarray['warning'] AS $k => $v)
                 {
-                    echo $v."<br />";
+                    echo "<tr><td class=\"sysinfowarning\">Warning:</td><td class=\"sysinfowarning\">".$v."</td></tr>";
                 }
-                echo "</td>
-                          </tr>";
             }
 
             echo "
