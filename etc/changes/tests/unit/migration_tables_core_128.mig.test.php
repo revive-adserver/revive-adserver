@@ -170,6 +170,15 @@ EOF
             array('useragent', '==', 'ahahaha'),
             array('referer', '==', 'blabblah'),
             array('source', '==', 'www.openads.org'),
+            array('url', '==', 'www.openads.org/contacts.php'),
+            array('postal_code', '==', '44100'),
+            array('city', '==', 'ferrara'),
+            array('fips_code', '==', 'GB08,GBN5,IT05'),
+            array('region', '==', 'USAK,USAZ'),
+            array('dma_code', '==', '501,502'),
+            array('area_code', '==', '66099'),
+            array('org_isp', '==', 'openads'),
+            array('netspeed', '==', '1,2'),
         );
         $aExpectedData = array(
             array('Time:Day', '=~', '0,1'),
@@ -190,6 +199,15 @@ EOF
             array('Client:Useragent', '=x', 'ahahaha'),
             array('Site:Referingpage', '=~', 'blabblah'),
             array('Site:Source', '=x', 'www.openads.org'),
+            array('Site:Pageurl', '=~', 'www.openads.org/contacts.php'),
+            array('Geo:Postalcode', '=~', '44100'),
+            array('Geo:City', '=~', '|ferrara'),
+            array('Geo:Region', '==', 'GB|08,N5'),
+            array('Geo:Region', '==', 'US|AK,AZ'),
+            array('Geo:Dma', '=~', '501,502'),
+            array('Geo:Areacode', '=~', '66099'),
+            array('Geo:Organisation', '=~', 'openads'),
+            array('Geo:Netspeed', '==', 'dialup,cabledsl'),
         );
 
         $sql = OA_DB_Sql::sqlForInsert('banners', array('bannerid' => 1));

@@ -69,6 +69,12 @@ class Plugins_DeliveryLimitations_Geo_Postalcode extends Plugins_DeliveryLimitat
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
     }
 
+
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetUpgradeForContains($op, $sData);
+    }
+
 }
 
 ?>

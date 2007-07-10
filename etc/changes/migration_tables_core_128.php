@@ -179,19 +179,28 @@ class Migration_128 extends Migration
 	}
 
 	var $aAclsTypes = array(
-        'weekday' => 'Time:Day',
-        'time' => 'Time:Hour',
-        'date' => 'Time:Date',
-        'clientip' => 'Client:Ip',
-        'domain' => 'Client:Domain',
-        'language' => 'Client:Language',
-        'continent' => 'Geo:Continent',
-        'country' => 'Geo:Country',
-        'browser' => 'Client:Useragent',
-        'os' => 'Client:Useragent',
-        'useragent' => 'Client:Useragent',
-        'referer' => 'Site:Referingpage',
-        'source' => 'Site:Source'
+        'clientip'      => 'Client:Ip',
+        'browser'       => 'Client:Useragent',
+        'os'            => 'Client:Useragent',
+        'useragent'     => 'Client:Useragent',
+        'language'      => 'Client:Language',
+        'continent'     => 'Geo:Continent',
+        'country'       => 'Geo:Country',
+        'fips_code'     => 'Geo:Region',
+        'region'        => 'Geo:Region',
+        'city'          => 'Geo:City',
+        'postal_code'   => 'Geo:Postalcode',
+        'dma_code'      => 'Geo:Dma',
+        'area_code'     => 'Geo:Areacode',
+        'org_isp'       => 'Geo:Organisation',
+        'netspeed'      => 'Geo:Netspeed',
+        'weekday'       => 'Time:Day',
+        'domain'        => 'Client:Domain',
+        'source'        => 'Site:Source',
+        'time'          => 'Time:Hour',
+        'date'          => 'Time:Date',
+        'referer'       => 'Site:Referingpage',
+        'url'           => 'Site:Pageurl'
     );
 
     var $aPlugins = array();

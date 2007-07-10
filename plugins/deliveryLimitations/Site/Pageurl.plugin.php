@@ -66,6 +66,12 @@ class Plugins_DeliveryLimitations_Site_Pageurl extends Plugins_DeliveryLimitatio
         return MAX_Plugin_Translation::translate('Page URL', $this->module, $this->package);
     }
 
+
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetUpgradeForContains($op, $sData);
+    }
+
 }
 
 ?>

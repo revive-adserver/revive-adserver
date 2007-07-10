@@ -278,6 +278,12 @@ class Plugins_DeliveryLimitations_Geo_Region extends Plugins_DeliveryLimitations
         return array('op' => $op, 'data' => $sData);
     }
 
+
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetUpgradeForGeoRegion($op, $sData);
+    }
+
 }
 
 ?>

@@ -100,6 +100,12 @@ class Plugins_DeliveryLimitations_Geo_Netspeed extends Plugins_DeliveryLimitatio
         return $this->_getSqlLimitationForArray($comparison, $data, 'geo_netspeed');
     }
 
+
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetUpgradeForGeoNetspeed($op, $sData);
+    }
+
 }
 
 ?>

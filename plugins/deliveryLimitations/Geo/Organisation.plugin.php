@@ -60,6 +60,13 @@ class Plugins_DeliveryLimitations_Geo_Organisation extends Plugins_DeliveryLimit
         return ((isset($GLOBALS['_MAX']['GEO_DATA']['organisation']))
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
     }
+
+
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetUpgradeForContains($op, $sData);
+    }
+
 }
 
 ?>

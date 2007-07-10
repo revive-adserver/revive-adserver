@@ -64,6 +64,12 @@ class Plugins_DeliveryLimitations_Geo_Areacode extends Plugins_DeliveryLimitatio
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
     }
 
+
+    function getUpgradeFromEarly($op, $sData)
+    {
+        return OA_limitationsGetUpgradeForContains($op, $sData);
+    }
+
 }
 
 ?>

@@ -724,7 +724,7 @@ function OA_limitationsGetAUpgradeFor20Regexp($op, $sData)
 
 
 /**
- * This function should be used for the 'referer' delivery limitation.
+ * This function should be used for the 'referer' delivery limitation and other "==" to "=~" based limitations
  *
  * @param string $op
  * @param string $sData
@@ -734,6 +734,76 @@ function OA_limitationsGetUpgradeForContains($op, $sData)
 {
     $aResult = array();
     $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
+    $aResult['data'] = $sData;
+    return $aResult;
+}
+
+/**
+ * This function should be used for the 'city' delivery limitation
+ *
+ * @param string $op
+ * @param string $sData
+ * @return array
+ */
+function OA_limitationsGetUpgradeForGeoCity($op, $sData)
+{
+    $aResult = array();
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
+    $aResult['data'] = '|'.$sData;
+    return $aResult;
+}
+
+/**
+ * This function should be used for the 'region' delivery limitation
+ *
+ * @param string $op
+ * @param string $sData
+ * @return array
+ */
+function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
+{
+    $aData = array();
+    $aCount = array();
+    foreach (explode(',', $sData) as $v) {
+        $country = substr($v, 0, 2);
+        $region  = substr($v, 2);
+        if (!isset($aData[$country])) {
+            $aData[$country] = array();
+            $aCount[$country] = 0;
+        }
+        $aData[$country][] = $region;
+        $aCount[$country]++;
+    }
+
+    arsort($aCount);
+    $country = key($aCount);
+
+    $sData = $country.'|'.join(',', $aData[$country]);
+
+    $aResult = array();
+    $aResult['op'] = $op;
+    $aResult['data'] = $sData;
+    return $aResult;
+}
+
+/**
+ * This function should be used for the 'netspeed' delivery limitation
+ *
+ * @param string $op
+ * @param string $sData
+ * @return array
+ */
+function OA_limitationsGetUpgradeForGeoNetspeed($op, $sData)
+{
+    $aTrans = array('unknown','dialup','cabledsl', 'corporate');
+    $aData = explode(',', $sData);
+    foreach ($aData as $k => $v) {
+        $aData[$k] = $aTrans[$v];
+    }
+    $sData = join(',', $aData);
+
+    $aResult = array();
+    $aResult['op'] = $op;
     $aResult['data'] = $sData;
     return $aResult;
 }
