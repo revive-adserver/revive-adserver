@@ -59,7 +59,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.9');
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.10';
-        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.10');
+        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_VERSION,'version 4.3.10');
 
         $oEnvMgr->aInfo['PHP']['actual']['version'] = '4.3.11';
         $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_NOERROR,'version 4.3.11');
