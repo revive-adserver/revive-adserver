@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.3                                                              |
@@ -21,7 +22,9 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
+$Id$
 */
+
 /**
  * Openads Upgrade Class
  *
@@ -71,18 +74,17 @@ class OA_Environment_Manager
             $this->aInfo['PERMS']['expected'][] = $conf['delivery']['cachePath'];
         }
 
-        $this->aInfo['PHP']['actual']       = array();
-        $this->aInfo['PERMS']['actual']     = array();
-        $this->aInfo['FILES']['actual']     = array();
+        $this->aInfo['PHP']['actual']     = array();
+        $this->aInfo['PERMS']['actual']   = array();
+        $this->aInfo['FILES']['actual']   = array();
 
-        $this->aInfo['PHP']['expected']['version']              = '4.3.10';
+        $this->aInfo['PHP']['expected']['version']              = '4.3.11';
         $this->aInfo['PHP']['expected']['magic_quotes_runtime'] = '0';
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
         $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
-        //$this->aInfo['PHP']['expected']['date.timezone']        = true;
 
-        $this->aInfo['FILES']['expected']                   = array();
+        $this->aInfo['FILES']['expected'] = array();
     }
 
     function checkSystem()
@@ -104,19 +106,13 @@ class OA_Environment_Manager
     {
         $aResult['version'] = phpversion();
 
-        $aResult['memory_limit'] = getMemorySizeInBytes();
+        $aResult['memory_limit']         = getMemorySizeInBytes();
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
-        $aResult['safe_mode'] = ini_get('safe_mode');
-        $aResult['date.timezone'] = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
-        $aResult['register_argc_argv'] = ini_get('register_argc_argv');
-        $aResult['file_uploads'] = ini_get('file_uploads');
-        //$aResult['register_globals'] = ini_get('register_globals');
-        //$aResult['magic_quotes_gpc'] = get_magic_quotes_gpc();
+        $aResult['safe_mode']            = ini_get('safe_mode');
+        $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
+        $aResult['register_argc_argv']   = ini_get('register_argc_argv');
+        $aResult['file_uploads']         = ini_get('file_uploads');
 
-        //$aResult['extensions'] = get_loaded_extensions();
-        //mmturck, eaccelerator, apc, xcache, zendplatfor
-
-        //$aResult = ini_get_all();
         return $aResult;
     }
 
@@ -231,11 +227,6 @@ class OA_Environment_Manager
         if (!$this->aInfo['PHP']['actual']['file_uploads']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'file_uploads must be ON';
         }
-//        if (!$this->aInfo['PHP']['actual']['date.timezone'])
-//        {
-//            $result = OA_ENV_ERROR_PHP_TIMEZONE;
-//            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_TIMEZONE] = 'date.timezone expected to be set';
-//        }
         return $result;
     }
 
