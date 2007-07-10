@@ -153,7 +153,11 @@ function MAX_querystringGetDestinationUrl($adId = null)
         $conf['var']['n'],
         $conf['var']['zoneId'],
         $conf['var']['params'],
-        $conf['var']['cookieTest']
+        $conf['var']['cookieTest'],
+        /**
+         * @todo This variable below needs to be config-file driven, all occurences need to be changed to $conf['var']['channel_ids']
+         */
+        'channel_ids'
     );
 
     // We also need to ensure that any variables already present in the dest are not duplicated...
