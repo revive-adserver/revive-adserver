@@ -248,7 +248,7 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     AND interm.interval_start >= ". $this->oDbh->quote($start_sql, 'timestamp') ."
                     AND interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp');
 
-        $results = $this->oDbh->getAll($sql);
+        $results = $this->oDbh->extended->getAll($sql);
         return $results;
     }
 
@@ -308,7 +308,7 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     adzone.expired
                 ";
 
-        $complete_db_results = $this->oDbh->getAll($sql);
+        $complete_db_results = $this->oDbh->extended->getAll($sql);
         return $complete_db_results;
     }
 
@@ -374,7 +374,7 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     and interm.interval_start >= ". $this->oDbh->quote($start_sql, 'timestamp') ."
                     and interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp');
 
-        $results = $this->oDbh->getAll($sql);
+        $results = $this->oDbh->extended->getAll($sql);
 
         $stats = array ();
         foreach ($results as $result)
@@ -449,7 +449,7 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     and interm.interval_end <= ". $this->oDbh->quote($end_sql, 'timestamp') ."
                 GROUP BY ad_id
                 ";
-        $results = $this->oDbh->getAll($sql);
+        $results = $this->oDbh->extended->getAll($sql);
         $stats = array ();
         foreach ($results as $result)
         {
@@ -553,7 +553,7 @@ class MAX_Dal_Admin extends MAX_Dal_Common
                     ad.bannerid = adzone.ad_id
                     AND ad.campaignid = ". $this->oDbh->quote($placement_id, 'integer');
 
-    	$results = $this->oDbh->getAll($sql);
+    	$results = $this->oDbh->extended->getAll($sql);
     	$zones = array();
     	foreach($results as $row) {
     	    array_push($zones, $row['zone_id']);

@@ -101,7 +101,7 @@ class MAX_Dal_PasswordRecovery extends MAX_Dal_Common
                     username
             ";
 
-            foreach ($this->oDbh->getAll($query) as $row) {
+            foreach ($this->oDbh->extended->getAll($query) as $row) {
                 $users[] = $row;
             }
         }

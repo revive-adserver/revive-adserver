@@ -127,13 +127,13 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
     {
         $query = "SELECT trackerid, trackername, clientid, appendcode FROM {$this->prefix}{$this->conf['table']['trackers']}";
         $trackers = array();
-        foreach ($this->oDbh->getAll($query) as $row) {
+        foreach ($this->oDbh->extended->getAll($query) as $row) {
             $trackers[$row['trackerid']] = $row;
         }
 
         $query = "SELECT tracker_id, tagcode, rank, paused FROM {$this->prefix}{$this->conf['table']['tracker_append']} WHERE paused = 'f' ORDER BY rank";
         $codes = array();
-        foreach ($this->oDbh->getAll($query) as $row) {
+        foreach ($this->oDbh->extended->getAll($query) as $row) {
             $codes[$row['tracker_id']][] = $row;
         }
 
@@ -157,7 +157,7 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
         if (is_null($ids)) {
             $query = "SELECT trackerid FROM {$this->prefix}{$this->conf['table']['trackers']}";
             $ids = array();
-            foreach ($this->oDbh->getAll($query) as $row) {
+            foreach ($this->oDbh->extended->getAll($query) as $row) {
                 $ids[] = $row['trackerid'];
             }
         }
