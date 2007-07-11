@@ -1251,7 +1251,7 @@ class OA_Upgrade
         {
             return false;
         }
-        if (! $this->oConfiguration->writeConfig())
+        if (!$this->oConfiguration->writeConfig())
         {
             return false;
         }

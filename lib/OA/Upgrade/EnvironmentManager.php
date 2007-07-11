@@ -130,6 +130,8 @@ class OA_Environment_Manager
     {
         $aErrors = array();
 
+        // Test that all of the required files/directories can
+        // be written to by the webserver
         foreach ($this->aInfo['PERMS']['expected'] as $file)
         {
             if (empty($file))
@@ -147,11 +149,23 @@ class OA_Environment_Manager
             }
         }
 
+        // If upgrading, must also be able to write to:
+        //  - The configuration file (if the web hosts is the same as
+        //    it was, the user cannot have the config file locked, as
+        //    new items might need to be merged into the config).
+        //  - The INSTALLED file needs to be able to be "touched",
+        //    as this is done for all upgrades/installs.
         if (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) {
             $configFile = MAX_PATH . '/var/' . getHostName() . '.conf.php';
             if (file_exists($configFile)) {
                 if (!OA_Admin_Config::isConfigWritable($configFile)) {
                     $aErrors[$configFile] = 'NOT writeable';
+                }
+            }
+            $installerFile = MAX_PATH . '/var/INSTALLED';
+            if (file_exists($configFile)) {
+                if (!is_writable($installerFile)) {
+                    $aErrors[$installerFile] = 'NOT writeable';
                 }
             }
         }
@@ -166,7 +180,7 @@ class OA_Environment_Manager
     function checkCritical()
     {
         $this->_checkCriticalPHP();
-        $this->_checkCriticalPermissions();
+        $this->_checkCriticalFilePermissions();
         $this->_checkCriticalFiles();
         return $this->aInfo;
     }
@@ -276,20 +290,35 @@ class OA_Environment_Manager
         return $result;
     }
 
-    function _checkCriticalPermissions()
+    /**
+     * A private method to test for any critial errors resulting from "bad"
+     * file or directory permissions.
+     *
+     * Sets $this->aInfo['PERMS']['error'] to the boolean false if all
+     * permissions are acceptable, otherwise, it is set to a string containing
+     * an appropriate error message to show to the user on the system check
+     * page.
+     *
+     * @return boolean True when all permissions are okay, false otherwise.
+     */
+    function _checkCriticalFilePermissions()
     {
-        foreach ($this->aInfo['PERMS']['actual'] AS $k=>$v)
+        // Test to see if there were any file/directory permission errors
+        unset($this->aInfo['PERMS']['error']['filePerms']);
+        foreach ($this->aInfo['PERMS']['actual'] AS $k => $v)
         {
-            if ($v!='OK')
+            if ($v != 'OK')
             {
-                if (!is_array($this->aInfo['PERMS']['error'])) {
-                    $this->aInfo['PERMS']['error'][] = $GLOBALS['strErrorWritePermissions'];
+                if (is_null($this->aInfo['PERMS']['error']['filePerms']))
+                {
+                    $this->aInfo['PERMS']['error']['filePerms'] = $GLOBALS['strErrorWritePermissions'];
                 }
-                $this->aInfo['PERMS']['error'][] = sprintf($GLOBALS['strErrorFixPermissionsCommand'], $k);;
+                $this->aInfo['PERMS']['error']['filePerms'] .= "<br />" . sprintf($GLOBALS['strErrorFixPermissionsCommand'], $k);
             }
         }
-        if (is_array($this->aInfo['PERMS']['error'])) {
-            $this->aInfo['PERMS']['error'][] = $GLOBALS['strCheckDocumentation'];
+        if (!is_null($this->aInfo['PERMS']['error']['filePerms']))
+        {
+            $this->aInfo['PERMS']['error']['filePerms'] .= "<br />" . $GLOBALS['strCheckDocumentation'];
             return false;
         }
         $this->aInfo['PERMS']['error'] = false;

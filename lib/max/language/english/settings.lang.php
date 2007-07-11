@@ -137,9 +137,9 @@ $GLOBALS['strErrorInstallVersion']          = "The " . MAX_PRODUCT_NAME . " vers
 $GLOBALS['strErrorUpgrade']                 = 'The existing installation\'s database could not be upgraded.';
 $GLOBALS['strErrorInstallDbConnect']        = "It was not possible to open a connection to the database.";
 
-$GLOBALS['strErrorWritePermissions']        = "To fix this error on your Linux system, try typing in the following command(s):";
+$GLOBALS['strErrorWritePermissions']        = "File permission errors have been detected, and must be fixed before you can continue.<br />To fix the errors on a Linux system, try typing in the following command(s):";
 $GLOBALS['strErrorFixPermissionsCommand']   = "<i>chmod a+w %s</i>";
-$GLOBALS['strCheckDocumentation']           = "For more help, please check the documentation at http://".MAX_PRODUCT_DOCSURL;
+$GLOBALS['strCheckDocumentation']           = "For more help, please see the <a href=\"http://".MAX_PRODUCT_DOCSURL."\">Openads documentation<a/>.";
 
 $GLOBALS['strAdminUrlPrefix']               = "Admin Interface URL";
 $GLOBALS['strDeliveryUrlPrefix']            = "Delivery Engine URL";
