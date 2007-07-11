@@ -69,6 +69,7 @@ td.sysinfoerror, .sysinfoerror, td.sysinfowarning {
  text-align: left;
  line-height: 17px;
  background-color: #880000;
+ border: 0;
 }
 div.sysinfowarning {
  border: 1px dotted #eee;
@@ -78,6 +79,9 @@ div.sysinfowarning {
 }
 td.sysinfowarning, .sysinfowarning {
  background-color: #d26a0d;
+}
+td.errContainer {
+ border-bottom: 1px solid #DDDDDD;
 }
 
 td.sysinfoerror i, td.sysinfowarning i {

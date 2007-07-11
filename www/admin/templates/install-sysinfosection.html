@@ -31,14 +31,14 @@
             {
                 foreach ($sysinfoarray['error'] AS $k => $v)
                 {
-                    echo "<tr><td class=\"sysinfoerror\">Error:</td><td class=\"sysinfoerror\">".$v."</td></tr>";
+                    echo "<tr><td class=\"sysinfoerror errContainer\" colspan='2'><table><tr><td class=\"sysinfoerror\" width=\"100\">Error:</td><td class=\"sysinfoerror\" colspan='2'>".$v."</td></tr></table></td></tr>";
                 }
             }
             if ($sysinfoarray['warning'])
             {
                 foreach ($sysinfoarray['warning'] AS $k => $v)
                 {
-                    echo "<tr><td class=\"sysinfowarning\">Warning:</td><td class=\"sysinfowarning\">".$v."</td></tr>";
+                    echo "<tr><td class=\"sysinfowarning errContainer\" colspan='2'><table><tr><td class=\"sysinfowarning\" width=\"100\">Warning:</td><td class=\"sysinfowarning\" colspan='2'>".$v."</td></tr></table></td></tr>";
                 }
             }
 
