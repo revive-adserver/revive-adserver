@@ -34,13 +34,13 @@ require_once MAX_PATH . '/lib/util/file/file.php';
 define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
 
 /**
- * Test for migration class #127.
+ * Test for migration class #108.
  *
  * @package    changes
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_119Test extends MigrationTest
+class Migration_108Test extends MigrationTest
 {
     function testMigrateData()
     {
@@ -91,7 +91,7 @@ class Migration_119Test extends MigrationTest
 
         $migration = new Migration_108();
         $migration->init($this->oDbh);
-        
+
         $this->checkNoGeoTargeting($migration, $host);
         $this->checkGeoIp($migration, $host);
         $this->checkModGeoIP($migration, $host);
@@ -122,15 +122,43 @@ class Migration_119Test extends MigrationTest
     function checkGeoIp(&$migration, $host)
     {
         $geotracking_type = 'geoip';
-        $geotracking_location = '/path/to/geoip/database.dat';
+        $geotracking_location = MAX_PATH . '/plugins/geotargeting/GeoIP/data/FreeGeoIPCountry.dat';
         $geotracking_stats = true;
-        $geotracking_conf = 'a:4:{s:12:"databaseType";i:1;s:16:"databaseSegments";i:16776960;s:13:"record_length";i:3;s:17:"databaseTimestamp";i:1179406656;}';
+        $geotracking_conf = '';
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
             $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
-        
-        $configContent = "[geotargeting]\ntype=GeoIP\ngeoipCountryLocation=/path/to/geoip/database.dat\n";
+
+        $configContent = "[geotargeting]\ntype=GeoIP\ngeoipCountryLocation={$geotracking_location}\n";
         $this->checkGeoPluginConfig('GeoIP', $geotracking_stats, $configContent, $host);
+    }
+
+
+    function checkGeoIpWrongPath(&$migration, $host)
+    {
+        $geotracking_type = 'geoip';
+        $geotracking_location = MAX_PATH . '/plugins/geotargeting/foo.dat';
+        $geotracking_stats = true;
+        $geotracking_conf = '';
+
+        $this->assertTrue($migration->createGeoTargetingConfiguration(
+            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+
+        $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
+    }
+
+
+    function checkGeoIpIp2Country(&$migration, $host)
+    {
+        $geotracking_type = 'ip2country';
+        $geotracking_location = MAX_PATH . '/plugins/geotargeting/foo.dat';
+        $geotracking_stats = true;
+        $geotracking_conf = '';
+
+        $this->assertTrue($migration->createGeoTargetingConfiguration(
+            $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
+
+        $this->checkGeoPluginConfig('"none"', $geotracking_stats, '', $host);
     }
 
 
@@ -143,7 +171,7 @@ class Migration_119Test extends MigrationTest
 
         $this->assertTrue($migration->createGeoTargetingConfiguration(
             $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf));
-        
+
         $this->checkGeoPluginConfig('ModGeoIP', $geotracking_stats, "[geotargeting]\ntype=ModGeoIP\n", $host);
     }
 
@@ -168,5 +196,5 @@ class Migration_119Test extends MigrationTest
             $this->assertEqual($contents, $actualContents);
         }
     }
-    
+
 }
