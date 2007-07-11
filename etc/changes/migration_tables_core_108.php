@@ -678,8 +678,7 @@ class Migration_108 extends Migration
             $result = $this->createGeoTargetingConfiguration(
                 $aPanConfig['geotracking_type'],
                 $aPanConfig['geotracking_location'],
-                $aPanConfig['geotracking_stats'],
-                $aPanConfig['geotracking_conf']);
+                $aPanConfig['geotracking_stats']);
 
             if ($result === false)
             {
@@ -703,7 +702,7 @@ class Migration_108 extends Migration
 
 
 	function createGeoTargetingConfiguration(
-	   $geotracking_type, $geotracking_location, $geotracking_stats, $geotracking_conf)
+	   $geotracking_type, $geotracking_location, $geotracking_stats)
 	{
 	    $upgradeConfig = new OA_Upgrade_Config();
 	    $host = getHostName();
@@ -717,22 +716,21 @@ class Migration_108 extends Migration
 	           && $this->writeGeoSpecificConfig('ModGeoIP', '', $host);
 	    }
 	    elseif ($geotracking_type == 'geoip') {
-	        $result = $this->writeGeoPluginConfig('GeoIP', $geotracking_stats, $host);
-	        $databaseSetting = $this->getDatabaseSetting($geotracking_conf, $geotracking_location);
+	        $databaseSetting = $this->getDatabaseSetting($geotracking_location);
 	        if ($databaseSetting === false)
 	        {
-                return $this->_logErrorAndReturnFalse('Unable to configure geoip');
+                $this->_logError('Unable to configure geoip');
+    	        return $this->writeGeoPluginConfig('"none"', $geotracking_stats, $host);
 	        }
+	        $result = $this->writeGeoPluginConfig('GeoIP', $geotracking_stats, $host);
 	        return $result && $this->writeGeoSpecificConfig('GeoIP', $databaseSetting, $host);
 	    }
 	    return false;
 	}
 
-	function getDatabaseSetting($geotracking_conf, $geotracking_location)
+	function getDatabaseSetting($geotracking_location)
 	{
-        if (empty($geotracking_conf)) {
-            $geotracking_conf = OA_phpAdsNew::phpAds_geoip_getConf($geotracking_location);
-        }
+        $geotracking_conf = OA_phpAdsNew::phpAds_geoip_getConf($geotracking_location);
 
         $sDatabaseType = $this->getDatabaseType($geotracking_conf);
 	    if ($sDatabaseType === false)

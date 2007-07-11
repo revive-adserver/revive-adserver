@@ -170,17 +170,15 @@ class OA_phpAdsNew
         // Geo-targeting checks
         if (!empty($phpAds_config['geotracking_type'])) {
             if ($phpAds_config['geotracking_type'] == 'geoip') {
-                if (file_exists($phpAds_config['geotracking_location'])) {
+                if (!empty($phpAds_config['geotracking_location']) && file_exists($phpAds_config['geotracking_location'])) {
 
-                    if (empty($phpAds_config['geotracking_conf'])) {
-                        if (is_readable($phpAds_config['geotracking_location'])) {
-                            $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
-                        } else {
-                            $oUpgrader->oLogger->logWarning("GeoIP database not readable, Geotargeting settings won't be migrated");
-                        }
+                    if (is_readable($phpAds_config['geotracking_location'])) {
+                        $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
+                    } else {
+                        $oUpgrader->oLogger->logWarning("GeoIP database not readable, Geotargeting settings won't be migrated");
                     }
 
-                    if (empty($phpAds_config['geotracking_conf']) || !@unserialize($phpAds_config['geotracking_conf'])) {
+                    if (empty($phpAds_config['geotracking_conf'])) {
                         $oUpgrader->oLogger->logWarning("GeoIP database malformed, Geotargeting settings won't be migrated");
                     }
                 } else {
