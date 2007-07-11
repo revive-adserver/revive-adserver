@@ -81,7 +81,7 @@ class OA_Maintenance
 
         if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
-            
+
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 
@@ -120,6 +120,8 @@ class OA_Maintenance
             $this->releaseLock();
 
             OA::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
+        } else {
+			OA::debug('Scheduled Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
         }
     }
 

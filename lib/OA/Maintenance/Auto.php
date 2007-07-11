@@ -51,7 +51,7 @@ class OA_Maintenance_Auto
     	MAX_Admin_Preferences::loadPrefs(0);
 
         $aConf = $GLOBALS['_MAX']['CONF'];
-        
+
 	    if (!defined('OA_VERSION')) {
 	        // If the code is executed inside delivery, the constants
 	        // need to be initialized
@@ -63,10 +63,16 @@ class OA_Maintenance_Auto
 
 		if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE))
 		{
+            OA::debug('Running Automatic Maintenance Task', PEAR_LOG_INFO);
+
 		    require_once MAX_PATH . '/lib/OA/Maintenance.php';
 			$oMaint = new OA_Maintenance();
 			$oMaint->run();
 			$oLock->release();
+
+			OA::debug('Automatic Maintenance Task Completed', PEAR_LOG_INFO);
+		} else {
+			OA::debug('Automatic Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
 		}
     }
 }
