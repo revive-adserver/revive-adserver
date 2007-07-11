@@ -47,6 +47,10 @@ function MAX_checkGeo_Region($limitation, $op, $aParams = array())
     if (empty($aParams)) {
         $aParams = $GLOBALS['_MAX']['CLIENT_GEO'];
     }
+    if ($op != '=~' && $op != '!~') {
+        // Provide backwards compatibility
+        $op = '=~';
+    }
 
     $aLimitation = explode('|', $limitation);
     $sCountry = $aLimitation[0];
