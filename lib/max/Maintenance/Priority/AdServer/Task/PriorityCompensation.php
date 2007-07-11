@@ -188,18 +188,30 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                 foreach ($aAdPastDetails as $aPastDetail) {
                     // Only insert the past details for ads that are still linked to the same zone
                     if (isset($aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']])) {
-                        $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequiredImpressions
-                            = $aPastDetail['required_impressions'];
-                        $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequestedImpressions
-                            = $aPastDetail['requested_impressions'];
-                        $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastToBeDelivered
-                            = $aPastDetail['to_be_delivered'];
-                        $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastActualImpressions
-                            = $aPastDetail['impressions'];
-                        $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastAdZonePriorityFactor
-                            = $aPastDetail['priority_factor'];
-                        $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastZoneTrafficFraction
-                            = $aPastDetail['past_zone_traffic_fraction'];
+                        if (!is_null($aPastDetail['required_impressions'])) {
+                            $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequiredImpressions
+                                = $aPastDetail['required_impressions'];
+                        }
+                        if (!is_null($aPastDetail['requested_impressions'])) {
+                            $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastRequestedImpressions
+                                = $aPastDetail['requested_impressions'];
+                        }
+                        if (!is_null($aPastDetail['to_be_delivered'])) {
+                            $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastToBeDelivered
+                                = $aPastDetail['to_be_delivered'];
+                        }
+                        if (!is_null($aPastDetail['impressions'])) {
+                            $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastActualImpressions
+                                = $aPastDetail['impressions'];
+                        }
+                        if (!is_null($aPastDetail['priority_factor'])) {
+                            $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastAdZonePriorityFactor
+                                = $aPastDetail['priority_factor'];
+                        }
+                        if (!is_null($aPastDetail['past_zone_traffic_fraction'])) {
+                            $aZones[$aPastDetail['zone_id']]->aAdverts[$aPastDetail['ad_id']]->pastZoneTrafficFraction
+                                = $aPastDetail['past_zone_traffic_fraction'];
+                        }
                     }
                 }
             }
