@@ -63,10 +63,10 @@ class Plugins_3rdPartyServers_bluestreak_bluestreak extends Plugins_3rdPartyServ
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search = array("n=Insert_Time_Stamp_Here","cltk=Insert_Click_Track_URL_Here");
+        $search = array("/n=Insert_Time_Stamp_Here/i","/cltk=Insert_Click_Track_URL_Here/i");
         $replace = array("n={random}","cltk={clickurl}");
 
-        $buffer = str_replace ($search, $replace, $buffer);
+        $buffer = preg_replace($search, $replace, $buffer);
         $noScript[0] = preg_replace($search[0], $replace[0], $noScript[0]);
 
         return $buffer;
