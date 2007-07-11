@@ -168,6 +168,10 @@ class OA_phpAdsNew
         $phpAds_config = $this->_getPANConfig();
 
         // Geo-targeting checks
+        $message = "Warning: ";
+        $postWarningMessage = " As a result, your geotargeting settings can not be migrated, and you will need to re-configure " .
+                              "your geotargeting database(s) after upgrading. Please see the " .
+                              "<a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
         if (!empty($phpAds_config['geotracking_type'])) {
             if ($phpAds_config['geotracking_type'] == 'geoip') {
                 if (!empty($phpAds_config['geotracking_location']) && file_exists($phpAds_config['geotracking_location'])) {
@@ -175,17 +179,21 @@ class OA_phpAdsNew
                     if (is_readable($phpAds_config['geotracking_location'])) {
                         $phpAds_config['geotracking_conf'] = $this->phpAds_geoip_getConf($phpAds_config['geotracking_location']);
                     } else {
-                        $oUpgrader->oLogger->logWarning("GeoIP database not readable, Geotargeting settings won't be migrated");
+                        $message .= "A GeoIP database is not readable." . $postWarningMessage;
+                        $oUpgrader->oLogger->logWarning($message);
                     }
 
                     if (empty($phpAds_config['geotracking_conf'])) {
-                        $oUpgrader->oLogger->logWarning("GeoIP database malformed, Geotargeting settings won't be migrated");
+                        $message .= "A GeoIP database malformed." . $postWarningMessage;
+                        $oUpgrader->oLogger->logWarning($message);
                     }
                 } else {
-                    $oUpgrader->oLogger->logWarning("GeoIP database not found, Geotargeting settings won't be migrated");
+                    $message .= "A GeoIP database was not found." . $postWarningMessage;
+                    $oUpgrader->oLogger->logWarning($message);
                 }
             } elseif ($phpAds_config['geotracking_type'] == 'ip2country') {
-                $oUpgrader->oLogger->logWarning("Ip2Country database not supported, Geotargeting settings won't be migrated");
+                $message .= "The Ip2Country geotargeting database is no longer supported." . $postWarningMessage;
+                $oUpgrader->oLogger->logWarning($message);
             }
         }
 

@@ -73,7 +73,7 @@ td.sysinfoerror, .sysinfoerror, td.sysinfowarning {
 }
 div.sysinfowarning {
  border: 1px dotted #eee;
- width: 50%;
+ width: 85%;
  margin: 5px auto 0 auto;
  color: #fff;
 }
