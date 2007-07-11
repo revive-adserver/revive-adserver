@@ -94,15 +94,15 @@ class Test_OA_Environment_Manager extends UnitTestCase
 //        $this->assertEqual($oEnvMgr->_checkCriticalPHP(),OA_ENV_ERROR_PHP_TIMEZONE,'date.timezone unset');
     }
 
-    function test_checkCriticalPermissions()
+    function test_checkCriticalFilePermissions()
     {
         $oEnvMgr = & $this->_getEnvMgrObj();
 
         $oEnvMgr->aInfo['PERMS']['actual'] = array('/var'=>'OK');
-        $this->assertTrue($oEnvMgr->_checkCriticalPermissions(),'');
+        $this->assertTrue($oEnvMgr->_checkCriticalFilePermissions(),'');
 
         $oEnvMgr->aInfo['PERMS']['actual'] = array('/var'=>'NOT writeable');
-        $this->assertFalse($oEnvMgr->_checkCriticalPermissions(),'');
+        $this->assertFalse($oEnvMgr->_checkCriticalFilePermissions(),'');
     }
 
     function test_checkCriticalFiles()
