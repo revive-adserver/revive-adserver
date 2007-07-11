@@ -56,6 +56,7 @@ define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
 $GLOBALS['OA_Delivery_Cache'] = array(
     'path'   => MAX_PATH.'/var/cache/',
     'prefix' => 'deliverycache_',
+    'host'   => getHostName(),
     'expiry' => $GLOBALS['_MAX']['CONF']['delivery']['cacheExpire']
 );
 
@@ -88,6 +89,10 @@ function OA_Delivery_Cache_fetch($name, $isHash = false, $expiryTime = null)
     $ok = @include($filename);
 
     if ($ok && $cache_complete == true) {
+        // Make sure that the cache name matches
+        if ($cache_name != $name) {
+            return false;
+        }
         // The method used to implement cache expiry imposes two cache writes if the cache is
         // expired and the database is available, but avoid the need to check for file existence
         // and modification time.
@@ -136,9 +141,9 @@ function OA_Delivery_Cache_store($name, $cache, $isHash = false, $expireAt = nul
     $cache_literal .= "$"."cache_name       = '".addcslashes($name, "'")."';\n";
     $cache_literal .= "$"."cache_time       = ".MAX_commonGetTimeNow().";\n";
     if ($expireAt !== null) {
-        $cache_literal .= "$"."cache_expire = ".$expireAt.";\n";
+        $cache_literal .= "$"."cache_expire     = ".$expireAt.";\n";
     }
-    $cache_literal .= "$"."cache_complete = true;\n\n";
+    $cache_literal .= "$"."cache_complete   = true;\n\n";
     $cache_literal .= "?".">";
 
     // Write cache to a temp file, then rename it, overwritng the old cache
@@ -276,7 +281,7 @@ function OA_Delivery_Cache_getName($functionName)
     $args = func_get_args();
     $args[0] = strtolower(str_replace('MAX_cacheGet', '', $args[0]));
 
-    return join('-', $args);
+    return join(':', $args).'@'.$GLOBALS['OA_Delivery_Cache']['host'];
 }
 
 /**
