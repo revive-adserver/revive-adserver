@@ -255,7 +255,7 @@ function phpAds_getHelpFile ()
 function phpAds_Login($checkRedirectFunc = 'phpAds_checkRedirect')
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    global $$strUsernameOrPasswordWrong;
+    global $strUsernameOrPasswordWrong;
 
     if ($checkRedirectFunc()) {
         header('location: http://'.$GLOBALS['_MAX']['CONF']['webpath']['admin']);
