@@ -1450,7 +1450,7 @@ function MAX_displayPlacementAdSelectionViewForm($publisherId, $zoneId, $view, $
 <td>
     <select name='view' onchange='this.form.submit();' $disabled>
         <option value='placement'$placementSelected>{$GLOBALS['strCampaignDefaults']}</option>
-        <option value='category'$categorySelected>{$GLOBALS['strLinkedCategories']}</option>
+        <!--option value='category'$categorySelected>{$GLOBALS['strLinkedCategories']}</option-->
         <option value='ad'$adSelected>{$GLOBALS['strLinkedBanners']}</option>
     </select>
     &nbsp;<input type='image' src='images/$phpAds_TextDirection/go_blue.gif' border='0'>
