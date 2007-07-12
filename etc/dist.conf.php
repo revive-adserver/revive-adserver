@@ -357,5 +357,13 @@ xmlrpcScript=/www/delivery/delivery-xmlrpc.php
 [geotargeting]
 type="none"
 saveStats=false
+geoipCountryLocation=
+geoipRegionLocation=
+geoipCityLocation=
+geoipAreaLocation=
+geoipDmaLocation=
+geoipOrgLocation=
+geoipIspLocation=
+geoipNetspeedLocation=
 
 ;------------------------------------------------------------------------------------------;
