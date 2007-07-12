@@ -264,7 +264,7 @@ class OA_Environment_Manager
         }
         if ($result == OA_ENV_ERROR_PHP_VERSION)
         {
-            if (!is_null($result4310))
+            if (!is_null($result4310) && $result4310)
             {
                 // Uh oh! Cannot allow install on PHP 4.3.10 - DB_DataObjects will cause PHP to crash!
                 $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] =
@@ -272,7 +272,7 @@ class OA_Environment_Manager
                     "<br />It is not possible to install Openads with PHP 4.3.10, due to a bug in PHP! " .
                     "Please see the <a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
             }
-            else if (!is_null($result441))
+            else if (!is_null($result441) & $result441)
             {
                 // Uh oh! Cannot allow install on PHP 4.3.10 - DB_DataObjects will cause PHP to crash!
                 $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] =
