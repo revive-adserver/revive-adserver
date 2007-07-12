@@ -249,7 +249,7 @@ class OA_Environment_Manager
                 '4.3.10',
                 "=="
             );
-            // Carry on and test if this is PHP 4.3.10
+            // Carry on and test if this is PHP 4.4.1
             $result441 = version_compare(
                 $this->aInfo['PHP']['actual']['version'],
                 '4.4.1',
