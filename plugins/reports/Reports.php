@@ -318,7 +318,7 @@ class Plugins_Reports extends MAX_Plugin_Common
             $this->_name,
             $this->_getReportParametersForDisplay()
         );
-        $this->_oReportWriter->createReportSection($worksheet, $title, $aHeaders, $aData, 30);
+        $this->_oReportWriter->createReportSection($worksheet, $title, $aHeaders, $aData, 30, null);
     }
 
     /**
