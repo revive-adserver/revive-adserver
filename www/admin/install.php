@@ -235,7 +235,9 @@ else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPG
     // store updates_enabled value into session, so that they can be inserted into DB once DB has been created
     session_start();
 
-    $_SESSION['updates_enabled'] = (isset($_POST['updates_enabled'])) ? $_POST['updates_enabled'] : false;
+    if (isset($_POST['hdn_policy'])) {
+        $_SESSION['updates_enabled'] = isset($_POST['updates_enabled']);
+    }
 
     $aSysInfo = $oUpgrader->checkEnvironment();
 
@@ -453,6 +455,7 @@ else if (array_key_exists('btn_terms', $_POST))
 else if (array_key_exists('btn_policy', $_POST))
 {
     session_start();
+
     $action = OA_UPGRADE_POLICY;
 }
 else if (array_key_exists('btn_finish', $_POST))
