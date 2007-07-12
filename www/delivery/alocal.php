@@ -2541,6 +2541,21 @@ $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }
+// Add any $context information to the global phpAds_context array
+if (
+isset($GLOBALS['phpAds_context']) && is_array($GLOBALS['phpAds_context']) &&
+isset($output['context']) && is_array($output['context'])
+) {
+// Check if the new context item is already in the global array, and add it if not
+foreach ($GLOBALS['phpAds_context'] as $idx => $item) {
+foreach ($output['context'] as $newidx => $newItem) {
+if ($newItem === $item) {
+unset($output['context'][$newidx]);
+}
+}
+}
+$GLOBALS['phpAds_context'] = $GLOBALS['phpAds_context'] + $output['context'];
+}
 return $output;
 }
 
