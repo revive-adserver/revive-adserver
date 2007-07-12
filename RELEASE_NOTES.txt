@@ -20,7 +20,7 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 
-Release Notes: Openads 2.3.34-beta
+Release Notes: Openads 2.3.35-beta
 ==================================
 
 Openads 2.3 beta is the next generation release of the hugely popular
@@ -28,36 +28,40 @@ Openads adserver.
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
-Openads 2.3.34-beta. Please read these notes before reporting any bugs.
+Openads 2.3.35-beta. Please read these notes before reporting any bugs.
 
 Please tell us what you think on the Openads 2.3 forum
 [http://forum.openads.org/index.php?showforum=37].
 
 
-What's New in Openads 2.3.34-beta
+What's New in Openads 2.3.35-beta
 ---------------------------------
 
- * Release date: July 4, 2007
+ * Release date: July 12, 2007
 
- * Enhanced power and simplicity: Delivery engine enhancements & updated
-   targeting statistics screens, improved installation and upgrade process
-   and better ad prioritisation.
+ * Openads 2.3.35-beta will now no logner install on PHP 4.3.10 and 4.4.1,
+   due to bugs in those versions of PHP. However, it is now possible to
+   install Openads 2.3.35-beta (at the users own risk!) for versions of
+   PHP less than the minimum supported version.
 
- * Easy integration with industry leading applications: Ability to track
-   clicks of Google AdSense & Yahoo! Publisher Network banners, enhanced
-   click tracking of Flash files and fully documented code for easy
-   customisation.
+ * Openads 2.3.35-beta is now compatible with database table prefixes
+   containing capital letters.
 
- * Enhanced targeting and campaign management: Updated capping to allow
-   limiting ads to a set number of impressions per user-specified time
-   period, addition of capping to the campaign and zone levels, additional
-   banner targeting options.
+ * The migration of geotargeting data when upgrading from Openads 2.0 has
+   been fixed, and the upgrade wizard now provides a warning in the event
+   that the Openads 2.0 geotargeting database is not compatible with
+   Openads 2.3.35-beta.
 
- * Improved reporting: Conversion tracking, simplified report generation
-   and event reporting.
+ * The {noscript} macro no longer appears after some banners.
 
- * Openads 2.3 features: For an overview, please see Openads 2.3 product
-   page [http://www.openads.org/products/openads-2.3.html].
+ * Session based capping with the iFrame Invocation Tag now works.
+
+ * Password recovery now works.
+
+ * Cache files now correctly take the host name into account, so that
+   caching works when running multiple installations from one code base.
+
+ * For complete details, see https://developer.openads.org/.
 
 
 System Requirements
@@ -75,17 +79,17 @@ Downloading and Installing
    You can get the latest version of Openads 2.3 here
    [http://www.openads.org/downloads/download-openads-2.3.html].
 
- * Installing Openads 2.3.34-beta
+ * Installing Openads 2.3.35-beta
 
-   Installing Openads 2.3.34-beta is a straightforward process. Follow
+   Installing Openads 2.3.35-beta is a straightforward process. Follow
    these steps
    [http://docs.openads.org/openads-2.3-guide/installing-openads.html] and
    use the links to refer to detailed information on each step where
    necessary.
 
- * Upgrading Openads 2.3.34-beta
+ * Upgrading Openads 2.3.35-beta
 
-   Upgrading to Openads 2.3.34-beta is a straightforward process. Follow
+   Upgrading to Openads 2.3.35-beta is a straightforward process. Follow
    these steps [http://docs.openads.org/openads-2.3-guide/upgrading.html]
    and use the links to refer to detailed information on each step where
    necessary.
@@ -106,6 +110,8 @@ Downloading and Installing
    | Openads 2.3 alpha                   | 2.3.31-alpha-pr3      |
    |   (formerly Max Media Manager v0.3) |   (v0.3.31-alpha-pr3) |
    ---------------------------------------------------------------
+   | Openads 2.3 beta                    | All previous versions |
+   ---------------------------------------------------------------
    | Max Media Manager v0.1              | v0.1.29-rc            |
    ---------------------------------------------------------------
    | Openads 2.0 for Postgresql          | Not supported         |
@@ -114,7 +120,7 @@ Downloading and Installing
 
    If you are not running one of these versions, you will need to upgrade
    your existing installation before you will be able to upgrade to
-   Openads 2.3.34-beta.
+   Openads 2.3.35-beta.
 
  * Uninstalling Openads 2.3
 
@@ -125,11 +131,14 @@ Downloading and Installing
 Known Issues
 ------------
 
-This list covers some of the known problems with Openads 2.3.34-beta. Please
+This list covers some of the known problems with Openads 2.3.35-beta. Please
 read this before reporting any new bugs.
 
- * It is NOT possible to install or upgrade using a database table prefix
-   that includes any capital letters.
+ * Some users have reported issues of statistics not appearing after they
+   have configured the maintenance script. This can be worked around by
+   disabling automatic maintenance. See the forum
+   [http://forum.openads.org/index.php?showtopic=503414138] for more
+   details.
 
  * Some users have reported issues of being logged out when viewing
    statistics. This can be worked around by ensuring that the timezone is
@@ -140,7 +149,7 @@ read this before reporting any new bugs.
    [http://www.openads.org/support/faq.html] for more information if you have
    a large database.
 
- * Openads 2.3.34-beta beta does NOT work with MySQL 3.x. If you are running
+ * Openads 2.3.35-beta beta does NOT work with MySQL 3.x. If you are running
    Openads 2.0 on this very old version of MySQL, do NOT attempt to upgrade,
    as your installation will no longer work correctly.
 
@@ -164,9 +173,9 @@ FAQ
     first upgrade to the latest version of Openads 2.0 before using the Openads
     2.3 upgrader.
 
- 3. Does Openads 2.3.34-beta support PostgreSQL?
+ 3. Does Openads 2.3.35-beta support PostgreSQL?
 
-    No, there is currently no support for PostgreSQL in Openads 2.3.34-beta.
+    No, there is currently no support for PostgreSQL in Openads 2.3.35-beta.
     Installing and upgrading from Openads 2.0 for PostgreSQL are likely to be
     supported in a future release of Openads 2.3 beta.
 
