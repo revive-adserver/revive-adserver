@@ -815,7 +815,7 @@ function OA_limitationsGetUpgradeForGeoNetspeed($op, $sData)
     $sData = join(',', $aData);
 
     $aResult = array();
-    $aResult['op'] = $op;
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
     $aResult['data'] = $sData;
     return $aResult;
 }

@@ -106,12 +106,6 @@ class Plugins_DeliveryLimitations_Geo_Netspeed extends Plugins_DeliveryLimitatio
         return OA_limitationsGetUpgradeForGeoNetspeed($op, $sData);
     }
 
-
-    function getUpgradeFromEarly($op, $sData)
-    {
-        return OA_limitationsGetUpgradeForContains($op, $sData);
-    }
-
 }
 
 ?>
