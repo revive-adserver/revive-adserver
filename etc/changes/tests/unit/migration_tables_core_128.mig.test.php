@@ -211,7 +211,7 @@ EOF
             array('Geo:Dma', '=~', '501,502'),
             array('Geo:Areacode', '=~', '66099'),
             array('Geo:Organisation', '=~', 'openads'),
-            array('Geo:Netspeed', '==', 'dialup,cabledsl'),
+            array('Geo:Netspeed', '=~', 'dialup,cabledsl'),
 
             // Warning - The next limitations were split, see below
             array('Geo:Region', '=~', 'DE|01', 'and'),
