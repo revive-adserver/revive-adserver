@@ -66,8 +66,8 @@ class Plugins_3rdPartyServers_max_max extends Plugins_3rdPartyServers
      */
     function getBannerCache($buffer, &$noScript)
     {
-        $search  = array("/cb=Insert_Random_Number_Here/i", "/ct0=Insert_Clicktrack_URL_Here/i");
-        $replace = array("cb={random}", "ct0={clickurl}");
+        $search  = array("/insert_random_number_here/i", "/insert_click_?(track_|_)?url_here/i");
+        $replace = array("{random}", "{clickurl}");
 
         $buffer = preg_replace($search, $replace, $buffer);
         $noScript[0] = preg_replace($search, $replace, $noScript[0]);
