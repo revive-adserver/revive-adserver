@@ -173,6 +173,7 @@ class OA_phpAdsNew
                               "your geotargeting database(s) after upgrading. Please see the " .
                               "<a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
         if (!empty($phpAds_config['geotracking_type'])) {
+            // Test for errors in the PAN geotargeting configuration
             if ($phpAds_config['geotracking_type'] == 'geoip') {
                 if (!empty($phpAds_config['geotracking_location']) && file_exists($phpAds_config['geotracking_location'])) {
 
@@ -195,6 +196,10 @@ class OA_phpAdsNew
                 $message .= "The Ip2Country geotargeting database is no longer supported." . $postWarningMessage;
                 $oUpgrader->oLogger->logWarning($message);
             }
+            // Warn about the fact that PAN region geotargeting cannot be upgraded
+            $message = "Warning: Some Openads 2.0 geotargeting limitations will be modified on upgrade. Please see the " .
+                       "<a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
+            $oUpgrader->oLogger->logWarning($message);
         }
 
         return true;
