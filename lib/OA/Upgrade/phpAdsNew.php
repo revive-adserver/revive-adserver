@@ -197,8 +197,8 @@ class OA_phpAdsNew
                 $oUpgrader->oLogger->logWarning($message);
             }
             // Warn about the fact that PAN region geotargeting cannot be upgraded
-            $message = "Warning: Some Openads 2.0 geotargeting limitations will be modified on upgrade. Please see the " .
-                       "<a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
+            $message = "Warning: Some Openads 2.0 geotargeting limitations may need to be modified on upgrade. " .
+                       "Please see the <a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
             $oUpgrader->oLogger->logWarning($message);
         }
 
