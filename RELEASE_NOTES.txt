@@ -49,8 +49,8 @@ What's New in Openads 2.3.35-beta
 
  * The migration of geotargeting data when upgrading from Openads 2.0 has
    been fixed, and the upgrade wizard now provides a warning in the event
-   that the Openads 2.0 geotargeting database is not compatible with
-   Openads 2.3.35-beta.
+   that the Openads 2.0 geotargeting database(s) or geotargeting options
+   are not compatible with Openads 2.3.35-beta.
 
  * The {noscript} macro no longer appears after some banners.
 
