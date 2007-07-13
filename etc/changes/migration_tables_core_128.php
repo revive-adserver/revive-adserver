@@ -209,11 +209,13 @@ class Migration_128 extends Migration
 	function migrateAcls()
 	{
 	    $tableAcls = $this->getPrefix() . "acls";
-	    $sql = "SELECT * FROM $tableAcls";
+	    $sql = "SELECT * FROM $tableAcls ORDER BY bannerid, executionorder";
 	    $rsAcls = DBC::NewRecordSet($sql);
 	    if (!$rsAcls->find()) {
 	        return false;
 	    }
+	    $aInserts = array();
+	    $aOffsets = array();
 	    $aUpdates = array();
 	    while ($rsAcls->fetch()) {
 	        $bannerid = $rsAcls->get('bannerid');
@@ -240,13 +242,33 @@ class Migration_128 extends Migration
 	        $aUpdates []= "UPDATE $tableAcls SET type = '$type', comparison = '$comparison', data = '$data'
 	        WHERE bannerid = $bannerid
 	        AND executionorder = $executionorder";
+
+	        $aOffsets[$bannerid] = $executionorder;
+
+	        if (isset($aNewAclsData['add'])) {
+	            if (!isset($aInserts[$bannerid])) {
+	                $aInserts[$bannerid] = array();
+	            }
+	            $aInserts[$bannerid] = array_merge($aInserts[$bannerid], $aNewAclsData['add']);
+	        }
 	    }
 
 	    foreach($aUpdates as $update) {
 	        $result = $this->oDBH->exec($update);
 	        if (PEAR::isError($result)) {
-	            $this->_logError("Couldn't execute update: $update");
-	            return false;
+	            return $this->_logErrorAndReturnFalse("Couldn't execute update: $update");
+	        }
+	    }
+
+	    foreach ($aInserts as $bannerid => $aLimitations) {
+	        foreach ($aLimitations as $aValues) {
+    	        $aValues['bannerid'] = $bannerid;
+    	        $aValues['executionorder'] = ++$aOffsets[$bannerid];
+                $insert = OA_DB_Sql::sqlForInsert('acls', $aValues);
+                $result = $this->oDBH->exec($insert);
+                if (PEAR::isError($result)) {
+                    return $this->_logErrorAndReturnFalse("Couldn't execute insert: $insert");
+                }
 	        }
 	    }
 

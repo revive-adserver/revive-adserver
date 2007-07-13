@@ -763,7 +763,6 @@ function OA_limitationsGetUpgradeForGeoCity($op, $sData)
 function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
 {
     $aData = array();
-    $aCount = array();
     foreach (explode(',', $sData) as $v) {
         $country = substr($v, 0, 2);
         $region  = substr($v, 2);
@@ -772,17 +771,30 @@ function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
             $aCount[$country] = 0;
         }
         $aData[$country][] = $region;
-        $aCount[$country]++;
     }
 
-    arsort($aCount);
-    $country = key($aCount);
+    ksort($aData);
 
+    $country = key($aData);
     $sData = $country.'|'.join(',', $aData[$country]);
+    unset($aData[$country]);
 
     $aResult = array();
     $aResult['op'] = $op;
     $aResult['data'] = $sData;
+
+    if (count($aData)) {
+        $aResult['add'] = array();
+        foreach ($aData as $country => $aRegions) {
+            $aResult['add'][] = array(
+                'type'       => 'Geo:Region',
+                'logical'    => MAX_limitationsIsOperatorPositive($op) ? 'or' : 'and',
+                'comparison' => $op,
+                'data'       => $country.'|'.join(',', $aRegions)
+            );
+        }
+    }
+
     return $aResult;
 }
 

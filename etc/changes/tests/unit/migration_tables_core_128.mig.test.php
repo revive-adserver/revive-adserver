@@ -173,12 +173,16 @@ EOF
             array('url', '==', 'www.openads.org/contacts.php'),
             array('postal_code', '==', '44100'),
             array('city', '==', 'ferrara'),
-            array('fips_code', '==', 'GB08,GBN5,IT05'),
+            array('fips_code', '==', 'GB08,GBN5'),
             array('region', '==', 'USAK,USAZ'),
             array('dma_code', '==', '501,502'),
             array('area_code', '==', '66099'),
             array('org_isp', '==', 'openads'),
             array('netspeed', '==', '1,2'),
+
+            // Warning - The next limitations will be split
+            array('fips_code', '==', 'IT01,IT02,IE01,IE02,DE01'),
+            array('fips_code', '!=', 'GB08,IT01,IT02'),
         );
         $aExpectedData = array(
             array('Time:Day', '=~', '0,1'),
@@ -208,6 +212,14 @@ EOF
             array('Geo:Areacode', '=~', '66099'),
             array('Geo:Organisation', '=~', 'openads'),
             array('Geo:Netspeed', '==', 'dialup,cabledsl'),
+
+            // Warning - The next limitations were be split, see below
+            array('Geo:Region', '==', 'DE|01', 'and'),
+            array('Geo:Region', '!=', 'GB|08', 'and'),
+            // Split results
+            array('Geo:Region', '==', 'IE|01,02', 'or'),
+            array('Geo:Region', '==', 'IT|01,02', 'or'),
+            array('Geo:Region', '!=', 'IT|01,02', 'and'),
         );
 
         $sql = OA_DB_Sql::sqlForInsert('banners', array('bannerid' => 1));
@@ -226,22 +238,24 @@ EOF
             $sql = OA_DB_Sql::sqlForInsert('acls', $aValues);
             $this->oDbh->exec($sql);
         }
-        $cLimitations = $idx;
 
         $this->upgradeToVersion(128);
 
         $rsAcls = DBC::NewRecordSet("
-        SELECT type, comparison, data
+        SELECT type, comparison, data, logical
         FROM {$prefix}acls
         ORDER BY executionorder");
         $this->assertTrue($rsAcls->find());
 
-        for ($idx = 0; $idx < $cLimitations; $idx++) {
+        for ($idx = 0; $idx < count($aExpectedData); $idx++) {
             $expected = $aExpectedData[$idx][0] . "|" . $aExpectedData[$idx][1] . "|" . $aExpectedData[$idx][2];
             $this->assertTrue($rsAcls->fetch());
             $this->assertEqual($aExpectedData[$idx][0], $rsAcls->get('type'), "%s IN TYPE FOR: $expected");
             $this->assertEqual($aExpectedData[$idx][1], $rsAcls->get('comparison'), "%s IN COMPARISON FOR: $expected" );
             $this->assertEqual($aExpectedData[$idx][2], $rsAcls->get('data'));
+            if (!empty($aExpectedData[$idx][3])) {
+                $this->assertEqual($aExpectedData[$idx][3], $rsAcls->get('logical'));
+            }
         }
         $this->assertFalse($rsAcls->fetch());
     }
