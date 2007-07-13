@@ -206,20 +206,20 @@ EOF
             array('Site:Pageurl', '=~', 'www.openads.org/contacts.php'),
             array('Geo:Postalcode', '=~', '44100'),
             array('Geo:City', '=~', '|ferrara'),
-            array('Geo:Region', '==', 'GB|08,N5'),
-            array('Geo:Region', '==', 'US|AK,AZ'),
+            array('Geo:Region', '=~', 'GB|08,N5'),
+            array('Geo:Region', '=~', 'US|AK,AZ'),
             array('Geo:Dma', '=~', '501,502'),
             array('Geo:Areacode', '=~', '66099'),
             array('Geo:Organisation', '=~', 'openads'),
             array('Geo:Netspeed', '==', 'dialup,cabledsl'),
 
             // Warning - The next limitations were split, see below
-            array('Geo:Region', '==', 'DE|01', 'and'),
-            array('Geo:Region', '!=', 'GB|08', 'and'),
+            array('Geo:Region', '=~', 'DE|01', 'and'),
+            array('Geo:Region', '!~', 'GB|08', 'and'),
             // Split results
-            array('Geo:Region', '==', 'IE|01,02', 'or'),
-            array('Geo:Region', '==', 'IT|01,02', 'or'),
-            array('Geo:Region', '!=', 'IT|01,02', 'and'),
+            array('Geo:Region', '=~', 'IE|01,02', 'or'),
+            array('Geo:Region', '=~', 'IT|01,02', 'or'),
+            array('Geo:Region', '!~', 'IT|01,02', 'and'),
         );
 
         $sql = OA_DB_Sql::sqlForInsert('banners', array('bannerid' => 1));
