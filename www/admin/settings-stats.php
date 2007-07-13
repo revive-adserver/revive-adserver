@@ -41,7 +41,7 @@ $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     // Register input variables
-    phpAds_registerGlobal('logging_csvImport','logging_adRequests', 'logging_adImpressions',
+    phpAds_registerGlobal('logging_adRequests', 'logging_adImpressions',
                           'logging_adClicks','logging_trackerImpressions',
                           'logging_reverseLookup', 'logging_proxyLookup', 'logging_sniff',
                           'ignoreHosts',
@@ -58,7 +58,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           );
     // Set up the configuration .ini file
     $config = new OA_Admin_Config();
-    $config->setConfigChange('logging', 'csvImport',          isset($logging_csvImport));
     $config->setConfigChange('logging', 'adRequests',         isset($logging_adRequests));
     $config->setConfigChange('logging', 'adImpressions',      isset($logging_adImpressions));
     $config->setConfigChange('logging', 'adClicks',           isset($logging_adClicks));
@@ -192,11 +191,6 @@ $settings = array (
     array (
         'text'  => $strStatisticsLogging,
         'items' => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_csvImport',
-                'text'    => $strCsvImport
-            ),
             array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_adRequests',
