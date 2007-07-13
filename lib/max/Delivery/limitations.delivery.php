@@ -780,7 +780,7 @@ function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
     unset($aData[$country]);
 
     $aResult = array();
-    $aResult['op'] = $op;
+    $aResult['op'] = MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~';
     $aResult['data'] = $sData;
 
     if (count($aData)) {
