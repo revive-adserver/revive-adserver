@@ -35,16 +35,14 @@ $GLOBALS['strAdministrator']				= "Administration (Programm)";
 
 $GLOBALS['strUserlog'] = array (
 	phpAds_actionAdvertiserReportMailed 	=> "Bericht f&uuml;r Inserenten {id} per E-Mail versandt",
-	phpAds_actionPublisherReportMailed 	=> "Bericht f&uuml;r Verleger {id} per E-Mail versandt",
-	phpAds_actionWarningMailed		=> "Deaktivierungswarnung f&uuml;r Kampagne {id} per E-Mail versandt",
-	phpAds_actionDeactivationMailed		=> "Deaktivierungmeldung f&uuml;r Kampagne {id} per E-Mail versandt",
-	phpAds_actionPriorityCalculation	=> "Priorit&auml;ten neu berechnet",
-	phpAds_actionPriorityAutoTargeting	=> "Ziele der Kampagnen neu berechnet",
-	phpAds_actionDeactiveCampaign		=> "Kampagne {id} deaktiviert",
 	phpAds_actionActiveCampaign		=> "Kampagne {id} aktiviert",
 	phpAds_actionAutoClean			=> "Datenbank wird automatisch gereinigt",
 	phpAds_actionBatchStatistics			=> "Statistiken werden zusammengestellt",
-	phpAds_actionInventoryCalculation		=> "Neuer Auslieferungsplan erstellt"
+	phpAds_actionDeactivationMailed		=> "Deaktivierungmeldung f&uuml;r Kampagne {id} per E-Mail versandt",
+	phpAds_actionDeactiveCampaign		=> "Kampagne {id} deaktiviert",
+	phpAds_actionPriorityCalculation	=> "Priorit&auml;ten neu berechnet",
+	phpAds_actionPublisherReportMailed 	=> "Bericht f&uuml;r Verleger {id} per E-Mail versandt",
+	phpAds_actionWarningMailed		=> "Deaktivierungswarnung f&uuml;r Kampagne {id} per E-Mail versandt"
 );
 
 ?>

@@ -25,10 +25,17 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+$words = array(
+    'Local Mode Tag' => 'Lokaler Modus Tag',
+    'Allow Local Mode Tags' => 'Erlaube Lokalen Modus Tags',
+
+    'Assign the $phpAds_raw[\'html\'] variable to your template' => 'Assign the $phpAds_raw[\'html\'] variable to your template',
+    
+    'Third Party Comment' => '',
+    'Cache Buster Comment' => '',
+    'SSL Backup Comment' => '',
+    'SSL Delivery Comment' => '',
+    'Comment' => '',
+);
 
 ?>

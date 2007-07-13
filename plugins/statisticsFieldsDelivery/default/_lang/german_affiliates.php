@@ -25,10 +25,16 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+$conf = $GLOBALS['_MAX']['CONF'];
+
+$words = array(
+    // Long names
+    '_Conversions'         => 'Verk&auml;fe',
+    '_Pending conversions' => 'Offene Verk&auml;fe',
+
+    // Short names
+    'Conversions'         => 'Verk&auml;fe',
+    'Pending conversions' => 'Off. Verk.',
+);
 
 ?>

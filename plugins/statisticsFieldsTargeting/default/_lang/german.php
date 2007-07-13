@@ -25,10 +25,20 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+$conf = $GLOBALS['_MAX']['CONF'];
+
+$words = array(
+    // Long names
+    '_ID'                  => 'ID',
+    '_Required'            => 'Ben&ouml;tigte Impressions',
+    '_Requested'           => 'Abgerufene Impressions',
+    '_Actual'              => 'Impressions',
+    '_Zone Forecast'       => 'Prognose der Zone',
+    '_Zones Forecast'      => 'Prognose aller Zonen',
+    '_Zone Impressions'    => 'Zonen Impressions',
+    '_Zones Impressions'   => 'Summe der Zonen Impressions',
+    '_Average'             => 'Durchschnitt',
+    '_TargetRatio'         => 'Zielquote'
+);
 
 ?>

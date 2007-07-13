@@ -25,10 +25,19 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+$words = array(
+    'Campaign' => 'Kampagne',
+    'Campaign Breakdown' => 'Kampagnen Aufschl&uuml;sselung',
+
+    'This report shows a breakdown of advertising for a particular advertiser or publisher, by day, campaign, and zone.' => 'Dieser Report zeigt die Werbeleitung f&uuml;r einen bestimmten Werbetreibenden in Bezug auf den Tag, Programm oder die Zone.',
+    'A detailed breakdown of all conversion activity by advertiser or publisher.' => 'Eine detailierte Aufschl&uuml;sselung der Konversionen eines Werbetreibenden.',
+
+    'Conversion Tracking Report' => 'Konversionen Bericht',
+    'A detailed breakdown of all conversion activity by advertiser or publisher.' => 'Eine detailierte Aufschl&uuml;sselung aller Verk&auml;fe eines Werbetreibenden.',
+    'Conversion Detail' => 'Verk&auml;ufe',
+    'Conversion Date / Time' => 'Verkauf Zeit/Datum',
+    'Advertiser Name' => 'Werbetreibender',
+    'Publisher Name' => 'Werbetr&auml;ger',
+);
 
 ?>

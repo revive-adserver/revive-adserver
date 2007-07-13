@@ -61,6 +61,8 @@ What's New in Openads 2.3.35-beta
  * Cache files now correctly take the host name into account, so that
    caching works when running multiple installations from one code base.
 
+ * Updated the German translation files.
+
  * For complete details, see https://developer.openads.org/.
 
 

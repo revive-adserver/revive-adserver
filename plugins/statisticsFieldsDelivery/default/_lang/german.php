@@ -25,10 +25,30 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+$conf = $GLOBALS['_MAX']['CONF'];
+
+$words = array(
+    // Long names
+    '_ID'                  => 'ID',
+    '_Requests'            => 'Zugriffe',
+    '_Impressions'         => 'Impressions',
+    '_Clicks'              => 'Klicks',
+    '_CTR'                 => 'CTR',
+    '_Conversions'         => 'Konversionen',
+    '_Pending conversions' => 'Offene Konversionen',
+    '_Impression SR'       => 'Impression SR',
+    '_Click SR'            => 'Klick SR',
+
+    // Short names
+    'ID'                  => 'ID',
+    'Requests'            => 'Zugr.',
+    'Impressions'         => 'Impr.',
+    'Clicks'              => 'Klicks',
+    'CTR'                 => 'CTR',
+    'Conversions'         => 'Konv.',
+    'Pending conversions' => 'Offene Konv.',
+    'Impression SR'       => 'Impr. SR',
+    'Click SR'            => 'Klick SR',
+);
 
 ?>

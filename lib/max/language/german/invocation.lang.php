@@ -25,20 +25,6 @@
 $Id$
 */
 
-// German
-// Invocation Types
-$GLOBALS['strInvocationRemote']		= "Standardbannercode (Remote)";
-$GLOBALS['strInvocationJS']			= "Bannercode f&uuml;r JavaScript";
-$GLOBALS['strInvocationIframes']		= "Bannercode f&uuml;r Frames (iframe/ilayer)";
-$GLOBALS['strInvocationXmlRpc']		= "Bannercode f&uuml;r Nutzung von XML-RPC";
-$GLOBALS['strInvocationCombined']		= "Kombinierter Bannercode";
-$GLOBALS['strInvocationPopUp']			= "Pop-Up";
-$GLOBALS['strInvocationAdLayer']		= "Interstitial-oder Floating-DHTML";
-$GLOBALS['strInvocationLocal']			= "Lokaler Modus";
-//neu in MMM 0.3
-$GLOBALS['strInvocationRemoteNoCookies']	= "Standardbannercode (Remote) - Keine Cookies";
-
-
 // Other
 $GLOBALS['strCopyToClipboard']			= "Kopieren in Zwischenablage";
 $GLOBALS['strCopy']				            = "kopieren";
@@ -51,17 +37,17 @@ $GLOBALS['strAbbrSeconds']			= "Sek";
 
 // Common Invocation Parameters
 $GLOBALS['strInvocationWhat']			= "Werbemittelauswahl";
+$GLOBALS['strInvocationPreview']					= "Vorschau Werbemittel";
 $GLOBALS['strInvocationClientID']		= "Werbetreibender oder Kampagne";
+$GLOBALS['strInvocationCampaignID']					= "Kampagne";
 $GLOBALS['strInvocationTarget']			= "Zielfenster (target frame)";
 $GLOBALS['strInvocationSource']			= "Quelle";
 $GLOBALS['strInvocationWithText']		= "Textanzeige unterhalb Werbemittel";
 $GLOBALS['strInvocationDontShowAgain']		= "Werbemittel auf derselben Seite nicht mehrfach anzeigen";
 $GLOBALS['strInvocationDontShowAgainCampaign']		= "Werbemittel derselben Kampagne nicht mehrfach auf derselben Seite anzeigen";
 $GLOBALS['strInvocationTemplate'] 		= "Um Templates nutzen zu k&ouml;nnen, Werbemittel in einer Variablen speichern";
-//neu in MMM 0.3
-$GLOBALS['strInvocationPreview']					= "Vorschau Werbemittel";
-$GLOBALS['strInvocationCampaignID']					= "Kampagne";
 $GLOBALS['strInvocationBannerID']					= "Werbemittel-ID";
+$GLOBALS['strInvocationComments']                   = "Kommentare hinzuf&uuml;gen";
 
 // Iframe
 $GLOBALS['strIFrameRefreshAfter']		= "Erneuern (refresh) nach ";
@@ -71,10 +57,10 @@ $GLOBALS['strIframeIncludeNetscape4']		= "Netscape 4 kompatiblen ilayer (zus&aum
 
 
 // PopUp
-$GLOBALS['strPopUpStyle']			= "Pop-Up-Typ";
-$GLOBALS['strPopUpStylePopUp']		= "Pop-Up";
-$GLOBALS['strPopUpStylePopUnder']		= "Pop-Under";
-$GLOBALS['strPopUpCreateInstance']		= "Zeitpunkt zu dem das Pop-Up erscheinen wird";
+$GLOBALS['strPopUpStyle']			= "PopUp Typ";
+$GLOBALS['strPopUpStylePopUp']		= "PopUp";
+$GLOBALS['strPopUpStylePopUnder']		= "PopUnder";
+$GLOBALS['strPopUpCreateInstance']		= "Zeitpunkt zu dem das PopUp erscheinen wird";
 $GLOBALS['strPopUpImmediately']		= "Sofort";
 $GLOBALS['strPopUpOnClose']			= "Wenn die Seite geschlossen wird";
 $GLOBALS['strPopUpAfterSec']			= "Nach";

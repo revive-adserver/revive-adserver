@@ -25,10 +25,20 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+$conf = $GLOBALS['_MAX']['CONF'];
+
+$words = array(
+    'iFrame Tag' => 'iFrame Tag',
+    'Allow iFrame Tags' => 'Erlaube iFrame Tags',
+
+    'Comment' => "
+  * If iFrames are not supported by the viewer's browser, then this
+  * tag only shows image banners. There is no width or height in these
+  * banners, so if you want these tags to allocate space for the ad
+  * before it shows, you will need to add this information to the <img>
+  * tag.",
+
+    'Placement Comment' => "Setzen Sie diesen Code einfach ueber das </body> Tag"
+);
 
 ?>

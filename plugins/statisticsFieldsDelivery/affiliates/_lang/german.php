@@ -25,10 +25,54 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+$conf = $GLOBALS['_MAX']['CONF'];
+
+$words = array(
+    // Long names
+    '_Revenue'         => 'Einnahmen',
+    '_Cost'            => 'Kosten',
+    '_Basket value'    => 'Warenkorb Wert',
+    '_Number of items' => 'St&uuml;ckzahl',
+    '_Revenue CPC'     => 'Einnahmen CPC',
+    '_Cost CPC'        => 'Kosten CPC',
+    '_Technology Cost' => 'Serverkosten',
+    '_Income'          => 'Einnahmen',
+    '_Income Margin'   => 'Verdienstspanne',
+    '_Profit'          => 'Gewinn',
+    '_Margin'          => 'Gewinnmarge',
+    '_ERPM'            => 'ERPM',
+    '_ERPC'            => 'ERPC',
+    '_ERPS'            => 'ERPS',
+    '_EIPM'            => 'EIPM',
+    '_EIPC'            => 'EIPC',
+    '_EIPS'            => 'EIPS',
+    '_EPPM'            => 'EPPM',
+    '_EPPC'            => 'EPPC',
+    '_ECPS'            => 'ECPS',
+    '_EPPS'            => 'EPPS',
+
+    // Short names
+    'Revenue'         => 'Einn.',
+    'Cost'            => 'Kosten',
+    'Basket value'    => 'WK',
+    'Number of items' => 'Stk',
+    'Revenue CPC'     => 'Einn. CPC',
+    'Cost CPC'        => 'Kosten CPC',
+    'Technology Cost' => 'Server',
+    'Income'          => 'Einnahmen',
+    'Income Margin'   => 'Verdienstsp.',
+    'Profit'          => 'Gewinn',
+    'Margin'          => 'Gew.Marge',
+    'ERPM'            => 'ERPM',
+    'ERPC'            => 'ERPC',
+    'ERPS'            => 'ERPS',
+    'EIPM'            => 'EIPM',
+    'EIPC'            => 'EIPC',
+    'EIPS'            => 'EIPS',
+    'EPPM'            => 'EPPM',
+    'EPPC'            => 'EPPC',
+    'ECPS'            => 'ECPS',
+    'EPPS'            => 'EPPS',
+);
 
 ?>

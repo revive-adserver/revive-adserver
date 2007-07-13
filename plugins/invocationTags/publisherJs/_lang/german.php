@@ -37,7 +37,7 @@ $words = array(
     'Publisher JS Channel Script Comment 1' => "
 <!-- {$name} Channel Script
 
-     Erstellt mit {$name} " . MAX_VERSION_READABLE . "
+     Erstellt mit {$name} " . OA_VERSION . "
 
      Fuegen Sie dieses Script unmittelbar UEBER dem {$name} Header Script
      (wie unten definiert) in den <head>-Tag Ihrer Site ein.
@@ -59,7 +59,7 @@ $words = array(
     'Publisher JS Header Script Comment' => "
 <!-- {$name} Header Script
 
-     Erstellt mit {$name} " . MAX_VERSION_READABLE . "
+     Erstellt mit {$name} " . OA_VERSION . "
 
      Fuegen Sie dieses Script UNTERHALB des {$name} Channel Scipts (aber dennoch
      innerhalb des <head>-Tags Ihrer Site ein). Jede Seite Ihrer Web-Site, auf der Sie
@@ -77,7 +77,7 @@ $words = array(
     'Publisher JS Ad Tag Script(s) Comment' => "
 <!-- {$name} Ad Tag Script(s)
 
-     Erstellt mit {$name} " . MAX_VERSION_READABLE . "
+     Erstellt mit {$name} " . OA_VERSION . "
 
      Im folgenden finden Sie die Script(e) fuer jede Zone(n).
      Bitte beachten Sie die folgenden Dinge:

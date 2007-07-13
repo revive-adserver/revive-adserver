@@ -25,10 +25,8 @@
 $Id$
 */
 
-// German
-// Meta information
-$translation_readable   = "Deutsch";
-$translation_maintainer	= "Matevz Sernc";
-$translation_contact	= "ms@euhost.net";
+    $words = array(
+        'Admin Reports' => 'Administrator Berichte',
 
+    );
 ?>

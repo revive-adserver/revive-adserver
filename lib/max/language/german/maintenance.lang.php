@@ -69,7 +69,7 @@ $GLOBALS['strDeliveryCacheFiles']		= "
 
 
 // Storage
-$GLOBALS['strStorage']				= "Speicherung";
+$GLOBALS['strStorage']				= "Speicher";
 $GLOBALS['strMoveToDirectory']		= "Bilder aus der Datenbank in ein Verzeichnis verschieben ";
 $GLOBALS['strStorageExplaination']		= "
 	Bilddateien f&uuml;r lokale Banner werden in der Datenbank oder in einem lokalen Verzeichnis gespeichert.
@@ -116,7 +116,7 @@ $GLOBALS['strNotAbleToCheck']			= "
 	Auf Ihrem Server ist die XML-Erweiterung nicht verf&uuml;gbar. ".$phpAds_productname." kann nicht pr&uuml;fen, ob eine neuere Version vorliegt.";
 
 $GLOBALS['strForUpdatesLookOnWebsite']	= "
-	Informationen &uuml;ber neue Versionen .befinden sich auf unserer Webseite.";
+	Informationen &uuml;ber neue Versionen befinden sich auf unserer Webseite.";
 
 $GLOBALS['strClickToVisitWebsite']		= "	Zu unserer Webseite ";
 
@@ -132,10 +132,10 @@ $GLOBALS['strConvertingStats']			= "Statistiken werden konvertiert...";
 $GLOBALS['strConvertStats']			= "Statistiken konvertieren";
 $GLOBALS['strConvertAdViews']			= "AdViews sind konvertiert,";
 $GLOBALS['strConvertAdClicks']			= "AdClicks sind konvertiert...";
+$GLOBALS['strConvertAdConversions']			= "AdConversions werden konvertiert...";
 $GLOBALS['strConvertNothing']			= "Nichts zu konvertieren...";
 $GLOBALS['strConvertFinished']			= "Fertig...";
-//neu in MMM 0.3
-$GLOBALS['strConvertAdConversions']			= "AdConversions werden konvertiert...";
+
 
 $GLOBALS['strConvertExplaination']		= "
 	F&uuml;r die statistische Auswertung verwenden Sie kompakte Darstellung. Es liegen <br />
