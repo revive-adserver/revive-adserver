@@ -261,6 +261,8 @@ class Migration_128 extends Migration
 	    }
 
 	    foreach ($aInserts as $bannerid => $aLimitations) {
+            $this->_log("WARNING! Found region geotargeting limitations that are NOT COMPATIBLE with new targeting format!");
+            $this->_log("WARNING! Upgrade will proceed, but delivery limitations may NOT be preserved...");
 	        foreach ($aLimitations as $aValues) {
     	        $aValues['bannerid'] = $bannerid;
     	        $aValues['executionorder'] = ++$aOffsets[$bannerid];
@@ -269,7 +271,9 @@ class Migration_128 extends Migration
                 if (PEAR::isError($result)) {
                     return $this->_logErrorAndReturnFalse("Couldn't execute insert: $insert");
                 }
+                $this->_log("WARNING! Upgraded incompatible region geotargeting limitation. After upgrade, you should check limitations for Banner ID: $bannerid.");
 	        }
+	        $this->_log("WARNING! Upgrade of non-compatible region geotargeting limitations is complete.");
 	    }
 
         $result = MAX_AclReCompileAll(true);
