@@ -462,18 +462,18 @@ else if (array_key_exists('btn_finish', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
-        if (array_key_exists('chk_dummydata', $_POST) && $_POST['chk_dummydata'])
-        {
-            $oUpgrader->insertDummyData();
-        }
-        $message = 'Congratulations you have finished installing Openads';
-
         // Log the user in
         require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
         MAX_Admin_Preferences::loadPrefs();
         phpAds_SessionStart();
         phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
         phpAds_SessionDataStore();
+
+        if (array_key_exists('chk_dummydata', $_POST) && $_POST['chk_dummydata'])
+        {
+            $oUpgrader->insertDummyData();
+        }
+        $message = 'Congratulations you have finished installing Openads';
     }
     else
     {

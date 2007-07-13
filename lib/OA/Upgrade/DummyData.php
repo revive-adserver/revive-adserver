@@ -254,7 +254,7 @@ class OA_Dummy_Data
         $doBanners->alt    = '';
         $doBanners->status    = '';
         $doBanners->bannertext    = '';
-        $doBanners->description    = 'Default banner 468*60';
+        $doBanners->description    = 'Default banner 468x60';
         $doBanners->autohtml    = 't';
         $doBanners->adserver    = 'max';
         $doBanners->block    = '0';
@@ -274,6 +274,7 @@ class OA_Dummy_Data
         $doBanners->parameters    = '';
 
         $doBanners->htmltemplate    = "<script type='text/javascript'><!--//<![CDATA[
+   document.MAX_ct0 ='INSERT_CLICKURL_HERE';
    var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
    var m3_r = Math.floor(Math.random()*99999999999);
    if (!document.MAX_used) document.MAX_used = ',';
@@ -284,26 +285,12 @@ class OA_Dummy_Data
    document.write (\"&amp;loc=\" + escape(window.location));
    if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));
    if (document.context) document.write (\"&context=\" + escape(document.context));
-   if (document.context) document.write (\"&context=\" + escape(document.context));
+   if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
+       document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
+   }
    if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
    document.write (\"'></scr\"+\"ipt>\");
 //]]>--></script><noscript><a href='http://ads.openads.org/delivery/ck.php?n=abc986b1&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openads.org/delivery/avw.php?zoneid=9&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=abc986b1' border='0' alt='' /></a></noscript>";
-
-        $doBanners->htmlcache    = "<script type='text/javascript'><!--//<![CDATA[
-   var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
-   var m3_r = Math.floor(Math.random()*99999999999);
-   if (!document.MAX_used) document.MAX_used = ',';
-   document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
-   document.write (\"?zoneid=9\");
-   document.write ('&amp;cb=' + m3_r);
-   if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
-   document.write (\"&amp;loc=\" + escape(window.location));
-   if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));
-   if (document.context) document.write (\"&context=\" + escape(document.context));
-   if (document.context) document.write (\"&context=\" + escape(document.context));
-   if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
-   document.write (\"'></scr\"+\"ipt>\");
-//]]>--></script>";
 
         $this->bannerId1 = DataGenerator::generateOne($doBanners);
     }
@@ -329,7 +316,7 @@ class OA_Dummy_Data
         $doBanners->alt    = '';
         $doBanners->status    = '';
         $doBanners->bannertext    = '';
-        $doBanners->description    = 'Default banner 120*600';
+        $doBanners->description    = 'Default banner 120x600';
         $doBanners->autohtml    = 't';
         $doBanners->adserver    = 'max';
         $doBanners->block    = '0';
@@ -349,6 +336,7 @@ class OA_Dummy_Data
         $doBanners->parameters    = '';
 
         $doBanners->htmltemplate    = "<script type='text/javascript'><!--//<![CDATA[
+   document.MAX_ct0 ='INSERT_CLICKURL_HERE';
    var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
    var m3_r = Math.floor(Math.random()*99999999999);
    if (!document.MAX_used) document.MAX_used = ',';
@@ -359,26 +347,12 @@ class OA_Dummy_Data
    document.write (\"&amp;loc=\" + escape(window.location));
    if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));
    if (document.context) document.write (\"&context=\" + escape(document.context));
-   if (document.context) document.write (\"&context=\" + escape(document.context));
-   if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
+   if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
+       document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
+   }   if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
    document.write (\"'></scr\"+\"ipt>\");
 //]]>--></script><noscript><a href='http://ads.openads.org/delivery/ck.php?n=a4acc17f&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openads.org/delivery/avw.php?zoneid=10&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=a4acc17f' border='0' alt='' /></a></noscript>";
 
-       $doBanners->htmlcache    = "<script type='text/javascript'><!--//<![CDATA[
-   var m3_u = (location.protocol=='https:'?'https://ads.openads.org/delivery/ajs.php':'http://ads.openads.org/delivery/ajs.php');
-   var m3_r = Math.floor(Math.random()*99999999999);
-   if (!document.MAX_used) document.MAX_used = ',';
-   document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
-   document.write (\"?zoneid=10\");
-   document.write ('&amp;cb=' + m3_r);
-   if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
-   document.write (\"&amp;loc=\" + escape(window.location));
-   if (document.referrer) document.write (\"&amp;referer=\" + escape(document.referrer));
-   if (document.context) document.write (\"&context=\" + escape(document.context));
-   if (document.context) document.write (\"&context=\" + escape(document.context));
-   if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
-   document.write (\"'></scr\"+\"ipt>\");
-//]]>--></script>";
         $this->bannerId2 = DataGenerator::generateOne($doBanners);
     }
 
