@@ -789,7 +789,7 @@ function OA_limitationsGetUpgradeForGeoRegion($op, $sData)
             $aResult['add'][] = array(
                 'type'       => 'Geo:Region',
                 'logical'    => MAX_limitationsIsOperatorPositive($op) ? 'or' : 'and',
-                'comparison' => $op,
+                'comparison' => MAX_limitationsIsOperatorPositive($op) ? '=~' : '!~',
                 'data'       => $country.'|'.join(',', $aRegions)
             );
         }

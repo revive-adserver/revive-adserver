@@ -213,7 +213,7 @@ EOF
             array('Geo:Organisation', '=~', 'openads'),
             array('Geo:Netspeed', '==', 'dialup,cabledsl'),
 
-            // Warning - The next limitations were be split, see below
+            // Warning - The next limitations were split, see below
             array('Geo:Region', '==', 'DE|01', 'and'),
             array('Geo:Region', '!=', 'GB|08', 'and'),
             // Split results
