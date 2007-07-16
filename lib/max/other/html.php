@@ -763,9 +763,9 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         $extra .= "<select name='applyto' style='width: 110;'>";
 
         $aOtherBanners = _multiSort($aOtherBanners,'name','ad_id');
-        foreach ($aOtherBanners as $otherBannerId => $aOtherBanner) {
-            if ($otherBannerId != $bannerId) {
-                $extra .= "<option value='{$otherBannerId}'>" . MAX_buildName($otherBannerId, $aOtherBanner['name']) . "</option>";
+        foreach ($aOtherBanners as $idx => $aOtherBanner) {
+            if ($aOtherBanner['ad_id'] != $bannerId) {
+                $extra .= "<option value='{$aOtherBanner['ad_id']}'>" . MAX_buildName($aOtherBanner['ad_id'], $aOtherBanner['name']) . "</option>";
             }
         }
         $extra .= "</select>&nbsp;<input type='image' name='applyto' src='images/".$phpAds_TextDirection."/go_blue.gif'><br />";
