@@ -60,7 +60,7 @@ class Plugins_DeliveryLimitations_Geo_Areacode extends Plugins_DeliveryLimitatio
      */
     function isAllowed()
     {
-        return ((isset($GLOBALS['_MAX']['GEO_DATA']['areacode']))
+        return ((isset($GLOBALS['_MAX']['GEO_DATA']['area_code']))
             || $GLOBALS['_MAX']['CONF']['geotargeting']['showUnavailable']);
     }
 
