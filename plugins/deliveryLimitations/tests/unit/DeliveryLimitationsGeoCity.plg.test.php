@@ -90,16 +90,28 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_City extends Plugins_Deliver
     function testMAX_checkGeo_City()
     {
         $this->assertTrue(MAX_checkGeo_City('PL|Poznan,Wroclaw',
-            'bla', array('country_code' => 'PL', 'city' => 'Poznan')));
+            '=~', array('country_code' => 'PL', 'city' => 'Poznan')));
         $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw',
-            'bla', array('country_code' => 'PL', 'city' => 'Poznan')));
+            '=~', array('country_code' => 'PL', 'city' => 'Poznan')));
         $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw',
-            'bla', array('country_code' => 'PL', 'city' => 'Warszawa')));
+            '=~', array('country_code' => 'PL', 'city' => 'Warszawa')));
         $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw,szczecinek',
-            'bla', array('country_code' => 'PL', 'city' => 'Szczecin')));
+            '=~', array('country_code' => 'PL', 'city' => 'Szczecin')));
         $this->assertFalse(MAX_checkGeo_City('pl|',
-            'bla', array('country_code' => 'PL', 'city' => 'Szczecin')));
-    }
+            '=~', array('country_code' => 'PL', 'city' => 'Szczecin')));
+
+        // Since we now support !city matching, these need testing, trying inverting the tests
+        $this->assertFalse(MAX_checkGeo_City('PL|Poznan,Wroclaw',
+            '!~', array('country_code' => 'PL', 'city' => 'Poznan')));
+        $this->assertFalse(MAX_checkGeo_City('pl|poznan,wroclaw',
+            '!~', array('country_code' => 'PL', 'city' => 'Poznan')));
+        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw',
+            '!~', array('country_code' => 'PL', 'city' => 'Warszawa')));
+        $this->assertTrue(MAX_checkGeo_City('pl|poznan,wroclaw,szczecinek',
+            '!~', array('country_code' => 'PL', 'city' => 'Szczecin')));
+        $this->assertTrue(MAX_checkGeo_City('pl|',
+            '!~', array('country_code' => 'PL', 'city' => 'Szczecin')));
+}
 
 
     function testGetName()

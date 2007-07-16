@@ -53,7 +53,7 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
 {
     function Plugins_DeliveryLimitations_Geo_City()
     {
-        $this->Plugins_DeliveryLimitations();
+        parent::Plugins_DeliveryLimitations();
         $this->nameEnglish = 'Country / City';
     }
 
@@ -114,11 +114,6 @@ class Plugins_DeliveryLimitations_Geo_City extends Plugins_DeliveryLimitations
             </table>
         ";
         $this->data = $this->_flattenData($this->data);
-    }
-
-    function displayComparison()
-    {
-        echo "<input type='hidden' name='acl[{$this->executionorder}][comparison]' value='=~' />";
     }
 
     /**
