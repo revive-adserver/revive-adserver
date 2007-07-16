@@ -1,9 +1,15 @@
 <?php
 
+/**
+ * @package    MaxPlugin
+ * @subpackage Geotargeting
+ * @author     MaxMind LLC
+ */
+
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 2 -*- */
 /* geoip.inc
  *
- * Copyright (C) 2007 MaxMind LLC
+ * Copyright (C) 2004 MaxMind LLC
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,6 +26,19 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+global $GEOIP_COUNTRY_CODE_TO_NUMBER, $GEOIP_COUNTRY_CODES, $GEOIP_COUNTRY_NAMES;
+
+/*
+ * Changelog:
+ *
+ * 2005-01-13   Andrew Hill, Openads Limited (http://www.openads.org)
+ *              Formatted file according to PEAR library standards.
+ *              Moved $GEOIP_COUNTRY_CODE_TO_NUMBER, $GEOIP_COUNTRY_CODES,
+ *                  $GEOIP_COUNTRY_CODES3 and $GEOIP_COUNTRY_NAMES into the
+ *                  GeoIP class, so that library will still work even when
+ *                  not included in the $GLOBAL context.
+ */
+
 define("GEOIP_COUNTRY_BEGIN", 16776960);
 define("GEOIP_STATE_BEGIN_REV0", 16700000);
 define("GEOIP_STATE_BEGIN_REV1", 16000000);
@@ -29,15 +48,11 @@ define("GEOIP_SHARED_MEMORY", 2);
 define("STRUCTURE_INFO_MAX_SIZE", 20);
 define("DATABASE_INFO_MAX_SIZE", 100);
 define("GEOIP_COUNTRY_EDITION", 106);
-define("GEOIP_PROXY_EDITION", 8);
-define("GEOIP_ASNUM_EDITION", 9);
-define("GEOIP_NETSPEED_EDITION", 10);
 define("GEOIP_REGION_EDITION_REV0", 112);
 define("GEOIP_REGION_EDITION_REV1", 3);
 define("GEOIP_CITY_EDITION_REV0", 111);
 define("GEOIP_CITY_EDITION_REV1", 2);
 define("GEOIP_ORG_EDITION", 110);
-define("GEOIP_ISP_EDITION", 4);
 define("SEGMENT_RECORD_LENGTH", 3);
 define("STANDARD_RECORD_LENGTH", 3);
 define("ORG_RECORD_LENGTH", 4);
@@ -48,10 +63,6 @@ define("US_OFFSET", 1);
 define("CANADA_OFFSET", 677);
 define("WORLD_OFFSET", 1353);
 define("FIPS_RANGE", 360);
-define("GEOIP_UNKNOWN_SPEED", 0);
-define("GEOIP_DIALUP_SPEED", 1);
-define("GEOIP_CABLEDSL_SPEED", 2);
-define("GEOIP_CORPORATE_SPEED", 3);
 
 class GeoIP {
     var $flags;
@@ -98,12 +109,12 @@ class GeoIP {
 "SM" => 198, "SN" => 199, "SO" => 200, "SR" => 201, "ST" => 202, "SV" => 203,
 "SY" => 204, "SZ" => 205, "TC" => 206, "TD" => 207, "TF" => 208, "TG" => 209,
 "TH" => 210, "TJ" => 211, "TK" => 212, "TM" => 213, "TN" => 214, "TO" => 215,
-"TL" => 216, "TR" => 217, "TT" => 218, "TV" => 219, "TW" => 220, "TZ" => 221,
+"TP" => 216, "TR" => 217, "TT" => 218, "TV" => 219, "TW" => 220, "TZ" => 221,
 "UA" => 222, "UG" => 223, "UM" => 224, "US" => 225, "UY" => 226, "UZ" => 227,
 "VA" => 228, "VC" => 229, "VE" => 230, "VG" => 231, "VI" => 232, "VN" => 233,
-"VU" => 234, "WF" => 235, "WS" => 236, "YE" => 237, "YT" => 238, "RS" => 239,
-"ZA" => 240, "ZM" => 241, "ME" => 242, "ZW" => 243, "A1" => 244, "A2" => 245,
-"O1" => 246, "AX" => 247, "GG" => 248, "IM" => 249, "JE" => 250
+"VU" => 234, "WF" => 235, "WS" => 236, "YE" => 237, "YT" => 238, "YU" => 239,
+"ZA" => 240, "ZM" => 241, "ZR" => 242, "ZW" => 243, "A1" => 244, "A2" => 245,
+"O1" => 246
 );
     var $GEOIP_COUNTRY_CODES = array(
 "", "AP", "EU", "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AN", "AO", "AQ",
@@ -122,10 +133,9 @@ class GeoIP {
 "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PW", "PY",
 "QA", "RE", "RO", "RU", "RW", "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI",
 "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "ST", "SV", "SY", "SZ", "TC", "TD",
-"TF", "TG", "TH", "TJ", "TK", "TM", "TN", "TO", "TL", "TR", "TT", "TV", "TW",
+"TF", "TG", "TH", "TJ", "TK", "TM", "TN", "TO", "TP", "TR", "TT", "TV", "TW",
 "TZ", "UA", "UG", "UM", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VI", "VN",
-"VU", "WF", "WS", "YE", "YT", "RS", "ZA", "ZM", "ME", "ZW", "A1", "A2", "O1",
-"AX", "GG", "IM", "JE"
+"VU", "WF", "WS", "YE", "YT", "YU", "ZA", "ZM", "ZR", "ZW", "A1", "A2", "O1"
 );
     var $GEOIP_COUNTRY_CODES3 = array(
 "","AP","EU","AND","ARE","AFG","ATG","AIA","ALB","ARM","ANT","AGO","AQ","ARG",
@@ -146,8 +156,7 @@ class GeoIP {
 "SVK","SLE","SMR","SEN","SOM","SUR","STP","SLV","SYR","SWZ","TCA","TCD","TF",
 "TGO","THA","TJK","TKL","TLS","TKM","TUN","TON","TUR","TTO","TUV","TWN","TZA",
 "UKR","UGA","UM","USA","URY","UZB","VAT","VCT","VEN","VGB","VIR","VNM","VUT",
-"WLF","WSM","YEM","YT","SRB","ZAF","ZMB","MNE","ZWE","A1","A2","O1",
-"ALA","GGY","IMN","JEY"
+        "WLF","WSM","YEM","YT","YUG","ZAF","ZMB","ZR","ZWE","A1","A2","O1"
     );
     var $GEOIP_COUNTRY_NAMES = array(
 "", "Asia/Pacific Region", "Europe", "Andorra", "United Arab Emirates",
@@ -184,23 +193,22 @@ of", "Madagascar", "Marshall Islands", "Macedonia",
 "Niger", "Norfolk Island", "Nigeria", "Nicaragua", "Netherlands", "Norway",
 "Nepal", "Nauru", "Niue", "New Zealand", "Oman", "Panama", "Peru", "French
 Polynesia", "Papua New Guinea", "Philippines", "Pakistan", "Poland", "Saint
-Pierre and Miquelon", "Pitcairn Islands", "Puerto Rico", "Palestinian Territory",
-"Portugal", "Palau", "Paraguay", "Qatar", "Reunion", "Romania",
+Pierre and Miquelon", "Pitcairn Islands", "Puerto Rico", "Palestinian Territory,
+Occupied", "Portugal", "Palau", "Paraguay", "Qatar", "Reunion", "Romania",
 "Russian Federation", "Rwanda", "Saudi Arabia", "Solomon Islands",
 "Seychelles", "Sudan", "Sweden", "Singapore", "Saint Helena", "Slovenia",
 "Svalbard and Jan Mayen", "Slovakia", "Sierra Leone", "San Marino", "Senegal",
 "Somalia", "Suriname", "Sao Tome and Principe", "El Salvador", "Syrian Arab
 Republic", "Swaziland", "Turks and Caicos Islands", "Chad", "French Southern
 Territories", "Togo", "Thailand", "Tajikistan", "Tokelau", "Turkmenistan",
-"Tunisia", "Tonga", "Timor-Leste", "Turkey", "Trinidad and Tobago", "Tuvalu",
+"Tunisia", "Tonga", "East Timor", "Turkey", "Trinidad and Tobago", "Tuvalu",
 "Taiwan", "Tanzania, United Republic of", "Ukraine",
 "Uganda", "United States Minor Outlying Islands", "United States", "Uruguay",
 "Uzbekistan", "Holy See (Vatican City State)", "Saint Vincent and the
 Grenadines", "Venezuela", "Virgin Islands, British", "Virgin Islands, U.S.",
 "Vietnam", "Vanuatu", "Wallis and Futuna", "Samoa", "Yemen", "Mayotte",
-"Serbia", "South Africa", "Zambia", "Montenegro", "Zimbabwe",
-"Anonymous Proxy","Satellite Provider","Other",
-"Aland Islands","Guernsey","Isle of Man","Jersey"
+"Yugoslavia", "South Africa", "Zambia", "Zaire", "Zimbabwe",
+"Anonymous Proxy","Satellite Provider","Other"
 );
 }
 function geoip_load_shared_mem ($file) {
@@ -212,7 +220,7 @@ function geoip_load_shared_mem ($file) {
   }
   $s_array = fstat($fp);
   $size = $s_array['size'];
-  if ($shmid = @shmop_open (GEOIP_SHM_KEY, "w", 0, 0)) {
+  if ($shmid = shmop_open (GEOIP_SHM_KEY, "w", 0, 0)) {
     shmop_delete ($shmid);
     shmop_close ($shmid);
   }
@@ -225,12 +233,12 @@ function _setup_segments($gi){
   $gi->databaseType = GEOIP_COUNTRY_EDITION;
   $gi->record_length = STANDARD_RECORD_LENGTH;
   if ($gi->flags & GEOIP_SHARED_MEMORY) {
-    $offset = @shmop_size ($gi->shmid) - 3;
+    $offset = shmop_size ($gi->shmid) - 3;
     for ($i = 0; $i < STRUCTURE_INFO_MAX_SIZE; $i++) {
-        $delim = @shmop_read ($gi->shmid, $offset, 3);
+        $delim = shmop_read ($gi->shmid, $offset, 3);
         $offset += 3;
         if ($delim == (chr(255).chr(255).chr(255))) {
-            $gi->databaseType = ord(@shmop_read ($gi->shmid, $offset, 1));
+            $gi->databaseType = ord(shmop_read ($gi->shmid, $offset, 1));
             $offset++;
 
             if ($gi->databaseType == GEOIP_REGION_EDITION_REV0){
@@ -243,7 +251,7 @@ function _setup_segments($gi){
 		    || ($gi->databaseType == GEOIP_ISP_EDITION)
 		    || ($gi->databaseType == GEOIP_ASNUM_EDITION)){
                 $gi->databaseSegments = 0;
-                $buf = @shmop_read ($gi->shmid, $offset, SEGMENT_RECORD_LENGTH);
+                $buf = shmop_read ($gi->shmid, $offset, SEGMENT_RECORD_LENGTH);
                 for ($j = 0;$j < SEGMENT_RECORD_LENGTH;$j++){
                     $gi->databaseSegments += (ord($buf[$j]) << ($j * 8));
                 }
@@ -284,8 +292,7 @@ function _setup_segments($gi){
             for ($j = 0;$j < SEGMENT_RECORD_LENGTH;$j++){
             $gi->databaseSegments += (ord($buf[$j]) << ($j * 8));
             }
-	    if ($gi->databaseType == GEOIP_ORG_EDITION ||
-		$gi->databaseType == GEOIP_ISP_EDITION) {
+	    if ($gi->databaseType == GEOIP_ORG_EDITION) {
 	    $gi->record_length = ORG_RECORD_LENGTH;
             }
         }
@@ -308,12 +315,12 @@ function geoip_open($filename, $flags) {
   $gi = new GeoIP;
   $gi->flags = $flags;
   if ($gi->flags & GEOIP_SHARED_MEMORY) {
-    $gi->shmid = @shmop_open (GEOIP_SHM_KEY, "a", 0, 0);
+    $gi->shmid = shmop_open (GEOIP_SHM_KEY, "a", 0, 0);
     } else {
     $gi->filehandle = fopen($filename,"rb");
     if ($gi->flags & GEOIP_MEMORY_CACHE) {
         $s_array = fstat($gi->filehandle);
-        $gi->memory_buffer = fread($gi->filehandle, $s_array['size']);
+        $gi->memory_buffer = fread($gi->filehandle, $s_array[size]);
     }
   }
 
@@ -322,10 +329,6 @@ function geoip_open($filename, $flags) {
 }
 
 function geoip_close($gi) {
-  if ($gi->flags & GEOIP_SHARED_MEMORY) {
-    return true;
-  }
-
   return fclose($gi->filehandle);
 }
 
@@ -359,27 +362,17 @@ function geoip_country_id_by_addr($gi, $addr) {
 }
 
 function geoip_country_code_by_addr($gi, $addr) {
-  if ($gi->databaseType == GEOIP_CITY_EDITION_REV1) {
-    $record = geoip_record_by_addr($gi,$addr);
-    return $record->country_code;
-  } else {
-    $country_id = geoip_country_id_by_addr($gi,$addr);
-    if ($country_id !== false) {
-      return $gi->GEOIP_COUNTRY_CODES[$country_id];
-    }
+  $country_id = geoip_country_id_by_addr($gi,$addr);
+  if ($country_id !== false) {
+    return $gi->GEOIP_COUNTRY_CODES[$country_id];
   }
   return false;
 }
 
 function geoip_country_name_by_addr($gi, $addr) {
-  if ($gi->databaseType == GEOIP_CITY_EDITION_REV1) {
-    $record = geoip_record_by_addr($gi,$addr);
-    return $record->country_name;
-  } else {
-    $country_id = geoip_country_id_by_addr($gi,$addr);
-    if ($country_id !== false) {
-      return $gi->GEOIP_COUNTRY_NAMES[$country_id];
-    }
+  $country_id = geoip_country_id_by_addr($gi,$addr);
+  if ($country_id !== false) {
+        return $gi->GEOIP_COUNTRY_NAMES[$country_id];
   }
   return false;
 }
@@ -392,7 +385,7 @@ function _geoip_seek_country($gi, $ipnum) {
                             2 * $gi->record_length * $offset,
                             2 * $gi->record_length);
         } elseif ($gi->flags & GEOIP_SHARED_MEMORY) {
-      $buf = @shmop_read ($gi->shmid,
+      $buf = shmop_read ($gi->shmid,
                             2 * $gi->record_length * $offset,
                             2 * $gi->record_length );
         } else {
@@ -429,7 +422,7 @@ function _get_org($gi,$ipnum){
   }
   $record_pointer = $seek_org + (2 * $gi->record_length - 1) * $gi->databaseSegments;
   if ($gi->flags & GEOIP_SHARED_MEMORY) {
-    $org_buf = @shmop_read ($gi->shmid, $record_pointer, MAX_ORG_RECORD_LENGTH);
+    $org_buf = shmop_read ($gi->shmid, $record_pointer, MAX_ORG_RECORD_LENGTH);
     } else {
     fseek($gi->filehandle, $record_pointer, SEEK_SET);
     $org_buf = fread($gi->filehandle,MAX_ORG_RECORD_LENGTH);
