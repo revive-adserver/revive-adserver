@@ -57,8 +57,6 @@ What's New in Openads 2.3.35-beta
  * Banners with delivery limitations no longer append a "channel_ids="
    parameter to the destination URL on click-through.
 
- * Session based capping with the iFrame Invocation Tag now works.
-
  * Password recovery now works.
 
  * Cache files now correctly take the host name into account, so that
