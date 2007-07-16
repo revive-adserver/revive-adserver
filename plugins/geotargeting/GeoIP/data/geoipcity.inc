@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @package    MaxPlugin
- * @subpackage Geotargeting
- * @author     MaxMind LLC
- */
-
 /* geoipcity.inc
  *
  * Copyright (C) 2004 Maxmind LLC
@@ -28,7 +22,7 @@
 /*
  * Changelog:
  *
- * 2005-01-13   Andrew Hill, Openads Limited (http://www.openads.org)
+ * 2005-01-13   Andrew Hill, Awarez Ltd. (http://www.awarez.net)
  *              Formatted file according to PEAR library standards.
  *              Changed inclusion of geoip.inc file to require_once, so that
  *                  this library can be used in the same script as geoip.inc.
@@ -123,8 +117,15 @@ function _get_record($gi,$ipnum){
     return NULL;
   }
   $record_pointer = $seek_country + (2 * $gi->record_length - 1) * $gi->databaseSegments;
-  fseek($gi->filehandle, $record_pointer, SEEK_SET);
-  $record_buf = fread($gi->filehandle,FULL_RECORD_LENGTH);
+
+  if ($gi->flags & GEOIP_MEMORY_CACHE) {
+    $record_buf = substr($gi->memory_buffer,$record_pointer,FULL_RECORD_LENGTH);
+  } elseif ($gi->flags & GEOIP_SHARED_MEMORY){
+    $record_buf = @shmop_read($gi->shmid,$record_pointer,FULL_RECORD_LENGTH);
+  } else {
+    fseek($gi->filehandle, $record_pointer, SEEK_SET);
+    $record_buf = fread($gi->filehandle,FULL_RECORD_LENGTH);
+  }
   $record = new geoiprecord;
   $record_buf_pos = 0;
   $char = ord(substr($record_buf,$record_buf_pos,1));
