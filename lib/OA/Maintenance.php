@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
 require_once MAX_PATH . '/lib/OA.php';
@@ -297,6 +298,9 @@ class OA_Maintenance
             SET
                 {$sField} = UNIX_TIMESTAMP('". OA::getNow() ."')";
         $rows = $this->oDbh->exec($query);
+
+        // Make sure that the maintenance delivery cache is regenerated
+        MAX_cacheCheckIfMaintenanceShouldRun(false);
     }
 
 }
