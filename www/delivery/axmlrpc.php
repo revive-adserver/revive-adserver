@@ -1200,6 +1200,388 @@ MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
 setupIncludePath();
 // Required files
+require_once 'MDB2.php';
+class OA
+{
+function debug($message, $priority = PEAR_LOG_INFO)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+// Logging is not activated
+if ($aConf['log']['enabled'] == false) {
+return true;
+}
+// Is the priority under logging threshold level?
+if (defined($aConf['log']['priority'])) {
+$aConf['log']['priority'] = constant($aConf['log']['priority']);
+}
+if ($priority > $aConf['log']['priority']) {
+return true;
+}
+// Grab DSN if we are logging to a database
+$dsn = ($aConf['log']['type'] == 'sql') ? OA_DB::getDsn() : '';
+// If logging type is file then prepend path
+$nameClause = ($aConf['log']['type'] == 'file')
+? MAX_PATH . '/var/' . $aConf['log']['name']
+: $aConf['log']['name'];
+// Prepend table prefix if required
+$nameClause = ($aConf['log']['type'] == 'sql' && !empty($aConf['table']['prefix']))
+? $aConf['table']['prefix'] . $nameClause
+: $nameClause;
+// Instantiate a logger object based on logging options
+$oLogger = &Log::singleton(
+$aConf['log']['type'],
+$nameClause,
+$aConf['log']['ident'],
+array(
+$aConf['log']['paramsUsername'],
+$aConf['log']['paramsPassword'],
+'dsn' => $dsn,
+'mode' => octdec($aConf['log']['fileMode']),
+)
+);
+// If log message is an error object, extract info
+if (PEAR::isError($message)) {
+$userinfo = $message->getUserInfo();
+$message = $message->getMessage();
+if (!empty($userinfo)) {
+if (is_array($userinfo)) {
+$userinfo = implode(', ', $userinfo);
+}
+$message .= ' : ' . $userinfo;
+}
+}
+// Obtain backtrace information, if supported by PHP
+// TODO: Consider replacing version_compare with function_exists
+if (version_compare(phpversion(), '4.3.0') >= 0) {
+$aBacktrace = debug_backtrace();
+if ($aConf['log']['methodNames']) {
+// Show from four calls up the stack, to avoid the
+// showing the PEAR error call info itself
+$aErrorBacktrace = $aBacktrace[4];
+if (isset($aErrorBacktrace['class']) && $aErrorBacktrace['type'] && isset($aErrorBacktrace['function'])) {
+$callInfo = $aErrorBacktrace['class'] . $aErrorBacktrace['type'] . $aErrorBacktrace['function'] . ': ';
+$message = $callInfo . $message;
+}
+}
+// Show entire stack, line-by-line
+if ($aConf['log']['lineNumbers']) {
+foreach($aBacktrace as $aErrorBacktrace) {
+if (isset($aErrorBacktrace['file']) && isset($aErrorBacktrace['line'])) {
+$message .=  "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
+$message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['file'] . '"';
+}
+}
+}
+}
+// Log the message
+return $oLogger->log($message, $priority);
+}
+function getNow($format = null)
+{
+if (is_null($format)) {
+$format = 'Y-m-d H:i:s';
+}
+return date($format, time());
+}
+function disableErrorHandling()
+{
+PEAR::pushErrorHandling(null);
+}
+function enableErrorHandling()
+{
+// Ensure this method only acts when a null error handler exists
+$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+list($mode, $options) = $stack[sizeof($stack) - 1];
+if (is_null($mode) && is_null($options)) {
+PEAR::popErrorHandling();
+}
+}
+}
+define('OA_DB_MDB2_DEFAULT_OPTIONS', MDB2_PORTABILITY_ALL ^ MDB2_PORTABILITY_EMPTY_TO_NULL);
+class OA_DB
+{
+function &singleton($dsn = null)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+// Get the DSN, if not set
+$dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+// Check that the parameter is a string, not an array
+if (is_array($dsn)) {
+return Max::raiseError('Bad argument: DSN should be a string', MAX_ERROR_INVALIDARGS);
+}
+// A hack to allow for installation on pgsql
+// If the configuration hasn't been defined prevent
+// loading mysql MDB2 driver.
+if (strpos($dsn, '//:@') !== false) {
+// Return a silent error
+return new PEAR_Error('Bad argument: Empty DSN');
+}
+// Create an MD5 checksum of the DSN
+$dsnMd5 = md5($dsn);
+// Does this database connection already exist?
+if (isset($GLOBALS['_OA']['CONNECTIONS'])) {
+$aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
+} else {
+$aConnections = array();
+}
+if (!(count($aConnections) > 0) || !(in_array($dsnMd5, $aConnections)))
+{
+// Prepare options for a new database connection
+$aOptions = array();
+$aOptions['datatype_map'] = '';
+$aOptions['datatype_map_callback'] = '';
+$aOptions['nativetype_map_callback'] = '';
+// Set the index name format
+$aOptions['idxname_format'] = '%s';
+// Use 4 decimal places in DECIMAL nativetypes
+$aOptions['decimal_places'] = 4;
+// Set the portability options
+$aOptions['portability'] = OA_DB_MDB2_DEFAULT_OPTIONS;
+// Set the default table type for MySQL, if appropriate
+if (strcasecmp($aConf['database']['type'], 'mysql') === 0 && !empty($aConf['table']['type'])) {
+$aOptions['default_table_type'] = $aConf['table']['type'];
+// Enable transaction support when using InnoDB tables
+if (strcasecmp($aOptions['default_table_type'], 'innodb') === 0) {
+// Enable transaction support
+$aOptions['use_transactions'] = true;
+}
+}
+// Set any custom MDB2 datatypes & nativetype mappings
+$customTypesInfoFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
+$aConf['database']['type'] . '_info.php';
+$customTypesFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
+$aConf['database']['type'] . '.php';
+if (is_readable($customTypesInfoFile) && is_readable($customTypesFile)) {
+include $customTypesInfoFile;
+require_once $customTypesFile;
+if (!empty($aDatatypes)) {
+reset($aDatatypes);
+while (list($key, $value) = each($aDatatypes)) {
+$aOptions['datatype_map'] =
+array_merge(
+(array)$aOptions['datatype_map'],
+array($key => $value)
+);
+$aOptions['datatype_map_callback'] =
+array_merge(
+(array)$aOptions['datatype_map_callback'],
+array($key => 'datatype_' . $key . '_callback')
+);
+}
+}
+if (!empty($aNativetypes)) {
+reset($aNativetypes);
+while (list(,$value) = each($aNativetypes)) {
+$aOptions['nativetype_map_callback'] =
+array_merge(
+(array)$aOptions['nativetype_map_callback'],
+array($value => 'nativetype_' . $value . '_callback')
+);
+}
+}
+}
+// Create the new database connection
+OA::disableErrorHandling();
+$oDbh = &MDB2::singleton($dsn, $aOptions);
+OA::enableErrorHandling();
+if (PEAR::isError($oDbh)) {
+return $oDbh;
+}
+OA::disableErrorHandling();
+$success = $oDbh->connect();
+OA::enableErrorHandling();
+if (PEAR::isError($success)) {
+return $success;
+}
+// Set the fetchmode to be use used
+$oDbh->setFetchMode(MDB2_FETCHMODE_ASSOC);
+// Load modules that are likely to be needed
+$oDbh->loadModule('Extended');
+$oDbh->loadModule('Datatype');
+$oDbh->loadModule('Manager');
+// Store the database connection
+$GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;
+// Set MySQL 4 compatibility if needed
+if (strcasecmp($aConf['database']['type'], 'mysql') === 0 && !empty($aConf['database']['mysql4_compatibility'])) {
+$oDbh->exec("SET SESSION sql_mode='MYSQL40'");
+}
+}
+return $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5];
+}
+function getDsn($aConf = null)
+{
+if (is_null($aConf)) {
+$aConf = $GLOBALS['_MAX']['CONF'];
+}
+$dbType = $aConf['database']['type'];
+// only pan or mmmv0.1 will have a protocol set to unix
+// otherwise no protocol is set and therefore defaults to tcp
+if (isset($aConf['database']['protocol']) && $aConf['database']['protocol']=='unix')
+{
+$dsn = $dbType . '://' .
+$aConf['database']['username'] . ':' .
+$aConf['database']['password'] . '@' .
+$aConf['database']['protocol'] . '(' .
+$aConf['database']['port']     . ')/' .
+$aConf['database']['name'];
+}
+else
+{
+$protocol = '';
+$port = !empty($aConf['database']['port']) ? ':' . $aConf['database']['port'] : '';
+$dsn = $dbType . '://' .
+$aConf['database']['username'] . ':' .
+$aConf['database']['password'] . '@' .
+$protocol .
+$aConf['database']['host'] .
+$port . '/' .
+$aConf['database']['name'];
+}
+return $dsn;
+}
+function &changeDatabase($name)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+// Overwrite the database name
+$aConf['database']['name'] = $name;
+// Get the DSN
+$dsn = OA_DB::getDsn($aConf);
+// Return the database connection
+return OA_DB::singleton($dsn);
+}
+function createDatabase($name)
+{
+$dsn = OA_DB::_getDefaultDsn();
+$oDbh = &OA_DB::singleton($dsn);
+if (PEAR::isError($oDbh)) {
+return $oDbh;
+}
+OA::disableErrorHandling();
+$result = $oDbh->manager->createDatabase($name);
+OA::enableErrorHandling();
+if (PEAR::isError($result)) {
+return $result;
+}
+return true;
+}
+function createFunctions()
+{
+$oDbh = &OA_DB::singleton();
+$functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'] . '.php';
+if (is_readable($functionsFile)) {
+if ($oDbh->dsn['phptype'] == 'pgsql') {
+$result = OA_DB::_createLanguage();
+if (PEAR::isError($result)) {
+return $result;
+}
+}
+include $functionsFile;
+OA_DB::disconnectAll();
+$oDbh = &OA_DB::singleton();
+foreach ($aCustomFunctions as $customFunction) {
+$rows = $oDbh->exec($customFunction);
+if (PEAR::isError($rows)) {
+return $rows;
+}
+}
+}
+return true;
+}
+function _createLanguage($lang = 'plpgsql')
+{
+$oDbh = &OA_DB::singleton();
+// Check if the language has been loaded.
+$query = "SELECT COUNT(*) FROM pg_catalog.pg_language WHERE lanname = '$lang'";
+OA::disableErrorHandling();
+$result = $oDbh->queryOne($query);
+OA::enableErrorHandling();
+if (PEAR::isError($result)) {
+return $result;
+} elseif ($result) {
+return true;
+}
+// Otherwise load the language.
+$query = 'CREATE LANGUAGE ' . $lang;
+OA::disableErrorHandling();
+$result = $oDbh->exec($query);
+OA::enableErrorHandling();
+if (PEAR::isError($result)) {
+return $result;
+}
+return true;
+}
+function dropDatabase($name)
+{
+$dsn = OA_DB::_getDefaultDsn();
+$oDbh = &OA_DB::singleton($dsn);
+OA::disableErrorHandling();
+$result = $oDbh->manager->dropDatabase($name);
+OA::enableErrorHandling();
+if (PEAR::isError($result)) {
+return false;
+}
+return true;
+}
+function _getDefaultDsn()
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+// Prepare a new DSN array, without a database name, so that
+// a connection to the database server's default database can
+// be created
+$aDatabaseDSN = $aConf;
+$aDatabaseDSN['database']['name'] = '';
+$dsn = OA_DB::getDsn($aDatabaseDSN);
+return $dsn;
+}
+function setCaseSensitive()
+{
+$newOptionsValue = OA_DB_MDB2_DEFAULT_OPTIONS ^ MDB2_PORTABILITY_FIX_CASE;
+$oDbh = &OA_DB::singleton();
+$oDbh->setOption('portability',  $newOptionsValue);
+}
+function disableCaseSensitive()
+{
+$oDbh = &OA_DB::singleton();
+$oDbh->setOption('portability',  OA_DB_MDB2_DEFAULT_OPTIONS);
+}
+function setQuoteIdentifier()
+{
+$oDbh = &OA_DB::singleton();
+$quote = false;
+if ($oDbh->dsn['phptype'] == 'pgsql') {
+$quote = '"';
+}
+$oDbh->setOption('quote_identifier', $quote);
+}
+function disabledQuoteIdentifier()
+{
+$oDbh = &OA_DB::singleton();
+$oDbh->setOption('quote_identifier', false);
+}
+function disconnect($dsn)
+{
+$aConf = $GLOBALS['_MAX']['CONF'];
+// Get the DSN, if not set
+$dsn = is_null($dsn) ? OA_DB::getDsn() : $dsn;
+// Create an MD5 checksum of the DSN
+$dsnMd5 = md5($dsn);
+// Does this database connection already exist?
+$aConnections = array_keys($GLOBALS['_OA']['CONNECTIONS']);
+if ((count($aConnections) > 0) && (in_array($dsnMd5, $aConnections))) {
+$GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]->disconnect();
+unset($GLOBALS['_OA']['CONNECTIONS'][$dsnMd5]);
+}
+}
+function disconnectAll()
+{
+if (is_array($GLOBALS['_OA']['CONNECTIONS'])) {
+foreach ($GLOBALS['_OA']['CONNECTIONS'] as $key => $oDbh) {
+$GLOBALS['_OA']['CONNECTIONS'][$key]->disconnect();
+unset($GLOBALS['_OA']['CONNECTIONS'][$key]);
+}
+}
+}
+}
 require_once 'Log.php';
 require_once 'PEAR.php';
 class MAX
@@ -1224,7 +1606,7 @@ if ($priority > $conf['log']['priority']) {
 return;
 }
 // Grab DSN if we are logging to a database
-$dsn = ($conf['log']['type'] == 'sql') ? Base::getDsn() :'';
+$dsn = ($conf['log']['type'] == 'sql') ? OA_DB::getDsn() :'';
 // Instantiate a logger object based on logging options
 $logger = &Log::singleton($conf['log']['type'],
 MAX_PATH . '/var/' . $conf['log']['name'],
