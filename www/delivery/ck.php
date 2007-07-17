@@ -1412,8 +1412,8 @@ if ($expiryTime === null) {
 $expiryTime = $GLOBALS['OA_Delivery_Cache']['expiry'];
 }
 $now = MAX_commonGetTimeNow();
-if (    (isset($cache_time) && $cache_time < $now - $expiryTime)
-|| (isset($cache_expire) && $cache_expire > $now) )
+if (    (isset($cache_time) && $cache_time + $expiryTime < $now)
+|| (isset($cache_expire) && $cache_expire < $now) )
 {
 // Update expiry, needed to enable permanent caching if needed
 OA_Delivery_Cache_store($name, $cache_contents, $isHash);
@@ -1593,22 +1593,35 @@ return $aVariables;
 }
 function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
 {
+// Default delay is 5 minutes
+$interval    = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
+$delay       = !empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDelay']) ?
+$GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDelay'] * 60 :
+300;
+// Auto-maintenance is disabled if the delay is lower than the OI
+if ($delay <= 0 || $delay < $interval) {
+return false;
+}
+$now         = MAX_commonGetTimeNow();
+$today       = strtotime(date('Y-m-d'), $now);
+$nextRunTime = $today + (floor(($now - $today) / $interval) + 1) * $interval + $delay;
+// Adding the delay could shift the time to the next operation interval,
+// make sure to fix it in case it happens
+if ($nextRunTime - $now > $interval) {
+$nextRunTime -= $interval;
+}
 $cName  = OA_Delivery_Cache_getName(__FUNCTION__);
-// maximum cache expire time = 3600 seconds
-if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName, false, 3600)) === false) {
+if (!$cached || ($lastRunTime = OA_Delivery_Cache_fetch($cName)) === false) {
 MAX_Dal_Delivery_Include();
 $lastRunTime = OA_Dal_Delivery_getMaintenanceInfo();
-$now = MAX_commonGetTimeNow();
-$interval = $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval'] * 60;
-$thisIntervalStartTime = $now - ($now % $interval);
-// if maintenance should be executed now there is no point in storing last run info in cache
-if ($lastRunTime < $thisIntervalStartTime) {
-return true;
+// Cache until the next operation interval if scheduled maintenance was run
+// during the delay
+if ($lastRunTime >= $nextRunTime - $delay) {
+$nextRunTime += $interval;
 }
-$expireAt = $thisIntervalStartTime + $interval + 1;
-OA_Delivery_Cache_store($cName, $lastRunTime, false, $expireAt);
+OA_Delivery_Cache_store($cName, $lastRunTime, false, $nextRunTime);
 }
-return false;
+return $lastRunTime < $nextRunTime - $interval;
 }
 function MAX_cacheGetChannelLimitations($channelid, $cached = true)
 {
