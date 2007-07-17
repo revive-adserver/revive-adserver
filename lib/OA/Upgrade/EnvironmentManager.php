@@ -161,7 +161,7 @@ class OA_Environment_Manager
                 }
             }
             $installerFile = MAX_PATH . '/var/INSTALLED';
-            if (file_exists($configFile)) {
+            if (file_exists($installerFile)) {
                 if (!is_writable($installerFile)) {
                     $aErrors[$installerFile] = 'NOT writeable';
                 }
