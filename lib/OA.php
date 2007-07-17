@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH .'/lib/OA/DB.php';
 require_once 'Log.php';
 require_once 'PEAR.php';
 
@@ -65,11 +66,19 @@ class OA
             return true;
         }
         // Grab DSN if we are logging to a database
-        $dsn = ($aConf['log']['type'] == 'sql') ? Base::getDsn() : '';
+        $dsn = ($aConf['log']['type'] == 'sql') ? OA_DB::getDsn() : '';
+        // If logging type is file then prepend path
+        $nameClause = ($aConf['log']['type'] == 'file')
+                ? MAX_PATH . '/var/' . $aConf['log']['name']
+                : $aConf['log']['name'];
+        // Prepend table prefix if required
+        $nameClause = ($aConf['log']['type'] == 'sql' && !empty($aConf['table']['prefix']))
+                ? $aConf['table']['prefix'] . $nameClause
+                : $nameClause;
         // Instantiate a logger object based on logging options
         $oLogger = &Log::singleton(
             $aConf['log']['type'],
-            MAX_PATH . '/var/' . $aConf['log']['name'],
+            $nameClause,
             $aConf['log']['ident'],
             array(
                 $aConf['log']['paramsUsername'],
