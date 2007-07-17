@@ -203,6 +203,10 @@ function setupConstants()
     define('OA_DOCUMENTATION_BASE_URL', 'http://docs.openads.org');
     define('OA_DOCUMENTATION_PATH',     'help');
 
+    // Define the week to start on Sunday (0) so that the PEAR::Date and
+    // PEAR::Date_Calc classes agree on what day is the start of the week
+    define('DATE_CALC_BEGIN_WEEKDAY', 0);
+
     // define minimum amount of required memory
     $GLOBALS['_MAX']['REQUIRED_MEMORY'] = array(
         'PHP4' => 16777216, // 16MB in bytes (or should we use 8MB? 8388608)
@@ -224,9 +228,6 @@ function setupConstants()
             $newPearPath .= PATH_SEPARATOR . $existingPearPath;
         }
         ini_set('include_path', $newPearPath);
-        // Define the week to start on Sunday (0) so that the PEAR::Date and
-        // PEAR::Date_Calc classes agree on what day is the start of the week
-        define('DATE_CALC_BEGIN_WEEKDAY', 0);
         // Parse the Openads configuration file
         $GLOBALS['_MAX']['CONF'] = parseIniFile();
         // Define the Openads Cache File location path (required trailing slash)
