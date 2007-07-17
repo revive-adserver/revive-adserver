@@ -37,7 +37,7 @@ Please tell us what you think on the Openads 2.3 forum
 What's New in Openads 2.3.36-beta
 ---------------------------------
 
- * Release date: July 12, 2007
+ * Release date: MONTH DAY, YEAR
 
  * For complete details, see https://developer.openads.org/.
 
