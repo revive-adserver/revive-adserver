@@ -28,7 +28,6 @@
 $Id$
 */
 
-require_once MAX_PATH .'/lib/OA/DB.php';
 require_once 'Log.php';
 require_once 'PEAR.php';
 
@@ -82,7 +81,7 @@ class MAX
             return;
         }
         // Grab DSN if we are logging to a database
-        $dsn = ($conf['log']['type'] == 'sql') ? OA_DB::getDsn() :'';
+        $dsn = ($conf['log']['type'] == 'sql') ? Base::getDsn() :'';
         // Instantiate a logger object based on logging options
         $logger = &Log::singleton($conf['log']['type'],
                                   MAX_PATH . '/var/' . $conf['log']['name'],

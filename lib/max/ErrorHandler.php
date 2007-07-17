@@ -26,7 +26,7 @@ $Id$
 */
 
 //  This class was taken from Seagull: http://seagull.phpkitchen.com
-require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/Max.php';
 
 /**
  * Global error handler class, modifies behaviour for PHP errors, not PEAR.
@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/OA.php';
  * @author  Peter James <petej@shaman.ca>
  * @author  Demian Turner <demian@phpkitchen.com>
  */
-class OA_ErrorHandler
+class MAX_ErrorHandler
 {
     var $errorType = array();
     var $sourceContextOptions = array();
@@ -46,7 +46,7 @@ class OA_ErrorHandler
      * @access  public
      * @return  void
      */
-    function OA_ErrorHandler()
+    function MAX_ErrorHandler()
     {
         //  first dimension elements are PHP error types
         //  2nd dimension elements are roughly PEAR Log's equivalents
@@ -128,7 +128,7 @@ class OA_ErrorHandler
             //  final param is 2nd dimension element from errorType array,
             //  representing PEAR error codes mapped to PHP's
 
-            OA::debug($errStr, $file, $line, $this->errorType[$errNo][1]);
+            MAX::debug($errStr, $file, $line, $this->errorType[$errNo][1]);
 
             //  if a debug sesssion has been started, or the site in in
             //  development mode, send error info to screen

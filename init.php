@@ -109,8 +109,8 @@ function init()
     }
     // Start PHP error handler
     $conf = $GLOBALS['_MAX']['CONF'];
-    include_once MAX_PATH . '/lib/OA/ErrorHandler.php';
-    $eh = new OA_ErrorHandler();
+    include_once MAX_PATH . '/lib/max/ErrorHandler.php';
+    $eh = new MAX_ErrorHandler();
     $eh->startHandler();
 
     // increase amount of required memory if necessery
