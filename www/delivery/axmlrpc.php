@@ -2223,7 +2223,7 @@ $delay       = !empty($GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDe
 $GLOBALS['_MAX']['CONF']['maintenance']['autoMaintenanceDelay'] * 60 :
 300;
 // Auto-maintenance is disabled if the delay is lower than the OI
-if ($delay <= 0 || $delay < $interval) {
+if ($delay <= 0 || $delay >= $interval) {
 return false;
 }
 $now         = MAX_commonGetTimeNow();
