@@ -466,7 +466,7 @@ function MAX_cacheCheckIfMaintenanceShouldRun($cached = true)
                        300;
 
     // Auto-maintenance is disabled if the delay is lower than the OI
-    if ($delay <= 0 || $delay < $interval) {
+    if ($delay <= 0 || $delay >= $interval) {
         return false;
     }
 
