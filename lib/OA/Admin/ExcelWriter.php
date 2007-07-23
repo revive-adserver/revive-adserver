@@ -312,6 +312,7 @@ class OA_Admin_ExcelWriter
         require_once 'Spreadsheet/Excel/Writer.php';
 
         $workbook = new Spreadsheet_Excel_Writer();
+        $workbook->setTempDir(MAX_PATH .'/var/cache');
         $this->_setExcelWriter($workbook);
         $workbook->send($filename);
     }
