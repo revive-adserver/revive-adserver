@@ -218,16 +218,9 @@ function increaseMemoryLimit($setMemory) {
  */
 function getMemorySizeInBytes() {
     $phpMemory = ini_get('memory_limit');
-    if (empty($phpMemory)) {
-        $phpMemory = get_cfg_var('memory_limit');
-    }
-    if (empty($phpMemory)) {
-        // php is compiled without --enable-memory-limits
-        return 0;
-    }
-    if ($phpMemory == -1) {
+    if (empty($phpMemory) || $phpMemory == -1) {
         // unlimited
-        return $phpMemory;
+        return -1;
     }
         
     $aSize = array(

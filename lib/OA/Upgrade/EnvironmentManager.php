@@ -43,6 +43,8 @@ define('OA_ENV_ERROR_PHP_ARGC',                      -7);
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Config.php';
 
+define('OA_MEMORY_UNLIMITED', 'Unlimited');
+
 class OA_Environment_Manager
 {
 
@@ -104,7 +106,10 @@ class OA_Environment_Manager
     {
         $aResult['version'] = phpversion();
 
-        $aResult['memory_limit']         = getMemorySizeInBytes();
+        $aResult['memory_limit'] = getMemorySizeInBytes();
+        if ($aResult['memory_limit'] == -1) {
+            $aResult['memory_limit'] = OA_MEMORY_UNLIMITED;
+        }
         $aResult['magic_quotes_runtime'] = get_magic_quotes_runtime();
         $aResult['safe_mode']            = ini_get('safe_mode');
         $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
@@ -192,7 +197,7 @@ class OA_Environment_Manager
     {
         $memlim = $this->aInfo['PHP']['actual']['memory_limit'];
         $expected = getMinimumRequiredMemory();
-        if (($memlim > 0) && ($memlim < $expected))
+        if ($memlim != OA_MEMORY_UNLIMITED && ($memlim > 0) && ($memlim < $expected))
         {
             return false;
         }
