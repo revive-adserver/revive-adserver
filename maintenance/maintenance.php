@@ -33,7 +33,9 @@ flush();
 ob_start();
 
 // Run maintenance
-require '../scripts/maintenance/maintenance.php';
+// Done this way so that it works in CLI PHP
+$path = dirname(__FILE__);
+require_once $path . '/../scripts/maintenance/maintenance.php';
 
 // Get and clean output buffer
 $buffer = ob_get_clean();
