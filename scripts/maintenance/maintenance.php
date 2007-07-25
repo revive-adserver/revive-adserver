@@ -32,7 +32,7 @@ $Id$
  */
 
 // Require the initialisation file
-// Done differently from elsewhere so that it works in CLI MacOS X
+// Done this way so that it works in CLI PHP
 $path = dirname(__FILE__);
 require_once $path . '/../../init.php';
 
