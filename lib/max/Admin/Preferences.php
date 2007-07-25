@@ -263,6 +263,10 @@ class MAX_Admin_Preferences
             $conf = $GLOBALS['_MAX']['CONF'];
             $oDbh = &OA_DB::singleton();
 
+            if (PEAR::isError($oDbh)) {
+                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
+            }
+
             if (phpAds_isUser(phpAds_Client)) {
                 return MAX_Admin_Preferences::writeEntityPrefs('advertiser');
             } elseif (phpAds_isUser(phpAds_Affiliate)) {
