@@ -59,6 +59,10 @@ function MAX_googleGetJavaScript()
         $to[]   = preg_quote($v);
     }
 
+    // ctDelimiter
+    $from[] = "@@OA_DELIM@@";
+    $to[]   = $conf['delivery']['ctDelimiter'];
+
     // Supported networks
     $from[] = "@@OA_DOMAINS_PREG@@";
     $to[]   = "googlesyndication\.com|ypn-js\.overture\.com";
