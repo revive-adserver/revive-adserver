@@ -223,7 +223,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
                 WHERE
                     bannerid IN (" . $oDbh->escape(implode(',', $affected_ads)) . ")
             ";
-            $res = $oDb->exec($query);
+            $res = $oDbh->exec($query);
             if (PEAR::isError($res)) {
                 return $res;
             }
