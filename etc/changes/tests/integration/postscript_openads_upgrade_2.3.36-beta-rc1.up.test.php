@@ -35,7 +35,7 @@ require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openads.org>
  */
-class Test_postscript_2_3_35_beta_rc1 extends UnitTestCase
+class Test_postscript_2_3_36_beta_rc1 extends UnitTestCase
 {
     var $prefix;
 
@@ -69,7 +69,7 @@ class Test_postscript_2_3_35_beta_rc1 extends UnitTestCase
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertTrue(in_array($this->prefix.$table, $aExistingTables), $this->prefix.$table.' table not found');
 
-        $this->assertTrue($oUpgrade->runScript('postscript_openads_upgrade_2.3.35-beta-rc1.php'));
+        $this->assertTrue($oUpgrade->runScript('postscript_openads_upgrade_2.3.36-beta-rc1.php'));
 
         $aExistingColumns = $oDbh->manager->listTableFields($this->prefix.$table);
         $aColumns = array(

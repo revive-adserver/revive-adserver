@@ -1407,9 +1407,28 @@ class OA_Upgrade
         else if (file_exists($this->upgradePath.$file))
         {
             $this->oLogger->log('acquiring script '.$file);
-            require_once $this->upgradePath.$file;
             $type = substr(basename($file), 0, strpos(basename($file), '_'));
             $class = 'OA_Upgrade'.ucfirst($type);
+            $newClass = $class.'_'.md5(uniqid('', true));
+
+            $code = file_get_contents($this->upgradePath.$file);
+            $code = preg_replace("/(class|function) +{$class}/i", "$1 {$newClass}", $code);
+
+            $class = $newClass;
+            $tmpFile = MAX_PATH.'/var/'.strtolower($class).'.php';
+            if ($fp = @fopen($tmpFile, 'w')) {
+                @fwrite($fp, $code);
+                @fclose($fp);
+                if (!@include($tmpFile)) {
+                    $this->oLogger->logError('cannot include temporary file '.$tmpFile);
+                    return false;
+                }
+                @unlink($tmpFile);
+            } else {
+                $this->oLogger->logError('cannot write temporary file '.$tmpFile);
+                return false;
+            }
+
             if (class_exists($class))
             {
                 $this->oLogger->log('instantiating class '.$class);
