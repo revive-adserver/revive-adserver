@@ -1143,13 +1143,16 @@ function _storeUploadedFile(&$uploaded, $imageOnly=false)
         if (@file_exists ($uploaded['tmp_name'])) {
             // Read the contents of the file in a buffer
             if ($fp = @fopen($uploaded['tmp_name'], "rb")) {
-                $uploaded['buffer'] = @fread($fp, @filesize($uploaded['tmp_name']));
+                $uploaded['buffer'] = '';
+                while (!feof($fp)) {
+                    $uploaded['buffer'] .= @fread($fp, 8192);
+                }
                 @fclose ($fp);
                 $uploadError = false;
             } else {
                 // Check if moving the file is possible
                 if (function_exists("move_uploaded_file")) {
-                    $tmp_dir = phpAds_path.'/misc/tmp/'.basename($uploaded['tmp_name']);
+                    $tmp_dir = MAX_PATH.'/var/cache/'.basename($uploaded['tmp_name']);
 
                     // Try to move the file
                     if (@move_uploaded_file ($uploaded['tmp_name'], $tmp_dir)) {
@@ -1157,7 +1160,10 @@ function _storeUploadedFile(&$uploaded, $imageOnly=false)
 
                         // Try again if the file is readable
                         if ($fp = @fopen($uploaded['tmp_name'], "rb")) {
-                            $uploaded['buffer'] = @fread($fp, @filesize($uploaded['tmp_name']));
+                            $uploaded['buffer'] = '';
+                            while (!feof($fp)) {
+                                $uploaded['buffer'] .= @fread($fp, 8192);
+                            }
                             @fclose($fp);
                             $uploadError = false;
                         }
