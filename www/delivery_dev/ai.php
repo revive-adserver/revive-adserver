@@ -66,13 +66,7 @@ if (!empty($filename)) {
 			echo $aCreative['contents'];
 		} else {
 			// Send "Not Modified" status header
-			if (php_sapi_name() == 'cgi') {
-				// PHP as CGI, use Status: [status-number]
-				header('Status: 304 Not Modified');
-			} else {
-				// PHP as module, use HTTP/1.x [status-number]
-				header($_SERVER['SERVER_PROTOCOL'].' 304 Not Modified');
-			}
+			MAX_sendStatusCode(304);
 		}
 	}
 } else {
