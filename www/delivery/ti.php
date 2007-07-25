@@ -1125,8 +1125,8 @@ header($value);
 }
 function MAX_redirect($url)
 {
-MAX_sendStatusCode(302);
 header('Location: '.$url);
+MAX_sendStatusCode(302);
 }
 function MAX_sendStatusCode($iStatusCode) {
 $arr = array(
@@ -1173,12 +1173,8 @@ $arr = array(
 505 => 'HTTP Version Not Supported'
 );
 if (isset($arr[$iStatusCode])) {
-$text = $iStatusCode . ' ' . $arr[$iStatusCode];
-if (stristr(php_sapi_name(), 'cgi')) {
-header('Status: ' . $text);
-} else {
-header('HTTP/1.x ' . $text);
-}
+// Using header('Status: NNN') with CGI sapis seems to be deprecated
+header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
 }
 // Set the viewer's remote information used in logging
