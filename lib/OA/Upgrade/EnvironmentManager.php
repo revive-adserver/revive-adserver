@@ -244,19 +244,13 @@ class OA_Environment_Manager
                 $this->aInfo['PHP']['expected']['version'],
                 "<"
             );
-            // Carry on and test if this is PHP 4.3.10
-            $result4310 = version_compare(
-                $this->aInfo['PHP']['actual']['version'],
-                '4.3.10',
-                "=="
-            );
             // Carry on and test if this is PHP 4.4.1
             $result441 = version_compare(
                 $this->aInfo['PHP']['actual']['version'],
                 '4.4.1',
                 "=="
             );
-            if ($result || $result4310 || $result441) {
+            if ($result || $result441) {
                 $result = OA_ENV_ERROR_PHP_VERSION;
             } else {
                 $result = OA_ENV_ERROR_PHP_NOERROR;
@@ -270,15 +264,7 @@ class OA_Environment_Manager
         }
         if ($result == OA_ENV_ERROR_PHP_VERSION)
         {
-            if (!empty($result4310))
-            {
-                // Uh oh! Cannot allow install on PHP 4.3.10 - DB_DataObjects will cause PHP to crash!
-                $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] =
-                    "Version {$this->aInfo['PHP']['actual']['version']} is below the minimum supported version of {$this->aInfo['PHP']['expected']['version']}." .
-                    "<br />It is not possible to install Openads with PHP 4.3.10, due to a bug in PHP! " .
-                    "Please see the <a href='http://docs.openads.org/help/2.3/faq/'>FAQ</a> for more information.";
-            }
-            else if (!empty($result441))
+            if (!empty($result441))
             {
                 // Uh oh! Cannot allow install on PHP 4.4.1 - error use of with next() in looping!
                 $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_VERSION] =
