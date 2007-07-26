@@ -75,7 +75,7 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             ) VALUES (
                 ?, ?, ?, ?, ?
             )";
-        $aTypes = array('integer', 'text', 'boolean', 'boolean', 'integer');
+        $aTypes = array('integer', 'text', 'text', 'text', 'integer');
         $st = $this->oDbh->prepare($query, $aTypes);
 
         foreach ($codes as $v) {
@@ -85,7 +85,7 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
             }
             $paused    = $v['paused'] ? 't' : 'f';
             $autotrack = $v['autotrack'] ? 't' : 'f';
-            $result = $this->oDbh->execute(array($tracker_id, $tagcode, $paused, $autotrack, ++$rank));
+            $result = $st->execute(array($tracker_id, $tagcode, $paused, $autotrack, ++$rank));
             if (PEAR::isError($result)) {
                 MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
