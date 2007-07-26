@@ -1117,7 +1117,7 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
 }
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
 } else {
-setcookie($name, $value, $expire, $path, $domain);
+@setcookie($name, $value, $expire, $path, $domain);
 }
 }
 function MAX_header($value)
@@ -2524,6 +2524,8 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 // This function is a wrapper to view raw, this allows for future migration
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {
+// start stacked output buffering
+ob_start();
 if (!((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
 if ($zoneid) {
 $what = "zone:".$zoneid;
@@ -2558,6 +2560,9 @@ unset($output['context'][$newidx]);
 }
 $GLOBALS['phpAds_context'] = $GLOBALS['phpAds_context'] + $output['context'];
 }
+MAX_cookieFlush();
+// add cookies to output html
+$output['html'] .= ob_get_clean();
 return $output;
 }
 

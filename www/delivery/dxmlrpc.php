@@ -1115,7 +1115,7 @@ $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'] = array();
 }
 $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
 } else {
-setcookie($name, $value, $expire, $path, $domain);
+@setcookie($name, $value, $expire, $path, $domain);
 }
 }
 function MAX_header($value)
