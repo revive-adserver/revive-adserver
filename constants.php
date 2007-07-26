@@ -206,6 +206,9 @@ function setupConstants()
     // Define the week to start on Sunday (0) so that the PEAR::Date and
     // PEAR::Date_Calc classes agree on what day is the start of the week
     define('DATE_CALC_BEGIN_WEEKDAY', 0);
+    
+    // Do not overload DataObjects as it allows us to work with 4.3.10
+    define('DB_DATAOBJECT_NO_OVERLOAD', true);
 
     // define minimum amount of required memory
     $GLOBALS['_MAX']['REQUIRED_MEMORY'] = array(
