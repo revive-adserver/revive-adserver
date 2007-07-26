@@ -151,7 +151,8 @@ class OA_Admin_DaySpan
      * The predefined values are:
      *
      *  today, yesterday, this_week, last_week, last_7_days, this_month,
-     *  this_month_full, this_month_remainder, next_month, last_month.
+     *  this_month_full, this_month_remainder, next_month, last_month,
+     *  all_stats, specific.
      *
      * @param string $presetValue The preset value string.
      * @return void
@@ -252,15 +253,15 @@ class OA_Admin_DaySpan
     function _getSpanDates($presetValue)
     {
         switch ($presetValue) {
-            case 'today' :
+            case 'today':
                 $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
                 $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
                 break;
-            case 'yesterday' :
+            case 'yesterday':
                 $oDateStart    = new Date(Date_Calc::prevDay($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oDateEnd      = new Date(Date_Calc::prevDay($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 break;
-            case 'this_week' :
+            case 'this_week':
                 $oDateStart    = new Date(Date_Calc::beginOfWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oSixDaySpan   = new Date_Span();
                 $oSixDaySpan->setFromDays(6);
@@ -280,7 +281,7 @@ class OA_Admin_DaySpan
                 }
                 $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
                 break;
-            case 'last_week' :
+            case 'last_week':
                 $oDateStart    = new Date(Date_Calc::beginOfPrevWeek($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oSixDaySpan   = new Date_Span();
                 $oSixDaySpan->setFromDays(6);
@@ -302,7 +303,7 @@ class OA_Admin_DaySpan
                 $oDateEnd->copy($oDateStart);
                 $oDateEnd->addSpan($oSixDaySpan);
                 break;
-            case 'last_7_days' :
+            case 'last_7_days':
                 $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
                 $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
                 $oOneDaySpan   = new Date_Span();
@@ -312,34 +313,44 @@ class OA_Admin_DaySpan
                 $oDateStart->subtractSpan($oSevenDaySpan);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
-            case 'this_month' :
+            case 'this_month':
                 $oDateStart    = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oDateEnd      = new Date($this->oNowDate->format('%Y-%m-%d'));
                 break;
-            case 'this_month_full' :
+            case 'this_month_full':
                 $oDateStart    = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oDateEnd      = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oOneDaySpan   = new Date_Span();
                 $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
-            case 'this_month_remainder' :
+            case 'this_month_remainder':
                 $oDateStart    = new Date($this->oNowDate->format('%Y-%m-%d'));
                 $oDateEnd      = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oOneDaySpan   = new Date_Span();
                 $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
                 break;
-            case 'next_month' :
+            case 'next_month':
                 $oDateStart    = new Date(Date_Calc::beginOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oDateEnd      = new Date(Date_Calc::endOfNextMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 break;
-            case 'last_month' :
+            case 'last_month':
                 $oDateStart    = new Date(Date_Calc::beginOfPrevMonth($this->oNowDate->format('%d'), $this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oDateEnd      = new Date(Date_Calc::beginOfMonth($this->oNowDate->format('%m'), $this->oNowDate->format('%Y')));
                 $oOneDaySpan   = new Date_Span();
                 $oOneDaySpan->setFromDays(1);
                 $oDateEnd->subtractSpan($oOneDaySpan);
+                break;
+            case 'all_stats':
+                $oDateStart = null;
+                $oDateEnd   = null;
+                break;
+            case 'specific':
+                $startDate  = MAX_getStoredValue('startDate', date('Y-m-d'));
+                $oDateStart = new Date($startDate);
+                $endDate    = MAX_getStoredValue('endDate', date('Y-m-d'));
+                $oDateEnd   = new Date($endDate);
                 break;
         }
         $this->_roundDate($oDateStart);
@@ -392,9 +403,11 @@ class OA_Admin_DaySpan
      */
     function _roundDate(&$oDate)
     {
-        $oDate->setHour(0);
-        $oDate->setMinute(0);
-        $oDate->setSecond(0);
+        if (is_a($oDate, 'date')) {
+            $oDate->setHour(0);
+            $oDate->setMinute(0);
+            $oDate->setSecond(0);
+        }
     }
 
 
