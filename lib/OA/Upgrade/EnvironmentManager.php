@@ -40,6 +40,8 @@ define('OA_ENV_ERROR_PHP_TIMEZONE',                  -5);
 define('OA_ENV_ERROR_PHP_UPLOADS',                   -6);
 define('OA_ENV_ERROR_PHP_ARGC',                      -7);
 define('OA_ENV_ERROR_PHP_XML',                       -8);
+define('OA_ENV_ERROR_PHP_PCRE',                      -9);
+define('OA_ENV_ERROR_PHP_ZLIB',                     -10);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Config.php';
@@ -85,6 +87,8 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
         $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
         $this->aInfo['PHP']['expected']['xml']                  = true;
+        $this->aInfo['PHP']['expected']['pcre']                 = true;
+        $this->aInfo['PHP']['expected']['zlib']                 = true;
 
         $this->aInfo['FILES']['expected'] = array();
     }
@@ -118,6 +122,8 @@ class OA_Environment_Manager
         $aResult['register_argc_argv']   = ini_get('register_argc_argv');
         $aResult['file_uploads']         = ini_get('file_uploads');
         $aResult['xml']                  = extension_loaded('xml');
+        $aResult['pcre']                 = extension_loaded('pcre');
+        $aResult['zlib']                 = extension_loaded('zlib');
 
         return $aResult;
     }
@@ -311,11 +317,17 @@ class OA_Environment_Manager
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'The file_uploads option must be ON';
         }
 
-        // Test the xml extension is loaded
+        // Test the required PHP extensions are loaded
         if (!$this->aInfo['PHP']['actual']['xml']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML] = 'The xml extension must be loaded';
         }
-
+        if (!$this->aInfo['PHP']['actual']['pcre']) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE] = 'pcre extension must be loaded';
+        }
+        if (!$this->aInfo['PHP']['actual']['zlib']) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB] = 'zlib extension must be loaded';
+        }
+        
         return $result;
     }
 
