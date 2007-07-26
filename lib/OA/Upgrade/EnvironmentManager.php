@@ -39,6 +39,7 @@ define('OA_ENV_ERROR_PHP_MAGICQ',                    -4);
 define('OA_ENV_ERROR_PHP_TIMEZONE',                  -5);
 define('OA_ENV_ERROR_PHP_UPLOADS',                   -6);
 define('OA_ENV_ERROR_PHP_ARGC',                      -7);
+define('OA_ENV_ERROR_PHP_LIBXML',                    -8);
 
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Admin/Config.php';
@@ -83,6 +84,7 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
         $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
+        $this->aInfo['PHP']['expected']['libxml']               = true;
 
         $this->aInfo['FILES']['expected'] = array();
     }
@@ -115,6 +117,7 @@ class OA_Environment_Manager
         $aResult['date.timezone']        = (ini_get('date.timezone') ? ini_get('date.timezone') : getenv('TZ'));
         $aResult['register_argc_argv']   = ini_get('register_argc_argv');
         $aResult['file_uploads']         = ini_get('file_uploads');
+        $aResult['libxml']               = extension_loaded('libxml');
 
         return $aResult;
     }
@@ -321,6 +324,12 @@ class OA_Environment_Manager
         if (!$this->aInfo['PHP']['actual']['file_uploads']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'file_uploads must be ON';
         }
+        
+        // Test the libxml extension is loaded
+        if (!$this->aInfo['PHP']['actual']['libxml']) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_LIBXML] = 'libxml extension must be loaded';
+        }
+        
         return $result;
     }
 
