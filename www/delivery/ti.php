@@ -1547,7 +1547,7 @@ if (!empty($variableQuerystring)) {
 $buffer .= "
 document.write (\"<\" + \"script language='JavaScript' type='text/javascript' src='\");
 document.write (\"$url?trackerid=$trackerid&server_raw_tracker_impression_id={$conversionInfo['server_raw_tracker_impression_id']}&server_raw_ip={$conversionInfo['server_raw_ip']}{$variableQuerystring}'\");";
-$buffer .= "\n\tdocument.write (\"></scr\"+\"ipt>\");";
+$buffer .= "\n\tdocument.write (\"><\\/scr\"+\"ipt>\");";
 }
 }
 if(!empty($tracker['appendcode'])) {
