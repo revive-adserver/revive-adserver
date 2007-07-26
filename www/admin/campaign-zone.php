@@ -180,9 +180,6 @@ echo "
     <td height='25'>&nbsp;</td>
 </tr>";
 
-
-
-
                 $tabindex++;
                 if (!empty($aZones)) {
                     MAX_sortArray($aZones, ($listorder == 'id' ? 'zone_id' : $listorder), $orderdirection == 'up');
@@ -195,7 +192,10 @@ echo "
                         $bgcolor = (isset($aLinkedAdZones[$zoneId])) ? " bgcolor='#d8d8ff'" : $bgcolorSave;
                         // Override the above highlight if this banner is linked at the campaign level...
                         $bgcolor = ($checked == ' checked') ? " bgcolor='#ffd8d8'" : $bgcolor;
-                        $disabled = ($aZone['type'] == MAX_ZoneEmail) ? ' disabled' : '';
+                        if ($aZone['type'] == MAX_ZoneEmail) {
+                            // Skip email zones from the campaign-zone list because they are not valid to link campaigns to
+                            continue;
+                        }
                         if ($aZone['width'] == -1 && $aZone['height'] == -1) {
                             $warning = "<acronym title='Warning: Zone is *x*'><img src='images/warning.gif' alt='Zone is *x*' /></acronym> ";
                         } else {

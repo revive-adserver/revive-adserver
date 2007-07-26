@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-    
+
     // Security check
     phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
@@ -53,13 +53,13 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
     $listorder      = MAX_getStoredValue('listorder', 'name');
     $orderdirection = MAX_getStoredValue('orderdirection', 'up');
     $submit         = MAX_getValue('submit');
-    
+
     // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabindex = 1;
     $agencyId = phpAds_getAgencyID();
     $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId, 'bannerid' => $bannerId);
-    
+
     // Parameter check
     if (!MAX_checkAd($advertiserId, $campaignId, $bannerId)) {
         // TODO:  Change the code below to be standard...
@@ -89,7 +89,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
                 }
             }
         }
-        
+
         if (!empty($aCurrentZones)) {
             foreach ($aCurrentZones as $zoneId => $value) {
                 $aParameters = array('zone_id' => $zoneId, 'ad_id' => $bannerId);
@@ -102,7 +102,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
                 }
             }
         }
-        
+
         if ($prioritise) {
             // Run the Maintenance Priority Engine process
             MAX_Maintenance_Priority::run();
@@ -114,12 +114,12 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
             exit;
         }
     }
-    
+
     // Display navigation
     $aOtherCampaigns = Admin_DA::getPlacements(array('agency_id' => $agencyId));
     $aOtherBanners = Admin_DA::getAds(array('placement_id' => $campaignId), false);
     MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntities);
-    
+
     // Main code
     $aAd = Admin_DA::getAd($bannerId);
     $aParams = array('agency_id' => $agencyId);
@@ -131,23 +131,23 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
     }
     $aPublishers = Admin_DA::getPublishers($aParams, true);
     $aLinkedZones = Admin_DA::getAdZones(array('ad_id' => $bannerId), false, 'zone_id');
-    
+
     echo "
 <table border='0' width='100%' cellpadding='0' cellspacing='0'>
 <form name='zones' action='$pageName' method='post'>
 <input type='hidden' name='clientid' value='$advertiserId'>
 <input type='hidden' name='campaignid' value='$campaignId'>
 <input type='hidden' name='bannerid' value='$bannerId'>";
-    
+
     MAX_displayZoneHeader($pageName, $listorder, $orderdirection, $aEntities);
-    
+
     if (!empty($errors)) {
         // Message
         echo "<br>";
         echo "<div class='errormessage'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";
-        echo "<span class='tab-r'>{$GLOBALS['strErrorLinkingBanner']}</span><br><br>";
+        echo "<span class='tab-r'>{$GLOBALS['strUnableToLinkBanner']}</span><br><br>";
         foreach ($errors as $aError) {
-            echo "{$GLOBALS['strUnableToLinkBanner']} - " . $aError->message . "<br>";
+            echo "{$GLOBALS['strErrorLinkingBanner']} <br />" . $aError->message . "<br>";
         }
         echo "</div>";
     } else {
@@ -176,7 +176,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 		        $zoneToSelect = true;
                 $bgcolor = ($i % 2 == 0) ? " bgcolor='#F6F6F6'" : '';
                 $bgcolorSave = $bgcolor;
-                
+
                 $allchecked = true;
                 foreach ($aZones as $zoneId => $aZone) {
                     if (!isset($aLinkedZones[$zoneId])) {
@@ -204,7 +204,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
     <td>$publisherId</td>
     <td height='25'>&nbsp;</td>
 </tr>";
-                
+
                 $tabindex++;
                 if (!empty($aZones)) {
                     MAX_sortArray($aZones, ($listorder == 'id' ? 'zone_id' : $listorder), $orderdirection == 'up');
@@ -215,7 +215,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
                         $zoneIcon = MAX_getEntityIcon('zone', $zoneIsActive, $aZone['type']);
                         $checked = isset($aLinkedZones[$zoneId]) ? ' checked' : '';
                         $bgcolor = ($checked == ' checked') ? " bgcolor='#d8d8ff'" : $bgcolorSave;
-                        
+
                         echo "
 <tr height='25'$bgcolor>
     <td>
@@ -246,24 +246,24 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 </tr>
 <tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
     }
-    
+
     echo "
 </table>";
-    
+
         echo "
 <br /><br />
 <input type='submit' name='submit' value='{$GLOBALS['strSaveChanges']}' tabindex='$tabindex'>";
         $tabindex++;
-    
+
     echo "
 </form>";
-        
+
     /*-------------------------------------------------------*/
     /* Form requirements                                     */
     /*-------------------------------------------------------*/
-    
+
     ?>
-    
+
     <script language='Javascript'>
     <!--
         affiliates = new Array();
@@ -278,34 +278,34 @@ affiliates[$publisherId] = $num;";
             }
         }
     ?>
-        
+
         function toggleAffiliate(affiliateid)
         {
             var count = 0;
             var affiliate;
-            
+
             for (var i=0; i<document.zones.elements.length; i++)
             {
                 if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']')
                     affiliate = i;
-                
+
                 if (document.zones.elements[i].id == 'a' + affiliateid + '' &&
                     document.zones.elements[i].checked)
                     count++;
             }
-            
+
             document.zones.elements[affiliate].checked = (count == affiliates[affiliateid]);
         }
-        
+
         function toggleZones(affiliateid)
         {
             var checked
-            
+
             for (var i=0; i<document.zones.elements.length; i++)
             {
                 if (document.zones.elements[i].name == 'affiliate[' + affiliateid + ']')
                     checked = document.zones.elements[i].checked;
-                
+
                 if (document.zones.elements[i].id == 'a' + affiliateid + '')
                     document.zones.elements[i].checked = checked;
             }
@@ -316,7 +316,7 @@ affiliates[$publisherId] = $num;";
             var zonesArray, checked, selectAllField;
 
             selectAllField = document.getElementById('selectAllField');
-            
+
             zonesArray = zonesList.split('|');
 
             for (var i=0; i<document.zones.elements.length; i++) {
@@ -324,29 +324,29 @@ affiliates[$publisherId] = $num;";
                 if (selectAllField.checked == true) {
                     document.zones.elements[i].checked = true;
                 } else {
-                    document.zones.elements[i].checked = false;                
+                    document.zones.elements[i].checked = false;
                 }
             }
         }
-    
+
     //-->
     </script>
 
 <?php
-    
+
     /*-------------------------------------------------------*/
     /* Store preferences                                     */
     /*-------------------------------------------------------*/
-    
+
     $session['prefs'][$pageName]['listorder'] = $listorder;
     $session['prefs'][$pageName]['orderdirection'] = $orderdirection;
-    
+
     phpAds_SessionDataStore();
-    
+
     /*-------------------------------------------------------*/
     /* HTML framework                                        */
     /*-------------------------------------------------------*/
-    
+
     phpAds_PageFooter();
 
 ?>
