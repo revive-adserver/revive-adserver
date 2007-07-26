@@ -34,7 +34,7 @@ process is essentially:
 
    Openads supports:
      - PHP        >= 4.3.11
-     - MySQL      >= 4.0.12
+     - MySQL      >= 4.0.18
 
    If you would like to have support for displaying graphs in the Openads
    statistics pages, you will also need to make sure that PHP is installed
