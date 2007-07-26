@@ -303,33 +303,33 @@ class OA_Environment_Manager
         if (!$this->checkMemory())
         {
             $result = OA_ENV_ERROR_PHP_MEMORY;
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY] = 'memory_limit needs to be increased';
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MEMORY] = 'The memory_limit value needs to be increased';
         }
 
         // Test the PHP configuration's safe_mode value
         if ($this->aInfo['PHP']['actual']['safe_mode'])
         {
             $result = OA_ENV_ERROR_PHP_SAFEMODE;
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE] = 'safe_mode must be OFF';
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_SAFEMODE] = 'The safe_mode option must be OFF';
         }
 
         // Test the PHP configuration's magic_quotes_runtime value
         if ($this->aInfo['PHP']['actual']['magic_quotes_runtime'])
         {
             $result = OA_ENV_ERROR_PHP_MAGICQ;
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'magic_quotes_runtime must be OFF';
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_MAGICQ] = 'The magic_quotes_runtime option must be OFF';
         }
 
         // Test the PHP configuration's file_uploads value
         if (!$this->aInfo['PHP']['actual']['file_uploads']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'file_uploads must be ON';
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_UPLOADS] = 'The file_uploads option must be ON';
         }
-        
+
         // Test the xml extension is loaded
         if (!$this->aInfo['PHP']['actual']['xml']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML] = 'xml extension must be loaded';
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML] = 'The xml extension must be loaded';
         }
-        
+
         return $result;
     }
 
