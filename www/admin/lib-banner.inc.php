@@ -51,15 +51,12 @@ function phpAds_getBannerCache($banner)
             if ($buffer != '')
             {
                 // Remove target parameters
-                $buffer = preg_replace('# target\s*=\s*[\\\\]?\'[^\']*\'#i', ' ', $buffer);  // target='_blank'
-                $buffer = preg_replace('# target\s*=\s*[\\\\]?\"[^\"]*\"#i', ' ', $buffer);  // target="_blank"
-                //$buffer = preg_replace(" target=(some word)", '', $buffer); // target=_blank
+                // The regexp should handle ", ', \", \' as delimiters
+                $buffer = preg_replace('# target\s*=\s*(\\\\?[\'"]).*?\1#i', ' ', $buffer);
 
                 // Put our click URL and our target parameter in all anchors...
-                // Assumption: That a URL will never contain either ' or "
-                // Reverted this temporarily
-                // $buffer = preg_replace('#<a(.*?)href\s*=\s*([\\\\]?)[\'"]http(.*?)[\'"](.*?)>#is', "<a$1href=$2\"{clickurl}http$3\"$4  target=\"{target}\">", $buffer);
-                $buffer = preg_replace('#<a(.*?)href\s*=\s*([\\\\]?)[\'"]http(.*?)[\'"](.*?)>#is', "<a$1href=$2\"{clickurl}http$3\"$4  target=\\'{target}\\'>", $buffer);
+                // The regexp should handle ", ', \", \' as delimiters
+                $buffer = preg_replace('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', "<a$1href=$2{clickurl}http$3$2$4  target=$2{target}$2>", $buffer);
 
 
                 // Search: <\s*form (.*?)action\s*=\s*['"](.*?)['"](.*?)>
