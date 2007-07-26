@@ -1173,6 +1173,7 @@ $arr = array(
 505 => 'HTTP Version Not Supported'
 );
 if (isset($arr[$iStatusCode])) {
+$text = $iStatusCode . ' ' . $arr[$iStatusCode];
 // Using header('Status: NNN') with CGI sapis seems to be deprecated
 header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
