@@ -264,7 +264,7 @@ function MAX_layerGetHtml($output, $uniqid)
 					</tr>'.(strlen($closetext) ? '
 					<tr> 
 						<td align="center" bgcolor="#FFFFFF" style="font-family: Arial, helvetica, sans-serif; font-size: 9px; padding: 1px">' .
-							'<a href="#" onclick="phpAds_geopop(\'collapse\', \''.$uniqid.'\');return!1;" style="color:#0000ff">'.$closetext.'</a>' .
+							'<a href="#" onclick="MAX_geopop(\'collapse\', \''.$uniqid.'\');return!1;" style="color:#0000ff">'.$closetext.'</a>' .
 						'</td>
 					</tr>' : '').'
 				</table>
