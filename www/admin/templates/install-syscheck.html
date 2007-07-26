@@ -96,7 +96,7 @@
                 $sysinfoarray['actual']['register_argc_argv'] = 'ON ' . $passImage;
             }
             
-            $sysinfoarray['actual']['libxml'] = ($sysinfoarray['actual']['libxml'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            $sysinfoarray['actual']['xml'] = ($sysinfoarray['actual']['xml'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             
             $halt = (($halt) || ($sysinfoarray['error']));
 
