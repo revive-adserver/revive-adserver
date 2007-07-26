@@ -71,53 +71,28 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
         // Get instance of OA_Dal_Maintenance_Statistics
         $oDal = new OA_Dal_Maintenance_Statistics();
         if (($this->oController->updateFinal) && ($this->oController->updateIntermediate)) {
-            // Need to log that both the intermediate and final tables were updated;
-            // however, need to ensure that we log the correct "updated to" times
-            $oUpdateIntermediateToDate = new Date();
-            $oUpdateIntermediateToDate->copy($this->oController->updateIntermediateToDate);
-            $oUpdateFinalToDate = new Date();
-            $oUpdateFinalToDate->copy($this->oController->updateFinalToDate);
-            if ($oUpdateIntermediateToDate->equals($oUpdateFinalToDate)) {
-                // The dates are the same, log info with one row
-                $oDal->setMaintenanceStatisticsLastRunInfo(
-                    $oNowDate,
-                    $oEndDate,
-                    $this->oController->updateIntermediateToDate,
-                    $runTypeField,
-                    OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH
-                );
-            } else {
-                // The dates are not the same, log info with two rows
-                $oDal->setMaintenanceStatisticsLastRunInfo(
-                    $oNowDate,
-                    $oEndDate,
-                    $this->oController->updateIntermediateToDate,
-                    $runTypeField,
-                    OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI
-                );
-                $oDal->setMaintenanceStatisticsLastRunInfo(
-                    $oNowDate,
-                    $oEndDate,
-                    $this->oController->updateFinalToDate,
-                    $runTypeField,
-                    OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR
-                );
-            }
-        } else if ($this->oController->updateIntermediate) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
                 $oNowDate,
                 $oEndDate,
                 $this->oController->updateIntermediateToDate,
                 $runTypeField,
-                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH
             );
-        } else if ($this->oController->updateFinal) {
+        } elseif ($this->oController->updateFinal) {
             $oDal->setMaintenanceStatisticsLastRunInfo(
                 $oNowDate,
                 $oEndDate,
                 $this->oController->updateFinalToDate,
                 $runTypeField,
                 OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR
+            );
+        } elseif ($this->oController->updateIntermediate) {
+            $oDal->setMaintenanceStatisticsLastRunInfo(
+                $oNowDate,
+                $oEndDate,
+                $this->oController->updateIntermediateToDate,
+                $runTypeField,
+                OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI
             );
         } else {
             MAX::debug(
@@ -126,7 +101,6 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
             );
             return false;
         }
-        // Log the report to the "user log"
         $oDal->setMaintenanceStatisticsRunReport($this->oController->report);
         return true;
     }
