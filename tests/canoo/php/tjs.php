@@ -25,7 +25,7 @@ $debug = '';
     document.write ("<" + "script language='JavaScript' ");
     document.write ("type='text/javascript' src='"+OA_p);
     document.write ("<?php echo '//'.$_SERVER['HTTP_HOST'].$webPath; ?>");
-    document.write ("?trackerid=1&amp;r="+OA_r+"'><" + "/script>");
+    document.write ("?trackerid=1&amp;r="+OA_r+"'><" + "\/script>");
 //]]>--></script>
 
 </body>

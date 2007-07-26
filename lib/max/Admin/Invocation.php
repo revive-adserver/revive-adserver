@@ -509,7 +509,7 @@ class MAX_Admin_Invocation {
     document.write (\"<\" + \"script language='JavaScript' \");
     document.write (\"type='text/javascript' src='\"+{$varprefix}p);
     document.write (\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['conversionjs'])."\");
-    document.write (\"?trackerid={$trackerId}&amp;r=\"+{$varprefix}r+\"'><\" + \"/script>\");
+    document.write (\"?trackerid={$trackerId}&amp;r=\"+{$varprefix}r+\"'><\" + \"\\/script>\");
 //]]>--></script><noscript>" . $this->_generateTrackerImageBeacon($trackerId) . "</noscript>";
         $buffer .= "\n";
         return $buffer;

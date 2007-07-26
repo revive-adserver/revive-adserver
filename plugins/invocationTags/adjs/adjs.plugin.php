@@ -129,7 +129,7 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
         }
         // The cachebuster for JS tags is auto-generated
         unset($mi->parameters['cb']);
-        
+
         $buffer .= "<script type='text/javascript'><!--//<![CDATA[\n";
         // Support for 3rd party server clicktracking
         if (!empty($mi->thirdpartytrack)) {
@@ -146,7 +146,7 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
             $buffer .= "   document.write (\"?".implode ("&amp;", $mi->parameters)."\");\n";
         }
         $buffer .= "   document.write ('&amp;cb=' + m3_r);\n";
-        
+
         // Don't pass in exclude unless necessary
         $buffer .= "   if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);\n";
         $buffer .= "   document.write (\"&amp;loc=\" + escape(window.location));\n";
@@ -160,7 +160,7 @@ class Plugins_InvocationTags_adjs_adjs extends Plugins_InvocationTags
         }
         // Pass in if the FlashObject - Inline code has already been passed in
         $buffer .= "   if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");\n";
-        $buffer .= "   document.write (\"'></scr\"+\"ipt>\");\n";
+        $buffer .= "   document.write (\"'><\\/scr\"+\"ipt>\");\n";
         $buffer .= "//]]>--></script>";
 
         if ($mi->extra['delivery'] != phpAds_ZoneText) {

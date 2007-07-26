@@ -47,10 +47,10 @@ class Memory_TestData
     function generate($cHowManyRecords, $cHowManyBanners)
     {
         $this->cleanUp();
-        
+
         // Set default data value to empty string
         DataGenerator::defaultValueByType(MAX_DATAGENERATOR_DEFAULT_TYPE, '');
-        
+
         for($c = 1; $c <= $cHowManyRecords; $c++) {
             $this->insertAgency($c);
             $this->insertAffiliate($c);
@@ -61,7 +61,7 @@ class Memory_TestData
             $this->insertAdZoneAssoc($c);
         }
     }
-    
+
     function cleanUp()
     {
         $aCleanupTables = array(
@@ -257,7 +257,7 @@ class Memory_TestData
    if (document.context) document.write (\"&context=\" + escape(document.context));
    if (document.context) document.write (\"&context=\" + escape(document.context));
    if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
-   document.write (\"'></scr\"+\"ipt>\");
+   document.write (\"'><\\/scr\"+\"ipt>\");
 //]]>--></script><noscript><a href='http://ads.openads.org/delivery/ck.php?n=abc986b1&amp;cb=INSERT_RANDOM_NUMBER_HERE' target='_blank'><img src='http://ads.openads.org/delivery/avw.php?zoneid=9&amp;cb=INSERT_RANDOM_NUMBER_HERE&amp;n=abc986b1' border='0' alt='' /></a></noscript>";
 
         $doBanners->htmlcache    = "<script type='text/javascript'><!--//<![CDATA[
@@ -273,7 +273,7 @@ class Memory_TestData
    if (document.context) document.write (\"&context=\" + escape(document.context));
    if (document.context) document.write (\"&context=\" + escape(document.context));
    if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
-   document.write (\"'></scr\"+\"ipt>\");
+   document.write (\"'><\\/scr\"+\"ipt>\");
 //]]>--></script>";
 
         $this->bannerId1 = DataGenerator::generate($doBanners, $c);
