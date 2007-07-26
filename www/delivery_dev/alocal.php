@@ -38,6 +38,9 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 
 // This function is a wrapper to view raw, this allows for future migration
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {
+    // start stacked output buffering
+    ob_start();
+    
     if (!((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
         if ($zoneid) {
             $what = "zone:".$zoneid;
@@ -75,6 +78,9 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
            }
         $GLOBALS['phpAds_context'] = $GLOBALS['phpAds_context'] + $output['context'];
     }
+    MAX_cookieFlush();
+    // add cookies to output html
+    $output['html'] .= ob_get_clean();
     return $output;
 }
 

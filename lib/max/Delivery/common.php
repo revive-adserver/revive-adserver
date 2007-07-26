@@ -382,7 +382,7 @@ function MAX_setcookie($name, $value, $expire, $path, $domain)
             }
             $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'][$name] = array($value, $expire);
         } else {
-            setcookie($name, $value, $expire, $path, $domain);
+            @setcookie($name, $value, $expire, $path, $domain);
         }
     ###START_STRIP_DELIVERY
     } else {
