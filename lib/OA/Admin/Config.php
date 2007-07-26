@@ -196,21 +196,21 @@ class OA_Admin_Config
             return false;
         }
         // Do any old configuration files need to be deleted?
-        if ($newAdminHost != $oldAdminHost) {
+        if (!is_null($oldAdminHost) && ($newAdminHost != $oldAdminHost)) {
             $file = $configPath . '/' . $oldAdminHost . $configFile . '.conf.php';
-            if($file != $mainConfigFile) {
+            if ($file != $mainConfigFile) {
                 @unlink($file);
             }
         }
-        if ($newDeliveryHost != $oldDeliveryHost && $oldDeliveryHost != $newAdminHost) {
+        if (!is_null($oldDeliveryHost) && ($newDeliveryHost != $oldDeliveryHost) && ($oldDeliveryHost != $newAdminHost)) {
             $file = $configPath . '/' . $oldDeliveryHost . $configFile . '.conf.php';
-            if($file != $mainConfigFile) {
+            if ($file != $mainConfigFile) {
                 @unlink($file);
             }
         }
-        if ($newDeliverySslHost != $oldDeliverySslHost && $oldDeliverySslHost != $newAdminHost) {
+        if (!is_null($oldDeliverySslHost) && ($newDeliverySslHost != $oldDeliverySslHost) && ($oldDeliverySslHost != $newAdminHost)) {
             $file = $configPath . '/' . $oldDeliverySslHost . $configFile . '.conf.php';
-            if($file != $mainConfigFile) {
+            if ($file != $mainConfigFile) {
                 @unlink($file);
             }
         }
