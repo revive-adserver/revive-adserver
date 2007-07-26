@@ -99,9 +99,12 @@ $settings = array (
                 'name'    => 'log_type',
                 'text'    => $strDebugType,
                 'items'   => array('file'   => $strDebugTypeFile,
+                /* This has to be hide till we fix #789
                                    'mcal'   => $strDebugTypeMcal,
                                    'sql'    => $strDebugTypeSql,
-                                   'syslog' => $strDebugTypeSyslog),
+                                   'syslog' => $strDebugTypeSyslog
+                */
+                                   ),
                 'depends' => 'log_enabled==1'
             ),
             array (
