@@ -1031,6 +1031,7 @@ class OA_Upgrade
         $GLOBALS['_MAX']['CONF']['database']          = $this->aDsn['database'];
         $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
         $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
+        // Try connecting to the database
         $this->oDbh = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
         if (PEAR::isError($this->oDbh))
         {
