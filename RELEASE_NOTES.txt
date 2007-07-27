@@ -39,6 +39,36 @@ What's New in Openads 2.3.36-beta
 
  * Release date: MONTH DAY, YEAR
 
+ * The install / upgrade wizard now no longer prevents installation
+   or upgrade under PHP 4.3.10.
+
+ * The install / upgrade wizard now checks to ensure that the pcre,
+   xml and zlib extensions are loaded in PHP.
+
+ * The Tracker Append screen in the UI has been fixed.
+
+ * The UI has been updated to improve the way email zone linking
+   is handled.
+
+ * Reports now continue to work after generating a report for "All
+   statistics" or "Specific dates".
+
+ * The location of the temporary file for generation of reports
+   has been updated to not use the system default.
+
+ * Fixed W3C validation in Javascript Zone Invocation Tags.
+
+ * Fixed generation of links in HTML banners.
+
+ * Click tracking of Google AdSense and Yahoo! Publisher Network
+   banners fixed when using ctDelimiter != "__".
+
+ * Improved support for FastCGI-based web servers.
+
+ * Fixed saving of channels.
+
+ * Fixed detection of new versions of Openads.
+
  * For complete details, see https://developer.openads.org/.
 
 
@@ -72,12 +102,12 @@ Downloading and Installing
    and use the links to refer to detailed information on each step where
    necessary.
 
-   Please note: The upgrade process will upgrade your Openads database, and
-   the database may no longer be compatible with your old code base.
+   Please note: The upgrade process will upgrade your Openads database,
+   and the database may no longer be compatible with your old code base.
    Therefore, you should create a backup of your database, just in case.
 
-   The upgrader supports upgrading from the following previous releases of
-   Openads:
+   The upgrade wizard supports upgrading from the following previous
+   releases of Openads:
 
    ---------------------------------------------------------------
    | Product                             | Version               |
@@ -149,7 +179,7 @@ FAQ
 
     Yes.  phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
     first upgrade to the latest version of Openads 2.0 before using the Openads
-    2.3 upgrader.
+    2.3 upgrade wizard.
 
  3. Does Openads 2.3.36-beta support PostgreSQL?
 
