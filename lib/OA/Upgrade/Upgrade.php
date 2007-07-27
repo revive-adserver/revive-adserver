@@ -1364,6 +1364,12 @@ class OA_Upgrade
         $oPrefs->loadPrefs();
 
         $oPrefs->setPrefChange('updates_enabled', !empty($aCommunity['updates_enabled'])?'t':'f');
+
+        // Reset Sync cache
+        $oPrefs->setPrefChange('updates_cache', '');
+        $oPrefs->setPrefChange('updates_timestamp', 0);
+        $oPrefs->setPrefChange('updates_last_seen', 0);
+
         // Generate a new instance ID if empty
         if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
             $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
