@@ -43,13 +43,6 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-// Check for previously downloaded info
-if (isset($session['update_check']) && $session['update_check']) {
-    phpAds_SessionDataRegister('maint_update', $session['update_check']);
-    phpAds_SessionDataRegister('update_check', false);
-    phpAds_SessionDataStore();
-}
-
 phpAds_PageHeader("5.4");
 phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_MaintenanceSelection("product", "updates");
@@ -135,7 +128,7 @@ if (!isset($session['maint_update'])) {
         echo "<tr height='1'><td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
         echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' valign='top' nowrap>";
         echo "<br />&nbsp;&nbsp;<img src='images/icon-setup.gif' align='absmiddle'>&nbsp;";
-        echo MAX_PRODUCT_NAME." ".$maint_update[1]['config_readable']."</td>";
+        echo $maint_update[1]['product_name']." ".$maint_update[1]['config_readable']."</td>";
         echo "<td width='32'>&nbsp;</td>";
         echo "<td><br />".$maint_update[1]['description']."<br /><br />";
         echo "</td>";

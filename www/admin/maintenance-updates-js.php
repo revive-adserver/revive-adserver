@@ -33,6 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Sync.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
@@ -52,15 +53,21 @@ if (phpAds_isUser(phpAds_Admin))
 
     // Check accordingly to user preferences
     if ($pref['updates_enabled'] != 'f' && $pref['updates_enabled']) {
-        require_once MAX_PATH . '/lib/OA/Sync.php';
-
-        $oSync = new OA_Sync();
-
         if ($pref['updates_cache']) {
             $update_check = unserialize($pref['updates_cache']);
         }
 
-        if (!is_array($update_check) || $oSync->getConfigVersion(OA_VERSION) <= $pref['updates_last_seen']) {
+        // If cache timestamp not set or older than 24hrs, re-sync
+        if (isset($pref['updates_timestamp']) && $pref['updates_timestamp'] + 86400 < time()) {
+            $oSync = new OA_Sync();
+            $res = $oSync->checkForUpdates();
+
+            if ($res[0] == 0) {
+                $update_check = $res[1];
+            }
+        }
+
+        if (!is_array($update_check) || $update_check['config_version'] <= $pref['updates_last_seen']) {
             $update_check = false;
         } else {
             // Make sure that the alert doesn't display everytime
@@ -74,11 +81,11 @@ if (phpAds_isUser(phpAds_Admin))
         }
     }
 
-    phpAds_SessionDataRegister('update_check', $update_check);
+    phpAds_SessionDataRegister('maint_update_js', true);
     phpAds_SessionDataStore();
 
     // Add Product Update redirector
-    if ($update_check)     {
+    if (isset($update_check[0]) && $update_check[0] == 0) {
         header("Content-Type: application/x-javascript");
 
         if ($update_check[1]['security_fix'])
