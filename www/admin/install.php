@@ -369,6 +369,9 @@ else if (array_key_exists('btn_adminsetup', $_POST))
         session_start();
         $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
 
+        // Always use the path we're installing on as admin UI path
+        $_POST['aConfig']['webpath']['admin'] = $conf['webpath']['admin'];
+
         if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
         {
             if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {

@@ -81,18 +81,18 @@ if ($errMessage) {
                             'type'  => 'break'
                         ),
                         array (
-                            'type'  => 'text',
+                            'type'  => 'url',
                             'name'  => 'aConfig[webpath][admin]',
                             'text'  => $strWebPathSimple,
-                            'req'   => true,
                             'size'  => '50',
-                            'value' => $aConfig['webpath']['admin']
+                            'value' => $aConfig['webpath']['admin'],
+                            'enabled' => true
                         ),
                         array (
                             'type'  => 'break'
                         ),
                         array (
-                            'type'  => 'text',
+                            'type'  => 'urln',
                             'name'  => 'aConfig[webpath][delivery]',
                             'text'  => $strDeliveryPath,
                             'req'   => true,
@@ -103,7 +103,7 @@ if ($errMessage) {
                             'type'  => 'break'
                         ),
                         array (
-                            'type'  => 'text',
+                            'type'  => 'urln',
                             'name'  => 'aConfig[webpath][images]',
                             'text'  => $strImagePath,
                             'req'   => true,
@@ -114,7 +114,7 @@ if ($errMessage) {
                             'type'  => 'break'
                         ),
                         array (
-                            'type'  => 'text',
+                            'type'  => 'urls',
                             'name'  => 'aConfig[webpath][deliverySSL]',
                             'text'  => $strDeliverySslPath,
                             'req'   => true,
@@ -125,7 +125,7 @@ if ($errMessage) {
                             'type'  => 'break'
                         ),
                         array (
-                            'type'  => 'text',
+                            'type'  => 'urls',
                             'name'  => 'aConfig[webpath][imagesSSL]',
                             'text'  => $strImageSslPath,
                             'req'   => true,
