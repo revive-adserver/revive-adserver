@@ -122,7 +122,6 @@ function MAX_querystringGetDestinationUrl($adId = null)
     $dest = isset($_REQUEST[$conf['var']['dest']]) ? $_REQUEST[$conf['var']['dest']] : '';
     if (empty($dest) && !empty($adId)) {
         // Get the destination from the banner
-        include_once(MAX_PATH . '/lib/max/Delivery/cache.php');
         $aAd = MAX_cacheGetAd($adId);
         if (!empty($aAd)) {
             $dest = $aAd['url'];
