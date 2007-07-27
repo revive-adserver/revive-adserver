@@ -149,6 +149,8 @@ $GLOBALS['strDifference']               = 'Difference (%)';
 $GLOBALS['strPercentageOfTotal']        = '% Total';
 $GLOBALS['strValue']                    = 'Value';
 $GLOBALS['strAdmin']                    = 'Admin';
+$GLOBALS['strWarning']                  = 'Warning';
+$GLOBALS['strNotice']                   = 'Notice';
 
 // Dashboard
 $GLOBALS['strDashboardCommunity']       = 'Community';
@@ -652,6 +654,12 @@ $GLOBALS['strTotalZones']                   = 'Total zones';
 $GLOBALS['strCostInfo']                     = 'Media Cost';
 $GLOBALS['strTechnologyCost']               = 'Technology Cost';
 $GLOBALS['strInactiveZonesHidden']          = "inactive zone(s) hidden";
+$GLOBALS['strWarnChangeZoneType']           = 'Changing the zone type to text or email will unlink all banners/campaigns due to restrictions of these zone types
+                                                <ul>
+                                                    <li>Text zones can only be linked to text ads</li>
+                                                    <li>Email zone campaigns can only have one active banner at a time</li>
+                                                </ul>';
+$GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 
 // Advanced zone settings
 $GLOBALS['strAdvanced']                    = "Advanced";
