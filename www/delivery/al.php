@@ -2536,6 +2536,7 @@ return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 function MAX_javascriptToHTML($string, $varName, $output = true)
 {
 $jsLines = array();
+$search[] = "\\"; $replace[] = "\\\\";
 $search[] = "\r"; $replace[] = '';
 $search[] = '"'; $replace[] = '\"';
 $search[] = "'";  $replace[] = "\\'";

@@ -1465,6 +1465,7 @@ return $output;
 function MAX_javascriptToHTML($string, $varName, $output = true)
 {
 $jsLines = array();
+$search[] = "\\"; $replace[] = "\\\\";
 $search[] = "\r"; $replace[] = '';
 $search[] = '"'; $replace[] = '\"';
 $search[] = "'";  $replace[] = "\\'";
