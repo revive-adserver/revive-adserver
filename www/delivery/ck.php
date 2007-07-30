@@ -1189,198 +1189,6 @@ $text = $iStatusCode . ' ' . $arr[$iStatusCode];
 header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
 }
-// Set the viewer's remote information used in logging
-// and delivery limitation evaluation
-MAX_remotehostProxyLookup();
-MAX_remotehostReverseLookup();
-MAX_remotehostSetClientInfo();
-MAX_remotehostSetGeoInfo();
-// Set common delivery parameters in the global scope
-MAX_commonInitVariables();
-// Unpack the packed capping cookies
-MAX_cookieUnpackCapping();
-// Required files
-function MAX_querystringConvertParams()
-{
-$conf = $GLOBALS['_MAX']['CONF'];
-$qs = $_SERVER['QUERY_STRING'];
-// 1.  Strip off the destination
-$dest = false;
-$destStr = $conf['var']['dest'] . '=';
-$pos = strpos($qs, $destStr);
-if ($pos === false) {
-$destStr = 'dest=';
-$pos = strpos($qs, $destStr);
-}
-if ($pos !== false) {
-$dest = urldecode(substr($qs, $pos + strlen($destStr)));
-$qs = substr($qs, 0, $pos);
-}
-// 2.  Parse the remaining string
-$aGet = array();
-$paramStr = $conf['var']['params'] . '=';
-$paramPos = strpos($qs, $paramStr);
-if (is_numeric($paramPos)) {
-$qs = urldecode(substr($qs, $paramPos + strlen($paramStr)));
-$delim = $qs{0};
-if (is_numeric($delim)) {
-$delim = substr($qs, 1, $delim);
-}
-$qs = substr($qs, strlen($delim) + 1);
-MAX_querystringParseStr($qs, $aGet, $delim);
-// Fix the destination URL since if appended by a form, it will have no '?'
-$qPos = isset($aGet[$conf['var']['dest']]) ? strpos($aGet[$conf['var']['dest']], '?') : false;
-$aPos = isset($aGet[$conf['var']['dest']]) ? strpos($aGet[$conf['var']['dest']], '&') : false;
-if ($aPos && !$qPos) {
-$desturl = substr($aGet[$conf['var']['dest']], 0, $aPos);
-$destparams = substr($aGet[$conf['var']['dest']], $aPos+1);
-$aGet[$conf['var']['dest']] = $desturl . '?' . $destparams;
-}
-} else {
-parse_str($qs, $aGet);
-}
-if ($dest !== false) {
-$aGet[$conf['var']['dest']] = $dest;
-}
-// 3.  Add any cookie values to the GET string...
-$n = isset($_GET[$conf['var']['n']]) ? $_GET[$conf['var']['n']] : '';
-if (empty($n)) {
-// Try from querystring
-$n = isset($aGet[$conf['var']['n']]) ? $aGet[$conf['var']['n']] : '';
-}
-if (!empty($n) && !empty($_COOKIE[$conf['var']['vars']][$n])) {
-$aVars = unserialize(stripslashes($_COOKIE[$conf['var']['vars']][$n]));
-foreach ($aVars as $name => $value) {
-if (!isset($_GET[$name])) {
-$aGet[$name] = $value;
-}
-}
-}
-$_GET = $aGet;
-$_REQUEST = $_GET + $_POST + $_COOKIE;
-}
-function MAX_querystringGetDestinationUrl($adId = null)
-{
-$conf = $GLOBALS['_MAX']['CONF'];
-$dest = isset($_REQUEST[$conf['var']['dest']]) ? $_REQUEST[$conf['var']['dest']] : '';
-if (empty($dest) && !empty($adId)) {
-// Get the destination from the banner
-$aAd = MAX_cacheGetAd($adId);
-if (!empty($aAd)) {
-$dest = $aAd['url'];
-}
-}
-// If no destination URL has been found by now, then we don't need to redirect
-if (empty($dest)) {
-return;
-}
-//if (empty($dest)) {
-//    $dest = ($adId == 'DEFAULT') ? $pref['default_banner_destination'] : $_SERVER['HTTP_REFERER'];
-//}
-$aVariables = array();
-$aValidVariables = array(
-$conf['var']['adId'],
-$conf['var']['cacheBuster'],
-$conf['var']['channel'],
-$conf['var']['dest'],
-$conf['var']['logClick'],
-$conf['var']['n'],
-$conf['var']['zoneId'],
-$conf['var']['params'],
-$conf['var']['cookieTest'],
-'channel_ids'
-);
-// We also need to ensure that any variables already present in the dest are not duplicated...
-$destParams = parse_url($dest);
-if (!empty($destParams['query'])) {
-$destQuery = explode('&', $destParams['query']);
-if (!empty($destQuery)) {
-foreach ($destQuery as $destPair) {
-list($destName, $destValue) = explode('=', $destPair);
-$aValidVariables[] = $destName;
-}
-}
-}
-foreach ($_GET as $name => $value) {
-if (!in_array($name, $aValidVariables)) {
-$aVariables[] = $name . '=' . $value;
-}
-}
-foreach ($_POST as $name => $value) {
-if (!in_array($name, $aValidVariables)) {
-$aVariables[] = $name . '=' . $value;
-}
-}
-if (!empty($aVariables)) {
-$dest .= ((strpos($dest, '?') > 0) ? '&' : '?') . implode('&', $aVariables);
-}
-return $dest;
-}
-function MAX_querystringParseStr($qs, &$aArr, $delim = '&')
-{
-$aArr = $_GET;
-// Parse the rest of the array and add to the request array.
-$aElements = explode($delim, $qs);
-foreach($aElements as $element) {
-$len = strpos($element, '=');
-if ($len !== false) {
-$name = substr($element, 0, $len);
-$value = substr($element, $len+1);
-$aArr[$name] = urldecode($value);
-}
-}
-}
-// Prevent click from being cached by browsers
-MAX_commonSetNoCacheHeaders();
-// Convert specially encoded params into the $_REQUEST variable
-MAX_querystringConvertParams();
-// Remove any special characters
-MAX_commonRemoveSpecialChars($_REQUEST);
-// Get the variables
-$viewerId = MAX_cookieGetUniqueViewerID();
-if (!empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && empty($_GET[$conf['var']['cookieTest']])) {
-// No previous cookie was found, and we have not tried to force setting one...
-MAX_cookieSetViewerIdAndRedirect($viewerId);
-}
-$adId       = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['adId']]) : array();
-$zoneId     = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : array();
-$creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : array();
-if (empty($adId) && !empty($zoneId)) {
-foreach ($zoneId as $index => $zone) {
-$adId[$index] = _getZoneAd($zone);
-$creativeId[$index] = 0;
-}
-}
-for ($i = 0; $i < count($adId); $i++) {
-$adId[$i] = intval($adId[$i]);
-$zoneId[$i] = intval($zoneId[$i]);
-if (isset($creativeId[$i])) {
-$creativeId[$i] = intval($creativeId[$i]);
-} else {
-$creativeId[$i] = 0;
-}
-if (($adId[$i] > 0) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
-if (isset($_REQUEST['channel_ids'])) {
-$GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST['channel_ids']);
-}
-MAX_Delivery_log_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
-}
-}
-// Set the userid cookie
-MAX_cookieSet($conf['var']['viewerId'], $viewerId, time() + $conf['cookie']['permCookieSeconds']);
-MAX_cookieFlush();
-// Get the URL that we are going to redirect to
-$destination = MAX_querystringGetDestinationUrl($adId[0]);
-// Redirect to the destination url
-if (!empty($destination) && empty($_GET['trackonly'])) {
-// Prevent HTTP response split attacks
-if (!preg_match('/[\r\n]/', $destination)) {
-MAX_redirect($destination);
-}
-}
-function _getZoneAd($zoneId)
-{
-$conf = $GLOBALS['conf'];
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
@@ -1643,6 +1451,198 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
+// Set the viewer's remote information used in logging
+// and delivery limitation evaluation
+MAX_remotehostProxyLookup();
+MAX_remotehostReverseLookup();
+MAX_remotehostSetClientInfo();
+MAX_remotehostSetGeoInfo();
+// Set common delivery parameters in the global scope
+MAX_commonInitVariables();
+// Unpack the packed capping cookies
+MAX_cookieUnpackCapping();
+// Required files
+function MAX_querystringConvertParams()
+{
+$conf = $GLOBALS['_MAX']['CONF'];
+$qs = $_SERVER['QUERY_STRING'];
+// 1.  Strip off the destination
+$dest = false;
+$destStr = $conf['var']['dest'] . '=';
+$pos = strpos($qs, $destStr);
+if ($pos === false) {
+$destStr = 'dest=';
+$pos = strpos($qs, $destStr);
+}
+if ($pos !== false) {
+$dest = urldecode(substr($qs, $pos + strlen($destStr)));
+$qs = substr($qs, 0, $pos);
+}
+// 2.  Parse the remaining string
+$aGet = array();
+$paramStr = $conf['var']['params'] . '=';
+$paramPos = strpos($qs, $paramStr);
+if (is_numeric($paramPos)) {
+$qs = urldecode(substr($qs, $paramPos + strlen($paramStr)));
+$delim = $qs{0};
+if (is_numeric($delim)) {
+$delim = substr($qs, 1, $delim);
+}
+$qs = substr($qs, strlen($delim) + 1);
+MAX_querystringParseStr($qs, $aGet, $delim);
+// Fix the destination URL since if appended by a form, it will have no '?'
+$qPos = isset($aGet[$conf['var']['dest']]) ? strpos($aGet[$conf['var']['dest']], '?') : false;
+$aPos = isset($aGet[$conf['var']['dest']]) ? strpos($aGet[$conf['var']['dest']], '&') : false;
+if ($aPos && !$qPos) {
+$desturl = substr($aGet[$conf['var']['dest']], 0, $aPos);
+$destparams = substr($aGet[$conf['var']['dest']], $aPos+1);
+$aGet[$conf['var']['dest']] = $desturl . '?' . $destparams;
+}
+} else {
+parse_str($qs, $aGet);
+}
+if ($dest !== false) {
+$aGet[$conf['var']['dest']] = $dest;
+}
+// 3.  Add any cookie values to the GET string...
+$n = isset($_GET[$conf['var']['n']]) ? $_GET[$conf['var']['n']] : '';
+if (empty($n)) {
+// Try from querystring
+$n = isset($aGet[$conf['var']['n']]) ? $aGet[$conf['var']['n']] : '';
+}
+if (!empty($n) && !empty($_COOKIE[$conf['var']['vars']][$n])) {
+$aVars = unserialize(stripslashes($_COOKIE[$conf['var']['vars']][$n]));
+foreach ($aVars as $name => $value) {
+if (!isset($_GET[$name])) {
+$aGet[$name] = $value;
+}
+}
+}
+$_GET = $aGet;
+$_REQUEST = $_GET + $_POST + $_COOKIE;
+}
+function MAX_querystringGetDestinationUrl($adId = null)
+{
+$conf = $GLOBALS['_MAX']['CONF'];
+$dest = isset($_REQUEST[$conf['var']['dest']]) ? $_REQUEST[$conf['var']['dest']] : '';
+if (empty($dest) && !empty($adId)) {
+// Get the destination from the banner
+$aAd = MAX_cacheGetAd($adId);
+if (!empty($aAd)) {
+$dest = $aAd['url'];
+}
+}
+// If no destination URL has been found by now, then we don't need to redirect
+if (empty($dest)) {
+return;
+}
+//if (empty($dest)) {
+//    $dest = ($adId == 'DEFAULT') ? $pref['default_banner_destination'] : $_SERVER['HTTP_REFERER'];
+//}
+$aVariables = array();
+$aValidVariables = array(
+$conf['var']['adId'],
+$conf['var']['cacheBuster'],
+$conf['var']['channel'],
+$conf['var']['dest'],
+$conf['var']['logClick'],
+$conf['var']['n'],
+$conf['var']['zoneId'],
+$conf['var']['params'],
+$conf['var']['cookieTest'],
+'channel_ids'
+);
+// We also need to ensure that any variables already present in the dest are not duplicated...
+$destParams = parse_url($dest);
+if (!empty($destParams['query'])) {
+$destQuery = explode('&', $destParams['query']);
+if (!empty($destQuery)) {
+foreach ($destQuery as $destPair) {
+list($destName, $destValue) = explode('=', $destPair);
+$aValidVariables[] = $destName;
+}
+}
+}
+foreach ($_GET as $name => $value) {
+if (!in_array($name, $aValidVariables)) {
+$aVariables[] = $name . '=' . $value;
+}
+}
+foreach ($_POST as $name => $value) {
+if (!in_array($name, $aValidVariables)) {
+$aVariables[] = $name . '=' . $value;
+}
+}
+if (!empty($aVariables)) {
+$dest .= ((strpos($dest, '?') > 0) ? '&' : '?') . implode('&', $aVariables);
+}
+return $dest;
+}
+function MAX_querystringParseStr($qs, &$aArr, $delim = '&')
+{
+$aArr = $_GET;
+// Parse the rest of the array and add to the request array.
+$aElements = explode($delim, $qs);
+foreach($aElements as $element) {
+$len = strpos($element, '=');
+if ($len !== false) {
+$name = substr($element, 0, $len);
+$value = substr($element, $len+1);
+$aArr[$name] = urldecode($value);
+}
+}
+}
+// Prevent click from being cached by browsers
+MAX_commonSetNoCacheHeaders();
+// Convert specially encoded params into the $_REQUEST variable
+MAX_querystringConvertParams();
+// Remove any special characters
+MAX_commonRemoveSpecialChars($_REQUEST);
+// Get the variables
+$viewerId = MAX_cookieGetUniqueViewerID();
+if (!empty($GLOBALS['_MAX']['COOKIE']['newViewerId']) && empty($_GET[$conf['var']['cookieTest']])) {
+// No previous cookie was found, and we have not tried to force setting one...
+MAX_cookieSetViewerIdAndRedirect($viewerId);
+}
+$adId       = isset($_REQUEST[$conf['var']['adId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['adId']]) : array();
+$zoneId     = isset($_REQUEST[$conf['var']['zoneId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['zoneId']]) : array();
+$creativeId = isset($_REQUEST[$conf['var']['creativeId']]) ? explode($GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST[$conf['var']['creativeId']]) : array();
+if (empty($adId) && !empty($zoneId)) {
+foreach ($zoneId as $index => $zone) {
+$adId[$index] = _getZoneAd($zone);
+$creativeId[$index] = 0;
+}
+}
+for ($i = 0; $i < count($adId); $i++) {
+$adId[$i] = intval($adId[$i]);
+$zoneId[$i] = intval($zoneId[$i]);
+if (isset($creativeId[$i])) {
+$creativeId[$i] = intval($creativeId[$i]);
+} else {
+$creativeId[$i] = 0;
+}
+if (($adId[$i] > 0) && ($conf['logging']['adClicks']) && !(isset($_GET['log']) && ($_GET['log'] == 'no'))) {
+if (isset($_REQUEST['channel_ids'])) {
+$GLOBALS['_MAX']['CHANNELS'] = str_replace($conf['delivery']['chDelimiter'], $GLOBALS['_MAX']['MAX_DELIVERY_MULTIPLE_DELIMITER'], $_REQUEST['channel_ids']);
+}
+MAX_Delivery_log_logAdClick($viewerId, $adId[$i], $creativeId[$i], $zoneId[$i]);
+}
+}
+// Set the userid cookie
+MAX_cookieSet($conf['var']['viewerId'], $viewerId, time() + $conf['cookie']['permCookieSeconds']);
+MAX_cookieFlush();
+// Get the URL that we are going to redirect to
+$destination = MAX_querystringGetDestinationUrl($adId[0]);
+// Redirect to the destination url
+if (!empty($destination) && empty($_GET['trackonly'])) {
+// Prevent HTTP response split attacks
+if (!preg_match('/[\r\n]/', $destination)) {
+MAX_redirect($destination);
+}
+}
+function _getZoneAd($zoneId)
+{
+$conf = $GLOBALS['conf'];
 $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
 list($adId, $ad) = each($zoneLinkedAds['xAds']);
