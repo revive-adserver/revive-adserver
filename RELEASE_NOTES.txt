@@ -63,7 +63,9 @@ What's New in Openads 2.3.36-beta
  * Click tracking of Google AdSense and Yahoo! Publisher Network
    banners fixed when using ctDelimiter != "__".
 
- * Improved support for FastCGI-based web servers.
+ * Improved support for PHP installed as CGI/FastCGI.
+
+ * Improved Windows support.
 
  * Fixed saving of channels.
 
