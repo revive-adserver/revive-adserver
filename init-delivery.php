@@ -47,7 +47,7 @@ $Id$
 require_once 'init-delivery-parse.php';
 require_once 'variables.php';
 
-setupServerVars();
+setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 
