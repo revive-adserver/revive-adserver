@@ -70,12 +70,28 @@ function setupConfigVariables()
     }
 
     // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
-    $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ? 
+    $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
         $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 
     // Set time zone, for more info @see setTimeZoneLocation()
     if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
         setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
+    }
+}
+
+/**
+ * A function to initialize $_SERVER variables which could be missing
+ * on some environments
+ *
+ */
+function setupServerVariables()
+{
+    // PHP-CGI/IIS combination does not set REQUEST_URI
+    if (empty($_SERVER['REQUEST_URI'])) {
+        $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+        }
     }
 }
 
@@ -123,7 +139,7 @@ function setTimeZoneLocation($location)
 
 /**
  * Returns the hostname the script is running under.
- * 
+ *
  * @return string containing the hostname (with port number stripped).
  */
 function getHostName()
@@ -140,7 +156,7 @@ function getHostName()
 
 /**
  * Returns the hostname (with port) the script is running under.
- * 
+ *
  * @return string containing the hostname with port
  */
 function getHostNameWithPort()
@@ -222,7 +238,7 @@ function getMemorySizeInBytes() {
         // unlimited
         return -1;
     }
-        
+
     $aSize = array(
         'G' => 1073741824,
         'M' => 1048576,
