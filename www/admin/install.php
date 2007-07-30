@@ -553,7 +553,7 @@ ksort($activeNav);
 // setup the nav to determine whether or not to show a valid link
 $navLinks = array();
 foreach ($activeNav as $key=>$val) {
-    if ($val <= $activeNav[$action] && $activeNav[$action] < $activeNav[OA_UPGRADE_CONFIGSETUP]) {
+    if ($val <= $activeNav[$action] && $action <= OA_UPGRADE_DBSETUP) {
         $navLinks[$key] = 'javascript: changePage('.$key.')';
     } else {
         $navLinks[$key] = '';
