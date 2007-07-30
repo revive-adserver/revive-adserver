@@ -155,7 +155,7 @@ class OA_Environment_Manager
             {
                 $aErrors[$file] = 'NOT writeable';
             }
-            elseif (!is_writable($file))
+            elseif (!$this->isWritable($file))
             {
                 $aErrors[$file] = 'NOT writeable';
             }
@@ -176,7 +176,7 @@ class OA_Environment_Manager
             }
             $installerFile = MAX_PATH . '/var/INSTALLED';
             if (file_exists($installerFile)) {
-                if (!is_writable($installerFile)) {
+                if (!$this->isWritable($installerFile)) {
                     $aErrors[$installerFile] = 'NOT writeable';
                 }
             }
@@ -187,6 +187,31 @@ class OA_Environment_Manager
             return $aErrors;
         }
         return false;
+    }
+
+    function isWritable($file)
+    {
+        if (DIRECTORY_SEPARATOR == '\\') {
+            // Windows hack - is_writable returns bogus results
+            // see http://bugs.php.net/bug.php?id=27609
+            if (@is_dir($file)) {
+                $file = preg_replace('/\\\\$/', '', $file).DIRECTORY_SEPARATOR.md5(uniqid('', true));
+                $unlink = true;
+            } else {
+                $unlink = !file_exists($file);
+            }
+            if ($fp = @fopen($file, 'ab')) {
+                @fclose($fp);
+                if ($unlink) {
+                    @unlink($file);
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return is_writable($file);
     }
 
     function checkCritical()
@@ -327,7 +352,7 @@ class OA_Environment_Manager
         if (!$this->aInfo['PHP']['actual']['zlib']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB] = 'zlib extension must be loaded';
         }
-        
+
         return $result;
     }
 
