@@ -206,7 +206,7 @@ function setupConstants()
     // Define the week to start on Sunday (0) so that the PEAR::Date and
     // PEAR::Date_Calc classes agree on what day is the start of the week
     define('DATE_CALC_BEGIN_WEEKDAY', 0);
-    
+
     // Do not overload DataObjects as it allows us to work with 4.3.10
     define('DB_DATAOBJECT_NO_OVERLOAD', true);
 
@@ -226,7 +226,7 @@ function setupConstants()
         }
         // Define the PEAR installation path
         $existingPearPath = ini_get('include_path');
-        $newPearPath = MAX_PATH . '/lib/pear';
+        $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
         if (!empty($existingPearPath)) {
             $newPearPath .= PATH_SEPARATOR . $existingPearPath;
         }

@@ -183,7 +183,7 @@ function setupIncludePath()
 
     // Define the PEAR installation path
     $existingPearPath = ini_get('include_path');
-    $newPearPath = MAX_PATH . '/lib/pear';
+    $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
     if (!empty($existingPearPath)) {
         $newPearPath .= PATH_SEPARATOR . $existingPearPath;
     }
