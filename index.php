@@ -30,7 +30,7 @@ $Id$
  * is not yet installed, we need to know that it was this file that was called,
  * so set a global variable.
  */
-$GLOBALS['_MAX']['ROOT_INDEX'] = true;
+define('ROOT_INDEX', true);
 
 // Require the initialisation file
 require_once 'init.php';

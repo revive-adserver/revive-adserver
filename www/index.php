@@ -31,7 +31,7 @@ $Id$
  * that it was this file that was called, so set a global
  * variable.
  */
-$GLOBALS['_MAX']['WWW_INDEX'] = true;
+define('WWW_INDEX', true);
 
 // Require the initialisation file
 require_once '../init.php';
