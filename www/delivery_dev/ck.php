@@ -105,7 +105,6 @@ function _getZoneAd($zoneId)
 {
     $conf = $GLOBALS['conf'];
 
-    require_once MAX_PATH . '/lib/max/Delivery/cache.php';
     $zoneLinkedAds = MAX_cacheGetZoneLinkedAds($zoneId, false);
 
     if (!empty($zoneLinkedAds['xAds']) && count($zoneLinkedAds['xAds']) == 1) {
