@@ -113,6 +113,16 @@ if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
 setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
 }
 }
+function setupServerVariables()
+{
+// PHP-CGI/IIS combination does not set REQUEST_URI
+if (empty($_SERVER['REQUEST_URI'])) {
+$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
+if (!empty($_SERVER['QUERY_STRING'])) {
+$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
+}
+}
+}
 function setupDeliveryConfigVariables()
 {
 if (!defined('MAX_PATH')) {
@@ -214,6 +224,7 @@ $size = substr($phpMemory, 0, $pos) * $multiplier;
 }
 return $size;
 }
+setupServerVars();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 // Set the log file
