@@ -77,6 +77,13 @@ class OA_Environment_Manager
             $this->aInfo['PERMS']['expected'][] = $conf['delivery']['cachePath'];
         }
 
+        // Fix directory separator
+        if (DIRECTORY_SEPARATOR != '/') {
+            foreach ($this->aInfo['PERMS']['expected'] as $key => $value) {
+                $this->aInfo['PERMS']['expected'][$key] = str_replace('/', DIRECTORY_SEPARATOR, $value);
+            }
+        }
+
         $this->aInfo['PHP']['actual']     = array();
         $this->aInfo['PERMS']['actual']   = array();
         $this->aInfo['FILES']['actual']   = array();
@@ -377,9 +384,15 @@ class OA_Environment_Manager
             {
                 if (is_null($this->aInfo['PERMS']['error']['filePerms']))
                 {
-                    $this->aInfo['PERMS']['error']['filePerms'] = $GLOBALS['strErrorWritePermissions'];
+                    if (DIRECTORY_SEPARATOR == '\\') {
+                        $this->aInfo['PERMS']['error']['filePerms'] = $GLOBALS['strErrorWritePermissionsWin'];
+                    } else {
+                        $this->aInfo['PERMS']['error']['filePerms'] = $GLOBALS['strErrorWritePermissions'];
+                    }
                 }
-                $this->aInfo['PERMS']['error']['filePerms'] .= "<br />" . sprintf($GLOBALS['strErrorFixPermissionsCommand'], $k);
+                if (DIRECTORY_SEPARATOR != '\\') {
+                    $this->aInfo['PERMS']['error']['filePerms'] .= "<br />" . sprintf($GLOBALS['strErrorFixPermissionsCommand'], $k);
+                }
             }
         }
         if (!is_null($this->aInfo['PERMS']['error']['filePerms']))
