@@ -224,7 +224,7 @@ $size = substr($phpMemory, 0, $pos) * $multiplier;
 }
 return $size;
 }
-setupServerVars();
+setupServerVariables();
 setupDeliveryConfigVariables();
 $conf = $GLOBALS['_MAX']['CONF'];
 // Set the log file
