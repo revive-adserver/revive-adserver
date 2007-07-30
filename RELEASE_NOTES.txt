@@ -60,6 +60,9 @@ What's New in Openads 2.3.36-beta
 
  * Fixed generation of links in HTML banners.
 
+ * Fixed delivery of HTML banners in Javascript Zone Invocation
+   Tags where the banner contains "\" characters.
+
  * Click tracking of Google AdSense and Yahoo! Publisher Network
    banners fixed when using ctDelimiter != "__".
 
