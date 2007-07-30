@@ -29,7 +29,7 @@ $Id$
  * @package OpenadsDelivery
  * @subpackage Javascript
  * @author chris@m3.net
- * 
+ *
  */
 
 /**
@@ -39,12 +39,13 @@ $Id$
  * @param string  $string   The string to be converted
  * @param string  $varName  The JS variable name to store the output in
  * @param boolean $output   Should there be a document.write to output the code?
- * 
+ *
  * @return string   The JS-ified string
  */
 function MAX_javascriptToHTML($string, $varName, $output = true)
 {
     $jsLines = array();
+    $search[] = "\\"; $replace[] = "\\\\";
     $search[] = "\r"; $replace[] = '';
     $search[] = '"'; $replace[] = '\"';
     $search[] = "'";  $replace[] = "\\'";
