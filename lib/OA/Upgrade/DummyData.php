@@ -312,7 +312,7 @@ class OA_Dummy_Data
         $doBanners->weight    = '1';
         $doBanners->seq    = '0';
         $doBanners->target    = '_blank';
-        $doBanners->url    = 'http://destination.example.com';
+        $doBanners->url    = '';
         $doBanners->alt    = '';
         $doBanners->status    = '';
         $doBanners->bannertext    = '';
