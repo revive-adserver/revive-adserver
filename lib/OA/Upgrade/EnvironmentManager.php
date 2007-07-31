@@ -93,8 +93,8 @@ class OA_Environment_Manager
         $this->aInfo['PHP']['expected']['safe_mode']            = '0';
         $this->aInfo['PHP']['expected']['file_uploads']         = '1';
         $this->aInfo['PHP']['expected']['register_argc_argv']   = '1';
-        $this->aInfo['PHP']['expected']['xml']                  = true;
         $this->aInfo['PHP']['expected']['pcre']                 = true;
+        $this->aInfo['PHP']['expected']['xml']                  = true;
         $this->aInfo['PHP']['expected']['zlib']                 = true;
 
         $this->aInfo['FILES']['expected'] = array();
@@ -350,14 +350,14 @@ class OA_Environment_Manager
         }
 
         // Test the required PHP extensions are loaded
+        if (!$this->aInfo['PHP']['actual']['pcre']) {
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE] = 'The pcre extension must be loaded';
+        }
         if (!$this->aInfo['PHP']['actual']['xml']) {
             $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_XML] = 'The xml extension must be loaded';
         }
-        if (!$this->aInfo['PHP']['actual']['pcre']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_PCRE] = 'pcre extension must be loaded';
-        }
         if (!$this->aInfo['PHP']['actual']['zlib']) {
-            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB] = 'zlib extension must be loaded';
+            $this->aInfo['PHP']['error'][OA_ENV_ERROR_PHP_ZLIB] = 'The zlib extension must be loaded';
         }
 
         return $result;
