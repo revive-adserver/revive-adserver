@@ -105,7 +105,7 @@ $GLOBALS['strTermsIntro']               = MAX_PRODUCT_NAME . " is a free and ope
 $GLOBALS['strPolicyTitle']               = "Privacy and Data Usage Policy";
 $GLOBALS['strPolicyIntro']               = "Please review the Privacy and Data Usage Policy before agreeing to continue the installation.";
 $GLOBALS['strDbSetupTitle']               = "Database Setup";
-$GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses either a MySQL or a PostgreSQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
+$GLOBALS['strDbSetupIntro']               = MAX_PRODUCT_NAME . " uses a MySQL database to store all of its data.  Please fill in the address of your server, as well as the database name, username and password.  If you do not know which information you should provide here, please contact the administrator of your server.";
 $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database details for your installation of " . MAX_PRODUCT_NAME . ". Please check to make sure that these details are correct. When you click continue, " . MAX_PRODUCT_NAME . " will proceed with performing upgrade tasks on your data. Please make sure that you have a proper backup of your data before continuing.";
 
 $GLOBALS['strOaUpToDate']               = "Your Openads database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the Openads administration panel.";
