@@ -911,7 +911,7 @@ class OA_Upgrade
 
         if (!$this->checkPermissionToCreateTable())
         {
-            $this->oLogger->logError('Insufficient database permissions to install');
+            $this->oLogger->logError('Insufficient database permissions or incorrect database settings to install');
             return false;
         }
 
@@ -1154,7 +1154,7 @@ class OA_Upgrade
         }
         if (!$this->checkPermissionToCreateTable())
         {
-            $this->oLogger->logError('Insufficient database permissions');
+            $this->oLogger->logError('Insufficient database permissions or incorrect database settings');
             return false;
         }
         // first deal with each of the packages in the list
@@ -1469,6 +1469,17 @@ class OA_Upgrade
      */
     function checkPermissionToCreateTable()
     {
+        $result = $this->oDbh->isDBCaseSensitive();
+        if (PEAR::isError($result))
+        {
+            $this->oLogger->logError('Unable to retrieve database case sensitivity info');
+            return false;
+        }
+        if (!$result)
+        {
+            $this->oLogger->logError('Openads requires database case sensitivity');
+            return false;
+        }
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables))
         {
@@ -1516,7 +1527,7 @@ class OA_Upgrade
             $this->oLogger->logError('Failed to drop test privileges table - check your database permissions');
             return false;
         }
-        $this->oLogger->log('Database permissions are OK');
+        $this->oLogger->log('Database settings and permissions are OK');
         return true;
     }
 
