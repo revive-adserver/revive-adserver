@@ -95,9 +95,9 @@
             } else {
                 $sysinfoarray['actual']['register_argc_argv'] = 'ON ' . $passImage;
             }
-            
-            $sysinfoarray['actual']['xml'] = ($sysinfoarray['actual']['xml'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+
             $sysinfoarray['actual']['pcre'] = ($sysinfoarray['actual']['pcre'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            $sysinfoarray['actual']['xml']  = ($sysinfoarray['actual']['xml']  == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['zlib'] = ($sysinfoarray['actual']['zlib'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $halt = (($halt) || ($sysinfoarray['error']));
 
