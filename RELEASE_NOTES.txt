@@ -157,6 +157,9 @@ read this before reporting any new bugs.
    case-insensitive table names. For this reason, installation and upgrade
    is currently prevented when MySQL is configured this way.
 
+   If your version of MySQL has "lower_case_table_name != 0", please see
+   https://developer.openads.org/ticket/901 for more information.
+
  * Some of the PEAR libraries used are not compatible with database prefix
    names with double "_" characters (e.g. "oa__"). You should NOT install
    Openads with a prefix of this format.
