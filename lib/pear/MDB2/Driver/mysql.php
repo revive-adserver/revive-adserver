@@ -514,6 +514,24 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
         return MDB2_OK;
     }
     // }}}
+    // {{{ isDBCaseSensitive()
+
+    /**
+     *
+     * @return boolean
+     */
+    function isDBCaseSensitive()
+    {
+        $aVar = $this->queryAll('SHOW VARIABLES LIKE "lower_case_table_names"');
+        if (!$aVar) {
+            return $this->raiseError(null, null, null,
+                'Unable to get mysql variable info');
+        }
+        $result = ( $aVar[0]['value'] == 0 ? MDB2_OK : false );
+        return $result;
+    }
+
+    // }}}
     // {{{ setCharset()
 
     /**

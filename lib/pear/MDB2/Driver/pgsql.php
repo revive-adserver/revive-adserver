@@ -481,6 +481,25 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
     }
 
     // }}}
+    // {{{ isDBCaseSensitive()
+
+    /**
+     * Currently not tested or implemented, may be required in future enhancement
+     *
+     * @return boolean
+     */
+    function isDBCaseSensitive()
+    {
+//        $aVar = $this->queryAll('SHOW VARIABLES LIKE "lower_case_table_names"');
+//        if (!$aVar) {
+//            return $this->raiseError(null, null, null,
+//                'Unable to get mysql variable info');
+//        }
+        $result = MDB2_OK; // ( $aVar[0]['value'] > 0 ? MDB2_OK : false );
+        return $result;
+    }
+
+    // }}}
     // {{{ setCharset()
 
     /**
@@ -688,10 +707,10 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
         }
         return $query;
     }
-    
+
     // }}}
     // {{{ _modifyManipQuery()
-    
+
     /**
      * Changes a manip query string for various DBMS specific reasons
      *
@@ -834,7 +853,7 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
             if (is_null($placeholder_type)) {
                 $placeholder_type_guess = $query[$p_position];
             }
-            
+
             $new_pos = $this->_skipDelimitedStrings($query, $position, $p_position);
             if (PEAR::isError($new_pos)) {
                 return $new_pos;
