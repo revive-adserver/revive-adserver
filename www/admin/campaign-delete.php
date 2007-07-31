@@ -78,6 +78,10 @@ if (!empty($campaignid)) {
             }
         }
     }
+} else if (!empty($clientid)) {
+    $doCampaigns = OA_Dal::factoryDO('campaigns');
+    $doCampaigns->clientid = $clientid;
+    $doCampaigns->delete();
 }
 
 // Run the Maintenance Priority Engine process
