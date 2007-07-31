@@ -44,8 +44,11 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  */
 function MAX_checkSite_Referingpage($limitation, $op, $aParams = array())
 {
-    return MAX_limitationsMatchString(
-        'HTTP_REFERER', $limitation, $op, $aParams, 'LIMITATION_DATA');
+    if ($limitation == '') {
+        return true;
+    }
+    $url = empty($aParams) ? $GLOBALS['referer'] : $aParams['referer'];
+    return MAX_limitationsMatchStringValue($url, $limitation, $op);
 }
 
 ?>

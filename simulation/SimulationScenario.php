@@ -193,7 +193,7 @@ class SimulationScenario
             // these params somehow end up as globals rather than passed through as params
             // so set them up here
             $GLOBALS['loc'] = $aIteration['request_objects'][$k]->loc;
-            $GLOBALS['_MAX']['LIMITATION_DATA']['HTTP_REFERER'] = $aIteration['request_objects'][$k]->referer;
+            $GLOBALS['referer'] = $aIteration['request_objects'][$k]->referer;
 
             // actually make the request
             $result = $this->_makeRequest($aIteration['request_objects'][$k]);
