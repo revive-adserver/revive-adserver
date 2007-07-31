@@ -50,7 +50,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     var $logical;
     var $type;
     var $comparison;
-    var $data;
+    var $data = '';
     var $executionorder;
     var $count;
     var $res;
@@ -444,8 +444,8 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     {
         return MAX_limitationsGetADowngradeForString($op, $sData);
     }
-    
-    
+
+
     /**
      * Gets information about $op and $data for upgrade from Openads 2.0.
      *
