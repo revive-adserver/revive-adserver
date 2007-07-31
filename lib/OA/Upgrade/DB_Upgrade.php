@@ -2290,7 +2290,7 @@ class OA_DB_Upgrade
                         {
                             if (isset($aIndex['primary']))
                             {
-                                $strippedidx = str_replace($prefix, '', strtolower($indexname));
+                                $strippedidx = substr($indexname, strlen($prefix), strlen($indexname));
                                 $aDef['indexes'][$strippedidx] = $aIndex;
                                 unset($aDef['indexes'][$indexname]);
                             }
