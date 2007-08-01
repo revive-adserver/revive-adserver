@@ -1141,6 +1141,7 @@ header('Location: '.$url);
 MAX_sendStatusCode(302);
 }
 function MAX_sendStatusCode($iStatusCode) {
+$aConf = $GLOBALS['_MAX']['CONF'];
 $arr = array(
 100 => 'Continue',
 101 => 'Switching Protocols',
@@ -1186,8 +1187,16 @@ $arr = array(
 );
 if (isset($arr[$iStatusCode])) {
 $text = $iStatusCode . ' ' . $arr[$iStatusCode];
-// Using header('Status: NNN') with CGI sapis seems to be deprecated
+// Using header('Status: foo') with CGI sapis appears to be deprecated but PHP-CGI seems to discard
+// the Reason-Phrase and some webservers do not add a default one. Some bad spiders do not cope
+// with that, that's why we added the cgiForceStatusHeader confgiuration directive. If enabled
+// with CGI sapis, Openads will use a "Status: NNN Reason" header, which seems to fix the behaviour
+// on the tested webserver (Apache 1.3, running php-cgi)
+if (!empty($aConf['delivery']['cgiForceStatusHeader']) && strpos(php_sapi_name(), 'cgi') !== 0) {
+header('Status: ' . $text);
+} else {
 header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
+}
 }
 }
 // Set the viewer's remote information used in logging
