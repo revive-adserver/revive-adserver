@@ -38,7 +38,11 @@ if (!defined('MAX_PATH')) {
     // make sure this script is executed only inside Openads
     exit;
 }
-$aLog = file($memoryLog = MAX_PATH . '/var/memory.log');
+$memoryLock = MAX_PATH . '/var/MEMORY_LOCK';
+if (file_exists($memoryLock)) { exit; }
+touch($memoryLock);
+
+$aLog = file($memoryLog = MAX_PATH . '/var/memory.'.phpversion().'.log');
 if (!$aLog) {
     $aLog = array();
 }
@@ -59,8 +63,9 @@ if (!$found) {
     $aLog[] = $newLine;
 }
 
-// simple alphanumeric sorting (better than nothing and enough for this excercise)
-sort($aLog);
+// Slightly more useful sorting mechanism
+natsort($aLog);
+$aLog = array_reverse($aLog, true);
 
 if (!function_exists('file_put_contents')) {
     function file_put_contents($n,$d) {
@@ -79,4 +84,5 @@ if (!file_put_contents($memoryLog, implode('', $aLog))) {
     echo 'Error while saving file: '.$memoryLog;
 }
 
+unlink($memoryLock);
 ?>
