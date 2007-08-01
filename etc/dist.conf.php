@@ -99,6 +99,10 @@ execPhp                             = false
 ctDelimiter                         = __
 chDelimiter                         = ","
 keywords                            = false
+cgiForceStatusHeader                = false ; Set this to true if using a CGI sapi which
+                                            ; does not correctly deal with HTTP headers
+                                            ; and leaves the description empty
+                                            ; (i.e. "HTTP/1.1 302" insead that 302 Found)
 
 [p3p]
 policies                            = true
