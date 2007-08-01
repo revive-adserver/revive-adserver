@@ -1542,14 +1542,16 @@ class OA_Upgrade
 
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 
+        $oldTableMessagePrefix  = 'Your database contains an old Openads configuration table: ';
+        $oldTableMessagePostfix = 'If you are trying to upgrade this database, please copy your existing configuration file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.';
         if (in_array($this->aDsn['table']['prefix'].'config', $aExistingTables))
         {
-            $this->oLogger->logError('Your database contains an old Openads configuration table: '.$this->aDsn['table']['prefix'].'config. If you are wanting to upgrade this database, please copy your config.inc.php file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database.');
+            $this->oLogger->logError($oldTableMessagePrefix . $this->aDsn['table']['prefix'] . 'config. ' . $oldTableMessagePostfix);
             return false;
         }
         if (in_array($this->aDsn['table']['prefix'].'preference', $aExistingTables))
         {
-            $this->oLogger->logError('Your database contains an old Openads configuration table: '.$this->aDsn['table']['prefix'].'preference. If you are wanting to upgrade this database, please copy your domain.conf.ini file into the var folder of this install. If you wish to proceed with a fresh installation, please either choose a new Table Prefix or a new Database Name.');
+            $this->oLogger->logError($oldTableMessagePrefix . $this->aDsn['table']['prefix'].'preference. ' . $oldTableMessagePostfix);
             return false;
         }
         $tablePrefixError = false;
