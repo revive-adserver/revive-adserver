@@ -2353,7 +2353,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table'][$table]}
                             SET
                                 total_techcost = {$aZoneFinanceMappings[MAX_FINANCE_RS]} * {$aInfo['technology_cost']} / 100,
-                                updated = '". OA::getNow() ."')
+                                updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
                                 AND day >= '".$oStartDate->format('%Y-%m-%d')."'
