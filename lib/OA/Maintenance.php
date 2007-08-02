@@ -30,8 +30,11 @@ require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
-require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
+
+if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php']) && !is_callable('MAX_commonGetDeliveryUrl')) {
+    require_once(MAX_PATH . '/lib/max/Delivery/cache.php');
+}
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
