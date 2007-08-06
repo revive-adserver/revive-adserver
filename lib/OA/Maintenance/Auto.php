@@ -52,6 +52,12 @@ class OA_Maintenance_Auto
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
+        // Set longer time out, and ignore user abort
+        if (!ini_get('safe_mode')) {
+            @set_time_limit($aConf['maintenance']['timeLimitScripts']);
+            @ignore_user_abort(true);
+        }
+
 	    if (!defined('OA_VERSION')) {
 	        // If the code is executed inside delivery, the constants
 	        // need to be initialized

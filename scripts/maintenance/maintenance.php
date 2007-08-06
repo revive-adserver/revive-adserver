@@ -36,6 +36,12 @@ $Id$
 $path = dirname(__FILE__);
 require_once $path . '/../../init.php';
 
+// Set longer time out, and ignore user abort
+if (!ini_get('safe_mode')) {
+    @set_time_limit($conf['maintenance']['timeLimitScripts']);
+    @ignore_user_abort(true);
+}
+
 // Required files
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/OA/Maintenance.php';

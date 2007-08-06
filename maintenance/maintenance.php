@@ -25,8 +25,7 @@
 $Id$
 */
 
-// Set time limit and send headers to prevent client timeout
-set_time_limit(600);
+// Send headers to the client before proceeding
 flush();
 
 // Prevent output
