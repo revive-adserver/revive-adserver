@@ -1,0 +1,35 @@
+<html>
+<head><title>{title}</title></head>
+<body>
+This is a template for targeting statistics.
+<h4>Day-by-day overview for placement {placement_id}</h4>
+<div flexy:start="here">
+<table title="Summary for Placement {placement_id}" class="targeting sortable" id="placement-summary">
+	<thead>
+		<tr>
+			<td scope="col" class="date" id="day">Days</td>
+			<td scope="col" class="numeric" id="target">Required Target</td>
+			<td scope="col" class="numeric" id="target">Requested Target</td>
+			<td scope="col" class="numeric" id="delivered">Delivered</td>
+			<td scope="col" class="percentage" id="ratio">Percentage of Required</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr flexy:foreach="summarisePlacement(),day" class="{day[htmlclass]}">
+			<td class="date"><a class="date" href="{day[link]}">{day[day]}</a></td>
+			{if:day[has_data]}
+			<td class="numeric"><abbr title="{day[impressions_requested]}">{roundDecimals(day[required_impressions])}</abbr></td>
+			<td class="numeric"><abbr title="{day[impressions_requested]}">{roundDecimals(day[requested_impressions])}</abbr></td>
+			<td class="numeric">{day[actual_impressions]}</td>
+			<td class="percentage">{day[ratio]}</td>
+			{else:}
+			<td class="numeric empty"></td>
+			<td class="numeric empty"></td>
+			<td class="percentage empty"></td>
+			{end:}
+		</tr>
+	</tbody>
+</table>
+</div>
+This isn't here at all.
+</body></html>

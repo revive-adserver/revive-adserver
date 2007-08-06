@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM               "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM               "../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM       "../../modules/errors.xml">
+  <!ENTITY checkDeliveryCookies SYSTEM "../../modules/cookies.xml">
+  <!ENTITY verifyLinks SYSTEM          "../../modules/links.xml">
+]
+>
+
+<!-- Test that delivery shows a proper ad for different requests (zone, bannerid, etc) -->
+
+<project name="Openads delivery - afr.php" basedir="../.." default="main">
+  <import file="../../includes/init.xml"/>
+  <import file="${webtest.home}/lib/taskdef.xml"/>
+
+  
+   <macrodef name="invoke-delivery-file">
+     <attribute name="file"/>
+     <attribute name="query"/>
+     <sequential>
+        <invoke description="Invoke delivery file @{file}" url="/delivery/@{file}?@{query}" />
+        &checkForErrors;
+        &checkDeliveryCookies;
+	 </sequential>
+    </macrodef>  
+  
+  <target name="main">
+
+    <testSpec name="Run Delivery">
+      &config;
+      <steps>
+        <clean-delivery-cache/>
+        <invoke-delivery-file file="afr.php" query="what=bannerid:2" />
+        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+        &verifyLinks;
+
+        <!-- check the same file again but this time without deleting the cache -->
+        <invoke-delivery-file file="afr.php" query="what=bannerid:2" />
+        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
+        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+        &verifyLinks;
+        
+        <!-- check image banner -->
+        <invoke-delivery-file file="afr.php" query="what=bannerid:3" />
+        <verifyTitle description="Check that title contains alt test 'alt text'" text="alt text" />
+        <verifyText description="Check that ad contains a gif" regex="true" text="ai.php\?filename=468x60.gif&amp;contenttype=gif" />
+        &verifyLinks;
+        
+        <!-- check zone invocation -->
+        <invoke-delivery-file file="afr.php" query="what=zone:1" />
+        <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
+        <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />               &verifyLinks;
+      </steps>
+      
+    </testSpec>
+    
+    <!-- test that ad requests and requests are logged in database -->
+    <!--sqlunit testFile="${basedir}/usecases/sqlunit/data_raw_ad_request.xml" haltOnFailure="true" debug="${debug}" /-->
+
+</target>
+
+</project>

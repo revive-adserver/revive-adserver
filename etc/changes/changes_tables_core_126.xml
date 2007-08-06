@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>126</version>
+  <comments>Renamed and changed type of the field clientid, now campaignid.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>126</version>
+      <change>
+        <table>
+          <name>targetstats</name>
+          <add>
+            <field>
+              <name>campaignid</name>
+              <type>openads_mediumint</type>
+              <length>9</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>campaignid</was>
+            </field>
+          </add>
+          <index>
+            <add>
+              <name>targetstats_pkey</name>
+              <was>targetstats_pkey</was>
+              <primary>true</primary>
+              <indexfield>
+                <name>day</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+              <indexfield>
+                <name>campaignid</name>
+                <sorting>ascending</sorting>
+              </indexfield>
+            </add>
+          </index>
+          <index>
+            <remove>
+              <name>targetstats_pkey</name>
+          </remove>
+        </index>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>126</version>
+    <change>
+      <table>
+        <name>targetstats</name>
+      <remove>
+        <field>
+          <name>clientid</name>
+        </field>
+      </remove>
+    </table>
+  </change>
+</changeset>
+</destructive>
+</instructionset>

@@ -1,0 +1,72 @@
+<div class="tablediv">
+    <table class="tablemain">
+        <tr><th class="tableheader" colspan="9">upgrade action table</th></tr>
+        <tr>
+            <th class="tableheader">artifacts</th>
+            <th class="tableheader">clean</th>
+            <th class="tableheader">updated</th>
+            <th class="tableheader">name</th>
+            <th class="tableheader">version from</th>
+            <th class="tableheader">version to</th>
+            <th class="tableheader">action</th>
+            <th class="tableheader">description</th>
+            <th class="tableheader">artifacts</th>
+        </tr>
+        <?php
+        foreach ($aAudit AS $k => $v)
+        {
+        ?>
+      <form name="frmOpenads" action="upgrade.php" method="POST">
+        <tr>
+            <td class="tablebody" style="width:10px;font-size:14px;text-align:center;">
+                <?php echo $v['backups']; ?><br />
+                <img id="img_expand_<?php echo $v['upgrade_action_id']; ?>" src="../../img/triangle-d.gif" alt="click to view table" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');"/>
+                <img id="img_collapse_<?php echo $v['upgrade_action_id']; ?>" src="../../img/triangle-u.gif" style="display:none" alt="click to hide details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');"/>
+            </td>
+            <td class="tablebody"><button name="btn_clean_audit">clean</button></td>
+            <td class="tablebody"><?php echo $v['updated']; ?></td>
+            <td class="tablebody"><?php echo $v['upgrade_name']; ?></td>
+            <td class="tablebody"><?php echo $v['version_from']; ?></td>
+            <td class="tablebody"><?php echo $v['version_to']; ?></td>
+            <td class="tablebody"><?php echo $v['action']; ?></td>
+            <td class="tablebody"><?php echo $v['description']; ?></td>
+        <?php
+            if ($v['logfile'] || $v['confbackup'])
+            {
+        ?>
+            <td>
+              <table>
+                <tr><th class="tablebody">logfile</th></tr>
+                <tr><td class="tablebody"><?php echo $v['logfile']; ?></td></tr>
+                <tr><th class="tablebody">conf backup</th></tr>
+                <tr><td class="tablebody"><?php echo $v['confbackup']; ?></td></tr>
+              </table>
+            </td>
+        <?php
+            }
+        ?>
+        </tr>
+        <tr id="row_<?php echo $v['upgrade_action_id']; ?>" style="display:block;">
+            <td id="cell_<?php echo $v['upgrade_action_id']; ?>">  </td>
+            <input type="hidden" name="upgrade_action_id" value="<?php echo $v['upgrade_action_id']; ?>" />
+        </tr>
+      </form>
+        <?php
+        }
+        ?>
+    </table>
+</div>
+<div>
+    <table style="border: 1px solid black;">
+        <tr>
+            <td style="border: 1px solid black;">col 1</td>
+            <td style="border: 1px solid black;">col 2</td>
+            <td style="border: 1px solid black;">col 3</td>
+            <td style="border: 1px solid black;">col 4</td>
+            <td style="border: 1px solid black;">col 5</td>
+        </tr>
+        <tr>
+            <td colspan="5" style="border: 1px solid black;text-align:center;">5 cols</td>
+        </tr>
+    </table>
+</div>

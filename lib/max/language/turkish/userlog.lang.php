@@ -1,0 +1,54 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+/* Turkish Translation by :												*/
+/* 		Metin AKTAÞ (metin@yapayzeka.net)								*/
+/* 		Bünyamin VICIL (bunyamin@yapayzeka.net)					        */
+/*----------------------------------------------------------------------*/
+
+// Set translation strings
+
+$GLOBALS['strDeliveryEngine']				= "Teslimat Motoru";
+$GLOBALS['strMaintenance']					= "Bakým";
+$GLOBALS['strAdministrator']				= "Yönetici";
+
+
+$GLOBALS['strUserlog'] = array (
+	phpAds_actionAdvertiserReportMailed 	=> "{id} reklamcýya e-mail yolu ile rapor gönder",
+	phpAds_actionPublisherReportMailed 		=> "{id} yayýncýya e-mail yolu ile rapor gönder",
+	phpAds_actionWarningMailed				=> "{id} e-mail yolu ile kampanyalar için pasif etme uyarýsý gönder",
+	phpAds_actionDeactivationMailed			=> "{id} e-mail yolu ile kampanyalar için pasif etme bildirisi gönder",
+	phpAds_actionPriorityCalculation		=> "Öncelikler tekrar hesaplandý",
+	phpAds_actionPriorityAutoTargeting		=> "Kampanya hedefleri tekrar hesaplandý",
+	phpAds_actionDeactiveCampaign			=> "{id} kampanya pasif edildi",
+	phpAds_actionActiveCampaign				=> "{id} kampanya aktif edildi",
+	phpAds_actionAutoClean					=> "Veritabanýný otomatik temizle"
+);
+
+?>

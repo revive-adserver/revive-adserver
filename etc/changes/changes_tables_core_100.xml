@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>100</version>
+  <comments></comments>
+  <constructive>
+    <changeset>
+      <name>openads_2_0_11</name>
+      <version>100</version>
+      <add>
+        <table>
+        <name>lb_local</name>
+        <was>lb_local</was>
+      </table>
+    </add>
+    <change>
+      <table>
+        <name>clients</name>
+        <add>
+          <field>
+            <name>lb_reporting</name>
+            <type>openads_enum</type>
+            <length>&apos;t&apos;,&apos;f&apos;</length>
+            <notnull></notnull>
+            <default>f</default>
+            <was>lb_reporting</was>
+          </field>
+        </add>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads_2_0_11</name>
+    <version>100</version>
+  </changeset>
+</destructive>
+</instructionset>

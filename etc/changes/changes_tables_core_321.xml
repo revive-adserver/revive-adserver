@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>321</version>
+  <comments>Changes acls table</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>321</version>
+      <change>
+        <table>
+          <name>acls</name>
+        <change>
+          <field>
+            <name>type</name>
+            <length>32</length>
+          </field>
+          <field>
+            <name>logical</name>
+            <type>openads_varchar</type>
+            <length>3</length>
+            <notnull>true</notnull>
+            <default>and</default>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>321</version>
+  </changeset>
+</destructive>
+</instructionset>

@@ -1,37 +1,36 @@
 
-    Openads 2.0.12-rc2
+    Openads - Open Source Adserver
     ------------------------------------------------------------------------
+    Openads is a set of tools which enable online marketing campaigns.
+    Primarily, Openads is written in PHP, and is loosely based on phpAdsNew.
+    The core modules of Openads include:
+    . Adserver
+    . Conversion Tracking Tools
 
-    Openads is an open-source ad server, with an integrated banner management 
-    interface and tracking system for gathering statistics. With Openads you 
-    can easily rotate paid banners and your own in-house advertisements. You can 
-    even integrate banners from third party advertising companies.
 
-
-    
-    Copyright (c) 2000-2007
+    Version 2.3.37-beta
     ------------------------------------------------------------------------
+    THIS IS BETA SOFTWARE AND MAY NOT BE STABLE ENOUGH FOR USE
+    IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
+    COMPLETELY AT YOUR OWN RISK!
 
-	Matteo Beccati     <matteo dot beccati at openads dot org>
-	Scott Switzer      <scott dot switzer at openads dot org>
+    Copyright (c) 2003-2007 Openads Limited
 
+	Based on phpAdsNew Copyright (c) 2000-2003 phpAdsNew developers:
+    	Niels Leenheer <niels@creatype.nl>
+    	Matteo Beccati <matteo@beccati.com>
+    	Scott Switzer <scott@switzer.org>
+			Wim Godden <wim@godden.net>
+			Phil Hord <phil@phord.com>
+			Noor Dawod <noor@COMRAX.COM>
+			Cedric Fontaine <cfontaine@spidmail.net>
+			Michael Harvey <mike@ve-studio.com>
+			Stefan Morgenroth <dandra@users.sourceforge.net>
 
-    - Based on phpAdsNew 2 created by:
-      Niels Leenheer, Matteo Beccati,
-      Noor Dawod, Stefan Morgenroth
-
-    - phpAdsNew 2 documentation was written by:
-      Niels Leenheer, Matteo Beccati
-
-    - Based on phpAdsNew 1 created by:
-      Wim Godden, Phil Hord, Niels Leenheer, 
-      Cedric Fontaine and Michael Harvey
-
-    - Based on phpAds created by:
-      Tobias Ratschiller 
+    Based on phpAds Copyright (c) 1999-2000
+    	Tobias Ratschiller <tobias@dnet.it>
 
     ------------------------------------------------------------------------
-
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
@@ -46,80 +45,61 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-    In addition, as a special exception, TOMO <groove at spencernetwork dot org> 
-    gives permission to link the code of this program with the FTP library 
-    (or with modified versions of LIB-FTP that use the same license as LIB-FTP), 
-    and distribute linked combinations including the two.  You must obey 
-    the GNU General Public License in all respects for all of the code used 
-    other than LIB-FTP.  If you modify this file, you may extend this exception 
-    to your version of the file, but you are not obligated to do so.  If 
-    you do not wish to do so, delete this exception statement from your version.
-
-    In addition, as a special exception, Edd Dumbill <edd at usefulinc dot com>
-    gives permission to link the code of this program with the XML-RPC library 
-    (or with modified versions of XML-RPC that use the same license as XML-RPC), 
-    and distribute linked combinations including the two.  You must obey 
-    the GNU General Public License in all respects for all of the code used 
-    other than XML-RPC.  If you modify this file, you may extend this exception 
-    to your version of the file, but you are not obligated to do so.  If 
-    you do not wish to do so, delete this exception statement from your version.
-
-    In addition, as a special exception, Niels Leenheer and Matteo Beccati give
-    permission to include the documentation files distributed with the Creative 
-    Commons Attribution-NonCommercial-ShareAlike 2.5 license. You must obey to
-    this licence if you wish to modify the documentation files or distribute
-    them with or without bundling them to the product source code.
-
-
-
-    Requirements: 
     ------------------------------------------------------------------------
-    PHP 4.1.0 or higher (4.4.2+ or 5.0.4+ recommended)
-    MySQL 3.23.3 or higher (4.0+ and InnoDB recommended)
 
-    Openads is compatible with the official PHP 5 releases.
-
-    If you want to run Openads on a PostgreSQL server you should
-    take a look at Openads 2.0 for PostgreSQL, also available at
-    http://www.openads.org
-       
-         
-
-    Credits:
-    ------------------------------------------------------------------------
-    Kyle Cordes <Kyle at kylecordes dot com>,
-    Weston Bustraan <weston at infinityteldata dot net>,
-    Jörg Legarth, Brian <brian at cooltext dot com>,
-    Robert Allen <zircote at excite dot com>,
-    Ben Schumacher <bs at cyalchemy dot com>,
-    Leonid Igolnik - LiM <lim at israel dot net>,
-    Philip Gabbert <pgabbert at exactis dot com>,
-    Ralf Eggert <ralf at in-greece dot de>,
-    Niels Schoot <nschoot at users.sourceforge dot net>,
-    Martin Braun <martin at braun dot cc>,
-    Vivian Girel, René Friedrich <rene.friedrich at web dot de>
-    Jim Rutherford <jim dot rutherford at gmail dot com>
-    and many more.
-
-    XML-RPC library:
-    Edd Dumbill <edd at usefulinc dot com>
-
-    FTP library:
-    TOMO <groove at spencernetwork dot org> 
-
-    Occasional bugfixes and support: 
-    Manuel Lemos, Boaz Yahav, Roy Nasser, Mark Maggalet, Ben Schumacher.
-    And all the rest who helped.
-
+    In addition, as a special exception, TOMO <groove@spencernetwork.org>
+    gives permission to link the code of this program with the FTP library
+    (or with modified versions of LIB-FTP that use the same license as LIB-FTP),
+    and distribute linked combinations including the two.  You must obey
+    the GNU General Public License in all respects for all of the code used
+    other than LIB-FTP.  If you modify this file, you may extend this exception
+    to your version of the file, but you are not obligated to do so.  If
+    you do not wish to do so, delete this exception statement from your version.
 
 
     Support:
     ------------------------------------------------------------------------
-    Questions about Openads should be directed to the forums. More
-    information about it can be found on Openads's homepage. Bug reports
-    and questions related to the develpment of Openads are also welcome
-    on the site. Please read the manual before you ask questions!
+    Questions about Openads should be directed to the forums.
 
-    http://www.openads.org
-    
+    More information about can be found on the Openads homepage at
+    http://www.openads.org/.
 
+    Bug reports and questions related to the development of Openads are
+    also welcome on the site.
+
+
+    Download:
+    ------------------------------------------------------------------------
+    You can get the latest version from http://www.openads.org/.
+
+
+    Credits:
+    ------------------------------------------------------------------------
+    Thanks to Marcus Baker for allowing Openads Limited to distribute
+      Simple Test for PHP along with Openads. Simple Test is distributed
+      under the Open Group Test Suite License. Please see the Simple Test
+      LICENSE file in the lib/simpletest/ directory for details.
+
+    This product includes the phpSniff library, which is distributed under
+      the GNU Lesser General Public License. Please see the the phpSniff
+      LICENSE file in the lib/phpSniff/ directory for details.
+
+    This product includes GeoIP data created by MaxMind, available from
+      http://maxmind.com/.
+
+    Kyle Cordes <Kyle@kylecordes.com>, Weston Bustraan <weston@infinityteldata.net>,
+    JÃ¶rg Legarth, Brian <brian@cooltext.com>, Robert Allen <zircote@excite.com>,
+    Ben Schumacher <bs@cyalchemy.com>, Leonid Igolnik - LiM <lim@israel.net>,
+    Philip Gabbert <pgabbert@exactis.com>, Ralf Eggert <ralf@in-greece.de>,
+    Niels Schoot <nschoot@users.sourceforge.net>, Martin Braun <martin@braun.cc>,
+    Vivian Girel, Renï¿½ Friedrich <rene.friedrich@web.de> and many more.
+
+    FTP library:
+    TOMO <groove@spencernetwork.org>
+
+    Occasional bugfixes and support:
+    Manuel Lemos, Boaz Yahav, Roy Nasser, Mark Maggalet, Ben Schumacher.
+    And all the rest who helped.
+
+
+    http://www.openads.org/

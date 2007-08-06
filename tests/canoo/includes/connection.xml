@@ -1,0 +1,8 @@
+<!-- sqlunit connection configuration -->
+<connection>
+    <driver>${ant.sql.driver}</driver>
+    <url>${ant.sql.url}</url>
+    <user>${ant.sql.user}</user>
+    <password>${ant.sql.password}</password>
+    <jarfile-url>${ant.sql.jarfile}</jarfile-url>
+</connection>

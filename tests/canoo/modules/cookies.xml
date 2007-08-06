@@ -1,0 +1,6 @@
+<storeCookie name="${viewerId}" property="cookie_viewerId" />
+<!-- check that cookie is 32 characters long -->
+<verifyProperty description="Verify 'viewerId' cookie is not empty"
+      name="cookie_viewerId"
+      text="^([a-z]|[0-9]){32}$"
+      regex="true" />

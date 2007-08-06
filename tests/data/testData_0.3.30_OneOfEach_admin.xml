@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+-
+- phpMyAdmin XML Dump
+- version 2.8.0.3-Debian-1
+- http://www.phpmyadmin.net
+-
+- Host: localhost
+- Generation Time: Nov 14, 2006 at 02:07 PM
+- Server version: 5.0.22
+- PHP Version: 5.1.6
+-->
+
+<!--
+- Database: `max03trunk`
+-->
+<max03trunk>
+  <!-- Table acls -->
+  <!-- Table acls_channel -->
+  <!-- Table ad_category_assoc -->
+  <!-- Table ad_zone_assoc -->
+  <!-- Table affiliates -->
+    <affiliates>
+        <affiliateid>1</affiliateid>
+        <agencyid>1</agencyid>
+        <name>Example Publisher</name>
+        <mnemonic>publisher1</mnemonic>
+        <comments></comments>
+        <contact>Fred Example</contact>
+        <email>fred@example.com</email>
+        <website>http://www.publisher.example.com/</website>
+        <username>publisher</username>
+        <password>52aded165360352a0f5857571d96d68f</password>
+        <permissions>126</permissions>
+        <language></language>
+        <publiczones>f</publiczones>
+        <updated>2006-11-15 11:01:46</updated>
+    </affiliates>
+  <!-- Table affiliates_extra -->
+  <!-- Table agency -->
+    <agency>
+        <agencyid>1</agencyid>
+        <name>Example Agency</name>
+        <contact>Eddie Agency-contact</contact>
+        <email>eddie@agency.example.com</email>
+        <username>agency</username>
+        <password>1d1d5778763061ebb2bdc5db696077a6</password>
+        <permissions>64</permissions>
+        <language></language>
+        <logout_url></logout_url>
+        <active>0</active>
+        <updated>2006-11-15 11:01:42</updated>
+    </agency>
+  <!-- Table application_variable -->
+  <!-- Table banners -->
+    <banners>
+        <bannerid>1</bannerid>
+        <campaignid>1</campaignid>
+        <active>t</active>
+        <contenttype></contenttype>
+        <pluginversion>0</pluginversion>
+        <storagetype>html</storagetype>
+        <filename></filename>
+        <imageurl></imageurl>
+        <htmltemplate>This is an example HTML banner.</htmltemplate>
+        <htmlcache>This is an example HTML banner.</htmlcache>
+        <width>468</width>
+        <height>60</height>
+        <weight>1</weight>
+        <seq>0</seq>
+        <target></target>
+        <url>http://www.example.com/click-target</url>
+        <alt></alt>
+        <status></status>
+        <bannertext></bannertext>
+        <description>Example Banner</description>
+        <autohtml>t</autohtml>
+        <adserver></adserver>
+        <block>0</block>
+        <capping>0</capping>
+        <session_capping>0</session_capping>
+        <compiledlimitation></compiledlimitation>
+        <append></append>
+        <appendtype>0</appendtype>
+        <bannertype>0</bannertype>
+        <alt_filename></alt_filename>
+        <alt_imageurl></alt_imageurl>
+        <alt_contenttype></alt_contenttype>
+        <comments></comments>
+        <updated>2006-11-15 11:01:54</updated>
+        <acls_updated>0000-00-00 00:00:00</acls_updated>
+    </banners>
+  <!-- Table campaigns -->
+    <campaigns>
+        <campaignid>1</campaignid>
+        <campaignname>Example Campaign</campaignname>
+        <clientid>1</clientid>
+        <views>-1</views>
+        <clicks>-1</clicks>
+        <conversions>-1</conversions>
+        <expire>0000-00-00</expire>
+        <activate>0000-00-00</activate>
+        <active>t</active>
+        <priority>0</priority>
+        <weight>1</weight>
+        <target_impression>0</target_impression>
+        <target_click>0</target_click>
+        <target_conversion>0</target_conversion>
+        <anonymous>f</anonymous>
+        <companion>0</companion>
+        <comments></comments>
+        <revenue>0.0000</revenue>
+        <revenue_type>0</revenue_type>
+        <updated>2006-11-15 11:01:51</updated>
+    </campaigns>
+  <!-- Table campaigns_trackers -->
+  <!-- Table category -->
+  <!-- Table channel -->
+  <!-- Table clients -->
+    <clients>
+        <clientid>1</clientid>
+        <agencyid>1</agencyid>
+        <clientname>Example Advertiser</clientname>
+        <contact>Mr Example</contact>
+        <email>advertiser@example.com</email>
+        <clientusername>advertiser</clientusername>
+        <clientpassword>02452e3484c42211b1c2884ad9b60c93</clientpassword>
+        <permissions>18</permissions>
+        <language></language>
+        <report>f</report>
+        <reportinterval>7</reportinterval>
+        <reportlastdate>2006-11-15</reportlastdate>
+        <reportdeactivate>t</reportdeactivate>
+        <comments>This advertiser was made as part of an automated functionality test.It should never show up in a real system.</comments>
+        <updated>2006-11-15 11:01:50</updated>
+    </clients>
+  <!-- Table data_intermediate_ad -->
+  <!-- Table data_intermediate_ad_connection -->
+  <!-- Table data_intermediate_ad_variable_value -->
+  <!-- Table data_raw_ad_click -->
+  <!-- Table data_raw_ad_impression -->
+  <!-- Table data_raw_ad_request -->
+  <!-- Table data_raw_tracker_click -->
+  <!-- Table data_raw_tracker_impression -->
+  <!-- Table data_raw_tracker_variable_value -->
+  <!-- Table data_summary_ad_hourly -->
+  <!-- Table data_summary_ad_zone_assoc -->
+  <!-- Table data_summary_channel_hourly -->
+  <!-- Table data_summary_zone_country_daily -->
+  <!-- Table data_summary_zone_country_forecast -->
+  <!-- Table data_summary_zone_country_monthly -->
+  <!-- Table data_summary_zone_domain_page_daily -->
+  <!-- Table data_summary_zone_domain_page_forecast -->
+  <!-- Table data_summary_zone_domain_page_monthly -->
+  <!-- Table data_summary_zone_impression_history -->
+  <!-- Table data_summary_zone_site_keyword_daily -->
+  <!-- Table data_summary_zone_site_keyword_forecast -->
+  <!-- Table data_summary_zone_site_keyword_monthly -->
+  <!-- Table data_summary_zone_source_daily -->
+  <!-- Table data_summary_zone_source_forecast -->
+  <!-- Table data_summary_zone_source_monthly -->
+  <!-- Table images -->
+  <!-- Table log_maintenance -->
+  <!-- Table log_maintenance_forecasting -->
+  <!-- Table log_maintenance_priority -->
+  <!-- Table log_maintenance_statistics -->
+  <!-- Table password_recovery -->
+  <!-- Table placement_zone_assoc -->
+  <!-- Table plugins_channel_delivery_assoc -->
+  <!-- Table plugins_channel_delivery_domains -->
+  <!-- Table plugins_channel_delivery_rules -->
+  <!-- Table preference -->
+  <!-- Table preference_advertiser -->
+  <!-- Table preference_publisher -->
+  <!-- Table session -->
+  <!-- Table targetstats -->
+  <!-- Table tracker_append -->
+  <!-- Table trackers -->
+  <!-- Table userlog -->
+  <!-- Table variable_publisher -->
+  <!-- Table variables -->
+  <!-- Table zones -->
+    <zones>
+        <zoneid>1</zoneid>
+        <affiliateid>1</affiliateid>
+        <zonename>Example Zone</zonename>
+        <description></description>
+        <delivery>0</delivery>
+        <zonetype>3</zonetype>
+        <category></category>
+        <width>468</width>
+        <height>60</height>
+        <ad_selection></ad_selection>
+        <chain></chain>
+        <prepend></prepend>
+        <append></append>
+        <appendtype>0</appendtype>
+        <forceappend>f</forceappend>
+        <inventory_forecast_type>0</inventory_forecast_type>
+        <comments></comments>
+        <cost>0.0000</cost>
+        <cost_type>0</cost_type>
+        <updated>2006-11-15 11:01:47</updated>
+        <block>0</block>
+        <capping>0</capping>
+        <session_capping>0</session_capping>
+    </zones>
+</max03trunk>
+

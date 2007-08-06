@@ -1,0 +1,74 @@
+<refentry id="{@id}">
+ <refnamediv>
+  <refname>Maintenance Priority: AdServer</refname>
+  <refpurpose>Describes how the Maintenance Priority Engine works for the
+  AdServer Module</refpurpose>
+ </refnamediv>
+ <para>
+  The purpose of the Maintenance Priority Engine is to generate up-to-date
+  priorities for advertisements, so that the Delivery Engine can correctly
+  deliver advertisements to meet specified delivery targets.
+ </para>
+ <para>
+  The Maintenance Priority Engine process for the AdServer module is
+  carried out via the following steps:
+  <orderedlist>
+   <listitem>{@tutorial PriorityAdServer.pkg#zif}.</listitem>
+   <listitem>{@tutorial PriorityAdServer.pkg#rai}.</listitem>
+   <listitem>{@tutorial PriorityAdServer.pkg#aai}.</listitem>
+   <listitem>{@tutorial PriorityAdServer.pkg#pc}.</listitem>
+  </orderedlist>
+ </para>
+ <para>
+  Each of these steps is implemented as a {@link MAX_Maintenance_Priority_AdServer_Task}.
+  These tasks are outlined in more detail below.
+ </para>
+ <refsect1 id="{@id zif}">
+  <title>Updating the Zone Impression Forecasts</title>
+  <para>
+   Carried out via the {@link ForecastZoneImpressions} task class.
+  </para>
+  <para>
+   The class updates the forecast of the number of ad impressions that are expected
+   to occur in each operation interval, for every active zone. See the
+   {@link ForecastZoneImpressions::doForecast()} method for details on how
+   this task is performed.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id rai}">
+  <title>Calculating the Required Advertisement Impressions</title>
+  <para>
+   Carried out via the {@link GetRequiredAdImpressionsType1} and the
+   {@link GetRequiredAdImpressionsType2} task classes.
+  </para>
+  <para>
+   The created classes are used to calculate the number of impressions that must be delivered
+   by each active, non-exclusive/house advertisement in the next operation interval in order
+   for the advertisement to meet its delivery requirements. See the
+   {@link GetRequiredAdImpressionsType1} and the {@link GetRequiredAdImpressionsType2} class
+   descriptions for details on how this task is performed.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id aai}">
+  <title>Allocating Advertisement Impressions to Zones</title>
+  <para>
+   Carried out via the {@link AllocateZoneImpressions} task class.
+  </para>
+  <para>
+   The created class is used to allocate the required advertisement impressions to
+   zones. See the {@link AllocateZoneImpressions} class description for details on how
+   this task is performed.
+  </para>
+ </refsect1>
+ <refsect1 id="{@id pc}">
+  <title>Priority Compensation</title>
+  <para>
+   Carried out via the {@link PriorityCompensation} task class.
+  </para>
+  <para>
+   The created class is used to create advertisement/zone priorities, that have been
+   compensated for any delivery errors (due to filters, or otherwise) on the advertisements.
+   See the class code for details on how this task is performed.
+  </para>
+ </refsect1>
+</refentry>

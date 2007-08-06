@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>131</version>
+  <comments>Added the missing indices: affiliates.agencyid, banners.campaignid, clients.agencyid, zones.affiliateid.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>131</version>
+      <change>
+        <table>
+          <name>affiliates</name>
+        <index>
+          <add>
+            <name>agencyid</name>
+            <was>agencyid</was>
+            <indexfield>
+              <name>agencyid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+        <table>
+          <name>banners</name>
+        <index>
+          <add>
+            <name>campaignid</name>
+            <was>campaignid</was>
+            <indexfield>
+              <name>campaignid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+        <table>
+          <name>clients</name>
+        <index>
+          <add>
+            <name>agencyid</name>
+            <was>agencyid</was>
+            <indexfield>
+              <name>agencyid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+        <table>
+          <name>zones</name>
+        <index>
+          <add>
+            <name>affiliateid</name>
+            <was>affiliateid</was>
+            <indexfield>
+              <name>affiliateid</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>131</version>
+  </changeset>
+</destructive>
+</instructionset>

@@ -1,0 +1,17 @@
+  <body>
+    <h2>Delete User Defined Simulation/s</h2>
+    <form method="POST" action="delete.php">
+    <table class="input">
+    <tr><th colspan="2">Delete Scenarios</th></tr>
+    <?php foreach ($aSims AS $k=>$v)
+        {
+    ?>
+    <tr><td class="label"><?php echo $v; ?></td><td><input name="delete[<?php echo $v; ?>]" type="checkbox" value="1"></td></tr>
+    <?php
+        }
+    ?>
+    </table>
+    <button name="submit" type="submit">Delete Scenario</button><!--input name="name" type="text" value="" -->
+    </form>
+  </body>
+</html>

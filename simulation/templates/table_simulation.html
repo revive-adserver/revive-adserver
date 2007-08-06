@@ -1,0 +1,41 @@
+<h5><?php echo $title; ?><h5>
+<table style="border: 1px solid;">
+<?php
+    while ($tmp = $dbRes->fetchRow())
+    {
+        $style=($i ? "background-color: #FFFFFF;" : "background-color: #EEE;");
+        if ($printth)
+        {
+?>
+            <tr style="<?php echo $style; ?>">
+<?php
+            foreach ($tmp AS $k => $v)
+            {
+?>
+                <th><?php echo $k; ?></th>
+<?php
+            }
+?>
+            </tr>
+<?php
+            reset($tmp);
+            $printth = false;
+            $i = ($i ? 0 : 1);
+            $style=($i ? "background-color: #FFFFFF;" : "background-color: #EEE;");
+        }
+?>
+        <tr style="<?php echo $style; ?>">
+<?php
+        foreach ($tmp AS $k => $v)
+        {
+?>
+            <td><?php echo $v; ?></td>
+<?php
+        }
+?>
+        </tr>
+<?php
+        $i = ($i ? 0 : 1);
+    }
+?>
+</table>

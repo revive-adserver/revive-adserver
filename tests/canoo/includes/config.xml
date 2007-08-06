@@ -1,0 +1,10 @@
+<!-- canoo configuration -->
+<config
+  host="${host}"
+  port="${port}"
+  protocol="${protocol}"
+  basepath="${basepath}"
+  resultpath="target"
+  resultfile="simpleResult.xml"
+  summary="true"
+  saveresponse="true" />

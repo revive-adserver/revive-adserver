@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>130</version>
+  <comments>Changed acls.logical to varchar</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>130</version>
+      <change>
+        <table>
+          <name>acls</name>
+        <change>
+          <field>
+            <name>logical</name>
+            <type>openads_varchar</type>
+            <length>3</length>
+          </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>130</version>
+  </changeset>
+</destructive>
+</instructionset>

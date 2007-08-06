@@ -1,0 +1,21 @@
+<!DOCTYPE sqlunit SYSTEM "sqlunit.dtd" [
+  <!ENTITY connection SYSTEM "tests/canoo/includes/connection.xml">
+]>
+<sqlunit>
+
+  &connection;
+  
+  <test name="Looking up new request impressions" assert="resultset-values-equal">
+    <sql>
+      <stmt>SELECT COUNT(*) FROM oa_data_raw_ad_request</stmt>
+    </sql>
+    <result>
+      <resultset id="1">
+        <row id="1">
+          <col id="1" type="INTEGER">1</col>
+        </row>
+      </resultset>
+    </result>
+  </test>
+
+</sqlunit>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>128</version>
+  <comments>Changed the type of the &apos;transparent&apos; field, added &apos;parameters&apos; and &apos;acls_updated&apos; columns.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>128</version>
+      <change>
+        <table>
+          <name>banners</name>
+          <change>
+            <field>
+              <name>transparent</name>
+              <type>openads_tinyint</type>
+              <length>4</length>
+              <notnull>true</notnull>
+              <default>0</default>
+            </field>
+          </change>
+          <add>
+            <field>
+              <name>parameters</name>
+              <type>openads_text</type>
+              <notnull>1</notnull>
+              <was>parameters</was>
+              <default></default>
+            </field>
+          </add>
+          <add>
+            <field>
+              <name>acls_updated</name>
+              <type>openads_datetime</type>
+              <notnull>1</notnull>
+              <was>acls_updated</was>
+              <default></default>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>128</version>
+    </changeset>
+  </destructive>
+</instructionset>

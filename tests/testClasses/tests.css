@@ -1,0 +1,18 @@
+body 		
+{ 
+    background-position: top left;
+    margin: 10px 10px 10px 10px;
+}
+
+
+.path, .filename, .host {
+    display: inline;
+}
+
+/* Fonts */
+
+body, table, td, select
+{ 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 11px; 
+}

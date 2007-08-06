@@ -1,0 +1,40 @@
+<!DOCTYPE sqlunit SYSTEM "sqlunit.dtd" [
+  <!ENTITY connection SYSTEM "tests/canoo/includes/connection.xml">
+]>
+<sqlunit>
+
+  <connection>
+    <driver>${ant.sql.driver}</driver>
+    <url>${ant.sql.url}</url>
+    <user>${ant.sql.user}</user>
+    <password>${ant.sql.password}</password>
+    <jarfile-url>${ant.sql.jarfile}</jarfile-url>
+  </connection>
+  
+  <test name="Looking up new tracker impressions" assert="resultset-values-equal">
+    <sql>
+      <stmt>SELECT COUNT(*) FROM oa_data_raw_tracker_impression</stmt>
+    </sql>
+    <result>
+      <resultset id="1">
+        <row id="1">
+          <col id="1" type="INTEGER">1</col>
+        </row>
+      </resultset>
+    </result>
+  </test>
+  
+  <test name="Looking up new tracker variables" assert="resultset-values-equal">
+    <sql>
+      <stmt>SELECT COUNT(*) FROM oa_data_raw_tracker_variable_value</stmt>
+    </sql>
+    <result>
+      <resultset id="1">
+        <row id="1">
+          <col id="1" type="INTEGER">2</col>
+        </row>
+      </resultset>
+    </result>
+  </test>
+
+</sqlunit>

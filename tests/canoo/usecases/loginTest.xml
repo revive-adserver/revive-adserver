@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM "../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM "file:../includes/config.xml">
+  <!ENTITY login SYSTEM "file:../modules/login.xml">
+]
+>
+
+<project name="Openads" basedir=".." default="main">
+  <import file="../includes/init.xml"/>
+  <import file="${webtest.home}/lib/taskdef.xml"/>
+
+  <target name="main">
+
+    <testSpec name="Login">
+      &config;
+      <steps>
+        &login;
+      </steps>
+
+    </testSpec>
+
+</target>
+
+</project>

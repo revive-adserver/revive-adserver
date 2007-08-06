@@ -1,0 +1,128 @@
+$Id: CHANGES,v 1.23 2003/07/02 23:31:55 epsilon7 Exp $
+
+========================================================================
+Changes for version 2.1.3
+========================================================================
+    * add k-meleon support
+    * add camino support
+    * add mozilla firebird support
+    * add amiga support
+    * fixed issues with netscape and gecko browsers
+    
+========================================================================
+Changes for version 2.1.2
+========================================================================
+[2003.02.13]
+rraymond : correctly identifies more browsers (galeon, phoenix, chimera, safari)
+rraymond : fixes netscape/mozilla detection
+
+[2002.09.17]
+rraymond : can now use '+' as alias for 'up' and '-' as alias for 'dn'
+rraymond : cleanup of user_agent.inc file
+rraymond : removed old test cookie code
+rraymond : better mozilla/netscape differentiation
+rraymond : added BrowseX support (short name = BX)
+
+[2002.09.13]
+rraymond : fixes for some bad config settings
+rraymond : Short Names List
+           Internet Explorer => IE
+           Netscape          => NS
+           Mozilla           => MZ
+           Opera             => OP
+           Konqueror         => KQ
+           Links             => LI
+           Lynx              => LX
+           NCSA Mosaic       => MO
+           Amaya             => AM
+           OmniWeb           => OW
+           iCab              => IC
+           HotJava           => HJ
+
+========================================================================
+Changes for version 2.1.1
+========================================================================
+[2002.09.13]
+gdavison : now correctly identifies MAC OSX
+
+========================================================================
+Changes for version 2.1.0
+========================================================================
+[2002.09.10]
+rraymond : return false if user agent is not found
+rraymond : fixed browser detection for browsers without a minor version
+rraymond : correct detection of netscape 7 
+
+[2002.04.25]
+rraymond : added check for Mac OSX
+         : $client->property('os') = 'osx'
+rraymond : added new setting $_temp_file_path = '/tmp/';
+         : this needs to be modified for the class to work on your server
+rraymond : modified test_cookie routine to work on more platforms
+medianes : cookie check fix
+medianes : session and stored cookie checks
+besfred  : getenv insufficient fix
+rraymond : simplified class instantiation
+
+[2002.03.06]
+rraymond : modified _get_gecko() function to pull mozilla rv version
+rraymond : new browser property gecko_ver returns mozilla rv version
+         : $client->property('gecko_ver');
+
+[2002.02.11]
+rraymond : renamed _insert() to _set_browser() in core
+rraymond : new private function _set_feature() and _set_quirk() 
+         : added to core
+rraymond : added browser features and browser quirks settings
+rraymond : modified _javascript_versions array to fix report for IE5UP
+rraymond : added new methods has_feature() and has_quirk()
+         : $client->has_feature('css2');
+         : $client->has_quirk('avoid_popup_windows');
+rraymond : added ability to search down from a version 
+         : $client->is('b:ns4dn');
+rraymond : fixed PHP Warnings about undefined array index 
+         : in _perform_browser_search()
+rraymond : support added for Links and HotJava browsers (untested)
+
+========================================================================
+Changes for version 2.0.6
+========================================================================
+[2002.01.02]
+rraymond : changed license from GPL to LGPL
+
+========================================================================
+Changes for version 2.0.5a
+========================================================================
+[2001.12.21]
+rraymond : fixed undeclared constants in check cookie routine
+
+========================================================================
+Changes for version 2.0.5
+========================================================================
+[2001.12.20]
+rraymond : added support for Windows XP
+rraymond : fixed some old Windows 98 version 9x 4.90 detection problems
+rraymond : added Windows XP HTTP_USER_AGENT to user_agent.inc
+
+========================================================================
+Changes for version 2.0.4
+========================================================================
+[2001.12.17]
+rraymond : added browser_is() method
+rraymond : added language_is() method
+rraymond : added get_property() alias for property() method
+rraymond : added gecko property; reports mozilla build number (YYYYMMDD)
+rraymond : added _browser_search_regex class var
+rraymond : added _language_search_regex class var
+rraymond : updated demo to use new methods
+
+========================================================================
+Changes for version 2.0.3
+========================================================================
+[2001.12.13]
+rraymond : initialized variables
+rraymond : fixed undeclared constants
+rraymond : added new property long_name
+         : $client->property('long_name');
+rraymond : updated demo to display new long_name property
+

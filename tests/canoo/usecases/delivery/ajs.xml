@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM           "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
+]
+>
+
+<!--
+  Test that page generate the JavaScript which contains the ad
+  @TODO Check that returned JavaScript is valid
+-->
+<project name="Openads delivery - ajs.php" basedir="../.." default="main">
+  <import file="../../includes/init.xml"/>
+  <import file="${webtest.home}/lib/taskdef.xml"/>
+
+  <target name="canoo-test">
+    <testSpec name="Run Delivery">
+      &config;
+      <steps>
+        <invoke description="Invoke delivery file" url="/delivery/ajs.php?what=bannerid:2" />
+        &checkForErrors;
+        <verifyText description="Check that it contains JavaScript" text="document.write" />
+        <verifyText description="Check that JS prints: 'html test banner'" regex="true" text="html test banner" />        
+      </steps>
+    </testSpec>
+  </target>
+  
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+
+</project>

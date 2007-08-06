@@ -1,0 +1,1201 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
+<database>
+
+ <name>tables_temp_statistics</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <version>500</version>
+ <status>final</status>
+
+ <table>
+
+  <name>tmp_ad_request</name>
+
+  <declaration>
+
+   <field>
+    <name>day</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>hour</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>ad_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>requests</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_ad_impression</name>
+
+  <declaration>
+
+   <field>
+    <name>day</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>hour</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>ad_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>impressions</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_ad_click</name>
+
+  <declaration>
+
+   <field>
+    <name>day</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>hour</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>ad_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>clicks</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_tracker_impression_ad_impression_connection</name>
+
+  <declaration>
+
+   <field>
+    <name>server_raw_tracker_impression_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>server_raw_ip</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tracker_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>campaign_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>viewer_id</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>date_time</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>connection_action</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_window</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_status</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_tracker_impression_ad_impression_connection_cookieless</name>
+
+  <declaration>
+
+   <field>
+    <name>server_raw_tracker_impression_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>server_raw_ip</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tracker_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>campaign_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>ip_address</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>user_agent</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>date_time</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>connection_action</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_window</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_status</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>ip_address</name>
+    <field>
+     <name>ip_address</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>user_agent</name>
+    <field>
+     <name>user_agent</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_tracker_impression_ad_click_connection</name>
+
+  <declaration>
+
+   <field>
+    <name>server_raw_tracker_impression_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>server_raw_ip</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tracker_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>campaign_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>viewer_id</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>date_time</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>connection_action</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_window</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_status</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_tracker_impression_ad_click_connection_cookieless</name>
+
+  <declaration>
+
+   <field>
+    <name>server_raw_tracker_impression_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>server_raw_ip</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>tracker_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>campaign_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>ip_address</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>user_agent</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>date_time</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>connection_action</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_window</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_status</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>ip_address</name>
+    <field>
+     <name>ip_address</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>user_agent</name>
+    <field>
+     <name>user_agent</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_ad_connection</name>
+
+  <declaration>
+
+   <field>
+    <name>server_raw_tracker_impression_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>server_raw_ip</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>date_time</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>connection_viewer_id</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_viewer_session_id</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_date_time</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>connection_ad_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_creative_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_zone_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_channel</name>
+    <type>openads_varchar</type>
+    <length>51</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_channel_ids</name>
+    <type>openads_varchar</type>
+    <length>64</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_language</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_ip_address</name>
+    <type>openads_varchar</type>
+    <length>16</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_host_name</name>
+    <type>openads_text</type>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_country</name>
+    <type>openads_char</type>
+    <length>2</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_https</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_domain</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_page</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_query</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_referer</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_search_term</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_user_agent</name>
+    <type>openads_varchar</type>
+    <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_os</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_browser</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_action</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_window</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>connection_status</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>inside_window</name>
+    <type>integer</type>
+    <length>1</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>latest</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>tmp_conversions</name>
+
+  <declaration>
+
+   <field>
+    <name>data_intermediate_ad_connection_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>day</name>
+    <type>date</type>
+    <notnull>true</notnull>
+    <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>hour</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>operation_interval_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>interval_start</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>interval_end</name>
+    <type>timestamp</type>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>ad_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>creative_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>zone_id</name>
+    <type>integer</type>
+    <unsigned>true</unsigned>
+    <length>4</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>basket_value</name>
+    <type>decimal</type>
+    <length>10</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>num_items</name>
+    <type>decimal</type>
+    <length>10</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+
+ </table>
+
+</database>

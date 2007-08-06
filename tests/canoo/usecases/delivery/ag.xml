@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE project SYSTEM           "../../includes/WebTest.dtd" [
+  <!ENTITY config SYSTEM           "../../includes/config.xml">
+  <!ENTITY checkForErrors SYSTEM   "../../modules/errors.xml">
+]
+>
+
+<!--
+  Test that ag.php returns valid JavaScript
+-->
+<project name="Openads delivery - ac.php" basedir="../.." default="main">
+  <import file="../../includes/init.xml"/>
+  <import file="${webtest.home}/lib/taskdef.xml"/>
+
+  <target name="canoo-test">
+    <testSpec name="Run Delivery">
+      &config;
+      <steps>
+        <invoke description="Invoke delivery file" url="/delivery/ag.php" />
+        &checkForErrors;
+      </steps>
+    </testSpec>
+  </target>
+
+  <!-- clean cache, run a canoo test (without cache), and then run again (with cache) -->
+  <target name="main" depends="test-cache" />
+</project>

@@ -1,84 +1,45 @@
-<?php // $Revision$
+<?php
 
-/************************************************************************/
-/* Openads 2.0                                                          */
-/* ===========                                                          */
-/*                                                                      */
-/* Copyright (c) 2000-2007 by the Openads developers                    */
-/* For more information visit: http://www.openads.org                   */
-/*                                                                      */
-/* This program is free software. You can redistribute it and/or modify */
-/* it under the terms of the GNU General Public License as published by */
-/* the Free Software Foundation; either version 2 of the License.       */
-/************************************************************************/
+/*
++---------------------------------------------------------------------------+
+| Openads v2.3                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
 
+// Send headers to the client before proceeding
+flush();
 
+// Prevent output
+ob_start();
 
-// Figure out our location
-if (strlen(__FILE__) > strlen(basename(__FILE__)))
-    define ('phpAds_path', ereg_replace("[/\\\\]maintenance[/\\\\][^/\\\\]+$", '', __FILE__));
-else
-    define ('phpAds_path', '..');
+// Run maintenance
+// Done this way so that it works in CLI PHP
+$path = dirname(__FILE__);
+require_once $path . '/../scripts/maintenance/maintenance.php';
 
+// Get and clean output buffer
+$buffer = ob_get_clean();
 
-
-// Include required files
-require (phpAds_path."/config.inc.php");
-require (phpAds_path."/libraries/lib-io.inc.php");
-require (phpAds_path."/libraries/lib-db.inc.php");
-require (phpAds_path."/libraries/lib-dbconfig.inc.php");
-require (phpAds_path."/libraries/lib-cache.inc.php");
-
-if (!defined('LIBUSERLOG_INCLUDED'))
-	require (phpAds_path."/libraries/lib-userlog.inc.php");
-
-require (phpAds_path."/libraries/lib-log.inc.php");
-require (phpAds_path."/maintenance/lib-maintenance.inc.php");
-
-// Register input variables
-phpAds_registerGlobal ('priority_only');
-
-
-
-// Make database connection and load config
-phpAds_dbConnect();
-phpAds_LoadDbConfig();
-
-// Set maintenance usertype
-phpAds_userlogSetUser (phpAds_userMaintenance);
-
-// Check if we only need to recalculate priorities
-if ($phpAds_config['lb_enabled'])
-	$maintenance_type = PHPADS_MAINT_TYPE_CLEARCACHE;
-elseif (!empty($priority_only))
-	$maintenance_type = PHPADS_MAINT_TYPE_PRIORITY;
-else
-{
-	$maintenance_type = PHPADS_MAINT_TYPE_REGULAR;
-
-	// Sometimes cron jobs could start before the exact minute they were set,
-	// especially if many are scheduled at the same time (e.g. midnight)
-	//
-	// Wait a few seconds if needed, to ensure all goes well, otherwise
-	// maintenance won't work as it should
-	
-	if (date('i') == 59 && date('s') >= 45)
-		sleep(60 - date('s'));
-}
-
-// Finally run maintenance
-if (phpAds_performMaintenance($maintenance_type))
-{
-	if ($maintenance_type == PHPADS_MAINT_TYPE_REGULAR)
-	{
-		// Update the timestamp
-		$res = phpAds_dbQuery ("
-			UPDATE
-				".$phpAds_config['tbl_config']."
-			SET
-				maintenance_cron_timestamp = '".time()."'
-		");
-	}
-}
+// Flush output buffer, stripping the
+echo preg_replace('/^#!.*\n/', '', $buffer);
 
 ?>
