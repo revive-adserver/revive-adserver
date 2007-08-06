@@ -1,4 +1,4 @@
-<?php
+ i<?php
 
 /*
 +---------------------------------------------------------------------------+
@@ -577,8 +577,8 @@ function MMM_buildNavigation()
                       "2.1.2.3.1.1"     =>  array('statistics/publisherDistribution/history/daily'),
                     "2.1.2.3.2"         =>  array(),
                       "2.1.2.3.2.1"     =>  array(),
-              //"2.1.2.4"               =>  array(),
-                //"2.1.2.4.1"           =>  array(),
+                  "2.1.2.4"             =>  array('statistics/targetingStatistics'),
+                    "2.1.2.4.1"         =>  array('statistics/targetingStatistics/daily'),
                   "2.1.2.5"             =>  array(),   // -- optimize
                   "2.1.2.6"             =>  array(),   // -- keywords
                 "2.1.3"                 =>  array('statistics/publisherDistribution'),
