@@ -246,8 +246,8 @@ function MMM_buildNavigation()
                       "2.1.2.3.1.1"     =>  array("stats.php?entity=campaign&breakdown=daily&clientid=$clientid&campaignid=$campaignid&affiliateid=$affiliateid&day=$day" => $GLOBALS['strDailyStats']),
                     "2.1.2.3.2"         =>  array("stats.php?entity=campaign&breakdown=zone-history&clientid=$clientid&campaignid=$campaignid&affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strDistributionHistory']),
                       "2.1.2.3.2.1"     =>  array("stats.php?entity=advertiser&breakdown=daily&clientid=$clientid&campaignid=$campaignid&affiliateid=$affiliateid&zoneid=$zoneid&day=$day" => $GLOBALS['strDailyStats']),
-                  //"2.1.2.4"               =>  array("stats-placement-target.php?clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strTargetStats']),
-                    //"2.1.2.4.1"           =>  array("stats-placement-target-daily.php?clientid=$clientid&campaignid=$campaignid&day=$day" => $GLOBALS['strDailyStats']),
+                  "2.1.2.4"             =>  array("stats.php?entity=campaign&breakdown=targeting&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strTargetStats']),
+                    "2.1.2.4.1"         =>  array("stats.php?entity=campaign&breakdown=targeting-daily&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strDailyStats']),
                   "2.1.2.5"             =>  array("stats.php?entity=campaign&breakdown=optimise&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strOptimise']),
                   "2.1.2.6"             =>  array("stats.php?entity=campaign&breakdown=keywords&clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strKeywordStatistics']),
                 "2.1.3"                 =>  array("stats.php?entity=advertiser&breakdown=affiliates&clientid=$clientid" => $GLOBALS['strPublisherDistribution']),
@@ -436,12 +436,12 @@ function MMM_buildNavigation()
     }
 
     /**
-    * 
-    * DO NOT EDIT THIS ARRAY    
+    *
+    * DO NOT EDIT THIS ARRAY
     * navi2help array - an array containing links to different documentation pages.
     * Please notify the doc team if the array values needs changing
     * The doc team must make sure that any changes to the URLs point to a valid documentation page
-    * 
+    *
     */
     $GLOBALS['navi2help'] = array(
         "admin" => array (
@@ -682,7 +682,7 @@ function MMM_buildNavigation()
                   "1.3.2.1"         =>  array(),
             "2"                     =>  array('inventory/advertisersAndCampaigns/campaigns'),
               "2.1"                 =>  array('inventory/advertisersAndCampaigns/campaigns/banners'),
-              "2.1.1"               =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner'),              
+              "2.1.1"               =>  array('inventory/advertisersAndCampaigns/campaigns/banners/editBanner'),
             "3"                     =>  array('reports'),
             "4"                     =>  array('settings/mainSettings'),
               "4.1"                 =>  array('settings/mainSettings'),
