@@ -60,8 +60,7 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/data/prescript_tables_core_2.php'));
-        $this->assertTrue($oDB_Upgrade->runPreScript(true),'prescript execution error');
-        $this->assertFalse($oDB_Upgrade->runPreScript(false),'prescript execution error');
+        $this->assertTrue($oDB_Upgrade->runPreScript(),'prescript execution error');
     }
 
     function test_prepPostScript()
