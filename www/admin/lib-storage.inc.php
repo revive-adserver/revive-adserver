@@ -76,7 +76,7 @@ function phpAds_ImageStore($type, $name, $buffer, $overwrite = false)
 		}
 	}
 	if ($type == 'sql') {
-	    
+
 	    // Look for existing image.
 	    $doImages = OA_Dal::staticGetDO('images', $name);
 	    if ($doImages) {
@@ -170,9 +170,14 @@ function phpAds_ImageRetrieve($type, $name)
 			$server['passiv'] = !empty( $conf['store']['ftpPassive'] );
 			$result = phpAds_FTPRetrieve($server, $name);
 		} else {
-			// Local mode
-			$result = @fread(@fopen($conf['store']['webDir']."/".$name, 'rb'),
-					  @filesize($conf['store']['webDir']."/".$name));
+            // Local mode
+		    $result = '';
+            if ($fp = @fopen($conf['store']['webDir']."/".$name, 'rb')) {
+                while (!feof($fp)) {
+                    $result .= @fread($fp, 8192);
+                }
+                @fclose($fp);
+            }
 		}
 	}
 	if ($type == 'sql') {
