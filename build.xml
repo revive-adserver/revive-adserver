@@ -34,18 +34,9 @@
     <delete file="tests.xml" />
   </target>
 
-  <target name="checkconsistency"
-    description="Checks whether all the files in the working directory are specified in the included or excluded lists of files.">
-    <checkdistribution>
-      <includeset dir="${basedir}">
-        <patternset refid="dist.included"/>
-        <patternset refid="dist.writable"/>
-      </includeset>
-      <excludeset dir="${basedir}">
-        <patternset refid="dist.excluded"/>
-      </excludeset>
-    </checkdistribution>
-  </target>
+  <!-- ******************************************************************** -->
+  <!-- DELIVERY GENERATION TARGETS                                          -->
+  <!-- ******************************************************************** -->
   
   <target name="generate-delivery"
     description="Merge delivery files into /www/delivery folder to optimize their speed.">
@@ -64,6 +55,10 @@
     <svn-commit file="www/delivery" notes="Commit of auto-generated delivery files."/>
   </target>
 
+  <!-- ******************************************************************** -->
+  <!-- INITIALIZATION TARGETS                                               -->
+  <!-- ******************************************************************** -->
+  
   <target name="init">
     <touch file="should_not_exist"/>
     <mkdir dir="build/test-results"/>
@@ -79,29 +74,7 @@
     <property name="label" value="trunk"/>
   </target>
 
-  <target name="increase-rc">
-    <echo message="Increasing the openads.version.rc number (${openads.version.rc}) by 1."/>
-    <propertyfile file="etc/version.properties">
-      <entry key="openads.version.rc" type="int" operation="+" value="1"/>
-    </propertyfile>
-    <svn-commit file="etc/version.properties" notes="Increased the old openads.version.rc number (${openads.version.rc}) by 1."/>
-  </target>
-
-  <target name="init-version-number" unless="version.number">
-    <property name="version.number" value="${openads.version.major}.${openads.version.minor}.${openads.version.revision}"/>
-  </target>
-
-  <target name="prepare-line-info" if="line" depends="init-version-number">
-    <!--
-      Temporary solution which allow only to create BETA rc builds.
-      To be fixed when time permits
-     -->
-    <property name="linetag" value="-beta-rc${openads.version.rc}"/>
-    <property name="version" value="${version.number}${linetag}"/>
-    <echo message="Initialized version to: ${version}"/>
-  </target>
-
-  <target name="init-version" unless="version" depends="prepare-line-info, init-timestamp, init-label">
+  <target name="init-version" unless="version" depends="init-timestamp, init-label">
     <property name="version" value="${label}-${cctimestamp}"/>
   </target>
 
@@ -115,13 +88,24 @@
     <oa-version versionstring="${version}"/>
   </target>
 
-  <target name="prepare-package" depends="prepare-version-info">
-    <chmod perm="a+w" dir="${basedir}" type="dir">
-      <patternset refid="dist.writable"/>
-    </chmod>
+  <!-- ******************************************************************** -->
+  <!-- PACKAGE TARGETS                                                      -->
+  <!-- ******************************************************************** -->
+
+  <target name="checkconsistency"
+    description="Checks whether all the files in the working directory are specified in the included or excluded lists of files.">
+    <checkdistribution>
+      <includeset dir="${basedir}">
+        <patternset refid="dist.included"/>
+        <patternset refid="dist.writable"/>
+      </includeset>
+      <excludeset dir="${basedir}">
+        <patternset refid="dist.excluded"/>
+      </excludeset>
+    </checkdistribution>
   </target>
 
-  <target name="package-bzip2-canoo" depends="prepare-package">
+  <target name="package-bzip2-canoo" depends="prepare-version-info">
     <property name="canoo.package" value="openads-canoo-${version}.tar.gz"/>
     <property name="canoo.package.file" value="${dir.test.results}/${canoo.package}"/>
     <tar destfile="${canoo.package.file}" basedir="." compression="gzip" longfile="gnu">
@@ -129,7 +113,7 @@
     </tar>
   </target>
 
-  <target name="prepare-distribution" depends="prepare-package">
+  <target name="prepare-distribution" depends="prepare-version-info">
     <property name="release.dir" value="${dir.test.results}/${release}"/>
     <mkdir dir="${release.dir}"/>
     <copy todir="${release.dir}" includeEmptyDirs="true">
@@ -151,24 +135,21 @@
     <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="revert-after-packaging">
-    <svn-revert file="constants.php"/>
+  <target name="package" depends="checkconsistency, package-bzip2, package-gz, package-zip"/>
+
+  <!-- ******************************************************************** -->
+  <!-- RELEASE TARGETS                                                      -->
+  <!-- ******************************************************************** -->
+
+  <target name="release" depends="oa-save-version, package" if="version"/>
+
+  <target name="oa-save-version" if="version">
+    <oa-version versionstring="${version}"/>
   </target>
 
-  <target name="package" depends="checkconsistency, package-bzip2, package-gz, package-zip, revert-after-packaging"/>
-
-  <target name="tag" depends="checkconsistency, prepare-version-info">
-    <echo message="Tagging release: ${release}."/>
-    <svn-tag tag="${release}"/>
-  </target>
-
-  <target name="oa-save-version">
-    <property file="etc/version.properties" prefix="oa"/>
-    <oa-version versionstring="${oa.openads.version.major}.${oa.openads.version.minor}.${oa.openads.version.revision}-beta-rc${oa.openads.version.rc}"/>
-    <svn-commit file="constants.php" notes="A new release OA_VERSION constants auto-replacement."/>
-  </target>
-
-  <target name="release-beta-rc" depends="clean, svn-update, tag, package, increase-rc, oa-save-version" description="Creates a release candidate for beta line."/>
+  <!-- ******************************************************************** -->
+  <!-- TEST TARGETS                                                         -->
+  <!-- ******************************************************************** -->
 
   <target name="test-prepare">
     <xslt style="tests.xsl" in="${test.conf.xml}" out="tests.xml"/>
@@ -200,5 +181,7 @@
 
 
   <target name="simpletest" depends="clean, init, test-all, package" />
+
+   
 
 </project>
