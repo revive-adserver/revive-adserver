@@ -540,7 +540,7 @@ $activeNav = array (
                     OA_UPGRADE_CONFIGSETUP    =>      '60',
                     OA_UPGRADE_FINISH         =>      '100'
                   );
-if ($_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
+if (!empty($_COOKIE['oat']) && $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
     $activeNav[OA_UPGRADE_ADMINSETUP]     =      '70';
     $activeNav[OA_UPGRADE_IDSETUP]        =      '70';
     $activeNav[OA_UPGRADE_DATASETUP]      =      '90';
