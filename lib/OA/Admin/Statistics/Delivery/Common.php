@@ -350,7 +350,7 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
      */
     function _summariseTotals(&$aRows)
     {
-        parent::_summariseTotals($aRows, $average);
+        parent::_summariseTotals($aRows);
         // Custom
         foreach ($aRows as $row) {
             // Add conversion totals

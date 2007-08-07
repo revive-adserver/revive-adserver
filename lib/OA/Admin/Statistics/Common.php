@@ -609,7 +609,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $this->_generatePageURI();
 
         // Add context links, if any
-        if (is_array($this->aPageContext)) {
+        if (!is_null($this->aPageContext) && is_array($this->aPageContext)) {
             call_user_func_array(array($this, '_showContext'), $this->aPageContext);
         }
 

@@ -145,11 +145,11 @@ function setTimeZoneLocation($location)
 function getHostName()
 {
     if (!empty($_SERVER['HTTP_HOST'])) {
-            $host = explode(':', $_SERVER['HTTP_HOST']);
-            $host = $host[0];
-    } else {
-            $host = explode(':', $_SERVER['SERVER_NAME']);
-        	$host = $host[0];
+        $host = explode(':', $_SERVER['HTTP_HOST']);
+        $host = $host[0];
+    } else if (!empty($_SERVER['SERVER_NAME'])) {
+        $host = explode(':', $_SERVER['SERVER_NAME']);
+    	$host = $host[0];
     }
     return $host;
 }
@@ -162,9 +162,9 @@ function getHostName()
 function getHostNameWithPort()
 {
     if (!empty($_SERVER['HTTP_HOST'])) {
-            $host = $_SERVER['HTTP_HOST'];
-    } else {
-        	$host = $_SERVER['SERVER_NAME'];
+        $host = $_SERVER['HTTP_HOST'];
+    } else if (!empty($_SERVER['SERVER_NAME'])) {
+    	$host = $_SERVER['SERVER_NAME'];
     }
     return $host;
 }
