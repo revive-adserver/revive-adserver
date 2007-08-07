@@ -123,6 +123,10 @@ class OA_phpAdsNew
             $aResult['table']['type']           = $phpAds_config['table_type'];
             $aResult['table']['prefix']         = $phpAds_config['table_prefix'];
 
+            // Required for ACLs upgrade recompile mechanism
+            $aResult['table']['banners']        = 'banners';
+            $aResult['table']['channel']        = 'channel';
+
             // pan has a setting dblocal to indicate a socket connection
             // max v0.1 doesn't, just have to detect if the port is a port number or socket path
             if (isset($phpAds_config['dblocal']) && $phpAds_config['dblocal'])

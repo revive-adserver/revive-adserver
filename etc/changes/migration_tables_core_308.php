@@ -205,10 +205,7 @@ class Migration_308 extends Migration
 
 	function afterAddTable__data_summary_ad_hourly()
 	{
-	    $migration = new StatMigration();
-	    $migration->init($this->oDBH);
-
-		return $migration->migrateData() && $this->afterAddTable('data_summary_ad_hourly');
+        return $this->afterAddTable('data_summary_ad_hourly');
 	}
 
 	function beforeAddTable__data_summary_ad_zone_assoc()
@@ -583,11 +580,11 @@ class Migration_308 extends Migration
                 $aPanConfig['geotracking_location'],
                 $aPanConfig['geotracking_stats'],
                 $aPanConfig['geotracking_conf']);
-                
+
             if ($result === false) {
             	return false;
             }
-            
+
 	        $sql = OA_DB_SQL::sqlForInsert('preference', $aValues);
 	        $result = $this->oDBH->exec($sql);
 	        return (!PEAR::isError($result));

@@ -32,6 +32,10 @@ require_once MAX_PATH.'/lib/wact/db/db.inc.php';
 
 class StatMigration extends Migration
 {
+    // 0.1 didn't have an option for compact stats, it was "always on"
+    // Use this property to instruct the stats migration to do the right thing.
+    var $compactStats = false;
+
     function StatMigration()
     {
         $this->oDBH = &OA_DB::singleton();
@@ -152,6 +156,7 @@ class StatMigration extends Migration
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse('Error migrating raw stats: '.$result->getUserInfo());
 	    }
+        $this->_log('Successfully migrated adstats data into data_intermediate table');
 
 	    $sql = "
 	       INSERT INTO $tableDataSummaryAdHourly
@@ -163,6 +168,7 @@ class StatMigration extends Migration
 	    if (PEAR::isError($result)) {
 	        return $this->_logErrorAndReturnFalse('Error migrating stats: '.$result->getUserInfo());
 	    }
+        $this->_log('Successfully migrated adstats data into data_summary table');
 
 	    return true;
     }
@@ -184,7 +190,7 @@ class StatMigration extends Migration
     {
         $phpAdsNew = new OA_phpAdsNew();
         $aConfig = $phpAdsNew->_getPANConfig();
-        return $aConfig['compact_stats'];
+        return ($this->compactStats || $aConfig['compact_stats']);
     }
 }
 

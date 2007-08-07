@@ -349,6 +349,7 @@ class OA_DB_Upgrade
     function runPreScript($aParams='')
     {
         $method = 'execute_'.$this->timingStr;
+        $aParams = array($this);
         return call_user_func(array($this->oPreScript, $method), $aParams);
     }
 

@@ -111,6 +111,7 @@
             <file>schema_tables_core_399.xml</file>
             <file>changes_tables_core_399.xml</file>
             <file>migration_tables_core_399.php</file>
+            <prescript>prescript_tables_core_399.php</prescript>
         </package>
         <package>
             <version>505</version>
