@@ -137,6 +137,8 @@
 
   <target name="package" depends="checkconsistency, package-bzip2, package-gz, package-zip"/>
 
+  <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
+
   <!-- ******************************************************************** -->
   <!-- RELEASE TARGETS                                                      -->
   <!-- ******************************************************************** -->
