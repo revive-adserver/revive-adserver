@@ -1,5 +1,5 @@
 +---------------------------------------------------------------------------+
-| Openads v2.3                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -20,26 +20,26 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 
-Release Notes: Openads 2.3.37-beta
-==================================
+Release Notes: Openads ${RELEASE_VERSION}
+=======================${RELEASE_VERSION_DOUBLE_UNDERLINE}
 
-Openads 2.3 beta is the next generation release of the hugely popular
-Openads adserver.
+Openads ${RELEASE_MAJOR_MINOR} is the next generation release of the hugely popular Openads
+adserver.
 
 These release notes cover what's new, system requirements, download and
 installation instructions, known issues and frequently asked questions for
-Openads 2.3.35-beta. Please read these notes before reporting any bugs.
+Openads ${RELEASE_VERSION}. Please read these notes before reporting any bugs.
 
-Please tell us what you think on the Openads 2.3 forum
+Please tell us what you think on the Openads ${RELEASE_MAJOR_MINOR} forum
 [http://forum.openads.org/index.php?showforum=37].
 
 
-What's New in Openads 2.3.37-beta
----------------------------------
+What's New in Openads ${RELEASE_VERSION}
+----------------------${RELEASE_VERSION_SINGLE_UNDERLINE}
 
- * Release date: MONTH DAY, YEAR
+ * Release date: ${RELEASE_DATE}
 
- * ???
+${RELEASE_NOTES}
 
  * For complete details, see https://developer.openads.org/.
 
@@ -48,7 +48,7 @@ System Requirements
 -------------------
 
 Before installing, please make sure your server meets the system
-requirements [http://docs.openads.org/openads-2.3-guide/requirements.html].
+requirements [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/requirements.html].
 
 
 Downloading and Installing
@@ -56,21 +56,21 @@ Downloading and Installing
 
  * Downloading Openads
 
-   You can get the latest version of Openads 2.3 here
-   [http://www.openads.org/downloads/download-openads-2.3.html].
+   You can get the latest version of Openads ${RELEASE_MAJOR_MINOR} here
+   [http://www.openads.org/downloads/download-openads-${RELEASE_MAJOR_MINOR}.html].
 
- * Installing Openads 2.3.37-beta
+ * Installing Openads ${RELEASE_VERSION}
 
-   Installing Openads 2.3.37-beta is a straightforward process. Follow
+   Installing Openads ${RELEASE_VERSION} is a straightforward process. Follow
    these steps
-   [http://docs.openads.org/openads-2.3-guide/installing-openads.html] and
+   [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/installing-openads.html] and
    use the links to refer to detailed information on each step where
    necessary.
 
- * Upgrading Openads 2.3.37-beta
+ * Upgrading Openads ${RELEASE_VERSION}
 
-   Upgrading to Openads 2.3.37-beta is a straightforward process. Follow
-   these steps [http://docs.openads.org/openads-2.3-guide/upgrading.html]
+   Upgrading to Openads ${RELEASE_VERSION} is a straightforward process. Follow
+   these steps [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/upgrading.html]
    and use the links to refer to detailed information on each step where
    necessary.
 
@@ -82,7 +82,7 @@ Downloading and Installing
    releases of Openads:
 
    ---------------------------------------------------------------
-   | Product                             | Version               |
+   | Product                             | Version(s)            |
    ---------------------------------------------------------------
    | Openads 2.0 for MySQL               | 2.0.11-pr1            |
    |   (formerly phpAdsNew)              |                       |
@@ -90,7 +90,7 @@ Downloading and Installing
    | Openads 2.3 alpha                   | 2.3.31-alpha-pr3      |
    |   (formerly Max Media Manager v0.3) |   (v0.3.31-alpha-pr3) |
    ---------------------------------------------------------------
-   | Openads 2.3 beta                    | All previous versions |
+   | Openads 2.3 beta                    | All versions          |
    ---------------------------------------------------------------
    | Max Media Manager v0.1              | v0.1.29-rc            |
    ---------------------------------------------------------------
@@ -100,9 +100,9 @@ Downloading and Installing
 
    If you are not running one of these versions, you will need to upgrade
    your existing installation before you will be able to upgrade to
-   Openads 2.3.37-beta.
+   Openads ${RELEASE_VERSION}.
 
- * Uninstalling Openads 2.3
+ * Uninstalling Openads ${RELEASE_VERSION}
 
    To remove Openads from your server delete the installed files and
    database tables.
@@ -111,10 +111,10 @@ Downloading and Installing
 Known Issues
 ------------
 
-This list covers some of the known problems with Openads 2.3.37-beta. Please
+This list covers some of the known problems with Openads ${RELEASE_VERSION}. Please
 read this before reporting any new bugs.
 
- * Openads 2.3.37-beta beta does NOT work with MySQL 3.x. If you are running
+ * Openads ${RELEASE_VERSION} does NOT work with MySQL 3.x. If you are running
    Openads 2.0 on this very old version of MySQL, do NOT attempt to upgrade,
    as your installation will no longer work correctly.
 
@@ -136,7 +136,7 @@ read this before reporting any new bugs.
  * Some users have reported issues of being logged out when viewing
    statistics. This can be worked around by ensuring that the timezone is
    correctly set in PHP
-   [http://docs.openads.org/openads-2.3-guide/administrator-settings.html].
+   [http://docs.openads.org/openads-${RELEASE_MAJOR_MINOR}-guide/administrator-settings.html].
 
  * See https://developer.openads.org/ for the latest bug reports.
 
@@ -156,13 +156,13 @@ FAQ
 
     Yes.  phpAdsNew was rebranded as Openads 2.0. You will need to ensure you
     first upgrade to the latest version of Openads 2.0 before using the Openads
-    2.3 upgrade wizard.
+    ${RELEASE_MAJOR_MINOR} upgrade wizard.
 
- 3. Does Openads 2.3.37-beta support PostgreSQL?
+ 3. Does Openads ${RELEASE_VERSION} support PostgreSQL?
 
-    No, there is currently no support for PostgreSQL in Openads 2.3.37-beta.
+    No, there is currently no support for PostgreSQL in Openads ${RELEASE_VERSION}.
     Installing and upgrading from Openads 2.0 for PostgreSQL are likely to be
-    supported in a future release of Openads 2.3 beta.
+    supported in a future release of Openads.
 
  4. Where do I go for support?
 
