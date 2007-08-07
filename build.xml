@@ -141,6 +141,10 @@
   <!-- RELEASE TARGETS                                                      -->
   <!-- ******************************************************************** -->
 
+  <target name="revert-after-packaging">
+    <svn-revert file="constants.php"/>
+  </target>
+
   <target name="release" depends="oa-save-version, package" if="version"/>
 
   <target name="oa-save-version" if="version">

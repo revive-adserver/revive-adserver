@@ -14,4 +14,12 @@
     </exec>
   </target>
 
+ <macrodef name="svn-revert"> 
+    <attribute name="file"/> 
+    <sequential> 
+      <exec dir="${basedir}" executable="${svn.path}" failonerror="true"> 
+        <arg line="revert @{file}"/> 
+      </exec> 
+    </sequential> 
+  </macrodef>
 </project>
