@@ -44,19 +44,23 @@ class Language_Settings
      */
     function load()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (!empty($GLOBALS['_MAX']['PREF'])) {
+            $aPref = $GLOBALS['_MAX']['PREF'];
+        } else {
+            $aPref = array();
+        }
         // Always load the English language, in case of incomplete translations
         include_once MAX_PATH . '/lib/max/language/english/settings.lang.php';
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (($pref['language'] != 'english') && file_exists(MAX_PATH .
-                '/lib/max/language/' . $pref['language'] . '/settings.lang.php')) {
-            include_once MAX_PATH . '/lib/max/language/' . $pref['language'] .
+        if (!empty($aPref['language']) && ($aPref['language'] != 'english') && file_exists(MAX_PATH .
+                '/lib/max/language/' . $aPref['language'] . '/settings.lang.php')) {
+            include_once MAX_PATH . '/lib/max/language/' . $aPref['language'] .
                 '/settings.lang.php';
-        } elseif (($conf['max']['language'] != 'english') && file_exists(MAX_PATH .
-                '/lib/max/language/' . $conf['max']['language'] . '/settings.lang.php')) {
-            include_once MAX_PATH . '/lib/max/language/' . $conf['max']['language'] .
+        } elseif (($aConf['max']['language'] != 'english') && file_exists(MAX_PATH .
+                '/lib/max/language/' . $aConf['max']['language'] . '/settings.lang.php')) {
+            include_once MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] .
                 '/settings.lang.php';
         }
     }

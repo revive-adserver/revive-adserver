@@ -46,25 +46,29 @@ class Language_Default
      */
     function load()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (!empty($GLOBALS['_MAX']['PREF'])) {
+            $aPref = $GLOBALS['_MAX']['PREF'];
+        } else {
+            $aPref = array();
+        }
         // Always load the English language, in case of incomplete translations
         include_once MAX_PATH . '/lib/max/language/english/default.lang.php';
         // Load affiliate language file if user is a real affiliate and default is english
         if (phpAds_isUser(phpAds_Affiliate) && phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-            if ($pref['language'] == 'english' || ($conf['max']['language'] == 'english' && empty($pref['language']))) {
-                $pref['language'] = $GLOBALS['_MAX']['PREF']['language'] = 'english_affiliates';
+            if (empty($aPref['language']) && ($aConf['max']['language'] == 'english') || ($aPref['language'] == 'english')) {
+                $aPref['language'] = $GLOBALS['_MAX']['PREF']['language'] = 'english_affiliates';
             }
         }
         // Load the language from preferences, if possible, otherwise load
         // the global preference, if possible
-        if (($pref['language'] != 'english')  && file_exists(MAX_PATH .
-                '/lib/max/language/' . $pref['language'] . '/default.lang.php')) {
-            include_once MAX_PATH . '/lib/max/language/' . $pref['language'] .
+        if (!empty($aPref['language']) && ($aPref['language'] != 'english') && file_exists(MAX_PATH .
+                '/lib/max/language/' . $aPref['language'] . '/default.lang.php')) {
+            include_once MAX_PATH . '/lib/max/language/' . $aPref['language'] .
                 '/default.lang.php';
-        } elseif (($conf['max']['language'] != 'english') && file_exists(MAX_PATH .
-                '/lib/max/language/' . $conf['max']['language'] . '/default.lang.php')) {
-            include_once MAX_PATH . '/lib/max/language/' . $conf['max']['language'] .
+        } elseif (($aConf['max']['language'] != 'english') && file_exists(MAX_PATH .
+                '/lib/max/language/' . $aConf['max']['language'] . '/default.lang.php')) {
+            include_once MAX_PATH . '/lib/max/language/' . $aConf['max']['language'] .
                 '/default.lang.php';
         }
     }
