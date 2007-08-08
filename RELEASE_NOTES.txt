@@ -40,7 +40,6 @@ What's New in Openads ${RELEASE_VERSION}
  * Release date: ${RELEASE_DATE}
 
 ${RELEASE_NOTES}
-
  * For complete details, see https://developer.openads.org/.
 
 
