@@ -119,7 +119,7 @@ EOF
                     $params = $rsBanners->get('parameters');
                     $this->assertNotEqual($params, '');
                     $params = unserialize($params);
-                    $this->assertEqual($params, array(
+                    $this->assertEqual($params, array('swf' => array(
                         1 => array(
                             'link' => 'http://www.openads.org',
                             'tar'  => '_blank'
@@ -127,7 +127,7 @@ EOF
                         2 => array(
                             'link' => 'http://www.openads.org',
                             'tar'  => '_self'
-                        )
+                        ))
                     ));
                 }
             } else {

@@ -114,9 +114,9 @@ class Migration_128 extends Migration
             preg_match_all('/alink(\d+).*?dest=(.*?)(?:&amp;atar\d+=(.*?))?(?:&amp;|\')/', $code, $m);
 
             if (count($m[0])) {
-                $params = array();
+                $params = array('swf' => array());
                 foreach ($m[1] as $k => $v) {
-                    $params[$v] = array(
+                    $params['swf'][$v] = array(
                         'link' => urldecode($m[2][$k]),
                         'tar'  => isset($m[3][$k]) ? urldecode($m[3][$k]) : ''
                     );
