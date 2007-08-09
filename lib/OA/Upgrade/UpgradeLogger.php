@@ -92,6 +92,9 @@ class OA_UpgradeLogger
     function logClear()
     {
         $this->aMessages = array();
+        $this->aErrors = array();
+        $this->errorExists = false;
+        $this->warningExists = false;
     }
 
     /**
