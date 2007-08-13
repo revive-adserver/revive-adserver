@@ -8,7 +8,7 @@
     . Conversion Tracking Tools
 
 
-    Version 2.5.0-dev
+    Version ${RELEASE_VERSION}
     ------------------------------------------------------------------------
     THIS IS BETA SOFTWARE AND MAY NOT BE STABLE ENOUGH FOR USE
     IN A PRODUCTION ENVIRONMENT. THE USE OF THIS SOFTWARE IS
