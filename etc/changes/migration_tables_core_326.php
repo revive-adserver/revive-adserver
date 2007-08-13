@@ -66,7 +66,7 @@ class Migration_326 extends Migration
 
 	function beforeAddField__campaigns__target_impression()
 	{
-		return $this->beforeAddField('campaigns', 'target_impression');
+		return $this->migrateData() && $this->beforeAddField('campaigns', 'target_impression');
 	}
 
 	function afterAddField__campaigns__target_impression()
@@ -144,6 +144,49 @@ class Migration_326 extends Migration
 		return $this->afterAddField('campaigns', 'updated');
 	}
 
+	function migrateData()
+	{
+	    return $this->migratePriorities();
+	}
+
+	function migratePriorities()
+	{
+	    $oDbh = OA_DB::singleton();
+
+	    if ($oDbh->dbsyntax == 'mysql') {
+	        $aConf = $GLOBALS['_MAX']['CONF'];
+	        $aPriorities = array(
+	           'h' => 5,
+	           'm' => 3,
+	           'l' => 0
+	        );
+
+	        $tableCampaigns = $oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns', true);
+    	    $query = "SELECT campaignid, priority FROM {$tableCampaigns}";
+    	    $aCampaigns = $oDbh->getAssoc($query);
+
+    	    $result = $oDbh->exec("ALTER TABLE {$tableCampaigns} MODIFY priority int(11) NOT NULL DEFAULT 0");
+    	    if (PEAR::isError($result)) {
+    	        return $this->_logErrorAndReturnFalse('Cannot alter the campaigns.priority field');
+    	    }
+
+    	    $oUpdate = $oDbh->prepare("UPDATE {$tableCampaigns} SET priority = ? WHERE campaignid = ?", array('integer', 'integer'));
+    	    if (PEAR::isError($oUpdate)) {
+    	        return $this->_logErrorAndReturnFalse('Cannot create the prepared statement');
+    	    }
+    	    if (count($aCampaigns)) {
+    	        $this->_log('Performing campaign.priority migration');
+        	    foreach ($aCampaigns as $id => $priority) {
+        	        $result = $oUpdate->execute(array($aPriorities[$priority], $id));
+            	    if (PEAR::isError($oUpdate)) {
+            	        return $this->_logErrorAndReturnFalse('Cannot update priority for campaign '.$id);
+            	    }
+                }
+    	    }
+	    }
+
+	    return true;
+	}
 }
 
 ?>
