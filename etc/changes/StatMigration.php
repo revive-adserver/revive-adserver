@@ -192,6 +192,77 @@ class StatMigration extends Migration
         $aConfig = $phpAdsNew->_getPANConfig();
         return ($this->compactStats || $aConfig['compact_stats']);
     }
+
+    function correctCampaignTargets()
+    {
+        $prefix = $this->getPrefix();
+
+	    // We need to add delivered stats to the "Booked" amount to correctly port campaign targets from 2.0
+        $statsSQL = "
+            SELECT
+                c.campaignid,
+                SUM(dsah.impressions) AS sum_views,
+                SUM(dsah.clicks) AS sum_clicks,
+                SUM(dsah.conversions) AS sum_conversions
+            FROM
+                {$prefix}banners AS b,
+                {$prefix}campaigns AS c,
+                {$prefix}data_summary_ad_hourly AS dsah
+            WHERE
+                b.bannerid=dsah.ad_id
+              AND c.campaignid=b.campaignid
+            GROUP BY
+                c.campaignid";
+        $rStats = $this->oDBH->query($statsSQL);
+	    if (PEAR::isError($rStats)) {
+	        return $this->_logErrorAndReturnFalse('Error getting stats during migration 122: '.$rStats->getUserInfo());
+	    }
+
+	    $stats = array();
+	    while($row = $rStats->fetchRow()) {
+	        if (PEAR::isError($row)) {
+	            return $this->_logErrorAndReturnFalse('Error getting stats data during migration 127: '.$rStats->getUserInfo());
+	        }
+	        $stats[$row['campaignid']] = $row;
+	    }
+
+        $highCampaignsSQL = "
+            SELECT
+                campaignid AS campaignid,
+                views AS views,
+                clicks AS clicks,
+                conversions AS conversions
+            FROM
+                {$prefix}campaigns
+            WHERE
+                views >= 0
+              OR clicks >= 0
+              OR conversions >= 0
+        ";
+
+        $rsCampaigns = $this->oDBH->query($highCampaignsSQL);
+	    if (PEAR::isError($rsCampaigns)) {
+	        return $this->_logErrorAndReturnFalse('Error campaigns with targets in migration 122: '.$rsCampaigns->getUserInfo());
+	    }
+	    while ($rowCampaign = $rsCampaigns->fetchRow()) {
+	        if (PEAR::isError($rsCampaign)) {
+	            return $this->_logErrorAndReturnFalse('Error getting stats data during migration 127: '.$rsCampaigns->getUserInfo());
+	        }
+            if (!empty($stats[$rowCampaign['campaignid']]['sum_views']) || !empty($stats[$rowCampaign['campaignid']]['sum_clicks']) || !empty($stats[$rowCampaign['campaignid']]['sum_conversions'])) {
+                $this->oDBH->exec("
+                    UPDATE
+                        {$prefix}campaigns
+                    SET
+                        views = IF(views >= 0, views+{$stats[$rowCampaign['campaignid']]['sum_views']}, views),
+                        clicks = IF(clicks >= 0, clicks+{$stats[$rowCampaign['campaignid']]['sum_clicks']}, clicks),
+                        conversions = IF(conversions > 0, conversions+{$stats[$rowCampaign['campaignid']]['sum_conversions']}, conversions)
+                    WHERE
+                        campaignid = {$rowCampaign['campaignid']}
+                ");
+            }
+	    }
+        return true;
+    }
 }
 
 ?>

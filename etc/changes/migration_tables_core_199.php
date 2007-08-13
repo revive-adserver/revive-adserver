@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/etc/changes/StatMigration.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 
 class Migration_199 extends Migration
@@ -62,7 +63,10 @@ class Migration_199 extends Migration
 
 	function beforeRemoveTable__adstats()
 	{
-		return $this->beforeRemoveTable('adstats');
+	    $migration = new StatMigration();
+	    $migration->init($this->oDBH);
+
+		return $migration->correctCampaignTargets() && $this->beforeRemoveTable('adstats');
 	}
 
 	function afterRemoveTable__adstats()
