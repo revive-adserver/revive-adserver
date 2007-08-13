@@ -29,7 +29,7 @@ $Id$
 */
 
 // Require the initialisation file
-//require_once '../../init-delivery.php';
+require_once '../../init-delivery.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
