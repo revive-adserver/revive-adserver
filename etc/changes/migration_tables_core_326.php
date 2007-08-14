@@ -52,7 +52,7 @@ class Migration_326 extends Migration
 		$this->aTaskList_constructive[] = 'afterAddField__campaigns__updated';
 
 
-		$this->aObjectMap['campaigns']['target_impression'] = array('fromTable'=>'campaigns', 'fromField'=>'target_impression');
+		$this->aObjectMap['campaigns']['target_impression'] = array('fromTable'=>'campaigns', 'fromField'=>'target');
 		$this->aObjectMap['campaigns']['target_click'] = array('fromTable'=>'campaigns', 'fromField'=>'target_click');
 		$this->aObjectMap['campaigns']['target_conversion'] = array('fromTable'=>'campaigns', 'fromField'=>'target_conversion');
 		$this->aObjectMap['campaigns']['companion'] = array('fromTable'=>'campaigns', 'fromField'=>'companion');
