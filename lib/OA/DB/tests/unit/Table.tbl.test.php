@@ -213,9 +213,9 @@ class Test_OA_DB_Table extends UnitTestCase
         $fp = fopen(MAX_PATH . '/var/test.xml', 'w');
         fwrite($fp, "asdf;");
         fclose($fp);
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         $return = $oTable->init(MAX_PATH . '/var/test.xml');
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
         $this->assertFalse($return);
 
         // Test 4
@@ -497,9 +497,9 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->dropTable($prefix.'foo');
         // Test table does not exist with an insert
         $query = "INSERT INTO {$prefix}foo (a) VALUES (37)";
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         $result = $oDbh->query($query);
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
         $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         TestEnv::restoreEnv();
 
