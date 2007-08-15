@@ -36,11 +36,12 @@ $path = dirname(__FILE__);
 require_once $path . '/../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
+
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 OA::debug('Running Maintenance Forecasting', PEAR_LOG_INFO);
@@ -51,7 +52,7 @@ $oServiceLocator = &ServiceLocator::instance();
 $oServiceLocator->register('now', $oDate);
 
 // Check the operation interval is valid
-$result = MAX_OperationInterval::checkOperationIntervalValue($conf['maintenance']['operationInterval']);
+$result = OA_OperationInterval::checkOperationIntervalValue($conf['maintenance']['operationInterval']);
 if (PEAR::isError($result)) {
     // Unable to continue!
     MAX::raiseError($result, null, PEAR_ERROR_DIE);

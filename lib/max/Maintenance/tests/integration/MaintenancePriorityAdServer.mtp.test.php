@@ -139,8 +139,8 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenancePriority->updatePriorities();
         sleep(1); // Ensure that next date is at least 1 second after above...
         $oAfterUpdateDate = new Date();
-        $intervalsPerWeek = MAX_OperationInterval::operationIntervalsPerWeek();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $query = "
             SELECT
                 count(*) AS number
@@ -172,7 +172,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter <= $currentOperationIntervalID) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     // Go back the required number of operation intervals
                     $retreat = $currentOperationIntervalID - $counter;
                     $aDates['start'] = new Date();
@@ -181,12 +181,12 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                     $aDates['end']->copy($aCurrentOIDates['end']);
                     for ($i = 0; $i < $retreat; $i++) {
                         $aDates['start']->subtractSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
                     }
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     // Go back the required number of operation intervals
                     $advance = $counter - $currentOperationIntervalID;
                     $aDates['start'] = new Date();
@@ -195,7 +195,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                     $aDates['end']->copy($aCurrentOIDates['end']);
                     for ($i = 0; $i < $advance; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -422,7 +422,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
-        $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
@@ -439,7 +439,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenancePriority->updatePriorities();
         sleep(1); // Ensure that next date is at least 1 second after above...
         $oAfterUpdateDate = new Date();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $oLastUpdatedTo = new Date('2005-06-15 14:00:00');
         $oNowUpdatedTo  = new Date('2005-06-15 15:00:00');
         $oSpan = new Date_Span();
@@ -482,26 +482,26 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter <= $previousOperationIntervalID) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $retreat = $previousOperationIntervalID - $counter;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $retreat; $i++) {
                         $aDates['start']->subtractSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
                     }
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $advance = $counter - $previousOperationIntervalID;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $advance; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -807,7 +807,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
-        $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
@@ -873,26 +873,26 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter <= $previousOperationIntervalID) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $retreat = $previousOperationIntervalID - $counter;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $retreat; $i++) {
                         $aDates['start']->subtractSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
                     }
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $advance = $counter - $previousOperationIntervalID;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $advance; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -979,19 +979,19 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter == 0) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     // Go forward to the next operation interval
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     $aDates['end'] = $aCurrentOIDates['end'];
                     // Go back the required number of operation intervals
                     for ($i = 0; $i < $counter; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -1423,8 +1423,8 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
         $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
         $oMaintenancePriority->updatePriorities();
-        $intervalsPerWeek = MAX_OperationInterval::operationIntervalsPerWeek();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $query = "
             SELECT
                 count(*) AS number
@@ -1456,7 +1456,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter <= $currentOperationIntervalID) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     // Go back the required number of operation intervals
                     $retreat = $currentOperationIntervalID - $counter;
                     $aDates['start'] = new Date();
@@ -1465,12 +1465,12 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                     $aDates['end']->copy($aCurrentOIDates['end']);
                     for ($i = 0; $i < $retreat; $i++) {
                         $aDates['start']->subtractSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
                     }
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     // Go back the required number of operation intervals
                     $advance = $counter - $currentOperationIntervalID;
                     $aDates['start'] = new Date();
@@ -1479,7 +1479,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                     $aDates['end']->copy($aCurrentOIDates['end']);
                     for ($i = 0; $i < $advance; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -1650,7 +1650,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
-        $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
@@ -1663,7 +1663,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
         $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
         $oMaintenancePriority->updatePriorities();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $oLastUpdatedTo = new Date('2005-06-15 14:00:00');
         $oNowUpdatedTo  = new Date('2005-06-15 15:00:00');
         $oSpan = new Date_Span();
@@ -1706,26 +1706,26 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter <= $previousOperationIntervalID) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $retreat = $previousOperationIntervalID - $counter;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $retreat; $i++) {
                         $aDates['start']->subtractSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
                     }
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $advance = $counter - $previousOperationIntervalID;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $advance; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -1919,7 +1919,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
-        $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
@@ -1981,26 +1981,26 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter <= $previousOperationIntervalID) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $retreat = $previousOperationIntervalID - $counter;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $retreat; $i++) {
                         $aDates['start']->subtractSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['start']);
                     }
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oPreviousDate);
                     // Go back the required number of operation intervals
                     $advance = $counter - $previousOperationIntervalID;
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     for ($i = 0; $i < $advance; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -2087,19 +2087,19 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 $this->assertEqual($aRow['operation_interval'], $aConf['maintenance']['operationInterval']);
                 $this->assertEqual($aRow['operation_interval_id'], $counter);
                 if ($counter == 0) {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     // Go forward to the next operation interval
                     $aDates['start'] = $aCurrentOIDates['start'];
                     $aDates['end'] = $aCurrentOIDates['end'];
                     $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
                     $this->assertEqual($aRow['interval_end'], $aDates['end']->format('%Y-%m-%d %H:%M:%S'));
                 } else {
-                    $aCurrentOIDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aCurrentOIDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     $aDates['end'] = $aCurrentOIDates['end'];
                     // Go back the required number of operation intervals
                     for ($i = 0; $i < $counter; $i++) {
                         $aDates['end']->addSeconds(1);
-                        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
+                        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aDates['end']);
                     }
                     $aDates['start']->subtractSeconds(60 * 60 * 24 * 7);
                     $aDates['end']->subtractSeconds(60 * 60 * 24 * 7);
@@ -2311,7 +2311,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $startDate = new Date('2005-07-01 12:00:01');
         $oMS = new Maintenance_Statistics();
         $oMSC = &$oMS->instance('AdServer');
-        $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $report = null;
         $endDate = new Date('2005-07-01 12:01:00');
         $oMSC->logCompletion($startDate, $endDate, OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
@@ -2324,8 +2324,8 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenancePriority->updatePriorities();
 
         // Perform basic checking of the initial priorities (as above, so not as involved)
-        $intervalsPerWeek = MAX_OperationInterval::operationIntervalsPerWeek();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $query = "
             SELECT
                 count(*) AS number
@@ -2487,7 +2487,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $startDate = new Date('2005-07-01 13:00:01');
         $oMS = new Maintenance_Statistics();
         $oMSC = &$oMS->instance('AdServer');
-        $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $report = null;
         $endDate = new Date('2005-07-01 13:01:00');
         $oMSC->logCompletion($startDate, $endDate, OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
@@ -2500,8 +2500,8 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenancePriority->updatePriorities();
 
         // Check the new priority values
-        $intervalsPerWeek = MAX_OperationInterval::operationIntervalsPerWeek();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $query = "
             SELECT
                 count(*) AS number
@@ -2806,7 +2806,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $startDate = new Date('2005-07-01 14:00:01');
         $oMS = new Maintenance_Statistics();
         $oMSC = &$oMS->instance('AdServer');
-        $aOiDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
+        $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $report = null;
         $endDate = new Date('2005-07-01 14:01:00');
         $oMSC->logCompletion($startDate, $endDate, OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH,
@@ -2819,8 +2819,8 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenancePriority->updatePriorities();
 
         // Check the new priority values
-        $intervalsPerWeek = MAX_OperationInterval::operationIntervalsPerWeek();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $query = "
             SELECT
                 count(*) AS number

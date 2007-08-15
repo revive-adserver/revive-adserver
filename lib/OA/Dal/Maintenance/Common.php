@@ -26,9 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
 /**
  * A non-DB specific base Data Abstraction Layer (DAL) class that provides
@@ -238,7 +238,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
                 $aResult = $rc->fetchRow();
                 $oDate = new Date($aResult['date']);
                 if ($aAlternateInfo['type'] == 'oi') {
-                    $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                    $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                     $oResultDate = $aDates['start'];
                 } else if ($aAlternateInfo['type'] == 'hour') {
                     $oResultDate = new Date($oDate->format('%Y-%m-%d %H:00:00'));

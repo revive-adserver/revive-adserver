@@ -33,7 +33,7 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/tests/visualisation/MAX_Dal_Maintenance_Priority.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Image/Canvas.php';
 require_once 'Image/Graph.php';
 
@@ -193,7 +193,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             $oForecastZoneImpressions->conf = $GLOBALS['_MAX']['CONF'];;
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
-            $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
+            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
@@ -211,7 +211,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
-            $operationIntervalId = MAX_OperationInterval::previousOperationIntervalID(MAX_OperationInterval::convertDateToOperationIntervalID($oDate));
+            $operationIntervalId = OA_OperationInterval::previousOperationIntervalID(OA_OperationInterval::convertDateToOperationIntervalID($oDate));
             $forecast = $GLOBALS['_MAX']['TEST']['forecastResult'][760][$operationIntervalId]['forecast_impressions'];
             if (is_null($forecast)) {
                 $forecast = $GLOBALS['_MAX']['TEST']['previousForecastResult'][760][$operationIntervalId]['forecast_impressions'];
@@ -445,7 +445,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             $oForecastZoneImpressions->conf = $GLOBALS['_MAX']['CONF'];;
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
-            $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
+            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
@@ -463,7 +463,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
-            $operationIntervalId = MAX_OperationInterval::previousOperationIntervalID(MAX_OperationInterval::convertDateToOperationIntervalID($oDate));
+            $operationIntervalId = OA_OperationInterval::previousOperationIntervalID(OA_OperationInterval::convertDateToOperationIntervalID($oDate));
             $forecast = $GLOBALS['_MAX']['TEST']['forecastResult'][760][$operationIntervalId]['forecast_impressions'];
             if (is_null($forecast)) {
                 $forecast = $GLOBALS['_MAX']['TEST']['previousForecastResult'][760][$operationIntervalId]['forecast_impressions'];
@@ -711,7 +711,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             $oForecastZoneImpressions->conf = $GLOBALS['_MAX']['CONF'];;
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
-            $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
+            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
@@ -729,7 +729,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
-            $operationIntervalId = MAX_OperationInterval::previousOperationIntervalID(MAX_OperationInterval::convertDateToOperationIntervalID($oDate));
+            $operationIntervalId = OA_OperationInterval::previousOperationIntervalID(OA_OperationInterval::convertDateToOperationIntervalID($oDate));
             $forecast = $GLOBALS['_MAX']['TEST']['forecastResult'][760][$operationIntervalId]['forecast_impressions'];
             if (is_null($forecast)) {
                 $forecast = $GLOBALS['_MAX']['TEST']['previousForecastResult'][760][$operationIntervalId]['forecast_impressions'];

@@ -29,7 +29,6 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
 if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php']) && !is_callable('MAX_commonGetDeliveryUrl')) {
@@ -41,6 +40,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 /**
@@ -99,7 +99,7 @@ class OA_Maintenance
             $oServiceLocator->register('now', $oDate);
 
             // Check the operation interval is valid
-            $result = MAX_OperationInterval::checkOperationIntervalValue($this->conf['maintenance']['operationInterval']);
+            $result = OA_OperationInterval::checkOperationIntervalValue($this->conf['maintenance']['operationInterval']);
             if (PEAR::isError($result)) {
                 // Unable to continue!
                 MAX::raiseError($result, null, PEAR_ERROR_DIE);

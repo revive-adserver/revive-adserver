@@ -26,9 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
@@ -88,7 +88,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             // Get the campaign delivery info
             if (!is_null($oDate)) {
                 // Get the end of operation interval the date represents
-                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                 $oDate = $aDates['end'];
             }
             $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
@@ -127,7 +127,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             // Get the campaign delivery info
             if (!is_null($oDate)) {
                 // Get the end of operation interval the date represents
-                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                 $oDate = $aDates['end'];
             }
             $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');
@@ -166,7 +166,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             // Get the campaign delivery info
             if (!is_null($oDate)) {
                 // Get the end of operation interval the date represents
-                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
                 $oDate = $aDates['end'];
             }
             $dalDataIntermediateAd = OA_Dal::factoryDAL('data_intermediate_ad');

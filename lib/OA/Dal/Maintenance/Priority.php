@@ -25,10 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 /**
@@ -395,10 +395,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Get the zone impression forecasts for the current operation interval, and the actual zone
         // impressions for the previous operation interval, where they exist
-        $currentOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aCurrentDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $previousOptIntID = MAX_OperationInterval::previousOperationIntervalID($currentOpIntID);
-        $aPreviousDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aCurrentDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $previousOptIntID = OA_OperationInterval::previousOperationIntervalID($currentOpIntID);
+        $aPreviousDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $table = $aConf['table']['prefix'] . $aConf['table']['data_summary_zone_impression_history'];
         $query = "
             SELECT
@@ -478,7 +478,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Select those ads where the delivery limitations were changed in the current
         // operation interval
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aLastRun['now']);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aLastRun['now']);
         $query = "
             SELECT
                 b.bannerid AS ad_id,
@@ -615,9 +615,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Obtain the operation interval ID, and the start and end dates of the previous
         // operation interval
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($currentOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($currentOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Obtain the ad ID, zone ID and number of impressions delivered for every ad/zone
         // combination that delivered impressions in the previous operation interval
         OA::debug("  - Getting details of ad/zone pairs that delivered last OI", PEAR_LOG_DEBUG);
@@ -730,8 +730,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 if (!$aPastDeliveryResult[$a][$z]['pastPriorityFound']) {
                                     if ($foundAll) {
                                         // Need to go back in time to look for more past priority info
-                                        $previousOperationIntervalIDLoop = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalIDLoop);
-                                        $aDatesLoop = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDatesLoop['start']);
+                                        $previousOperationIntervalIDLoop = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalIDLoop);
+                                        $aDatesLoop = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDatesLoop['start']);
                                         if (!$aDatesLoop['start']->before($oEarliestPastPriorityRecordDate)) {
                                             // Haven't exceeded earliest priority info date, so okay
                                             // to go ahead with going back in time...
@@ -893,8 +893,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 // *before* last, and find when (if possible) these ad/zone pairs
                 // last *requested* to deliver; it doesn't matter if they did deliver
                 // in that operation interval or not
-                $previousOperationIntervalIDLoop = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-                $aDatesLoop = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+                $previousOperationIntervalIDLoop = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+                $aDatesLoop = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
                 $foundAll = false;
                 while (!$foundAll) {
                     if (!empty($aAds) && !empty($aZones)) {
@@ -957,8 +957,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                     if (!$aNotInLastOIPastDeliveryResult[$a][$z]['pastPriorityFound']) {
                                         if ($foundAll) {
                                             // Need to go back in time to look for more past priority info
-                                            $previousOperationIntervalIDLoop = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalIDLoop);
-                                            $aDatesLoop = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDatesLoop['start']);
+                                            $previousOperationIntervalIDLoop = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalIDLoop);
+                                            $aDatesLoop = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDatesLoop['start']);
                                             if (!$aDatesLoop['start']->before($oEarliestPastPriorityRecordDate)) {
                                                 // Haven't exceeded earliest priority info date, so okay
                                                 // to go ahead with going back in time...
@@ -1198,8 +1198,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             OA::debug('  - Date not found in service locator', PEAR_LOG_DEBUG);
             return false;
         }
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         // Delete all category-based (ie. link_type = MAX_AD_ZONE_LINK_CATEGORY) priorities
         // from ad_zone_assoc
         OA::debug('  - Zeroing category-based priorities', PEAR_LOG_DEBUG);
@@ -2049,8 +2049,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         $aResult = array();
         // Get the zone impression forecasts for the current operation interval, where they exist
-        $currentOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aCurrentDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aCurrentDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = array();
         $table             = $aConf['table']['prefix'] . $aConf['table']['data_summary_zone_impression_history'];
         $query['table']    = $table;
@@ -2218,7 +2218,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return false;
         }
         // Get the start and end ranges of the current week
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oDateWeekStart = new Date();
         $oDateWeekStart->copy($aDates['end']);
         $oDateWeekStart->subtractSeconds(SECONDS_PER_WEEK - 1);
@@ -2257,7 +2257,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Check each operation interval ID has a forecast impression value,
         // and if not, set to the system default.
-        for ($i = 0; $i < MAX_OperationInterval::operationIntervalsPerWeek(); $i++) {
+        for ($i = 0; $i < OA_OperationInterval::operationIntervalsPerWeek(); $i++) {
             if (!isset($aFinalResult[$i])) {
                 $aFinalResult[$i] = array(
                     'zone_id'               => $zoneId,

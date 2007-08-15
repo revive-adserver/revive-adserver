@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Factory.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
 /**
  * A class for managing a group of delivery limitations associated with an
@@ -180,7 +180,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation
             if ($this->deliveryBlocked($oLoopDate)) {
                 $blockedIntervals++;
             }
-            $oLoopDate->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oLoopDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
         return $blockedIntervals;
     }
@@ -307,11 +307,11 @@ class MAX_Maintenance_Priority_DeliveryLimitation
 	        return $aResult;
 	    }
         // Get the current operation interval ID and start/end dates
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
         // Look at every operation interval between now and the end of the placement
         while ($aDates['start']->before($oEndDate)) {
             // Which week are we in?
-            $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
             if (empty($aResult)) {
                 $week = 0;
             } elseif ($operationIntervalID == 0) {
@@ -325,7 +325,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation
             // Go to the next operation interval
             $oParamDate = new Date();
             $oParamDate->copy($aDates['start']);
-            $aDates = MAX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($oParamDate);
+            $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($oParamDate);
         }
         return $aResult;
 	}

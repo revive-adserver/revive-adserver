@@ -31,8 +31,9 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -94,7 +95,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $config->setConfigChange('modules', 'Tracker',         isset($modules_Tracker));
     if (isset($maintenance_operationInterval)) {
         if ((!is_numeric($maintenance_operationInterval)) ||
-                (!MAX_OperationInterval::checkOperationIntervalValue($maintenance_operationInterval))) {
+                (!OA_OperationInterval::checkOperationIntervalValue($maintenance_operationInterval))) {
 
             $errormessage[2][] = $strMaintenanceOIError;
         } else {

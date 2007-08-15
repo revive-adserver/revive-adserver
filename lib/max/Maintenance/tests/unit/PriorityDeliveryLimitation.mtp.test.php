@@ -702,7 +702,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
         $this->assertEqual(count($result), 1);
         $this->assertTrue(is_array($result[0]));
         $this->assertEqual(count($result[0]), 1);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
@@ -717,27 +717,27 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
         $this->assertEqual(count($result), 1);
         $this->assertTrue(is_array($result[0]));
         $this->assertEqual(count($result[0]), 5);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 11:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 11:00:01'));
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
@@ -754,27 +754,27 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
         $this->assertEqual(count($result[0]), 2);
         $this->assertTrue(is_array($result[1]));
         $this->assertEqual(count($result[1]), 3);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 22:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 22:00:01'));
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 23:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-18 23:00:01'));
         $this->assertTrue(is_array($result[0][$operationIntervalID]));
         $this->assertEqual(count($result[0][$operationIntervalID]), 2);
         $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 00:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 00:00:01'));
         $this->assertTrue(is_array($result[1][$operationIntervalID]));
         $this->assertEqual(count($result[1][$operationIntervalID]), 2);
         $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[1][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 01:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 01:00:01'));
         $this->assertTrue(is_array($result[1][$operationIntervalID]));
         $this->assertEqual(count($result[1][$operationIntervalID]), 2);
         $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
         $this->assertFalse($result[1][$operationIntervalID]['blocked']);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 02:00:01'));
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-19 02:00:01'));
         $this->assertTrue(is_array($result[1][$operationIntervalID]));
         $this->assertEqual(count($result[1][$operationIntervalID]), 2);
         $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
@@ -812,7 +812,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
         $oTestDateStart = new Date('2006-02-07 12:00:01');
         $oTestDateEnd   = new Date('2006-02-11 23:00:01');
         while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
+            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
             $this->assertTrue(is_array($result[0][$operationIntervalID]));
             $this->assertEqual(count($result[0][$operationIntervalID]), 2);
             if ($operationIntervalID == 12) {
@@ -823,12 +823,12 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 $this->assertNull($result[0][$operationIntervalID]['forecast_impressions']);
             }
             $this->assertFalse($result[0][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
         $oTestDateStart = new Date('2006-02-12 00:00:01');
         $oTestDateEnd   = new Date('2006-02-18 23:00:01');
         while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
+            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
             $this->assertTrue(is_array($result[1][$operationIntervalID]));
             $this->assertEqual(count($result[1][$operationIntervalID]), 2);
             if ($operationIntervalID == 12) {
@@ -839,12 +839,12 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 $this->assertNull($result[1][$operationIntervalID]['forecast_impressions']);
             }
             $this->assertFalse($result[1][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
         $oTestDateStart = new Date('2006-02-19 00:00:01');
         $oTestDateEnd   = new Date('2006-02-25 23:00:01');
         while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
+            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
             $this->assertTrue(is_array($result[2][$operationIntervalID]));
             $this->assertEqual(count($result[2][$operationIntervalID]), 2);
             if ($operationIntervalID == 12) {
@@ -855,12 +855,12 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 $this->assertNull($result[2][$operationIntervalID]['forecast_impressions']);
             }
             $this->assertFalse($result[2][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
         $oTestDateStart = new Date('2006-02-26 00:00:01');
         $oTestDateEnd   = new Date('2006-02-26 23:00:01');
         while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
+            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
             $this->assertTrue(is_array($result[3][$operationIntervalID]));
             $this->assertEqual(count($result[3][$operationIntervalID]), 2);
             if ($operationIntervalID == 12) {
@@ -871,12 +871,12 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 $this->assertNull($result[3][$operationIntervalID]['forecast_impressions']);
             }
             $this->assertTrue($result[3][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
         $oTestDateStart = new Date('2006-02-27 00:00:01');
         $oTestDateEnd   = new Date('2006-02-27 23:00:01');
         while (!$oTestDateStart->after($oTestDateEnd)) {
-            $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
+            $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oTestDateStart);
             $this->assertTrue(is_array($result[3][$operationIntervalID]));
             $this->assertEqual(count($result[3][$operationIntervalID]), 2);
             if ($operationIntervalID == 12) {
@@ -887,7 +887,7 @@ class Maintenance_TestOfPriorityLimitation extends UnitTestCase
                 $this->assertNull($result[3][$operationIntervalID]['forecast_impressions']);
             }
             $this->assertFalse($result[3][$operationIntervalID]['blocked']);
-            $oTestDateStart->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oTestDateStart->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
 
         TestEnv::restoreConfig();

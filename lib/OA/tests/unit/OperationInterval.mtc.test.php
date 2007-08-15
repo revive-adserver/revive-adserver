@@ -26,11 +26,11 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 /**
- * A class for testing the MAX_OperationInterval class.
+ * A class for testing the OA_OperationInterval class.
  *
  * @package    MaxMaintenance
  * @subpackage TestSuite
@@ -66,17 +66,17 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         // using a default operation interval of 60 minutes
         $start = new Date('2004-08-15 00:00:00');
         $end = new Date('2004-08-15 00:59:59');
-        $result = MAX_OperationInterval::convertDateRangeToOperationIntervalID($start, $end, 60);
+        $result = OA_OperationInterval::convertDateRangeToOperationIntervalID($start, $end, 60);
         $this->assertEqual($result, 0);
         // Test the same range with a new operation interval of 30 minutes to make
         // sure that the range is recognised as spanning two operation interval IDs
-        $result = MAX_OperationInterval::convertDateRangeToOperationIntervalID($start, $end, 30);
+        $result = OA_OperationInterval::convertDateRangeToOperationIntervalID($start, $end, 30);
         $this->assertFalse($result);
         // Test the second operation interval ID range in the week the test was written,
         // using an operation interval of 30 minutes, and a non-definative date range
         $start = new Date('2004-08-15 00:35:00');
         $end = new Date('2004-08-15 00:40:00');
-        $result = MAX_OperationInterval::convertDateRangeToOperationIntervalID($start, $end, 30);
+        $result = OA_OperationInterval::convertDateRangeToOperationIntervalID($start, $end, 30);
         $this->assertEqual($result, 1);
     }
 
@@ -88,12 +88,12 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
         $date = new Date('2004-08-08 00:40:00');
-        $result = MAX_OperationInterval::convertDateToOperationIntervalID($date, 60);
+        $result = OA_OperationInterval::convertDateToOperationIntervalID($date, 60);
         $this->assertEqual($result, 0);
         // Test a date in the last operation interval ID in the week before the test was
         // written, using an operation interval of 30 minutes
         $date = new Date('2004-08-14 23:40:00');
-        $result = MAX_OperationInterval::convertDateToOperationIntervalID($date, 30);
+        $result = OA_OperationInterval::convertDateToOperationIntervalID($date, 30);
         $this->assertEqual($result, 335);
     }
 
@@ -105,11 +105,11 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
         $date = new Date('2004-08-08 00:40:00');
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date, 60);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date, 60);
         $this->assertEqual($aDates['start'], new Date('2004-08-08 00:00:00'));
         $this->assertEqual($aDates['end'], new Date('2004-08-08 00:59:59'));
         // Test the same date, but with an operation interval of 30 minutes
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date, 30);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date, 30);
         $this->assertEqual($aDates['start'], new Date('2004-08-08 00:30:00'));
         $this->assertEqual($aDates['end'], new Date('2004-08-08 00:59:59'));
     }
@@ -122,11 +122,11 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
         $date = new Date('2004-08-08 00:40:00');
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($date, 60);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($date, 60);
         $this->assertEqual($aDates['start'], new Date('2004-08-07 23:00:00'));
         $this->assertEqual($aDates['end'], new Date('2004-08-07 23:59:59'));
         // Test the same date, but with an operation interval of 30 minutes
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($date, 30);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($date, 30);
         $this->assertEqual($aDates['start'], new Date('2004-08-08 00:00:00'));
         $this->assertEqual($aDates['end'], new Date('2004-08-08 00:29:59'));
     }
@@ -139,11 +139,11 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         // Test a date in the first operation interval ID in the week before the test was
         // written, using a default operation interval of 60 minutes
         $date = new Date('2004-08-08 00:40:00');
-        $aDates = MAX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($date, 60);
+        $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($date, 60);
         $this->assertEqual($aDates['start'], new Date('2004-08-08 01:00:00'));
         $this->assertEqual($aDates['end'], new Date('2004-08-08 01:59:59'));
         // Test the same date, but with an operation interval of 30 minutes
-        $aDates = MAX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($date, 30);
+        $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($date, 30);
         $this->assertEqual($aDates['start'], new Date('2004-08-08 01:00:00'));
         $this->assertEqual($aDates['end'], new Date('2004-08-08 01:29:59'));
     }
@@ -155,36 +155,36 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
     {
         $operationIntervalID = 1;
         $operationInterval   = 60;
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 0);
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 167);
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 166);
 
         $operationIntervalID = 1;
         $operationInterval   = 60;
         $intervals           = 3;
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 166);
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 163);
 
         $operationIntervalID = 1;
         $operationInterval   = 30;
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 0);
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 335);
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 334);
 
         $operationIntervalID = 1;
         $operationInterval   = 30;
         $intervals           = 3;
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 334);
-        $operationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $operationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 331);
     }
 
@@ -195,32 +195,32 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
     {
         $operationIntervalID = 166;
         $operationInterval   = 60;
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 167);
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 0);
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 1);
 
         $operationIntervalID = 166;
         $operationInterval   = 60;
         $intervals           = 3;
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 1);
 
         $operationIntervalID = 334;
         $operationInterval   = 30;
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 335);
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 0);
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval);
         $this->assertEqual($operationIntervalID, 1);
 
         $operationIntervalID = 334;
         $operationInterval   = 30;
         $intervals           = 3;
-        $operationIntervalID = MAX_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
+        $operationIntervalID = OA_OperationInterval::nextOperationIntervalID($operationIntervalID, $operationInterval, $intervals);
         $this->assertEqual($operationIntervalID, 1);
     }
 
@@ -231,35 +231,35 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
     {
         $start = new Date('2004-09-11 19:00:00');
         $end   = new Date('2004-09-11 19:00:00');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:59:59');
         $end   = new Date('2004-09-11 19:59:59');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:00:00');
         $end   = new Date('2004-09-11 19:00:01');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:00:00');
         $end   = new Date('2004-09-11 19:59:59');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertTrue($return);
         $start = new Date('2004-09-11 19:59:59');
         $end   = new Date('2004-09-11 20:00:00');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
         $start = new Date('2004-09-11 18:00:00');
         $end   = new Date('2004-09-12 18:00:00');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
         $start = new Date('2004-08-11 18:00:00');
         $end   = new Date('2004-09-11 18:00:00');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
         $start = new Date('2003-09-11 18:00:00');
         $end   = new Date('2004-09-11 18:00:00');
-        $return = MAX_OperationInterval::checkDatesInSameHour($start, $end);
+        $return = OA_OperationInterval::checkDatesInSameHour($start, $end);
         $this->assertFalse($return);
     }
 
@@ -274,43 +274,43 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
         // Test less than one operation interval
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 00:15:00');
-        $this->assertFalse(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertFalse(OA_OperationInterval::checkIntervalDates($start, $end));
         // Test more than one operation inteterval
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 00:45:00');
-        $this->assertFalse(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertFalse(OA_OperationInterval::checkIntervalDates($start, $end));
         // Test exactly one operation interval
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 00:29:59');
-        $this->assertTrue(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertTrue(OA_OperationInterval::checkIntervalDates($start, $end));
         // Set the operation interval
         $conf['maintenance']['operationInterval'] = 60;
         // Test less than one operation interval/hour
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 00:30:00');
-        $this->assertFalse(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertFalse(OA_OperationInterval::checkIntervalDates($start, $end));
         // Test more than one operation inteterval/hour
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 01:15:00');
-        $this->assertFalse(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertFalse(OA_OperationInterval::checkIntervalDates($start, $end));
         // Test exactly one operation interval/hour
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 00:59:59');
-        $this->assertTrue(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertTrue(OA_OperationInterval::checkIntervalDates($start, $end));
         // Set the operation interval
         $conf['maintenance']['operationInterval'] = 120;
         // Test less than one hour
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 00:15:00');
-        $this->assertFalse(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertFalse(OA_OperationInterval::checkIntervalDates($start, $end));
         // Test more than one hour
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 04:00:00');
-        $this->assertFalse(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertFalse(OA_OperationInterval::checkIntervalDates($start, $end));
         // Test exactly one hour
         $start = new Date('2004-09-26 00:00:00');
         $end = new Date('2004-09-26 00:59:59');
-        $this->assertTrue(MAX_OperationInterval::checkIntervalDates($start, $end));
+        $this->assertTrue(OA_OperationInterval::checkIntervalDates($start, $end));
     }
 
     /**
@@ -318,7 +318,7 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
      */
     function testGetOperationInterval() {
         $this->assertEqual(
-            MAX_OperationInterval::getOperationInterval(),
+            OA_OperationInterval::getOperationInterval(),
             $GLOBALS['_MAX']['CONF']['maintenance']['operationInterval']
         );
     }

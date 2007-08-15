@@ -71,7 +71,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
         if (!$this->oDateNow) {
             $this->oDateNow = new Date();
         }
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
         $this->oUpdateToDate = $aDates['end'];
         $this->mtceStatsLastRun    = new MtceStatsLastRun();
         $this->mtcePriorityLastRun = new MtcePriorityLastRun();
@@ -128,7 +128,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
             // mtcePriorityLastRun date is null, priority has never been run before, update all: return true
             OA::debug('- No previous maintenance priority run, so update all required', PEAR_LOG_DEBUG);
             $ret = true;
-        } elseif (MAX_OperationInterval::getOperationInterval() != $this->mtcePriorityLastRun->operationInt) {
+        } elseif (OA_OperationInterval::getOperationInterval() != $this->mtcePriorityLastRun->operationInt) {
             // The operation interval has changed since the last run, force an update all: return true
             OA::debug('- OPERATION INTERVAL LENGTH CHANGE SINCE LAST RUN', PEAR_LOG_DEBUG);
             OA::debug('- Updating all forecasts', PEAR_LOG_DEBUG);
@@ -151,10 +151,10 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                     $ret = true;
                 } else {
                     // Get the operation intervals for each run
-                    $statsOpIntId = MAX_OperationInterval::convertDateToOperationIntervalID($this->mtceStatsLastRun->oUpdatedToDate);
-                    $priorityOpIntId = MAX_OperationInterval::convertDateToOperationIntervalID($this->mtcePriorityLastRun->oUpdatedToDate);
+                    $statsOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->mtceStatsLastRun->oUpdatedToDate);
+                    $priorityOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->mtcePriorityLastRun->oUpdatedToDate);
                     // Always predict one interval ahead of the statistics engine
-                    $statsOpIntId = MAX_OperationInterval::nextOperationIntervalID($statsOpIntId, 1);
+                    $statsOpIntId = OA_OperationInterval::nextOperationIntervalID($statsOpIntId, 1);
                     // As long as the operation intervals are not in the same interval, priority should be run
                     if ($statsOpIntId != $priorityOpIntId) {
                         OA::debug('- Found range to update', PEAR_LOG_DEBUG);
@@ -189,11 +189,11 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                 // of the operation interval *after* the one that statistics have been updated
                 // to, as we need to predict one interval ahead of now
                 $oStatsDates =
-                    MAX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oDateNow);
+                    OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oDateNow);
                 $oStartDate = $oStatsDates['start'];
                 $oStartDate->subtractSeconds(SECONDS_PER_WEEK);
-                $startId = MAX_OperationInterval::convertDateToOperationIntervalID($oStartDate);
-                $totalIntervals = MAX_OperationInterval::operationIntervalsPerWeek();
+                $startId = OA_OperationInterval::convertDateToOperationIntervalID($oStartDate);
+                $totalIntervals = OA_OperationInterval::operationIntervalsPerWeek();
                 break;
 
             case is_array($type) && ($type[0] < $type[1]):
@@ -201,9 +201,9 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                 // ID is the lower bound, and the second operation interval ID is the upper
                 // The start operation interval ID is the operation interval ID right after
                 // the operation interval ID that priority was updated to (ie. $type[0])
-                $aDates = MAX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->mtcePriorityLastRun->oUpdatedToDate);
+                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->mtcePriorityLastRun->oUpdatedToDate);
                 $oStartDate = $aDates['start'];
-                $startId = MAX_OperationInterval::nextOperationIntervalID($type[0], 1);
+                $startId = OA_OperationInterval::nextOperationIntervalID($type[0], 1);
                 $totalIntervals = $type[1] - $type[0];
                 break;
 
@@ -213,10 +213,10 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                 // lower bound in the proceeding week
                 // The start operation interval ID is the operation interval ID right after
                 // the operation interval ID that priority was updated to (ie. $type[0])
-                $aDates = MAX_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->mtcePriorityLastRun->oUpdatedToDate);
+                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->mtcePriorityLastRun->oUpdatedToDate);
                 $oStartDate = $aDates['start'];
-                $startId = MAX_OperationInterval::nextOperationIntervalID($type[0], 1);
-                $totalIntervals = (MAX_OperationInterval::operationIntervalsPerWeek() - $type[0]) +  $type[1];
+                $startId = OA_OperationInterval::nextOperationIntervalID($type[0], 1);
+                $totalIntervals = (OA_OperationInterval::operationIntervalsPerWeek() - $type[0]) +  $type[1];
                 break;
 
             default:
@@ -226,7 +226,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
         }
         // Build the update range array
         $aRange = array();
-        $totalIntervalPerWeek = MAX_OperationInterval::operationIntervalsPerWeek();
+        $totalIntervalPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
         for ($x = $startId, $y = 0; $y < $totalIntervals; $x++, $y++) {
             if ($x == $totalIntervalPerWeek) {
                $x = 0;
@@ -234,12 +234,12 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
             $aDates = array();
             $aDates['start'] = $oStartDate->format('%Y-%m-%d %H:%M:%S');
             $oEndDate = new Date($oStartDate);
-            $oEndDate->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oEndDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
             $oEndDate->subtractSeconds(1);
             $aDates['end'] = $oEndDate->format('%Y-%m-%d %H:%M:%S');
             unset($oEndDate);
             $aRange[$x] = $aDates;
-            $oStartDate->addSeconds(MAX_OperationInterval::secondsPerOperationInterval());
+            $oStartDate->addSeconds(OA_OperationInterval::secondsPerOperationInterval());
         }
         // Is the update range array a contiguous (inter-weeek) range?
         if (array_key_exists($totalIntervalPerWeek - 1, $aRange) &&
@@ -365,7 +365,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                 foreach ($range as $intervalId => $aInterval) {
                     // Get trend range in terms of operation ID
                     $offetStartOperationId =
-                        MAX_OperationInterval::previousOperationIntervalID(
+                        OA_OperationInterval::previousOperationIntervalID(
                             $intervalId,
                             null,
                             $this->getTrendOperationIntervalStartOffset()
@@ -392,7 +392,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                             $forecastImpressions += $aImpressionsResults[$oZone->id][$offetStartOperationId]['forecast_impressions'];
                         }
                         // Get next trend operation ID in this trend range
-                        $offetStartOperationId = MAX_OperationInterval::nextOperationIntervalID($offetStartOperationId);
+                        $offetStartOperationId = OA_OperationInterval::nextOperationIntervalID($offetStartOperationId);
                     }
                     // Calculate trend average actual impressions for range
                     if ($actualImpressions !== false) {
@@ -407,7 +407,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
                         $aZones[$key]->setIntervalIdImpressionForecast($intervalId, $forecastAverage);
                     }
                     // Store the actual impression for the previous operation interval
-                    $previousIntervalID = MAX_OperationInterval::previousOperationIntervalID($intervalId);
+                    $previousIntervalID = OA_OperationInterval::previousOperationIntervalID($intervalId);
                     if (isset($aImpressionsResults[$oZone->id][$previousIntervalID]['actual_impressions'])) {
                         $aZones[$key]->pastActualImpressions =
                             $aImpressionsResults[$oZone->id][$previousIntervalID]['actual_impressions'];
@@ -616,14 +616,14 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
 
     function getTrendStartDate($oStartDate)
     {
-        $seconds = $this->getTrendOperationIntervalStartOffset() * MAX_OperationInterval::secondsPerOperationInterval();
+        $seconds = $this->getTrendOperationIntervalStartOffset() * OA_OperationInterval::secondsPerOperationInterval();
         $oStartDate->subtractSeconds($seconds);
         return $oStartDate;
     }
 
     function getTrendEndDate($oEndDate)
     {
-        $seconds = ZONE_FORECAST_TREND_OFFSET * MAX_OperationInterval::secondsPerOperationInterval();
+        $seconds = ZONE_FORECAST_TREND_OFFSET * OA_OperationInterval::secondsPerOperationInterval();
         $oEndDate->subtractSeconds($seconds);
         return $oEndDate;
     }

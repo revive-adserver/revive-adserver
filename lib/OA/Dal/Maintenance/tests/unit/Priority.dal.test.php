@@ -592,8 +592,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
-        $previousOptIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousOptIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -618,8 +618,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
-        $previousPreviousOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousPreviousOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -651,8 +651,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 4
         $oDate = &$oServiceLocator->get('now');
-        $currentOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -702,8 +702,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
-        $previousOptIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousOptIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -776,8 +776,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
-        $previousPreviousOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousPreviousOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -816,8 +816,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 5
         $oDate = &$oServiceLocator->get('now');
-        $currentOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
         $query = "
             INSERT INTO
@@ -922,8 +922,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
-        $previousOptIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousOptIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -996,8 +996,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(1);
-        $previousPreviousOpIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oNewDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
+        $previousPreviousOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oNewDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -1509,8 +1509,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
         $query = "
             INSERT INTO
@@ -1566,9 +1566,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 4
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1598,11 +1598,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 5, 5a
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1627,8 +1627,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 6
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_ad_zone_assoc']}
@@ -1689,9 +1689,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 7
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1723,11 +1723,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 8, 8a
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1761,8 +1761,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 9
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -1777,8 +1777,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -1803,8 +1803,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 10
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -1819,9 +1819,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1853,8 +1853,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 11, 11a
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -1869,11 +1869,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1907,11 +1907,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 12
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1926,8 +1926,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -1952,11 +1952,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 13
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1971,9 +1971,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2005,11 +2005,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 14, 14a
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2024,11 +2024,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2062,9 +2062,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 15
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2079,8 +2079,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -2112,9 +2112,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 16
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2129,9 +2129,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2163,9 +2163,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 17, 17a
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2180,11 +2180,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2225,9 +2225,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oServiceLocator->register('now', $oDate);
 
         // Test 18
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2298,11 +2298,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2387,9 +2387,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -2530,11 +2530,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDsazaExpired->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -2643,9 +2643,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oAd = new MAX_Entity_Ad($aAdParams);
         $oZone->addAdvert($oAd);
         $aZoneAdArray = array($oZone->id => $oZone);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2716,11 +2716,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -2819,14 +2819,14 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+            $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         }
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+            $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         }
         $aData = array(
             $conf['maintenance']['operationInterval'],
@@ -2842,9 +2842,9 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -2947,11 +2947,11 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDsazaExpired->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
         $aData = array(
@@ -3005,14 +3005,14 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDsazaExpired->execute($aData);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($operationIntervalID);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($operationIntervalID);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $previousOperationIntervalID = MAX_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
+            $previousOperationIntervalID = OA_OperationInterval::previousOperationIntervalID($previousOperationIntervalID);
         }
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         for ($i = 0; $i <= (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']); $i++) {
-            $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+            $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         }
         $oSpecialDate = new Date($aDates['end']);
         $oSpecialDate->addSeconds(1);
@@ -3190,8 +3190,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                 ad_id = 1";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
@@ -3282,8 +3282,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                 AND expired IS NOT NULL";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oOldDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oOldDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oOldDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oOldDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
@@ -3325,8 +3325,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                 AND expired IS NULL";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
@@ -3367,8 +3367,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                 ad_id = 2";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->assertEqual($aRow['operation_interval'], $conf['maintenance']['operationInterval']);
         $this->assertEqual($aRow['operation_interval_id'], $currentOperationIntervalID);
         $this->assertEqual($aRow['interval_start'], $aDates['start']->format('%Y-%m-%d %H:%M:%S'));
@@ -3912,8 +3912,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $st->execute($aData);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -3991,8 +3991,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $st->execute($aData);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -4082,8 +4082,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $st->execute($aData);
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -4126,8 +4126,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                     " . ($conf['priority']['defaultZoneForecastImpressions'] + 40) . "
                 )";
         $rows = $oDbh->exec($query);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -4414,8 +4414,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
 
         // Test 4
         // Insert forcast for this operation interval
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-        $firstIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
+        $firstIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -4438,8 +4438,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
                 )";
         $rows = $oDbh->exec($query);
         // Insert forcast for the previous operation interval
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
-        $secondIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
+        $secondIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
@@ -4466,8 +4466,8 @@ class Test_OA_Dal_Maintenance_Priority extends UnitTestCase
         $oNewDate = new Date();
         $oNewDate->copy($aDates['start']);
         $oNewDate->subtractSeconds(SECONDS_PER_WEEK);
-        $aDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNewDate);
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNewDate);
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
                 {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}

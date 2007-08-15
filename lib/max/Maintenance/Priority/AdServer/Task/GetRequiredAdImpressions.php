@@ -317,7 +317,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         $aRequiredAdImpressions = array();
         // Get the current operation interval start/end dates
         $aCurrentOperationIntervalDates =
-            MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
+            OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
         // For each placement
         foreach ($aPlacements as $oPlacement) {
             // Get date object to represent placement expiration date
@@ -363,7 +363,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
             }
             // Determine number of remaining operation intervals for placement
             $placementRemainingOperationIntervals =
-                MAX_OperationInterval::getIntervalsRemaining(
+                OA_OperationInterval::getIntervalsRemaining(
                     $aCurrentOperationIntervalDates['start'],
                     $oPlacementExpiryDate
                 );
@@ -495,7 +495,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         $aRequiredAdImpressions = array();
         // Get the current operation interval start/end dates
         $aCurrentOperationIntervalDates =
-            MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
+            OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
         // For each placement
         foreach ($aPlacements as $oPlacement) {
             // Get date object to represent placement expiration date
@@ -667,7 +667,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
             return 0;
         }
         // Get the current operation interval ID
-        $currentOperationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($oDate);
+        $currentOperationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         // Scale the total required impressions for the ad over its lifetime
         // into the current operation interval forecast, relative to the total
         // zone-pattern based forecast for the remaining lifetime of the ad
@@ -706,7 +706,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         $aAdZones = $this->oDal->getAdZoneAssociationsByAds(array($adId));
         $aZones = @$aAdZones[$adId];
         // Initialise the results array with the number operation intervals in a week
-        $aResults = array_fill(0, MAX_OperationInterval::operationIntervalsPerWeek(), 0);
+        $aResults = array_fill(0, OA_OperationInterval::operationIntervalsPerWeek(), 0);
         // Get the forcast impressions for the previous week
         if (is_array($aZones) && !empty($aZones)) {
             foreach ($aZones as $aZone) {

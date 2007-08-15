@@ -60,9 +60,9 @@ require_once $path . '/../../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 // Create Date objects of the start and end dates, set the "current time"
@@ -83,7 +83,7 @@ $datesOkay = true;
 $operationInterval = $conf['maintenance']['operation_interval'];
 if ($operationInterval <= 60) {
     // Must ensure that only one hour is being summarised
-    if (!MAX_OperationInterval::checkDatesInSameHour($oStartDate, $oEndDate)) {
+    if (!OA_OperationInterval::checkDatesInSameHour($oStartDate, $oEndDate)) {
         $datesOkay = false;
     }
     // Now check that the start and end dates are match the start and
@@ -111,14 +111,14 @@ if ($operationInterval <= 60) {
 } else {
     // Must ensure that only one operation interval is being summarised
     $operationIntervalID =
-        MAX_OperationInterval::convertDaySpanToOperationIntervalID($oStartDate, $oEndDate, $operationInterval);
+        OA_OperationInterval::convertDaySpanToOperationIntervalID($oStartDate, $oEndDate, $operationInterval);
     if (is_bool($operationIntervalID) && !$operationIntervalID) {
         $datesOkay = false;
     }
     // Now check that the start and end dates match the start and end
     // of the operation interval
     list($oOperationIntervalStart, $oOperationIntervalEnd) =
-        MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate, $operationInterval);
+        OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate, $operationInterval);
     if (!$oStartDate->equals($oOperationIntervalStart)) {
         $datesOkay = false;
     }

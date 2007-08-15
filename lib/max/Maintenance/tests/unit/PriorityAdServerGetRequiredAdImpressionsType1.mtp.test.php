@@ -709,7 +709,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsType1 = new PartialMockGetRequiredAdImpressionsType1($this);
         $aCumulativeZoneForecast = array();
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
         $oGetRequiredAdImpressionsType1->setReturnValue(
             '_getCumulativeZoneForecast',
@@ -746,29 +746,29 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsType1 = new PartialMockGetRequiredAdImpressionsType1($this);
         $aCumulativeZoneForecast = array();
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
         $oGetRequiredAdImpressionsType1->setReturnValue(
             '_getCumulativeZoneForecast',
@@ -805,29 +805,29 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
         $oGetRequiredAdImpressionsType1 = new PartialMockGetRequiredAdImpressionsType1($this);
         $aCumulativeZoneForecast = array();
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 12:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 10;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 13:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 20;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 14:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 30;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 15:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 40;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 16:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 17:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 60;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 18:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 50;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 19:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 40;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 20:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 30;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 21:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 20;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 22:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 10;
-        $intervalID = MAX_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
+        $intervalID = OA_OperationInterval::convertDateToOperationIntervalID(new Date('2006-02-15 23:00:01'));
         $aCumulativeZoneForecast[$intervalID] = 10;
         $oGetRequiredAdImpressionsType1->setReturnValue(
             '_getCumulativeZoneForecast',

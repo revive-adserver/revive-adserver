@@ -24,10 +24,10 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/Max.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH.'/lib/Max.php';
-require_once MAX_PATH.'/lib/max/Dal/Common.php';
-require_once MAX_PATH.'/lib/max/OperationInterval.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 /**
@@ -310,7 +310,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 WHERE
                     zone_id = ". $this->oDbh->quote($zoneId, 'integer') ."
                 LIMIT
-                    " . MAX_OperationInterval::operationIntervalsPerWeek();
+                    " . OA_OperationInterval::operationIntervalsPerWeek();
             $rc = $this->oDbh->query($query);
             if (PEAR::isError($rc)) {
                 return $rc;

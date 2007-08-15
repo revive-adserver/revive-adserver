@@ -206,7 +206,7 @@ class OA_Dal_Maintenance_Statistics_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Do the dates match the operation interval value in the config file?
-        $matching = MAX_OperationInterval::checkIntervalDates($oStartDate, $oEndDate, $aConf['maintenance']['operationInterval']);
+        $matching = OA_OperationInterval::checkIntervalDates($oStartDate, $oEndDate, $aConf['maintenance']['operationInterval']);
         if ($matching) {
             // The dates match! Hooray! Return the operation interval value
             return $aConf['maintenance']['operationInterval'];
@@ -374,7 +374,7 @@ class OA_Dal_Maintenance_Statistics_Common
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // How many days does the operation interval span, if using split tables?
         $days = 0;
         if ($split) {
@@ -386,7 +386,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         $aDates['end']->getYear());
         }
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Create temporary table to store the summarised data into
         OA::setTempDebugPrefix('- ');
         $this->tempTables->createTable($tmpTableName);
@@ -766,7 +766,7 @@ class OA_Dal_Maintenance_Statistics_Common
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // How many days does the operation interval span, if using split tables?
         $days = 0;
         if ($split) {
@@ -778,7 +778,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         $aDates['end']->getYear());
         }
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Ensure the temporary table for storing connections is created
         OA::setTempDebugPrefix('- ');
         $this->tempTables->createTable('tmp_ad_connection', null, true);
@@ -1153,9 +1153,9 @@ class OA_Dal_Maintenance_Statistics_Common
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Save connections to the intermediate tables, unless set not
         // to do so (and unless the tracker module is not installed)
         if ($saveConnections && $aConf['modules']['Tracker']) {
@@ -1408,9 +1408,9 @@ class OA_Dal_Maintenance_Statistics_Common
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
+        $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
+        $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Create the tmp_conversions table
         OA::setTempDebugPrefix('- ');
         $this->tempTables->createTable('tmp_conversions');
@@ -2706,7 +2706,7 @@ class OA_Dal_Maintenance_Statistics_Common
         $aConf = $GLOBALS['_MAX']['CONF'];
         global $date_format;
         $report = "\n";
-        $aPreviousOIDates = MAX_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Select all placements in the system
         $query = "
             SELECT

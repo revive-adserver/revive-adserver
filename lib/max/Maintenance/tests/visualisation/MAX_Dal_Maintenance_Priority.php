@@ -65,7 +65,7 @@ class MAX_Dal_Maintenance_TestOfForecastZoneImpressions extends OA_Dal_Maintenan
                         forecast_impressions = {$aValues['forecast_impressions']}
                     WHERE
                         zone_id = $zoneId
-                        AND operation_interval = " . MAX_OperationInterval::getOperationInterval() . "
+                        AND operation_interval = " . OA_OperationInterval::getOperationInterval() . "
                         AND operation_interval_id = $id
                         AND interval_start = '" . $aValues['interval_start'] . "'
                         AND interval_end = '" . $aValues['interval_end'] . "'";

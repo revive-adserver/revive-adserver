@@ -107,7 +107,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
             $this->oController->report .= $message . ".\n";
             OA::debug($message, PEAR_LOG_DEBUG);
             // Does the last update date found occur on the end of an operation interval?
-            $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oController->oLastDateIntermediate);
+            $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oController->oLastDateIntermediate);
             if (Date::compare($this->oController->oLastDateIntermediate, $aDates['end']) != 0) {
                 $message = '- Last intermediate table updated to date of ' .
                            $this->oController->oLastDateIntermediate->format('%Y-%m-%d %H:%M:%S') .
@@ -137,7 +137,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
             if (Date::compare($oNowDate, $requiredDate) > 0) {
                 $this->oController->updateIntermediate = true;
                 // Update intermediate tables to the end of the previous (not current) operation interval
-                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
+                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNowDate);
                 $this->oController->oUpdateIntermediateToDate = new Date();
                 $this->oController->oUpdateIntermediateToDate->copy($aDates['start']);
                 $this->oController->oUpdateIntermediateToDate->subtractSeconds(1);

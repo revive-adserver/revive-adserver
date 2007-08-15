@@ -32,16 +32,16 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
-require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
 require_once 'Date.php';
 
@@ -154,7 +154,7 @@ if (!empty($aConversions))
                 $dateTime = $aConversions[$conversionId]['date_time'];
                 $oConnectionDate = &new Date($dateTime);
 
-                $optIntID = MAX_OperationInterval::convertDateToOperationIntervalID($oConnectionDate);
+                $optIntID = OA_OperationInterval::convertDateToOperationIntervalID($oConnectionDate);
                 $day = $oConnectionDate->format('%Y-%m-%d');
                 $hour = $oConnectionDate->format('%H');
 

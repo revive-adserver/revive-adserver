@@ -189,7 +189,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
                     $oDal->ignoreBadOperationIntervals = true;
                 }
                 // Calcuate the end of the operation interval
-                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
+                $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
                 $oEndDate = new Date();
                 $oEndDate->copy($aDates['end']);
                 // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests
