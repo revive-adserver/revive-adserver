@@ -162,7 +162,7 @@ class OA_Dal
         include_once MAX_PATH . '/lib/max/Dal/Common.php';
         return MAX_Dal_Common::factory($table);
     }
-    
+
     /**
      * Returns table prefix (see config [table][prefix]
      *
@@ -199,6 +199,34 @@ class OA_Dal
             'debug'                 => 0,
             'production'            => 0,
         );
+    }
+
+    /**
+     * A method to return the SQL required to create a temporary
+     * table when prepended to a SELECT statement, depending on
+     * the database type in use.
+     *
+     * @static
+     * @param string $table The name of the temporary table to create.
+     * @return string The SQL code to prepend to a SELECT statement to
+     *                create the temporary table.
+     */
+    function createTemporaryTableFromSelect($table)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
+        if ($oDbh->dsn['phptype'] == 'pgsql') {
+            $sql = "
+                CREATE TEMPORARY TABLE
+                    $table
+                AS";
+        } else {
+            $sql = "
+                CREATE TEMPORARY TABLE
+                    $table
+                TYPE={$aConf['table']['type']}";
+        }
+        return $sql;
     }
 
     /**

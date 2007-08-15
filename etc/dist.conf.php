@@ -132,9 +132,6 @@ proxyLookup                         = true
 sniff                               = false
 defaultImpressionConnectionWindow   =
 defaultClickConnectionWindow        =
-blockAdImpressions                  = 0
-blockAdClicks                       = 0
-blockTrackerImpressions             = 0
 logInUTC                            = false   ; If true delivery log raw data in UTC
 ignoreHosts                         =         ; Comma separated list of hosts
 
@@ -149,7 +146,13 @@ autoMaintenanceDelay                = 5      ; Delay for automaintenance, should
 
 timeLimitScripts                    = 300    ; Should maintenance scripts be limited to run no longer than
                                              ; this many seconds? Set to 0 for no time limit
+
 operationInterval                   = 60
+
+blockAdImpressions                  = 0      ; How many seconds must be between impressions and clicks
+blockAdClicks                       = 0      ; from the same viewer ID for them to count? Set to 0 seconds
+                                             ; for all to count.
+
 compactStats                        = true
 compactStatsGrace                   = 604800
 

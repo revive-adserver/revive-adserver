@@ -208,21 +208,38 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             INSERT INTO
                 $table
                 (
+                    viewer_id,
                     ad_id,
                     creative_id,
                     zone_id,
                     date_time
                 )
             VALUES
-                (?, ?, ?, ?)";
+                (?, ?, ?, ?, ?)";
         $aTypes = array(
+            'text',
             'integer',
             'integer',
             'integer',
             'timestamp'
         );
         $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+
+        // A single item in 2004-05-06 12:30:00 to 12:59:59
         $aData = array(
+            'viewer1',
+            1,
+            0,
+            1,
+            '2004-05-06 12:34:56'
+        );
+        $rows = $st->execute($aData);
+
+        // All items from here are in 2004-06-06 18:00:00 to 18:29:29!
+
+        // A duplicate item within the same second
+        $aData = array(
+            'viewer1',
             1,
             0,
             1,
@@ -230,17 +247,62 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
         );
         $rows = $st->execute($aData);
         $aData = array(
+            'viewer1',
             1,
             0,
             1,
-            '2004-05-06 12:34:56'
+            '2004-06-06 18:22:10'
         );
         $rows = $st->execute($aData);
+
+        // An item from a viewer that's different to all the others
         $aData = array(
+            'viewer2',
             1,
             0,
             1,
             '2004-06-06 18:22:11'
+        );
+        $rows = $st->execute($aData);
+
+        // An item with a different ad_id to all the others
+        $aData = array(
+            'viewer1',
+            2,
+            0,
+            1,
+            '2004-06-06 18:22:15'
+        );
+        $rows = $st->execute($aData);
+
+        // An item that's less than 10 seconds after the first item in the group
+        $aData = array(
+            'viewer1',
+            1,
+            0,
+            1,
+            '2004-06-06 18:22:19'
+        );
+        $rows = $st->execute($aData);
+
+        // An item that's more than 10 seconds after the first item in the group,
+        // but less than 10 seconds since the most recent impression
+        $aData = array(
+            'viewer1',
+            1,
+            0,
+            1,
+            '2004-06-06 18:22:21'
+        );
+        $rows = $st->execute($aData);
+
+        // Finally, an item much later on
+        $aData = array(
+            'viewer1',
+            1,
+            0,
+            1,
+            '2004-06-06 18:22:51'
         );
         $rows = $st->execute($aData);
     }
@@ -258,119 +320,226 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_Star extends UnitTestCase
             'impression' => $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'],
             'click'      => $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_click'],
         );
+
+        // Blocking times to test, these are fixed values based to work with
+        // the times set in the _insertTestSummariseData() method above
+        $aBLockingTimes = array(
+            0 => 0,
+            1 => 10
+        );
+
         $oDbh = &OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
-        foreach ($aType as $type => $table) {
+        foreach ($aBLockingTimes as $blockingTime) {
+            foreach ($aType as $type => $table) {
 
-            $aConf['table']['split'] = false;
-            $aConf['maintenance']['operationInterval'] = 30;
+                $aConf['table']['split']                    = false;
+                $aConf['maintenance']['operationInterval']  = 30;
+                $aConf['maintenance']['blockAdImpressions'] = $blockingTime;
+                $aConf['maintenance']['blockAdClicks']      = $blockingTime;
 
-            $returnColumnName = $type . 's';
-            // Test with no data
-            $start = new Date('2004-06-06 12:00:00');
-            $end = new Date('2004-06-06 12:29:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 0);
-            $query = "
-                SELECT
-                    COUNT(*) AS number
-                FROM
-                    tmp_ad_{$type}";
-            $aRow = $oDbh->queryRow($query);
-            $this->assertEqual($aRow['number'], 0);
-            // Insert 3 ad requests/impressions/clicks
-            $this->_insertTestSummariseData($table);
-            // Summarise where requests/impressions/clicks don't exist
-            $start = new Date('2004-05-06 12:00:00');
-            $end = new Date('2004-05-06 12:29:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 0);
-            $query = "
-                SELECT
-                    COUNT(*) AS number
-                FROM
-                    tmp_ad_{$type}";
-            $aRow = $oDbh->queryRow($query);
-            $this->assertEqual($aRow['number'], 0);
-            // Summarise where one request/impression/click exists
-            $start = new Date('2004-05-06 12:30:00');
-            $end = new Date('2004-05-06 12:59:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 1);
-            $query = "
-                SELECT
-                    COUNT(*) AS number
-                FROM
-                    tmp_ad_{$type}";
-            $aRow = $oDbh->queryRow($query);
-            $this->assertEqual($aRow['number'], 1);
-            // Summarise where the other two requests/impressions/clicks exist
-            $start = new Date('2004-06-06 18:00:00');
-            $end = new Date('2004-06-06 18:29:59');
-            $rows = $dsa->_summariseData($start, $end, $type);
-            $this->assertEqual($rows, 1);
-            $query = "
-                SELECT
-                    COUNT(*) AS number
-                FROM
-                    tmp_ad_{$type}
-                WHERE
-                    day = '2004-05-06'";
-            $aRow = $oDbh->queryRow($query);
-            $this->assertEqual($aRow['number'], 1);
-            $query = "
-                SELECT
-                    COUNT(*) AS number
-                FROM
-                    tmp_ad_{$type}
-                WHERE
-                    day = '2004-06-06'";
-            $aRow = $oDbh->queryRow($query);
-            $this->assertEqual($aRow['number'], 1);
-            $query = "
-                SELECT
-                    $returnColumnName AS $returnColumnName
-                FROM
-                    tmp_ad_{$type}
-                WHERE
-                    day = '2004-06-06'";
-            $aRow = $oDbh->queryRow($query);
-            $this->assertEqual($aRow[$returnColumnName], 2);
-            TestEnv::restoreEnv();
+                $returnColumnName = $type . 's';
+
+                // Test with no data
+                $start = new Date('2004-06-06 12:00:00');
+                $end = new Date('2004-06-06 12:29:59');
+                $rows = $dsa->_summariseData($start, $end, $type);
+                $this->assertEqual($rows, 0);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 0);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 0);
+
+                // Insert eight ad requests/impressions/clicks
+                $this->_insertTestSummariseData($table);
+
+                // Summarise where requests/impressions/clicks don't exist
+                $start = new Date('2004-05-06 12:00:00');
+                $end = new Date('2004-05-06 12:29:59');
+                $rows = $dsa->_summariseData($start, $end, $type);
+                $this->assertEqual($rows, 0);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 0);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 0);
+
+                // Summarise where one request/impression/click exists
+                $start = new Date('2004-05-06 12:30:00');
+                $end = new Date('2004-05-06 12:59:59');
+                $rows = $dsa->_summariseData($start, $end, $type);
+                $this->assertEqual($rows, 1);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 1);
+                $query = "
+                    SELECT
+                        $returnColumnName AS $returnColumnName
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-05-06'
+                        AND
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow[$returnColumnName], 1);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 0);
+                $query = "
+                    SELECT
+                        $returnColumnName AS $returnColumnName
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-05-06'
+                        AND
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow[$returnColumnName], 0);
+
+                // Summarise where the other seven requests/impressions/clicks exist
+                $start = new Date('2004-06-06 18:00:00');
+                $end = new Date('2004-06-06 18:29:59');
+                $rows = $dsa->_summariseData($start, $end, $type);
+                $this->assertEqual($rows, 2);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-05-06'
+                        AND
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 1);
+                $query = "
+                    SELECT
+                        $returnColumnName AS $returnColumnName
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-05-06'
+                        AND
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow[$returnColumnName], 1);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-05-06'
+                        AND
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 0);
+                $query = "
+                    SELECT
+                        $returnColumnName AS $returnColumnName
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-05-06'
+                        AND
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow[$returnColumnName], 0);
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-06-06'
+                        AND
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 1);
+                $query = "
+                    SELECT
+                        $returnColumnName AS $returnColumnName
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-06-06'
+                        AND
+                        ad_id = 1";
+                $aRow = $oDbh->queryRow($query);
+                if ($type == 'request' || $blockingTime == 0) {
+                    $this->assertEqual($aRow[$returnColumnName], 6);
+                } else {
+                    $this->assertEqual($aRow[$returnColumnName], 3);
+                }
+                $query = "
+                    SELECT
+                        COUNT(*) AS number
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-06-06'
+                        AND
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow['number'], 1);
+                $query = "
+                    SELECT
+                        $returnColumnName AS $returnColumnName
+                    FROM
+                        tmp_ad_{$type}
+                    WHERE
+                        day = '2004-06-06'
+                        AND
+                        ad_id = 2";
+                $aRow = $oDbh->queryRow($query);
+                $this->assertEqual($aRow[$returnColumnName], 1);
+                TestEnv::restoreEnv();
+            }
         }
-    }
-
-    /**
-     * Tests the summariseRequests() method.
-     *
-     * @TODO Not implemented...
-     */
-    function testSummariseRequests()
-    {
-
-    }
-
-    /**
-     * Tests the summariseImpressions() method.
-     *
-     * @TODO Not implemented...
-     */
-    function testSummariseImpressions()
-    {
-
-    }
-
-    /**
-     * Tests the summariseClicks() method.
-     *
-     * @TODO Not implemented...
-     */
-    function testSummariseClicks()
-    {
-
     }
 
     /**

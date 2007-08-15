@@ -401,8 +401,138 @@ class OA_Dal_Maintenance_Statistics_Common
             if ($split) {
                 $baseTable .= '_' . $oCurrentDate->format('%Y%m%d');
             }
-            // Summarise the data
-            $query = "
+            // Are we summarising impressions or clicks, and if so, do we need to
+            // discard impressions or clicks based on the blockAdImpressions or
+            // blockAdClicks values?
+            $blockSeconds = 0;
+            if (($type == 'impression') && ($aConf['maintenance']['blockAdImpressions'] > 0)) {
+                $blockSeconds = $aConf['maintenance']['blockAdImpressions'];
+            } else if (($type == 'click') && ($aConf['maintenance']['blockAdClicks'] > 0)) {
+                $blockSeconds = $aConf['maintenance']['blockAdClicks'];
+            }
+            if ($blockSeconds > 0) {
+                // Prepare the viewer_id, date_time, ad_id, zone_id values that should be counted once only
+                $createLogOnce = OA_Dal::createTemporaryTableFromSelect('tmp_log_once');
+                $query = "
+                    $createLogOnce
+                    SELECT DISTINCT
+                        drad2.viewer_id,
+                        drad2.date_time,
+                        drad2.ad_id,
+                        drad2.creative_id,
+                        drad2.zone_id
+                    FROM
+                        $baseTable AS drad1
+                    LEFT JOIN
+                        $baseTable AS drad2
+                    ON
+                        drad1.viewer_id = drad2.viewer_id
+                        AND
+                        drad1.date_time = drad2.date_time
+                        AND
+                        drad1.ad_id = drad2.ad_id
+                        AND
+                        drad1.zone_id = drad2.zone_id
+                    WHERE
+                        drad1.date_time >= ". $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                        AND
+                        drad1.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                        AND
+                        drad2.date_time >= ". $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                        AND
+                        drad2.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                    GROUP BY
+                        drad2.viewer_id,
+                        drad2.date_time,
+                        drad2.ad_id,
+                        drad2.zone_id
+                    HAVING
+                        COUNT(*) > 1";
+                OA::debug("Selecting ad $type" . "s from the $baseTable table which are duplicates.", PEAR_LOG_DEBUG);
+                OA::disableErrorHandling();
+                $rows = $this->oDbh->exec($query);
+                OA::enableErrorHandling();
+                // Deal with the result from the SQL query
+                if (PEAR::isError($rows)) {
+                    // Can the error be ignored?
+                    $ignore = true;
+                    if (!$split) {
+                        // Not running in split mode, cannot ignore errors
+                        $ignore = false;
+                    } else {
+                        if (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
+                            // Can't ignore the error in this case either
+                            $ignore = false;
+                        }
+                    }
+                    if (!$ignore) {
+                        MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    }
+                }
+                // Prepare the viewer_id, date_time, ad_id, zone_id values that should be ignored
+                $createLogIgnore = OA_Dal::createTemporaryTableFromSelect('tmp_log_ignore');
+                $query = "
+                    $createLogIgnore
+                    SELECT DISTINCT
+                        drad2.viewer_id,
+                        drad2.date_time,
+                        drad2.ad_id,
+                        drad2.zone_id
+                    FROM
+                        $baseTable AS drad1
+                    LEFT JOIN
+                        $baseTable AS drad2
+                    ON
+                        drad1.viewer_id = drad2.viewer_id
+                        AND
+                        drad1.date_time != drad2.date_time
+                        AND
+                        drad1.ad_id = drad2.ad_id
+                        AND
+                        drad1.zone_id = drad2.zone_id
+                    WHERE
+                        drad1.date_time < drad2.date_time
+                        AND
+                        DATE_ADD(drad1.date_time, ". OA_Dal::quoteInterval($blockSeconds, 'SECOND') .") > drad2.date_time
+                        AND
+                        drad1.date_time >= ". $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                        AND
+                        drad1.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                        AND
+                        drad2.date_time >= ". $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                        AND
+                        drad2.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+                OA::debug("Selecting ad $type" . "s from the $baseTable table which occur within $blockSeconds " .
+                          "of an earlier $type.", PEAR_LOG_DEBUG);
+                OA::disableErrorHandling();
+                $rows = $this->oDbh->exec($query);
+                OA::enableErrorHandling();
+                // Deal with the result from the SQL query
+                if (PEAR::isError($rows)) {
+                    // Can the error be ignored?
+                    $ignore = true;
+                    if (!$split) {
+                        // Not running in split mode, cannot ignore errors
+                        $ignore = false;
+                    } else {
+                        if (!PEAR::isError($rows, DB_ERROR_NOSUCHTABLE)) {
+                            // Can't ignore the error in this case either
+                            $ignore = false;
+                        }
+                    }
+                    if (!$ignore) {
+                        MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    }
+                }
+            }
+            // Summarise the data, via a temporary table if blocking impression or clicks,
+            // directly in to the final temporary table if not
+            if ($blockSeconds > 0) {
+                $createUnionIgnoreLogOnce = OA_Dal::createTemporaryTableFromSelect('tmp_union_ignore_log_once');
+                $query = "
+                    $createUnionIgnoreLogOnce";
+            } else {
+                $query = "
                 INSERT INTO
                     $tmpTableName
                     (
@@ -416,7 +546,9 @@ class OA_Dal_Maintenance_Statistics_Common
                         creative_id,
                         zone_id,
                         $countColumnName
-                    )
+                    )";
+            }
+            $query .= "
                 SELECT
                     DATE_FORMAT(drad.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
                     DATE_FORMAT(drad.date_time, '%k'){$this->hourCastString} AS hour,
@@ -429,13 +561,55 @@ class OA_Dal_Maintenance_Statistics_Common
                     drad.zone_id AS zone_id,
                     COUNT(*) AS $countColumnName
                 FROM
-                    $baseTable AS drad
+                    $baseTable AS drad";
+            if ($blockSeconds > 0) {
+                $query .= "
+                LEFT JOIN
+                    tmp_log_once AS tlo
+                ON
+                    (
+                        drad.viewer_id = tlo.viewer_id
+                        AND
+                        drad.date_time = tlo.date_time
+                        AND
+                        drad.ad_id = tlo.ad_id
+                        AND
+                        drad.zone_id = tlo.zone_id
+                    )
+                LEFT JOIN
+                    tmp_log_ignore AS tli
+                ON
+                    (
+                        drad.viewer_id = tli.viewer_id
+                        AND
+                        drad.date_time = tli.date_time
+                        AND
+                        drad.ad_id = tli.ad_id
+                        AND
+                        drad.zone_id = tli.zone_id
+                    )";
+            }
+            $query .= "
                 WHERE
                     drad.date_time >= ". $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
-                    AND drad.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                    AND
+                    drad.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+            if ($blockSeconds > 0) {
+                $query .= "
+                    AND
+                    tlo.viewer_id IS NULL
+                    AND
+                    tli.viewer_id IS NULL";
+            }
+            $query .= "
                 GROUP BY
                     day, hour, ad_id, creative_id, zone_id";
-            OA::debug("- Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
+            if ($blockSeconds == 0) {
+                OA::debug("- Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
+            } else {
+                OA::debug("- Summarising ad $type" . "s from the $baseTable table, removing 'duplicates' " .
+                          "that occur within $blockSeconds of each other", PEAR_LOG_DEBUG);
+            }
             OA::disableErrorHandling();
             $rows = $this->oDbh->exec($query);
             OA::enableErrorHandling();
@@ -456,8 +630,87 @@ class OA_Dal_Maintenance_Statistics_Common
                     MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
                 }
             } else {
+                // Add "log once" impressions/clicks
+                if ($blockSeconds > 0) {
+                    $query = "
+                        INSERT INTO
+                            tmp_union_ignore_log_once
+                            (
+                                day,
+                                hour,
+                                operation_interval,
+                                operation_interval_id,
+                                interval_start,
+                                interval_end,
+                                ad_id,
+                                creative_id,
+                                zone_id,
+                                $countColumnName
+                            )
+                        SELECT
+                            DATE_FORMAT(tlo.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
+                            DATE_FORMAT(tlo.date_time, '%k'){$this->hourCastString} AS hour,
+                            {$aConf['maintenance']['operationInterval']} AS operation_interval,
+                            $operationIntervalID AS operation_interval_id,
+                            ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
+                            ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_end,
+                            tlo.ad_id AS ad_id,
+                            tlo.creative_id AS creative_id,
+                            tlo.zone_id AS zone_id,
+                            COUNT(*) AS $countColumnName
+                        FROM
+                            tmp_log_once AS tlo
+                        GROUP BY
+                            day, hour, ad_id, creative_id, zone_id";
+                    OA::debug("Adding one ad $type for each duplicate that occurred in the same second", PEAR_LOG_DEBUG);
+                    $rows = $this->oDbh->exec($query);
+                    if (PEAR::isError($rows)) {
+                        MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    }
+                    $query = "
+                        INSERT INTO
+                            $tmpTableName
+                            (
+                                day,
+                                hour,
+                                operation_interval,
+                                operation_interval_id,
+                                interval_start,
+                                interval_end,
+                                ad_id,
+                                creative_id,
+                                zone_id,
+                                $countColumnName
+                            )
+                        SELECT
+                            tuilo.day AS day,
+                            tuilo.hour AS hour,
+                            tuilo.operation_interval AS operation_interval,
+                            tuilo.operation_interval_id AS operation_interval_id,
+                            tuilo.interval_start AS interval_start,
+                            tuilo.interval_end AS interval_end,
+                            tuilo.ad_id AS ad_id,
+                            tuilo.creative_id AS creative_id,
+                            tuilo.zone_id AS zone_id,
+                            SUM($countColumnName) AS $countColumnName
+                        FROM
+                            tmp_union_ignore_log_once AS tuilo
+                        GROUP BY
+                            day, hour, operation_interval, operation_interval_id, interval_start, interval_end, ad_id, creative_id, zone_id";
+                    OA::debug("Summarising total ad $type" . "s without 'blocked' $type" . "s", PEAR_LOG_DEBUG);
+                    $rows = $this->oDbh->exec($query);
+                    if (PEAR::isError($rows)) {
+                        MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+                    }
+                }
                 // Query ran okay, count the rows
                 $returnRows += $rows;
+            }
+            // Drop the log ignore temporary table
+            if ($blockSeconds > 0) {
+                $this->tempTables->dropTable('tmp_log_once');
+                $this->tempTables->dropTable('tmp_log_ignore');
+                $this->tempTables->dropTable('tmp_union_ignore_log_once');
             }
             // Progress to the next day, so looping will work if needed
             $oCurrentDate = $oCurrentDate->getNextDay();

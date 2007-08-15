@@ -266,7 +266,6 @@ class OA_DB
         return true;
     }
 
-
     /**
      * This sets up all the required PL/SQL functions for the database.
      *

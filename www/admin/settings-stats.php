@@ -45,8 +45,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'logging_adClicks','logging_trackerImpressions',
                           'logging_reverseLookup', 'logging_proxyLookup', 'logging_sniff',
                           'ignoreHosts',
-                          'logging_blockAdImpressions', 'logging_blockAdClicks',
-                          'logging_blockTrackerImpressions',
+                          'maintenance_blockAdImpressions', 'maintenance_blockAdClicks',
                           'modules_AdServer', 'modules_Tracker',
                           'maintenance_operationInterval',
                           'maintenance_compactStats', 'maintenance_compactStatsGrace',
@@ -65,25 +64,18 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $config->setConfigChange('logging', 'reverseLookup',      isset($logging_reverseLookup));
     $config->setConfigChange('logging', 'proxyLookup',        isset($logging_proxyLookup));
     $config->setConfigChange('logging', 'sniff',              isset($logging_sniff));
-    if (isset($logging_blockAdImpressions)) {
-        if ((!is_numeric($logging_blockAdImpressions)) || ($logging_blockAdImpressions < 0)) {
+    if (isset($maintenance_blockAdImpressions)) {
+        if ((!is_numeric($maintenance_blockAdImpressions)) || ($maintenance_blockAdImpressions < 0)) {
             $errormessage[1][] = $strBlockAdViewsError;
         } else {
-            $config->setConfigChange('logging', 'blockAdImpressions', $logging_blockAdImpressions);
+            $config->setConfigChange('maintenance', 'blockAdImpressions', $maintenance_blockAdImpressions);
         }
     }
-    if (isset($logging_blockAdClicks)) {
-        if ((!is_numeric($logging_blockAdClicks)) || ($logging_blockAdClicks < 0)) {
+    if (isset($maintenance_blockAdClicks)) {
+        if ((!is_numeric($maintenance_blockAdClicks)) || ($maintenance_blockAdClicks < 0)) {
             $errormessage[1][] = $strBlockAdClicksError;
         } else {
-            $config->setConfigChange('logging', 'blockAdClicks', $logging_blockAdClicks);
-        }
-    }
-    if (isset($logging_blockTrackerImpressions)) {
-        if ((!is_numeric($logging_blockTrackerImpressions)) || ($logging_blockTrackerImpressions < 0)) {
-            $errormessage[1][] = $strBlockAdConversionsError;
-        } else {
-            $config->setConfigChange('logging', 'blockTrackerImpressions', $logging_blockTrackerImpressions);
+            $config->setConfigChange('maintenance', 'blockAdClicks', $maintenance_blockAdClicks);
         }
     }
     if (isset($ignoreHosts)) {
@@ -239,42 +231,28 @@ $settings = array (
                 'name'    => 'ignoreHosts',
                 'text'    => $strIgnoreHosts
             ),
-//            array (
-//                'type'    => 'break'
-//            ),
-//            array (
-//                'type'    => 'text',
-//                'name'    => 'logging_blockAdImpressions',
-//                'text'    => $strBlockAdViews,
-//                'size'    => 12,
-//                //'depends' => 'logging_adImpressions==true',
-//                'enabled' => 'false',
-//                'check'   => 'number+'
-//            ),
-//            array (
-//                'type'    => 'break'
-//            ),
-//            array (
-//                'type'    => 'text',
-//                'name'    => 'logging_blockAdClicks',
-//                'text'    => $strBlockAdClicks,
-//                'size'    => 12,
-//                //'depends' => 'logging_adClicks==true',
-//                'enabled' => 'false',
-//                'check'   => 'number+'
-//            ),
-//            array (
-//                'type'    => 'break'
-//            ),
-//            array (
-//                'type'    => 'text',
-//                'name'    => 'logging_blockTrackerImpressions',
-//                'text'    => $strBlockAdConversions,
-//                'size'    => 12,
-//                //'depends' => 'logging_trackerImpressions==true',
-//                'enabled' => 'false',
-//                'check'   => 'number+'
-//            )
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'maintenance_blockAdImpressions',
+                'text'    => $strBlockAdViews,
+                'size'    => 12,
+                'depends' => 'logging_adImpressions==true',
+                'check'   => 'number+'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'maintenance_blockAdClicks',
+                'text'    => $strBlockAdClicks,
+                'size'    => 12,
+                'depends' => 'logging_adClicks==true',
+                'check'   => 'number+'
+            )
         )
     ),
     array (
