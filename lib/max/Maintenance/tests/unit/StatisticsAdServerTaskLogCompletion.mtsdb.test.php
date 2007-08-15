@@ -84,9 +84,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
 
         // Set some of the object's variables, and log
         $oLogCompletion->oController->updateIntermediate = true;
-        $oLogCompletion->oController->updateIntermediateToDate = new Date('2004-06-06 17:59:59');
+        $oLogCompletion->oController->oUpdateIntermediateToDate = new Date('2004-06-06 17:59:59');
         $oLogCompletion->oController->updateFinal = false;
-        $oLogCompletion->oController->updateFinalToDate = null;
+        $oLogCompletion->oController->oUpdateFinalToDate = null;
         $oEnd = new Date('2004-06-06 18:12:00');
         $oLogCompletion->run($oEnd);
         // Test
@@ -105,9 +105,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
         $this->assertEqual($aRow['updated_to'], '2004-06-06 17:59:59');
         // Set some of the object's variables, and log
         $oLogCompletion->oController->updateIntermediate = false;
-        $oLogCompletion->oController->updateIntermediateToDate = null;
+        $oLogCompletion->oController->oUpdateIntermediateToDate = null;
         $oLogCompletion->oController->updateFinal = true;
-        $oLogCompletion->oController->updateFinalToDate = new Date('2004-06-06 17:59:59');
+        $oLogCompletion->oController->oUpdateFinalToDate = new Date('2004-06-06 17:59:59');
         $oEnd = new Date('2004-06-06 18:13:00');
         $oLogCompletion->run($oEnd);
         // Test
@@ -126,9 +126,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
         $this->assertEqual($aRow['updated_to'], '2004-06-06 17:59:59');
         // Set some of the object's variables, and log
         $oLogCompletion->oController->updateIntermediate = true;
-        $oLogCompletion->oController->updateIntermediateToDate = new Date('2004-06-06 17:59:59');
+        $oLogCompletion->oController->oUpdateIntermediateToDate = new Date('2004-06-06 17:59:59');
         $oLogCompletion->oController->updateFinal = true;
-        $oLogCompletion->oController->updateFinalToDate = new Date('2004-06-06 17:59:59');
+        $oLogCompletion->oController->oUpdateFinalToDate = new Date('2004-06-06 17:59:59');
         $oEnd = new Date('2004-06-06 18:14:00');
         $oLogCompletion->run($oEnd);
         // Test

@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -48,7 +49,7 @@ class Plugins_Maintenance extends MAX_Plugin_Common
      */
     function getName()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -60,7 +61,7 @@ class Plugins_Maintenance extends MAX_Plugin_Common
      */
     function getHookType()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -72,7 +73,7 @@ class Plugins_Maintenance extends MAX_Plugin_Common
      */
     function getHook()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -87,7 +88,7 @@ class Plugins_Maintenance extends MAX_Plugin_Common
      */
     function run($aParams = null)
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 

@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -58,7 +59,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
      */
     function getName()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -91,7 +92,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
      */
     function getOptionsList()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -144,7 +145,7 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
      */
     function generateInvocationCode()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 

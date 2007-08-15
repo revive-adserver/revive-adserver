@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -97,7 +98,7 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
      */
     function getName()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -352,7 +353,7 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
      */
     function summarizeStats(&$row)
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 

@@ -132,8 +132,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oEndDate->addSeconds(1);
         $oSummariseIntermediate->oController->updateUsingOI = true;
         $oSummariseIntermediate->oController->updateIntermediate = true;
-        $oSummariseIntermediate->oController->lastDateIntermediate = $olastDateIntermediate;
-        $oSummariseIntermediate->oController->updateIntermediateToDate = $oUpdateIntermediateToDate;
+        $oSummariseIntermediate->oController->oLastDateIntermediate = $olastDateIntermediate;
+        $oSummariseIntermediate->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
         $oSummariseIntermediate->oController->updateFinal = false;
         $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
@@ -156,8 +156,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oSummariseIntermediate->oController->updateUsingOI = false;
         $oSummariseIntermediate->oController->updateIntermediate = false;
         $oSummariseIntermediate->oController->updateFinal = true;
-        $oSummariseIntermediate->oController->lastDateFinal = $olastDateFinal;
-        $oSummariseIntermediate->oController->updateFinalToDate = $oUpdateFinalToDate;
+        $oSummariseIntermediate->oController->oLastDateFinal = $olastDateFinal;
+        $oSummariseIntermediate->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
         $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateClicks', array($oStartDate, $oEndDate));
@@ -186,8 +186,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oEndDate2->addSeconds(1);
         $oSummariseIntermediate->oController->updateUsingOI = true;
         $oSummariseIntermediate->oController->updateIntermediate = true;
-        $oSummariseIntermediate->oController->lastDateIntermediate = $olastDateIntermediate;
-        $oSummariseIntermediate->oController->updateIntermediateToDate = $oUpdateIntermediateToDate;
+        $oSummariseIntermediate->oController->oLastDateIntermediate = $olastDateIntermediate;
+        $oSummariseIntermediate->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
         $oSummariseIntermediate->oController->updateFinal = false;
         $oSummariseIntermediate->expectCallCount('_summariseIntermediateRequests', 3);
         $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateRequests', array($oStartDate0, $oEndDate0));
@@ -230,8 +230,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oSummariseIntermediate->oController->updateUsingOI = false;
         $oSummariseIntermediate->oController->updateIntermediate = false;
         $oSummariseIntermediate->oController->updateFinal = true;
-        $oSummariseIntermediate->oController->lastDateFinal = $olastDateFinal;
-        $oSummariseIntermediate->oController->updateFinalToDate = $oUpdateFinalToDate;
+        $oSummariseIntermediate->oController->oLastDateFinal = $olastDateFinal;
+        $oSummariseIntermediate->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
         $oSummariseIntermediate->expectCallCount('_summariseIntermediateRequests', 3);
         $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateRequests', array($oStartDate0, $oEndDate0));
         $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateRequests', array($oStartDate1, $oEndDate1));
@@ -279,8 +279,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oEndDate->addSeconds(1);
         $oSummariseIntermediate->oController->updateUsingOI = true;
         $oSummariseIntermediate->oController->updateIntermediate = true;
-        $oSummariseIntermediate->oController->lastDateIntermediate = $olastDateIntermediate;
-        $oSummariseIntermediate->oController->updateIntermediateToDate = $oUpdateIntermediateToDate;
+        $oSummariseIntermediate->oController->oLastDateIntermediate = $olastDateIntermediate;
+        $oSummariseIntermediate->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
         $oSummariseIntermediate->oController->updateFinal = false;
         $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
@@ -303,8 +303,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oSummariseIntermediate->oController->updateUsingOI = false;
         $oSummariseIntermediate->oController->updateIntermediate = false;
         $oSummariseIntermediate->oController->updateFinal = true;
-        $oSummariseIntermediate->oController->lastDateFinal = $olastDateFinal;
-        $oSummariseIntermediate->oController->updateFinalToDate = $oUpdateFinalToDate;
+        $oSummariseIntermediate->oController->oLastDateFinal = $olastDateFinal;
+        $oSummariseIntermediate->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
         $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateClicks', array($oStartDate, $oEndDate));
@@ -333,8 +333,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oEndDate2->addSeconds(1);
         $oSummariseIntermediate->oController->updateUsingOI = true;
         $oSummariseIntermediate->oController->updateIntermediate = true;
-        $oSummariseIntermediate->oController->lastDateIntermediate = $olastDateIntermediate;
-        $oSummariseIntermediate->oController->updateIntermediateToDate = $oUpdateIntermediateToDate;
+        $oSummariseIntermediate->oController->oLastDateIntermediate = $olastDateIntermediate;
+        $oSummariseIntermediate->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
         $oSummariseIntermediate->oController->updateFinal = false;
         $oSummariseIntermediate->expectCallCount('_summariseIntermediateRequests', 3);
         $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateRequests', array($oStartDate0, $oEndDate0));
@@ -380,8 +380,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         $oSummariseIntermediate->oController->updateUsingOI = false;
         $oSummariseIntermediate->oController->updateIntermediate = false;
         $oSummariseIntermediate->oController->updateFinal = true;
-        $oSummariseIntermediate->oController->lastDateFinal = $olastDateFinal;
-        $oSummariseIntermediate->oController->updateFinalToDate = $oUpdateFinalToDate;
+        $oSummariseIntermediate->oController->oLastDateFinal = $olastDateFinal;
+        $oSummariseIntermediate->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
         $oSummariseIntermediate->expectCallCount('_summariseIntermediateRequests', 3);
         $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateRequests', array($oStartDate0, $oEndDate0));
         $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateRequests', array($oStartDate1, $oEndDate1));

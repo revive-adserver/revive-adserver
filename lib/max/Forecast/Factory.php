@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
+require_once MAX_PATH . '/lib/OA.php';
 
 /**
  * A class for creating {@link MAX_Forecast_Common} subclass objects, depending
@@ -67,9 +68,9 @@ class MAX_Forecast_Factory
         @include_once $includeFile;
         if (!class_exists($classname)) {
             // Unable to include the specified class file - raise error and halt
-            MAX::debug('Unable to find the "' . $classname . '" class in the "' . $includeFile .
+            OA::debug('Unable to find the "' . $classname . '" class in the "' . $includeFile .
                        '" file.', PEAR_LOG_ERR);
-            MAX::debug('Aborting script execution', PEAR_LOG_ERR);
+            OA::debug('Aborting script execution', PEAR_LOG_ERR);
             exit();
         }
         return $classname;

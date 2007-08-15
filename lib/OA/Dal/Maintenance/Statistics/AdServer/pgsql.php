@@ -155,8 +155,8 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                 AND tac.date_time <= '" . $oEnd->format('%Y-%m-%d %H:%M:%S') . "'
             GROUP BY
                 tac.server_raw_tracker_impression_id, tac.server_raw_ip";
-        MAX::debug('Selecting the possible connections that are the most recent connections ' .
-                   '(ie. they have the most recent connection_date_time field).', PEAR_LOG_DEBUG);
+        OA::debug('- Selecting the possible connections that are the most recent connections ' .
+                   '(ie. they have the most recent connection_date_time field)', PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -174,13 +174,14 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                 {$tac}.server_raw_tracker_impression_id = tcl.server_raw_tracker_impression_id
                 AND {$tac}.server_raw_ip = tcl.server_raw_ip
                 AND {$tac}.connection_date_time = tcl.connection_date_time";
-        MAX::debug('Setting the \'latest connection\' flag in the temporary tmp_connection table.',
+        OA::debug('- Setting the \'latest connection\' flag in the temporary tmp_connection table',
                    PEAR_LOG_DEBUG);
         $connectionRows = $this->oDbh->exec($query);
         if (PEAR::isError($connectionRows)) {
             return MAX::raiseError($connectionRows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         // Drop the tmp_connection_latest table
+        OA::setTempDebugPrefix('- ');
         $this->tempTables->dropTable('tmp_connection_latest');
         return $connectionRows;
     }
@@ -252,9 +253,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                 AND
                 (diavv.value IS NULL OR diavv.value = '')
             ";
-        $message = 'Rejecting conversions with empty required variables between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
+        $message = '- Rejecting conversions with empty required variables between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
                    ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -322,9 +323,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                 AND
                 UNIX_TIMESTAMP({$diac}.tracker_date_time) - UNIX_TIMESTAMP(diac2.tracker_date_time) > 0
             ";
-        $message = 'Deduplicating conversions between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
+        $message = '- Deduplicating conversions between "' . $oStart->format('%Y-%m-%d %H:%M:%S') . '"' .
                    ' and "' . $oEnd->format('%Y-%m-%d %H:%M:%S') . '"';
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);

@@ -135,7 +135,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         }
         $query .= "
                 )";
-        OA::debug('Logging maintenance process run information into ' . $tableName, PEAR_LOG_DEBUG);
+        OA::debug('- Logging maintenance process run information into ' . $tableName, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return false;
@@ -200,7 +200,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         $query .= "
             ORDER BY $orderBy DESC
             LIMIT 1";
-        OA::debug('Obtaining maintenance process run information from ' . $tableName, PEAR_LOG_DEBUG);
+        OA::debug('- Obtaining maintenance process run information from ' . $tableName, PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return false;
@@ -221,7 +221,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
                     {$aAlternateInfo['tableName']}
                 ORDER BY date ASC
                 LIMIT 1";
-            OA::debug('Maintenance process run information not found - trying to get data from ' . $aAlternateInfo['tableName'], PEAR_LOG_DEBUG);
+            OA::debug('- Maintenance process run information not found - trying to get data from ' . $aAlternateInfo['tableName'], PEAR_LOG_DEBUG);
             if ($aConf['table']['split']) {
                 PEAR::pushErrorHandling(null);
             }
@@ -373,18 +373,18 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
                 MAX(" . $tableType . "window) AS max
             FROM
                 {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']}";
-        OA::debug('Finding the largest active ' . $type . ' connection window.', PEAR_LOG_DEBUG);
+        OA::debug('- Finding the largest active ' . $type . ' connection window', PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();
         if (PEAR::isError($aRow)) {
-            OA::debug('Error finding ' . $type . ' connection window.', PEAR_LOG_ERROR);
+            OA::debug('- Error finding ' . $type . ' connection window', PEAR_LOG_ERROR);
             return 0;
         }
-        OA::debug('Found ' . $aRow['max'] . ' as the largest active ' . $type . ' connection window.', PEAR_LOG_DEBUG);
-        if ($aRow['max'] > 0) {
-            return $aRow['max'];
+        if (empty($aRow['max']) || $aRow['max'] <= 0) {
+            $aRow['max'] = 0;
         }
-        return 0;
+        OA::debug('- Found ' . $aRow['max'] . ' as the largest active ' . $type . ' connection window', PEAR_LOG_DEBUG);
+        return $aRow['max'];
     }
 
     /**

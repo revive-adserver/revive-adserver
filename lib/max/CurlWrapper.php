@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
+
 /**
  * Simple curl wrapper that handles packaging headers and params.
  *
@@ -60,7 +62,7 @@ class MAX_CurlWrapper
         curl_close ($ch);
 
         if ($returned === false) {
-            MAX::debug('there was an error in the curl transmission of data', $file, $line);
+            OA::debug('there was an error in the curl transmission of data', $file, $line);
             return false;
         }
         return $returned;

@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/Channel/Limitations.php';
@@ -151,7 +152,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
             while (!$oEndDate->after($this->oController->oUpdateToDate)) {
                 $message = 'Summarising channels for the day ' . $oStartDate->format('%Y-%m-%d %H:%M:%S') .
                            ' to ' . $oEndDate->format('%Y-%m-%d %H:%M:%S');
-                MAX::debug($message, PEAR_LOG_DEBUG);
+                OA::debug($message, PEAR_LOG_DEBUG);
                 $this->_summarise($oStartDate, $oEndDate);
                 $oStartDate->addSeconds(SECONDS_PER_DAY);
                 $oEndDate->addSeconds(SECONDS_PER_DAY);
@@ -160,7 +161,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
             // Summarise channels for the single day
             $message = 'Summarising channels for the day ' . $oStartDate->format('%Y-%m-%d %H:%M:%S') .
                        ' to ' . $this->oController->oUpdateToDate->format('%Y-%m-%d %H:%M:%S');
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
             $this->_summarise($oStartDate, $this->oController->oUpdateToDate);
 
         }
@@ -187,7 +188,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
         $aAdminChannelIds = $this->oDalEntities->getAllActiveChannelIdsByAgencyId(0);
         if (PEAR::isError($aAdminChannelIds)) {
             $message = '  Error getting admin active channels.';
-            MAX::debug($message, PEAR_LOG_ERR);
+            OA::debug($message, PEAR_LOG_ERR);
             return;
         }
         if (empty($aAdminChannelIds)) {
@@ -197,7 +198,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
         $aAdminPublisherIds = $this->oDalEntities->getAllPublisherIdsByAgencyId(0);
         if (PEAR::isError($aAdminPublisherIds)) {
             $message = '  Error getting admin publishers.';
-            MAX::debug($message, PEAR_LOG_ERR);
+            OA::debug($message, PEAR_LOG_ERR);
             return;
         }
         if (!empty($aAdminPublisherIds)) {
@@ -207,7 +208,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
                 $aPublisherChannelIds = $this->oDalEntities->getAllActiveChannelIdsByAgencyPublisherId(0, $publisherId);
                 if (PEAR::isError($aPublisherChannelIds)) {
                     $message = '  Error getting admin/publisher ID ' . $publisherId . ' active channels.';
-                    MAX::debug($message, PEAR_LOG_ERR);
+                    OA::debug($message, PEAR_LOG_ERR);
                     return;
                 }
                 // Join the admin and publisher channels
@@ -228,7 +229,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
                 $aPublisherZoneIds = $this->oDalEntities->getAllChannelForecastZonesIdsByPublisherId($publisherId);
                 if (PEAR::isError($aPublisherZoneIds)) {
                     $message = '  Error getting publisher ID ' . $publisherId . ' zones set to be forecast.';
-                    MAX::debug($message, PEAR_LOG_ERR);
+                    OA::debug($message, PEAR_LOG_ERR);
                     return;
                 }
                 if (is_null($aPublisherZoneIds)) {
@@ -239,7 +240,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
                 // For each channel owned by the admin user or the publisher...
                 foreach ($aAllChannelIds as $channelId) {
                     $message = "  Performing channel summarisation for Publisher ID $publisherId, Channel ID $channelId.";
-                    MAX::debug($message, PEAR_LOG_DEBUG);
+                    OA::debug($message, PEAR_LOG_DEBUG);
                     // Perform the summarising on this channel, with data
                     // from all associated zones
                     $this->_summariseByChannel($oStartDate, $oEndDate, $channelId, $aPublisherZoneIds);
@@ -257,7 +258,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
             $aAgencyChannelIds = $this->oDalEntities->getAllActiveChannelIdsByAgencyId($agencyId);
             if (PEAR::isError($aAgencyChannelIds)) {
                 $message = '  Error getting agency ID ' . $agencyId . ' active channels.';
-                MAX::debug($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
                 return;
             }
             // Join the admin and agency channels
@@ -273,7 +274,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
             $aPublisherIds = $this->oDalEntities->getAllPublisherIdsByAgencyId($agencyId);
             if (PEAR::isError($aPublisherIds)) {
                 $message = '  Error getting agency ID ' . $agencyId . ' publishers.';
-                MAX::debug($message, PEAR_LOG_ERR);
+                OA::debug($message, PEAR_LOG_ERR);
                 return;
             }
             if (is_null($aPublisherIds)) {
@@ -287,7 +288,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
                 $aPublisherChannelIds = $this->oDalEntities->getAllActiveChannelIdsByAgencyPublisherId($agencyId, $publisherId);
                 if (PEAR::isError($aPublisherChannelIds)) {
                     $message = '  Error getting agency ID ' . $agencyId . '/publisher ID ' . $publisherId . ' active channels.';
-                    MAX::debug($message, PEAR_LOG_ERR);
+                    OA::debug($message, PEAR_LOG_ERR);
                     return;
                 }
                 // Join the admin/agency and publisher channels
@@ -308,7 +309,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
                 $aPublisherZoneIds = $this->oDalEntities->getAllChannelForecastZonesIdsByPublisherId($publisherId);
                 if (PEAR::isError($aPublisherZoneIds)) {
                     $message = '  Error getting publisher ID ' . $publisherId . ' zones set to be forecast.';
-                    MAX::debug($message, PEAR_LOG_ERR);
+                    OA::debug($message, PEAR_LOG_ERR);
                     return;
                 }
                 if (is_null($aPublisherZoneIds)) {
@@ -319,7 +320,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
                 // For each channel owned by the admin user, the agency user or the publisher...
                 foreach ($aAllChannelIds as $channelId) {
                     $message = "  Performing channel summarisation for Agency ID $agencyId, Publisher ID $publisherId, Channel ID $channelId.";
-                    MAX::debug($message, PEAR_LOG_DEBUG);
+                    OA::debug($message, PEAR_LOG_DEBUG);
                     // Perform the summarising on this channel, with data
                     // from all associated zones
                     $this->_summariseByChannel($oStartDate, $oEndDate, $channelId, $aPublisherZoneIds);

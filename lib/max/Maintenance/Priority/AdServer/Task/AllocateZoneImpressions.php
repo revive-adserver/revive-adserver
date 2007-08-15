@@ -70,7 +70,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
      */
     function run()
     {
-        OA::debug('Starting to Allocate Zone Impressions.', PEAR_LOG_DEBUG);
+        OA::debug('Running Maintenance Priority Engine: Allocate Zone Impressions', PEAR_LOG_DEBUG);
         // Set the zone forecast information
         $this->_setZoneForecasts();
         // Set the placement information
@@ -84,6 +84,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
         // Set the requested impressions for each ad/zone pair
         $this->_allocateRequestedImpressions();
         // Save the ad/zone impression allocations to the database
+        OA::setTempDebugPrefix('- ');
         $this->table->createTable('tmp_ad_zone_impression');
         $this->oDal->saveAllocatedImpressions($this->aAdZoneImpressionAllocations);
     }
@@ -321,7 +322,7 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
             $globalMessage = '';
             foreach ($this->aOverSubscribedZones as $zoneId => $aZoneInfo) {
                 if ($aZoneInfo['desiredImpressions'] > $aZoneInfo['availableImpressions']) {
-                    $message  = "Found that Zone ID $zoneId was over-subscribed: Want ";
+                    $message  = "- Found that Zone ID $zoneId was over-subscribed: Want ";
                     $message .= "{$aZoneInfo['desiredImpressions']} in {$aZoneInfo['availableImpressions']}";
                     $globalMessage .= $message . "\n";
                     OA::debug($message, PEAR_LOG_DEBUG);

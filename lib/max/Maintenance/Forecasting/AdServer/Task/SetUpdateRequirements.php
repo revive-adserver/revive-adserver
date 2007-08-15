@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer/Task.php';
 require_once 'Date.php';
@@ -64,9 +65,9 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequirements extends MA
         if (!$oNowDate) {
             $oNowDate = new Date();
         }
-        MAX::debug('Running Maintenance Forecasting: AdServer', PEAR_LOG_INFO);
+        OA::debug('Running Maintenance Forecasting: AdServer', PEAR_LOG_INFO);
         $message = 'Current time is ' . $oNowDate->format('%Y-%m-%d %H:%M:%S') . '.';
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         // Don't update unless the time is right!
         $this->oController->update = false;
         // Test to see if a date for when the forecasts were last updated
@@ -91,13 +92,13 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequirements extends MA
         }
         if (is_null($this->oController->oLastUpdateDate) || ($this->oController->oLastUpdateDate === false)) {
             $message = 'Maintenance forecasting has never been run before, and there is no raw data in ';
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
             $message = 'the database, so maintenance forecasting will not be run.';
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
         } else {
             $message = 'Maintenance forecasting last updated to ' .
                        $this->oController->oLastUpdateDate->format('%Y-%m-%d %H:%M:%S') . '.';
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
             // MFE summarises data by day, so we need to decide if there are any
             // complete days that have not yet been summarised; to do so, test
             // to see if the last updated date is before the end of yesterday
@@ -110,7 +111,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequirements extends MA
             $message = 'Last update of ' . $this->oController->oLastUpdateDate->format('%Y-%m-%d %H:%M:%S') .
                        ' must be before before ' . $oRequiredDate->format('%Y-%m-%d %H:%M:%S') .
                        ' for the next forecasting update to happen.';
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
             if ($this->oController->oLastUpdateDate->before($oRequiredDate)) {
                 $this->oController->update = true;
                 // Update to the $oRequiredDate
@@ -133,15 +134,15 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequirements extends MA
             } else {
                 // Required time hasn't passed, so don't update
                 $message = 'Last update was not before ' . $oRequiredDate->format('%Y-%m-%d %H:%M:%S');
-                MAX::debug($message, PEAR_LOG_DEBUG);
+                OA::debug($message, PEAR_LOG_DEBUG);
             }
         }
         if ($this->oController->update) {
             $message = "Maintenance forecasting will be run.";
-            MAX::debug($message, PEAR_LOG_INFO);
+            OA::debug($message, PEAR_LOG_INFO);
         } else {
             $message = 'Maintenance forecasting will NOT be run.';
-            MAX::debug($message, PEAR_LOG_INFO);
+            OA::debug($message, PEAR_LOG_INFO);
         }
     }
 

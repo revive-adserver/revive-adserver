@@ -36,13 +36,14 @@ $path = dirname(__FILE__);
 require_once $path . '/../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting.php';
 require_once MAX_PATH . '/lib/max/OperationInterval.php';
 require_once 'Date.php';
 
-MAX::debug('Running Maintenance Forecasting', PEAR_LOG_INFO);
+OA::debug('Running Maintenance Forecasting', PEAR_LOG_INFO);
 
 // Record the current time, and register with the ServiceLocator
 $oDate = new Date();
@@ -59,6 +60,6 @@ if (PEAR::isError($result)) {
 // Run the Maintenance Forecasting Engine (MFE) process
 MAX_Maintenance_Forecasting::run();
 
-MAX::debug('Maintenance Forecasting Completed', PEAR_LOG_INFO);
+OA::debug('Maintenance Forecasting Completed', PEAR_LOG_INFO);
 
 ?>

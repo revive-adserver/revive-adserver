@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH.'/lib/Max.php';
 require_once MAX_PATH.'/lib/max/Dal/Common.php';
 require_once MAX_PATH.'/lib/max/OperationInterval.php';
@@ -83,7 +84,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                 dsah.day ASC, dsah.hour ASC
             LIMIT 1";
         $message = "Finding start date of placement ID $placementId based on delivery statistics.";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return $rc;
@@ -187,7 +188,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
         $message = 'Finding all channel/zone forecast inventory data for channel ID ' . $channelId .
                    ' and zone IDs in ' . implode(', ', $aZoneIds) . ' in the period ' .
                    $aPeriod['start']->format('%Y-%m-%d') . ' to ' . $aPeriod['end']->format('%Y-%m-%d');
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return $rc;
@@ -235,7 +236,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
                     LIMIT 7";
                 $message = 'Finding the seven most recent days of channel/zone forecast inventory data ' .
                             ' for channel ID ' . $channelId . ' and zone ID ' . $zoneId;
-                MAX::debug($message, PEAR_LOG_DEBUG);
+                OA::debug($message, PEAR_LOG_DEBUG);
                 $rc = $this->oDbh->query($query);
                 if (PEAR::isError($rc)) {
                     return $rc;

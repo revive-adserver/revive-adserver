@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/Max.php';
 
 /**
@@ -46,7 +47,7 @@ class MAX_Entity
     function _abort()
     {
             $error = 'Unable to instantiate ' . __CLASS__ . ' object, aborting execution.';
-            MAX::debug($error, PEAR_LOG_EMERG);
+            OA::debug($error, PEAR_LOG_EMERG);
             exit();
     }
 

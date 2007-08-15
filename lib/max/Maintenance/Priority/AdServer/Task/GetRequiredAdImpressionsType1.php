@@ -89,6 +89,7 @@ class GetRequiredAdImpressionsType1 extends MAX_Maintenance_Priority_AdServer_Ta
     function GetRequiredAdImpressionsType1()
     {
         parent::MAX_Maintenance_Priority_Common_Task_GetRequiredAdImpressions();
+        $this->type = 'campaign lifetime target(s) and end date are set';
     }
 
     /**

@@ -70,6 +70,7 @@ class GetRequiredAdImpressionsType2 extends MAX_Maintenance_Priority_AdServer_Ta
     function GetRequiredAdImpressionsType2()
     {
         parent::MAX_Maintenance_Priority_Common_Task_GetRequiredAdImpressions();
+        $this->type = 'a daily target is set';
     }
 
     /**

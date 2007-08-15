@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/Max.php';
 
@@ -49,16 +50,16 @@ class MAX_Maintenance_Forecasting
         // Get the configuration
         $conf = $GLOBALS['_MAX']['CONF'];
         // Log the start of the process
-        MAX::debug('Running Maintenance Forecasting Engine', PEAR_LOG_INFO);
+        OA::debug('Running Maintenance Forecasting Engine', PEAR_LOG_INFO);
         // Set longer time out, and ignore user abort
         if (!ini_get('safe_mode')) {
             @set_time_limit($conf['maintenance']['timeLimitScripts']);
             @ignore_user_abort(true);
         }
-        
+
         // Attempt to increase PHP memory
         increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
-        
+
         // Ensure the the current time is registered with the ServiceLocator
         $oServiceLocator = &ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
@@ -78,7 +79,7 @@ class MAX_Maintenance_Forecasting
             }
         }
         // Log the end of the process
-        MAX::debug('Maintenance Forecasting Engine Completed', PEAR_LOG_INFO);
+        OA::debug('Maintenance Forecasting Engine Completed', PEAR_LOG_INFO);
     }
 
 }

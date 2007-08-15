@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -46,7 +47,7 @@ class Plugins_InventoryProperties extends MAX_Plugin_Common
      */
     function getType()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -58,7 +59,7 @@ class Plugins_InventoryProperties extends MAX_Plugin_Common
      */
     function getGlobalVars()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -70,7 +71,7 @@ class Plugins_InventoryProperties extends MAX_Plugin_Common
      */
     function prepareVariables()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -83,7 +84,7 @@ class Plugins_InventoryProperties extends MAX_Plugin_Common
      */
     function display($properties)
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 }

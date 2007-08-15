@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
 
@@ -58,9 +59,9 @@ class MAX_Maintenance_Statistics_AdServer_Task_ManagePlacements extends MAX_Main
             $oServiceLocator = &ServiceLocator::instance();
             $oDate = &$oServiceLocator->get('now');
             $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
-            $this->oController->report .= "Managing (activating/deactivating) placements.\n";
-            $message = 'Managing (activating/deactivating) placements.';
-            MAX::debug($message);
+            $message = 'Managing (activating/deactivating) placements';
+            $this->oController->report .= "$message.\n";
+            OA::debug($message);
             $this->report .= $oDal->managePlacements($oDate);
         }
     }

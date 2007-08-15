@@ -26,7 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/Max.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 
 /**
  * A wrapper class for running the Maintenance Statistics Engine process.
@@ -49,7 +50,7 @@ class MAX_Maintenance_Statistics
         // Get the configuration
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Log the start of the process
-        MAX::debug('Running Maintenance Statistics Engine', PEAR_LOG_INFO);
+        OA::debug('Running Maintenance Statistics Engine', PEAR_LOG_INFO);
         // Set longer time out, and ignore user abort
         if (!ini_get('safe_mode')) {
             @set_time_limit($aConf['maintenance']['timeLimitScripts']);
@@ -75,7 +76,7 @@ class MAX_Maintenance_Statistics
             }
         }
         // Log the end of the process
-        MAX::debug('Maintenance Statistics Engine Completed', PEAR_LOG_INFO);
+        OA::debug('Maintenance Statistics Engine Completed', PEAR_LOG_INFO);
     }
 
 }

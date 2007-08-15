@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/XmlCache.php';
 require_once 'Date.php';
@@ -114,7 +115,7 @@ class OA_DB_Table
     {
         // Ensure that the schema XML file can be read
         if (!is_readable($file)) {
-            MAX::debug('Unable to read the database XML schema file: ' . $file, PEAR_LOG_ERR);
+            OA::debug('Unable to read the database XML schema file: ' . $file, PEAR_LOG_ERR);
             return false;
         }
         // Create an instance of MDB2_Schema to parse the schema file
@@ -134,7 +135,7 @@ class OA_DB_Table
             // Parse the schema file
             $this->aDefinition = $this->oSchema->parseDatabaseDefinitionFile($file);
             if (PEAR::isError($this->aDefinition)) {
-                MAX::debug('Error parsing the database XML schema file: ' . $file, PEAR_LOG_ERR);
+                OA::debug('Error parsing the database XML schema file: ' . $file, PEAR_LOG_ERR);
                 return false;
             }
 
@@ -155,10 +156,10 @@ class OA_DB_Table
     function _checkInit()
     {
         if (is_null($this->aDefinition)) {
-            MAX::debug('No database XML schema file parsed, cannot create table', PEAR_LOG_ERR);
+            OA::debug('No database XML schema file parsed, cannot create table', PEAR_LOG_ERR);
             return false;
         } else if (PEAR::isError($this->aDefinition)) {
-            MAX::debug('Previous error parsing the database XML schema file', PEAR_LOG_ERR);
+            OA::debug('Previous error parsing the database XML schema file', PEAR_LOG_ERR);
             return false;
         }
         return true;
@@ -204,7 +205,7 @@ class OA_DB_Table
         }
         // Does the table exist?
         if (!is_array($this->aDefinition['tables'][$table])) {
-            MAX::debug('Cannot find table ' . $table . ' in the XML schema file', PEAR_LOG_ERR);
+            OA::debug('Cannot find table ' . $table . ' in the XML schema file', PEAR_LOG_ERR);
             return false;
         }
         $tableName = $table;
@@ -261,7 +262,7 @@ class OA_DB_Table
             }
         }
         // Create the table
-        MAX::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+        OA::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
         PEAR::pushErrorHandling(null);
         OA_DB::setCaseSensitive();
         $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
@@ -273,7 +274,7 @@ class OA_DB_Table
                 $showError = false;
             }
             if ($showError) {
-                MAX::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
+                OA::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
             }
             return false;
         }
@@ -338,12 +339,12 @@ class OA_DB_Table
      */
     function dropTable($table)
     {
-        MAX::debug('Dropping table ' . $table, PEAR_LOG_DEBUG);
+        OA::debug('Dropping table ' . $table, PEAR_LOG_DEBUG);
         PEAR::pushErrorHandling(null);
         $result = $this->oDbh->manager->dropTable($table);
         PEAR::popErrorHandling();
         if (PEAR::isError($result)) {
-            MAX::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
+            OA::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
         return true;
@@ -367,10 +368,10 @@ class OA_DB_Table
                 // Don't drop
                 continue;
             }
-            MAX::debug('Dropping the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+            OA::debug('Dropping the ' . $tableName . ' table', PEAR_LOG_DEBUG);
             $result = $this->dropTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result) || (!$result)) {
-                MAX::debug('Unable to drop the table ' . $table, PEAR_LOG_ERROR);
+                OA::debug('Unable to drop the table ' . $table, PEAR_LOG_ERROR);
                 $allTablesDropped = false;
             }
         }
@@ -386,13 +387,13 @@ class OA_DB_Table
     function truncateTable($table)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        MAX::debug('Truncating table ' . $table, PEAR_LOG_DEBUG);
+        OA::debug('Truncating table ' . $table, PEAR_LOG_DEBUG);
         OA::disableErrorHandling();
         $query = "TRUNCATE TABLE $table";
         $result = $this->oDbh->exec($query);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
-            MAX::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
+            OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
         if ($aConf['database']['type'] == 'mysql') {
@@ -400,7 +401,7 @@ class OA_DB_Table
             $result = $this->oDbh->exec("ALTER TABLE $table AUTO_INCREMENT = 1" );
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                MAX::debug('Unable to set mysql auto_increment to 1', PEAR_LOG_ERROR);
+                OA::debug('Unable to set mysql auto_increment to 1', PEAR_LOG_ERROR);
                 return false;
             }
         }
@@ -431,19 +432,19 @@ class OA_DB_Table
                 // Find all split instances of this table
                 foreach ($aTables as $realTable) {
                     if (preg_match("/^" . $aConf['table']['prefix'] . $tableName . '$/', $realTable)) {
-                        MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+                        OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
                         $result = $this->truncateTable($realTable);
                     } else if (preg_match("/^" . $aConf['table']['prefix'] . $tableName . '_[0-9]{8}/', $realTable)) {
-                        MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+                        OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
                         $result = $this->truncateTable($realTable);
                     }
                 }
             } else {
-                MAX::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+                OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
                 $result = $this->truncateTable($aConf['table']['prefix'].$tableName);
             }
             if (PEAR::isError($result)) {
-                MAX::debug('Unable to truncate the table ' . $tableName, PEAR_LOG_ERROR);
+                OA::debug('Unable to truncate the table ' . $tableName, PEAR_LOG_ERROR);
                 $allTablesTruncated = false;
             }
         }
@@ -459,14 +460,14 @@ class OA_DB_Table
     function resetSequence($sequence)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        MAX::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
+        OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
         PEAR::pushErrorHandling(null);
 
         if ($aConf['database']['type'] == 'pgsql') {
             $result = $this->oDbh->exec("SELECT setval('$sequence', 1, false)");
             PEAR::popErrorHandling();
             if (PEAR::isError($result)) {
-                MAX::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
+                OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
                 return false;
             }
         }
@@ -486,9 +487,9 @@ class OA_DB_Table
             foreach ($aSequences as $sequence) {
                 // listSequences returns sequence names without trailing '_seq'
                 $sequence .= '_seq';
-                MAX::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
+                OA::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
             	if (!$this->resetSequence($sequence)) {
-            	    MAX::debug('Unable to reset the sequence ' . $sequence, PEAR_LOG_ERROR);
+            	    OA::debug('Unable to reset the sequence ' . $sequence, PEAR_LOG_ERROR);
             	    $allSequencesReset = false;
             	}
             }

@@ -112,8 +112,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseFinal 
         // Test
         $oSummariseFinal = new MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal();
         $oSummariseFinal->oController->updateIntermediate = true;
-        $oSummariseFinal->oController->lastDateIntermediate = $olastDateIntermediate;
-        $oSummariseFinal->oController->updateIntermediateToDate = $oUpdateIntermediateToDate;
+        $oSummariseFinal->oController->oLastDateIntermediate = $olastDateIntermediate;
+        $oSummariseFinal->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
         $oSummariseFinal->oController->updateFinal = false;
         $oSummariseFinal->run();
         $oDal->tally();
@@ -137,8 +137,8 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseFinal 
         $oSummariseFinal = new MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal();
         $oSummariseFinal->oController->updateIntermediate = false;
         $oSummariseFinal->oController->updateFinal = true;
-        $oSummariseFinal->oController->lastDateFinal = $olastDateFinal;
-        $oSummariseFinal->oController->updateFinalToDate = $oUpdateFinalToDate;
+        $oSummariseFinal->oController->oLastDateFinal = $olastDateFinal;
+        $oSummariseFinal->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
         $oSummariseFinal->run();
         $oDal->tally();
 
@@ -165,11 +165,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseFinal 
         // Test
         $oSummariseFinal = new MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal();
         $oSummariseFinal->oController->updateIntermediate = true;
-        $oSummariseFinal->oController->lastDateIntermediate = $olastDateIntermediate;
-        $oSummariseFinal->oController->updateIntermediateToDate = $oUpdateIntermediateToDate;
+        $oSummariseFinal->oController->oLastDateIntermediate = $olastDateIntermediate;
+        $oSummariseFinal->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
         $oSummariseFinal->oController->updateFinal = true;
-        $oSummariseFinal->oController->lastDateFinal = $olastDateFinal;
-        $oSummariseFinal->oController->updateFinalToDate = $oUpdateFinalToDate;
+        $oSummariseFinal->oController->oLastDateFinal = $olastDateFinal;
+        $oSummariseFinal->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
         $oSummariseFinal->run();
         $oDal->tally();
     }

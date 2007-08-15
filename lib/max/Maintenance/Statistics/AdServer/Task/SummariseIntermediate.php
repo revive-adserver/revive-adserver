@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
 
@@ -55,15 +56,15 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
      */
     function run()
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare any maintenance plugins that may be installed
         $aPlugins = MAX_Plugin::getPlugins('Maintenance');
         if (($this->oController->updateFinal) && (!$this->oController->updateUsingOI)) {
             // Summarise the intermediate stats by the hour
             $oStartDate = new Date();
-            $oStartDate->copy($this->oController->lastDateFinal);
+            $oStartDate->copy($this->oController->oLastDateFinal);
             $oStartDate->addSeconds(1);
-            while (Date::compare($oStartDate, $this->oController->updateFinalToDate) < 0) {
+            while (Date::compare($oStartDate, $this->oController->oUpdateFinalToDate) < 0) {
                 // Calculate the end of the hour
                 $oEndDate = new Date();
                 $oEndDate->copy($oStartDate);
@@ -128,7 +129,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
                     MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
                     array($oStartDate, $oEndDate)
                 );
-                if ($conf['modules']['Tracker']) {
+                if ($aConf['modules']['Tracker']) {
                     // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
                     $return = MAX_Plugin::callOnPluginsByHook(
                         $aPlugins,
@@ -174,15 +175,23 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
                 $oStartDate->addSeconds(3600);
             }
         } elseif (($this->oController->updateIntermediate) && ($this->oController->updateUsingOI)) {
+            $oServiceLocator = &ServiceLocator::instance();
+            $counter = 0;
             // Summarise the intermediate stats by the operation interval
             $oStartDate = new Date();
-            $oStartDate->copy($this->oController->lastDateIntermediate);
+            $oStartDate->copy($this->oController->oLastDateIntermediate);
             $oStartDate->addSeconds(1);
-            while (Date::compare($oStartDate, $this->oController->updateIntermediateToDate) < 0) {
+            while (Date::compare($oStartDate, $this->oController->oUpdateIntermediateToDate) < 0) {
+                // Should bad operation interval dates be ignored?
+                $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
+                $oDal->ignoreBadOperationIntervals = false;
+                if (($counter == 0) && (!$this->oController->sameOI)) {
+                    $oDal->ignoreBadOperationIntervals = true;
+                }
                 // Calcuate the end of the operation interval
+                $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStartDate);
                 $oEndDate = new Date();
-                $oEndDate->copy($oStartDate);
-                $oEndDate->addSeconds(($conf['maintenance']['operationInterval'] * 60) - 1); // Plus one OI
+                $oEndDate->copy($aDates['end']);
                 // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateRequests
                 $return = MAX_Plugin::callOnPluginsByHook(
                     $aPlugins,
@@ -243,7 +252,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
                     MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
                     array($oStartDate, $oEndDate)
                 );
-                if ($conf['modules']['Tracker']) {
+                if ($aConf['modules']['Tracker']) {
                     // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
                     $return = MAX_Plugin::callOnPluginsByHook(
                         $aPlugins,
@@ -285,8 +294,12 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
                     MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries,
                     array($oStartDate, $oEndDate)
                 );
-                // Go to the next operation interval
-                $oStartDate->addSeconds($conf['maintenance']['operationInterval'] * 60);
+                // Go to the next operation interval (done via the operation interval end
+                // date to ensure that this works when using a non-standard range)
+                $oStartDate->copy($oEndDate);
+                $oStartDate->addSeconds(1);
+                // Increment the counter
+                $counter++;
             }
         }
     }
@@ -304,19 +317,19 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
-        $message = 'Summarising requests for the intermediate tables.';
+        $message = 'Summarising requests for the intermediate tables';
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
-        $message = 'Summarising requests between ' .
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = '- Summarising requests between ' .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S') . '.';
+                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseRequests($oStartDate, $oEndDate);
         $runTime = time() - $startTime;
-        $message = "Summarised $rows request rows in $runTime seconds.";
+        $message = "- Summarised $rows request rows in $runTime seconds";
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
     }
 
     /**
@@ -332,19 +345,19 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
-        $message = 'Summarising impressions for the intermediate tables.';
+        $message = 'Summarising impressions for the intermediate tables';
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
-        $message = 'Summarising impressions between ' .
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = '- Summarising impressions between ' .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S') . '.';
+                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseImpressions($oStartDate, $oEndDate);
         $runTime = time() - $startTime;
-        $message = "Summarised $rows impression rows in $runTime seconds.";
+        $message = "- Summarised $rows impression rows in $runTime seconds";
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
     }
 
     /**
@@ -360,19 +373,19 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
-        $message = 'Summarising clicks for the intermediate tables.';
+        $message = 'Summarising clicks for the intermediate tables';
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
-        $message = 'Summarising clicks between ' .
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = '- Summarising clicks between ' .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S') . '.';
+                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseClicks($oStartDate, $oEndDate);
         $runTime = time() - $startTime;
-        $message = "Summarised $rows click rows in $runTime seconds.";
+        $message = "- Summarised $rows click rows in $runTime seconds";
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
     }
 
     /**
@@ -388,19 +401,19 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
-        $message = 'Summarising connections for the intermediate tables.';
+        $message = 'Summarising connections for the intermediate tables';
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
-        $message = 'Summarising connections between ' .
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = '- Summarising connections between ' .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S') . ' and ' .
-                   $oEndDate->format('%Y-%m-%d %H:%M:%S') . '.';
+                   $oEndDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $oDal->summariseConnections($oStartDate, $oEndDate);
         $runTime = time() - $startTime;
-        $message = "Summarised $rows connection rows in $runTime seconds.";
+        $message = "- Summarised $rows connection rows in $runTime seconds";
         $this->oController->report .= $message . "\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
     }
 
     /**
@@ -415,15 +428,15 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
     {
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
-        $conf = $GLOBALS['_MAX']['CONF'];
-        if ($conf['modules']['Tracker']) {
-            $message = 'Saving request, impression, click and connection data into the intermediate tables.';
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if ($aConf['modules']['Tracker']) {
+            $message = 'Saving request, impression, click and connection data into the intermediate tables';
             $this->oController->report .= $message . "\n";
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
         } else {
-            $message = 'Saving request, impression, click data into the intermediate tables.';
+            $message = 'Saving request, impression, click data into the intermediate tables';
             $this->oController->report .= $message . "\n";
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
         }
         $aTypes = array(
             'types' => array(

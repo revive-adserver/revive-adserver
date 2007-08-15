@@ -92,6 +92,16 @@ class OA_Dal_Maintenance_Statistics_Common
     var $oDalMaintenanceStatistics;
 
     /**
+     * When true, igore the fact that the start and end dates
+     * in intermediate summarisation tasks may not align with
+     * the appropriate operation interval start and end dates
+     * (aka. the "trust me, I know what I'm doing" mode).
+     *
+     * @var boolean
+     */
+    var $ignoreBadOperationIntervals = false;
+
+    /**
      * A sting that can be used in SQL to cast a value into a date.
      *
      * For example, if the SQL DATE_FORMAT() function returns a result of
@@ -175,6 +185,49 @@ class OA_Dal_Maintenance_Statistics_Common
         exit;
     }
 
+    /**
+     * A private method to check to see if the supplied start and end dates
+     * align with the current operation interval start and end dates, or,
+     * if testing of this is currently disabled by the
+     * $this->ignoreBadOperationIntervals variable, then what the operation
+     * interval length defined by the dates is.
+     *
+     * @access private
+     * @param PEAR::Date $oStartDate The start date to test.
+     * @param PEAR::Date $oEndDate   The end date to test.
+     * @return integer Returns zero if the dates to not align with the
+     *                 operation interval in use, or returns an integer
+     *                 defining the current operation interval "in use"
+     *                 (ie. defined in the config file, or defined by
+     *                 the two date parameters, when
+     *                 $this->ignoreBadOperationIntervals is true).
+     */
+    function _checkStartAndEndDates($oStartDate, $oEndDate)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        // Do the dates match the operation interval value in the config file?
+        $matching = MAX_OperationInterval::checkIntervalDates($oStartDate, $oEndDate, $aConf['maintenance']['operationInterval']);
+        if ($matching) {
+            // The dates match! Hooray! Return the operation interval value
+            return $aConf['maintenance']['operationInterval'];
+        }
+        // Oh no! The dates do not match! Do we care?
+        if ($this->ignoreBadOperationIntervals) {
+            // No! We don't care! Figure out the operation interval length
+            // defined by the dates, and return that
+            $oStartDateCopy = new Date();
+            $oStartDateCopy->copy($oStartDate);
+            $oEndDateCopy = new Date();
+            $oEndDateCopy->copy($oEndDate);
+            $oEndDateCopy->addSeconds(1); // Round off the number of minutes in the span
+            $oDateSpan = new Date_Span();
+            $oDateSpan->setFromDateDiff($oStartDateCopy, $oEndDateCopy);
+            $operationInterval = (int) $oDateSpan->toMinutes();
+            return $operationInterval;
+        }
+        // Yeah, we care all right! Return zero.
+        return 0;
+    }
 
     /**
      * A private function to do the job of implementations of
@@ -236,12 +289,12 @@ class OA_Dal_Maintenance_Statistics_Common
             // Limit to past maintenance statistics runs before this Date
             $whereClause .= ' AND updated_to < ' . "'" . $oNow->format('%Y-%m-%d %H:%M:%S') . "'";
         }
-        $message = "Getting the details of when maintenance statistics last ran for the $module module " .
-                   'on the basis of the ';
+        $message = '- Getting the details of when maintenance statistics last ran for the ' .
+                   $module . ' module on the basis of ';
         if ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI) {
-            $message .= 'operation interval';
+            $message .= 'the operation interval';
         } elseif ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR) {
-            $message .= 'hour';
+            $message .= 'the hour';
         } elseif ($type == OA_DAL_MAINTENANCE_STATISTICS_UPDATE_BOTH) {
             $message .= 'both the opertaion interval and hour';
         }
@@ -257,7 +310,7 @@ class OA_Dal_Maintenance_Statistics_Common
             )
         );
         if ($aRow === false) {
-            $error = "Error finding details on when maintenance statistics last ran for the $module module.";
+            $error = "- Unable to find out when maintenance statistics last ran for the $module module, possibly no raw data yet?";
             return MAX::raiseError($error, null, PEAR_ERROR_DIE);
         }
         if (!is_null($aRow)) {
@@ -315,12 +368,13 @@ class OA_Dal_Maintenance_Statistics_Common
         $type = strtolower($type);
         $tmpTableName = 'tmp_ad_' . $type;
         $countColumnName = $type . 's';
-        // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
+        // Check the start and end dates, and obtain the operatin interval in use
+        $operationInterval = $this->_checkStartAndEndDates($oStart, $oEnd);
+        if ($operationInterval == 0) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
+        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // How many days does the operation interval span, if using split tables?
         $days = 0;
         if ($split) {
@@ -332,8 +386,9 @@ class OA_Dal_Maintenance_Statistics_Common
                                         $aDates['end']->getYear());
         }
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Create temporary table to store the summarised data into
+        OA::setTempDebugPrefix('- ');
         $this->tempTables->createTable($tmpTableName);
         // Summarise the data
         $returnRows = 0;
@@ -365,7 +420,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 SELECT
                     DATE_FORMAT(drad.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
                     DATE_FORMAT(drad.date_time, '%k'){$this->hourCastString} AS hour,
-                    {$aConf['maintenance']['operationInterval']} AS operation_interval,
+                    $operationInterval AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
                     ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_end,
@@ -380,7 +435,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     AND drad.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                 GROUP BY
                     day, hour, ad_id, creative_id, zone_id";
-            OA::debug("Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
+            OA::debug("- Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
             OA::disableErrorHandling();
             $rows = $this->oDbh->exec($query);
             OA::enableErrorHandling();
@@ -452,12 +507,13 @@ class OA_Dal_Maintenance_Statistics_Common
         if (!$aConf['modules']['Tracker']) {
             return 0;
         }
-        // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
+        // Check the start and end dates, and obtain the operatin interval in use
+        $operationInterval = $this->_checkStartAndEndDates($oStart, $oEnd);
+        if ($operationInterval == 0) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
+        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // How many days does the operation interval span, if using split tables?
         $days = 0;
         if ($split) {
@@ -469,8 +525,9 @@ class OA_Dal_Maintenance_Statistics_Common
                                         $aDates['end']->getYear());
         }
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Ensure the temporary table for storing connections is created
+        OA::setTempDebugPrefix('- ');
         $this->tempTables->createTable('tmp_ad_connection', null, true);
         // Summarise the connections
         $returnRows = 0;
@@ -485,6 +542,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 // Create the normal conversion temporary table
                 $tempTable = 'tmp_tracker_impression_ad_' . $action . '_connection';
             }
+            OA::setTempDebugPrefix('- ');
             $this->tempTables->createTable($tempTable);
             // Prepare the window type name for the SQL - use
             // "viewwindow" for the impression action, otherwise
@@ -533,7 +591,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     drti.server_raw_ip AS server_raw_ip,
                     drti.tracker_id AS tracker_id,
                     ct.campaignid AS campaign_id,
-                    {$aConf['maintenance']['operationInterval']} AS operation_interval,
+                    $operationInterval AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
                     ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_end,";
@@ -573,8 +631,8 @@ class OA_Dal_Maintenance_Statistics_Common
                     drti.date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
             // Execute the SQL to insert tracker impressions that may result in
             // connections into the temporary table for this connection action type
-            OA::debug('Selecting tracker impressions that may connect to ad ' .
-                      $action . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
+            OA::debug('- Selecting tracker impressions that may connect to ad ' .
+                      $action . 's into the ' . $tempTable . ' temporary table', PEAR_LOG_DEBUG);
             OA::disableErrorHandling();
             $trackerImpressionRows = $this->oDbh->exec($query);
             OA::enableErrorHandling();
@@ -596,8 +654,8 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
             } else {
                 // Query ran okay
-                OA::debug('Selected ' . $trackerImpressionRows . ' tracker impressions that may connect to ad ' .
-                           $action . 's into the ' . $tempTable . ' temporary table.', PEAR_LOG_DEBUG);
+                OA::debug('- Selected ' . $trackerImpressionRows . ' tracker impressions that may connect to ad ' .
+                           $action . 's into the ' . $tempTable . ' temporary table', PEAR_LOG_DEBUG);
                 if ($trackerImpressionRows > 0) {
                     // Connect the tracker impressions with raw connection types, where possible,
                     // by looking over the necessary past raw tables, given the maximum connection
@@ -716,7 +774,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 tt.date_time < DATE_ADD(drad.date_time, " . OA_Dal::quoteInterval(OA_DAL_MAINTENANCE_STATISTICS_CONNECTION_WINDOW_DAYS, 'DAY') . ")
                                 AND
                                 tt.date_time >= drad.date_time";
-                        OA::debug('Connecting tracker impressions with ad ' . $action . 's, where possible.', PEAR_LOG_DEBUG);
+                        OA::debug('- Connecting tracker impressions with ad ' . $action . 's, where possible', PEAR_LOG_DEBUG);
                         OA::disableErrorHandling();
                         $rows = $this->oDbh->exec($query);
                         OA::enableErrorHandling();
@@ -746,6 +804,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
             }
             // Drop the temporary table
+            OA::setTempDebugPrefix('- ');
             $this->tempTables->dropTable($tempTable);
             // Progress to the next day, so looping will work if needed
             $oCurrentDate = $oCurrentDate->getNextDay();
@@ -831,8 +890,9 @@ class OA_Dal_Maintenance_Statistics_Common
     function _saveIntermediate($oStart, $oEnd, $aActions, $intermediateTable = 'data_intermediate_ad', $saveConnections = true, $split = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
+        // Check the start and end dates, and obtain the operatin interval in use
+        $operationInterval = $this->_checkStartAndEndDates($oStart, $oEnd);
+        if ($operationInterval == 0) {
             return 0;
         }
         // Check that there are types to summarise
@@ -840,9 +900,9 @@ class OA_Dal_Maintenance_Statistics_Common
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
+        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Save connections to the intermediate tables, unless set not
         // to do so (and unless the tracker module is not installed)
         if ($saveConnections && $aConf['modules']['Tracker']) {
@@ -853,6 +913,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 $this->_saveIntermediateSaveConnectionsAndVariableValues($oStart, $oEnd, $split);
             }
             // Drop the tmp_ad_connection table
+            OA::setTempDebugPrefix('- ');
             $this->tempTables->dropTable('tmp_ad_connection');
         }
         // If the tracker module is installed, there may be connections that need
@@ -933,11 +994,10 @@ class OA_Dal_Maintenance_Statistics_Common
                     zone_id";
         }
         // Prepare the message about what's about to happen
-        $message = 'Creating a union of the ad ' . implode('s, ', $aActions['types']) . 's';
+        $message = '- Creating a union of the ad ' . implode('s, ', $aActions['types']) . 's';
         if ($aConf['modules']['Tracker']) {
             $message .= ' and conversions';
         }
-        $message .= '.';
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -945,10 +1005,12 @@ class OA_Dal_Maintenance_Statistics_Common
         }
         // Drop the temporary tables now that the data is summarised
         foreach ($aActions['types'] as $type) {
+            OA::setTempDebugPrefix('- ');
             $this->tempTables->dropTable("tmp_ad_{$type}");
         }
         if ($aConf['modules']['Tracker']) {
             // Drop the tmp_conversions table
+            OA::setTempDebugPrefix('- ');
             $this->tempTables->dropTable('tmp_conversions');
         }
         // Summarise the data in temporary union table (tmp_union) into the
@@ -1014,25 +1076,26 @@ class OA_Dal_Maintenance_Statistics_Common
                     creative_id,
                     zone_id";
             // Prepare the message about what's about to happen
-            $message = 'Inserting the ad ' . implode('s, ', $aActions['types']) . 's';
+            $message = '- Inserting the ad ' . implode('s, ', $aActions['types']) . 's';
             if ($aConf['modules']['Tracker']) {
                 $message .= ' and conversions';
             }
-            $message .= " into the $table table.";
+            $message .= " into the $table table";
             OA::debug($message, PEAR_LOG_DEBUG);
             $rows = $this->oDbh->exec($query);
             if (PEAR::isError($rows)) {
                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
         } else {
-            $message = 'No ad ' . implode('s, ', $aActions['types']) . 's';
+            $message = '- No ad ' . implode('s, ', $aActions['types']) . 's';
             if ($aConf['modules']['Tracker']) {
                 $message .= ' or conversions';
             }
-            $message .= " found to insert into the $table table.";
+            $message .= " found to insert into the $table table";
             OA::debug($message, PEAR_LOG_DEBUG);
         }
         // Drop the tmp_union table
+        OA::setTempDebugPrefix('- ');
         $this->tempTables->dropTable('tmp_union');
     }
 
@@ -1086,15 +1149,17 @@ class OA_Dal_Maintenance_Statistics_Common
     function _saveIntermediateSummariseConversions($oStart, $oEnd, $aActions)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        // Check the start and end dates
-        if (!MAX_OperationInterval::checkIntervalDates($oStart, $oEnd, $aConf['maintenance']['operationInterval'])) {
+        // Check the start and end dates, and obtain the operatin interval in use
+        $operationInterval = $this->_checkStartAndEndDates($oStart, $oEnd);
+        if ($operationInterval == 0) {
             return 0;
         }
         // Get the start and end dates of the operation interval ID
-        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart);
+        $aDates = MAX_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // Get the operation interval ID
-        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
+        $operationIntervalID = MAX_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
         // Create the tmp_conversions table
+        OA::setTempDebugPrefix('- ');
         $this->tempTables->createTable('tmp_conversions');
         // Prepare the connection types that need to be used
         if (empty($aActions['connections'])) {
@@ -1125,7 +1190,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 diac.data_intermediate_ad_connection_id AS data_intermediate_ad_connection_id,
                 DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
                 DATE_FORMAT(diac.tracker_date_time, '%k'){$this->hourCastString} AS hour,
-                {$aConf['maintenance']['operationInterval']} AS operation_interval,
+                $operationInterval AS operation_interval,
                 $operationIntervalID AS operation_interval_id,
                 ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
                 ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_end,
@@ -1162,7 +1227,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 ad_id,
                 creative_id,
                 zone_id";
-        OA::debug('Selecting all conversions.', PEAR_LOG_DEBUG);
+        OA::debug('- Selecting all conversions', PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -1493,7 +1558,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 interval_start,
                 interval_end,
                 zone_id";
-        MAX::debug('Selecting total zone impressions from the ' . $fromTable . ' table for data >= ' .
+        OA::debug('- Selecting total zone impressions from the ' . $fromTable . ' table for data >= ' .
                    $oStart->format('%Y-%m-%d %H:%M:%S') . ', and <= ' . $oEnd->format('%Y-%m-%d %H:%M:%S'),
                    PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
@@ -1702,24 +1767,26 @@ class OA_Dal_Maintenance_Statistics_Common
             GROUP BY
                 day, hour, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
-        $message = 'Summarising the ad ' . implode('s, ', $aActions['types']) . 's';
+        $message = '- Summarising the ad ' . implode('s, ', $aActions['types']) . 's';
         if ($aConf['modules']['Tracker']) {
             $message .= ' and conversions';
         }
-        $message .= " from the $finalFromTable table into the $finalToTable table, for data" .
+        $message .= " from the $finalFromTable table";
+        OA::debug($message, PEAR_LOG_DEBUG);
+        $message = "  into the $finalToTable table, for data" .
                     ' between ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oStartDate->format('%H') . ':00:00' .
                     ' and ' . $oStartDate->format('%Y-%m-%d') . ' ' . $oEndDate->format('%H') . ':59:59.';
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $message = '  Summarised ' . $rows . 'rows of ' . implode('s, ', $aActions['types']) . 's';
+        $message = '- Summarised ' . $rows . ' rows of ' . implode('s, ', $aActions['types']) . 's';
         if ($aConf['modules']['Tracker']) {
             $message .= ' and conversions';
         }
         $message .= '.';
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         // Update the recently summarised data with basic financial information
         $this->_saveSummaryUpdateWithFinanceInfo($oStartDate, $oEndDate, $toTable);
     }
@@ -2408,7 +2475,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 {$aConf['table']['prefix']}{$aConf['table']['clients']} AS cl
             WHERE
                 ca.clientid = cl.clientid";
-        MAX::debug("Selecting all placements", PEAR_LOG_DEBUG);
+        OA::debug('- Selecting all placements', PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2480,10 +2547,10 @@ class OA_Dal_Maintenance_Statistics_Common
                                     active = 'f'
                                 WHERE
                                     campaignid = {$aPlacement['campaign_id']}";
-                            $report .= ' - Exceeded a placement quota: Deactivating placement ID ' .
-                                  "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}\n";
-                            MAX::debug('Exceeded a placement quota: Deactivating placement ID ' .
-                                       "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}");
+                            $message = '- Exceeded a placement quota: Deactivating placement ID ' .
+                                       "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
+                            OA::debug($message, PEAR_LOG_INFO);
+                            $report .= $message . "\n";
                             $rows = $this->oDbh->exec($query);
                             if (PEAR::isError($rows)) {
                                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2505,12 +2572,10 @@ class OA_Dal_Maintenance_Statistics_Common
                                 active = 'f'
                             WHERE
                                 campaignid = {$aPlacement['campaign_id']}";
-                        $report .= ' - Past placement end time: Deactivating placement ID ' .
-                              "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}\n";
-                        MAX::debug('Found placement end date of ' . $oEndDate->format('%Y-%m-%d %H:%M:%S') . ' has been '.
-                                   'passed by current time of ' . $oDate->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
-                        MAX::debug('Passed placement end time: Deactivating placement ID ' .
-                                   "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}", PEAR_LOG_INFO);
+                        $message = '- Passed placement end time: Deactivating placement ID ' .
+                                   "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
+                        OA::debug($message, PEAR_LOG_INFO);
+                        $report .= $message . "\n";
                         $rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2532,7 +2597,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             {$aConf['table']['prefix']}{$aConf['table']['banners']}
                         WHERE
                             campaignid = {$aPlacement['campaign_id']}";
-                    MAX::debug("Getting the advertisements for placement ID {$aPlacement['campaign_id']}", PEAR_LOG_DEBUG);
+                    OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}", PEAR_LOG_DEBUG);
                     $rcAdvertisement = $this->oDbh->query($query);
                     if (PEAR::isError($rcAdvertisement)) {
                         return MAX::raiseError($rcAdvertisement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2705,12 +2770,10 @@ class OA_Dal_Maintenance_Statistics_Common
                                 active = 't'
                             WHERE
                                 campaignid = {$aPlacement['campaign_id']}";
-                        $report .= ' - Past campaign start time: Activating campaign ID ' .
-                              "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}\n";
-                        MAX::debug('Found campaign start date of ' . $start->format('%Y-%m-%d %H:%M:%S') . ' has been '.
-                                   'passed by current time of ' . $oDate->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_DEBUG);
-                        MAX::debug('Passed campaign start time: Activating campaign ID ' .
-                                   "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}", PEAR_LOG_INFO);
+                        $mesage = '- Past campaign start time: Activating campaign ID ' .
+                                  "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
+                        OA::debug($message, PEAR_LOG_INFO);
+                        $report .= $message . "\n";
                         $rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2728,7 +2791,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$aConf['table']['prefix']}{$aConf['table']['banners']}
                             WHERE
                                 campaignid = {$aPlacement['campaign_id']}";
-                        MAX::debug("Getting the advertisements for placement ID {$aPlacement['campaign_id']}",
+                        OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}",
                                    PEAR_LOG_DEBUG);
                         $rcAdvertisement = $this->oDbh->query($query);
                         if (PEAR::isError($rcAdvertisement)) {
@@ -2768,6 +2831,7 @@ class OA_Dal_Maintenance_Statistics_Common
     function deleteOldData($oSummarisedTo)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        OA::debug("Deleting previously summarised raw data", PEAR_LOG_DEBUG);
         if ($aConf['table']['split']) {
             $this->_deleteOldDataSplit($oSummarisedTo);
         } else {
@@ -2801,7 +2865,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 $table
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+        OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad requests from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -2818,7 +2882,7 @@ class OA_Dal_Maintenance_Statistics_Common
             } else {
                 $maxWindow = $clickWindow;
             }
-            MAX::debug('Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
+            OA::debug('- Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
             $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
                                                             // doesn't deal with strings
         }
@@ -2830,7 +2894,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 $table
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+        OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad impressions from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -2845,7 +2909,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 $table
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
-        MAX::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+        OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                    "') ad clicks from the $table table", PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -2904,7 +2968,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     WHERE
                         date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+                OA::debug("- Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') ad requests from the $table table", PEAR_LOG_DEBUG);
                 $rc = $this->oDbh->query($query);
                 if (PEAR::isError($rc)) {
@@ -2912,8 +2976,9 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
                 if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    MAX::debug("No non-summarised ad requests in the $table table, so dropping",
+                    OA::debug("- No non-summarised ad requests in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
+                    OA::setTempDebugPrefix('- ');
                     $oTable->dropTable($table);
                     $tablesDropped++;
                 }
@@ -2929,7 +2994,7 @@ class OA_Dal_Maintenance_Statistics_Common
             } else {
                 $maxWindow = $clickWindow;
             }
-            MAX::debug('Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
+            OA::debug('- Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
             $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
                                                              // doesn't deal with strings
         }
@@ -2957,7 +3022,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     WHERE
                         date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+                OA::debug("- Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') ad impressions from the $table table", PEAR_LOG_DEBUG);
                 $rc = $this->oDbh->query($query);
                 if (PEAR::isError($rc)) {
@@ -2965,8 +3030,9 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
                 if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    MAX::debug("No non-summarised ad impressions in the $table table, so dropping",
+                    OA::debug("- No non-summarised ad impressions in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
+                    OA::setTempDebugPrefix('- ');
                     $oTable->dropTable($table);
                     $tablesDropped++;
                 }
@@ -2993,7 +3059,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     WHERE
                         date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+                OA::debug("- Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') ad clicks from the $table table", PEAR_LOG_DEBUG);
                 $rc = $this->oDbh->query($query);
                 if (PEAR::isError($rc)) {
@@ -3001,8 +3067,9 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
                 if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    MAX::debug("No non-summarised ad clicks in the $table table, so dropping",
+                    OA::debug("- No non-summarised ad clicks in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
+                    OA::setTempDebugPrefix('- ');
                     $oTable->dropTable($table);
                     $tablesDropped++;
                 }

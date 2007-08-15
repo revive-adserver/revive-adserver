@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once 'Log.php';
 require_once 'PEAR.php';
 
@@ -40,93 +41,6 @@ require_once 'PEAR.php';
  */
 class MAX
 {
-
-    /**
-     * Hacked from Seagull's Base::logMessage method.
-     *
-     * Note that the method can be safely called by simply omitting the deprecated
-     * parameters (but doesn't have to be).
-     *
-     * @static
-     * @param mixed $message     Either a string or a PEAR_Error object.
-     * @param string $file       Deprecated.
-     * @param integer $line      Deprecated.
-     * @param integer $priority  The priority of the message. One of:
-     *                           PEAR_LOG_EMERG, PEAR_LOG_ALERT, PEAR_LOG_CRIT
-     *                           PEAR_LOG_ERR, PEAR_LOG_WARNING, PEAR_LOG_NOTICE
-     *                           PEAR_LOG_INFO, PEAR_LOG_DEBUG
-     * @return boolean           True on success or false on failure.
-     * @author Demian Turner <demian@m3.net>
-     * @author Andrew Hill <andrew@m3.net>
-     * @author Gilles Laborderie <gillesl@users.sourceforge.net>
-     * @author Horde Group <http://www.horde.org>
-     */
-    function debug($message, $file = null, $line = null, $priority = PEAR_LOG_INFO)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        // Logging is not activated
-        if ($conf['log']['enabled'] == false) {
-            return;
-        }
-        // Deal with the fact that logMessage may be called using the
-        // deprecated method signature, or the new one
-        if (is_int($file)) {
-            $priority =& $file;
-        }
-        // Priority is under logging threshold level
-        if (defined($conf['log']['priority'])) {
-            $conf['log']['priority'] = constant($conf['log']['priority']);
-        }
-        if ($priority > $conf['log']['priority']) {
-            return;
-        }
-        // Grab DSN if we are logging to a database
-        $dsn = ($conf['log']['type'] == 'sql') ? Base::getDsn() :'';
-        // Instantiate a logger object based on logging options
-        $logger = &Log::singleton($conf['log']['type'],
-                                  MAX_PATH . '/var/' . $conf['log']['name'],
-                                  $conf['log']['ident'],
-                                  array($conf['log']['paramsUsername'],
-                                        $conf['log']['paramsPassword'],
-                                        'dsn' => $dsn,
-                                        'mode' => octdec($conf['log']['fileMode']),
-                                  ));
-        // If log message is an error object, extract info
-        if (PEAR::isError($message)) {
-            $userinfo = $message->getUserInfo();
-            $message = $message->getMessage();
-            if (!empty($userinfo)) {
-                if (is_array($userinfo)) {
-                    $userinfo = implode(', ', $userinfo);
-                }
-            $message .= ' : ' . $userinfo;
-            }
-        }
-        // Obtain backtrace information, if supported by PHP
-        // TODO: Consider replacing version_compare with function_exists
-        if (version_compare(phpversion(), '4.3.0') >= 0) {
-            $bt = debug_backtrace();
-            if ($conf['log']['methodNames']) {
-                // XXX: Why show exactly four calls up the stack?
-                $errorBt = $bt[4];
-                if (isset($errorBt['class']) && $errorBt['type'] && isset($errorBt['function'])) {
-                    $callInfo = $errorBt['class'] . $errorBt['type'] . $errorBt['function'] . ': ';
-                    $message = $callInfo . $message;
-                }
-            }
-            // Show entire stack, line-by-line
-            if ($conf['log']['lineNumbers']) {
-                foreach($bt as $errorBt) {
-                    if (isset($errorBt['file']) && isset($errorBt['line'])) {
-                        $message .=  "\n" . str_repeat(' ', 20 + strlen($conf['log']['ident']) + strlen($logger->priorityToString($priority)));
-                        $message .= 'on line ' . $errorBt['line'] . ' of "' . $errorBt['file'] . '"';
-                    }
-                }
-            }
-        }
-        // Log the message
-        return $logger->log($message, $priority);
-    }
 
     /*-------------------------------------------------------*/
     /* Get list order status                                 */
@@ -242,7 +156,7 @@ EOF;
             // Log fatal message here as execution will stop
             $errorType = MAX::errorConstantToString($type);
             if (!is_string($message)) $message = print_r($message, true);
-            MAX::debug($type . ' :: ' . $message, null, null, PEAR_LOG_EMERG);
+            OA::debug($type . ' :: ' . $message, null, null, PEAR_LOG_EMERG);
             exit();
         }
         $error = PEAR::raiseError($message, $type, $behaviour);
@@ -297,7 +211,7 @@ function pearErrorHandler($oError)
     // Log message
     $message = $oError->getMessage();
     $debugInfo = $oError->getDebugInfo();
-    MAX::debug('PEAR' . " :: $message : $debugInfo", PEAR_LOG_ERR);
+    OA::debug('PEAR' . " :: $message : $debugInfo", PEAR_LOG_ERR);
 
     // If sesssion debug, send error info to screen
     $msg = '';

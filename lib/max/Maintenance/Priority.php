@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once MAX_PATH . '/lib/Max.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
@@ -62,9 +61,10 @@ class MAX_Maintenance_Priority
         if (!$alwaysRun) {
             // Is instant update for priority set?
             if (!$conf['priority']['instantUpdate']) {
-                MAX::debug('Instant update of priorities disabled, not running MPE', PEAR_LOG_INFO);
+                OA::debug('Instant update of priorities disabled, not running MPE', PEAR_LOG_INFO);
                 return false;
             }
+            OA::debug();
         }
         // Log the start of the process
         OA::debug('Running Maintenance Priority Engine', PEAR_LOG_INFO);

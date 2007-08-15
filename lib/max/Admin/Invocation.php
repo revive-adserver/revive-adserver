@@ -28,6 +28,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/language/Invocation.php';
@@ -134,7 +135,7 @@ class MAX_Admin_Invocation {
             $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
         }
         if($invocationTag === false) {
-            MAX::debug('Error while factory invocationTag plugin');
+            OA::debug('Error while factory invocationTag plugin');
             exit();
         }
 
@@ -316,7 +317,7 @@ class MAX_Admin_Invocation {
             // factory plugin for this $codetype
             $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
             if($invocationTag === false) {
-                MAX::debug('Error while factory invocationTag plugin');
+                OA::debug('Error while factory invocationTag plugin');
                 exit();
             }
             $invocationTag->setInvocation($this);

@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 
 /**
@@ -46,7 +47,7 @@ class Plugins_Geotargeting extends MAX_Plugin_Common
      */
     function getModuleInfo()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -60,7 +61,7 @@ class Plugins_Geotargeting extends MAX_Plugin_Common
      */
     function getInfo()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 

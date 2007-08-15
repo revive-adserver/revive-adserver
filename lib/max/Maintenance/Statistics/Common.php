@@ -66,7 +66,7 @@ class MAX_Maintenance_Statistics_Common
      *
      * @var PEAR::Date
      */
-    var $lastDateIntermediate;
+    var $oLastDateIntermediate;
 
     /**
      * Should the intermediate tables be updated?
@@ -76,18 +76,27 @@ class MAX_Maintenance_Statistics_Common
     var $updateIntermediate;
 
     /**
+     * Did the operation interval remain the same since the last run?
+     * Set to false when the OI changes, and a non-standard OI calculation
+     * needs to be performed.
+     *
+     * @var boolean
+     */
+    var $sameOI = true;
+
+    /**
      * The date/time to update the intermediate tables to, if appropriate.
      *
      * @var PEAR::Date
      */
-    var $updateIntermediateToDate;
+    var $oUpdateIntermediateToDate;
 
     /**
      * The date/time that the final tables were last updated.
      *
      * @var PEAR::Date
      */
-    var $lastDateFinal;
+    var $oLastDateFinal;
 
     /**
      * Should the final tables be updated?
@@ -101,7 +110,7 @@ class MAX_Maintenance_Statistics_Common
      *
      * @var PEAR::Date
      */
-    var $updateFinalToDate;
+    var $oUpdateFinalToDate;
 
     /**
      * The local instance of the task runner.

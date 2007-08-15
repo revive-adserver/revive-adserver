@@ -74,6 +74,8 @@ class OA_Maintenance
      */
     function run()
     {
+        OA::debug();
+
         // Do not run if distributed stats are enabled
         if (!empty($this->conf['lb']['enabled'])) {
             OA::debug('Distributed stats enabled, not running Maintenance Statistics and Priority', PEAR_LOG_INFO);
@@ -82,7 +84,6 @@ class OA_Maintenance
 
         // Acquire the maintenance lock
         $oLock =& OA_DB_AdvisoryLock::factory();
-
         if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
 
@@ -294,7 +295,6 @@ class OA_Maintenance
 
         // Update the timestamp (for old maintenance code)
         // TODO: Move this query to the DAL, so that other code (tests, installation) can call it.
-        OA::debug('Updating the timestamp in the preference table', PEAR_LOG_DEBUG);
         $query = "
             UPDATE
                 {$this->conf['table']['prefix']}{$this->conf['table']['preference']}

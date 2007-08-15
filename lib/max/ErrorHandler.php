@@ -26,6 +26,7 @@ $Id$
 */
 
 //  This class was taken from Seagull: http://seagull.phpkitchen.com
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/Max.php';
 
 /**
@@ -128,7 +129,7 @@ class MAX_ErrorHandler
             //  final param is 2nd dimension element from errorType array,
             //  representing PEAR error codes mapped to PHP's
 
-            MAX::debug($errStr, $file, $line, $this->errorType[$errNo][1]);
+            OA::debug($errStr, $file, $line, $this->errorType[$errNo][1]);
 
             //  if a debug sesssion has been started, or the site in in
             //  development mode, send error info to screen

@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
 
@@ -68,13 +69,13 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
             // or equal to an hour, so it's safe to delete the statistics that have been
             // summarised now
             $oSummarisedToDate = new Date();
-            $oSummarisedToDate->copy($this->oController->updateFinalToDate);
+            $oSummarisedToDate->copy($this->oController->oUpdateFinalToDate);
         } elseif (($this->oController->updateIntermediate) && (!$this->oController->updateUsingOI)) {
             // Have updated the intermediate table stats, and the operation interval is
             // more than an hour, so it's safe to delete the statistics that have been
             // summarised now
             $oSummarisedToDate = new Date();
-            $oSummarisedToDate->copy($this->oController->updateIntermediateToDate);
+            $oSummarisedToDate->copy($this->oController->oUpdateIntermediateToDate);
         }
         if (empty($oSummarisedToDate)) {
             // Statistics were not summarised, don't delete
@@ -120,15 +121,15 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
         $time = time() - $time;
         $this->report = !empty($this->report) ? $this->report : '';
         if ($conf['table']['split']) {
-            $message = "Dropped $rows " . $this->oController->module .
-                       " raw data tables of old data in $time seconds.";
+            $message = "- Dropped $rows " . $this->oController->module .
+                       " raw data tables of old data in $time seconds";
             $this->report .= "\n$message\n";
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
         } else {
-            $message = "Deleted $rows rows of old " . $this->oController->module .
-                       " data in $time seconds.";
+            $message = "- Deleted $rows rows of old " . $this->oController->module .
+                       " data in $time seconds";
             $this->report .= "\n$message\n";
-            MAX::debug($message, PEAR_LOG_DEBUG);
+            OA::debug($message, PEAR_LOG_DEBUG);
         }
     }
 

@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once 'MDB2.php';
 
@@ -171,7 +172,7 @@ class OA_DB_AdvisoryLock
      */
     function _getLock($iWaitTime)
     {
-        MAX::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
+        OA::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
         return false;
     }
 
@@ -182,7 +183,7 @@ class OA_DB_AdvisoryLock
      */
     function _releaseLock()
     {
-        MAX::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
+        OA::debug('Base class cannot be used directly, use the factory method instead', PEAR_LOG_ERR);
         return false;
     }
 

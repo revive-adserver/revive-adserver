@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 
 /**
@@ -45,7 +46,7 @@ class Plugins_3rdPartyServers extends MAX_Plugin_Common
      */
     function getName()
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 
@@ -57,7 +58,7 @@ class Plugins_3rdPartyServers extends MAX_Plugin_Common
      */
     function getBannerCache($bannerHtml, &$noScript)
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 

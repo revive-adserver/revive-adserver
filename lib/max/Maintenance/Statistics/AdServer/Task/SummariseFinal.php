@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
 
 /**
@@ -56,10 +57,22 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
     {
         // Prepare any maintenance plugins that may be installed
         $aPlugins = MAX_Plugin::getPlugins('Maintenance');
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if ($this->oController->updateIntermediate || $this->oController->updateFinal) {
+            if ($aConf['modules']['Tracker']) {
+                $message = 'Saving request, impression, click and connection data into the final tables';
+                $this->oController->report .= $message . "\n";
+                OA::debug($message, PEAR_LOG_DEBUG);
+            } else {
+                $message = 'Saving request, impression, click data into the final tables';
+                $this->oController->report .= $message . "\n";
+                OA::debug($message, PEAR_LOG_DEBUG);
+            }
+        }
         if ($this->oController->updateIntermediate) {
             // Update the zone impression history table
             $oStartDate = new Date();
-            $oStartDate->copy($this->oController->lastDateIntermediate);
+            $oStartDate->copy($this->oController->oLastDateIntermediate);
             $oStartDate->addSeconds(1);
             // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveHistory
             $return = MAX_Plugin::callOnPluginsByHook(
@@ -67,10 +80,10 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
                 'run',
                 MAINTENANCE_PLUGIN_PRE,
                 MSE_PLUGIN_HOOK_AdServer_saveHistory,
-                array($oStartDate, $this->oController->updateIntermediateToDate)
+                array($oStartDate, $this->oController->oUpdateIntermediateToDate)
             );
             if ($return !== false) {
-                $this->_saveHistory($oStartDate, $this->oController->updateIntermediateToDate);
+                $this->_saveHistory($oStartDate, $this->oController->oUpdateIntermediateToDate);
             }
             // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_saveHistory
             MAX_Plugin::callOnPluginsByHook(
@@ -78,13 +91,13 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
                 'run',
                 MAINTENANCE_PLUGIN_POST,
                 MSE_PLUGIN_HOOK_AdServer_saveHistory,
-                array($oStartDate, $this->oController->updateIntermediateToDate)
+                array($oStartDate, $this->oController->oUpdateIntermediateToDate)
             );
         }
         if ($this->oController->updateFinal) {
             // Update the hourly summary table
             $oStartDate = new Date();
-            $oStartDate->copy($this->oController->lastDateFinal);
+            $oStartDate->copy($this->oController->oLastDateFinal);
             $oStartDate->addSeconds(1);
             // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveSummary
             $return = MAX_Plugin::callOnPluginsByHook(
@@ -92,10 +105,10 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
                 'run',
                 MAINTENANCE_PLUGIN_PRE,
                 MSE_PLUGIN_HOOK_AdServer_saveSummary,
-                array($oStartDate, $this->oController->updateFinalToDate)
+                array($oStartDate, $this->oController->oUpdateFinalToDate)
             );
             if ($return !== false) {
-                $this->_saveSummary($oStartDate, $this->oController->updateFinalToDate);
+                $this->_saveSummary($oStartDate, $this->oController->oUpdateFinalToDate);
             }
             // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_saveSummary
             MAX_Plugin::callOnPluginsByHook(
@@ -103,7 +116,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
                 'run',
                 MAINTENANCE_PLUGIN_POST,
                 MSE_PLUGIN_HOOK_AdServer_saveSummary,
-                array($oStartDate, $this->oController->updateFinalToDate)
+                array($oStartDate, $this->oController->oUpdateFinalToDate)
             );
         }
     }
@@ -118,10 +131,10 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
      */
     function _saveHistory($oStartDate, $oEndDate)
     {
-        $message = 'Updating the data_summary_zone_impression_history table for data after ' .
+        $message = '- Updating the data_summary_zone_impression_history table for data after ' .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . ".\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $oDal->saveHistory($oStartDate, $oEndDate);
@@ -137,10 +150,10 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
      */
     function _saveSummary($oStartDate, $oEndDate)
     {
-        $message = 'Updating the data_summary_ad_hourly table for data after ' .
+        $message = '- Updating the data_summary_ad_hourly table for data after ' .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . ".\n";
-        MAX::debug($message, PEAR_LOG_DEBUG);
+        OA::debug($message, PEAR_LOG_DEBUG);
         $oServiceLocator = &ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $aTypes = array(

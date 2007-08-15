@@ -78,7 +78,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
      */
     function run()
     {
-        OA::debug('Starting Priority Compensation.', PEAR_LOG_DEBUG);
+        OA::debug('Running Maintenance Priority Engine: Priority Compensation', PEAR_LOG_DEBUG);
         // Record the start of this Priority Compensation run
         $oStartDate = new Date();
         // Prepare an array for the priority results
@@ -112,7 +112,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             // Note that the $oUpdateTo parameter is "null", as this value is not
             // appropriate when recording Priority Compensation task runs - all that
             // matters is the start/end dates.
-            OA::debug('Recording completion of the Priority Compensation task', PEAR_LOG_DEBUG);
+            OA::debug('- Recording completion of the Priority Compensation task', PEAR_LOG_DEBUG);
             $oEndDate = new Date();
             $this->oDal->setMaintenancePriorityLastRunInfo(
                 $oStartDate,
@@ -133,7 +133,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
      */
     function &_buildClasses()
     {
-        OA::debug('Building zone and advert objects.', PEAR_LOG_DEBUG);
+        OA::debug('- Building zone and advert objects', PEAR_LOG_DEBUG);
         // Obtain the forecast impression inventory for each zone for the current OI
         $aZoneImpInvs = &$this->oDal->getAllZonesImpInv();
         // Create an array of all of the zones, indexed by zone ID
@@ -173,7 +173,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                 if (!empty($aZones[$aZoneImpAlloc['zone_id']])) {
                     $aZones[$aZoneImpAlloc['zone_id']]->addAdvert($oAd);
                 } else {
-                    $message  = 'Attempted to link Ad ID ' . $oAd->id . ' ';
+                    $message  = '  - Attempted to link Ad ID ' . $oAd->id . ' ';
                     $message .= 'to non-existant Zone ID ' . $aZoneImpAlloc['zone_id'];
                     OA::debug($message, PEAR_LOG_WARNING);
 
@@ -404,14 +404,14 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
     {
         if (!empty($oAdvert->deliveryLimitationChanged) && $oAdvert->deliveryLimitationChanged == true) {
             // This ad has had it delivery limitations changed, so ignore history
-            $message  = sprintf('    Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
+            $message  = sprintf('    - Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
             $message .= 'has had its delivery limitations changed - Using priority factor of 1';
             $this->globalMessage .= $message . "\n";
             return array(1, false, null, 1);
         }
         if (isset($oAdvert->toBeDelivered) && $oAdvert->toBeDelivered == false) {
             // This ad is not meant to be delivered, so ignore history
-            $message  = sprintf('    Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
+            $message  = sprintf('    - Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
             $message .= 'is not meant to be delivered because of higher CP - Using priority factor of 1';
             $this->globalMessage .= $message . "\n";
             return array(1, false, null, 0);
@@ -469,14 +469,17 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             // were actually delivered, despite the fact that impressions were
             // required. As a result, bump the priority up by 10, unless it was not meant
             // to be delivered or the past ad zone priority factor is already >= mt_getrandmax().
-            $message  = sprintf('    Ad ID %5d in zone ID %5d ', $oAdvert->id, $zoneId);
-            $message .= 'had required impressions, but no delivered impressions: ';
+            $message  = '    - Ad ID ' . $oAdvert->id . ' in zone ID ' . $zoneId . ' ';
+            $message .= sprintf('had required impressions of %d', $oAdvert->pastRequestedImpressions);
+            $message .= ', but no delivered impressions:';
+            $this->globalMessage .= $message . "\n";
+            OA::debug($message, PEAR_LOG_DEBUG);
             if ($oAdvert->pastToBeDelivered == 0) {
-                $message .= 'CORRECT! Ad was not meant to be delivered!';
+                $message = '      - CORRECT! Ad was not meant to be delivered!';
                 $this->globalMessage .= $message . "\n";
-                MAX::debug($message, PEAR_LOG_DEBUG);
+                OA::debug($message, PEAR_LOG_DEBUG);
             } elseif (is_null($oAdvert->pastAdZonePriorityFactor)) {
-                $message .= 'WARNING! Ad has a null past zone priority factor!';
+                $message = '      - WARNING! Ad has a null past zone priority factor!';
                 $this->globalMessage .= $message . "\n";
                 OA::debug($message, PEAR_LOG_DEBUG);
             } else {
@@ -484,22 +487,22 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                     $newFactor = $oAdvert->pastAdZonePriorityFactor * BASE_FACTOR;
                     if ($newFactor < MAX_RAND) {
                         // Update the ad zone priority factor
-                        $message .= 'Using new priority factor of';
-                        $message .= sprintf('%26.5f.', $newFactor);
+                        $message = '      - Using new priority factor of ';
+                        $message .= sprintf('%.5f.', $newFactor);
                         $this->globalMessage .= $message . "\n";
                         OA::debug($message, PEAR_LOG_DEBUG);
                         return array($newFactor, false, 0, 1);
                     } else {
                         // Use the past ad zone priority factor
                         $newFactor = $oAdvert->pastAdZonePriorityFactor;
-                        $message .= 'Re-using priority factor of';
-                        $message .= sprintf('%27.5f.', $newFactor);
+                        $message = '      - Re-using priority factor of ';
+                        $message .= sprintf('%.5f.', $newFactor);
                         $this->globalMessage .= $message . "\n";
                         OA::debug($message, PEAR_LOG_DEBUG);
                         if ($newFactor > MAX_RAND) {
                             $newFactor = MAX_RAND / 2;
-                            $message = '    OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2:' .
-                                       sprintf('%70.5f.', $newFactor);
+                            $message = '      - OMG!!! PONIES!!! The value above is > MAX_RAND! Using MAX_RAND / 2: ' .
+                                       sprintf('%.5f.', $newFactor);
                             $this->globalMessage .= $message . "\n";
                             OA::debug($message, PEAR_LOG_DEBUG);
                         }
@@ -508,8 +511,8 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
                 } else {
                     // Use a new base factor
                     $newFactor = BASE_FACTOR;
-                    $message .= 'Found a zero priority factor, so using base factor of';
-                    $message .= sprintf('%26.5f.', $newFactor);
+                    $message = '      - Found a zero priority factor, so using base factor of ';
+                    $message .= sprintf('%.5f.', $newFactor);
                     $this->globalMessage .= $message . "\n";
                     OA::debug($message, PEAR_LOG_DEBUG);
                     return array($newFactor, false, 0, 1);

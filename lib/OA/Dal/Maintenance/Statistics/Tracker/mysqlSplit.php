@@ -113,7 +113,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
         } else {
             $maxWindow = $clickWindow;
         }
-        MAX::debug('Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
+        OA::debug('Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
         $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
                                                         // doesn't deal with strings
         foreach ($aTables as $table) {
@@ -139,7 +139,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+                OA::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') tracker impressions from the $table table", PEAR_LOG_DEBUG);
                 $rc = $this->oDbh->query($query);
                 if (PEAR::isError($rc)) {
@@ -147,7 +147,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                 }
                 if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    MAX::debug("No non-summarised tracker impressions in the $table table, so dropping",
+                    OA::debug("No non-summarised tracker impressions in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
                     $oTable->dropTable($table);
                     $tablesDropped++;
@@ -175,7 +175,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+                OA::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') tracker variable values from the $table table", PEAR_LOG_DEBUG);
                 $rc = $this->oDbh->query($query);
                 if (PEAR::isError($rc)) {
@@ -183,7 +183,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                 }
                 if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    MAX::debug("No non-summarised tracker variable values in the $table table, so dropping",
+                    OA::debug("No non-summarised tracker variable values in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
                     $oTable->dropTable($table);
                     $tablesDropped++;
@@ -211,7 +211,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";
-                MAX::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
+                OA::debug("Selecting non-summarised (later than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
                            "') tracker clicks from the $table table", PEAR_LOG_DEBUG);
                 $rc = $this->oDbh->query($query);
                 if (PEAR::isError($rc)) {
@@ -219,7 +219,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                 }
                 if ($rc->numRows() == 0) {
                     // No current data in the table - drop it
-                    MAX::debug("No non-summarised tracker clicks in the $table table, so dropping",
+                    OA::debug("No non-summarised tracker clicks in the $table table, so dropping",
                                PEAR_LOG_DEBUG);
                     $oTable->dropTable($table);
                     $tablesDropped++;

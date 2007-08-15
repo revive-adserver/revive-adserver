@@ -202,6 +202,6 @@ function phpAds_dbErrorNo($db = phpAds_adminDb)
 function _raise_deprecated_db_api_warning()
 {
     //$depreciation_warning = new PEAR_Error("The old phpAds_db* API has been deprecated. New code should be in a DAL.");
-    //MAX::debug($depreciation_warning, PEAR_LOG_WARNING);
+    //OA::debug($depreciation_warning, PEAR_LOG_WARNING);
 }
 ?>

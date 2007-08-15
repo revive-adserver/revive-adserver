@@ -324,7 +324,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $oMaintenanceStatistics->updateFinal = true;
         $oMaintenanceStatistics->updateIntermediate = false;
         $oMaintenanceStatistics->updateUsingOI = true;
-        $oMaintenanceStatistics->updateFinalToDate = new Date('2004-06-06 17:59:59');
+        $oMaintenanceStatistics->oUpdateFinalToDate = new Date('2004-06-06 17:59:59');
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_DeleteOldData object
         $oDeleteOldData = new MAX_Maintenance_Statistics_Common_Task_DeleteOldData();
@@ -370,7 +370,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateUsingOI = false;
-        $oMaintenanceStatistics->updateIntermediateToDate = new Date('2004-06-06 17:59:59');
+        $oMaintenanceStatistics->oUpdateIntermediateToDate = new Date('2004-06-06 17:59:59');
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Common_Task_DeleteOldData object
         $oDeleteOldData = new MAX_Maintenance_Statistics_Common_Task_DeleteOldData();

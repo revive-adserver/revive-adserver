@@ -48,6 +48,13 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
 {
 
     /**
+     * A variable to store the type of High Priority Campaign being used.
+     *
+     * @var string
+     */
+    var $type;
+
+    /**
      * For storing weekly zone impression forecasts, if zone
      * patterning is used, to save on database queries.
      *
@@ -81,7 +88,8 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      */
     function run()
     {
-        OA::debug('Starting to Get Required Ad Impressions.', PEAR_LOG_DEBUG);
+        OA::debug('Running Maintenance Priority Engine: Get Required Ad Impressions for High Priority Campaigns', PEAR_LOG_DEBUG);
+        OA::debug('- Where ' . $this->type, PEAR_LOG_DEBUG);
         $conf = $GLOBALS['_MAX']['CONF'];
         $aAllPlacements = $this->_getValidPlacements();
         if (is_array($aAllPlacements) && (count($aAllPlacements) > 0)) {
@@ -349,7 +357,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // Error! There should not be any other kind of high-priority
                 // placement in terms of activation/expiration dates and
                 // either (total) inventory requirements or daily targets
-                $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
+                $message = "- Error calculating the end date for Placement ID {$oPlacement->id}.";
                 OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
@@ -463,6 +471,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
             }
         }
         // Save the required impressions into the temporary database table
+        OA::setTempDebugPrefix('- ');
         $this->oTable->createTable('tmp_ad_required_impression', null, true);
         $this->oDal->saveRequiredAdImpressions($aRequiredAdImpressions);
     }
@@ -527,7 +536,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 // Error! There should not be any other kind of high-priority
                 // placement in terms of activation/expiration dates and
                 // either (total) inventory requirements or daily targets
-                $message = "Error calculating the end date for Placement ID {$oPlacement->id}.";
+                $message = "- Error calculating the end date for Placement ID {$oPlacement->id}.";
                 OA::debug($message, PEAR_LOG_ERR);
                 continue;
             }
@@ -568,6 +577,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
             }
         }
         // Save the required impressions into the temporary database table
+        OA::setTempDebugPrefix('- ');
         $this->oTable->createTable('tmp_ad_required_impression');
         $this->oDal->saveRequiredAdImpressions($aRequiredAdImpressions);
     }
@@ -689,7 +699,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         if (empty($adId) || !is_numeric($adId)) {
-            OA::debug("Invalid advertisement ID argument", PEAR_LOG_ERR);
+            OA::debug('- Invalid advertisement ID argument', PEAR_LOG_ERR);
             return false;
         }
         // Get all zones associated with the advertisement

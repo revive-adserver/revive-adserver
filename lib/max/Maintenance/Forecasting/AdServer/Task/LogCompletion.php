@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Forecasting/AdServer/Task.php';
@@ -72,7 +73,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_LogCompletion extends MAX_Mainte
                 $this->oController->oUpdateToDate
             );
         } else {
-            MAX::debug(
+            OA::debug(
                 'Call to MAX_Maintenance_Forecasting_Task_LogCompletion::run() failed.',
                 PEAR_LOG_DEBUG
             );

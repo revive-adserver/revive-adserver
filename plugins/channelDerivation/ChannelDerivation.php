@@ -24,6 +24,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 
 /**
@@ -62,7 +63,7 @@ class Plugins_ChannelDerivation extends MAX_Plugin_Common
      */
     function getRulesByDomain($domain)
     {
-        Max::debug('Cannot run abstract method');
+        OA::debug('Cannot run abstract method');
         exit();
     }
 

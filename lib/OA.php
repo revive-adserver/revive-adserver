@@ -50,33 +50,49 @@ class OA
      *
      * @TODO Logging to anything other than a file is probably broken - test!
      */
-    function debug($message, $priority = PEAR_LOG_INFO)
+    function debug($message = null, $priority = PEAR_LOG_INFO)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        global $tempDebugPrefix;
         // Logging is not activated
         if ($aConf['log']['enabled'] == false) {
+            unset($GLOBALS['tempDebugPrefix']);
             return true;
         }
-        // Is the priority under logging threshold level?
-        if (defined($aConf['log']['priority'])) {
-            $aConf['log']['priority'] = constant($aConf['log']['priority']);
+        // Is this a "no message" log?
+        if (is_null($message) && $aConf['log']['type'] == 'file') {
+            // Set the priority to the highest level, so it is always logged
+            $priority = PEAR_LOG_EMERG;
         }
-        if ($priority > $aConf['log']['priority']) {
+        // Deal with the config file containing the log level by
+        // name or by number
+        $priorityLevel = @constant($aConf['log']['priority']);
+        if (is_null($priorityLevel)) {
+            $priorityLevel = $aConf['log']['priority'];
+        }
+        if ($priority > $priorityLevel) {
+            unset($GLOBALS['tempDebugPrefix']);
             return true;
         }
         // Grab DSN if we are logging to a database
         $dsn = ($aConf['log']['type'] == 'sql') ? Base::getDsn() : '';
         // Instantiate a logger object based on logging options
+        $aLoggerConf = array(
+            $aConf['log']['paramsUsername'],
+            $aConf['log']['paramsPassword'],
+            'dsn' => $dsn,
+            'mode' => octdec($aConf['log']['fileMode']),
+        );
+        if (is_null($message) && $aConf['log']['type'] == 'file') {
+            $aLoggerConf['lineFormat'] = '%4$s';
+        } else if ($aConf['log']['type'] == 'file') {
+            $aLoggerConf['lineFormat'] = '%1$s %2$s [%3$9s]  %4$s';
+        }
         $oLogger = &Log::singleton(
             $aConf['log']['type'],
             MAX_PATH . '/var/' . $aConf['log']['name'],
             $aConf['log']['ident'],
-            array(
-                $aConf['log']['paramsUsername'],
-                $aConf['log']['paramsPassword'],
-                'dsn' => $dsn,
-                'mode' => octdec($aConf['log']['fileMode']),
-            )
+            $aLoggerConf
         );
         // If log message is an error object, extract info
         if (PEAR::isError($message)) {
@@ -90,7 +106,6 @@ class OA
             }
         }
         // Obtain backtrace information, if supported by PHP
-        // TODO: Consider replacing version_compare with function_exists
         if (version_compare(phpversion(), '4.3.0') >= 0) {
             $aBacktrace = debug_backtrace();
             if ($aConf['log']['methodNames']) {
@@ -113,8 +128,30 @@ class OA
             }
         }
         // Log the message
-        return $oLogger->log($message, $priority);
+        if (is_null($message) && $aConf['log']['type'] == 'file') {
+            $message = ' ';
+        } else if (!is_null($tempDebugPrefix) && $aConf['log']['type'] == 'file') {
+            $message = $tempDebugPrefix . $message;
+        }
+        $result = $oLogger->log($message, $priority);
+        unset($GLOBALS['tempDebugPrefix']);
+        return $result;
     }
+
+    /**
+     * A method to temporarily set the debug message prefix string. The string
+     * is un-set when debug() is called.
+     *
+     * @param string $prefix The prefix to add to a message logged when the
+     *                       debug() method is next called, in the event that
+     *                       the logging is to a file.
+     */
+    function setTempDebugPrefix($prefix)
+    {
+        global $tempDebugPrefix;
+        $tempDebugPrefix = $prefix;
+    }
+
 
     /**
      * A method to obtain the current date/time, offset if required by the
