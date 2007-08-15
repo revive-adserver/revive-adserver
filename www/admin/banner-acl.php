@@ -44,6 +44,11 @@ require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
 // Register input variables
 phpAds_registerGlobal ('acl', 'action', 'submit');
 
+/*-------------------------------------------------------*/
+/* Client interface security                             */
+/*-------------------------------------------------------*/
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
