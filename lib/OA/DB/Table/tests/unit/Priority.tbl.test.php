@@ -101,9 +101,9 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         foreach ($tmpTables as $tableName) {
             $query = "SELECT * FROM $tableName";
-            PEAR::pushErrorHandling(null);
+            OA::disableErrorHandling();
             $result = $oDbh->query($query);
-            PEAR::popErrorHandling();
+            OA::enableErrorHandling();
             $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         }
         $oTable = &OA_DB_Table_Priority::singleton();
@@ -119,9 +119,9 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
             // Test that the table can be dropped
             // Use a different query to overcome MDB2 query buffering
             $query = "SELECT foo FROM $tableName";
-            PEAR::pushErrorHandling(null);
+            OA::disableErrorHandling();
             $result = $oDbh->query($query);
-            PEAR::popErrorHandling();
+            OA::enableErrorHandling();
             $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         }
 

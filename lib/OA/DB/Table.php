@@ -263,11 +263,11 @@ class OA_DB_Table
         }
         // Create the table
         OA::debug('Creating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         OA_DB::setCaseSensitive();
         $result = $this->oSchema->createTable($tableName, $this->aDefinition['tables'][$table], false, $aOptions);
         OA_DB::disableCaseSensitive();
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
         if (PEAR::isError($result) || (!$result)) {
             $showError = true;
             if ($this->temporary && $suppressTempTableError) {
@@ -340,9 +340,9 @@ class OA_DB_Table
     function dropTable($table)
     {
         OA::debug('Dropping table ' . $table, PEAR_LOG_DEBUG);
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling();
         $result = $this->oDbh->manager->dropTable($table);
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
         if (PEAR::isError($result)) {
             OA::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
             return false;
@@ -461,11 +461,10 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
-        PEAR::pushErrorHandling(null);
-
         if ($aConf['database']['type'] == 'pgsql') {
+            OA::disableErrorHandling();
             $result = $this->oDbh->exec("SELECT setval('$sequence', 1, false)");
-            PEAR::popErrorHandling();
+            OA::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
                 return false;
