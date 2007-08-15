@@ -44,6 +44,8 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
 {
 
     var $_aValues;
+    // The character/string to delimit the data
+    var $delimiter = ',';
 
     function Plugins_DeliveryLimitations_ArrayData()
     {
@@ -86,7 +88,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
     {
         $result = parent::_flattenData($data);
         if (is_array($result)) {
-            return implode(',', $result);
+            return implode($this->delimiter, $result);
         }
         return $result;
     }
@@ -106,7 +108,7 @@ class Plugins_DeliveryLimitations_ArrayData extends Plugins_DeliveryLimitations
     {
         $result = parent::_expandData($data);
         if (!is_array($result)) {
-            return strlen($result) ? explode(',', $result) : array();
+            return strlen($result) ? explode($this->delimiter, $result) : array();
         }
         return $result;
     }

@@ -89,6 +89,46 @@ function MAX_limitationsMatchString(
 }
 
 /**
+ * Match a numeric value (greater than or less than)
+ *
+ * @param string $paramName Name of the parameter to look for in an array.
+ * @param string $limitation Value to be matched with.
+ * @param string $op The operator used to compare strings.
+ * @param string $aParams The array in which the value is looked for.
+ * @param string $namespace The namespace in the $GLOBALS['_MAX'] array used
+ *               if when $aParams is empty.
+ * @return boolean True if the parameters fulfill the limitations, false
+ *                 otherwise.
+ *
+ * @author Mohammed El-Hakim
+ * @author Chris Nutting <Chris.Nutting@openads.org>
+ */
+function MAX_limitationMatchNumeric(
+    $paramName, $limitation, $op, $aParams = array(), $namespace = 'CLIENT')
+{
+    if ($limitation == '') {
+        return !MAX_limitationsIsOperatorPositive($op);
+    }
+    if (empty($aParams)) {
+        $aParams = $GLOBALS['_MAX'][$namespace];
+    }
+
+	if (!isset($aParams[$paramName]) || !is_numeric($aParams[$paramName]) || !is_numeric($limitation)) {
+		return !MAX_limitationsIsOperatorPositive($op);
+	} else {
+	    $value = $aParams[$paramName];
+	}
+
+	if ($op == 'lt'){
+    	return $value < $limitation;
+    } else if ($op == 'gt'){
+    	return $value > $limitation;
+    } else {
+    	return !MAX_limitationsIsOperatorPositive($op);
+    }
+}
+
+/**
  * An utility function which matches the $value with $limitation
  * using $op operator.
  *
@@ -238,6 +278,10 @@ function MAX_limitationsIsOperatorContains($op)
     return $op == '=~' || $op == '!~';
 }
 
+function MAX_limitationsIsOperatorNumeric($op)
+{
+    return $op == 'gt' || $op == 'lt' ;
+}
 
 /**
  * Returns true if $op is one of the simple operators: either '=x' or '!x',
@@ -261,9 +305,25 @@ function MAX_limitationsIsOperatorRegexp($op)
  */
 function MAX_limitationsIsOperatorPositive($op)
 {
-    return $op == '==' || $op == '=~' || $op == '=x';
+    return $op == '==' || $op == '=~' || $op == '=x' || $op == 'gt' || $op == 'lt';
 }
 
+/**
+ * Returns an array where the keys are delivery limitation plugins operators
+ * suitable for numeric tests and the values are properly translated strings which
+ * describe these operators to the user.
+ *
+ * @param DeliveryLimitationPlugin $oPlugin
+ * @return array Array associating operators with their localized names.
+ * @author By Mohammed El-Hakim
+ */
+function MAX_limitationsGetAOperationsForNumeric($oPlugin)
+{
+    return array(
+        'lt'  => $GLOBALS['strLessThan'],
+        'gt'  => $GLOBALS['strGreaterThan'],
+    );
+}
 
 /**
  * Returns an array where the keys are delivery limitation plugins operators
