@@ -32,8 +32,8 @@ require_once 'Date.php';
  * A library class for providing methods to work with Operation Intervals.
  *
  * @static
- * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
+ * @package    Openads
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_OperationInterval
 {
@@ -60,17 +60,9 @@ class OA_OperationInterval
                 return MAX::raiseError($error, MAX_ERROR_INVALIDOPERATIONINT);
             }
         } elseif ($oi > 60) {
-            // Operation interval is less often than once an hour
-            if (($oi % 60) != 0) {
-                // Operation interval must be a multiple of 60 minutes
-                $error = 'The operation interval of ' . $oi . ' is invalud';
-                return MAX::raiseError($error, MAX_ERROR_INVALIDOPERATIONINT);
-            }
-            if ($oi > 1440) {
-                // Operation interval must not be more than one week (24 * 60 = 1440 minutes)
-                $error = 'The operation interval of ' . $oi . ' is invalud';
-                return MAX::raiseError($error, MAX_ERROR_INVALIDOPERATIONINT);
-            }
+            // Operation interval must not be more than 60
+            $error = 'The operation interval of ' . $oi . ' is invalud';
+            return MAX::raiseError($error, MAX_ERROR_INVALIDOPERATIONINT);
         }
         return true;
     }

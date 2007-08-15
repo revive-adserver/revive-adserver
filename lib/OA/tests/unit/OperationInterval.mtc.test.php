@@ -26,23 +26,25 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
+
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Date.php';
 
 /**
  * A class for testing the OA_OperationInterval class.
  *
- * @package    MaxMaintenance
+ * @package    Openads
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
+class Test_OA_OperationIntveral extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfMaxOperationIntveral()
+    function Test_OA_OperationIntveral()
     {
         $this->UnitTestCase();
     }
@@ -50,11 +52,34 @@ class Maintenance_TestOfMaxOperationIntveral extends UnitTestCase
     /**
      * A method to test the checkOperationIntervalValue() method.
      *
-     * @TODO Not implemented
      */
     function testCheckOperationIntervalValue()
     {
-
+        OA::disableErrorHandling();
+        for ($i = -1; $i <= 61; $i++) {
+            $result = OA_OperationInterval::checkOperationIntervalValue($i);
+            if (
+                $i == 1  ||
+                $i == 2  ||
+                $i == 3  ||
+                $i == 4  ||
+                $i == 5  ||
+                $i == 6  ||
+                $i == 10 ||
+                $i == 12 ||
+                $i == 15 ||
+                $i == 20 ||
+                $i == 30 ||
+                $i == 60
+            ) {
+                $this->assertTrue($result);
+            } else {
+                $this->assertTrue(PEAR::isError($result));
+            }
+            $result = OA_OperationInterval::checkOperationIntervalValue(120);
+            $this->assertTrue(PEAR::isError($result));
+        }
+        OA::enableErrorHandling();
     }
 
     /**
