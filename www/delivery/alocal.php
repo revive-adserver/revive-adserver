@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.3                                                              |
+| Openads v2.5                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -151,7 +151,7 @@ function getHostName()
 if (!empty($_SERVER['HTTP_HOST'])) {
 $host = explode(':', $_SERVER['HTTP_HOST']);
 $host = $host[0];
-} else {
+} else if (!empty($_SERVER['SERVER_NAME'])) {
 $host = explode(':', $_SERVER['SERVER_NAME']);
 $host = $host[0];
 }
@@ -161,7 +161,7 @@ function getHostNameWithPort()
 {
 if (!empty($_SERVER['HTTP_HOST'])) {
 $host = $_SERVER['HTTP_HOST'];
-} else {
+} else if (!empty($_SERVER['SERVER_NAME'])) {
 $host = $_SERVER['SERVER_NAME'];
 }
 return $host;
