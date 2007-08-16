@@ -28,8 +28,6 @@
 $Id$
 */
 
-// testing post-commit
-
 // Require the initialisation file
 require_once '../../init-delivery.php';
 
