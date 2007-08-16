@@ -123,7 +123,7 @@ require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
  *  - The connection browser
  *  - The connection window delay
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Scott Switzer <scott@switzer.org>

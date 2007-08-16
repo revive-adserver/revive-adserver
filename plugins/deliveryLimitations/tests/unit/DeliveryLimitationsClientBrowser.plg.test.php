@@ -32,7 +32,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Client/Browser.delivery.ph
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Browser class.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */

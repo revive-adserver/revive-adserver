@@ -31,7 +31,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/tests/unit/DeliveryLimitat
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_Areacode class.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

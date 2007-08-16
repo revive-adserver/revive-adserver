@@ -33,7 +33,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Time/Hour.plugin.php';
 /**
  * A class for testing the MAX_Plugin_DeliveryLimitations_MatchOverlap class.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

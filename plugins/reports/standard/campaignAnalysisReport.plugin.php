@@ -75,7 +75,7 @@ require_once MAX_PATH . '/plugins/reports/Reports.php';
  *  - ECPC
  *  - ECPS
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Robert Hunter <roh@m3.net>

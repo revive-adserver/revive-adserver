@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Common.php';
 /**
  * Plugins_Geotargeting is an abstract class for every GeoTargeting plugin
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Geotargeting
  * @author     Radek Maciaszek <radek@m3.net>
  * @abstract

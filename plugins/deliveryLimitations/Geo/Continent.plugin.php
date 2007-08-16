@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/max/Delivery/limitations.delivery.php';
  * Valid comparison operators:
  * =~, !~
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>
@@ -91,14 +91,14 @@ class Plugins_DeliveryLimitations_Geo_Continent extends Plugins_DeliveryLimitati
         echo "</div>";
     }
 
-    
+
     function compile()
     {
         $sData = $this->_preCompile($this->data);
         return $this->compileData($sData);
     }
-    
-    
+
+
     function _preCompile($sData)
     {
         $aContinentCodes = MAX_limitationsGetAFromS($sData);

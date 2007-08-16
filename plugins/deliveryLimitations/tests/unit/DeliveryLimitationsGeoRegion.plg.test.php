@@ -32,7 +32,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/Region.delivery.php';
 /**
  * A class for testing the Plugins_DeliveryLimitations_Geo_Region class.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

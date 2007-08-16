@@ -28,7 +28,7 @@ $Id$
 /**
  * MAX_Plugin_Translation - plugin translation system.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @author     Radek Maciaszek <radek@m3.net>
  */
 class MAX_Plugin_Translation

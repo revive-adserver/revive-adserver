@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 /*
  * A class for testing the lib-geometry.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
@@ -190,7 +190,7 @@ class LibAclTest extends DalUnitTestCase
             "MAX_checkClient_Domain('openads.org', '!~') and MAX_checkTime_Day('0,1', '=~')",
             $doBanners->compiledlimitation);
         $this->assertEqual("Client:Domain,Time:Day", $doBanners->acl_plugins);
-        
+
     }
 }
 ?>

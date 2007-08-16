@@ -39,7 +39,7 @@ require_once 'Date.php';
  * Valid comparison operators:
  * ==, !=, <, <=, >, >=
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>

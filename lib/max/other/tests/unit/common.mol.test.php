@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 /*
  * A class for testing the lib-geometry.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
@@ -40,7 +40,7 @@ class CommonTest extends UnitTestCase
     {
         $this->UnitTestCase();
     }
-    
+
 
 	function test_MAX_commonSlashArray()
 	{
@@ -58,8 +58,8 @@ class CommonTest extends UnitTestCase
         $this->assertEqual($aRet[0], $strRe0);
         $this->assertEqual($aRet[1][0], $strRe1);
 	}
-	
-    
+
+
     function test_MAX_commonUnslashArray()
     {
         $sValue = 'abcd';
@@ -73,8 +73,8 @@ class CommonTest extends UnitTestCase
         $aValue = array('abcd', 'ab\\cd', 'ab\\\\cd', array('abcd', 'ab\\\\cd'));
         $this->assertEqual(array('abcd', 'abcd', 'ab\\cd', array('abcd', 'ab\\cd')), MAX_commonUnslashArray($aValue));
     }
-    
-    
+
+
     function test_Max_commonGetValueSlashed()
     {
         // Please see the description below
@@ -83,8 +83,8 @@ class CommonTest extends UnitTestCase
 //        $this->assertEqual('ccc', MAX_commonGetValue('ddd', 'ccc'));
 //        $this->assertNull(MAX_commonGetValue('ddd'));
     }
-    
-    
+
+
     function test_Max_commonGetValueUnslashed()
     {
         // Please let me know how to test such functionality in PHP if I can't change
@@ -93,8 +93,8 @@ class CommonTest extends UnitTestCase
 //        $_REQUEST['aaa'] = 'blah\\\'';
 //        $this->assertEqual('blah\'', MAX_commonGetValueUnslashed('aaa'));
     }
-    
-    
+
+
     function test_MAX_commonGetPostValueUnslashed()
     {
         // We can't really test slashed/unslashed
@@ -102,8 +102,8 @@ class CommonTest extends UnitTestCase
         $this->assertEqual('bbb', MAX_commonGetPostValueUnslashed('aaa'));
         $this->assertNull(MAX_commonGetPostValueUnslashed('aab'));
     }
-    
-    
+
+
     function test_MAX_addslashes()
     {
         $item = 'ab\'cd';

@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 /**
  * Plugins_Maintenance is an abstract class for every Maintenance plugin.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Maintenance
  * @author     Andrew Hill <andrew@m3.net>
  * @abstract

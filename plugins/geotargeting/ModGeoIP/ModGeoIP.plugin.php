@@ -33,7 +33,7 @@ require_once(MAX_PATH . '/plugins/geotargeting/ModGeoIP/ModGeoIP.delivery.php');
  * after the lookup has been performed via the C/mod_apache interface.
  *
  * @static
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Geotargeting
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>

@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/max/Plugin.php';
  * MAX_Plugin_Common is an abstract class, defining the common methods and
  * interface for plugin classes.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @author     Radek Maciaszek <radek@m3.net>
  * @abstract
  */

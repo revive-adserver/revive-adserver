@@ -38,7 +38,7 @@ require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
  * report plugin to implement.
  *
  * @abstract
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Radek Maciaszek <radek@m3.net>

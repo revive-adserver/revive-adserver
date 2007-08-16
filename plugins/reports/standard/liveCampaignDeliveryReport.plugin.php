@@ -41,7 +41,7 @@ require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
  * @TODO Consider replacing the calculations in this report with better values derived
  *       from the MPE.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Reports
  * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Scott Switzer <scott@switzer.org>

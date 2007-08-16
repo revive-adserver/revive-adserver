@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage 3rdPartyServers
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  *

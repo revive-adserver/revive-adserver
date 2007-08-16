@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * A base class for delivery limitations plugins which uses a resource array
  * to limit the delivery.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrzej Swedrzynski <andrzej@m3.net>
  */

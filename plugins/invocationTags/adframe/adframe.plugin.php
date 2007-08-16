@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage InvocationTags
  * @author     Radek Maciaszek <radek@m3.net>
  *

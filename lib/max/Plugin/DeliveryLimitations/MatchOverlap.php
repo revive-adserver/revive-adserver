@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Dal/Entities.php';
  * A class for determining if a set of delivery limitations matches, or
  * overlaps with, a delivery limitation channel.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  */

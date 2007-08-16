@@ -27,7 +27,7 @@ $Id$
 /**
  * Plugins_InvocationTagsOptions contains all standard options.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage InvocationTags
  * @author     Radek Maciaszek <radek@m3.net>
  */

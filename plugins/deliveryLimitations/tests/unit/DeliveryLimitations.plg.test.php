@@ -39,7 +39,7 @@ class Dummy_Plugins_DeliveryLimitations extends Plugins_DeliveryLimitations
 /**
  * A class for testing the Plugins_DeliveryLimitations class.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */

@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * Valid comparison operators:
  * ==, !=, =~, !~, =x, !x
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>
@@ -50,7 +50,7 @@ class Plugins_DeliveryLimitations_Client_Useragent extends Plugins_DeliveryLimit
         $this->columnName = 'user_agent';
         $this->nameEnglish = 'Useragent';
     }
-    
+
     function getUpgradeFromEarly($op, $sData)
     {
         return OA_limitationsGetAUpgradeFor20Regexp($op, $sData);

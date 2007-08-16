@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitationsCommaSeparatedData.php';
 
 /**
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
  */
@@ -44,7 +44,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitationsCommaSe
  * Valid comparison operators:
  * ==, !=
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>

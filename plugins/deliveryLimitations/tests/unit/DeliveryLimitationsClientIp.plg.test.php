@@ -32,7 +32,7 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Client/Ip.delivery.php';
 /**
  * A class for testing the Plugins_DeliveryLimitations_Client_Ip class.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
@@ -69,7 +69,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Ip
     {
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Client', 'Ip');
         $oPlugin->init(array()); // Assume it is called in the production after talking to Andrew
-        
+
         $this->checkOverlapFalse($oPlugin, '==', '150.254.149.189', '==', '150.254.147.189');
         $this->checkOverlapFalse($oPlugin, '==', '150.254.149.189', '==', '150.254.149.198');
         $this->checkOverlapFalse($oPlugin, '==', '150.254.149.189', '==', '151.254.149.189');
@@ -91,7 +91,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Ip
         $this->checkOverlapTrue($oPlugin, '!=', '150.254.148.*', '!=', '150.254.148.*');
         $this->checkOverlapTrue($oPlugin, '!=', '150.254.148.*', '!=', '150.254.149.*');
     }
-    
+
     function testMAX_checkClient_Ip()
     {
         $_SERVER['REMOTE_ADDR'] = '150.254.149.189';

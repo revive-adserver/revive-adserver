@@ -35,7 +35,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
  * Valid comparison operators:
  * ==, !=, =~, !~, =x, !x
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Chris Nutting <chris@m3.net>

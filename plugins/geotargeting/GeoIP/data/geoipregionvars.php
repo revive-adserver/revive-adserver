@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Geotargeting
  * @author     MaxMind LLC
  */

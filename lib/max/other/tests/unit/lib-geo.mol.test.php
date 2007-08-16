@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/other/lib-geo.inc.php';
 /*
  * A class for testing the lib-geometry.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

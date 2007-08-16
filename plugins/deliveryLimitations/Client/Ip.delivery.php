@@ -26,7 +26,7 @@ $Id$
 */
 
 /**
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
  * @author     Chris Nutting <chris@m3.net>
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@m3.net>
@@ -51,11 +51,11 @@ function MAX_checkClient_Ip($limitation, $op, $aParams = array())
         $aParams = $_SERVER;
     }
     $ip = $aParams['REMOTE_ADDR'];
-    
+
     if (MAX_ipContainsStar($limitation)) {
         $ip = MAX_ipWithLastComponentReplacedByStar($ip);
     }
-    
+
     if ($op == '==') {
         return $limitation == $ip;
     } else {

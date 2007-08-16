@@ -57,7 +57,7 @@ define('MAX_PLUGINS_FILE_MASK', '^.*/([a-zA-Z0-9\-_]*)/([a-zA-Z0-9\-_]*)'.MAX_PL
  *  - Reading and writing plugin cache files, if they exist.
  *
  * @static
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>
  */
@@ -275,7 +275,7 @@ class MAX_Plugin
             return false;
         }
         $className = MAX_Plugin::_getPluginClassName($module, $package, $name);
-        
+
         // PHP4/5 compatibility for get_class_methods.
         $aClassMethods = array_map(strtolower, (get_class_methods($className)));
         if (!$aClassMethods) {
@@ -462,7 +462,7 @@ class MAX_Plugin
         if (!empty($package)) {
             $conf = isset($conf[$package]) ? $conf[$package] : false;
         }
-        
+
         // Try plugin config
         if ($conf === false) {
             $configFileName = MAX_Plugin::getConfigFileName($module, $package, $name);

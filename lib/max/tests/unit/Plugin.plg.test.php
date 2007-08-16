@@ -94,7 +94,7 @@ class Plugins_Maintenance_Fake_Fake extends Plugins_Maintenance
 /**
  * A class for testing the MAX_Plugin class.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  * @author     Radek Maciaszek <radek@m3.net>
@@ -346,11 +346,11 @@ class TestOfMAX_Plugin extends UnitTestCase {
         $oTestErrorHandler->reset();
         // Unset the error handler
         PEAR::popErrorHandling();
-        
+
         // Test with a real method, no parameters
         $return = MAX_Plugin::callStaticMethod('deliveryLimitations', 'Time', 'Date', 'isAllowed');
         $this->assertTrue($return);
-        
+
         // Test with a real method, with parameters
         $return = MAX_Plugin::callStaticMethod('deliveryLimitations', 'Time', 'Date', 'isAllowed', array('channel-acl.php'));
         $this->assertFalse($return);

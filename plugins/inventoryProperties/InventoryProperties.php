@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 /**
  * Plugins_InventoryProperties is an abstract class for every inventory plugin.
  *
- * @package    MaxPlugin
+ * @package    OpenadsPlugin
  * @subpackage Plugins_InventoryProperties
  * @author     Matteo Beccati <matteo@beccati.com>
  * @abstract
