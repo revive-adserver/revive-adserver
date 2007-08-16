@@ -74,7 +74,7 @@ if (!empty($output['context'])) {
         }
     }
 }
-$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".base64_encode(serialize($aContext))."'; </script>" : '';
+$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".base64_encode(serialize($context))."'; </script>" : '';
 
 MAX_cookieFlush();
 
