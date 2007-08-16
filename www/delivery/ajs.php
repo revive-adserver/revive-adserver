@@ -2595,7 +2595,7 @@ $context[] = $contextArray;
 }
 }
 }
-$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".base64_encode(serialize($aContext))."'; </script>" : '';
+$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".base64_encode(serialize($context))."'; </script>" : '';
 MAX_cookieFlush();
 // Show the banner
 header("Content-type: application/x-javascript");
