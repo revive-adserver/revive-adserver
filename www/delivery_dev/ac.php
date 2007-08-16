@@ -31,7 +31,7 @@ $Id$
 // Require the initialisation file
 require_once '../../init-delivery.php';
 
-// Required files (testing post-commit)
+// Required files
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
