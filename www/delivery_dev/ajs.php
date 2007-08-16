@@ -67,10 +67,14 @@ $target = '';
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
 // Append any data to the context array
-if (isset($output['context']) && is_array($output['context'])) {
-    $aContext = array_merge($context, $output['context']);
-    $JScontext = "<script type='text/javascript'>document.context='".base64_encode(serialize($aContext))."'; </script>";
-} else { $JScontext = ''; }
+if (!empty($output['context'])) {
+    foreach ($output['context'] as $id => $contextArray) {
+        if (!in_array($contextArray, $context)) {
+            $context[] = $contextArray;
+        }
+    }
+}
+$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".base64_encode(serialize($aContext))."'; </script>" : '';
 
 MAX_cookieFlush();
 
