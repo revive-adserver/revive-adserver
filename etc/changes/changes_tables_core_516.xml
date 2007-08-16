@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>516</version>
+  <comments>Removed core database tables that were used for custom data summarisation for Openads\&apos; former sister company.</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>516</version>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>516</version>
+      <remove>
+        <table>data_summary_zone_country_daily</table>
+          <table>data_summary_zone_country_forecast</table>
+            <table>data_summary_zone_country_monthly</table>
+              <table>data_summary_zone_domain_page_daily</table>
+                <table>data_summary_zone_domain_page_forecast</table>
+                  <table>data_summary_zone_domain_page_monthly</table>
+                    <table>data_summary_zone_site_keyword_daily</table>
+                      <table>data_summary_zone_site_keyword_forecast</table>
+                        <table>data_summary_zone_site_keyword_monthly</table>
+                          <table>data_summary_zone_source_daily</table>
+                            <table>data_summary_zone_source_forecast</table>
+                              <table>data_summary_zone_source_monthly</table>
+                            </remove>
+                          </changeset>
+                        </destructive>
+                      </instructionset>
