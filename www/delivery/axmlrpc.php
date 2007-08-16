@@ -1210,40 +1210,52 @@ MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
 setupIncludePath();
 // Required files
-require_once 'Log.php';
-require_once 'PEAR.php';
-class MAX
+class OA
 {
-function debug($message, $file = null, $line = null, $priority = PEAR_LOG_INFO)
+function debug($message = null, $priority = PEAR_LOG_INFO)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
+$aConf = $GLOBALS['_MAX']['CONF'];
+global $tempDebugPrefix;
 // Logging is not activated
-if ($conf['log']['enabled'] == false) {
-return;
+if ($aConf['log']['enabled'] == false) {
+unset($GLOBALS['tempDebugPrefix']);
+return true;
 }
-// Deal with the fact that logMessage may be called using the
-// deprecated method signature, or the new one
-if (is_int($file)) {
-$priority =& $file;
+// Is this a "no message" log?
+if (is_null($message) && $aConf['log']['type'] == 'file') {
+// Set the priority to the highest level, so it is always logged
+$priority = PEAR_LOG_EMERG;
 }
-// Priority is under logging threshold level
-if (defined($conf['log']['priority'])) {
-$conf['log']['priority'] = constant($conf['log']['priority']);
+// Deal with the config file containing the log level by
+// name or by number
+$priorityLevel = @constant($aConf['log']['priority']);
+if (is_null($priorityLevel)) {
+$priorityLevel = $aConf['log']['priority'];
 }
-if ($priority > $conf['log']['priority']) {
-return;
+if ($priority > $priorityLevel) {
+unset($GLOBALS['tempDebugPrefix']);
+return true;
 }
 // Grab DSN if we are logging to a database
-$dsn = ($conf['log']['type'] == 'sql') ? Base::getDsn() :'';
+$dsn = ($aConf['log']['type'] == 'sql') ? Base::getDsn() : '';
 // Instantiate a logger object based on logging options
-$logger = &Log::singleton($conf['log']['type'],
-MAX_PATH . '/var/' . $conf['log']['name'],
-$conf['log']['ident'],
-array($conf['log']['paramsUsername'],
-$conf['log']['paramsPassword'],
+$aLoggerConf = array(
+$aConf['log']['paramsUsername'],
+$aConf['log']['paramsPassword'],
 'dsn' => $dsn,
-'mode' => octdec($conf['log']['fileMode']),
-));
+'mode' => octdec($aConf['log']['fileMode']),
+);
+if (is_null($message) && $aConf['log']['type'] == 'file') {
+$aLoggerConf['lineFormat'] = '%4$s';
+} else if ($aConf['log']['type'] == 'file') {
+$aLoggerConf['lineFormat'] = '%1$s %2$s [%3$9s]  %4$s';
+}
+$oLogger = &Log::singleton(
+$aConf['log']['type'],
+MAX_PATH . '/var/' . $aConf['log']['name'],
+$aConf['log']['ident'],
+$aLoggerConf
+);
 // If log message is an error object, extract info
 if (PEAR::isError($message)) {
 $userinfo = $message->getUserInfo();
@@ -1256,30 +1268,67 @@ $message .= ' : ' . $userinfo;
 }
 }
 // Obtain backtrace information, if supported by PHP
-// TODO: Consider replacing version_compare with function_exists
 if (version_compare(phpversion(), '4.3.0') >= 0) {
-$bt = debug_backtrace();
-if ($conf['log']['methodNames']) {
-// XXX: Why show exactly four calls up the stack?
-$errorBt = $bt[4];
-if (isset($errorBt['class']) && $errorBt['type'] && isset($errorBt['function'])) {
-$callInfo = $errorBt['class'] . $errorBt['type'] . $errorBt['function'] . ': ';
+$aBacktrace = debug_backtrace();
+if ($aConf['log']['methodNames']) {
+// Show from four calls up the stack, to avoid the
+// showing the PEAR error call info itself
+$aErrorBacktrace = $aBacktrace[4];
+if (isset($aErrorBacktrace['class']) && $aErrorBacktrace['type'] && isset($aErrorBacktrace['function'])) {
+$callInfo = $aErrorBacktrace['class'] . $aErrorBacktrace['type'] . $aErrorBacktrace['function'] . ': ';
 $message = $callInfo . $message;
 }
 }
 // Show entire stack, line-by-line
-if ($conf['log']['lineNumbers']) {
-foreach($bt as $errorBt) {
-if (isset($errorBt['file']) && isset($errorBt['line'])) {
-$message .=  "\n" . str_repeat(' ', 20 + strlen($conf['log']['ident']) + strlen($logger->priorityToString($priority)));
-$message .= 'on line ' . $errorBt['line'] . ' of "' . $errorBt['file'] . '"';
+if ($aConf['log']['lineNumbers']) {
+foreach($aBacktrace as $aErrorBacktrace) {
+if (isset($aErrorBacktrace['file']) && isset($aErrorBacktrace['line'])) {
+$message .=  "\n" . str_repeat(' ', 20 + strlen($aConf['log']['ident']) + strlen($oLogger->priorityToString($priority)));
+$message .= 'on line ' . $aErrorBacktrace['line'] . ' of "' . $aErrorBacktrace['file'] . '"';
 }
 }
 }
 }
 // Log the message
-return $logger->log($message, $priority);
+if (is_null($message) && $aConf['log']['type'] == 'file') {
+$message = ' ';
+} else if (!is_null($tempDebugPrefix) && $aConf['log']['type'] == 'file') {
+$message = $tempDebugPrefix . $message;
 }
+$result = $oLogger->log($message, $priority);
+unset($GLOBALS['tempDebugPrefix']);
+return $result;
+}
+function setTempDebugPrefix($prefix)
+{
+global $tempDebugPrefix;
+$tempDebugPrefix = $prefix;
+}
+function getNow($format = null)
+{
+if (is_null($format)) {
+$format = 'Y-m-d H:i:s';
+}
+return date($format, time());
+}
+function disableErrorHandling()
+{
+PEAR::pushErrorHandling(null);
+}
+function enableErrorHandling()
+{
+// Ensure this method only acts when a null error handler exists
+$stack = &$GLOBALS['_PEAR_error_handler_stack'];
+list($mode, $options) = $stack[sizeof($stack) - 1];
+if (is_null($mode) && is_null($options)) {
+PEAR::popErrorHandling();
+}
+}
+}
+require_once 'Log.php';
+require_once 'PEAR.php';
+class MAX
+{
 // Manage Orderdirection
 function getOrderDirection($ThisOrderDirection)
 {
@@ -1364,7 +1413,7 @@ if ($behaviour == PEAR_ERROR_DIE) {
 // Log fatal message here as execution will stop
 $errorType = MAX::errorConstantToString($type);
 if (!is_string($message)) $message = print_r($message, true);
-MAX::debug($type . ' :: ' . $message, null, null, PEAR_LOG_EMERG);
+OA::debug($type . ' :: ' . $message, null, null, PEAR_LOG_EMERG);
 exit();
 }
 $error = PEAR::raiseError($message, $type, $behaviour);
@@ -1402,7 +1451,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 // Log message
 $message = $oError->getMessage();
 $debugInfo = $oError->getDebugInfo();
-MAX::debug('PEAR' . " :: $message : $debugInfo", PEAR_LOG_ERR);
+OA::debug('PEAR' . " :: $message : $debugInfo", PEAR_LOG_ERR);
 // If sesssion debug, send error info to screen
 $msg = '';
 if (empty($conf['debug']['production'])) {
