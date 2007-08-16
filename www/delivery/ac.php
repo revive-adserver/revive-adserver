@@ -1208,7 +1208,7 @@ MAX_remotehostSetGeoInfo();
 MAX_commonInitVariables();
 // Unpack the packed capping cookies
 MAX_cookieUnpackCapping();
-// Required files
+// Required files (testing post-commit)
 function MAX_limitationsCheckAcl($row, $source = '')
 {
 if (!empty($row['compiledlimitation'])) {
