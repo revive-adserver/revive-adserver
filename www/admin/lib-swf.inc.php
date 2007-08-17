@@ -401,8 +401,14 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 						swf_tag_null;
 
 
-		if (preg_match('/(\x9B(..).*?)(..)$/s', $previous_part, $m))
-		{
+        // Check for functions (ActionDefineFunction)
+		if (preg_match('/^(..)(.*?(..)\x9B)/s', strrev($previous_part), $m)) {
+		    $tmp = $m;
+		    $m[0] = strrev($tmp[0]);
+		    $m[1] = strrev($tmp[2]);
+		    $m[2] = strrev($tmp[3]);
+		    $m[3] = strrev($tmp[1]);
+
 			$fheader_len = unpack('v', $m[2]);
 			$fheader_len = current($fheader_len);
 			$fbody_len = unpack('v', $m[3]);
@@ -446,7 +452,8 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 
 		$allowedcount++;
 
-		$buffer = str_replace($original, '', $buffer);
+		$replacement = str_replace($geturl2_part, str_repeat("\0", strlen($geturl2_part)), $replacement);
+		$buffer = str_replace($original, $replacement, $buffer);
 	}
 
 
@@ -458,13 +465,33 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	return (array($final, $parameters));
 }
 
+/* Debug function
 function hex_dump($str)
 {
-	for ($i=0; $i<strlen($str);$i++)
-		printf('%02X', ord(substr($str, $i, 1)));
+    echo "<pre>";
+    $len = strlen($str);
 
-	echo "\n";
+    $buf = '';
+	for ($i=0; $i<$len;$i++) {
+		$buf .= sprintf('%02X', ord(substr($str, $i, 1)));
+	}
+
+	$buf = explode(' ', chunk_split($buf, 8, ' '));
+
+	for ($i = 0; $i<$len; $i += 32) {
+	    $hex = '';
+	    for ($j = 0; $j < 8; $j++) {
+	        if ($chunk = array_shift($buf)) {
+	            $hex .= $chunk.' ';
+	        }
+	    }
+
+	    printf("%-72s   %s\n", $hex, preg_replace('/[\x00-\x1F\x80-\xFF]/', '.', substr($str, $i, 32)));
+	}
+
+	echo "\n</pre>";
+	flush();
 }
-
+*/
 
 ?>
