@@ -51,13 +51,13 @@ class OA_Central_AdNetworks
     }
 
     /**
-     * A method to retrieve the localised list of categories and subcategories
+     * A method to retrieve the localised list of categories and categories
      *
      * @see R-AN-3: Gathering the data of Websites during Installation
      * @see R-AN-16: Gathering the Websites after the Installation
      *
      * @param string $language The language name, or an empty string to use OAP default
-     * @return mixed The array of categories and subcategories or PEAR_Error on failure
+     * @return mixed The array of categories and categories or PEAR_Error on failure
      *               The returned array will have a structure like this:
      *
      * Array
@@ -65,7 +65,7 @@ class OA_Central_AdNetworks
      *   [1] => Array
      *     (
      *       [name] => Music
-     *       [subcategories] => Array
+     *       [categories] => Array
      *         (
      *           [1] => Pop
      *           [2] => Rock
@@ -79,7 +79,7 @@ class OA_Central_AdNetworks
     function getCategories($language = '')
     {
         return $this->oRpc->callNoAuth(__METHOD__, array(
-            new XML_RPC_Value($language, 'string')
+            new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
     }
 
@@ -97,7 +97,7 @@ class OA_Central_AdNetworks
     function getCountries($language = '')
     {
         return $this->oRpc->callNoAuth(__METHOD__, array(
-            new XML_RPC_Value($language, 'string')
+            new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
     }
 
@@ -115,7 +115,7 @@ class OA_Central_AdNetworks
     function getLanguages($language = '')
     {
         return $this->oRpc->callNoAuth(__METHOD__, array(
-            new XML_RPC_Value($language, 'string')
+            new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
     }
 
@@ -133,7 +133,7 @@ class OA_Central_AdNetworks
      *     [0] => Array
      *         (
      *             [url] => http://www.openads.org
-     *             [subcategory] => 5
+     *             [category] => 5
      *             [country] => GB
      *             [language] => 1
      *         )
@@ -141,7 +141,7 @@ class OA_Central_AdNetworks
      *     [1] => Array
      *         (
      *             [url] => http://www.phpadsnew.com
-     *             [subcategory] => 5
+     *             [category] => 5
      *             [country] => US
      *             [language] => 1
      *         )
@@ -286,28 +286,67 @@ class OA_Central_AdNetworks
      * A method to get the list of other networks currently available
      *
      * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
-     * @todo Implement R-AN-17 (all countries / all languages)
+     * @see R-AN-17
+     *
+     * @todo Re-think about it.
      *
      *
      * The result array looks like:
      *
      * Array
      * (
-     *     [Google Adsense] => http://adsense.google.com
-     *     [Advertising.com] => http://www.advertising.com
+     *     [Google Adsense] => Array
+     *         (
+     *             [rank] => 1
+     *             [data] => Array
+     *                 (
+     *                     [0] => Array
+     *                         (
+     *                             [url] => http://adsense.google.com
+     *                             [country] =>
+     *                             [language] => 1
+     *                         )
+     *
+     *                     [1] => Array
+     *                         (
+     *                             [url] => http://adsense.google.co.uk
+     *                             [country] => uk
+     *                             [language] => 1
+     *                         )
+     *
+     *                 )
+     *
+     *         )
+     *
+     *     [Advertising.com] => Array
+     *         (
+     *             [rank] => 2
+     *             [data] => Array
+     *                 (
+     *                     [0] => Array
+     *                         (
+     *                             [url] => http://adsense.google.com
+     *                             [country] =>
+     *                             [language] => 1
+     *                         )
+     *
+     *                 )
+     *
+     *         )
+     *
      * )
+     *
+     * Note: country or language might be null, meaning that there are no country and/or
+     *       language constraints
      *
      * @param string $country_code
      * @param int $language_id
      * @return mixed The other networs array (name as key, link as value) on success,
      *               PEAR_Error otherwise
      */
-    function getOtherNetworks($country_code, $language_id)
+    function getOtherNetworks()
     {
-        return $this->oRpc->callNoAuth(__METHOD__, array(
-            new XML_RPC_Value($country_code, 'string'),
-            new XML_RPC_Value($language_id, 'int')
-        ));
+        return $this->oRpc->callNoAuth(__METHOD__);
     }
 
     /**
@@ -324,10 +363,10 @@ class OA_Central_AdNetworks
     function suggestNetwork($name, $url, $country, $language_id)
     {
         return $this->oRpc->callCaptchaSso(__METHOD__, array(
-            new XML_RPC_Value($name, 'string'),
-            new XML_RPC_Value($url, 'string'),
-            new XML_RPC_Value($country_code, 'string'),
-            new XML_RPC_Value($language_id, 'int')
+            new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($url, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($country_code, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($language_id, $GLOBALS['XML_RPC_Int'])
         ));
     }
 
@@ -380,7 +419,7 @@ class OA_Central_AdNetworks
     function getRevenue($batch_sequence)
     {
         return $this->oRpc->callSso(__METHOD__, array(
-            new XML_RPC_Value($batch_sequence, 'int')
+            new XML_RPC_Value($batch_sequence, $GLOBALS['XML_RPC_Int'])
         ));
     }
 }
