@@ -81,7 +81,7 @@ while ($doClients->fetch() && $row = $doClients->toArray()) {
 	phpAds_PageContext(
 		phpAds_buildName ($row['clientid'], $row['clientname']),
 		"advertiser-campaigns.php?clientid=".$row['clientid'],
-		$clientid = $row['clientid']
+		$clientid == $row['clientid']
 	);
 }
 
