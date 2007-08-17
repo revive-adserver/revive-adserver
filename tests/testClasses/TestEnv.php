@@ -222,23 +222,13 @@ class TestEnv
      */
     function restoreEnv()
     {
+        $oDbh = &OA_DB::singleton();
         // Rollback any transactions that have not been closed
         // (Naughty, naughty test!)
-        $oDbh = &OA_DB::singleton();
         while ($oDbh->inTransaction(true) || $oDbh->inTransaction()) {
             TestEnv::rollbackTransaction();
         }
-        // Truncate & drop all known temporary tables
-        $oTable = &OA_DB_Table_Priority::singleton();
-        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
-            $oTable->truncateTable($tableName);
-            $oTable->dropTable($tableName);
-        }
-        $oTable = &OA_DB_Table_Statistics::singleton();
-        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
-            $oTable->truncateTable($tableName);
-            $oTable->dropTable($tableName);
-        }
+        TestEnv::dropTempTables();
         // Truncate all known core tables
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->truncateAllTables();
@@ -249,6 +239,28 @@ class TestEnv
         unset($oServiceLocator->aService);
         // Re-set up the test environment
         TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);
+    }
+
+    function dropTempTables()
+    {
+        $oDbh = &OA_DB::singleton();
+        // Truncate & drop all existing temporary tables
+        $oTable = &OA_DB_Table_Priority::singleton();
+        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            if ($oTable->existsTemporaryTable($tableName))
+            {
+                $oTable->truncateTable($tableName);
+                $oTable->dropTable($tableName);
+            }
+        }
+        $oTable = &OA_DB_Table_Statistics::singleton();
+        foreach ($oTable->aDefinition['tables'] as $tableName => $aTable) {
+            if ($oTable->existsTemporaryTable($tableName))
+            {
+                $oTable->truncateTable($tableName);
+                $oTable->dropTable($tableName);
+            }
+        }
     }
 
     /**
