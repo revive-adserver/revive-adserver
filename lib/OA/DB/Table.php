@@ -330,6 +330,29 @@ class OA_DB_Table
         return true;
     }
 
+     /**
+     * A method to check if a temporary table exists
+     * temporary tables are hidden from SHOW TABLES statement
+     *
+     * @param string $table the name of the table
+     * @return boolean True if exists, false if not exists
+     */
+    function existsTemporaryTable($table)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        OA::debug('Checking for temporary table ' . $table, PEAR_LOG_DEBUG);
+        $query = "SELECT * FROM ".$this->oDbh->quoteIdentifier($table,true);
+        OA::disableErrorHandling();
+        $result = $this->oDbh->exec($query);
+        OA::enableErrorHandling();
+        if (PEAR::isError($result)) {
+            OA::debug('Temporary table exists ' . $table, PEAR_LOG_ERROR);
+            return false;
+        }
+        OA::debug('Not found ' . $table, PEAR_LOG_ERROR);
+        return true;
+    }
+
     /**
      * A method to easily drop a table.
      *
