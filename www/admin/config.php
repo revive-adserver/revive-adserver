@@ -97,12 +97,12 @@ phpAds_registerGlobalUnslashed(
     ,'zoneid'
 );
 
-if (!isset($affiliateid))   $affiliateid = '';
+if (!isset($affiliateid))   $affiliateid = (phpAds_isUser(phpAds_Affiliate)) ? phpAds_getUserID() : '';
 if (!isset($agencyid))      $agencyid = phpAds_getAgencyID();
 if (!isset($bannerid))      $bannerid = '';
 if (!isset($campaignid))    $campaignid = '';
 if (!isset($channelid))     $channelid = '';
-if (!isset($clientid))      $clientid = '';
+if (!isset($clientid))      $clientid = (phpAds_isUser(phpAds_Client)) ? phpAds_getUserID() : '';
 if (!isset($day))           $day = '';
 if (!isset($trackerid))     $trackerid = '';
 if (!isset($userlogid))     $userlogid = '';
