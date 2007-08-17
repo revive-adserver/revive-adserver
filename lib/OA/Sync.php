@@ -81,6 +81,7 @@ class OA_Sync
     function getConfigVersion($version)
     {
         $a = array(
+            'dev'     => -0.001,
             'beta-rc' => 0.1,
             'beta'    => 0.2,
             'rc'      => 0.3,
@@ -91,6 +92,10 @@ class OA_Sync
             $v = preg_split('/[.-]/', substr($version, 1));
         } else {
             $v = preg_split('/[.-]/', $version);
+        }
+
+        if (count($v) < 3) {
+            return false;
         }
 
         // Prepare value from the first 3 items
@@ -106,10 +111,10 @@ class OA_Sync
             $returnValue += $a['beta-rc'] + $aMatches[1] / 1000;
             return $returnValue;
         } else if (count($v) == 4) {
-            // Check that it is either a beta or rc release
-            if ($v[3] == 'beta') {
+            // Check that it is a tag or rc numer
+            if (isset($a[$v[3]])) {
                 // Add the beta
-                $returnValue += $a['beta'];
+                $returnValue += $a[$v[3]];
                 return $returnValue;
             } else if (preg_match('/^rc(\d+)/', $v[3], $aMatches)) {
                 // Add the rc

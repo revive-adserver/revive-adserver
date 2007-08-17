@@ -53,31 +53,23 @@ class Test_OA_Sync extends UnitTestCase
         $oSync = new OA_Sync();
 
         // Prepare sample ascending versions
-        $version1 = 'v2.3.32-beta-rc10';
-        $version2 = '2.3.32-beta-rc11';
-        $version3 = 'v2.3.32-beta';
-        $version4 = '2.3.33-beta-rc1';
-        $version5 = 'v2.3.33-beta';
-        $version6 = '2.4.0-rc1';
-        $version6 = 'v2.4.0-rc2';
-        $version7 = '2.4.0';
+        $aVersions = array(
+            'v2.3.32-beta-rc10' => 2332.110,
+            '2.3.32-beta-rc11'  => 2332.111,
+            'v2.3.32-beta'      => 2332.2,
+            '2.3.33-beta-rc1'   => 2333.101,
+            'v2.3.33-beta'      => 2333.2,
+            '2.4.0-rc1'         => 2400.301,
+            'v2.4.0-rc2'        => 2400.302,
+            '2.4.0'             => 2400.400,
+            'v2.4.0-stable'     => 2400.400,
+            '2.5.0-dev'         => 2499.999,
+            'foo'               => false
+        );
 
-        // Prepare config version numbers
-        $phpVersion1 = $oSync->getConfigVersion($version1);
-        $phpVersion2 = $oSync->getConfigVersion($version2);
-        $phpVersion3 = $oSync->getConfigVersion($version3);
-        $phpVersion4 = $oSync->getConfigVersion($version4);
-        $phpVersion5 = $oSync->getConfigVersion($version5);
-        $phpVersion6 = $oSync->getConfigVersion($version6);
-        $phpVersion7 = $oSync->getConfigVersion($version7);
-
-        // Ensure that versions are in correct order
-        $this->assertTrue($phpVersion1 < $phpVersion2);
-        $this->assertTrue($phpVersion2 < $phpVersion3);
-        $this->assertTrue($phpVersion3 < $phpVersion4);
-        $this->assertTrue($phpVersion4 < $phpVersion5);
-        $this->assertTrue($phpVersion5 < $phpVersion6);
-        $this->assertTrue($phpVersion6 < $phpVersion7);
+        foreach ($aVersions as $version => $config_version) {
+            $this->assertEqual($oSync->getConfigVersion($version), $config_version);
+        }
     }
 
 }
