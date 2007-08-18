@@ -29,18 +29,18 @@ require_once MAX_PATH.'/lib/OA.php';
 require_once 'XML/RPC.php';
 
 
-define('OA_CENTRAL_PROTOCOL_VERSION', 3);
+define('OA_DAL_CENTRAL_PROTOCOL_VERSION', 3);
 
-define('OA_CENTRAL_AUTH_NONE',    0);
-define('OA_CENTRAL_AUTH_SSO',     1);
-define('OA_CENTRAL_AUTH_CAPTCHA', 2);
+define('OA_DAL_CENTRAL_AUTH_NONE',    0);
+define('OA_DAL_CENTRAL_AUTH_SSO',     1);
+define('OA_DAL_CENTRAL_AUTH_CAPTCHA', 2);
 
 
 /**
  * OAP to OAC communication class
  *
  */
-class OA_Central_Rpc
+class OA_Dal_Central_Rpc
 {
     /**
      * @var XML_RPC_Client
@@ -50,9 +50,9 @@ class OA_Central_Rpc
     /**
      * Class constructor
      *
-     * @return OA_Central_Rpc
+     * @return OA_Dal_Central_Rpc
      */
-    function OA_Central_Rpc()
+    function OA_Dal_Central_Rpc()
     {
         $this->oXml = new XML_RPC_Client(
             '/oap/',
@@ -70,19 +70,21 @@ class OA_Central_Rpc
      */
     function call($methodName, $authType, $aParams = null)
     {
-        $oMsg = new XML_RPC_Message('oac.'.$methodName);
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
+        $oMsg = new XML_RPC_Message('oac.'.preg_replace('/^.*::/', '', $methodName));
 
         $aHeader = array(
-            'protocolVersion'   => OA_CENTRAL_PROTOCOL_VERSION,
-            'platformHash'      => sha1('foobar')
+            'protocolVersion'   => OA_DAL_CENTRAL_PROTOCOL_VERSION,
+            'platformHash'      => $aPref['instance_id']
         );
 
-        if ($authType & OA_CENTRAL_AUTH_SSO) {
-            $aHeader['ssoUsername'] = 'foo';
-            $aHeader['ssoPassword'] = 'bar';
+        if ($authType & OA_DAL_CENTRAL_AUTH_SSO) {
+            $aHeader['ssoUsername'] = $aPref['sso_admin'];
+            $aHeader['ssoPassword'] = $aPref['sso_password'];
         }
-        if ($authType & OA_CENTRAL_AUTH_CAPTCHA) {
-            $aHeader['ssoCaptcha']  = 'baz';
+        if ($authType & OA_DAL_CENTRAL_AUTH_CAPTCHA) {
+            $aHeader['ssoCaptcha']  = isset($_REQUEST['captcha']) ? $_REQUEST['captcha'] : '';
         }
 
         $oMsg->addParam(XML_RPC_encode($aHeader));
@@ -96,7 +98,7 @@ class OA_Central_Rpc
         $oResponse = $this->oXml->send($oMsg);
 
         if ($oResponse->faultCode()) {
-            return PEAR::raiseError($oResponse->faultString(), $oResponse->faultCode());
+            return new PEAR_Error($oResponse->faultString(), $oResponse->faultCode());
         }
 
         return XML_RPC_decode($oResponse->value());
@@ -113,7 +115,7 @@ class OA_Central_Rpc
      */
     function callNoAuth($methodName, $aParams = null)
     {
-        return $this->call($methodName, OA_CENTRAL_AUTH_NONE, $aParams);
+        return $this->call($methodName, OA_DAL_CENTRAL_AUTH_NONE, $aParams);
     }
 
     /**
@@ -127,7 +129,7 @@ class OA_Central_Rpc
      */
     function callSso($methodName, $aParams = null)
     {
-        return $this->call($methodName, OA_CENTRAL_AUTH_SSO, $aParams);
+        return $this->call($methodName, OA_DAL_CENTRAL_AUTH_SSO, $aParams);
     }
 
     /**
@@ -141,7 +143,7 @@ class OA_Central_Rpc
      */
     function callCaptcha($methodName, $aParams = null)
     {
-        return $this->call($methodName, OA_CENTRAL_AUTH_CAPTCHA, $aParams);
+        return $this->call($methodName, OA_DAL_CENTRAL_AUTH_CAPTCHA, $aParams);
     }
 
     /**
@@ -155,7 +157,7 @@ class OA_Central_Rpc
      */
     function callCaptchaSso($methodName, $aParams = null)
     {
-        return $this->call($methodName, OA_CENTRAL_AUTH_SSO | OA_CENTRAL_AUTH_CAPTCHA, $aParams);
+        return $this->call($methodName, OA_DAL_CENTRAL_AUTH_SSO | OA_DAL_CENTRAL_AUTH_CAPTCHA, $aParams);
     }
 }
 

@@ -101,7 +101,9 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
         'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
         'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES),
-        'util'   => array('Commonly used utilities',           NO_DB)
+        //'oac'   => array('Openads Central',                     DB_NO_TABLES),
+        'oacdb' => array('Openads Central (DB)',                DB_WITH_TABLES),
+        'util'  => array('Commonly used utilities',             NO_DB)
     );
 
 /*

@@ -26,24 +26,28 @@ $Id$
 */
 
 require_once MAX_PATH.'/lib/OA.php';
-require_once MAX_PATH.'/lib/OA/Central/Rpc.php';
+require_once MAX_PATH.'/lib/OA/Dal/Central/Rpc.php';
 
 
 /**
  * OAP binding to the OAC generic API
  *
  */
-class OA_Central_Common
+class OA_Dal_Central_Common
 {
+    /**
+     * @var OA_Dal_Central_Rpc
+     */
+    var $oRpc;
+
     /**
      * Class constructor
      *
-     * @return OA_Central_Common
+     * @return OA_Dal_Central_Common
      */
-    function OA_Central_Common()
+    function OA_Dal_Central_Common()
     {
-        OA::debug('This class only contains static methods', PEAR_LOG_ERR);
-        exit;
+        $this->oRpc = new OA_Dal_Central_Rpc();
     }
 
     /**

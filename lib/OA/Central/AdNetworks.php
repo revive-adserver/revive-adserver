@@ -25,8 +25,11 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/OA.php';
-require_once MAX_PATH.'/lib/OA/Central/Rpc.php';
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/Central/AdNetworks.php';
+
+require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 
 /**
@@ -36,51 +39,40 @@ require_once MAX_PATH.'/lib/OA/Central/Rpc.php';
 class OA_Central_AdNetworks
 {
     /**
-     * @var OA_Central_Rpc
+     * @var OA_Dal_Central_AdNetworks
      */
-    var $oRpc;
+    var $oDal;
 
     /**
      * Class constructor
      *
-     * @return OA_Central_adNetworks
+     * @return OA_Central_AdNetworks
      */
     function OA_Central_AdNetworks()
     {
-        $this->oRpc = new OA_Central_Rpc();
+        $this->oDal = new OA_Dal_Central_AdNetworks();
     }
 
     /**
-     * A method to retrieve the localised list of categories and categories
+     * A method to retrieve the localised list of categories and subcategories
      *
+     * @see OA_Dal_Central_AdNetworks::getCategories
+
      * @see R-AN-3: Gathering the data of Websites during Installation
      * @see R-AN-16: Gathering the Websites after the Installation
      *
-     * @param string $language The language name, or an empty string to use OAP default
-     * @return mixed The array of categories and categories or PEAR_Error on failure
-     *               The returned array will have a structure like this:
-     *
-     * Array
-     * (
-     *   [1] => Array
-     *     (
-     *       [name] => Music
-     *       [categories] => Array
-     *         (
-     *           [1] => Pop
-     *           [2] => Rock
-     *         )
-     *
-     *     )
-     *
-     * )
-     *
+     * @return mixed The categories and subcategories array or false on error
      */
-    function getCategories($language = '')
+    function getCategories()
     {
-        return $this->oRpc->callNoAuth(__METHOD__, array(
-            new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
-        ));
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        $result = $this->oDal->getCategories($aPref['language']);
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return $result;
     }
 
     /**
@@ -90,15 +82,19 @@ class OA_Central_AdNetworks
      * @see R-AN-16: Gathering the Websites after the Installation
      * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
      *
-     * @param string $language The language name, or an empty string to use OAP default
      * @return mixed The array of countries, with country identifiers as keys, or
-     *               PEAR_Error on failure
+     *               false on error
      */
-    function getCountries($language = '')
+    function getCountries()
     {
-        return $this->oRpc->callNoAuth(__METHOD__, array(
-            new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
-        ));
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        $result = $this->oDal->getCountries($aPref['language']);
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return $result;
     }
 
     /**
@@ -108,15 +104,19 @@ class OA_Central_AdNetworks
      * @see R-AN-16: Gathering the Websites after the Installation
      * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
      *
-     * @param string $language The language name, or an empty string to use OAP default
      * @return mixed The array of languages, with language identifiers as keys, or
-     *               PEAR_Error on failure
+     *               false on error
      */
-    function getLanguages($language = '')
+    function getLanguages()
     {
-        return $this->oRpc->callNoAuth(__METHOD__, array(
-            new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
-        ));
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        $result = $this->oDal->getLanguages($aPref['language']);
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return $result;
     }
 
     /**
@@ -126,301 +126,214 @@ class OA_Central_AdNetworks
      * @see R-AN-4: Creation of the Ad Networks Entities
      * @see R-AN-5: Generation of Campaigns and Banners
      *
-     * The $aWebsites array format is:
-     *
-     * Array
-     * (
-     *     [0] => Array
-     *         (
-     *             [url] => http://www.openads.org
-     *             [category] => 5
-     *             [country] => GB
-     *             [language] => 1
-     *         )
-     *
-     *     [1] => Array
-     *         (
-     *             [url] => http://www.phpadsnew.com
-     *             [category] => 5
-     *             [country] => US
-     *             [language] => 1
-     *         )
-     *
-     * )
-     *
-     *
-     * The result format is:
-     *
-     * Array
-     * (
-     *     [0] => Array
-     *         (
-     *             [url] => http://www.openads.org
-     *             [advertisers] => Array
-     *                 (
-     *                     [0] => Array
-     *                         (
-     *                             [advertiser_id] => 1551
-     *                             [name] => CPX
-     *                             [campaigns] => Array
-     *                                 (
-     *                                     [0] => Array
-     *                                         (
-     *                                             [campaign_id] => 1782
-     *                                             [name] => Test
-     *                                             [weight] => 1
-     *                                             [capping] => 0
-     *                                             [banners] => Array
-     *                                                 (
-     *                                                     [0] => Array
-     *                                                         (
-     *                                                             [banner_id] => 2876
-     *                                                             [name] => Banner 1
-     *                                                             [width] => 468
-     *                                                             [height] => 60
-     *                                                             [capping] => 0
-     *                                                             [html] => <script type="text/javascript"></script>
-     *                                                             [adserver] => cpx
-     *                                                         )
-     *
-     *                                                 )
-     *
-     *                                         )
-     *
-     *                                 )
-     *
-     *                         )
-     *
-     *                     [1] => Array
-     *                         (
-     *                             [advertiser_id] => 1552
-     *                             [name] => Kontera
-     *                             [campaigns] => Array
-     *                                 (
-     *                                     [0] => Array
-     *                                         (
-     *                                             [campaign_id] => 1783
-     *                                             [name] => Test
-     *                                             [weight] => 1
-     *                                             [capping] => 0
-     *                                             [banners] => Array
-     *                                                 (
-     *                                                     [0] => Array
-     *                                                         (
-     *                                                             [banner_id] => 2877
-     *                                                             [name] => Banner 468x60
-     *                                                             [width] => 468
-     *                                                             [height] => 60
-     *                                                             [capping] => 0
-     *                                                             [html] => <script type="text/javascript"></script>
-     *                                                             [adserver] => kontera
-     *                                                         )
-     *
-     *                                                 )
-     *
-     *                                         )
-     *
-     *                                 )
-     *
-     *                         )
-     *
-     *                 )
-     *
-     *         )
-     *
-     *     [1] => Array
-     *         (
-     *             [url] => http://www.phpadsnew.com
-     *             [advertisers] => Array
-     *                 (
-     *                     [1553] => Array
-     *                         (
-     *                             [name] => CPX
-     *                             [campaigns] => Array
-     *                                 (
-     *                                     [1784] => Array
-     *                                         (
-     *                                             [name] => Test
-     *                                             [weight] => 1
-     *                                             [capping] => 0
-     *                                             [banners] => Array
-     *                                                 (
-     *                                                     [2878] => Array
-     *                                                         (
-     *                                                             [name] => Banner 1
-     *                                                             [width] => 468
-     *                                                             [height] => 60
-     *                                                             [capping] => 0
-     *                                                             [html] => <script type="text/javascript"></script>
-     *                                                             [adserver] => cpx
-     *                                                         )
-     *
-     *                                                 )
-     *
-     *                                         )
-     *
-     *                                 )
-     *
-     *                         )
-     *
-     *                 )
-     *
-     *         )
-     *
-     * )
-     *
-     *
      * @param array $aWebsites
-     * @return mixed The array of campaigns and banners if successful, PEAR_Error
-     *               otherwise
+     * @return boolean True on success
      */
     function subscribeWebsites($aWebsites)
     {
-        return $this->oRpc->callCaptchaSso(__METHOD__, array(
-            XML_RPC_encode($aWebsites)
-        ));
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
+        $aWebsites = $this->oDal->subscribeWebsites($aWebsites);
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        // Simulate transactions
+        $aCreated = array(
+            'publishers'  => array(),
+            'advertisers' => array(),
+            'campaigns'   => array(),
+            'banners'     => array(),
+            'zones'       => array()
+        );
+
+        $ok = true;
+        for (reset($aWebsites); $ok && ($aWebsite = current($aWebsites)); next($aWebsites)) {
+            // Create publisher
+            $publisherName = $this->getUniquePublisherName($aWebsite['url']);
+            $publisher = array(
+                'name'     => $publisherName,
+                'mnemonic' => '',
+                'contact'  => $aPref['admin_name'],
+                'email'    => $aPref['admin_email'],
+                'website'  => $aWebsite['url']
+            );
+
+            $doPublishers = OA_Dal::factoryDO('affiliates');
+            $doPublishers->setFrom($publisher);
+            $publisherId = $doPublishers->insert();
+
+            if (!empty($publisherId)) {
+                $aCreated['publishers'][] = $publisherId;
+                $aZones = array();
+            } else {
+                $ok = false;
+            }
+
+            for (reset($aWebsite['advertisers']); $ok && ($aAdvertiser = current($aWebsite['advertisers'])); next($aWebsite['advertisers'])) {
+                // Create advertiser
+                $advertiserName = $this->getUniqueAdvertiserName($aAdvertiser['name']);
+                $advertiser = array(
+                    'clientname' => $advertiserName,
+                    'contact'    => $aPref['admin_name'],
+                    'email'      => $aPref['admin_email']
+                );
+
+                $doAdvertisers = OA_Dal::factoryDO('clients');
+                $doAdvertisers->setFrom($advertiser);
+                $advertiserId = $doAdvertisers->insert();
+
+                if (!empty($advertiserId)) {
+                    $aCreated['advertisers'][] = $advertiserId;
+                } else {
+                    $ok = false;
+                }
+
+                for (reset($aAdvertiser['campaigns']); $ok && ($aCampaign = current($aAdvertiser['campaigns'])); next($aAdvertiser['campaigns'])) {
+                    // Create campaign
+                    $campaignName = $this->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']}");
+                    $campaign = array(
+                        'campaignname' => $campaignName,
+                        'clientid'     => $advertiserId,
+                        'weight'       => $aCampaign['weight'],
+                        'capping'      => $aCampaign['capping']
+                    );
+
+                    $doCampaigns = OA_Dal::factoryDO('campaigns');
+                    $doCampaigns->setFrom($campaign);
+                    $campaignId = $doCampaigns->insert();
+
+                    if (!empty($campaignId)) {
+                        $aCreated['campaigns'][] = $campaignId;
+                    } else {
+                        $ok = false;
+                    }
+
+                    for (reset($aCampaign['banners']); $ok && ($aBanner = current($aCampaign['banners'])); next($aCampaign['banners'])) {
+                        // Create banner
+                        $bannerName = $this->getUniqueBannerName("{$campaignName} - {$aBanner['name']}");
+                        $banner = array(
+                            'description'  => $bannerName,
+                            'campaignid'   => $campaignId,
+                            'width'        => $aBanner['width'],
+                            'height'       => $aBanner['height'],
+                            'capping'      => $aBanner['capping'],
+                            'htmltemplate' => $aBanner['html'],
+                            'adserver'     => $aBanner['adserver']
+                        );
+
+                        $doBanners = OA_Dal::factoryDO('banners');
+                        $doBanners->setFrom($banner);
+                        $bannerId = $doBanners->insert();
+
+                        if (!empty($bannerId)) {
+                            $aCreated['banners'][] = $bannerId;
+
+                            $zoneSize = "{$aBanner['width']}x{$aBanner['height']}";
+                            if (isset($aZones[$zoneSize])) {
+                                $zoneId = $aZones[$zoneSize];
+                            } else {
+                                // Create zone
+                                $zoneName = $this->getUniqueZoneName("{$publisherName} - {$zoneSize}");
+                                $zone = array(
+                                    'zonename'    => $zoneName,
+                                    'affiliateid' => $publisherId,
+                                    'width'       => $aBanner['width'],
+                                    'height'      => $aBanner['height'],
+                                );
+
+                                $doZones = OA_Dal::factoryDO('zones');
+                                $doZones->setFrom($zone);
+                                $zoneId = $doZones->insert();
+                            }
+
+                            if (!empty($zoneId)) {
+                                // Link banner to zone
+                                $aVariables = array(
+                                    'ad_id'   => $bannerId,
+                                    'zone_id' => $zoneId
+                                );
+
+                                $result = Admin_DA::addAdZone($aVariables);
+
+                                if (PEAR::isError($result)) {
+                                    $ok = false;
+                                }
+                            } else {
+                                $ok = false;
+                            }
+                        } else {
+                            $ok = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!$ok) {
+            // Rollback
+            return false;
+        }
+
+        return true;
     }
 
-
-    /**
-     * A method to get the list of other networks currently available
-     *
-     * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
-     * @see R-AN-17
-     *
-     * @todo Re-think about it.
-     *
-     *
-     * The result array looks like:
-     *
-     * Array
-     * (
-     *     [Google Adsense] => Array
-     *         (
-     *             [rank] => 1
-     *             [data] => Array
-     *                 (
-     *                     [0] => Array
-     *                         (
-     *                             [url] => http://adsense.google.com
-     *                             [country] =>
-     *                             [language] => 1
-     *                         )
-     *
-     *                     [1] => Array
-     *                         (
-     *                             [url] => http://adsense.google.co.uk
-     *                             [country] => uk
-     *                             [language] => 1
-     *                         )
-     *
-     *                 )
-     *
-     *         )
-     *
-     *     [Advertising.com] => Array
-     *         (
-     *             [rank] => 2
-     *             [data] => Array
-     *                 (
-     *                     [0] => Array
-     *                         (
-     *                             [url] => http://adsense.google.com
-     *                             [country] =>
-     *                             [language] => 1
-     *                         )
-     *
-     *                 )
-     *
-     *         )
-     *
-     * )
-     *
-     * Note: country or language might be null, meaning that there are no country and/or
-     *       language constraints
-     *
-     * @param string $country_code
-     * @param int $language_id
-     * @return mixed The other networs array (name as key, link as value) on success,
-     *               PEAR_Error otherwise
-     */
-    function getOtherNetworks()
+    function _getUniqueName($name, $entityTable, $entityName)
     {
-        return $this->oRpc->callNoAuth(__METHOD__);
+        $doEntities = OA_Dal::factoryDO($entityTable);
+        $doEntities->find();
+
+        $aNames = array();
+        while ($doEntities->fetch()) {
+            $aNames[] = $doEntities->$entityName;
+        }
+
+        if (!in_array($name, $aNames)) {
+            return $name;
+        }
+
+        $aNumbers = array();
+        foreach ($aNames as $value) {
+            if (preg_match('/^'.preg_quote($name, '/').' \((\d+)\)$/', $value, $m)) {
+                $aNumbers[] = intval($m[1]);
+            }
+        }
+
+        if (count($aNumbers)) {
+            rsort($aNumbers, SORT_NUMERIC);
+
+            $number = current($aNumbers) + 1;
+        } else {
+            $number = 2;
+        }
+
+        return "{$name} ({$number})";
     }
 
-    /**
-     * A method to suggest a new network
-     *
-     * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
-     *
-     * @param string $name
-     * @param string $url
-     * @param string $country_code
-     * @param int $language_id
-     * @return mixed A boolean True on success, PEAR_Error otherwise
-     */
-    function suggestNetwork($name, $url, $country, $language_id)
+    function getUniqueAdvertiserName($name)
     {
-        return $this->oRpc->callCaptchaSso(__METHOD__, array(
-            new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
-            new XML_RPC_Value($url, $GLOBALS['XML_RPC_String']),
-            new XML_RPC_Value($country_code, $GLOBALS['XML_RPC_String']),
-            new XML_RPC_Value($language_id, $GLOBALS['XML_RPC_Int'])
-        ));
+        return $this->_getUniqueName($name, 'clients', 'clientname');
     }
 
-    /**
-     * A method to retrieve the revenue information until last GMT midnight
-     *
-     * @see R-AN-7: Synchronizing the revenue information
-     *
-     * The result array looks like:
-     *
-     * Array
-     * (
-     *     [2876] => Array
-     *         (
-     *             [0] => Array
-     *                 (
-     *                     [start] => 2007-08-01 00:00:00
-     *                     [end] => 2007-08-01 23:59:59
-     *                     [revenue] => 10
-     *                     [type] => CPC
-     *                 )
-     *
-     *             [1] => Array
-     *                 (
-     *                     [start] => 2007-08-02 00:00:00
-     *                     [end] => 2007-08-02 23:59:59
-     *                     [revenue] => 6
-     *                     [type] => CPC
-     *                 )
-     *
-     *         )
-     *
-     *     [2877] => Array
-     *         (
-     *             [0] => Array
-     *                 (
-     *                     [start] => 2007-08-02 00:00:00
-     *                     [end] => 2007-08-02 23:59:59
-     *                     [revenue] => 1
-     *                     [type] => CPM
-     *                 )
-     *
-     *         )
-     *
-     * )
-     *
-     * @param int $batch_sequence
-     * @return mixed An array with revenue details if successul, PEAR_Error otherwise
-     */
-    function getRevenue($batch_sequence)
+    function getUniqueCampaignName($name)
     {
-        return $this->oRpc->callSso(__METHOD__, array(
-            new XML_RPC_Value($batch_sequence, $GLOBALS['XML_RPC_Int'])
-        ));
+        return $this->_getUniqueName($name, 'campaigns', 'campaignname');
+    }
+
+    function getUniqueBannerName($name)
+    {
+        return $this->_getUniqueName($name, 'banners', 'description');
+    }
+
+    function getUniquePublisherName($name)
+    {
+        return $this->_getUniqueName($name, 'affiliates', 'name');
+    }
+
+    function getUniqueZoneName($name)
+    {
+        return $this->_getUniqueName($name, 'zones', 'zonename');
     }
 }
 
