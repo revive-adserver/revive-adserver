@@ -89,9 +89,6 @@ class OA_DB
         {
             // Prepare options for a new database connection
             $aOptions = array();
-            $aOptions['datatype_map'] = '';
-            $aOptions['datatype_map_callback'] = '';
-            $aOptions['nativetype_map_callback'] = '';
             // Set the index name format
             $aOptions['idxname_format'] = '%s';
             // Use 4 decimal places in DECIMAL nativetypes
@@ -107,40 +104,9 @@ class OA_DB
                     $aOptions['use_transactions'] = true;
                 }
             }
-            // Set any custom MDB2 datatypes & nativetype mappings
-            $customTypesInfoFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
-                               $aConf['database']['type'] . '_info.php';
-            $customTypesFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
-                               $aConf['database']['type'] . '.php';
-            if (is_readable($customTypesInfoFile) && is_readable($customTypesFile)) {
-                include $customTypesInfoFile;
-                require_once $customTypesFile;
-                if (!empty($aDatatypes)) {
-                    reset($aDatatypes);
-                    while (list($key, $value) = each($aDatatypes)) {
-                        $aOptions['datatype_map'] =
-                            array_merge(
-                                (array)$aOptions['datatype_map'],
-                                array($key => $value)
-                            );
-                        $aOptions['datatype_map_callback'] =
-                            array_merge(
-                                (array)$aOptions['datatype_map_callback'],
-                                array($key => 'datatype_' . $key . '_callback')
-                            );
-                    }
-                }
-                if (!empty($aNativetypes)) {
-                    reset($aNativetypes);
-                    while (list(,$value) = each($aNativetypes)) {
-                        $aOptions['nativetype_map_callback'] =
-                            array_merge(
-                                (array)$aOptions['nativetype_map_callback'],
-                                array($value => 'nativetype_' . $value . '_callback')
-                            );
-                    }
-                }
-            }
+            
+            $aOptions += OA_DB::getDatatypeMapOptions();
+            
             // Create the new database connection
             OA::disableErrorHandling();
             $oDbh = &MDB2::singleton($dsn, $aOptions);
@@ -168,6 +134,58 @@ class OA_DB
             }
         }
         return $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5];
+    }
+    
+    /**
+     * Set any custom MDB2 datatypes & nativetype mappings
+     *
+     * @return array
+     * @static 
+     */
+    function getDatatypeMapOptions()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        
+        $aOptions = array();
+        $aOptions['datatype_map'] = '';
+        $aOptions['datatype_map_callback'] = '';
+        $aOptions['nativetype_map_callback'] = '';
+        
+        $customTypesInfoFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
+                           $aConf['database']['type'] . '_info.php';
+        $customTypesFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
+                           $aConf['database']['type'] . '.php';
+        if (is_readable($customTypesInfoFile) && is_readable($customTypesFile)) {
+            include $customTypesInfoFile;
+            require_once $customTypesFile;
+            if (!empty($aDatatypes)) {
+                reset($aDatatypes);
+                while (list($key, $value) = each($aDatatypes)) {
+                    $aOptions['datatype_map'] =
+                        array_merge(
+                            (array)$aOptions['datatype_map'],
+                            array($key => $value)
+                        );
+                    $aOptions['datatype_map_callback'] =
+                        array_merge(
+                            (array)$aOptions['datatype_map_callback'],
+                            array($key => 'datatype_' . $key . '_callback')
+                        );
+                }
+            }
+            if (!empty($aNativetypes)) {
+                reset($aNativetypes);
+                while (list(,$value) = each($aNativetypes)) {
+                    $aOptions['nativetype_map_callback'] =
+                        array_merge(
+                            (array)$aOptions['nativetype_map_callback'],
+                            array($value => 'nativetype_' . $value . '_callback')
+                        );
+                }
+            }
+        }
+        
+        return $aOptions;
     }
 
     /**

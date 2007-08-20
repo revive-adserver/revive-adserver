@@ -25,108 +25,81 @@
 $Id$
 */
 
-if (PHP_SAPI == 'cli') {
-    $maxPath = '';
-    if ($argc < 3) {
-        $aTry = array('.', '..', '../..');
-        foreach ($aTry as $dir) {
-            $xmlcachePath = $dir.'/etc/xmlcache';
-            if (file_exists($xmlcachePath) && is_dir($xmlcachePath)) {
-                $maxPath = $dir;
-                break;
-            }
-        }
-        if (empty($maxPath)) {
-            die ("Couldn't detect the correct path, use: {$argv[0]} <domain> <openads_path>\n");
-        }
-    } else {
-        $xmlcachePath = $argv[2].'/etc/xmlcache';
-        if (file_exists($xmlcachePath) && is_dir($xmlcachePath)) {
-            $maxPath = $dir;
-        }
-        if (empty($maxPath)) {
-            die ("The specified path is wrong, use: {$argv[0]} <domain> <openads_path>\n");
-        }
-    }
+define('MAX_PATH', dirname(__FILE__) . '/../..');
+error_reporting(E_ALL);
 
-    define('MAX_PATH', $maxPath);
-    require MAX_PATH . '/init.php';
-} else {
-    define('MAX_PATH', realpath('../..'));
-    require MAX_PATH . '/init.php';
-
-    @set_time_limit(600);
+// setup environment - do not require config file
+require_once MAX_PATH . '/init-parse.php';
+require_once MAX_PATH . '/constants.php';
+require_once MAX_PATH . '/variables.php';
+setupServerVariables();
+// set conf array to prevent loading config file
+$GLOBALS['_MAX']['CONF'] = array();
+$GLOBALS['_MAX']['CONF']['log']['enabled'] = false;
+// set pear path
+$newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
+if (!empty($existingPearPath)) {
+    $newPearPath .= PATH_SEPARATOR . $existingPearPath;
 }
+ini_set('include_path', $newPearPath);
+$GLOBALS['_MAX']['CONF']['database']['type'] = 'mysql';
+
+setupConstants();
+setupConfigVariables();
+@set_time_limit(600);
+increaseMemoryLimit(40 * 1024 * 1024); // 40MB
+
 
 if (!is_writable(MAX_PATH.'/etc/xmlcache')) {
     die("The directory ".MAX_PATH.'/etc/xmlcache'." is not writable\n");
 }
 
-
 require MAX_PATH . '/lib/OA/DB/Table.php';
 
-/*
-$aTableFiles = array();
-$aFiles = array_merge($aFiles, );
-$aFiles = array_merge($aFiles, glob($etcPath.'/changes/changes_tables_*.xml'));
-$aFiles = array_merge($aFiles, glob($etcPath.'/changes/schema_tables_*.xml'));
-*/
+// Create a database mock so we will not have to connect to database itself
+require_once MAX_PATH . '/lib/simpletest/mock_objects.php';
+require_once 'MDB2/Driver/mysql.php';
+Mock::generatePartial('MDB2_Driver_mysql', 'MDB2_Mock', array());
+$oDbh = new MDB2_Mock;
+$oDbh->__construct();
+// add datatype mapping
+$aDatatypeOptions = OA_DB::getDatatypeMapOptions();
+MDB2::setOptions($oDbh, $aDatatypeOptions);
 
-$oDbh = OA_DB::singleton();
 $oCache = new OA_DB_XmlCache();
 
 $aOptions = array('force_defaults'=>false);
-
 $aSkipFiles = array(
     'tables_core_2_0_12.xml'
 );
 
 clean_up();
 
-foreach (glob(MAX_PATH.'/etc/tables_*.xml') as $fileName) {
-    if (!in_array(baseName($fileName), $aSkipFiles)) {
-        echo basename($fileName).": "; flush();
-        $oSchema = &MDB2_Schema::factory($oDbh, $aOptions);
-        $result = $oSchema->parseDatabaseDefinitionFile($fileName, true);
-        if (PEAR::isError($result)) {
-            clean_up();
-            die("failed\n");
-        } else {
-            $oCache->save($result, $fileName);
-            echo "processed"; eol_flush();
+function generateXmlCache($xmlFiles)
+{
+    global $aSkipFiles, $aOptions, $oDbh, $oCache;
+    
+    foreach ($xmlFiles as $fileName) {
+        if (!in_array(baseName($fileName), $aSkipFiles)) {
+            echo basename($fileName).": "; flush();
+            $oSchema = &MDB2_Schema::factory($oDbh, $aOptions);
+            $result = $oSchema->parseDatabaseDefinitionFile($fileName, true);
+            if (PEAR::isError($result)) {
+                clean_up();
+                die("failed\n");
+            } else {
+                $oCache->save($result, $fileName);
+                echo "processed"; eol_flush();
+            }
+            unset($result);
         }
     }
 }
 
-foreach (glob(MAX_PATH.'/etc/changes/schema_tables_*.xml') as $fileName) {
-    if (!in_array(baseName($fileName), $aSkipFiles)) {
-        echo basename($fileName).": "; flush();
-        $oSchema = &MDB2_Schema::factory($oDbh, $aOptions);
-        $result = $oSchema->parseDatabaseDefinitionFile($fileName, true);
-        if (PEAR::isError($result)) {
-            clean_up();
-            die("failed\n");
-        } else {
-            $oCache->save($result, $fileName);
-            echo "processed"; eol_flush();
-        }
-    }
-}
-
-foreach (glob(MAX_PATH.'/etc/changes/changes_tables_*.xml') as $fileName) {
-    if (!in_array(baseName($fileName), $aSkipFiles)) {
-        echo basename($fileName).": "; flush();
-        $oSchema = &MDB2_Schema::factory($oDbh, $aOptions);
-        $result = $oSchema->parseChangesetDefinitionFile($fileName);
-        if (PEAR::isError($result, $result)) {
-            clean_up();
-            die("failed\n");
-        } else {
-            $oCache->save($result, $fileName);
-            echo "processed"; eol_flush();
-        }
-    }
-}
+// Generate XML caches
+generateXmlCache(glob(MAX_PATH.'/etc/tables_*.xml'));
+generateXmlCache(glob(MAX_PATH.'/etc/changes/schema_tables_*.xml'));
+generateXmlCache(glob(MAX_PATH.'/etc/changes/changes_tables_*.xml'));
 
 function eol_flush()
 {
