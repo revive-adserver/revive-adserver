@@ -75,7 +75,7 @@ $aSkipFiles = array(
 
 clean_up();
 
-function generateXmlCache($xmlFiles)
+function generateXmlCache($xmlFiles, $callback)
 {
     global $aSkipFiles, $aOptions, $oDbh, $oCache;
     
@@ -83,7 +83,7 @@ function generateXmlCache($xmlFiles)
         if (!in_array(baseName($fileName), $aSkipFiles)) {
             echo basename($fileName).": "; flush();
             $oSchema = &MDB2_Schema::factory($oDbh, $aOptions);
-            $result = $oSchema->parseDatabaseDefinitionFile($fileName, true);
+            $result = $oSchema->$callback($fileName, true);
             if (PEAR::isError($result)) {
                 clean_up();
                 die("failed\n");
@@ -97,9 +97,9 @@ function generateXmlCache($xmlFiles)
 }
 
 // Generate XML caches
-generateXmlCache(glob(MAX_PATH.'/etc/tables_*.xml'));
-generateXmlCache(glob(MAX_PATH.'/etc/changes/schema_tables_*.xml'));
-generateXmlCache(glob(MAX_PATH.'/etc/changes/changes_tables_*.xml'));
+generateXmlCache(glob(MAX_PATH.'/etc/tables_*.xml'), 'parseDatabaseDefinitionFile');
+generateXmlCache(glob(MAX_PATH.'/etc/changes/schema_tables_*.xml'), 'parseDatabaseDefinitionFile');
+generateXmlCache(glob(MAX_PATH.'/etc/changes/changes_tables_*.xml'), 'parseChangesetDefinitionFile');
 
 function eol_flush()
 {
