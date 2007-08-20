@@ -75,7 +75,12 @@ $aSkipFiles = array(
 
 clean_up();
 
-function generateXmlCache($xmlFiles, $callback)
+// Generate XML caches
+generateXmlCache(glob(MAX_PATH.'/etc/tables_*.xml'));
+generateXmlCache(glob(MAX_PATH.'/etc/changes/schema_tables_*.xml'));
+generateXmlCache(glob(MAX_PATH.'/etc/changes/changes_tables_*.xml'), 'parseChangesetDefinitionFile');
+
+function generateXmlCache($xmlFiles, $callback = 'parseDatabaseDefinitionFile')
 {
     global $aSkipFiles, $aOptions, $oDbh, $oCache;
     
@@ -95,11 +100,6 @@ function generateXmlCache($xmlFiles, $callback)
         }
     }
 }
-
-// Generate XML caches
-generateXmlCache(glob(MAX_PATH.'/etc/tables_*.xml'), 'parseDatabaseDefinitionFile');
-generateXmlCache(glob(MAX_PATH.'/etc/changes/schema_tables_*.xml'), 'parseDatabaseDefinitionFile');
-generateXmlCache(glob(MAX_PATH.'/etc/changes/changes_tables_*.xml'), 'parseChangesetDefinitionFile');
 
 function eol_flush()
 {
