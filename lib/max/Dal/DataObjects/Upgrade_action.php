@@ -18,7 +18,6 @@ class DataObjects_Upgrade_action extends DB_DataObjectCommon
     var $description;                     // string(255)  
     var $logfile;                         // string(128)  
     var $confbackup;                      // string(128)  
-    var $dbschemas;                       // blob(65535)  blob
     var $updated;                         // datetime(19)  multiple_key binary
 
     /* ZE2 compatibility trick*/

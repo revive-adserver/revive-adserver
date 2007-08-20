@@ -37,7 +37,7 @@ class DataObjects_Images extends DB_DataObjectCommon
 
     var $__table = 'images';                          // table name
     var $filename;                        // string(128)  not_null primary_key
-    var $contents;                        // blob(16777215)  not_null blob binary
+    var $contents;                        // blob(4294967295)  not_null blob binary
     var $t_stamp;                         // datetime(19)  binary
 
     /* ZE2 compatibility trick*/
