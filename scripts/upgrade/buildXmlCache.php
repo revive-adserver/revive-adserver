@@ -36,6 +36,9 @@ setupServerVariables();
 // set conf array to prevent loading config file
 $GLOBALS['_MAX']['CONF'] = array();
 $GLOBALS['_MAX']['CONF']['log']['enabled'] = false;
+$GLOBALS['_MAX']['CONF']['webpath'] = null;
+$GLOBALS['_MAX']['CONF']['openads']['sslPort'] = null;
+$GLOBALS['_MAX']['HTTP'] = null;
 // set pear path
 $newPearPath = MAX_PATH . DIRECTORY_SEPARATOR.'lib' . DIRECTORY_SEPARATOR . 'pear';
 if (!empty($existingPearPath)) {
