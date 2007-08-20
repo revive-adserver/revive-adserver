@@ -35,7 +35,7 @@
   </target>
 
   <!-- ******************************************************************** -->
-  <!-- DELIVERY GENERATION TARGETS                                          -->
+  <!-- DELIVERY AND XML CACHE GENERATION TARGETS                            -->
   <!-- ******************************************************************** -->
   
   <target name="generate-delivery"
@@ -55,6 +55,12 @@
     <svn-commit file="www/delivery" notes="Commit of auto-generated delivery files."/>
   </target>
 
+  <target name="generate-xml-cache" description="Generate XML Cache from MDB2 Schema XML files">
+    <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
+      <arg value="buildXmlCache.php" />
+    </exec>
+  </target>
+  
   <!-- ******************************************************************** -->
   <!-- INITIALIZATION TARGETS                                               -->
   <!-- ******************************************************************** -->
@@ -135,7 +141,7 @@
     <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="package" depends="checkconsistency, package-bzip2, package-gz, package-zip"/>
+  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, package-bzip2, package-gz, package-zip"/>
 
   <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
 
