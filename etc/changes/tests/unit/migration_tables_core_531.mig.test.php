@@ -25,59 +25,36 @@
 $Id$
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_326.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_531.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
- * Test for migration class #326.
+ * Test for migration class #531.
  *
  * @package    changes
  * @subpackage TestSuite
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
-class Migration_326Test extends MigrationTest
+class Migration_531Test extends MigrationTest
 {
-    function testMigrateData()
+    function testMigrateInstanceId()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(325, array('campaigns'));
+        $this->initDatabase(530, array('preference', 'application_variable'));
 
-        $tableCampaigns = $this->oDbh->quoteIdentifier($prefix.'campaigns', true);
+        $tablePref   = $this->oDbh->quoteIdentifier($prefix.'preference', true);
 
-	    $result = $this->oDbh->exec("ALTER TABLE {$tableCampaigns} MODIFY priority enum('h','m','l') NOT NULL DEFAULT 'l'");
+        $query = "INSERT INTO {$tablePref} (agencyid, instance_id) VALUES (0, 'foo')";
+        $result = $this->oDbh->exec($query);
 
-        $oInsert = $this->oDbh->prepare("
-            INSERT INTO {$tableCampaigns} (
-                campaignname,
-                priority
-            ) VALUES (
-                'foo',
-                ?
-            )
-        ", array('text'));
+        $this->assertTrue($result);
 
-        $aPriorities = array(
-           'h' => 5,
-           'm' => 3,
-           'l' => 0
-        );
-
-        foreach ($aPriorities as $old => $new) {
-            $this->assertTrue($oInsert->execute(array($old)), "Couldn't create campaign");
-        }
-
-        $migration = new Migration_326();
+        $migration = new Migration_531();
         $migration->init($this->oDbh);
-        $migration->migrateData();
+        $migration->migrateInstanceId();
 
-        $query = "SELECT campaignid, priority FROM {$tableCampaigns} ORDER BY campaignid";
-        $aCampaigns = $this->oDbh->getAssoc($query);
-        $this->assertEqual(count($aCampaigns), 3);
-        $i = 1;
-        foreach ($aPriorities as $old => $new) {
-            $this->assertEqual($new, $aCampaigns[$i++]);
-        }
+        $this->assertEqual(OA_Dal_ApplicationVariables::get('platform_hash'), 'foo');
     }
 }

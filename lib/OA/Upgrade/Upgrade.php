@@ -57,6 +57,7 @@ require_once 'MDB2.php';
 require_once 'MDB2/Schema.php';
 
 require_once MAX_PATH.'/lib/OA/DB.php';
+require_once MAX_PATH.'/lib/OA/Dal/ApplicationVariables.php';
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/DB_Upgrade.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/UpgradeAuditor.php');
@@ -1360,9 +1361,6 @@ class OA_Upgrade
         // Insert basic preferences into database
         $oPrefs = new MAX_Admin_Preferences();
 
-        // Load preferences, needed below to check instance_id existance
-        $oPrefs->loadPrefs();
-
         $oPrefs->setPrefChange('updates_enabled', !empty($aCommunity['updates_enabled'])?'t':'f');
 
         // Reset Sync cache
@@ -1370,16 +1368,20 @@ class OA_Upgrade
         $oPrefs->setPrefChange('updates_timestamp', 0);
         $oPrefs->setPrefChange('updates_last_seen', 0);
 
-        // Generate a new instance ID if empty
-        if (empty($GLOBALS['_MAX']['PREF']['instance_id'])) {
-            $oPrefs->setPrefChange('instance_id',  sha1(uniqid('', true)));
-        }
-
         if (!$oPrefs->writePrefChange())
         {
             $this->oLogger->logError('Error inserting Community Preferences into database');
             return false;
         }
+
+        // Generate a new Platform Hash if empty
+        $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
+        if (empty($platformHash) && !OA_Dal_ApplicationVariables::set('platform_hash', sha1(uniqid('', true))))
+        {
+            $this->oLogger->logError('Error inserting Platform Hash into database');
+            return false;
+        }
+
         return true;
     }
 

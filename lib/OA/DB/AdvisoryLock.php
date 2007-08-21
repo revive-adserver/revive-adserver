@@ -197,12 +197,8 @@ class OA_DB_AdvisoryLock
      */
     function _getId($sName)
     {
-        if (isset($GLOBALS['_MAX']['PREF']['instance_id'])) {
-            $sId = $GLOBALS['_MAX']['PREF']['instance_id'];
-        } else {
-            $conf = $GLOBALS['_MAX']['CONF'];
-            $sId = sha1($this->oDbh->getDsn().'/'.$conf['table']['prefix']);
-        }
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $sId = sha1($this->oDbh->getDsn().'/'.$aConf['table']['prefix']);
 
         return "OA_{$sName}.{$sId}";
     }

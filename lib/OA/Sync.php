@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once 'XML/RPC.php';
 
 /**
@@ -150,7 +151,7 @@ class OA_Sync
             new XML_RPC_Value($this->getConfigVersion(OA_VERSION), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value('', 'string'),
-            new XML_RPC_Value($this->pref['instance_id'], 'string')
+            new XML_RPC_Value(OA_Dal_ApplicationVariables::get('platform_hash'), 'string')
         );
 
         if ($send_sw_data) {

@@ -102,16 +102,11 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
      */
     function _getId($sName)
     {
-        if (isset($GLOBALS['_MAX']['PREF'])) {
-            $sId = $GLOBALS['_MAX']['PREF']['instance_id'];
-        } else {
-            $conf = $GLOBALS['_MAX']['CONF'];
-            $sId = $this->oDbh->getDsn().'/'.$conf['table']['prefix'];
-        }
+        $aConf = $GLOBALS['_MAX']['CONF'];
 
         // PostgreSQL needs two int4, we generate them using crc32
         $sId = array(
-            crc32($pref['instance_id']),
+            crc32($this->oDbh->getDsn().'/'.$aConf['table']['prefix']),
             crc32($sName)
         );
 
