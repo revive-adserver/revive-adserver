@@ -46,10 +46,10 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
     }
 
     /**
-     * Test set and getAll
+     * Test set, getAll, delete
      *
      */
-    function testSetGetAll()
+    function testSetGetAllDelete()
     {
         $result = OA_Dal_ApplicationVariables::getAll();
         $this->assertEqual($result, array());
@@ -66,13 +66,18 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 
         $result = OA_Dal_ApplicationVariables::getAll();
         $this->assertEqual($result, $aData);
+
+        foreach (array_keys($aData) as $name) {
+            $result = OA_Dal_ApplicationVariables::delete($name);
+            $this->assertTrue($result);
+        }
     }
 
     /**
-     * Test set and get
+     * Test set, get and delete
      *
      */
-    function testSetGet()
+    function testSetGetDelete()
     {
         $result = OA_Dal_ApplicationVariables::get('foo');
         $this->assertNull($result);
@@ -88,6 +93,19 @@ class Test_OA_Dal_ApplicationVariables extends UnitTestCase
 
         $result = OA_Dal_ApplicationVariables::get('foo');
         $this->assertEqual($result, 'foobar');
+
+        $result = OA_Dal_ApplicationVariables::delete('foo');
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test delete
+     *
+     */
+    function testDelete()
+    {
+        $result = OA_Dal_ApplicationVariables::delete('foo');
+        $this->assertFalse($result);
     }
 }
 

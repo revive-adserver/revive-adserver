@@ -100,6 +100,21 @@ class OA_Dal_ApplicationVariables
 
         return $aVars;
     }
+
+    /**
+     * Delete an application variable
+     *
+     * @param string $name The variable name
+     * @return boolean True on success
+     */
+    function delete($name)
+    {
+        $doAppVar = OA_Dal::factoryDO('application_variable');
+        $doAppVar->name = $name;
+        $result = $doAppVar->delete();
+
+        return (bool)$result;
+    }
 }
 
 ?>
