@@ -62,7 +62,7 @@ class OA_Dal_Central_Common
      */
     function connectOAPToOAC()
     {
-        return $this->oRpc->callSSo(__METHOD__);
+        return $this->oRpc->callSSo('connectOAPToOAC');
     }
 
     /**
@@ -82,7 +82,7 @@ class OA_Dal_Central_Common
      */
     function getCaptcha()
     {
-        return $this->oRpc->callNoAuth(__METHOD__);
+        return $this->oRpc->callNoAuth('getCaptcha');
     }
 }
 

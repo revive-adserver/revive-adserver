@@ -22,11 +22,12 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: AdNetworks.php 9095 2007-08-17 15:27:03Z matteo.beccati@openads.org $
 */
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/AdNetworks.php';
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
@@ -279,6 +280,110 @@ class OA_Central_AdNetworks
         return true;
     }
 
+    /**
+     * A method to retrieve the revenue information until last GMT midnight
+     *
+     * @see R-AN-7: Synchronizing the revenue information
+     *
+     * @return boolean True on success
+     */
+    function getRevenue()
+    {
+        $batchSequence = OA_Dal_ApplicationVariables::get('batch_sequence');
+        $batchSequence = is_null($batchSequence) ? 1 : $batchSequence + 1;
+
+/* WORK-IN-PROGRESS
+
+        $aRevenues = $this->oDal->getRevenue($batchSequence);
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->whereInAdd('bannerid', array_keys($aRevenues));
+        $doBanners->find();
+
+        $aBannerIds = array();
+        while ($doBanners->fetch()) {
+            $aBannerIds[$doBanners->bannerid] = $doBanners->bannerid;
+        }
+
+        foreach ($aRevenues as $bannerId => $aData) {
+            foreach ($aData as $aRevenue) {
+                $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+                $doDsah->ad_id = $bannerID;
+                $doDsah->day = 1;
+            }
+        }
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+*/
+
+        return true;
+    }
+
+    /**
+     * A method to generate a unique advertiser name
+     *
+     * @param string $name
+     * @return string The unique name
+     */
+    function getUniqueAdvertiserName($name)
+    {
+        return $this->_getUniqueName($name, 'clients', 'clientname');
+    }
+
+    /**
+     * A method to generate a unique campaign name
+     *
+     * @param string $name
+     * @return string The unique name
+     */
+    function getUniqueCampaignName($name)
+    {
+        return $this->_getUniqueName($name, 'campaigns', 'campaignname');
+    }
+
+    /**
+     * A method to generate a unique banner name
+     *
+     * @param string $name
+     * @return string The unique name
+     */
+    function getUniqueBannerName($name)
+    {
+        return $this->_getUniqueName($name, 'banners', 'description');
+    }
+
+    /**
+     * A method to generate a unique publisher name
+     *
+     * @param string $name
+     * @return string The unique name
+     */
+    function getUniquePublisherName($name)
+    {
+        return $this->_getUniqueName($name, 'affiliates', 'name');
+    }
+
+    /**
+     * A method to generate an unique zone name
+     *
+     * @param string $name
+     * @return string The unique name
+     */
+    function getUniqueZoneName($name)
+    {
+        return $this->_getUniqueName($name, 'zones', 'zonename');
+    }
+
+    /**
+     * A generic internal method to generate unique names for entities
+     *
+     * @param string $name The original name
+     * @param string $entityTable The table to look for duplicate names
+     * @param string $entityName The field to look for duplicate names
+     * @return string The unique name
+     */
     function _getUniqueName($name, $entityTable, $entityName)
     {
         $doEntities = OA_Dal::factoryDO($entityTable);
@@ -311,30 +416,6 @@ class OA_Central_AdNetworks
         return "{$name} ({$number})";
     }
 
-    function getUniqueAdvertiserName($name)
-    {
-        return $this->_getUniqueName($name, 'clients', 'clientname');
-    }
-
-    function getUniqueCampaignName($name)
-    {
-        return $this->_getUniqueName($name, 'campaigns', 'campaignname');
-    }
-
-    function getUniqueBannerName($name)
-    {
-        return $this->_getUniqueName($name, 'banners', 'description');
-    }
-
-    function getUniquePublisherName($name)
-    {
-        return $this->_getUniqueName($name, 'affiliates', 'name');
-    }
-
-    function getUniqueZoneName($name)
-    {
-        return $this->_getUniqueName($name, 'zones', 'zonename');
-    }
 }
 
 ?>

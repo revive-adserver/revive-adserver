@@ -72,11 +72,11 @@ class OA_Dal_Central_Rpc
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
 
-        $oMsg = new XML_RPC_Message('oac.'.preg_replace('/^.*::/', '', $methodName));
+        $oMsg = new XML_RPC_Message('oac.'.$methodName);
 
         $aHeader = array(
             'protocolVersion'   => OA_DAL_CENTRAL_PROTOCOL_VERSION,
-            'platformHash'      => $aPref['instance_id']
+            'platformHash'      => OA_Dal_ApplicationVariables::get('platform_hash')
         );
 
         if ($authType & OA_DAL_CENTRAL_AUTH_SSO) {
@@ -158,6 +158,19 @@ class OA_Dal_Central_Rpc
     function callCaptchaSso($methodName, $aParams = null)
     {
         return $this->call($methodName, OA_DAL_CENTRAL_AUTH_SSO | OA_DAL_CENTRAL_AUTH_CAPTCHA, $aParams);
+    }
+
+    /**
+     * A static method to convert UTC XML-RPC dateTime.iso8601 to local time
+     *
+     * @static
+     *
+     * @param string $dateTime DateTime.iso8601 formatted data
+     * @return Date A PEAR::Date instance
+     */
+    function utcToDate($dateTime)
+    {
+        return new Date(strtotime($dateTime) + date('Z', $dateTime));
     }
 }
 

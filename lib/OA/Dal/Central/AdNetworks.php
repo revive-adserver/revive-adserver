@@ -78,7 +78,7 @@ class OA_Dal_Central_AdNetworks
      */
     function getCategories($language = '')
     {
-        return $this->oRpc->callNoAuth(__METHOD__, array(
+        return $this->oRpc->callNoAuth('getCategories', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
     }
@@ -96,7 +96,7 @@ class OA_Dal_Central_AdNetworks
      */
     function getCountries($language = '')
     {
-        return $this->oRpc->callNoAuth(__METHOD__, array(
+        return $this->oRpc->callNoAuth('getCountries', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
     }
@@ -114,7 +114,7 @@ class OA_Dal_Central_AdNetworks
      */
     function getLanguages($language = '')
     {
-        return $this->oRpc->callNoAuth(__METHOD__, array(
+        return $this->oRpc->callNoAuth('getLanguages', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
     }
@@ -276,7 +276,7 @@ class OA_Dal_Central_AdNetworks
      */
     function subscribeWebsites($aWebsites)
     {
-        return $this->oRpc->callCaptchaSso(__METHOD__, array(
+        return $this->oRpc->callCaptchaSso('subscribeWebsites', array(
             XML_RPC_encode($aWebsites)
         ));
     }
@@ -339,14 +339,12 @@ class OA_Dal_Central_AdNetworks
      * Note: country or language might be null, meaning that there are no country and/or
      *       language constraints
      *
-     * @param string $country_code
-     * @param int $language_id
      * @return mixed The other networs array (name as key, link as value) on success,
      *               PEAR_Error otherwise
      */
     function getOtherNetworks()
     {
-        return $this->oRpc->callNoAuth(__METHOD__);
+        return $this->oRpc->callNoAuth('getOtherNetworks');
     }
 
     /**
@@ -356,17 +354,17 @@ class OA_Dal_Central_AdNetworks
      *
      * @param string $name
      * @param string $url
-     * @param string $country_code
-     * @param int $language_id
+     * @param string $country
+     * @param int $language
      * @return mixed A boolean True on success, PEAR_Error otherwise
      */
-    function suggestNetwork($name, $url, $country, $language_id)
+    function suggestNetwork($name, $url, $country, $language)
     {
-        return $this->oRpc->callCaptchaSso(__METHOD__, array(
+        return $this->oRpc->callCaptchaSso('suggestNetwork', array(
             new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($url, $GLOBALS['XML_RPC_String']),
-            new XML_RPC_Value($country_code, $GLOBALS['XML_RPC_String']),
-            new XML_RPC_Value($language_id, $GLOBALS['XML_RPC_Int'])
+            new XML_RPC_Value($country, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($language, $GLOBALS['XML_RPC_Int'])
         ));
     }
 
@@ -383,17 +381,17 @@ class OA_Dal_Central_AdNetworks
      *         (
      *             [0] => Array
      *                 (
-     *                     [start] => 2007-08-01 00:00:00
-     *                     [end] => 2007-08-01 23:59:59
-     *                     [revenue] => 10
+     *                     [start] => 2007-08-01 00:00:00 (as PEAR::Date)
+     *                     [end] => 2007-08-01 23:59:59 (as PEAR::Date)
+     *                     [revenue] => 10.54
      *                     [type] => CPC
      *                 )
      *
      *             [1] => Array
      *                 (
-     *                     [start] => 2007-08-02 00:00:00
-     *                     [end] => 2007-08-02 23:59:59
-     *                     [revenue] => 6
+     *                     [start] => 2007-08-02 00:00:00 (as PEAR::Date)
+     *                     [end] => 2007-08-02 23:59:59 (as PEAR::Date)
+     *                     [revenue] => 6.34
      *                     [type] => CPC
      *                 )
      *
@@ -403,9 +401,9 @@ class OA_Dal_Central_AdNetworks
      *         (
      *             [0] => Array
      *                 (
-     *                     [start] => 2007-08-02 00:00:00
-     *                     [end] => 2007-08-02 23:59:59
-     *                     [revenue] => 1
+     *                     [start] => 2007-08-02 00:00:00 (as PEAR::Date)
+     *                     [end] => 2007-08-02 23:59:59 (as PEAR::Date)
+     *                     [revenue] => 1.23
      *                     [type] => CPM
      *                 )
      *
@@ -413,14 +411,24 @@ class OA_Dal_Central_AdNetworks
      *
      * )
      *
-     * @param int $batch_sequence
+     * @param int $batchSequence
      * @return mixed An array with revenue details if successul, PEAR_Error otherwise
      */
-    function getRevenue($batch_sequence)
+    function getRevenue($batchSequence)
     {
-        return $this->oRpc->callSso(__METHOD__, array(
-            new XML_RPC_Value($batch_sequence, $GLOBALS['XML_RPC_Int'])
+        $aResult = $this->oRpc->callSso('getRevenue', array(
+            new XML_RPC_Value($batchSequence, $GLOBALS['XML_RPC_Int'])
         ));
+
+        foreach ($aResult as $k1 => $v1) {
+            foreach ($v1 as $k2 => $v2) {
+                $v2['start'] = $this->oRpc->utcToDate($v2['start']);
+                $v2['end']   = $this->oRpc->utcToDate($v2['end']);
+                $aResult[$k1][$k2] = $v2;
+            }
+        }
+
+        return $aResult;
     }
 }
 

@@ -140,7 +140,83 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
             )
         );
 
-        $aResponse = array(
+        $aResponse = $this->_subscribeArray();
+
+        $oResponse = new XML_RPC_Response(XML_RPC_encode($aResponse));
+
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, $oResponse);
+
+        $result = $oAdNetworks->subscribeWebsites($aWebsites);
+        $this->assertTrue($result);
+
+        // Check counts
+        $oDo = OA_Dal::factoryDO('clients');
+        $this->assertEqual($oDo->count(), 2);
+        $oDo = OA_Dal::factoryDO('campaigns');
+        $this->assertEqual($oDo->count(), 2);
+        $oDo = OA_Dal::factoryDO('banners');
+        $this->assertEqual($oDo->count(), 3);
+        $oDo = OA_Dal::factoryDO('affiliates');
+        $this->assertEqual($oDo->count(), 2);
+        $oDo = OA_Dal::factoryDO('zones');
+        $this->assertEqual($oDo->count(), 3);
+        $oDo = OA_Dal::factoryDO('ad_zone_assoc');
+        $this->assertEqual($oDo->count(), 6);
+
+        // Subscribe again
+        $result = $oAdNetworks->subscribeWebsites($aWebsites);
+        $this->assertTrue($result);
+
+        // Check counts
+        $oDo = OA_Dal::factoryDO('clients');
+        $this->assertEqual($oDo->count(), 4);
+        $oDo = OA_Dal::factoryDO('campaigns');
+        $this->assertEqual($oDo->count(), 4);
+        $oDo = OA_Dal::factoryDO('banners');
+        $this->assertEqual($oDo->count(), 6);
+        $oDo = OA_Dal::factoryDO('affiliates');
+        $this->assertEqual($oDo->count(), 4);
+        $oDo = OA_Dal::factoryDO('zones');
+        $this->assertEqual($oDo->count(), 6);
+        $oDo = OA_Dal::factoryDO('ad_zone_assoc');
+        $this->assertEqual($oDo->count(), 12);
+
+        // Check name uniqueness
+        $oDo = OA_Dal::factoryDO('clients');
+        $oDo->clientid = 3;
+        $oDo->find();
+        $oDo->fetch();
+        $row = $oDo->toArray();
+        $this->assertEqual($row['clientname'], 'Beccati.com (3)');
+    }
+
+    function testGetRevenue()
+    {
+        $aResponse = new XML_RPC_Value(array(
+            1 => new XML_RPC_Value(array(
+                new XML_RPC_Value(array(
+                    'start'   => new XML_RPC_Value('20070801T000000', $GLOBALS['XML_RPC_DateTime']),
+                    'end'     => new XML_RPC_Value('20070801T235959', $GLOBALS['XML_RPC_DateTime']),
+                    'revenue' => new XML_RPC_Value(100.00, $GLOBALS['XML_RPC_Double']),
+                    'type'    => new XML_RPC_Value('CPC', $GLOBALS['XML_RPC_String'])
+                ), $GLOBALS['XML_RPC_Struct'])
+            ), $GLOBALS['XML_RPC_Array'])
+        ), $GLOBALS['XML_RPC_Struct']);
+
+        $oResponse = new XML_RPC_Response($aResponse);
+
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, $oResponse);
+
+        $result = $oAdNetworks->getRevenue(1);
+        $this->assertTrue($result);
+
+    }
+
+    function _subscribeArray()
+    {
+        return array(
             array(
                 'url'         => 'http://www.beccati.com',
                 'advertisers' => array(
@@ -252,25 +328,6 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                 )
             ),
         );
-
-        $oResponse = new XML_RPC_Response(XML_RPC_encode($aResponse));
-
-        $oAdNetworks = $this->_newInstance();
-        $this->_mockSendReference($oAdNetworks, $oResponse);
-
-        $result = $oAdNetworks->subscribeWebsites($aWebsites);
-        $this->assertTrue($result);
-
-        $oDo = OA_Dal::factoryDO('clients');
-        $this->assertEqual($oDo->count(), 2);
-        $oDo = OA_Dal::factoryDO('campaigns');
-        $this->assertEqual($oDo->count(), 2);
-        $oDo = OA_Dal::factoryDO('banners');
-        $this->assertEqual($oDo->count(), 3);
-        $oDo = OA_Dal::factoryDO('affiliates');
-        $this->assertEqual($oDo->count(), 2);
-        $oDo = OA_Dal::factoryDO('zones');
-        $this->assertEqual($oDo->count(), 3);
     }
 }
 
