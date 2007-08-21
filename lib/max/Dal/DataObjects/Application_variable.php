@@ -36,7 +36,7 @@ class DataObjects_Application_variable extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'application_variable';            // table name
-    var $name;                            // string(255)  not_null
+    var $name;                            // string(255)  not_null primary_key
     var $value;                           // string(255)  not_null
 
     /* ZE2 compatibility trick*/

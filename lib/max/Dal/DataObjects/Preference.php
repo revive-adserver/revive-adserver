@@ -154,7 +154,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $gui_column_ecpc;                 // blob(65535)  blob
     var $gui_column_ecps;                 // blob(65535)  blob
     var $gui_column_epps;                 // blob(65535)  blob
-    var $instance_id;                     // string(64)  
     var $maintenance_cron_timestamp;      // int(11)  
     var $warn_limit_days;                 // int(6)  not_null
 

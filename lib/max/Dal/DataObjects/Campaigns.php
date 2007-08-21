@@ -61,6 +61,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
+    var $oac_campaign_id;                 // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
