@@ -888,6 +888,10 @@ class OA_Upgrade
     {
         $this->oLogger->setLogFile('install.log');
         $this->oLogger->deleteLogFile();
+
+        // Always use lower case prefixes for new installs
+        $aConfig['table']['prefix'] = strtolower($aConfig['table']['prefix']);
+
         $this->aDsn['database'] = $aConfig['database'];
         $this->aDsn['table']    = $aConfig['table'];
 
@@ -1471,16 +1475,21 @@ class OA_Upgrade
      */
     function checkPermissionToCreateTable()
     {
-        $result = $this->oDbh->isDBCaseSensitive();
-        if (PEAR::isError($result))
-        {
-            $this->oLogger->logError('Unable to retrieve database case sensitivity info');
-            return false;
-        }
-        if (!$result)
-        {
-            $this->oLogger->logError('Openads requires database case sensitivity');
-            return false;
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+
+        // If prefix is not lowercase, check for DB case sensitivity
+        if ($prefix != strtolower($prefix)) {
+            $result = $this->oDbh->isDBCaseSensitive();
+            if (PEAR::isError($result))
+            {
+                $this->oLogger->logError('Unable to retrieve database case sensitivity info');
+                return false;
+            }
+            if (!$result)
+            {
+                $this->oLogger->logError('Openads requires database case sensitivity to work with uppercase prefixes');
+                return false;
+            }
         }
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables))
@@ -1488,7 +1497,7 @@ class OA_Upgrade
             $this->oLogger->logError('Unable to list the tables that exist in the database');
             return false;
         }
-        $tblTmp = $GLOBALS['_MAX']['CONF']['table']['prefix'].'tmp_dbpriviligecheck';
+        $tblTmp = $prefix.'tmp_dbpriviligecheck';
         if (in_array($tblTmp, $aExistingTables))
         {
             $result = $this->oDbh->exec("DROP TABLE {$tblTmp}");

@@ -572,8 +572,10 @@ class OA_DB_Upgrade
 	                if (in_array($this->prefix.$table, $this->aDBTables))
 	                {
 	                    $string     = $this->versionTo.$this->timingStr.$this->database.$this->prefix.$table.OA::getNow();
-	                    $hash       = str_replace(array('+','/','='),array('_','_',''),base64_encode(pack("H*",md5($string)))); // packs down to 22 chars and removes illegal chars
-	                    $table_bak  ="z_{$hash}";
+	                    // Create the table name using a 64bit hex string (16 char)
+	                    // Uniqueness is guaranteed using a second crc32 call with a
+	                    // slightly modified string
+	                    $table_bak  = sprintf('z_%08x%08x', crc32($string), crc32("@".$string));
 	                    $this->aMessages[]  = "backing up table {$this->prefix}{$table} to table {$this->prefix}{$table_bak} ";
 
 	                    $statement = $this->aSQLStatements['table_copy'];
