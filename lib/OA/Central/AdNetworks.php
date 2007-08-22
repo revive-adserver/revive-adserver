@@ -285,38 +285,111 @@ class OA_Central_AdNetworks
      *
      * @see R-AN-7: Synchronizing the revenue information
      *
+     * @todo Implement revenue storage when no impressions/clicks are available
+     *
      * @return boolean True on success
      */
     function getRevenue()
     {
+        $oDbh = OA_DB::singleton();
+        $tableDsah = $oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'data_summary_ad_hourly');
+
         $batchSequence = OA_Dal_ApplicationVariables::get('batch_sequence');
         $batchSequence = is_null($batchSequence) ? 1 : $batchSequence + 1;
 
-/* WORK-IN-PROGRESS
-
         $aRevenues = $this->oDal->getRevenue($batchSequence);
 
+        if (PEAR::isError($aRevenues)) {
+            return false;
+        }
+
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->whereInAdd('bannerid', array_keys($aRevenues));
+        $doBanners->whereInAdd('oac_banner_id', array_keys($aRevenues));
+        $doBanners->orderBy('bannerid');
         $doBanners->find();
 
-        $aBannerIds = array();
+        $aOacBannerIds = array();
         while ($doBanners->fetch()) {
-            $aBannerIds[$doBanners->bannerid] = $doBanners->bannerid;
+            $aOacBannerIds[$doBanners->oac_banner_id] = $doBanners->bannerid;
         }
 
         foreach ($aRevenues as $bannerId => $aData) {
             foreach ($aData as $aRevenue) {
+                if (!isset($aOacBannerIds[$bannerId])) {
+                    continue;
+                }
+
+                $bannerId = $aOacBannerIds[$bannerId];
+
+                $startDay  = $aRevenue['start']->format('%Y-%m-%d');
+                $startHour = (int)$aRevenue['start']->format('%H');
+                $endDay    = $aRevenue['end']->format('%Y-%m-%d');
+                $endHour   = (int)$aRevenue['end']->format('%H');
+
+                $where = "
+                    (
+                        (day = '{$startDay}' AND hour >= {$startHour}) OR
+                        (day > '{$startDay}' AND day < '{$endDay}') OR
+                        (day = '{$endDay}' AND hour <= {$endHour})
+                    )
+                ";
+
                 $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                $doDsah->ad_id = $bannerID;
-                $doDsah->day = 1;
+                $doDsah->ad_id = $bannerId;
+                $doDsah->whereAdd($where);
+                $doDsah->orderBy('day, hour');
+
+                $aStats = $doDsah->getAll(array(), true, false);
+
+                unset($doDsah);
+
+                $cntTotal  = count($aStats);
+                $cntActive = 0;
+                $sumActive = 0;
+                $aActive = array();
+                foreach ($aStats as $key => $row) {
+                    $row['total_actions'] = $aRevenue['type'] = 'CPC' ? $row['clicks'] : $row['impressions'];
+                    $row['total_revenue'] = 0;
+                    if ($row['total_actions'] > 0) {
+                        $cntActive++;
+                        $sumActive += $row['total_actions'];
+                        $aActive[$key] = $row;
+                    }
+                }
+
+                // Reset revenue
+                $result = $oDbh->exec("UPDATE {$tableDsah} SET total_revenue = 0 WHERE ad_id = {$bannerId} AND {$where}");
+                if (PEAR::isError($result)) {
+                    return false;
+                }
+
+                $assignedRevenue = 0;
+                if ($sumActive) {
+                    $lastHour = array_pop($aActive);
+
+                    foreach ($aActive as $key => $row) {
+                        $aActive[$key]['total_revenue'] = $row['total_actions'] / $sumActive * $aRevenue['revenue'];
+                        $aActive[$key]['total_revenue'] = floor(100 * $aActive[$key]['total_revenue']) / 100;
+                        $assignedRevenue += $aActive[$key]['total_revenue'];
+                    }
+
+                    $lastHour['total_revenue'] = $aRevenue['revenue'] - $assignedRevenue;
+                    array_push($aActive, $lastHour);
+
+                    foreach ($aActive as $key => $row) {
+                        $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+                        $doDsah->data_summary_ad_hourly_id = $key;
+                        $doDsah->setFrom($row);
+                        $result = $doDsah->update();
+                        if (!$result) {
+                            return false;
+                        }
+                    }
+                } else {
+                    // To-do
+                }
             }
         }
-
-        if (PEAR::isError($result)) {
-            return false;
-        }
-*/
 
         return true;
     }

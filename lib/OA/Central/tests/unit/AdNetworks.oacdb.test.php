@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
  * A class for testing the OA_Central_AdNetworks class.
@@ -50,6 +51,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
             'sso_passwd'  => md5('bar'),
             'admin_email' => 'foo@example.com'
         );
+
     }
 
     function _mockSendReference(&$oAdNetworks, &$reference)
@@ -191,14 +193,26 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertEqual($row['clientname'], 'Beccati.com (3)');
     }
 
+    /**
+     * Test getRevenue
+     *
+     * Note: needs to be the last test in the set!!!
+     */
     function testGetRevenue()
     {
+        // Force TimeZone
+        if (is_callable('date_default_timezone_set')) {
+            date_default_timezone_set('Europe/Rome');
+        } else {
+            putenv('TZ=Europe/Rome');
+        }
+
         $aResponse = new XML_RPC_Value(array(
-            1 => new XML_RPC_Value(array(
+            1000 => new XML_RPC_Value(array(
                 new XML_RPC_Value(array(
                     'start'   => new XML_RPC_Value('20070801T000000', $GLOBALS['XML_RPC_DateTime']),
                     'end'     => new XML_RPC_Value('20070801T235959', $GLOBALS['XML_RPC_DateTime']),
-                    'revenue' => new XML_RPC_Value(100.00, $GLOBALS['XML_RPC_Double']),
+                    'revenue' => new XML_RPC_Value(23.45, $GLOBALS['XML_RPC_Double']),
                     'type'    => new XML_RPC_Value('CPC', $GLOBALS['XML_RPC_String'])
                 ), $GLOBALS['XML_RPC_Struct'])
             ), $GLOBALS['XML_RPC_Array'])
@@ -209,9 +223,41 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $oAdNetworks = $this->_newInstance();
         $this->_mockSendReference($oAdNetworks, $oResponse);
 
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->oac_banner_id = 1000;
+        $bannerId = DataGenerator::generateOne($doBanners);
+        $this->assertTrue($bannerId);
+
+        foreach (array('2007-07-31', '2007-08-01', '2007-08-02') as $day) {
+            for ($hour = 0; $hour < 24; $hour++) {
+                $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+                $doDsah->day = $day;
+                $doDsah->hour = $hour;
+                $doDsah->ad_id = $bannerId;
+                $doDsah->impressions = 12 - abs($hour - 12);
+                $doDsah->clicks = floor($doDsah->impressions / 6);
+                $doDsah->insert();
+            }
+        }
+
         $result = $oAdNetworks->getRevenue(1);
         $this->assertTrue($result);
 
+        $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDsah->orderBy('day, hour');
+        $doDsah->find();
+        $aStats = array();
+        while ($doDsah->fetch()) {
+            $aStats[] = array(
+                'day' => $doDsah->day,
+                'hour' => $doDsah->hour,
+                'impressions' => $doDsah->impressions,
+                'clicks' => $doDsah->clicks,
+                'total_revenue' => $doDsah->total_revenue
+            );
+        }
+
+        $this->assertEqual($aStats, $this->_getRevenueArray());
     }
 
     function _subscribeArray()
@@ -327,6 +373,588 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                     )
                 )
             ),
+        );
+    }
+
+    function _getRevenueArray()
+    {
+        return array (
+          0 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '0',
+            'impressions' => '0',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          1 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '1',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          2 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '2',
+            'impressions' => '2',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          3 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '3',
+            'impressions' => '3',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          4 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '4',
+            'impressions' => '4',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          5 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '5',
+            'impressions' => '5',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          6 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '6',
+            'impressions' => '6',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          7 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '7',
+            'impressions' => '7',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          8 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '8',
+            'impressions' => '8',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          9 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '9',
+            'impressions' => '9',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          10 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '10',
+            'impressions' => '10',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          11 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '11',
+            'impressions' => '11',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          12 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '12',
+            'impressions' => '12',
+            'clicks' => '2',
+            'total_revenue' => NULL,
+          ),
+          13 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '13',
+            'impressions' => '11',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          14 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '14',
+            'impressions' => '10',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          15 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '15',
+            'impressions' => '9',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          16 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '16',
+            'impressions' => '8',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          17 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '17',
+            'impressions' => '7',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          18 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '18',
+            'impressions' => '6',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          19 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '19',
+            'impressions' => '5',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          20 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '20',
+            'impressions' => '4',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          21 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '21',
+            'impressions' => '3',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          22 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '22',
+            'impressions' => '2',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          23 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '23',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          24 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '0',
+            'impressions' => '0',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          25 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '1',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          26 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '2',
+            'impressions' => '2',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          27 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '3',
+            'impressions' => '3',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          28 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '4',
+            'impressions' => '4',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          29 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '5',
+            'impressions' => '5',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          30 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '6',
+            'impressions' => '6',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          31 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '7',
+            'impressions' => '7',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          32 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '8',
+            'impressions' => '8',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          33 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '9',
+            'impressions' => '9',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          34 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '10',
+            'impressions' => '10',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          35 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '11',
+            'impressions' => '11',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          36 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '12',
+            'impressions' => '12',
+            'clicks' => '2',
+            'total_revenue' => '3.3400',
+          ),
+          37 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '13',
+            'impressions' => '11',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          38 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '14',
+            'impressions' => '10',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          39 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '15',
+            'impressions' => '9',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          40 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '16',
+            'impressions' => '8',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          41 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '17',
+            'impressions' => '7',
+            'clicks' => '1',
+            'total_revenue' => '1.6700',
+          ),
+          42 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '18',
+            'impressions' => '6',
+            'clicks' => '1',
+            'total_revenue' => '1.7400',
+          ),
+          43 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '19',
+            'impressions' => '5',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          44 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '20',
+            'impressions' => '4',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          45 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '21',
+            'impressions' => '3',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          46 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '22',
+            'impressions' => '2',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          47 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '23',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          48 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '0',
+            'impressions' => '0',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          49 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '1',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '0.0000',
+          ),
+          50 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '2',
+            'impressions' => '2',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          51 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '3',
+            'impressions' => '3',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          52 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '4',
+            'impressions' => '4',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          53 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '5',
+            'impressions' => '5',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          54 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '6',
+            'impressions' => '6',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          55 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '7',
+            'impressions' => '7',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          56 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '8',
+            'impressions' => '8',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          57 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '9',
+            'impressions' => '9',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          58 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '10',
+            'impressions' => '10',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          59 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '11',
+            'impressions' => '11',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          60 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '12',
+            'impressions' => '12',
+            'clicks' => '2',
+            'total_revenue' => NULL,
+          ),
+          61 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '13',
+            'impressions' => '11',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          62 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '14',
+            'impressions' => '10',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          63 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '15',
+            'impressions' => '9',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          64 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '16',
+            'impressions' => '8',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          65 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '17',
+            'impressions' => '7',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          66 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '18',
+            'impressions' => '6',
+            'clicks' => '1',
+            'total_revenue' => NULL,
+          ),
+          67 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '19',
+            'impressions' => '5',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          68 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '20',
+            'impressions' => '4',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          69 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '21',
+            'impressions' => '3',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          70 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '22',
+            'impressions' => '2',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          71 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '23',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
         );
     }
 }
