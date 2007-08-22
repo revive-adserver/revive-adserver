@@ -80,8 +80,8 @@ class OA_Dal_Central_Rpc
         );
 
         if ($authType & OA_DAL_CENTRAL_AUTH_SSO) {
-            $aHeader['ssoUsername'] = $aPref['sso_admin'];
-            $aHeader['ssoPassword'] = $aPref['sso_password'];
+            $aHeader['ssoUsername'] = OA_Dal_ApplicationVariables::get('sso_admin');
+            $aHeader['ssoPassword'] = OA_Dal_ApplicationVariables::get('sso_password');
         }
         if ($authType & OA_DAL_CENTRAL_AUTH_CAPTCHA) {
             $aHeader['ssoCaptcha']  = isset($_REQUEST['captcha']) ? $_REQUEST['captcha'] : '';
