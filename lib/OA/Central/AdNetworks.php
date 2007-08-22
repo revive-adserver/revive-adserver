@@ -135,11 +135,16 @@ class OA_Central_AdNetworks
     function subscribeWebsites($aWebsites)
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
+        $oDbh = OA_DB::singleton();
 
         $aSubscriptions = $this->oDal->subscribeWebsites($aWebsites);
 
         if (PEAR::isError($result)) {
             return false;
+        }
+
+        if ($oDbh->supports('transactions')) {
+            $oDbh->beginTransaction();
         }
 
         // Simulate transactions
@@ -291,8 +296,36 @@ class OA_Central_AdNetworks
         }
 
         if (!$ok) {
-            // Rollback
+            if ($oDbh->supports('transactions')) {
+                $oDbh->rollback();
+            } else {
+                // Simulate rollback
+                $aEntities = array(
+                    'publishers'  => array('affiliates', 'affiliateid'),
+                    'advertisers' => array('clients', 'clientid'),
+                    'campaigns'   => array('campaigns', 'campaignid'),
+                    'banners'     => array('banners', 'bannerid'),
+                    'zones'       => array('zones', 'zoneid')
+                );
+
+                foreach (array_keys($aCreated) as $entity) {
+                    if (count($aCreated[$entity])) {
+                        $doEntity = OA_Dal::factoryDO($aEntities[$entity][0]);
+                        $doEntity->whereInAdd($aEntities[$entity][1], $aCreated[$entity]);
+                        $doEntity->delete(true);
+                    }
+                }
+            }
+
             return false;
+        }
+
+        if ($oDbh->supports('transactions')) {
+            $result = $oDbh->commit();
+
+            if (PEAR::isError($result)) {
+                return false;
+            }
         }
 
         return true;
@@ -322,6 +355,10 @@ class OA_Central_AdNetworks
 
         if (PEAR::isError($aRevenues)) {
             return false;
+        }
+
+        if ($oDbh->supports('transactions')) {
+            $oDbh->beginTransaction();
         }
 
         $doBanners = OA_Dal::factoryDO('banners');
@@ -394,6 +431,9 @@ class OA_Central_AdNetworks
                             {$where}
                         ");
                     if (PEAR::isError($result)) {
+                        if ($oDbh->supports('transactions')) {
+                            $oDbh->rollback();
+                        }
                         return false;
                     }
 
@@ -417,6 +457,9 @@ class OA_Central_AdNetworks
                             $doDsah->setFrom($row);
                             $result = $doDsah->update();
                             if (!$result) {
+                                if ($oDbh->supports('transactions')) {
+                                    $oDbh->rollback();
+                                }
                                 return false;
                             }
                         }
@@ -466,7 +509,18 @@ class OA_Central_AdNetworks
         }
 
         if (!OA_Dal_ApplicationVariables::set('batch_sequence', $batchSequence)) {
+            if ($oDbh->supports('transactions')) {
+                $oDbh->rollback();
+            }
             return false;
+        }
+
+        if ($oDbh->supports('transactions')) {
+            $result = $oDbh->commit();
+
+            if (PEAR::isError($result)) {
+                return false;
+            }
         }
 
         return true;
