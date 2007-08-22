@@ -153,69 +153,53 @@ class OA_Dal_Central_AdNetworks
      *
      * Array
      * (
-     *     [0] => Array
+     *     [adnetworks] => Array
      *         (
-     *             [url] => http://www.openads.org
-     *             [advertisers] => Array
+     *             [0] => Array
      *                 (
-     *                     [0] => Array
-     *                         (
-     *                             [advertiser_id] => 1551
-     *                             [name] => CPX
-     *                             [campaigns] => Array
-     *                                 (
-     *                                     [0] => Array
-     *                                         (
-     *                                             [campaign_id] => 1782
-     *                                             [name] => Test
-     *                                             [weight] => 1
-     *                                             [capping] => 0
-     *                                             [banners] => Array
-     *                                                 (
-     *                                                     [0] => Array
-     *                                                         (
-     *                                                             [banner_id] => 2876
-     *                                                             [name] => Banner 1
-     *                                                             [width] => 468
-     *                                                             [height] => 60
-     *                                                             [capping] => 0
-     *                                                             [html] => <script type="text/javascript"></script>
-     *                                                             [adserver] => cpx
-     *                                                         )
+     *                     [adnetwork_id] => 1
+     *                     [name] => Beccati.com
+     *                 )
      *
+     *         )
+     *
+     *     [websites] => Array
+     *         (
+     *             [0] => Array
+     *                 (
+     *                     [website_id] => 2345
+     *                     [url] => http://www.beccati.com
+     *                     [campaigns] => Array
+     *                         (
+     *                             [0] => Array
+     *                                 (
+     *                                     [campaign_id] => 2000
+     *                                     [adnetwork_id] => 1
+     *                                     [name] => Campaign 1
+     *                                     [weight] => 1
+     *                                     [capping] => 0
+     *                                     [banners] => Array
+     *                                         (
+     *                                             [0] => Array
+     *                                                 (
+     *                                                     [banner_id] => 3000
+     *                                                     [name] => Banner 1
+     *                                                     [width] => 468
+     *                                                     [height] => 60
+     *                                                     [capping] => 0
+     *                                                     [html] => ...
+     *                                                     [adserver] =>
      *                                                 )
      *
-     *                                         )
-     *
-     *                                 )
-     *
-     *                         )
-     *
-     *                     [1] => Array
-     *                         (
-     *                             [advertiser_id] => 1552
-     *                             [name] => Kontera
-     *                             [campaigns] => Array
-     *                                 (
-     *                                     [0] => Array
-     *                                         (
-     *                                             [campaign_id] => 1783
-     *                                             [name] => Test
-     *                                             [weight] => 1
-     *                                             [capping] => 0
-     *                                             [banners] => Array
+     *                                             [1] => Array
      *                                                 (
-     *                                                     [0] => Array
-     *                                                         (
-     *                                                             [banner_id] => 2877
-     *                                                             [name] => Banner 468x60
-     *                                                             [width] => 468
-     *                                                             [height] => 60
-     *                                                             [capping] => 0
-     *                                                             [html] => <script type="text/javascript"></script>
-     *                                                             [adserver] => kontera
-     *                                                         )
-     *
+     *                                                     [banner_id] => 3002
+     *                                                     [name] => Banner 2
+     *                                                     [width] => 125
+     *                                                     [height] => 125
+     *                                                     [capping] => 1
+     *                                                     [html] => ...
+     *                                                     [adserver] =>
      *                                                 )
      *
      *                                         )
@@ -226,35 +210,30 @@ class OA_Dal_Central_AdNetworks
      *
      *                 )
      *
-     *         )
-     *
-     *     [1] => Array
-     *         (
-     *             [url] => http://www.phpadsnew.com
-     *             [advertisers] => Array
+     *             [1] => Array
      *                 (
-     *                     [1553] => Array
+     *                     [website_id] => 2346
+     *                     [url] => http://www.openads.org
+     *                     [campaigns] => Array
      *                         (
-     *                             [name] => CPX
-     *                             [campaigns] => Array
+     *                             [0] => Array
      *                                 (
-     *                                     [1784] => Array
+     *                                     [campaign_id] => 2001
+     *                                     [adnetwork_id] => 1
+     *                                     [name] => Campaign 1
+     *                                     [weight] => 1
+     *                                     [capping] => 0
+     *                                     [banners] => Array
      *                                         (
-     *                                             [name] => Test
-     *                                             [weight] => 1
-     *                                             [capping] => 0
-     *                                             [banners] => Array
+     *                                             [0] => Array
      *                                                 (
-     *                                                     [2878] => Array
-     *                                                         (
-     *                                                             [name] => Banner 1
-     *                                                             [width] => 468
-     *                                                             [height] => 60
-     *                                                             [capping] => 0
-     *                                                             [html] => <script type="text/javascript"></script>
-     *                                                             [adserver] => cpx
-     *                                                         )
-     *
+     *                                                     [banner_id] => 3001
+     *                                                     [name] => Banner 1
+     *                                                     [width] => 468
+     *                                                     [height] => 60
+     *                                                     [capping] => 0
+     *                                                     [html] => ...
+     *                                                     [adserver] =>
      *                                                 )
      *
      *                                         )

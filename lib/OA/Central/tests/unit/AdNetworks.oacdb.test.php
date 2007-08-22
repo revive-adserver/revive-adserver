@@ -154,7 +154,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         // Check counts
         $oDo = OA_Dal::factoryDO('clients');
-        $this->assertEqual($oDo->count(), 2);
+        $this->assertEqual($oDo->count(), 1);
         $oDo = OA_Dal::factoryDO('campaigns');
         $this->assertEqual($oDo->count(), 2);
         $oDo = OA_Dal::factoryDO('banners');
@@ -172,7 +172,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         // Check counts
         $oDo = OA_Dal::factoryDO('clients');
-        $this->assertEqual($oDo->count(), 4);
+        $this->assertEqual($oDo->count(), 2);
         $oDo = OA_Dal::factoryDO('campaigns');
         $this->assertEqual($oDo->count(), 4);
         $oDo = OA_Dal::factoryDO('banners');
@@ -186,11 +186,11 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         // Check name uniqueness
         $oDo = OA_Dal::factoryDO('clients');
-        $oDo->clientid = 3;
+        $oDo->clientid = 2;
         $oDo->find();
         $oDo->fetch();
         $row = $oDo->toArray();
-        $this->assertEqual($row['clientname'], 'Beccati.com (3)');
+        $this->assertEqual($row['clientname'], 'Beccati.com (2)');
     }
 
     /**
@@ -263,116 +263,116 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
     function _subscribeArray()
     {
         return array(
-            array(
-                'url'         => 'http://www.beccati.com',
-                'advertisers' => array(
-                    array(
-                        'advertiser_id' => 1000,
-                        'name'          => 'Beccati.com',
-                        'campaigns'     => array(
-                            array(
-                                'campaign_id' => 2000,
-                                'name'        => 'Campaign 1',
-                                'weight'      => 1,
-                                'capping'     => 0,
-                                'banners'     => array(
-                                    array(
-                                        'banner_id' => 3000,
-                                        'name' => 'Banner 1',
-                                        'width' => 468,
-                                        'height' => 60,
-                                        'capping' => 0,
-                                        'html' => '<script language=\'JavaScript\' type=\'text/javascript\' src=\'http://oa.beccati.com/adx.js\'></script>
+            'adnetworks' => array(
+                array(
+                    'adnetwork_id' => 1,
+                    'name' => 'Beccati.com'
+                )
+            ),
+            'websites' => array(
+                array(
+                    'website_id' => 2345,
+                    'url'        => 'http://www.beccati.com',
+                    'campaigns'  => array(
+                        array(
+                            'campaign_id'  => 2000,
+                            'adnetwork_id' => 1,
+                            'name'         => 'Campaign 1',
+                            'weight'       => 1,
+                            'capping'      => 0,
+                            'banners'      => array(
+                                array(
+                                    'banner_id' => 3000,
+                                    'name' => 'Banner 1',
+                                    'width' => 468,
+                                    'height' => 60,
+                                    'capping' => 0,
+                                    'html' => '<script language=\'JavaScript\' type=\'text/javascript\' src=\'http://www.example.com/adx.js\'></script>
 <script language=\'JavaScript\' type=\'text/javascript\'>
 <!--
-   if (!document.phpAds_used) document.phpAds_used = \',\';
-   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+if (!document.phpAds_used) document.phpAds_used = \',\';
+phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
 
-   document.write ("<" + "script language=\'JavaScript\' type=\'text/javascript\' src=\'");
-   document.write ("http://oa.beccati.com/adjs.php?n=" + phpAds_random);
-   document.write ("&amp;what=zone:1");
-   document.write ("&amp;exclude=" + document.phpAds_used);
-   if (document.referrer)
-      document.write ("&amp;referer=" + escape(document.referrer));
-   document.write ("\'><" + "/script>");
+document.write ("<" + "script language=\'JavaScript\' type=\'text/javascript\' src=\'");
+document.write ("http://www.example.com/adjs.php?n=" + phpAds_random);
+document.write ("&amp;what=zone:1");
+document.write ("&amp;exclude=" + document.phpAds_used);
+if (document.referrer)
+  document.write ("&amp;referer=" + escape(document.referrer));
+document.write ("\'><" + "/script>");
 //-->
-</script><noscript><a href=\'http://oa.beccati.com/adclick.php?n=a29f51cf\' target=\'_blank\'><img src=\'http://oa.beccati.com/adview.php?what=zone:1&amp;n=a29f51cf\' border=\'0\' alt=\'\'></a></noscript>
+</script><noscript><a href=\'http://www.example.com/adclick.php?n=a29f51cf\' target=\'_blank\'><img src=\'http://www.example.com/adview.php?what=zone:1&amp;n=a29f51cf\' border=\'0\' alt=\'\'></a></noscript>
 ',
-                                        'adserver' => ''
-                                    ),
-                                    array(
-                                        'banner_id' => 3002,
-                                        'name' => 'Banner 2',
-                                        'width' => 125,
-                                        'height' => 125,
-                                        'capping' => 1,
-                                        'html' => '<script language=\'JavaScript\' type=\'text/javascript\' src=\'http://oa.beccati.com/adx.js\'></script>
+                                    'adserver' => ''
+                                ),
+                                array(
+                                    'banner_id' => 3002,
+                                    'name' => 'Banner 2',
+                                    'width' => 125,
+                                    'height' => 125,
+                                    'capping' => 1,
+                                    'html' => '<script language=\'JavaScript\' type=\'text/javascript\' src=\'http://www.example.com/adx.js\'></script>
 <script language=\'JavaScript\' type=\'text/javascript\'>
 <!--
-   if (!document.phpAds_used) document.phpAds_used = \',\';
-   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+if (!document.phpAds_used) document.phpAds_used = \',\';
+phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
 
-   document.write ("<" + "script language=\'JavaScript\' type=\'text/javascript\' src=\'");
-   document.write ("http://oa.beccati.com/adjs.php?n=" + phpAds_random);
-   document.write ("&amp;what=zone:2");
-   document.write ("&amp;exclude=" + document.phpAds_used);
-   if (document.referrer)
-      document.write ("&amp;referer=" + escape(document.referrer));
-   document.write ("\'><" + "/script>");
+document.write ("<" + "script language=\'JavaScript\' type=\'text/javascript\' src=\'");
+document.write ("http://www.example.com/adjs.php?n=" + phpAds_random);
+document.write ("&amp;what=zone:2");
+document.write ("&amp;exclude=" + document.phpAds_used);
+if (document.referrer)
+  document.write ("&amp;referer=" + escape(document.referrer));
+document.write ("\'><" + "/script>");
 //-->
-</script><noscript><a href=\'http://oa.beccati.com/adclick.php?n=a29f51cf\' target=\'_blank\'><img src=\'http://oa.beccati.com/adview.php?what=zone:2&amp;n=a29f51cf\' border=\'0\' alt=\'\'></a></noscript>
+</script><noscript><a href=\'http://www.example.com/adclick.php?n=a29f51cf\' target=\'_blank\'><img src=\'http://www.example.com/adview.php?what=zone:2&amp;n=a29f51cf\' border=\'0\' alt=\'\'></a></noscript>
 ',
-                                        'adserver' => ''
-                                    )
+                                    'adserver' => ''
+                                )
+                            )
+                        )
+                    )
+                ),
+                array(
+                    'website_id' => 2346,
+                    'url'        => 'http://www.openads.org',
+                    'campaigns'  => array(
+                        array(
+                            'campaign_id' => 2001,
+                            'adnetwork_id' => 1,
+                            'name'        => 'Campaign 1',
+                            'weight'      => 1,
+                            'capping'     => 0,
+                            'banners'     => array(
+                                array(
+                                    'banner_id' => 3001,
+                                    'name' => 'Banner 1',
+                                    'width' => 468,
+                                    'height' => 60,
+                                    'capping' => 0,
+                                    'html' => '<script language=\'JavaScript\' type=\'text/javascript\' src=\'http://www.example.com/adx.js\'></script>
+<script language=\'JavaScript\' type=\'text/javascript\'>
+<!--
+if (!document.phpAds_used) document.phpAds_used = \',\';
+phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
+
+document.write ("<" + "script language=\'JavaScript\' type=\'text/javascript\' src=\'");
+document.write ("http://www.example.com/adjs.php?n=" + phpAds_random);
+document.write ("&amp;what=zone:3");
+document.write ("&amp;exclude=" + document.phpAds_used);
+if (document.referrer)
+  document.write ("&amp;referer=" + escape(document.referrer));
+document.write ("\'><" + "/script>");
+//-->
+</script><noscript><a href=\'http://www.example.com/adclick.php?n=a29f51cf\' target=\'_blank\'><img src=\'http://www.example.com/adview.php?what=zone:3&amp;n=a29f51cf\' border=\'0\' alt=\'\'></a></noscript>
+',
+                                    'adserver' => ''
                                 )
                             )
                         )
                     )
                 )
-            ),
-            array(
-                'url'         => 'http://www.openads.org',
-                'advertisers' => array(
-                    array(
-                        'advertiser_id' => 1001,
-                        'name'          => 'Beccati.com',
-                        'campaigns'     => array(
-                            array(
-                                'campaign_id' => 2001,
-                                'name'        => 'Campaign 1',
-                                'weight'      => 1,
-                                'capping'     => 0,
-                                'banners'     => array(
-                                    array(
-                                        'banner_id' => 3001,
-                                        'name' => 'Banner 1',
-                                        'width' => 468,
-                                        'height' => 60,
-                                        'capping' => 0,
-                                        'html' => '<script language=\'JavaScript\' type=\'text/javascript\' src=\'http://oa.beccati.com/adx.js\'></script>
-<script language=\'JavaScript\' type=\'text/javascript\'>
-<!--
-   if (!document.phpAds_used) document.phpAds_used = \',\';
-   phpAds_random = new String (Math.random()); phpAds_random = phpAds_random.substring(2,11);
-
-   document.write ("<" + "script language=\'JavaScript\' type=\'text/javascript\' src=\'");
-   document.write ("http://oa.beccati.com/adjs.php?n=" + phpAds_random);
-   document.write ("&amp;what=zone:3");
-   document.write ("&amp;exclude=" + document.phpAds_used);
-   if (document.referrer)
-      document.write ("&amp;referer=" + escape(document.referrer));
-   document.write ("\'><" + "/script>");
-//-->
-</script><noscript><a href=\'http://oa.beccati.com/adclick.php?n=a29f51cf\' target=\'_blank\'><img src=\'http://oa.beccati.com/adview.php?what=zone:3&amp;n=a29f51cf\' border=\'0\' alt=\'\'></a></noscript>
-',
-                                        'adserver' => ''
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
+            )
         );
     }
 

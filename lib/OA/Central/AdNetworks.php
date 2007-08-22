@@ -134,7 +134,7 @@ class OA_Central_AdNetworks
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
 
-        $aWebsites = $this->oDal->subscribeWebsites($aWebsites);
+        $aSubscriptions = $this->oDal->subscribeWebsites($aWebsites);
 
         if (PEAR::isError($result)) {
             return false;
@@ -149,16 +149,42 @@ class OA_Central_AdNetworks
             'zones'       => array()
         );
 
+        $aAdNetworks = array();
+
         $ok = true;
-        for (reset($aWebsites); $ok && ($aWebsite = current($aWebsites)); next($aWebsites)) {
+        foreach ($aSubscriptions['adnetworks'] as $aAdvertiser) {
+            // Create advertiser
+            $advertiserName = $this->getUniqueAdvertiserName($aAdvertiser['name']);
+            $advertiser = array(
+                'clientname' => $advertiserName,
+                'contact'    => $aPref['admin_name'],
+                'email'      => $aPref['admin_email']
+            );
+
+            $doAdvertisers = OA_Dal::factoryDO('clients');
+            $doAdvertisers->setFrom($advertiser);
+            $advertiserId = $doAdvertisers->insert();
+
+            if (!empty($advertiserId)) {
+                $aCreated['advertisers'][] = $advertiserId;
+                $aAdNetworks[$aAdvertiser['adnetwork_id']] = $advertiser + array(
+                    'clientid' => $advertiserId
+                );
+            } else {
+                $ok = false;
+            }
+        }
+
+        for (reset($aSubscriptions['websites']); $ok && ($aWebsite = current($aSubscriptions['websites'])); next($aSubscriptions['websites'])) {
             // Create publisher
             $publisherName = $this->getUniquePublisherName($aWebsite['url']);
             $publisher = array(
-                'name'     => $publisherName,
-                'mnemonic' => '',
-                'contact'  => $aPref['admin_name'],
-                'email'    => $aPref['admin_email'],
-                'website'  => $aWebsite['url']
+                'name'           => $publisherName,
+                'mnemonic'       => '',
+                'contact'        => $aPref['admin_name'],
+                'email'          => $aPref['admin_email'],
+                'website'        => $aWebsite['url'],
+                'oac_website_id' => $aWebsite['website_id']
             );
 
             $doPublishers = OA_Dal::factoryDO('affiliates');
@@ -172,101 +198,91 @@ class OA_Central_AdNetworks
                 $ok = false;
             }
 
-            for (reset($aWebsite['advertisers']); $ok && ($aAdvertiser = current($aWebsite['advertisers'])); next($aWebsite['advertisers'])) {
-                // Create advertiser
-                $advertiserName = $this->getUniqueAdvertiserName($aAdvertiser['name']);
-                $advertiser = array(
-                    'clientname' => $advertiserName,
-                    'contact'    => $aPref['admin_name'],
-                    'email'      => $aPref['admin_email']
+            for (reset($aWebsite['campaigns']); $ok && ($aCampaign = current($aWebsite['campaigns'])); next($aWebsite['campaigns'])) {
+                // Create campaign
+                if (!isset($aAdNetworks[$aCampaign['adnetwork_id']])) {
+                    $ok = false;
+                    break;
+                }
+
+                $advertiserId   = $aAdNetworks[$aCampaign['adnetwork_id']]['clientid'];
+                $advertiserName = $aAdNetworks[$aCampaign['adnetwork_id']]['clientname'];
+
+                $campaignName = $this->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']}");
+                $campaign = array(
+                    'campaignname'    => $campaignName,
+                    'clientid'        => $advertiserId,
+                    'weight'          => $aCampaign['weight'],
+                    'capping'         => $aCampaign['capping'],
+                    'oac_campaign_id' => $aCampaign['campaign_id']
                 );
 
-                $doAdvertisers = OA_Dal::factoryDO('clients');
-                $doAdvertisers->setFrom($advertiser);
-                $advertiserId = $doAdvertisers->insert();
+                $doCampaigns = OA_Dal::factoryDO('campaigns');
+                $doCampaigns->setFrom($campaign);
+                $campaignId = $doCampaigns->insert();
 
-                if (!empty($advertiserId)) {
-                    $aCreated['advertisers'][] = $advertiserId;
+                if (!empty($campaignId)) {
+                    $aCreated['campaigns'][] = $campaignId;
                 } else {
                     $ok = false;
                 }
 
-                for (reset($aAdvertiser['campaigns']); $ok && ($aCampaign = current($aAdvertiser['campaigns'])); next($aAdvertiser['campaigns'])) {
-                    // Create campaign
-                    $campaignName = $this->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']}");
-                    $campaign = array(
-                        'campaignname' => $campaignName,
-                        'clientid'     => $advertiserId,
-                        'weight'       => $aCampaign['weight'],
-                        'capping'      => $aCampaign['capping']
+                for (reset($aCampaign['banners']); $ok && ($aBanner = current($aCampaign['banners'])); next($aCampaign['banners'])) {
+                    // Create banner
+                    $bannerName = $this->getUniqueBannerName("{$campaignName} - {$aBanner['name']}");
+                    $banner = array(
+                        'description'   => $bannerName,
+                        'campaignid'    => $campaignId,
+                        'width'         => $aBanner['width'],
+                        'height'        => $aBanner['height'],
+                        'capping'       => $aBanner['capping'],
+                        'htmltemplate'  => $aBanner['html'],
+                        'adserver'      => $aBanner['adserver'],
+                        'oac_banner_id' => $aBanner['banner_id']
                     );
 
-                    $doCampaigns = OA_Dal::factoryDO('campaigns');
-                    $doCampaigns->setFrom($campaign);
-                    $campaignId = $doCampaigns->insert();
+                    $doBanners = OA_Dal::factoryDO('banners');
+                    $doBanners->setFrom($banner);
+                    $bannerId = $doBanners->insert();
 
-                    if (!empty($campaignId)) {
-                        $aCreated['campaigns'][] = $campaignId;
-                    } else {
-                        $ok = false;
-                    }
+                    if (!empty($bannerId)) {
+                        $aCreated['banners'][] = $bannerId;
 
-                    for (reset($aCampaign['banners']); $ok && ($aBanner = current($aCampaign['banners'])); next($aCampaign['banners'])) {
-                        // Create banner
-                        $bannerName = $this->getUniqueBannerName("{$campaignName} - {$aBanner['name']}");
-                        $banner = array(
-                            'description'  => $bannerName,
-                            'campaignid'   => $campaignId,
-                            'width'        => $aBanner['width'],
-                            'height'       => $aBanner['height'],
-                            'capping'      => $aBanner['capping'],
-                            'htmltemplate' => $aBanner['html'],
-                            'adserver'     => $aBanner['adserver']
-                        );
+                        $zoneSize = "{$aBanner['width']}x{$aBanner['height']}";
+                        if (isset($aZones[$zoneSize])) {
+                            $zoneId = $aZones[$zoneSize];
+                        } else {
+                            // Create zone
+                            $zoneName = $this->getUniqueZoneName("{$publisherName} - {$zoneSize}");
+                            $zone = array(
+                                'zonename'    => $zoneName,
+                                'affiliateid' => $publisherId,
+                                'width'       => $aBanner['width'],
+                                'height'      => $aBanner['height'],
+                            );
 
-                        $doBanners = OA_Dal::factoryDO('banners');
-                        $doBanners->setFrom($banner);
-                        $bannerId = $doBanners->insert();
+                            $doZones = OA_Dal::factoryDO('zones');
+                            $doZones->setFrom($zone);
+                            $zoneId = $doZones->insert();
+                        }
 
-                        if (!empty($bannerId)) {
-                            $aCreated['banners'][] = $bannerId;
+                        if (!empty($zoneId)) {
+                            // Link banner to zone
+                            $aVariables = array(
+                                'ad_id'   => $bannerId,
+                                'zone_id' => $zoneId
+                            );
 
-                            $zoneSize = "{$aBanner['width']}x{$aBanner['height']}";
-                            if (isset($aZones[$zoneSize])) {
-                                $zoneId = $aZones[$zoneSize];
-                            } else {
-                                // Create zone
-                                $zoneName = $this->getUniqueZoneName("{$publisherName} - {$zoneSize}");
-                                $zone = array(
-                                    'zonename'    => $zoneName,
-                                    'affiliateid' => $publisherId,
-                                    'width'       => $aBanner['width'],
-                                    'height'      => $aBanner['height'],
-                                );
+                            $result = Admin_DA::addAdZone($aVariables);
 
-                                $doZones = OA_Dal::factoryDO('zones');
-                                $doZones->setFrom($zone);
-                                $zoneId = $doZones->insert();
-                            }
-
-                            if (!empty($zoneId)) {
-                                // Link banner to zone
-                                $aVariables = array(
-                                    'ad_id'   => $bannerId,
-                                    'zone_id' => $zoneId
-                                );
-
-                                $result = Admin_DA::addAdZone($aVariables);
-
-                                if (PEAR::isError($result)) {
-                                    $ok = false;
-                                }
-                            } else {
+                            if (PEAR::isError($result)) {
                                 $ok = false;
                             }
                         } else {
                             $ok = false;
                         }
+                    } else {
+                        $ok = false;
                     }
                 }
             }
