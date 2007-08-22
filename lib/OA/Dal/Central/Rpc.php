@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH.'/lib/OA.php';
-require_once 'XML/RPC.php';
+require_once MAX_PATH.'/lib/OA/XmlRpcClient.php';
 
 
 define('OA_DAL_CENTRAL_PROTOCOL_VERSION', 3);
@@ -54,9 +54,10 @@ class OA_Dal_Central_Rpc
      */
     function OA_Dal_Central_Rpc()
     {
-        $this->oXml = new XML_RPC_Client(
-            '/oap/',
-            'https://oac.openads.org'
+        $this->oXml = new OA_XML_RPC_Client(
+            '/xmlrpc.php',
+            'https://sync.openads.org',
+            443
         );
     }
 

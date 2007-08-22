@@ -76,8 +76,8 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
     function _newInstance()
     {
         Mock::generatePartial(
-            'XML_RPC_Client',
-            $oXmlRpc = 'XML_RPC_Client_'.md5(uniqid('', true)),
+            'OA_XML_RPC_Client',
+            $oXmlRpc = 'OA_XML_RPC_Client_'.md5(uniqid('', true)),
             array('send')
         );
 
