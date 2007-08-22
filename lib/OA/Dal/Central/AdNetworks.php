@@ -62,13 +62,13 @@ class OA_Dal_Central_AdNetworks
      *
      * Array
      * (
-     *   [1] => Array
+     *   [10] => Array
      *     (
      *       [name] => Music
      *       [subcategories] => Array
      *         (
-     *           [1] => Pop
-     *           [2] => Rock
+     *           [21] => Pop
+     *           [22] => Rock
      *         )
      *
      *     )
