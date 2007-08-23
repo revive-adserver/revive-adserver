@@ -66,7 +66,8 @@ class OA
         }
         // Deal with the config file containing the log level by
         // name or by number
-        $priorityLevel = @constant($aConf['log']['priority']);
+        $priorityLevel = is_numeric($aConf['log']['priority']) ? $aConf['log']['priority'] :
+            @constant($aConf['log']['priority']);
         if (is_null($priorityLevel)) {
             $priorityLevel = $aConf['log']['priority'];
         }
