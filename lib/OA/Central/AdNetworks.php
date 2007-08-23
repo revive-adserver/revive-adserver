@@ -29,16 +29,22 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 
 /**
- * OAP binding to the OAC ad networks API
+ * OAP binding to the ad networks OAC API
  *
  */
 class OA_Central_AdNetworks
 {
+    /**
+     * @var OA_Central_RpcMapper
+     */
+    var $oMapper;
+
     /**
      * @var OA_Dal_Central_AdNetworks
      */
@@ -51,6 +57,7 @@ class OA_Central_AdNetworks
      */
     function OA_Central_AdNetworks()
     {
+        $this->oMapper = new OA_Central_RpcMapper();
         $this->oDal = new OA_Dal_Central_AdNetworks();
     }
 
@@ -67,7 +74,7 @@ class OA_Central_AdNetworks
     function getCategories()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oDal->getCategories($aPref['language']);
+        $result = $this->oMapper->getCategories($aPref['language']);
 
         if (PEAR::isError($result)) {
             return false;
@@ -89,7 +96,7 @@ class OA_Central_AdNetworks
     function getCountries()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oDal->getCountries($aPref['language']);
+        $result = $this->oMapper->getCountries($aPref['language']);
 
         if (PEAR::isError($result)) {
             return false;
@@ -111,7 +118,7 @@ class OA_Central_AdNetworks
     function getLanguages()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oDal->getLanguages($aPref['language']);
+        $result = $this->oMapper->getLanguages($aPref['language']);
 
         if (PEAR::isError($result)) {
             return false;
@@ -137,7 +144,7 @@ class OA_Central_AdNetworks
         $aPref = $GLOBALS['_MAX']['PREF'];
         $oDbh = OA_DB::singleton();
 
-        $aSubscriptions = $this->oDal->subscribeWebsites($aWebsites);
+        $aSubscriptions = $this->oMapper->subscribeWebsites($aWebsites);
 
         if (PEAR::isError($result)) {
             return false;
@@ -351,7 +358,7 @@ class OA_Central_AdNetworks
         $batchSequence = OA_Dal_ApplicationVariables::get('batch_sequence');
         $batchSequence = is_null($batchSequence) ? 1 : $batchSequence + 1;
 
-        $aRevenues = $this->oDal->getRevenue($batchSequence);
+        $aRevenues = $this->oMapper->getRevenue($batchSequence);
 
         if (PEAR::isError($aRevenues)) {
             return false;

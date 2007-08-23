@@ -61,12 +61,12 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
     function _mockSendReference(&$oAdNetworks, &$reference)
     {
-        $oAdNetworks->oDal->oRpc->oXml->setReturnReference('send', $reference);
+        $oAdNetworks->oMapper->oRpc->oXml->setReturnReference('send', $reference);
     }
 
     function _mockSendExpect(&$oAdNetworks, $args)
     {
-        $oAdNetworks->oDal->oRpc->oXml->expect('send', $args);
+        $oAdNetworks->oMapper->oRpc->oXml->expect('send', $args);
     }
     /**
      * Create a new OA_Central_AdNetworks instance with a mocked Rpc class
@@ -82,7 +82,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         );
 
         $oAdNetworks = new OA_Central_AdNetworks();
-        $oAdNetworks->oDal->oRpc->oXml = new $oXmlRpc();
+        $oAdNetworks->oMapper->oRpc->oXml = new $oXmlRpc();
 
         return $oAdNetworks;
     }
@@ -90,6 +90,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
     /**
      * A method to test the getCategories() method.
+     *
      */
     function testGetCategories()
     {
@@ -131,8 +132,57 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertFalse($result);
     }
 
+    /**
+     * A method to test the getCountries() method.
+     *
+     */
+    function testGetCountries()
+    {
+        $this->_setUpAppVars();
 
-    function testSubscribe()
+        $aCountries = array(
+            'UK' => 'United Kingdom',
+            'IT' => 'Italy'
+        );
+
+        $oResponse = new XML_RPC_Response(XML_RPC_encode($aCountries));
+
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, $oResponse);
+
+        $result = $oAdNetworks->getCountries();
+        $this->assertEqual($result, $aCountries);
+
+    }
+
+    /**
+     * A method to test the getLanguages() method.
+     *
+     */
+    function testGetLanguages()
+    {
+        $this->_setUpAppVars();
+
+        $aLanguages = array(
+            1 => 'English',
+            2 => 'Italian'
+        );
+
+        $oResponse = new XML_RPC_Response(XML_RPC_encode($aLanguages));
+
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, $oResponse);
+
+        $result = $oAdNetworks->getLanguages();
+        $this->assertEqual($result, $aLanguages);
+
+    }
+
+    /**
+     * A method to test the subscribeWebsites() method.
+     *
+     */
+    function testSubscribeWebsites()
     {
         $this->_setUpAppVars();
 
@@ -203,7 +253,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
     }
 
     /**
-     * Test getRevenue
+     * A method to test the getRevenue() method.
      *
      * Note: needs to be the last test in the set!!!
      */

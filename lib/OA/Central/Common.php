@@ -25,15 +25,76 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/OA.php';
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+require_once MAX_PATH . '/lib/OA/Dal/Central/Common.php';
+require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
 
 
 /**
- * Dal methods for the common OAC API
+ * OAP binding to the common OAC API
  *
  */
-class OA_Dal_Central_Common
+class OA_Central_Common
 {
+    /**
+     * @var OA_Central_RpcMapper
+     */
+    var $oMapper;
+
+    /**
+     * @var OA_Dal_Central_AdNetworks
+     */
+    var $oDal;
+
+    /**
+     * Class constructor
+     *
+     * @return OA_Central_AdNetworks
+     */
+    function OA_Central_Common()
+    {
+        $this->oMapper = new OA_Central_RpcMapper();
+        $this->oDal = new OA_Dal_Central_Common();
+    }
+
+    /**
+     * Refs R-AN-1: Connecting Openads Platform with SSO
+     *
+     * @todo Need clarification
+     *
+     * @return boolean True on success
+     */
+    function connectOAPToOAC()
+    {
+        $result = $this->oMapper->connectOAPToOAC();
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * A method to retrieve the image data of a captcha image
+     *
+     * @see R-AN-20: Captcha Validation
+     *
+     * @return mixed An array with the image content type and binary data if successful,
+     *               FALSE otherwise
+     */
+    function getCaptcha()
+    {
+        $result = $this->oMapper->getCaptcha();
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return $result;
+    }
 
 }
 
