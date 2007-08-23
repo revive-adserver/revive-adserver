@@ -25,11 +25,8 @@
 $Id: AdNetworks.php 9095 2007-08-17 15:27:03Z matteo.beccati@openads.org $
 */
 
-require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+require_once MAX_PATH . '/lib/OA/Central/Common.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/AdNetworks.php';
-require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
@@ -38,18 +35,8 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
  * OAP binding to the ad networks OAC API
  *
  */
-class OA_Central_AdNetworks
+class OA_Central_AdNetworks extends OA_Central_Common
 {
-    /**
-     * @var OA_Central_RpcMapper
-     */
-    var $oMapper;
-
-    /**
-     * @var OA_Dal_Central_AdNetworks
-     */
-    var $oDal;
-
     /**
      * Class constructor
      *
@@ -57,7 +44,7 @@ class OA_Central_AdNetworks
      */
     function OA_Central_AdNetworks()
     {
-        $this->oMapper = new OA_Central_RpcMapper();
+        parent::OA_Central_Common();
         $this->oDal = new OA_Dal_Central_AdNetworks();
     }
 
@@ -150,8 +137,8 @@ class OA_Central_AdNetworks
             return false;
         }
 
-        if ($oDbh->supports('transactions')) {
-            $oDbh->beginTransaction();
+        if (!$this->oDal->beginTransaction()) {
+            return false;
         }
 
         // Simulate transactions
@@ -168,7 +155,7 @@ class OA_Central_AdNetworks
         $ok = true;
         foreach ($aSubscriptions['adnetworks'] as $aAdvertiser) {
             // Create advertiser
-            $advertiserName = $this->getUniqueAdvertiserName($aAdvertiser['name']);
+            $advertiserName = $this->oDal->getUniqueAdvertiserName($aAdvertiser['name']);
             $advertiser = array(
                 'clientname' => $advertiserName,
                 'contact'    => $aPref['admin_name'],
@@ -191,7 +178,7 @@ class OA_Central_AdNetworks
 
         for (reset($aSubscriptions['websites']); $ok && ($aWebsite = current($aSubscriptions['websites'])); next($aSubscriptions['websites'])) {
             // Create publisher
-            $publisherName = $this->getUniquePublisherName($aWebsite['url']);
+            $publisherName = $this->oDal->getUniquePublisherName($aWebsite['url']);
             $publisher = array(
                 'name'           => $publisherName,
                 'mnemonic'       => '',
@@ -222,7 +209,7 @@ class OA_Central_AdNetworks
                 $advertiserId   = $aAdNetworks[$aCampaign['adnetwork_id']]['clientid'];
                 $advertiserName = $aAdNetworks[$aCampaign['adnetwork_id']]['clientname'];
 
-                $campaignName = $this->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']}");
+                $campaignName = $this->oDal->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']}");
                 $campaign = array(
                     'campaignname'    => $campaignName,
                     'clientid'        => $advertiserId,
@@ -243,7 +230,7 @@ class OA_Central_AdNetworks
 
                 for (reset($aCampaign['banners']); $ok && ($aBanner = current($aCampaign['banners'])); next($aCampaign['banners'])) {
                     // Create banner
-                    $bannerName = $this->getUniqueBannerName("{$campaignName} - {$aBanner['name']}");
+                    $bannerName = $this->oDal->getUniqueBannerName("{$campaignName} - {$aBanner['name']}");
                     $banner = array(
                         'description'   => $bannerName,
                         'campaignid'    => $campaignId,
@@ -267,7 +254,7 @@ class OA_Central_AdNetworks
                             $zoneId = $aZones[$zoneSize];
                         } else {
                             // Create zone
-                            $zoneName = $this->getUniqueZoneName("{$publisherName} - {$zoneSize}");
+                            $zoneName = $this->oDal->getUniqueZoneName("{$publisherName} - {$zoneSize}");
                             $zone = array(
                                 'zonename'    => $zoneName,
                                 'affiliateid' => $publisherId,
@@ -303,39 +290,14 @@ class OA_Central_AdNetworks
         }
 
         if (!$ok) {
-            if ($oDbh->supports('transactions')) {
-                $oDbh->rollback();
-            } else {
-                // Simulate rollback
-                $aEntities = array(
-                    'publishers'  => array('affiliates', 'affiliateid'),
-                    'advertisers' => array('clients', 'clientid'),
-                    'campaigns'   => array('campaigns', 'campaignid'),
-                    'banners'     => array('banners', 'bannerid'),
-                    'zones'       => array('zones', 'zoneid')
-                );
-
-                foreach (array_keys($aCreated) as $entity) {
-                    if (count($aCreated[$entity])) {
-                        $doEntity = OA_Dal::factoryDO($aEntities[$entity][0]);
-                        $doEntity->whereInAdd($aEntities[$entity][1], $aCreated[$entity]);
-                        $doEntity->delete(true);
-                    }
-                }
+            if (!$this->oDal->rollback()) {
+                $this->oDal->undoEntities($aCreated);
             }
 
             return false;
         }
 
-        if ($oDbh->supports('transactions')) {
-            $result = $oDbh->commit();
-
-            if (PEAR::isError($result)) {
-                return false;
-            }
-        }
-
-        return true;
+        return $this->oDal->commit();
     }
 
     /**
@@ -349,12 +311,6 @@ class OA_Central_AdNetworks
      */
     function getRevenue()
     {
-        $oDbh = OA_DB::singleton();
-        $tableZones      = $oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'zones');
-        $tableAffiliates = $oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'affiliates');
-        $tableAza        = $oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'ad_zone_assoc');
-        $tableDsah       = $oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'data_summary_ad_hourly');
-
         $batchSequence = OA_Dal_ApplicationVariables::get('batch_sequence');
         $batchSequence = is_null($batchSequence) ? 1 : $batchSequence + 1;
 
@@ -364,268 +320,33 @@ class OA_Central_AdNetworks
             return false;
         }
 
-        if ($oDbh->supports('transactions')) {
-            $oDbh->beginTransaction();
+        if (!$this->oDal->beginTransaction()) {
+            return false;
         }
 
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->whereInAdd('oac_banner_id', array_keys($aRevenues));
-        $doBanners->orderBy('bannerid');
-        $doBanners->find();
-
-        $aOacBannerIds = array();
-        while ($doBanners->fetch()) {
-            $aOacBannerIds[$doBanners->oac_banner_id] = $doBanners->bannerid;
-        }
+        $aBannerIds = $this->oDal->getBannerIdsFromOacIds(array_keys($aRevenues));
 
         foreach ($aRevenues as $bannerId => $aData) {
             foreach ($aData as $aRevenue) {
-                if (!isset($aOacBannerIds[$bannerId])) {
+                if (!isset($aBannerIds[$bannerId])) {
                     continue;
                 }
 
-                $bannerId = $aOacBannerIds[$bannerId];
+                if (!$this->oDal->revenueClearStats($aBannerIds[$bannerId], $aRevenue)) {
+                    return $this->oDal->rollbackAndReturnFalse();
+                }
 
-                $startDay  = $aRevenue['start']->format('%Y-%m-%d');
-                $startHour = (int)$aRevenue['start']->format('%H');
-                $endDay    = $aRevenue['end']->format('%Y-%m-%d');
-                $endHour   = (int)$aRevenue['end']->format('%H');
-
-                $where = "
-                    (
-                        (day = '{$startDay}' AND hour >= {$startHour}) OR
-                        (day > '{$startDay}' AND day < '{$endDay}') OR
-                        (day = '{$endDay}' AND hour <= {$endHour})
-                    )
-                ";
-
-                $actionType = $aRevenue['type'] = 'CPC' ? 'clicks' : 'impressions';
-
-                $i = 0;
-                while (++$i <= 2) {
-                    $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                    $doDsah->ad_id = $bannerId;
-                    $doDsah->whereAdd($where);
-                    $doDsah->orderBy('day, hour');
-
-                    $aStats = $doDsah->getAll(array(), true, false);
-
-                    unset($doDsah);
-
-                    $cntTotal  = count($aStats);
-                    $cntActive = 0;
-                    $sumActive = 0;
-                    $aActive = array();
-                    foreach ($aStats as $key => $row) {
-                        $row['total_revenue'] = 0;
-                        if ($row[$actionType] > 0) {
-                            $cntActive++;
-                            $sumActive += $row[$actionType];
-                            $aActive[$key] = $row;
-                        }
-                    }
-
-                    // Reset revenue
-                    $result = $oDbh->exec("
-                        UPDATE
-                            {$tableDsah}
-                        SET
-                            total_revenue = 0,
-                            updated = '".OA::getNow()."'
-                        WHERE
-                            ad_id = {$bannerId} AND
-                            (total_revenue <> 0 OR total_revenue IS NULL) AND
-                            {$where}
-                        ");
-                    if (PEAR::isError($result)) {
-                        if ($oDbh->supports('transactions')) {
-                            $oDbh->rollback();
-                        }
-                        return false;
-                    }
-
-                    $assignedRevenue = 0;
-                    if ($sumActive) {
-                        $lastHour = array_pop($aActive);
-
-                        foreach ($aActive as $key => $row) {
-                            $aActive[$key]['total_revenue'] = $row[$actionType] / $sumActive * $aRevenue['revenue'];
-                            $aActive[$key]['total_revenue'] = floor(100 * $aActive[$key]['total_revenue']) / 100;
-                            $assignedRevenue += $aActive[$key]['total_revenue'];
-                        }
-
-                        $lastHour['total_revenue'] = $aRevenue['revenue'] - $assignedRevenue;
-                        array_push($aActive, $lastHour);
-
-                        foreach ($aActive as $key => $row) {
-                            $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                            $doDsah->data_summary_ad_hourly_id = $key;
-                            $row['updated'] = OA::getNow();
-                            $doDsah->setFrom($row);
-                            $result = $doDsah->update();
-                            if (!$result) {
-                                if ($oDbh->supports('transactions')) {
-                                    $oDbh->rollback();
-                                }
-                                return false;
-                            }
-                        }
-
-                        // Complete
-                        break;
-                    } else {
-                        $aZoneIds = array();
-                        $doAza = OA_Dal::factoryDO('ad_zone_assoc');
-                        $doAza->ad_id = $bannerId;
-                        $doAza->find();
-                        while ($doAza->fetch()) {
-                            $aZoneIds[] = $doAza->zone_id;
-                        }
-
-                        for ($day = $startDay; $day <= $endDay; ) {
-                            for ($hour = 0; $hour < 24; $hour++) {
-                                if ($day == $startDay && $hour < $startHour) {
-                                    continue;
-                                }
-                                if ($day == $endDay && $hour > $endHour) {
-                                    break;
-                                }
-                                foreach ($aZoneIds as $zoneId) {
-                                    $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                                    $doDsah->day     = $day;
-                                    $doDsah->hour    = $hour;
-                                    $doDsah->ad_id   = $bannerId;
-                                    $doDsah->zone_id = $zoneId;
-
-                                    $doDsahClone = clone($doDsah);
-                                    if (!$doDsahClone->count()) {
-                                        $doDsah->$actionType = 1;
-                                        $doDsah->updated = OA::getNow();
-                                        $doDsah->insert();
-                                    }
-                                }
-                            }
-
-                            $oDay = new Date($day);
-                            $oDay->addSpan(new Date_Span('1-0-0-0'));
-                            $day = $oDay->format('%Y-%m-%d');
-                        }
-                    }
+                if (!$this->oDal->revenuePerformUpdate($aBannerIds[$bannerId], $aRevenue)) {
+                    return $this->oDal->rollbackAndReturnFalse();
                 }
             }
         }
 
         if (!OA_Dal_ApplicationVariables::set('batch_sequence', $batchSequence)) {
-            if ($oDbh->supports('transactions')) {
-                $oDbh->rollback();
-            }
-            return false;
+            return $this->oDal->rollbackAndReturnFalse();
         }
 
-        if ($oDbh->supports('transactions')) {
-            $result = $oDbh->commit();
-
-            if (PEAR::isError($result)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * A method to generate a unique advertiser name
-     *
-     * @param string $name
-     * @return string The unique name
-     */
-    function getUniqueAdvertiserName($name)
-    {
-        return $this->_getUniqueName($name, 'clients', 'clientname');
-    }
-
-    /**
-     * A method to generate a unique campaign name
-     *
-     * @param string $name
-     * @return string The unique name
-     */
-    function getUniqueCampaignName($name)
-    {
-        return $this->_getUniqueName($name, 'campaigns', 'campaignname');
-    }
-
-    /**
-     * A method to generate a unique banner name
-     *
-     * @param string $name
-     * @return string The unique name
-     */
-    function getUniqueBannerName($name)
-    {
-        return $this->_getUniqueName($name, 'banners', 'description');
-    }
-
-    /**
-     * A method to generate a unique publisher name
-     *
-     * @param string $name
-     * @return string The unique name
-     */
-    function getUniquePublisherName($name)
-    {
-        return $this->_getUniqueName($name, 'affiliates', 'name');
-    }
-
-    /**
-     * A method to generate an unique zone name
-     *
-     * @param string $name
-     * @return string The unique name
-     */
-    function getUniqueZoneName($name)
-    {
-        return $this->_getUniqueName($name, 'zones', 'zonename');
-    }
-
-    /**
-     * A generic internal method to generate unique names for entities
-     *
-     * @param string $name The original name
-     * @param string $entityTable The table to look for duplicate names
-     * @param string $entityName The field to look for duplicate names
-     * @return string The unique name
-     */
-    function _getUniqueName($name, $entityTable, $entityName)
-    {
-        $doEntities = OA_Dal::factoryDO($entityTable);
-        $doEntities->find();
-
-        $aNames = array();
-        while ($doEntities->fetch()) {
-            $aNames[] = $doEntities->$entityName;
-        }
-
-        if (!in_array($name, $aNames)) {
-            return $name;
-        }
-
-        $aNumbers = array();
-        foreach ($aNames as $value) {
-            if (preg_match('/^'.preg_quote($name, '/').' \((\d+)\)$/', $value, $m)) {
-                $aNumbers[] = intval($m[1]);
-            }
-        }
-
-        if (count($aNumbers)) {
-            rsort($aNumbers, SORT_NUMERIC);
-
-            $number = current($aNumbers) + 1;
-        } else {
-            $number = 2;
-        }
-
-        return "{$name} ({$number})";
+        return $this->oDal->commit();
     }
 
 }

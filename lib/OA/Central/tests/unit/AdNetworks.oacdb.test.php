@@ -268,12 +268,14 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
             putenv('TZ=Europe/Rome');
         }
 
+        $revenue = 23.45;
+
         $aResponse = new XML_RPC_Value(array(
             1000 => new XML_RPC_Value(array(
                 new XML_RPC_Value(array(
                     'start'   => new XML_RPC_Value('20070801T000000', $GLOBALS['XML_RPC_DateTime']),
                     'end'     => new XML_RPC_Value('20070801T235959', $GLOBALS['XML_RPC_DateTime']),
-                    'revenue' => new XML_RPC_Value(23.45, $GLOBALS['XML_RPC_Double']),
+                    'revenue' => new XML_RPC_Value($revenue, $GLOBALS['XML_RPC_Double']),
                     'type'    => new XML_RPC_Value('CPC', $GLOBALS['XML_RPC_String'])
                 ), $GLOBALS['XML_RPC_Struct'])
             ), $GLOBALS['XML_RPC_Array'])
@@ -298,6 +300,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $doDsah->orderBy('day, hour');
         $doDsah->find();
         $aStats = array();
+        $revenueSum = 0;
         while ($doDsah->fetch()) {
             $aStats[] = array(
                 'day' => $doDsah->day,
@@ -306,9 +309,13 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                 'clicks' => $doDsah->clicks,
                 'total_revenue' => $doDsah->total_revenue
             );
+            $revenueSum += $doDsah->total_revenue;
         }
 
-        $result = var_export($aStats, true);
+        $this->assertEqual(strval($revenueSum), strval($revenue));
+
+        $aExpected = $this->_getRevenueArray1();
+        $this->assertEqual($aStats, $aExpected);
 
         $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDsah->whereAdd('1=1');
@@ -335,6 +342,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $doDsah->orderBy('day, hour');
         $doDsah->find();
         $aStats = array();
+        $revenueSum = 0;
         while ($doDsah->fetch()) {
             $aStats[] = array(
                 'day' => $doDsah->day,
@@ -343,9 +351,13 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                 'clicks' => $doDsah->clicks,
                 'total_revenue' => $doDsah->total_revenue
             );
+            $revenueSum += $doDsah->total_revenue;
         }
 
-        $this->assertEqual($aStats, $this->_getRevenueArray2());
+        $this->assertEqual(strval($revenueSum), strval($revenue));
+
+        $aExpected = $this->_getRevenueArray2();
+        $this->assertEqual($aStats, $aExpected);
     }
 
     function _subscribeArray()
@@ -959,7 +971,7 @@ document.write ("\'><" + "/script>");
             'hour' => '12',
             'impressions' => '12',
             'clicks' => '2',
-            'total_revenue' => '3.3400',
+            'total_revenue' => '3.3500',
           ),
           37 =>
           array (
@@ -1007,7 +1019,7 @@ document.write ("\'><" + "/script>");
             'hour' => '18',
             'impressions' => '6',
             'clicks' => '1',
-            'total_revenue' => '1.7400',
+            'total_revenue' => '1.7300',
           ),
           43 =>
           array (
