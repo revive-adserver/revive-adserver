@@ -55,8 +55,6 @@ class OA_Dal_Central_Common
      *
      * @todo Need clarification
      *
-     * @param string $ssoAdmin    Openads SSO username
-     * @param string $ssoPassword Openads SSO password
      * @return mixed A boolean True if the platform is correctly connected to OAC,
      *               PEAR_Error otherwise
      */
