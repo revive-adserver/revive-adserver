@@ -298,10 +298,7 @@ class OA_Central_RpcMapper
      * A method to get the list of other networks currently available
      *
      * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
-     * @see R-AN-17
-     *
-     * @todo Re-think about it.
-     *
+     * @see R-AN-17: Refreshing the Other Ad Networks List
      *
      * The result array looks like:
      *
@@ -310,22 +307,18 @@ class OA_Central_RpcMapper
      *     [Google Adsense] => Array
      *         (
      *             [rank] => 1
-     *             [data] => Array
+     *             [url] => http://adsense.google.com
+     *             [is_global'] =>
+     *             [countries] => Array
      *                 (
-     *                     [0] => Array
-     *                         (
-     *                             [url] => http://adsense.google.com
-     *                             [country] =>
-     *                             [language] => 1
-     *                         )
+     *                     [us] => http://adsense.google.com
+     *                     [uk] => http://adsense.google.co.uk
+     *                 )
      *
-     *                     [1] => Array
-     *                         (
-     *                             [url] => http://adsense.google.co.uk
-     *                             [country] => uk
-     *                             [language] => 1
-     *                         )
-     *
+     *             [languages] => Array
+     *                 (
+     *                     [0] => 1
+     *                     [1] => 2
      *                 )
      *
      *         )
@@ -333,26 +326,21 @@ class OA_Central_RpcMapper
      *     [Advertising.com] => Array
      *         (
      *             [rank] => 2
-     *             [data] => Array
+     *             [url] => http://www.advertising.com
+     *             [is_global'] => 1
+     *             [countries] => Array
      *                 (
-     *                     [0] => Array
-     *                         (
-     *                             [url] => http://adsense.google.com
-     *                             [country] =>
-     *                             [language] => 1
-     *                         )
+     *                 )
      *
+     *             [languages] => Array
+     *                 (
      *                 )
      *
      *         )
      *
      * )
      *
-     * Note: country or language might be null, meaning that there are no country and/or
-     *       language constraints
-     *
-     * @return mixed The other networs array (name as key, link as value) on success,
-     *               PEAR_Error otherwise
+     * @return mixed The other networs array on success, PEAR_Error otherwise
      */
     function getOtherNetworks()
     {
@@ -363,6 +351,10 @@ class OA_Central_RpcMapper
      * A method to suggest a new network
      *
      * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
+     *
+     * @todo Decide if it's better to implement this using an XML-RPC call and
+     *       having OAC to send an email to the operator, or have OAP directly
+     *       send the email
      *
      * @param string $name
      * @param string $url
