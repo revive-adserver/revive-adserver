@@ -301,6 +301,51 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
 
     /**
+     * A method to get the list of other networks currently available
+     *
+     * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
+     * @see R-AN-17: Refreshing the Other Ad Networks List
+     *
+     * @return mixed The other networs array on success, PEAR_Error otherwise
+     */
+    function getOtherNetworks()
+    {
+        $result = $this->oMapper->getOtherNetworks();
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * A method to suggest a new network
+     *
+     * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
+     *
+     * @todo Decide if it's better to implement this using an XML-RPC call and
+     *       having OAC to send an email to the operator, or have OAP directly
+     *       send the email
+     *
+     * @param string $name
+     * @param string $url
+     * @param string $country
+     * @param int $language
+     * @return mixed A boolean True on success, PEAR_Error otherwise
+     */
+    function suggestNetwork($name, $url, $country, $language)
+    {
+        $result = $this->oMapper->suggestNetwork($name, $url, $country, $language);
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return $result;
+    }
+
+    /**
      * A method to retrieve the revenue information until last GMT midnight
      *
      * @see R-AN-7: Synchronizing the revenue information
