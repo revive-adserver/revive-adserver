@@ -42,8 +42,8 @@ MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(array('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q'));
 
-if (!is_array($context) && isset($context)) {
-    $context = unserialize(base64_decode($context));
+if (isset($context) && !is_array($context)) {
+    $context = MAX_commonUnpackContext($context);
 }
 if (!is_array($context)) {
     $context = array();
@@ -66,6 +66,15 @@ $target = '';
 // Get the banner
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
+// Block this banner for next invocation
+if (!empty($block) && !empty($output['bannerid'])) {
+    $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+}
+
+// Block this campaign for next invocation
+if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+    $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+}
 // Append any data to the context array
 if (!empty($output['context'])) {
     foreach ($output['context'] as $id => $contextArray) {
@@ -74,7 +83,8 @@ if (!empty($output['context'])) {
         }
     }
 }
-$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".base64_encode(serialize($context))."'; </script>" : '';
+
+$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
 
 MAX_cookieFlush();
 
@@ -86,23 +96,5 @@ if (isset($output['contenttype']) && $output['contenttype'] == 'swf' && !$mmm_fo
 
 $uniqid = substr(md5(uniqid('', 1)), 0, 8);
 echo MAX_javascriptToHTML($output['html'] . $JScontext, "MAX_{$uniqid}");
-
-// Block this banner for next invocation
-if (!empty($block) && !empty($output['bannerid'])) {
-    $varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
-    echo "\nif (document.{$varprefix}used) document.{$varprefix}_used += 'bannerid:".$output['bannerid'].",';\n";
-    // Provide backwards compatibility for the time-being
-    echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:".$output['bannerid'].",';\n";
-    echo "\nif (document.phpAds_used) document.phpAds_used += 'bannerid:".$output['bannerid'].",';\n";
-}
-
-// Block this campaign for next invocation
-if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-    $varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
-    echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:".$output['campaignid'].",';\n";
-    // Provide backwards compatibility for the time-being
-    echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
-    echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
-}
 
 ?>
