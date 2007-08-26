@@ -68,10 +68,10 @@ $words = array(
    NOTE: This script does not change for any page on your site, so it may be
        more efficient to include it as a .js file rather than putting the
        entire text on every page. For example, if you cut and paste the code
-       below and store it in a file called 'mmm.js', the code below should
+       below and store it in a file called 'openads.js', the code below should
        call the script:
 
-   <script type='text/javascript' src='mmm.js'></script>
+   <script type='text/javascript' src='openads.js'></script>
 -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "

@@ -94,6 +94,11 @@ Language_Invocation::load();
  */
 class MAX_Admin_Invocation {
 
+    var $defaultOptionValues = array(
+        'thirdPartyServer' => 0,
+        'cacheBuster'      => 1,
+        'comments'         => 1,
+    );
     /**
      * Generate bannercode (invocation code for banner)
      *
@@ -126,6 +131,15 @@ class MAX_Admin_Invocation {
 
         foreach($globalVariables as $makeMeGlobal) {
             global $$makeMeGlobal;
+            // If values are unset, populate them from the Plugin/Parent object if present
+            if (is_null($$makeMeGlobal)) {
+                // Check the plugin first, fall-back to the parent
+                if (!empty($invocationTag->defaultOptionValues[$makeMeGlobal])) {
+                    $$makeMeGlobal = $invocationTag->defaultOptionValues[$makeMeGlobal];
+                } else if (!empty($this->defaultOptionValues[$makeMeGlobal])) {
+                    $$makeMeGlobal = $this->defaultOptionValues[$makeMeGlobal];
+                }
+            }
             // also make this variable a class attribute
             // so plugins could have an access to these values (and modify them)
             $this->$makeMeGlobal = &$$makeMeGlobal;

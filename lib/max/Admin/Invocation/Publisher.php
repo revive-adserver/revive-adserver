@@ -38,6 +38,13 @@ require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 
     /**
+     * Set default values for options used by this invocation type
+     *
+     * @var array Array of $key => $defaultValue
+     */
+    var $defaultOptionValues = array('comments' => 1);
+
+    /**
      * Place invocation form - generate form with group of options for every plugin,
      * look into max/docs/developer/plugins.zuml for more details
      *
@@ -80,7 +87,6 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             // Only one publisher invocation plugin available
             $publisherPlugin = array_keys($available);
             $codetype = $publisherPlugin[0];
-            $code = $this->generateInvocationCode($invocationTag = null);
         } elseif (count($available) > 1) {
             // Multiple publisher invocation plugins available
             if (!empty($_GET['codetype'])) {
@@ -89,7 +95,6 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
                 $publisherPlugin = array_keys($available);
                 $codetype = $publisherPlugin[0];
             }
-            $code = $this->generateInvocationCode($invocationTag = null);
 
             // Show the publisher invocation selection drop down
             echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='GET' onSubmit='return max_formValidate(this);'>\n";
@@ -115,7 +120,12 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             $code = 'Error: No publisher invocation plugins available';
         }
         if (!empty($codetype)) {
-            $code = $this->generateInvocationCode($invocationTag = null);
+            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
+            if($invocationTag === false) {
+                OA::debug('Error while factory invocationTag plugin');
+                exit();
+            }
+            $code = $this->generateInvocationCode($invocationTag);
         }
 
         echo "<table border='0' width='550' cellpadding='0' cellspacing='0'>";
@@ -138,12 +148,51 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
         echo "</textarea></td></tr>";
         echo "</table><br />";
 
+        echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
+
+        // Show parameters for the publisher invocation list
+        echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+        echo "<tr><td height='25' colspan='3'><img src='images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
+        echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
+        echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
+        echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+
+        echo $invocationTag->generateOptions($this);
+
+        echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+        //echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+        echo "</table>";
+        // Pass in current values
+        foreach ($globalVariables as $key) {
+            echo "<input type='hidden' name='{$key}' value='{$$key}' />";
+        }
+        echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
+        echo "</form>";
+
         $previewURL = 'http://' . $conf['webpath']['admin'] . "/affiliate-preview.php?affiliateid={$affiliateid}&codetype={$codetype}";
-
-        echo "<strong>Preview URL:</strong> - <a href='{$previewURL}' target='_blank'>{$previewURL}</a>";
-
+        foreach ($invocationTag->defaultOptionValues as $feature => $value) {
+            if ($invocationTag->maxInvocation->$feature != $value) {
+                $previewURL .= "&{$feature}=" . rawurlencode($invocationTag->maxInvocation->$feature);
+            }
+        }
+        foreach ($this->defaultOptionValues as $feature => $value) {
+            if ($this->$feature != $value) {
+                $previewURL .= "&{$feature}=" . rawurlencode($this->$feature);
+            }
+        }
         phpAds_ShowBreak();
-        echo "<br />";
+        echo "<strong>Preview URL:</strong> - <a href='{$previewURL}' target='_blank'>{$previewURL}</a>";
+        phpAds_ShowBreak();
+    }
+
+    /**
+     * Override the default options since PublisherInvocation options require different defaults
+     *
+     * @return array An array of options to show for all invocation plugins of this type
+     */
+    function getDefaultOptionsList()
+    {
+        return array('comments'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD);
     }
 }
 

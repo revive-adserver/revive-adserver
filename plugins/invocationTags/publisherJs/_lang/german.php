@@ -68,10 +68,10 @@ $words = array(
      Hinweis: Dieses Script bleibt immer gleich, egal auf welcher Seite Sie es einbinden.
         Sie sollten diese Datei deshalb am besten in eine externe .js-Datei auslagern, anstatt
         jede Seite mit dem gesammten Code zu belasten. Kopieren Sie den untenstehenden Code und
-        speichern Sie ihn in einer Datei namens 'mmm.js'. Damm muessen Sie in Ihre Seiten nur noch
+        speichern Sie ihn in einer Datei namens 'openads.js'. Damm muessen Sie in Ihre Seiten nur noch
         den untenstehden Code integrieren (und evtl. den Pfad anpassen).
 
-     <script type='text/javascript' src='mmm.js'></script>
+     <script type='text/javascript' src='openads.js'></script>
   -->",
 
     'Publisher JS Ad Tag Script(s) Comment' => "

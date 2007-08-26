@@ -42,6 +42,19 @@ class Plugins_InvocationTags_publisherJS_publisherJS extends Plugins_InvocationT
 {
 
     /**
+     * Set default values for options used by this plugin
+     *
+     * @var array Array of $key => $defaultValue
+     */
+    var $defaultOptionValues = array(
+        'block' => 0,
+        'blockcampaign' => 0,
+        'target' => '',
+        'source' => '',
+        'withtext' => 0,
+    );
+
+    /**
      * Constructor
      */
     function Plugins_InvocationTags_publisherJS_publisherJS() {
@@ -119,22 +132,37 @@ class Plugins_InvocationTags_publisherJS_publisherJS extends Plugins_InvocationT
             return MAX_Plugin_Translation::translate('No Zones Available!', $this->module, $this->package);
         }
         $varprefix = $conf['var']['prefix'];
+        $source = (!empty($mi->source)) ? $mi->source : $mnemonic . '/test/preview';
         $script = "
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
 <html>
-<head>
-".MAX_Plugin_Translation::translate('Remove Comments Note', $this->module, $this->package)."
-".MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 1', $this->module, $this->package)."$mnemonic"
-.MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 2', $this->module, $this->package)."$mnemonic"
-.MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 3', $this->module, $this->package)."
-
+<head>";
+        if (!empty($mi->comments)) {
+            $script .= MAX_Plugin_Translation::translate('Remove Comments Note', $this->module, $this->package);
+            $script .= MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 1', $this->module, $this->package)."$mnemonic";
+            $script .= MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 2', $this->module, $this->package)."$mnemonic";
+            $script .= MAX_Plugin_Translation::translate('Publisher JS Channel Script Comment 3', $this->module, $this->package);
+        }
+$script .= "
 <script type='text/javascript'>
 <!--// <![CDATA[
-  var {$varprefix}channel = '{$mnemonic}/test/preview';
+  var {$varprefix}channel = '{$source}';
 // ]]> -->
 </script>
-".MAX_Plugin_Translation::translate('Publisher JS Header Script Comment', $this->module, $this->package)."
+";
+        if (!empty($mi->comments)) {
+            $script .= MAX_Plugin_Translation::translate('Publisher JS Header Script Comment', $this->module, $this->package);
+        }
+        $additionalParams = "";
+        foreach ($this->defaultOptionValues as $feature => $default) {
+            // Skip source here since it's dealt with earlier
+            if ($feature == 'source') { continue; }
+            if (!empty($mi->$feature)) {
+                $additionalParams .= "&amp;{$feature}=" . $mi->$feature;
+            }
+        }
 
+        $script .= "
 <script type='text/javascript'>
 <!--// <![CDATA[
 var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
@@ -143,27 +171,29 @@ if (!document.{$varprefix}used) document.{$varprefix}used = ',';
 function {$varprefix}adjs(z,n)
 {
   if (z>-1) {
-    var az=\"<\"+\"script language='JavaScript' type='text/javascript' \";
-    az+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'])."?n=\"+n+\"&zoneid=\"+z;
-    az+=\"&source=\"+{$varprefix}channel+\"&exclude=\"+document.{$varprefix}used+\"&r=\"+{$varprefix}r;
-    az+=\"&mmm_fo=\"+(document.mmm_fo)?'1':'0';
-    if (document.context) az+= \"&context=\" + escape(document.context);
-    if (window.location) az+=\"&loc=\"+escape(window.location);
-    if (document.referrer) az+=\"&referer=\"+escape(document.referrer);
-    az+=\"'><\"+\"/script>\";
-    document.write(az);
+    var {$varprefix}js=\"<\"+\"script type='text/javascript' \";
+    {$varprefix}js+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['js'])."?n=\"+n+\"&amp;zoneid=\"+z;
+    {$varprefix}js+=\"&amp;source=\"+{$varprefix}channel+\"&amp;exclude=\"+document.{$varprefix}used+\"&r=\"+{$varprefix}r;
+    {$varprefix}js+=\"{$additionalParams}\";
+    {$varprefix}js+=\"&amp;mmm_fo=\"+(document.mmm_fo)?'1':'0';
+    if (document.context) {$varprefix}js+= \"&amp;context=\" + escape(document.context);
+    if (window.location) {$varprefix}js+=\"&amp;loc=\"+escape(window.location);
+    if (document.referrer) {$varprefix}js+=\"&amp;referer=\"+escape(document.referrer);
+    {$varprefix}js+=\"'><\"+\"/script>\";
+    document.write({$varprefix}js);
   }
 }
 function {$varprefix}adpop(z,n)
 {
   if (z>-1) {
-    var az=\"<\"+\"script language='JavaScript' type='text/javascript' \";
-    az+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?n=\"+n+\"&zoneid=\"+z;
-    az+=\"&source=\"+{$varprefix}channel+\"&exclude=\"+document.{$varprefix}used+\"&r=\"+{$varprefix}r;
-    if (window.location) az+=\"&loc=\"+escape(window.location);
-    if (document.referrer) az+=\"&referer=\"+escape(document.referrer);
-    az+=\"'><\"+\"/script>\";
-    document.write(az);
+    var {$varprefix}pop=\"<\"+\"script language='JavaScript' type='text/javascript' \";
+    {$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?n=\"+n+\"&amp;zoneid=\"+z;
+    {$varprefix}pop+=\"&amp;source=\"+{$varprefix}channel+\"&amp;exclude=\"+document.{$varprefix}used+\"&r=\"+{$varprefix}r;
+    {$varprefix}pop+=\"{$additionalParams}\";
+    if (window.location) {$varprefix}pop+=\"&amp;loc=\"+escape(window.location);
+    if (document.referrer) {$varprefix}pop+=\"&amp;referer=\"+escape(document.referrer);
+    {$varprefix}pop+=\"'><\"+\"/script>\";
+    document.write({$varprefix}pop);
   }
 }
 // ]]> -->
@@ -172,7 +202,10 @@ function {$varprefix}adpop(z,n)
 </head>
 <body>
 
-".MAX_Plugin_Translation::translate('Publisher JS Ad Tag Script(s) Comment', $this->module, $this->package);
+";
+if (!empty($mi->comments)) {
+    $script .= MAX_Plugin_Translation::translate('Publisher JS Ad Tag Script(s) Comment', $this->module, $this->package);
+}
             foreach($aZoneName as $key=>$zoneName) {
                 $name = "[id{$aZoneId[$key]}] " . str_replace('\'','',$zoneName) . " - " . str_replace('\'','',$aWidth[$key]) . "x". str_replace('\'','',$aHeight[$key]);
                 if ($aZoneType[$key] != phpAds_ZonePopup) {
@@ -189,7 +222,7 @@ function {$varprefix}adpop(z,n)
                     if ($aZoneType[$key] != phpAds_ZoneText) {
                         $script .= "<noscript>\n";
                         $script .= "  <a target='_blank' href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?n={$aN[$key]}'>\n";
-                        $script .= "  <img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$aZoneId[$key]}&n={$aN[$key]}' /></a>\n";
+                        $script .= "  <img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$aZoneId[$key]}&amp;n={$aN[$key]}' /></a>\n";
                         $script .= "</noscript>";
                     }
                 }
@@ -213,6 +246,32 @@ function {$varprefix}adpop(z,n)
         return $script;
     }
 
+    /**
+     * Return list of options
+     *
+     * @return array    Group of options
+     */
+    function getOptionsList()
+    {
+        // Publisher Invocation doesn't require a lot of the default options...
+        if (is_array($this->defaultOptions)) {
+            // JS code generates it's own cacheBuster
+            unset($this->defaultOptions['cacheBuster']);
+            // Publisher invocation is not designed for loading into another adserver
+            unset($this->defaultOptions['3thirdPartyServer']);
+        }
+        $options = array (
+            'spacer'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'block'         => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'blockcampaign' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'spacer'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+        );
+
+        return $options;
+    }
 }
 
 ?>
