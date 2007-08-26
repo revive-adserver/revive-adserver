@@ -159,6 +159,7 @@ class Plugins_InvocationTagsOptions
 
         $target = (!empty($maxInvocation->target)) ? $maxInvocation->target : '';
         $option = '';
+        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>
             <td width='200'>".$GLOBALS['strInvocationTarget']."</td><td width='370'>
             <select name='target' tabindex='".($maxInvocation->tabindex++)."'>
