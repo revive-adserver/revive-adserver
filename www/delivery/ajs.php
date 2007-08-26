@@ -1198,6 +1198,46 @@ header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
 }
 }
+function MAX_commonPackContext($context = array())
+{
+//return base64_encode(serialize($context));
+$include = array();
+$exclude = array();
+foreach ($context as $idx => $value) {
+list($key, $value) = each($value);
+list($item,$id) = explode(':', $value);
+switch ($item) {
+case 'campaignid':  $value = 'c:' . $id; break;
+case 'bannerid':    $value = 'b:' . $id; break;
+case 'companionid': $value = 'p:' . $id; break;
+}
+switch ($key) {
+case '!=': $exclude[] = $value; break;
+case '==': $include[] = $value; break;
+}
+}
+return base64_encode(implode('#', $exclude) . '|' . implode('#', $include));
+}
+function MAX_commonUnpackContext($context = '')
+{
+//return unserialize(base64_decode($context));
+list($exclude,$include) = explode('|', base64_decode($context));
+return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
+}
+function _convertContextArray($key, $array)
+{
+$unpacked = array();
+foreach ($array as $value) {
+if (empty($value)) { continue; }
+list($item, $id) = explode(':', $value);
+switch ($item) {
+case 'c': $unpacked[] = array($key => 'campaignid:'. $id); break;
+case 'b': $unpacked[] = array($key => 'bannerid:' .  $id); break;
+case 'p': $unpacked[] = array($key => 'companionid:'.$id); break;
+}
+}
+return $unpacked;
+}
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
@@ -2567,8 +2607,8 @@ return $buffer;
 MAX_commonSetNoCacheHeaders();
 //Register any script specific input variables
 MAX_commonRegisterGlobalsArray(array('block', 'blockcampaign', 'exclude', 'mmm_fo', 'q'));
-if (!is_array($context) && isset($context)) {
-$context = unserialize(base64_decode($context));
+if (isset($context) && !is_array($context)) {
+$context = MAX_commonUnpackContext($context);
 }
 if (!is_array($context)) {
 $context = array();
@@ -2587,6 +2627,14 @@ $context[] = array ("!=" => $exclude[$i]);
 $target = '';
 // Get the banner
 $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+// Block this banner for next invocation
+if (!empty($block) && !empty($output['bannerid'])) {
+$output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+}
+// Block this campaign for next invocation
+if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+$output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+}
 // Append any data to the context array
 if (!empty($output['context'])) {
 foreach ($output['context'] as $id => $contextArray) {
@@ -2595,7 +2643,7 @@ $context[] = $contextArray;
 }
 }
 }
-$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".base64_encode(serialize($context))."'; </script>" : '';
+$JScontext = (!empty($context)) ? "<script type='text/javascript'>document.context='".MAX_commonPackContext($context)."'; </script>" : '';
 MAX_cookieFlush();
 // Show the banner
 header("Content-type: application/x-javascript");
@@ -2604,22 +2652,6 @@ echo MAX_flashGetFlashObjectInline();
 }
 $uniqid = substr(md5(uniqid('', 1)), 0, 8);
 echo MAX_javascriptToHTML($output['html'] . $JScontext, "MAX_{$uniqid}");
-// Block this banner for next invocation
-if (!empty($block) && !empty($output['bannerid'])) {
-$varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
-echo "\nif (document.{$varprefix}used) document.{$varprefix}_used += 'bannerid:".$output['bannerid'].",';\n";
-// Provide backwards compatibility for the time-being
-echo "\nif (document.MAX_used) document.MAX_used += 'bannerid:".$output['bannerid'].",';\n";
-echo "\nif (document.phpAds_used) document.phpAds_used += 'bannerid:".$output['bannerid'].",';\n";
-}
-// Block this campaign for next invocation
-if (!empty($blockcampaign) && !empty($output['campaignid'])) {
-$varprefix = $GLOBALS['_MAX']['CONF']['var']['prefix'];
-echo "\nif (document.{$varprefix}used) document.{$varprefix}used += 'campaignid:".$output['campaignid'].",';\n";
-// Provide backwards compatibility for the time-being
-echo "\nif (document.MAX_used) document.MAX_used += 'campaignid:".$output['campaignid'].",';\n";
-echo "\nif (document.phpAds_used) document.phpAds_used += 'campaignid:".$output['campaignid'].",';\n";
-}
 
 
 ?>

@@ -1197,6 +1197,46 @@ header($_SERVER["SERVER_PROTOCOL"] .' ' . $text);
 }
 }
 }
+function MAX_commonPackContext($context = array())
+{
+//return base64_encode(serialize($context));
+$include = array();
+$exclude = array();
+foreach ($context as $idx => $value) {
+list($key, $value) = each($value);
+list($item,$id) = explode(':', $value);
+switch ($item) {
+case 'campaignid':  $value = 'c:' . $id; break;
+case 'bannerid':    $value = 'b:' . $id; break;
+case 'companionid': $value = 'p:' . $id; break;
+}
+switch ($key) {
+case '!=': $exclude[] = $value; break;
+case '==': $include[] = $value; break;
+}
+}
+return base64_encode(implode('#', $exclude) . '|' . implode('#', $include));
+}
+function MAX_commonUnpackContext($context = '')
+{
+//return unserialize(base64_decode($context));
+list($exclude,$include) = explode('|', base64_decode($context));
+return array_merge(_convertContextArray('!=', explode('#', $exclude)), _convertContextArray('==', explode('#', $include)));
+}
+function _convertContextArray($key, $array)
+{
+$unpacked = array();
+foreach ($array as $value) {
+if (empty($value)) { continue; }
+list($item, $id) = explode(':', $value);
+switch ($item) {
+case 'c': $unpacked[] = array($key => 'campaignid:'. $id); break;
+case 'b': $unpacked[] = array($key => 'bannerid:' .  $id); break;
+case 'p': $unpacked[] = array($key => 'companionid:'.$id); break;
+}
+}
+return $unpacked;
+}
 $file = '/lib/max/Delivery/cache.php';
 $GLOBALS['_MAX']['FILES'][$file] = true;
 define ('OA_DELIVERY_CACHE_FUNCTION_ERROR', 'Function call returned an error');
