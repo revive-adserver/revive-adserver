@@ -18,6 +18,7 @@
 </td><tr>
 <tr><td>
     <table>
+        <tr><td><button name="connect" value="-1">OA_DB Connect: -1</button></td></tr>
         <tr><td><button name="connect" value="0">DSN Error 0: Custom</button></td></tr>
         <tr><td><button name="connect" value="1">DSN Error 1: No DBMS</button></td></tr>
         <tr><td><button name="connect" value="2">DSN Error 2: No Host</button></td></tr>
@@ -58,6 +59,27 @@
     else
     {
         print "<h3>NO ERROR</h3>";
+    }
+?>
+</div>
+<div>
+<?php
+    if ($oDbh)
+    {
+        if (PEAR::isError($oDbh))
+        {
+            print "<h3>OA_DB Error</h3>";
+            $err = $oDbh->getUserInfo();
+            print "<pre>{$err}</pre>";
+        }
+        else
+        {
+            print "<h3>OA_DB Connection</h3>";
+            foreach ($oDbh->connected_dsn AS $k => $v)
+            {
+                print $k.' => '.$v."<br />";
+            }
+        }
     }
 ?>
 </div>

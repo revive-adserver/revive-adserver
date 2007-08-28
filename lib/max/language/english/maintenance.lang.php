@@ -55,25 +55,26 @@ $GLOBALS['strPriorityNotEnoughAdViews']		= "It isn't clear wether there will be 
 
 
 // Banner cache
+$GLOBALS['strCheckBannerCache']		= "Check banner cache";
 $GLOBALS['strRebuildBannerCache']		= "Rebuild banner cache";
+$GLOBALS['strBannerCacheErrorsFound'] = "The database banner cache check has found some errors. These banners will not work until you manually fix them.";
+$GLOBALS['strBannerCacheOK'] = "There were no errors detected. Your database banner cache is up to date";
+$GLOBALS['strBannerCacheDifferencesFound'] = "The database banner cache check has found that your cache is not up to date and requires rebuilding. Click here to automatically  update your cache.";
+$GLOBALS['strBannerCacheFixed'] = "The database banner cache rebuild was successfully completed. Your database cache is now up to date.";
+$GLOBALS['strBannerCacheRebuildButton'] = "Rebuild";
+$GLOBALS['strRebuildDeliveryCache']			= "Rebuild database banner cache";
 $GLOBALS['strBannerCacheExplaination']		= "
-	The banner cache contains a copy of the HTML code which is used to display the banner. By using a banner cache it is possible to speed
-	up the delivery of banners because the HTML code doesn't need to be generated every time a banner is being delivered. Because the
-	banner cache contains hard coded URLs to the location of ".MAX_PRODUCT_NAME." and its banners, the cache needs to be updated
-	everytime ".MAX_PRODUCT_NAME." is moved to another location on the webserver.
+    The database banner cache is used to speed up delivery of banners during delivery<br />
+    This cache needs to be updated when:
+    <ul>
+        <li>You upgrade your version of Openads</li>
+        <li>You move your openads installation to a different server</li>
+    </ul>
 ";
-
 
 // Cache
 $GLOBALS['strCache']			= "Delivery cache";
 $GLOBALS['strAge']				= "Age";
-$GLOBALS['strRebuildDeliveryCache']			= "Rebuild delivery cache";
-$GLOBALS['strDeliveryCacheExplaination']		= "
-	The delivery cache is used to speed up delivery of banners. The cache contains a copy of all the banners
-	which are linked to the zone which saves a number of database queries when the banners are actually delivered to the user. The cache
-	is usually rebuild everytime a change is made to the zone or one of it's banners, it is possible the cache will become outdated. Because
-	of this the cache will automatically rebuild every hour, but it is also possible to rebuild the cache manually.
-";
 $GLOBALS['strDeliveryCacheSharedMem']		= "
 	Shared memory is currently being used for storing the delivery cache.
 ";
@@ -174,6 +175,5 @@ $GLOBALS['strConvertFinishedExplaination']  	= "
 	should now be usable again. Below you will see a log of all modification made <br />
 	to the database.<br />
 ";
-
 
 ?>

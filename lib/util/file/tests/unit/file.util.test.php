@@ -39,7 +39,7 @@ class Test_OA_Dal extends UnitTestCase
 {
     function testUtil_File_remove()
     {
-        $testDirectoryPath = MAX_PATH . '/lib/util/file/tests/unit/testdir';
+        $testDirectoryPath = MAX_PATH . '/var/tests';
         mkdir($testDirectoryPath);
         mkdir($testDirectoryPath . '/subdir1');
         mkdir($testDirectoryPath . '/subdir2');
@@ -47,9 +47,9 @@ class Test_OA_Dal extends UnitTestCase
         touch($testDirectoryPath . '/.hiddenfile.txt');
         touch($testDirectoryPath . '/subdir1/normalfile.txt');
         touch($testDirectoryPath . '/subdir1/.hiddenfile.txt');
-        
+
         $this->assertTrue(Util_File_remove($testDirectoryPath));
-        
+
         $this->assertFalse(file_exists($testDirectoryPath));
     }
 }

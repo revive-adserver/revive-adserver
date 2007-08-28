@@ -57,12 +57,9 @@ echo "<br />";
 echo $strBannerCacheExplaination;
 echo "<br /><br />";
 
-/** feature temporarily unavailable check #139 for details
 phpAds_ShowBreak();
-echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-banners-rebuild.php'>$strRebuildBannerCache</a>&nbsp;&nbsp;";
+echo "<img src='images/".$phpAds_TextDirection."/icon-undo.gif' border='0' align='absmiddle'>&nbsp;<a href='maintenance-banners-check.php'>$strCheckBannerCache</a>&nbsp;&nbsp;";
 phpAds_ShowBreak();
-
-**/
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

@@ -79,6 +79,71 @@ class Test_OA_DB_Table_Core extends UnitTestCase
     }
 
     /**
+     * Compare the list of tables in dist.conf.php
+     * with the tables in tables_core.xml
+     *
+     * there are places where the list of tables in conf is used
+     * such as table core test
+     * if tables are not synchronised between schema and conf tests can fail, errors could occurr
+     *
+     * Test 1: check that schema table exists in conf
+     * Test 2: check that conf table exists in schema
+     * Test 3 & 4: check differences between dist.conf and working conf (could be reason for some tests failing)
+     *
+     * if there are differences between working conf and dist.conf
+     * it means an upgrade is required
+     * conf files are merged during upgrades
+     * an upgrade package (pre/postscript is required to do this)
+     *
+     */
+    function testConfvsSchemaTables()
+    {
+        $oDbh = &OA_DB::singleton();
+        $oTable = &OA_DB_Table_Core::singleton();
+
+        $aConfWork = $GLOBALS['_MAX']['CONF'];
+        $aConfDist = @parse_ini_file(MAX_PATH.'/etc/dist.conf.php',true);
+
+        $aTablesWork    = $aConfWork['table'];
+        unset($aTablesWork['prefix']);
+        unset($aTablesWork['split']);
+        unset($aTablesWork['lockfile']);
+        unset($aTablesWork['type']);
+        $aTablesDist    = $aConfDist['table'];
+        unset($aTablesDist['prefix']);
+        unset($aTablesDist['split']);
+        unset($aTablesDist['lockfile']);
+        unset($aTablesDist['type']);
+        $aTablesSchema  = $oTable->aDefinition['tables'];
+
+        // Test 1
+        foreach ($aTablesSchema AS $tableName => $aTableDef)
+        {
+            $this->assertTrue(in_array($tableName, $aTablesDist),"$tableName found in schema but not in dist.conf.php");
+        }
+
+        // Test 2
+        foreach ($aTablesDist as $tableName => $alias)
+        {
+            $this->assertTrue(array_key_exists($tableName, $aTablesSchema),"$tableName found in dist.conf but not in tables_core.xml");
+        }
+
+        // Test 3
+        foreach ($aTablesDist AS $tableName => $alias)
+        {
+            $this->assertTrue(in_array($tableName, $aTablesWork),"$tableName found in dist.conf but not in working config");
+        }
+
+        // Test 4
+        foreach ($aTablesWork AS $tableName => $alias)
+        {
+            $this->assertTrue(in_array($tableName, $aTablesDist),"$tableName found in working config but not in dist.conf");
+        }
+
+        $oTable->destroy();
+    }
+
+    /**
      * Tests creating/dropping all of the core tables.
      *
      * Requirements:
@@ -108,7 +173,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
                 continue;
             }
             // Test that the tables exists
-            $this->assertTrue(in_array($tableName, $aExistingTables));
+            $this->assertTrue(in_array($tableName, $aExistingTables), "does not exist: $tableName (found in conf file)");
         }
         $oTable->dropAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
@@ -143,10 +208,10 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             }
             if ($conf['splitTables'][$tableName]) {
                 // That that the split table exists
-                $this->assertTrue(in_array($tableName . '_' . $oDate->format('%Y%m%d'), $aExistingTables));
+                $this->assertTrue(in_array($tableName . '_' . $oDate->format('%Y%m%d'), $aExistingTables), "does not exist: {$tableName}_{$oDate->format('%Y%m%d')} (found in conf file)");
             } else {
                 // Test that the normal table exists
-                $this->assertTrue(in_array($tableName, $aExistingTables));
+                $this->assertTrue(in_array($tableName, $aExistingTables), "does not exist: $tableName (found in conf file)");
             }
         }
         $oTable->dropAllTables();

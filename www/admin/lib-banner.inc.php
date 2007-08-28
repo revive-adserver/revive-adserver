@@ -88,9 +88,16 @@ function phpAds_getBannerCache($banner)
             // run 3rd party plugin
             if(!empty($banner['adserver'])) {
                 include_once MAX_PATH . '/lib/max/Plugin.php';
+                /**
+                 * @todo This entire function should be relocated to the DLL and should be object-ified
+                 */
+                PEAR::pushErrorHandling(null);
                 $adServerPlugin = MAX_Plugin::factory('3rdPartyServers', $banner['adserver']);
-                if($adServerPlugin) {
+                PEAR::popErrorHandling();
+                if ($adServerPlugin) {
                     $buffer = $adServerPlugin->getBannerCache($buffer, $noScript);
+                } else if (!empty($banner['adserver'])) {
+                    $GLOBALS['_MAX']['bannerrebuild']['errors'] = true;
                 }
             }
 

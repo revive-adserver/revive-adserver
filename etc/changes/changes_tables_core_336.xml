@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>336</version>
+  <comments>Changed blob types to text</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>332</version>
+        <change>
+          <table>
+            <name>session</name>
+            <change>
+                <field>
+                  <name>sessiondata</name>
+                  <type>openads_text</type>
+                  <was>sessiondata</was>
+                </field>
+            </change>
+          </table>
+          <table>
+            <name>zones</name>
+            <change>
+                <field>
+                  <name>what</name>
+                  <type>openads_text</type>
+                  <was>what</was>
+                </field>
+                <field>
+                  <name>chain</name>
+                  <type>openads_text</type>
+                  <was>chain</was>
+                </field>
+                <field>
+                  <name>prepend</name>
+                  <type>openads_text</type>
+                  <was>prepend</was>
+                </field>
+                <field>
+                  <name>append</name>
+                  <type>openads_text</type>
+                  <was>append</was>
+                </field>
+            </change>
+          </table>
+        </change>
+    </changeset>
+  </constructive>
+  <destructive>
+      <changeset>
+        <name>openads</name>
+        <version>332</version>
+      </changeset>
+  </destructive>
+</instructionset>

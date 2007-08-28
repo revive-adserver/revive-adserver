@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+<name>openads</name>
+<version>334</version>
+<comments>Remove tables no longer used in 2.3</comments>
+<constructive>
+  <changeset>
+    <name>openads</name>
+    <version>334</version>
+    <change>
+      <table>
+      <name>variables</name>
+        <change>
+          <field>
+            <name>trackerid</name>
+            <type>openads_mediumint</type>
+            <length>9</length>
+            <notnull>true</notnull>
+            <default>0</default>
+          </field>
+          <field>
+            <name>datatype</name>
+            <type>openads_enum</type>
+            <length>'numeric','string','date'</length>
+            <notnull>true</notnull>
+            <default>numeric</default>
+           </field>
+        </change>
+      </table>
+    </change>
+  </changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>334</version>
+    <change>
+      <table>
+        <name>banners</name>
+      <remove>
+        <field>
+          <name>priority</name>
+        </field>
+      </remove>
+    </table>
+      <table>
+        <name>campaigns</name>
+      <remove>
+        <field>
+          <name>target</name>
+        </field>
+        <field>
+          <name>optimise</name>
+        </field>
+      </remove>
+    </table>
+      <table>
+        <name>campaigns_trackers</name>
+      <remove>
+        <field>
+          <name>logstats</name>
+        </field>
+      </remove>
+    </table>
+      <table>
+        <name>variables</name>
+      <remove>
+        <field>
+          <name>variabletype</name>
+        </field>
+      </remove>
+    </table>
+  </change>
+</changeset>
+</destructive>
+</instructionset>

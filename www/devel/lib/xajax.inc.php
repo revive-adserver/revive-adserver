@@ -92,6 +92,38 @@ function loadChangeset()
 	return $objResponse;
 }
 
+function loadSchemaFile()
+{
+    $objResponse = new xajaxResponse();
+    $schemaFile = $_COOKIE['schemaFile'];
+    $opts = '';
+    $dh = opendir(MAX_PATH.'/etc/changes');
+    if ($dh) {
+        while (false !== ($file = readdir($dh)))
+        {
+            if (preg_match('/schema_[\w\W]+_[\d]+\.xml/', $file, $aMatches))
+            {
+                $aFiles[$file] = '';
+            }
+        }
+        ksort($aFiles);
+        foreach ($aFiles AS $file => $null)
+        {
+            if ($file!=$schemaFile)
+            {
+                $opts.= '<option value="'.$file.'">'.$file.'</option>';
+            }
+            else
+            {
+                $opts.= '<option value="'.$file.'" selected="selected">'.$file.'</option>';
+            }
+        }
+        closedir($dh);
+        $objResponse->addAssign('xml_file',"innerHTML", $opts);
+    }
+	return $objResponse;
+}
+
 function loadSchema()
 {
     $objResponse = new xajaxResponse();
@@ -304,6 +336,7 @@ $xajax->debugOff(); // Uncomment this line to turn debugging on
 $xajax->registerFunction("testAjax");
 $xajax->registerFunction('loadChangeset');
 $xajax->registerFunction('loadSchema');
+$xajax->registerFunction('loadSchemaFile');
 $xajax->registerFunction('expandTable');
 $xajax->registerFunction('collapseTable');
 $xajax->registerFunction("editFieldProperty");

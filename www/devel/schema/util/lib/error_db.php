@@ -9,7 +9,18 @@ if (array_key_exists('connect', $_POST))
 
     $dsn = $_POST['dsn'];
 
-    if ($_POST['connect'] == 1)
+    if ($_POST['connect'] == -1)
+    {
+        $aConf['database']['type']      = $dsn['phptype'];
+        $aConf['database']['host']      = $dsn['hostspec'];
+        $aConf['database']['username']  = $dsn['username'];
+        $aConf['database']['password']  = $dsn['password'];
+        $aConf['database']['name']      = $dsn['database'];
+        $oDbh = OA_DB::singleton(OA_DB::getDsn($aConf));
+        include $htmlfile;
+        exit;
+    }
+    else if ($_POST['connect'] == 1)
     {
         $dsn['phptype']  = '';
         $dsn['hostspec'] = 'localhost';

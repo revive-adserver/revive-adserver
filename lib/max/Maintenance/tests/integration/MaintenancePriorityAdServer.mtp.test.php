@@ -424,6 +424,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
+        $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
         $oLogCompletion->run();
@@ -809,6 +810,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
+        $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
         $oLogCompletion->run();
@@ -1652,6 +1654,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
+        $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
         $oLogCompletion->run();
@@ -1921,6 +1924,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
+        $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
         $oLogCompletion->run();

@@ -36,22 +36,22 @@ require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_129Test extends MigrationTest
+class Migration_tables_core_129Test extends MigrationTest
 {
     function testMigrateData()
     {
         $prefix = $this->getPrefix();
         $this->initDatabase(129, array('config', 'preference'));
-        
+
         $this->setupPanConfig();
-        
+
         $migration = new Migration_129();
         $migration->init($this->oDbh);
-        
+
         $aValues = array('warn_limit_days' => 1);
-        
+
         $migration->migrateData();
-        
+
         $rsPreference = DBC::NewRecordSet("SELECT * from {$prefix}preference");
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
@@ -59,7 +59,7 @@ class Migration_129Test extends MigrationTest
         foreach($aValues as $column => $value) {
             $this->assertEqual($value, $aDataPreference[$column]);
         }
-        
+
         $this->restorePanConfig();
     }
 }

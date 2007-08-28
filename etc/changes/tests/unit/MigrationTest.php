@@ -77,10 +77,28 @@ class MigrationTest extends DbTestCase
     {
         $prefix = $this->getPrefix();
         $this->initOaTable("/etc/changes/schema_tables_core_{$schemaVersion}.xml");
-        foreach($aTables as $table) {
-            $this->oaTable->createTable($table);
-            $this->oaTable->truncateTable($prefix . $table);
+
+        $aExistingTables = $this->oDbh->manager->listTables();
+
+        foreach($aTables as $table)
+        {
+            if (in_array($prefix . $table, $aExistingTables))
+            {
+                if (!$this->oaTable->dropTable($prefix . $table))
+                {
+                    return false;
+                }
+            }
+            if (!$this->oaTable->createTable($table))
+            {
+                return false;
+            }
+            if (!$this->oaTable->truncateTable($prefix . $table))
+            {
+                return false;
+            }
         }
+        return true;
     }
 
     function upgradeToVersion($version)

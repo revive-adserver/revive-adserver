@@ -106,6 +106,20 @@
             <file>migration_tables_core_332.php</file>
         </package>
         <package>
+            <version>334</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_334.xml</file>
+            <file>changes_tables_core_334.xml</file>
+            <file>migration_tables_core_334.php</file>
+        </package>
+        <package>
+            <version>336</version>
+            <schema>tables_core</schema>
+            <file>schema_tables_core_336.xml</file>
+            <file>changes_tables_core_336.xml</file>
+            <file>migration_tables_core_336.php</file>
+        </package>
+        <package>
             <version>399</version>
             <schema>tables_core</schema>
             <file>schema_tables_core_399.xml</file>

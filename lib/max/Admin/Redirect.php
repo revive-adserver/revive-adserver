@@ -47,7 +47,9 @@ class MAX_Admin_Redirect
      */
     function redirect($adminPage = 'index.php')
     {
-        header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
+        if (!preg_match('/[\r\n]/', $adminPage)) {
+            header('Location: ' . MAX::constructURL(MAX_URL_ADMIN, $adminPage));
+        }
         exit;
     }
 

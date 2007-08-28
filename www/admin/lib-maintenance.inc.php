@@ -72,28 +72,28 @@ function maintenance_goto_section()
     echo "<select name='section' onChange='maintenance_goto_section();'>";
 
     if (phpAds_isUser(phpAds_Admin)) {
-        if ($mainSection == 'updates') {        
+        if ($mainSection == 'updates') {
             echo "<option value='product'".($subSection == 'product' ? ' selected' : '').">".$strCheckForUpdates."</option>";
-            echo "<option value='history'".($subSection == 'history' ? ' selected' : '').">".$strViewPastUpdates."</option>";        
+            echo "<option value='history'".($subSection == 'history' ? ' selected' : '').">".$strViewPastUpdates."</option>";
         } else {
             echo "<option value='maintenance'".($subSection == 'maintenance' ? ' selected' : '').">".$strMaintenance."</option>";
-//            echo "<option value='banners'".($subSection == 'banners' ? ' selected' : '').">".$strBanners."</option>";
+            echo "<option value='banners'".($subSection == 'banners' ? ' selected' : '').">".$strBanners."</option>";
             echo "<option value='priority'".($subSection == 'priority' ? ' selected' : '').">".$strPriority."</option>";
-    
+
             $login = 'ftp://' . $conf['store']['ftpUsername'] . ':' . $conf['store']['ftpPassword'] . '@' .
                      $conf['store']['ftpHost'] . '/' . $conf['store']['ftpPath'];
             if ($pref['type_web_allow'] == true && (($conf['store']['mode'] == 0 &&
                 $conf['store']['webDir'] != '') || ($conf['store']['mode'] == 1 &&
                 $login != '')) && $conf['webpath']['images'] != '')
                 echo "<option value='storage'".($subSection == 'storage' ? ' selected' : '').">".$strStorage."</option>";
-    
+
 //            if (!isset($conf['delivery']['cache']) || $conf['delivery']['cache'] != 'none')
 //                echo "<option value='cache'".($subSection == 'zones' ? ' selected' : '').">".$strCache."</option>";
-    
+
             if ($conf['delivery']['acls']) {
                 echo "<option value='acls'".($subSection == 'acls' ? ' selected' : '').">Delivery Limitations</option>";
             }
-    
+
             echo "<option value='appendcodes'".($subSection == 'appendcodes' ? ' selected' : '').">Append codes</option>";
         }
     }

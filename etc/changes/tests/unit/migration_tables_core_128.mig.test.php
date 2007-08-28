@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_128Test extends MigrationTest
+class Migration_tables_core_128Test extends MigrationTest
 {
     function testMigrateData()
     {

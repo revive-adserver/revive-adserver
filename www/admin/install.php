@@ -50,7 +50,7 @@ require_once '../../init.php';
 if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
 {
     require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-    MAX_Admin_Redirect::redirect();
+    MAX_Admin_Redirect::redirect('maintenance-banners-check.php?action=Rebuild&returnurl=advertiser-index.php');
 }
 
 require_once MAX_PATH.'/lib/OA/Upgrade/Upgrade.php';

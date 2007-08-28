@@ -40,7 +40,7 @@ define('TMP_GEOCONFIG_PATH', GEOCONFIG_PATH . '.tmp');
  * @subpackage TestSuite
  * @author     Andrzej Swedrzynski <andrzej.swedrzynski@openads.org>
  */
-class Migration_108Test extends MigrationTest
+class Migration_tables_core_108Test extends MigrationTest
 {
     function testMigrateData()
     {

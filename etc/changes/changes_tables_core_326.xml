@@ -11,6 +11,16 @@
       <change>
         <table>
           <name>campaigns</name>
+          <change>
+            <field>
+              <name>priority</name>
+              <type>openads_int</type>
+              <length>11</length>
+              <notnull>1</notnull>
+              <default>0</default>
+              <was>priority</was>
+            </field>
+          </change>
           <add>
             <field>
               <name>target_impression</name>

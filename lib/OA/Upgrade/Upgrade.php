@@ -846,6 +846,27 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
                 return false;
             }
+            // hark the special case of 2.3.34-beta - the borked schema
+            // treat this as a milestone upgrade for repair purposes
+            if (version_compare($this->versionInitialApplication,'2.3.34-beta')==0)
+            {
+                $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
+                if ($this->versionInitialSchema['tables_core']=='129')
+                {
+                    $this->versionInitialSchema['tables_core'] = '12934';
+                    if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
+                    {
+                        $this->existing_installation_status = OA_STATUS_MAX_DBINTEG_FAILED;
+                        return false;
+                    }
+                    $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
+                    $this->aPackageList[0]  = 'openads_upgrade_2.3.34_to_2.3.38_beta.xml';
+                    $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                    $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                    $this->upgrading_from_milestone_version = true;
+                    return true;
+                }
+            }
             $current = (version_compare($this->versionInitialApplication,OA_VERSION)==0);
             $valid   = (version_compare($this->versionInitialApplication,OA_VERSION)<0);
             if ($valid)

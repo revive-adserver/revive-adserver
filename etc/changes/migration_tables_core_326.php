@@ -34,6 +34,8 @@ class Migration_326 extends Migration
     {
         //$this->__construct();
 
+		$this->aTaskList_constructive[] = 'beforeAlterField__campaigns__priority';
+		$this->aTaskList_constructive[] = 'afterAlterField__campaigns__priority';
 		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__target_impression';
 		$this->aTaskList_constructive[] = 'afterAddField__campaigns__target_impression';
 		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__target_click';
@@ -64,9 +66,83 @@ class Migration_326 extends Migration
 
 
 
+    /**
+     * Backup the priorities field before altering
+     *
+     * @return boolean
+     */
+	function beforeAlterField__campaigns__priority()
+	{
+	    $prefix = $this->getPrefix();
+	    $statement = $this->aSQLStatements['table_copy_temp'];
+        $engine = $this->oDBH->getOption('default_table_type');
+	    $query      = sprintf($statement, $prefix . 'campaigns_325', $engine, $prefix . 'campaigns');
+        $result     = $this->oDBH->exec($query);
+        if (PEAR::isError($result))
+        {
+            $this->_log('error copying campaigns table for priority migration');
+            return false;
+        }
+		return $this->beforeAlterField('campaigns', 'priority');
+	}
+
+	/**
+	 * Restore the data from the backed up table substituting 'h' => 5, 'm' => 3, 'l' => 0
+	 *
+	 * @return boolean
+	 */
+	function afterAlterField__campaigns__priority()
+	{
+        // Restore the campaigns.priority value mapping old->new values
+        $prefix = $this->getPrefix();
+        $tbl_campaigns = $prefix . 'campaigns';
+        $tbl_campaigns_325 = $prefix . 'campaigns_325';
+
+        $query = "
+            UPDATE
+                {$tbl_campaigns}, {$tbl_campaigns_325}
+            SET
+                {$tbl_campaigns}.priority = 5
+            WHERE
+                {$tbl_campaigns}.campaignid={$tbl_campaigns_325}.campaignid
+              AND {$tbl_campaigns_325}.priority='h'
+        ";
+        $result = $this->oDBH->exec($query);
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse('Unable to copy campaign priorities for high priority campaigns');
+        }
+        $query = "
+            UPDATE
+                {$tbl_campaigns}, {$tbl_campaigns_325}
+            SET
+                {$tbl_campaigns}.priority = 3
+            WHERE
+                {$tbl_campaigns}.campaignid={$tbl_campaigns_325}.campaignid
+              AND {$tbl_campaigns_325}.priority='m'
+        ";
+        $result = $this->oDBH->exec($query);
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse('Unable to copy campaign priorities for medium priority campaigns');
+        }
+        $query = "
+            UPDATE
+                {$tbl_campaigns}, {$tbl_campaigns_325}
+            SET
+                {$tbl_campaigns}.priority = 0
+            WHERE
+                {$tbl_campaigns}.campaignid={$tbl_campaigns_325}.campaignid
+              AND {$tbl_campaigns_325}.priority='l'
+        ";
+        $result = $this->oDBH->exec($query);
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse('Unable to copy campaign priorities for low priority campaigns');
+        }
+		return $this->afterAlterField('campaigns', 'priority');
+	}
+
 	function beforeAddField__campaigns__target_impression()
 	{
-		return $this->migrateData() && $this->beforeAddField('campaigns', 'target_impression');
+		$this->beforeAddField('campaigns', 'target_impression');
 	}
 
 	function afterAddField__campaigns__target_impression()
@@ -142,50 +218,6 @@ class Migration_326 extends Migration
 	function afterAddField__campaigns__updated()
 	{
 		return $this->afterAddField('campaigns', 'updated');
-	}
-
-	function migrateData()
-	{
-	    return $this->migratePriorities();
-	}
-
-	function migratePriorities()
-	{
-	    $oDbh = OA_DB::singleton();
-
-	    if ($oDbh->dbsyntax == 'mysql') {
-	        $aConf = $GLOBALS['_MAX']['CONF'];
-	        $aPriorities = array(
-	           'h' => 5,
-	           'm' => 3,
-	           'l' => 0
-	        );
-
-	        $tableCampaigns = $oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns', true);
-    	    $query = "SELECT campaignid, priority FROM {$tableCampaigns}";
-    	    $aCampaigns = $oDbh->getAssoc($query);
-
-    	    $result = $oDbh->exec("ALTER TABLE {$tableCampaigns} MODIFY priority int(11) NOT NULL DEFAULT 0");
-    	    if (PEAR::isError($result)) {
-    	        return $this->_logErrorAndReturnFalse('Cannot alter the campaigns.priority field');
-    	    }
-
-    	    $oUpdate = $oDbh->prepare("UPDATE {$tableCampaigns} SET priority = ? WHERE campaignid = ?", array('integer', 'integer'));
-    	    if (PEAR::isError($oUpdate)) {
-    	        return $this->_logErrorAndReturnFalse('Cannot create the prepared statement');
-    	    }
-    	    if (count($aCampaigns)) {
-    	        $this->_log('Performing campaign.priority migration');
-        	    foreach ($aCampaigns as $id => $priority) {
-        	        $result = $oUpdate->execute(array($aPriorities[$priority], $id));
-            	    if (PEAR::isError($oUpdate)) {
-            	        return $this->_logErrorAndReturnFalse('Cannot update priority for campaign '.$id);
-            	    }
-                }
-    	    }
-	    }
-
-	    return true;
 	}
 }
 
