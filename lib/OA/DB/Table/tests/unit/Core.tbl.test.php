@@ -119,25 +119,25 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         // Test 1
         foreach ($aTablesSchema AS $tableName => $aTableDef)
         {
-            $this->assertTrue(in_array($tableName, $aTablesDist),"$tableName found in schema but not in dist.conf.php");
+            $this->assertTrue(in_array($tableName, $aTablesDist),$tableName.' found in schema but not in dist.conf.php');
         }
 
         // Test 2
         foreach ($aTablesDist as $tableName => $alias)
         {
-            $this->assertTrue(array_key_exists($tableName, $aTablesSchema),"$tableName found in dist.conf but not in tables_core.xml");
+            $this->assertTrue(array_key_exists($tableName, $aTablesSchema),$tableName.' found in dist.conf but not in tables_core.xml');
         }
 
         // Test 3
         foreach ($aTablesDist AS $tableName => $alias)
         {
-            $this->assertTrue(in_array($tableName, $aTablesWork),"$tableName found in dist.conf but not in working config");
+            $this->assertTrue(in_array($tableName, $aTablesWork),$tableName.' found in dist.conf but not in working config');
         }
 
         // Test 4
         foreach ($aTablesWork AS $tableName => $alias)
         {
-            $this->assertTrue(in_array($tableName, $aTablesDist),"$tableName found in working config but not in dist.conf");
+            $this->assertTrue(in_array($tableName, $aTablesDist),$tableName.' found in working config but not in dist.conf');
         }
 
         $oTable->destroy();
@@ -173,7 +173,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
                 continue;
             }
             // Test that the tables exists
-            $this->assertTrue(in_array($tableName, $aExistingTables), "does not exist: $tableName (found in conf file)");
+            $this->assertTrue(in_array($tableName, $aExistingTables), 'does not exist: '.$tableName.' (found in conf file)');
         }
         $oTable->dropAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
@@ -208,10 +208,10 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             }
             if ($conf['splitTables'][$tableName]) {
                 // That that the split table exists
-                $this->assertTrue(in_array($tableName . '_' . $oDate->format('%Y%m%d'), $aExistingTables), "does not exist: {$tableName}_{$oDate->format('%Y%m%d')} (found in conf file)");
+                $this->assertTrue(in_array($tableName . '_' . $oDate->format('%Y%m%d'), $aExistingTables), 'does not exist: '.$tableName.'_'.$oDate->format('%Y%m%d').' (found in conf file)');
             } else {
                 // Test that the normal table exists
-                $this->assertTrue(in_array($tableName, $aExistingTables), "does not exist: $tableName (found in conf file)");
+                $this->assertTrue(in_array($tableName, $aExistingTables), 'does not exist: '.$tableName.' (found in conf file)');
             }
         }
         $oTable->dropAllTables();
