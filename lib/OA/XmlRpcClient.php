@@ -54,7 +54,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         parent::XML_RPC_Client($path, $server, $port);
     }
 
-    function _sendHttpGenerate($msg, $username = '', $password = '')
+    function _sendHttpGenerate(&$msg, $username = '', $password = '')
     {
         // Pre-emptive BC hacks for fools calling sendPayloadHTTP10() directly
         if ($username != $this->username) {
@@ -170,10 +170,6 @@ class OA_XML_RPC_Client extends XML_RPC_Client
     {
         if ($this->hasCurl || $this->hasOpenssl) {
             $args   = func_get_args();
-            // generate payload if $msg->payload is empty
-            if (empty($args[0]->payload)) {
-                $args[0]->createPayload();
-            }
             $method = $this->hasCurl ? '_sendHttpCurl' : '_sendHttpOpenSsl';
             return call_user_func_array(array(&$this, $method), $args);
         }
