@@ -171,7 +171,10 @@ class OA_Dal_Central_Rpc
      */
     function utcToDate($dateTime)
     {
-        return new Date(strtotime($dateTime) + date('Z', $dateTime));
+        $timeStamp = strtotime($dateTime);
+        $tzOffset = date('Z', $timeStamp);
+
+        return new Date($timeStamp + $tzOffset);
     }
 }
 

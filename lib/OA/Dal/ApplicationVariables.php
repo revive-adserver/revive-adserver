@@ -71,15 +71,14 @@ class OA_Dal_ApplicationVariables
 
         if (!$result) {
             $doAppVar = OA_Dal::factoryDO('application_variable');
-            $doAppVar->name = $name;
-
-            $doAppVarClone = clone($doAppVar);
-
+            $doAppVar->get($name);
             $doAppVar->find();
-            $doAppVar->fetch();
-            if ($doAppVar->value != $value) {
-                $doAppVarClone->setFrom($aData);
-                $result = $doAppVarClone->insert();
+
+            if (!$doAppVar->fetch()) {
+                $doAppVar = OA_Dal::factoryDO('application_variable');
+                $doAppVar->name = $name;
+                $doAppVar->setFrom($aData);
+                $result = $doAppVar->insert();
                 if (!$result) {
                     return false;
                 }

@@ -273,8 +273,8 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $aResponse = new XML_RPC_Value(array(
             1000 => new XML_RPC_Value(array(
                 new XML_RPC_Value(array(
-                    'start'   => new XML_RPC_Value('20070801T000000', $GLOBALS['XML_RPC_DateTime']),
-                    'end'     => new XML_RPC_Value('20070801T235959', $GLOBALS['XML_RPC_DateTime']),
+                    'start'   => new XML_RPC_Value('2007-08-01 00:00:00', $GLOBALS['XML_RPC_DateTime']),
+                    'end'     => new XML_RPC_Value('2007-08-01 23:59:59', $GLOBALS['XML_RPC_DateTime']),
                     'revenue' => new XML_RPC_Value($revenue, $GLOBALS['XML_RPC_Double']),
                     'type'    => new XML_RPC_Value('CPC', $GLOBALS['XML_RPC_String'])
                 ), $GLOBALS['XML_RPC_Struct'])
