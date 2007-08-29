@@ -39,7 +39,7 @@ $Id$
  */
 
 // Require the initialisation file
-require_once '../../init-delivery.php';
+include_once '../../init-delivery.php';
 
 /**
  * Invocation tag (plugin) name
