@@ -170,6 +170,10 @@ class OA_XML_RPC_Client extends XML_RPC_Client
     {
         if ($this->hasCurl || $this->hasOpenssl) {
             $args   = func_get_args();
+            // generate payload if $msg->payload is empty
+            if (empty($args[0]->payload)) {
+                $args[0]->createPayload();
+            }
             $method = $this->hasCurl ? '_sendHttpCurl' : '_sendHttpOpenSsl';
             return call_user_func_array(array(&$this, $method), $args);
         }
