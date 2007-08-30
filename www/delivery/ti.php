@@ -1511,7 +1511,7 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
-function MAX_javascriptToHTML($string, $varName, $output = true)
+function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
 {
 $jsLines = array();
 $search[] = "\\"; $replace[] = "\\\\";
@@ -1525,7 +1525,7 @@ if(trim($line) != '') {
 $jsLines[] = $varName . ' += "' . trim(str_replace($search, $replace, $line)) . '\n";';
 }
 }
-$buffer = "var {$varName} = '';\n";
+$buffer = (($localScope) ? 'var ' : '') . $varName ." = '';\n";
 $buffer .= implode("\n", $jsLines);
 if ($output == true) {
 $buffer .= "\ndocument.write({$varName});\n";

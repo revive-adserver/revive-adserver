@@ -2582,7 +2582,7 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
-function MAX_javascriptToHTML($string, $varName, $output = true)
+function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
 {
 $jsLines = array();
 $search[] = "\\"; $replace[] = "\\\\";
@@ -2596,7 +2596,7 @@ if(trim($line) != '') {
 $jsLines[] = $varName . ' += "' . trim(str_replace($search, $replace, $line)) . '\n";';
 }
 }
-$buffer = "var {$varName} = '';\n";
+$buffer = (($localScope) ? 'var ' : '') . $varName ." = '';\n";
 $buffer .= implode("\n", $jsLines);
 if ($output == true) {
 $buffer .= "\ndocument.write({$varName});\n";
