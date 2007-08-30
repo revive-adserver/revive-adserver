@@ -66,7 +66,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // Insert the base test data
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
                 (
                     campaignid, campaignname, clientid, views, clicks, conversions, expire, activate, active
                 )
@@ -114,7 +114,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)."
                 (
                     clientid,
                     contact,
@@ -129,7 +129,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
                 (
                     bannerid,
                     campaignid,
@@ -191,11 +191,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $rows = $st->execute($aData);
         // Test with no summarised data
         $report = $dsa->managePlacements($oDate);
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 1";
         $aRow = $oDbh->queryRow($query);
@@ -209,7 +210,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 2";
         $aRow = $oDbh->queryRow($query);
@@ -223,7 +224,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 3";
         $aRow = $oDbh->queryRow($query);
@@ -237,7 +238,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 4";
         $aRow = $oDbh->queryRow($query);
@@ -251,7 +252,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 5";
         $aRow = $oDbh->queryRow($query);
@@ -265,7 +266,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 6";
         $aRow = $oDbh->queryRow($query);
@@ -279,7 +280,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 7";
         $aRow = $oDbh->queryRow($query);
@@ -292,7 +293,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // Insert the summary test data - Part 1
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -360,7 +361,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 1";
         $aRow = $oDbh->queryRow($query);
@@ -374,7 +375,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 2";
         $aRow = $oDbh->queryRow($query);
@@ -388,7 +389,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 3";
         $aRow = $oDbh->queryRow($query);
@@ -402,7 +403,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 4";
         $aRow = $oDbh->queryRow($query);
@@ -416,7 +417,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 5";
         $aRow = $oDbh->queryRow($query);
@@ -430,7 +431,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 6";
         $aRow = $oDbh->queryRow($query);
@@ -444,7 +445,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
             WHERE
                 campaignid = 7";
         $aRow = $oDbh->queryRow($query);
@@ -459,7 +460,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         // not re-activated in the event that their expiration date has not yet been reached
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                {$table}
                     (
                         campaignid,
                         campaignname,
@@ -486,7 +487,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)."
                     (
                         clientid,
                         contact,
@@ -501,7 +502,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
                     (
                         bannerid,
                         campaignid,
@@ -526,7 +527,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
                     (
                         operation_interval,
                         operation_interval_id,
@@ -561,7 +562,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
             WHERE
                 campaignid = 1";
         $aRow = $oDbh->queryRow($query);

@@ -201,7 +201,7 @@ class Test_OA_Dal_Maintenance_Priority_AdZoneAssociationsByAds extends UnitTestC
         // Test 3
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)."
                 (
                     ad_id,
                     zone_id,

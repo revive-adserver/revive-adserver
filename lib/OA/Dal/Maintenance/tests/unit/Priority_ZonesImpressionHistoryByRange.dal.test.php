@@ -166,9 +166,10 @@ class Test_OA_Dal_Maintenance_Priority_ZonesImpressionHistoryByRange extends Uni
         // set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
         // write two record for same interval id one week apart
+        $tblHist = $oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                {$tblHist}
                 (
                     data_summary_zone_impression_history_id,
                     operation_interval,

@@ -140,7 +140,7 @@ class Test_OA_Dal_Maintenance_Priority_ZonesImpressionAverageByRange extends Uni
         // Write two record for same interval id one week apart
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     data_summary_zone_impression_history_id,
                     operation_interval,

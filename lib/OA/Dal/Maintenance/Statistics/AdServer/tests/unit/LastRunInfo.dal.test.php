@@ -71,7 +71,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_LastRunInfo extends UnitTestCa
         // Insert ad impressions
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)."
                 (
                     ad_id,
                     creative_id,
@@ -116,7 +116,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_LastRunInfo extends UnitTestCa
         // Insert an hourly (only) update
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_statistics'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_statistics'],true)."
                 (
                     start_run,
                     end_run,

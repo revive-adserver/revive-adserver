@@ -72,7 +72,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier('tmp_ad_connection',true)}";
+                ".$oDbh->quoteIdentifier('tmp_ad_connection',true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
 
@@ -80,7 +80,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
         // impressions, ad clicks, and tracker impressions
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
                 (
                     bannerid,
                     description,
@@ -156,7 +156,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     campaignid,
                     trackerid,
@@ -200,7 +200,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
         $rows = $st->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -227,7 +227,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -374,7 +374,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
         $rows = $stClicks->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,

@@ -77,7 +77,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                 duration,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)."
             WHERE
                 log_maintenance_forecasting_id = 1";
         $rc = $oDbh->query($query);
@@ -102,7 +102,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                 duration,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)."
             WHERE
                 log_maintenance_forecasting_id = 1";
         $rc = $oDbh->query($query);
@@ -120,7 +120,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                 duration,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)."
             WHERE
                 log_maintenance_forecasting_id = 2";
         $rc = $oDbh->query($query);
@@ -406,7 +406,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         // Test 3
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)."
                 (
                     date_time,
                     ad_id,
@@ -475,7 +475,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)."
                 (
                     date_time,
                     ad_id,
@@ -552,7 +552,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)."
                 (
                     date_time,
                     ad_id,

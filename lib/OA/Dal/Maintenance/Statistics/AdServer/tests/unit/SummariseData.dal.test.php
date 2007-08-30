@@ -104,7 +104,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($table,true)}
+                ".$oDbh->quoteIdentifier($table,true)."
                 (
                     viewer_id,
                     ad_id,

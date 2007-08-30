@@ -2033,7 +2033,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 0);
@@ -2043,9 +2043,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         $oStartDate = new Date('2005-09-05 12:00:00');
         $oEndDate   = new Date('2005-09-07 12:29:59');
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
+        $tblDIAC = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2084,7 +2085,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -2092,7 +2093,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2106,7 +2107,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2142,7 +2143,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2181,7 +2182,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2189,7 +2190,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2203,7 +2204,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2223,7 +2224,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2259,7 +2260,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2280,7 +2281,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -2288,7 +2289,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2302,7 +2303,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2322,7 +2323,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2358,7 +2359,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2379,7 +2380,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -2387,7 +2388,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2401,7 +2402,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2421,7 +2422,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2457,7 +2458,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2478,7 +2479,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -2486,7 +2487,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2500,7 +2501,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2520,7 +2521,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2556,7 +2557,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2574,7 +2575,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2610,7 +2611,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2631,7 +2632,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2639,7 +2640,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2653,7 +2654,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2673,7 +2674,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2709,7 +2710,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2727,7 +2728,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2763,7 +2764,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2784,7 +2785,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2792,7 +2793,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2806,7 +2807,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2826,7 +2827,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2862,7 +2863,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2880,7 +2881,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -2916,7 +2917,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -2937,7 +2938,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -2945,7 +2946,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -2959,7 +2960,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2979,7 +2980,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3015,7 +3016,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3033,7 +3034,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3069,7 +3070,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3090,7 +3091,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3098,7 +3099,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3112,7 +3113,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3132,7 +3133,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3168,7 +3169,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3186,7 +3187,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3222,7 +3223,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3243,7 +3244,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3251,7 +3252,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3265,7 +3266,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3285,7 +3286,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3321,7 +3322,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3339,7 +3340,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3375,7 +3376,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3396,7 +3397,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3404,7 +3405,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3418,7 +3419,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3438,7 +3439,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3474,7 +3475,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3495,7 +3496,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -3503,7 +3504,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3517,7 +3518,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3537,7 +3538,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3573,7 +3574,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3594,7 +3595,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -3602,7 +3603,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3616,7 +3617,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3636,7 +3637,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3672,7 +3673,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3693,7 +3694,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 1);
@@ -3701,7 +3702,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3715,7 +3716,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3735,7 +3736,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3771,7 +3772,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3789,7 +3790,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3825,7 +3826,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3846,7 +3847,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -3854,7 +3855,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -3868,7 +3869,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3888,7 +3889,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3924,7 +3925,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3942,7 +3943,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -3978,7 +3979,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -3999,7 +4000,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -4007,7 +4008,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4021,7 +4022,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4041,7 +4042,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4077,7 +4078,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4095,7 +4096,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4131,7 +4132,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4152,7 +4153,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -4160,7 +4161,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4174,7 +4175,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4194,7 +4195,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4232,7 +4233,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4250,7 +4251,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4288,7 +4289,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4309,7 +4310,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -4317,7 +4318,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4329,7 +4330,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -4340,7 +4341,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -4352,7 +4353,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -4367,7 +4368,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4387,7 +4388,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4425,7 +4426,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4443,7 +4444,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4481,7 +4482,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4502,7 +4503,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -4510,7 +4511,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4524,7 +4525,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4544,7 +4545,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4582,7 +4583,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4600,7 +4601,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4638,7 +4639,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4659,7 +4660,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -4667,7 +4668,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4681,7 +4682,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable value for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4701,7 +4702,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:10:00, from a click on ad ID 5, zone ID 6, at 12:09
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4739,7 +4740,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4757,7 +4758,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert a connection at 12:30:00, from a click on ad ID 5, zone ID 6, at 12:29
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4795,7 +4796,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable value for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4816,7 +4817,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -4824,7 +4825,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -4836,7 +4837,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -4847,7 +4848,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -4859,7 +4860,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -4872,7 +4873,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Prepare the variable values for the tracker
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4891,7 +4892,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4910,7 +4911,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4931,7 +4932,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -4969,7 +4970,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -4986,7 +4987,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5005,7 +5006,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // using tracker ID 2 (one variable value)
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -5043,7 +5044,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5068,7 +5069,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 2);
@@ -5076,7 +5077,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -5088,7 +5089,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5101,7 +5102,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -5112,7 +5113,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -5150,7 +5151,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5167,7 +5168,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5186,7 +5187,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -5224,7 +5225,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5241,7 +5242,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5266,7 +5267,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 4);
@@ -5274,7 +5275,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -5284,7 +5285,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -5296,7 +5297,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5309,7 +5310,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -5322,7 +5323,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -5335,7 +5336,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -5346,7 +5347,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // using tracker ID 1 (two variable values)
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -5384,7 +5385,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5401,7 +5402,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5420,7 +5421,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // using tracker ID 2 (one variable value)
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
                 (
                     data_intermediate_ad_connection_id,
                     server_raw_ip,
@@ -5458,7 +5459,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
         // Insert the variable values for the connection
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
                 (
                     data_intermediate_ad_variable_value_id,
                     data_intermediate_ad_connection_id,
@@ -5483,7 +5484,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                {$tblDIAC}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual(count($aRow), 1);
         $this->assertEqual($aRow['rows'], 6);
@@ -5491,7 +5492,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_APPROVED;
         $aRow = $oDbh->queryRow($query);
@@ -5501,7 +5502,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
             SELECT
                 COUNT(*) AS rows
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 connection_status = " . MAX_CONNECTION_STATUS_DUPLICATE;
         $aRow = $oDbh->queryRow($query);
@@ -5513,7 +5514,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -5526,7 +5527,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -5539,7 +5540,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -5552,7 +5553,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -5565,7 +5566,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 5";
         $aRow = $oDbh->queryRow($query);
@@ -5578,7 +5579,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
                 comments
 
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                {$tblDIAC}
             WHERE
                 data_intermediate_ad_connection_id = 6";
         $aRow = $oDbh->queryRow($query);

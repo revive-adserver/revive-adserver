@@ -70,13 +70,13 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Insert the test data
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start, interval_end,
                     ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value
@@ -123,14 +123,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['operation_interval'], '30');
         $this->assertEqual($aRow['operation_interval_id'], 36);
@@ -164,14 +164,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)."
             WHERE
                 operation_interval_id = 37";
         $aRow = $oDbh->queryRow($query);
@@ -185,7 +185,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
         // Insert some predicted values into the data_summary_zone_impression_history table
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)."
                 (
                     operation_interval, operation_interval_id, interval_start, interval_end, zone_id, actual_impressions
                 )
@@ -209,14 +209,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)."
             WHERE
                 operation_interval_id = 38";
         $aRow = $oDbh->queryRow($query);
@@ -252,14 +252,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true)."
             WHERE
                 operation_interval_id = 38";
         $aRow = $oDbh->queryRow($query);

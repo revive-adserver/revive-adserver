@@ -76,21 +76,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         TestEnv::restoreEnv();
@@ -110,21 +110,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         TestEnv::restoreEnv();
@@ -145,21 +145,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         TestEnv::restoreEnv();
@@ -179,21 +179,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         TestEnv::restoreEnv();
@@ -211,7 +211,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     viewwindow,
                     clickwindow
@@ -246,7 +246,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($table,true)}
+                ".$oDbh->quoteIdentifier($table,true)."
                 (
                     ad_id,
                     creative_id,

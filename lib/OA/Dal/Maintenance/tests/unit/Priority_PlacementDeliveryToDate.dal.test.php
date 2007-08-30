@@ -182,7 +182,7 @@ class Test_OA_Dal_Maintenance_Priority_PlacementDeliveryToDate extends UnitTestC
         $today = '2005-06-24';
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true)."
                 (
                     campaignid,
                     activate,
@@ -209,7 +209,7 @@ class Test_OA_Dal_Maintenance_Priority_PlacementDeliveryToDate extends UnitTestC
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)."
                 (
                     campaignid,
                     bannerid,
@@ -238,7 +238,7 @@ class Test_OA_Dal_Maintenance_Priority_PlacementDeliveryToDate extends UnitTestC
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_intermediate_ad'],true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -275,7 +275,7 @@ class Test_OA_Dal_Maintenance_Priority_PlacementDeliveryToDate extends UnitTestC
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_intermediate_ad'],true)."
                 (
                     operation_interval,
                     operation_interval_id,

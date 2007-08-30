@@ -318,9 +318,10 @@ class Test_OA_Dal_Maintenance_Priority_AllDeliveryLimitationChangedAds extends U
         $this->assertEqual(count($aResult), 0);
 
         // Test 3
+        $tblCampaigns = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true)}
+                {$tblCampaigns}
                 (
                     campaignid,
                     active,
@@ -342,7 +343,7 @@ class Test_OA_Dal_Maintenance_Priority_AllDeliveryLimitationChangedAds extends U
         $rows = $stPl->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)."
                 (
                     bannerid,
                     campaignid,

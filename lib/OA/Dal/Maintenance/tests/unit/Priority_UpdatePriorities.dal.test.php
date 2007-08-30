@@ -255,7 +255,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 zone_id,
                 priority
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)."
             WHERE
                 ad_id = {$this->aIds['ad']} AND zone_id = {$this->aIds['zone']}";
         $rc = $oDbh->query($query);
@@ -282,7 +282,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = {$this->aIds['ad']}";
         $rc = $oDbh->query($query);
@@ -346,7 +346,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 zone_id,
                 priority
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)."
             WHERE
                 ad_id = {$this->aIds['ad']} AND zone_id = {$this->aIds['zone']}";
         $rc = $oDbh->query($query);
@@ -373,7 +373,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = {$this->aIds['ad']}
                 AND expired IS NOT NULL";
@@ -416,7 +416,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = {$this->aIds['ad']}
                 AND expired IS NULL";
@@ -459,7 +459,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = ".($this->aIds['ad']+1);
         $rc = $oDbh->query($query);
@@ -527,7 +527,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
         // Insert the data into the ad_zone_assoc table, as an ad is linked to a zone
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)."
                 (
                     ad_id,
                     zone_id,
@@ -575,7 +575,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 zone_id,
                 priority
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)."
             WHERE
                 ad_id = 1";
         $rc = $oDbh->query($query);
@@ -602,7 +602,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = 1";
         $rc = $oDbh->query($query);
@@ -666,7 +666,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 zone_id,
                 priority
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)."
             WHERE
                 ad_id = 1";
         $rc = $oDbh->query($query);
@@ -693,7 +693,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = 1
                 AND expired IS NOT NULL";
@@ -736,7 +736,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = 1
                 AND expired IS NULL";
@@ -779,7 +779,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
                 expired,
                 expired_by
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
             WHERE
                 ad_id = 2";
         $rc = $oDbh->query($query);

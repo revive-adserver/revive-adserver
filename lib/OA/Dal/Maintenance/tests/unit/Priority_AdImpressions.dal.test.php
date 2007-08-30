@@ -72,7 +72,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
         );
         $result = $oDal->saveRequiredAdImpressions($aData);
         $oDbh = &OA_DB::singleton();
-        $query = "SELECT * FROM {$oDbh->quoteIdentifier('tmp_ad_required_impression',true)}";
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('tmp_ad_required_impression',true);
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchAll();
         $this->assertTrue(is_array($aRow));
@@ -143,7 +143,7 @@ class Test_OA_Dal_Maintenance_Priority_AdImpressions extends UnitTestCase
             )
         );
         $result = $oDal->saveAllocatedImpressions($aData);
-        $query = "SELECT * FROM {$oDbh->quoteIdentifier('tmp_ad_zone_impression',true)} ORDER BY ad_id, zone_id";
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('tmp_ad_zone_impression',true)." ORDER BY ad_id, zone_id";
         $rc = $oDbh->query($query);
         $result = $rc->fetchAll();
         $this->assertTrue(is_array($result));

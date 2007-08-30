@@ -271,7 +271,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -297,7 +297,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -331,7 +331,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -354,7 +354,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -382,7 +382,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -405,7 +405,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -428,7 +428,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -456,7 +456,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -498,7 +498,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $oNow = new Date();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true)."
                 (
                     zoneid,
                     category,
@@ -552,7 +552,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -575,7 +575,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -603,7 +603,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -626,7 +626,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -649,7 +649,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $rows = $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -677,7 +677,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     operation_interval,
                     operation_interval_id,

@@ -85,7 +85,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
 
@@ -96,7 +96,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
         $this->_insertTestSaveSummaryZone();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start, interval_end,
                     ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value, total_num_items
@@ -164,14 +164,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 8);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
@@ -189,7 +189,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
@@ -207,7 +207,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -225,7 +225,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -243,7 +243,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 4
             ORDER BY
@@ -329,14 +329,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 1
                 AND creative_id = 1";
@@ -354,7 +354,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 1
                 AND creative_id = 2";
@@ -372,7 +372,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_hourly'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -402,7 +402,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
                 (
                     campaignid,
                     revenue,
@@ -442,7 +442,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
                 (
                     bannerid,
                     campaignid,
@@ -496,7 +496,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
         $oDbh = & OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['zones'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['zones'],true)."
                 (
                     zoneid,
                     cost,

@@ -90,7 +90,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
                 run_type,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -117,7 +117,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
                 run_type,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -137,7 +137,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
                 run_type,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 2";
         $rc = $oDbh->query($query);
@@ -236,7 +236,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
                 run_type,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -263,7 +263,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
                 run_type,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -283,7 +283,7 @@ class Test_OA_Dal_Maintenance_Priority_SetMaintenancePriorityLastRunInfo extends
                 run_type,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 2";
         $rc = $oDbh->query($query);

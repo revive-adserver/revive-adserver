@@ -122,7 +122,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                 duration,
                 updated_to
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_forecasting'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_forecasting'],true);
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['log_maintenance_forecasting_id'], 1);
@@ -186,7 +186,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                 updated_to,
                 run_type
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -208,7 +208,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
                 updated_to,
                 run_type
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_priority'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_priority'],true)."
             WHERE
                 log_maintenance_priority_id = 2";
         $rc = $oDbh->query($query);
@@ -313,7 +313,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 4
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($data_raw_ad_impression,true)}
+                ".$oDbh->quoteIdentifier($data_raw_ad_impression,true)."
                 (
                     date_time,
                     ad_id,
@@ -343,7 +343,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult['updated_to'], '2006-10-06 07:59:59');
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($data_raw_ad_impression,true)}
+                ".$oDbh->quoteIdentifier($data_raw_ad_impression,true)."
                 (
                     date_time,
                     ad_id,
@@ -433,7 +433,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 5
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($log_maintenance_priority,true)}
+                ".$oDbh->quoteIdentifier($log_maintenance_priority,true)."
                 (
                     start_run,
                     end_run,
@@ -469,7 +469,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $this->assertEqual($aResult['run_type'], 1);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($log_maintenance_priority,true)}
+                ".$oDbh->quoteIdentifier($log_maintenance_priority,true)."
                 (
                     start_run,
                     end_run,
@@ -582,7 +582,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $table = $aConf['table']['prefix'] . $aConf['table']['acls'];
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($table,true)}
+                ".$oDbh->quoteIdentifier($table,true)."
                 (
                     bannerid,
                     logical,
@@ -659,7 +659,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         $table = $aConf['table']['prefix'] . $aConf['table']['acls_channel'];
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($table,true)}
+                ".$oDbh->quoteIdentifier($table,true)."
                 (
                     channelid,
                     logical,
@@ -760,7 +760,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 2
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     viewwindow,
                     clickwindow
@@ -779,7 +779,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 3
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     viewwindow,
                     clickwindow
@@ -798,7 +798,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 4
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     viewwindow,
                     clickwindow
@@ -836,7 +836,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 2
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     viewwindow,
                     clickwindow
@@ -854,7 +854,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 3
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     viewwindow,
                     clickwindow
@@ -872,7 +872,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
         // Test 4
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
                 (
                     viewwindow,
                     clickwindow

@@ -112,7 +112,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $aRow = $oDbh->queryRow($query);
@@ -121,14 +121,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -150,14 +150,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -179,7 +179,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -201,14 +201,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -230,14 +230,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -259,7 +259,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -281,14 +281,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -310,14 +310,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -339,7 +339,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -361,7 +361,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -383,14 +383,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -414,14 +414,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -443,7 +443,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -465,7 +465,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -487,14 +487,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -516,14 +516,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -573,21 +573,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -625,14 +625,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -682,21 +682,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -735,14 +735,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -792,14 +792,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -808,14 +808,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -853,14 +853,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -910,21 +910,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -963,14 +963,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -1020,14 +1020,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1036,14 +1036,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1077,7 +1077,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $this->_insertTestSaveIntermediateClickData();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -1165,7 +1165,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
                     date_time, tracker_id, channel, language, ip_address, host_name, country,
@@ -1372,7 +1372,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1445,14 +1445,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 9);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -1502,7 +1502,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 3
                 AND server_raw_ip = '127.0.0.3'";
@@ -1552,7 +1552,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 4
                 AND server_raw_ip = '127.0.0.3'";
@@ -1602,7 +1602,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 5
                 AND server_raw_ip = '127.0.0.3'";
@@ -1652,7 +1652,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 6
                 AND server_raw_ip = '127.0.0.6'";
@@ -1702,7 +1702,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 7
                 AND server_raw_ip = '127.0.0.6'";
@@ -1752,7 +1752,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 8
                 AND server_raw_ip = '127.0.0.8'";
@@ -1802,7 +1802,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 9
                 AND server_raw_ip = '127.0.0.9'";
@@ -1852,7 +1852,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 10
                 AND server_raw_ip = '127.0.0.10'";
@@ -1902,14 +1902,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 12);
         $query = "
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1918,7 +1918,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -1927,7 +1927,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -1936,7 +1936,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -1945,7 +1945,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 5";
         $aRow = $oDbh->queryRow($query);
@@ -1954,7 +1954,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 6";
         $aRow = $oDbh->queryRow($query);
@@ -1963,7 +1963,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 7";
         $aRow = $oDbh->queryRow($query);
@@ -1972,7 +1972,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 8";
         $aRow = $oDbh->queryRow($query);
@@ -1981,7 +1981,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 9";
         $aRow = $oDbh->queryRow($query);
@@ -1990,7 +1990,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 10";
         $aRow = $oDbh->queryRow($query);
@@ -1999,7 +1999,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 11";
         $aRow = $oDbh->queryRow($query);
@@ -2008,7 +2008,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 12";
         $aRow = $oDbh->queryRow($query);
@@ -2017,14 +2017,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2047,7 +2047,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2070,7 +2070,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -2169,7 +2169,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_impression',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_impression',true)."
                 (
                     day,
                     hour,
@@ -2235,7 +2235,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_click',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_click',true)."
                 (
                     day,
                     hour,
@@ -2316,7 +2316,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -2412,7 +2412,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_connection',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_connection',true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, date_time, operation_interval,
                     operation_interval_id, interval_start, interval_end, connection_viewer_id,
@@ -2445,7 +2445,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -2471,7 +2471,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid
@@ -2496,7 +2496,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -2597,7 +2597,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $aRow = $oDbh->queryRow($query);
@@ -2606,14 +2606,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -2635,14 +2635,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2664,7 +2664,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2686,14 +2686,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -2715,14 +2715,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2744,7 +2744,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2766,14 +2766,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -2795,14 +2795,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2824,7 +2824,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2846,7 +2846,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -2868,14 +2868,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -2899,14 +2899,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2928,7 +2928,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2950,7 +2950,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -2972,14 +2972,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         TestEnv::restoreEnv();
@@ -3001,14 +3001,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -3058,21 +3058,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3110,14 +3110,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -3167,21 +3167,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3220,14 +3220,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -3277,14 +3277,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3293,14 +3293,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3338,14 +3338,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -3395,21 +3395,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3448,14 +3448,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -3505,14 +3505,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3521,14 +3521,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -3562,7 +3562,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $this->_insertTestSaveIntermediateClickData();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -3650,7 +3650,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
                     date_time, tracker_id, channel, language, ip_address, host_name, country,
@@ -3857,7 +3857,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -3930,14 +3930,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 9);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.1'";
@@ -3987,7 +3987,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 3
                 AND server_raw_ip = '127.0.0.3'";
@@ -4037,7 +4037,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 4
                 AND server_raw_ip = '127.0.0.3'";
@@ -4087,7 +4087,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 5
                 AND server_raw_ip = '127.0.0.3'";
@@ -4137,7 +4137,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 6
                 AND server_raw_ip = '127.0.0.6'";
@@ -4187,7 +4187,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 7
                 AND server_raw_ip = '127.0.0.6'";
@@ -4237,7 +4237,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 8
                 AND server_raw_ip = '127.0.0.8'";
@@ -4287,7 +4287,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 9
                 AND server_raw_ip = '127.0.0.9'";
@@ -4337,7 +4337,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 10
                 AND server_raw_ip = '127.0.0.10'";
@@ -4387,14 +4387,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 12);
         $query = "
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -4403,7 +4403,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -4412,7 +4412,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -4421,7 +4421,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -4430,7 +4430,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 5";
         $aRow = $oDbh->queryRow($query);
@@ -4439,7 +4439,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 6";
         $aRow = $oDbh->queryRow($query);
@@ -4448,7 +4448,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 7";
         $aRow = $oDbh->queryRow($query);
@@ -4457,7 +4457,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 8";
         $aRow = $oDbh->queryRow($query);
@@ -4466,7 +4466,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 9";
         $aRow = $oDbh->queryRow($query);
@@ -4475,7 +4475,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 10";
         $aRow = $oDbh->queryRow($query);
@@ -4484,7 +4484,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 11";
         $aRow = $oDbh->queryRow($query);
@@ -4493,7 +4493,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 value
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)."
             WHERE
                 tracker_variable_id = 12";
         $aRow = $oDbh->queryRow($query);
@@ -4502,14 +4502,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 3);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -4532,7 +4532,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -4555,7 +4555,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -4654,7 +4654,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_impression',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_impression',true)."
                 (
                     day,
                     hour,
@@ -4720,7 +4720,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_click',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_click',true)."
                 (
                     day,
                     hour,
@@ -4801,7 +4801,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -4897,7 +4897,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_connection',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_connection',true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, date_time, operation_interval,
                     operation_interval_id, interval_start, interval_end, connection_viewer_id,
@@ -4930,7 +4930,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid,
@@ -4956,7 +4956,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
                 (
                     variableid,
                     trackerid
@@ -4981,7 +4981,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,

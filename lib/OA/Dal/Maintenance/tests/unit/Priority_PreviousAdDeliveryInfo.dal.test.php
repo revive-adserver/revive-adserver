@@ -306,42 +306,6 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         // Test 6
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
-/*        $query = "
-            INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions,
-                    priority,
-                    priority_factor,
-                    past_zone_traffic_fraction,
-                    created,
-                    created_by
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'timestamp',
-            'timestamp',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'float',
-            'float',
-            'float',
-            'timestamp',
-            'integer'
-        );
-        $stDsaza = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);*/
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $operationIntervalID,
@@ -1101,44 +1065,6 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-//        $query = "
-//            INSERT INTO
-//                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
-//                (
-//                    operation_interval,
-//                    operation_interval_id,
-//                    interval_start,
-//                    interval_end,
-//                    ad_id,
-//                    zone_id,
-//                    required_impressions,
-//                    requested_impressions,
-//                    priority,
-//                    priority_factor,
-//                    past_zone_traffic_fraction,
-//                    created,
-//                    created_by,
-//                    expired
-//                )
-//            VALUES
-//                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//        $aTypes = array(
-//            'integer',
-//            'integer',
-//            'timestamp',
-//            'timestamp',
-//            'integer',
-//            'integer',
-//            'integer',
-//            'integer',
-//            'float',
-//            'float',
-//            'float',
-//            'timestamp',
-//            'integer',
-//            'timestamp'
-//        );
-//        $stDsazaExpired = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             $conf['maintenance']['operationInterval'],
             $previousOperationIntervalID,
@@ -1886,8 +1812,8 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
         $query = "
-            INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_intermediate_ad'],true)}
+            INSERT INT
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_intermediate_ad'],true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -2004,7 +1930,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'],true)."
                 (
                     operation_interval,
                     operation_interval_id,
@@ -2799,7 +2725,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $rows = $stDsaza->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'])}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_zone_assoc'])."
                 (
                     operation_interval,
                     operation_interval_id,

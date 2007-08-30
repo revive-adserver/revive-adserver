@@ -1327,9 +1327,10 @@ class Test_OA_Dal_Maintenance_Priority_Placements extends UnitTestCase
         $rows = $oDbh->exec($sql);
 
         // Add ad_zone_assoc record
+        $tblAdZone = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true)}
+                {$tblAdZone}
                 (
                     ad_id,
                     zone_id,

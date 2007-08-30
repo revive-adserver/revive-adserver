@@ -114,27 +114,6 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
         $doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
         $idHist = DataGenerator::generateOne($doHist);
-//        $query = "
-//            INSERT INTO
-//                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
-//                (
-//                    zone_id,
-//                    forecast_impressions,
-//                    operation_interval,
-//                    operation_interval_id,
-//                    interval_start,
-//                    interval_end
-//                )
-//            VALUES
-//                (
-//                    1,
-//                    4000,
-//                    {$conf['maintenance']['operationInterval']},
-//                    $firstIntervalID,
-//                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-//                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-//                )";
-//        $rows = $oDbh->exec($query);
         // Insert forcast for the previous operation interval
         $aDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($aDates['start']);
         $secondIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
@@ -146,27 +125,6 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
         $doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
         $idHist = DataGenerator::generateOne($doHist);
-//        $query = "
-//            INSERT INTO
-//                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
-//                (
-//                    zone_id,
-//                    forecast_impressions,
-//                    operation_interval,
-//                    operation_interval_id,
-//                    interval_start,
-//                    interval_end
-//                )
-//            VALUES
-//                (
-//                    1,
-//                    5000,
-//                    {$conf['maintenance']['operationInterval']},
-//                    $secondIntervalID,
-//                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-//                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-//                )";
-//        $rows = $oDbh->exec($query);
         // Insert forcast for the second previous operation interval, but
         // one week ago (so it should not be in the result set)
         $oNewDate = new Date();
@@ -182,27 +140,6 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
         $doHist->interval_start = $aDates['start']->format('%Y-%m-%d %H:%M:%S');
         $doHist->interval_end   = $aDates['end']->format('%Y-%m-%d %H:%M:%S');
         $idHist = DataGenerator::generateOne($doHist);
-//        $query = "
-//            INSERT INTO
-//                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
-//                (
-//                    zone_id,
-//                    forecast_impressions,
-//                    operation_interval,
-//                    operation_interval_id,
-//                    interval_start,
-//                    interval_end
-//                )
-//            VALUES
-//                (
-//                    1,
-//                    10000,
-//                    {$conf['maintenance']['operationInterval']},
-//                    $intervalID,
-//                    '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "',
-//                    '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-//                )";
-//        $rows = $oDbh->exec($query);
         $result = $oDal->getPreviousWeekZoneForcastImpressions(1);
         $this->assertTrue(is_array($result));
         $this->assertEqual(count($result), (MINUTES_PER_WEEK / $conf['maintenance']['operationInterval']));
@@ -269,7 +206,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
         $firstIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     zone_id,
                     forecast_impressions,
@@ -293,7 +230,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
         $secondIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     zone_id,
                     forecast_impressions,
@@ -321,7 +258,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
         $intervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start']);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].'data_summary_zone_impression_history',true)."
                 (
                     zone_id,
                     forecast_impressions,

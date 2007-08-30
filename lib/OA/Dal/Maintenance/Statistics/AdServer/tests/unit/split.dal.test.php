@@ -248,13 +248,13 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier('tmp_ad_request',true)}";
+                ".$oDbh->quoteIdentifier('tmp_ad_request',true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Insert 3 ad requests
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_request_20040506',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_request_20040506',true)."
                 (
                     ad_id,
                     creative_id,
@@ -279,7 +279,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_request_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_request_20040606',true)."
                 (
                     ad_id,
                     creative_id,
@@ -403,7 +403,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert 3 ad impressions
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040506',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040506',true)."
                 (
                     ad_id,
                     creative_id,
@@ -428,7 +428,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040606',true)."
                 (
                     ad_id,
                     creative_id,
@@ -552,7 +552,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert 3 ad clicks
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040506',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040506',true)."
                 (
                     ad_id,
                     creative_id,
@@ -577,7 +577,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040606',true)."
                 (
                     ad_id,
                     creative_id,
@@ -708,7 +708,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // impressions, ad clicks, and tracker impressions
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'banners',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'banners',true)."
                 (
                     bannerid,
                     description,
@@ -784,7 +784,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns_trackers',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns_trackers',true)."
                 (
                     campaignid,
                     trackerid,
@@ -828,7 +828,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040606',true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -855,7 +855,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040606',true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -978,7 +978,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $stClicks->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040506',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040506',true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -1005,7 +1005,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040506',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040506',true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -1080,7 +1080,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $stClicks->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040606',true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1124,7 +1124,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040506',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040506',true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1430,7 +1430,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'variables',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'variables',true)."
                 (
                     variableid, trackerid, purpose
                 )
@@ -1471,7 +1471,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_impression',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_impression',true)."
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start,
                     interval_end, ad_id, creative_id, zone_id, impressions
@@ -1512,7 +1512,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_click',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_click',true)."
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start,
                     interval_end, ad_id, creative_id, zone_id, clicks
@@ -1585,21 +1585,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'])}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection']);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Re-create dropped tables
@@ -1613,7 +1613,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->_insertTestSaveIntermedaiteAdClick();
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040606',true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
                     date_time, tracker_id, channel, language, ip_address, host_name, country,
@@ -1658,7 +1658,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_20040606',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_20040606',true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
                 )
@@ -1686,7 +1686,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_20040607',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_20040607',true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
                 )
@@ -1706,7 +1706,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier('tmp_ad_connection',true)}
+                ".$oDbh->quoteIdentifier('tmp_ad_connection',true)."
                 (
                     server_raw_tracker_impression_id, server_raw_ip, date_time, operation_interval,
                     operation_interval_id, interval_start, interval_end, connection_viewer_id,
@@ -1783,14 +1783,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 1
                 AND server_raw_ip = '127.0.0.1'";
@@ -1841,7 +1841,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)."
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.2'";
@@ -1893,15 +1893,15 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 4);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv,
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} AS diac
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." AS diavv,
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)." AS diac
             WHERE
                 diac.server_raw_tracker_impression_id = 1
                 AND diac.server_raw_ip = '127.0.0.1'
@@ -1912,7 +1912,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." AS diavv
             WHERE
                 diavv.tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1921,7 +1921,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." AS diavv
             WHERE
                 diavv.tracker_variable_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -1930,8 +1930,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv,
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} AS diac
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." AS diavv,
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)." AS diac
             WHERE
                 diac.server_raw_tracker_impression_id = 2
                 AND diac.server_raw_ip = '127.0.0.2'
@@ -1942,7 +1942,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." AS diavv
             WHERE
                 diavv.tracker_variable_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -1951,7 +1951,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." AS diavv
             WHERE
                 diavv.tracker_variable_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -1960,14 +1960,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1986,7 +1986,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2021,7 +2021,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Re-create dropped tables
@@ -2045,14 +2045,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2071,7 +2071,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2201,7 +2201,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert the test data
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns_trackers',true)}
+                ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns_trackers',true)."
                 (
                     viewwindow, clickwindow
                 )
