@@ -342,9 +342,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, $now);
         // Insert an hourly (only) update
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'log_maintenance_statistics',true);
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'log_maintenance_statistics',true)}
+                {$table}
                 (
                     start_run,
                     end_run,
