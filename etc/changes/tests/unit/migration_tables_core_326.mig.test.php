@@ -34,11 +34,8 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  *
  * @package    changes
  * @subpackage TestSuite
-<<<<<<< .working
- * @author     Matteo Beccati <matteo.beccati@openads.org>
-=======
+ * @author     Chris Nutting <chris.nutting@openads.org>
  * @author     Monique Szpak <monique.szpak@openads.org>
->>>>>>> .merge-right.r9236
  */
 class Migration_tables_core_326Test extends MigrationTest
 {
@@ -52,20 +49,22 @@ class Migration_tables_core_326Test extends MigrationTest
     {
         $this->UnitTestCase();
 
-        $this->path = MAX_PATH.'/etc/changes/';
-        $this->prefix                        = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->path   = MAX_PATH.'/etc/changes/';
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     }
     function test_executeTasksTablesAlter()
     {
         $this->assertTrue($this->initDatabase(325, array('campaigns')).'failed to created version 325 of campaigns table');
 
+
+        $tblCampaigns = $this->oDbh->quoteIdentifier($this->prefix.'campaigns',true);
         // Insert some data to test the upgrade from... we know the schema being used so we can directly insert
-        $this->oDbh->exec("INSERT INTO {$this->prefix}campaigns VALUES (1,'campaign one',   1, 100, 10, 1, '0000-00-00', '0000-00-00', 't', 'h', 1, 1, 'f', 'f')");
-        $this->oDbh->exec("INSERT INTO {$this->prefix}campaigns VALUES (2,'campaign two',   1, 100, 10, 1, '0000-00-00', '0000-00-00', 't', 'm', 1, 1, 'f', 'f')");
-        $this->oDbh->exec("INSERT INTO {$this->prefix}campaigns VALUES (3,'campaign three', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', 'l', 1, 1, 'f', 'f')");
-        $this->oDbh->exec("INSERT INTO {$this->prefix}campaigns VALUES (4,'campaign four',   1, 100, 10, 1, '0000-00-00', '0000-00-00', 't', 'h', 1, 1, 'f', 'f')");
-        $this->oDbh->exec("INSERT INTO {$this->prefix}campaigns VALUES (5,'campaign five',   1, 100, 10, 1, '0000-00-00', '0000-00-00', 't', 'm', 1, 1, 'f', 'f')");
-        $this->oDbh->exec("INSERT INTO {$this->prefix}campaigns VALUES (6,'campaign six',   1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', 'l', 1, 1, 'f', 'f')");
+        $this->oDbh->exec("INSERT INTO {$tblCampaigns} VALUES (1,'campaign one',   1, 100, 10, 1, '2000-01-01', '2000-01-01', 't', 'h', 1, 1, 'f', 'f')");
+        $this->oDbh->exec("INSERT INTO {$tblCampaigns} VALUES (2,'campaign two',   1, 100, 10, 1, '2000-01-01', '2000-01-01', 't', 'm', 1, 1, 'f', 'f')");
+        $this->oDbh->exec("INSERT INTO {$tblCampaigns} VALUES (3,'campaign three', 1, -1, -1, -1, '2000-01-01', '2000-01-01', 't', 'l', 1, 1, 'f', 'f')");
+        $this->oDbh->exec("INSERT INTO {$tblCampaigns} VALUES (4,'campaign four',   1, 100, 10, 1, '2000-01-01', '2000-01-01', 't', 'h', 1, 1, 'f', 'f')");
+        $this->oDbh->exec("INSERT INTO {$tblCampaigns} VALUES (5,'campaign five',   1, 100, 10, 1, '2000-01-01', '2000-01-01', 't', 'm', 1, 1, 'f', 'f')");
+        $this->oDbh->exec("INSERT INTO {$tblCampaigns} VALUES (6,'campaign six',   1, -1, -1, -1, '2000-01-01', '2000-01-01', 't', 'l', 1, 1, 'f', 'f')");
 
         Mock::generatePartial(
             'OA_DB_UpgradeAuditor',
@@ -94,7 +93,7 @@ class Migration_tables_core_326Test extends MigrationTest
         $aDiff = $oDB_Upgrade->oSchema->compareDefinitions($this->aDefNew, $aDefDb);
         $this->assertEqual(count($aDiff),0,'comparison failed');
 
-        $aResults = $this->oDbh->queryAll("SELECT * FROM {$this->prefix}campaigns");
+        $aResults = $this->oDbh->queryAll("SELECT * FROM ".$tblCampaigns);
 
         $this->assertIsa($aResults, 'array');
         $expected = array(1 => '5', 2 => '3', 3 => '0', 4 => '5', 5 => '3', 6 => '0');

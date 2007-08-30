@@ -40,6 +40,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     {
         $whereZone = is_numeric($keyword) ? " OR z.zoneid=$keyword" : '';
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableZ = $oDbh->quoteIdentifier($prefix.'zones',true);
+        $tableA = $oDbh->quoteIdentifier($prefix.'affiliates',true);
 
         $query = "
         SELECT
@@ -48,8 +51,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
             z.description AS description,
             a.affiliateid AS affiliateid
         FROM
-            {$prefix}zones AS z,
-            {$prefix}affiliates AS a
+            {$tableZ} AS z,
+            {$tableA} AS a
         WHERE
             (
             z.affiliateid=a.affiliateid
@@ -80,6 +83,9 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
     function getZoneForInvocationForm($zoneId)
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableZ = $oDbh->quoteIdentifier($prefix.'zones',true);
+        $tableAf = $oDbh->quoteIdentifier($prefix.'affiliates',true);
 
         $query = "
             SELECT
@@ -89,8 +95,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
                 z.delivery,
                 af.website
             FROM
-                {$prefix}zones AS z,
-                {$prefix}affiliates AS af
+                {$tableZ} AS z,
+                {$tableAf} AS af
             WHERE
                 z.zoneid = " . DBC::makeLiteral($zoneId) . "
             AND af.affiliateid = z.affiliateid";

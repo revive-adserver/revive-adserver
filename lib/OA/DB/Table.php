@@ -208,22 +208,7 @@ class OA_DB_Table
             OA::debug('Cannot find table ' . $table . ' in the XML schema file', PEAR_LOG_ERR);
             return false;
         }
-        $tableName = $table;
-        // Does a table prefix need to be added to the table name?
-        $prefixed = false;
-        if ($aConf['table']['prefix'] && !$this->temporary) {
-            $tableName = $aConf['table']['prefix'] . $tableName;
-            $prefixed = true;
-        }
-        // Are split tables in operation, and is the table designed to be split?
-        $split = false;
-        if (($aConf['table']['split']) && ($aConf['splitTables'][$table])) {
-            if ($oDate == NULL) {
-                $oDate = new Date();
-            }
-            $tableName = $tableName . '_' . $oDate->format('%Y%m%d');
-            $split = true;
-        }
+        $tableName = $this->_generateTableName($table, $oDate);
         // Prepare the options array
         $aOptions = array();
         if ($this->temporary) {
@@ -238,15 +223,13 @@ class OA_DB_Table
                         $aOptions['primary'] = $aIndex['fields'];
                         $indexName = $tableName.'_pkey';
                     } else {
-                        // Disabled
-                        //
                         // Eventually strip the leading table name prefix from the index and
                         // add the currently generated table name. This should ensure that
                         // index names are unique database-wide, required at least by PgSQL
                         //
-                        //$indexName = $tableName . '_' . preg_replace("/^{$table}_/", '', $key);
-
-                        continue;
+                        // The index name is cut at 64 chars
+                        //
+                        $indexName = $this->_generateIndexName($tableName, $key);
                     }
                     // Does the index name need to be udpated to match either
                     // the prefixed table name, or the the split table name, or
@@ -412,7 +395,7 @@ class OA_DB_Table
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Truncating table ' . $table, PEAR_LOG_DEBUG);
         OA::disableErrorHandling();
-        $query = "TRUNCATE TABLE $table";
+        $query = "TRUNCATE TABLE ".$this->oDbh->quoteIdentifier($table,true);
         $result = $this->oDbh->exec($query);
         OA::enableErrorHandling();
         if (PEAR::isError($result)) {
@@ -484,12 +467,14 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
+        PEAR::pushErrorHandling(null);
+
         if ($aConf['database']['type'] == 'pgsql') {
-            OA::disableErrorHandling();
+            $sequence = $this->oDbh->quoteIdentifier($sequence,true);
             $result = $this->oDbh->exec("SELECT setval('$sequence', 1, false)");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
-                OA::debug('Unable to truncate table ' . $table, PEAR_LOG_ERROR);
+                OA::debug('Unable to reset sequence on table ' . $table, PEAR_LOG_ERROR);
                 return false;
             }
         }
@@ -503,10 +488,28 @@ class OA_DB_Table
      */
     function resetAllSequences()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if (!$this->_checkInit()) {
+            return false;
+        }
         $allSequencesReset = true;
+        OA_DB::setCaseSensitive();
         $aSequences = $this->oDbh->manager->listSequences();
+        OA_DB::disableCaseSensitive();
         if (is_array($aSequences)) {
+            $aTables = $this->aDefinition['tables'];
             foreach ($aSequences as $sequence) {
+                $match = false;
+                foreach (array_keys($this->aDefinition['tables']) as $tableName) {
+                    $tableName = substr($aConf['table']['prefix'].$tableName, 0, 29).'_';
+                    if (strpos($sequence, $tableName) === 0) {
+                        $match = true;
+                        break;
+                    }
+                }
+                if (!$match) {
+                    continue;
+                }
                 // listSequences returns sequence names without trailing '_seq'
                 $sequence .= '_seq';
                 OA::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
@@ -552,6 +555,49 @@ class OA_DB_Table
         } else {
             return $aTables;
         }
+    }
+
+    /**
+     * A method for generating a table name, adding prefix and/or split date
+     *
+     * @param string $table The original name of the table.
+     * @param Date   $oDate An optional date for creating split tables. Will use current
+     *                      date if the date is required for creation, but not supplied.
+     * @return string The name of the table
+     */
+    function _generateTableName($table, $oDate = null)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $tableName = $table;
+        // Does a table prefix need to be added to the table name?
+        if ($aConf['table']['prefix'] && !$this->temporary) {
+            $tableName = $aConf['table']['prefix'] . $tableName;
+        }
+        // Are split tables in operation, and is the table designed to be split?
+        if (($aConf['table']['split']) && ($aConf['splitTables'][$table])) {
+            if ($oDate == NULL) {
+                $oDate = new Date();
+            }
+            $tableName = $tableName . '_' . $oDate->format('%Y%m%d');
+        }
+        return $tableName;
+    }
+
+    /**
+     * A method for generating an index name, adding the table name as prefix
+     *
+     * Note: The resulting index name is truncated to 64 characters
+     *
+     * @param string $table The name of the table.
+     * @param string $table The original name of the index.
+     * @return string The name of the index
+     */
+    function _generateIndexName($table, $index)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $tableName = $table;
+        $origTable = substr($table, strlen($aConf['table']['prefix']));
+        return substr($tableName . '_' . preg_replace("/^{$origTable}_/", '', $index), 0, 63);
     }
 }
 

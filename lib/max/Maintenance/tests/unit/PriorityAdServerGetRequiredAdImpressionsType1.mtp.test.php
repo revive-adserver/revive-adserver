@@ -55,6 +55,24 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
     }
 
     /**
+     * Set up database
+     */
+    function setUp()
+    {
+        TestEnv::setupDB();
+        return parent::setUp();
+    }
+
+    /**
+     * Tear down database
+     */
+    function tearDown()
+    {
+        TestEnv::teardownDB();
+        return parent::tearDown();
+    }
+
+    /**
      * A private method for the test class that creates an instance
      * of the mocked DAL class (MAX_Dal_Maintenance), the mocked
      * table creation class (Openads_Table_Priority), registers the
@@ -208,6 +226,8 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oDate = new Date('2005-12-08 13:55:00');
         $oServiceLocator->register('now', $oDate);
         $oGetRequiredAdImpressionsType1->oDal->setReturnValue('getPlacements', array());
+        $oDbh = OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($table, true);
         $oGetRequiredAdImpressionsType1->oDal->expectOnce(
             'getPlacements',
             array(

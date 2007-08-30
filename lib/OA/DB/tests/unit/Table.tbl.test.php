@@ -259,7 +259,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->createTable('test_table');
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'test_table');
-        $oTable->dropTable('test_table');
+        $this->assertTrue($oTable->dropTable('test_table'));
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -275,7 +275,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
         unlink(MAX_PATH . '/var/test.xml');
-        $oTable->dropTable('test_table_' . $oDate->format('%Y%m%d'));
+        $this->assertTrue($oTable->dropTable('test_table_' . $oDate->format('%Y%m%d')));
 
         // Test 3
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -466,7 +466,8 @@ class Test_OA_DB_Table extends UnitTestCase
      * Requirements:
      * Test 1: Test that a table can be dropped.
      * Test 2: Test that a temporary table can be dropped.
-     * Test 2: Test that a tablename with uppercase prefix can be dropped.
+     * Test 3: Test that a tablename with uppercase prefix can be dropped.
+     * Test 4: Test that a tablename with a mixed prefix can be dropped.
      */
     function testDropTable()
     {
@@ -474,29 +475,31 @@ class Test_OA_DB_Table extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
         $prefix = $conf['table']['prefix'];
         $oDbh = &OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($prefix.'foo',true);
         $oTable = new OA_DB_Table();
-        $query = "CREATE TABLE {$prefix}foo ( a INTEGER )";
+        $query = "CREATE TABLE {$table} ( a INTEGER )";
         $oDbh->query($query);
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], $prefix.'foo');
-        $oTable->dropTable($prefix.'foo');
+        $this->assertTrue($oTable->dropTable($prefix.'foo'));
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        $this->assertEqual(count($aExistingTables), 0);
+        $this->assertEqual(count($aExistingTables), 0, $prefix.'foo');
         TestEnv::restoreEnv();
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oTable = new OA_DB_Table();
-        $query = "CREATE TEMPORARY TABLE {$prefix}foo ( a INTEGER )";
+        $table = $oDbh->quoteIdentifier($prefix.'foo',true);
+        $query = "CREATE TEMPORARY TABLE {$table} ( a INTEGER )";
         $oDbh->query($query);
         // Test table exists with an insert
-        $query = "INSERT INTO {$prefix}foo (a) VALUES (37)";
+        $query = "INSERT INTO {$table} (a) VALUES (37)";
         $result = $oDbh->query($query);
         $this->assertTrue($result);
-        $oTable->dropTable($prefix.'foo');
+        $this->assertTrue($oTable->dropTable($prefix.'foo'));
         // Test table does not exist with an insert
-        $query = "INSERT INTO {$prefix}foo (a) VALUES (37)";
+        $query = "INSERT INTO {$table} (a) VALUES (37)";
         OA::disableErrorHandling();
         $result = $oDbh->query($query);
         OA::enableErrorHandling();
@@ -506,18 +509,35 @@ class Test_OA_DB_Table extends UnitTestCase
         // Test 3
         $conf = &$GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = 'OA_';
+        $prefix = $conf['table']['prefix'];
         $oDbh = &OA_DB::singleton();
-        $oTable = new OA_DB_Table();
-        $query = "CREATE TABLE OA_foo ( a INTEGER )";
+        $table = $oDbh->quoteIdentifier($prefix.'foo',true);
+        $query = "CREATE TABLE {$table} ( a INTEGER )";
         $oDbh->query($query);
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'OA_foo');
-        $oTable->dropTable('OA_foo');
+        $this->assertTrue($oTable->dropTable('OA_foo'));
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        $this->assertEqual(count($aExistingTables), 0);
+        $this->assertEqual(count($aExistingTables), 0, 'Table OA_foo');
+
+        TestEnv::restoreEnv();
+
+        // Test 4
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = 'oA_';
+        $prefix = $conf['table']['prefix'];
+        $oDbh = &OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($prefix.'foo',true);
+        $oTable = new OA_DB_Table();
+        $query = "CREATE TABLE {$table} ( a INTEGER )";
+        $oDbh->query($query);
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual($aExistingTables[0], 'oA_foo');
+        $this->assertTrue($oTable->dropTable('oA_foo'));
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual(count($aExistingTables), 0, 'Table oA_foo');
         TestEnv::restoreEnv();
     }
-
 }
 
 ?>

@@ -32,6 +32,10 @@ require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
+// pgsql execution time before refactor: 209.89s
+// pgsql execution time after refactor: s
+
+
 /**
  * A class for performing integration testing the MAX_Maintenance_Statistics_AdServer class.
  *
@@ -48,6 +52,7 @@ require_once 'Date.php';
  */
 class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 {
+    var $oDbh;
 
     /**
      * The constructor method.
@@ -65,8 +70,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = 'max_';
-        $oDbh = &OA_DB::singleton();
+        $this->oDbh = &OA_DB::singleton();
         $oTable = &OA_DB_Table_Core::singleton();
         // Create the required tables
         $oTable->createTable('banners');
@@ -97,7 +101,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         // Insert the test data
         $query = "
             INSERT INTO
-                max_banners
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)}
                 (
                     bannerid,
                     campaignid,
@@ -167,7 +171,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'integer',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,1,'t','',0,'html','','','<h3>Test Banner 1</h3>','<h3>Test Banner 1</h3>',0,0,1,0,'',
             'http://example.com/','','','','Banner 1','t','',0,0,0,'','',0,0,'','',''
@@ -201,7 +205,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_campaigns
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true)}
                 (
                     campaignid,
                     campaignname,
@@ -240,7 +244,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'text',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,'Test Advertiser 1 - Default Campaign 1',1,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
         );
@@ -268,7 +272,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_campaigns_trackers
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'],true)}
             VALUES
                 (?, ?, ?, ?, ?, ?)";
         $aTypes = array(
@@ -279,7 +283,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'integer',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,1,1,86400,0,1
         );
@@ -295,7 +299,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-            max_clients
+            {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['clients'],true)}
             (
                 clientid,
                 agencyid,
@@ -328,7 +332,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'timestamp',
             'text'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,0,'Test Advertiser 1','Test Contact 1','test1@example.com','','',0,'','t',7,'2004-11-26','t'
         );
@@ -340,7 +344,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_data_raw_ad_request
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true)}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -391,7 +395,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'text',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
@@ -515,7 +519,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_data_raw_ad_impression
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -566,7 +570,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'text',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
@@ -690,7 +694,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_data_raw_tracker_impression
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'],true)}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -740,11 +744,11 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
                     'Firefox',
                     0
                 )";
-        $rows = $oDbh->exec($query);
+        $rows = $this->oDbh->exec($query);
 
         $query = "
             INSERT INTO
-                max_trackers
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['trackers'],true)}
                 (
                     trackerid,
                     trackername,
@@ -766,11 +770,11 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
                     0,
                     ''
                 )";
-        $rows = $oDbh->exec($query);
+        $rows = $this->oDbh->exec($query);
 
         $query = "
             INSERT INTO
-                max_zones
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true)}
                 (
                     zoneid,
                     affiliateid,
@@ -787,10 +791,11 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
                     append,
                     appendtype,
                     forceappend,
-                    inventory_forecast_type
+                    inventory_forecast_type,
+                    what
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
             'integer',
             'integer',
@@ -807,21 +812,22 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'text',
             'integer',
             'text',
-            'integer'
+            'integer',
+            'text'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,1,'Test Publisher 1 - Default','',0,3,'',-1,-1,'','','','',0,'f',0
+            1,1,'Test Publisher 1 - Default','',0,3,'',-1,-1,'','','','',0,'f',0,''
         );
         $rows = $st->execute($aData);
         $aData = array(
-            2,2,'Test Publisher 2 - Default','',0,3,'',-1,-1,'','','','',0,'f',0
+            2,2,'Test Publisher 2 - Default','',0,3,'',-1,-1,'','','','',0,'f',0,''
         );
         $rows = $st->execute($aData);
 
         $query = "
             INSERT INTO
-                max_channel
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['channel'],true)}
                 (
                     channelid,
                     agencyid,
@@ -850,7 +856,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'timestamp',
             'timestamp'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,0,1,'Test Channel - Page Url','','MAX_checkSite_Pageurl(\'example\', \'=~\')','Site:Pageurl',1,'',OA_Dal::noDateValue(),'2007-01-08 12:09:17'
         );
@@ -862,7 +868,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_acls
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls'],true)}
                 (
                     bannerid,
                     logical,
@@ -881,7 +887,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'text',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             7,'and','Site:Channel','==','1',0
         );
@@ -893,7 +899,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_acls_channel
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls_channel'],true)}
                 (
                     channelid,
                     logical,
@@ -912,7 +918,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'text',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,'and','Site:Pageurl','=~','example',0
         );
@@ -924,7 +930,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_banners
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)}
                 (
                     bannerid,
                     campaignid,
@@ -996,7 +1002,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             'integer',
             'integer'
         );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             7,
             6,
@@ -1047,88 +1053,40 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateStatistics();
         // Test the results
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_intermediate_ad_connection');
         $this->assertEqual($aRow['number'], 1);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_variable_value']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_intermediate_ad_variable_value');
         $this->assertEqual($aRow['number'], 0);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_intermediate_ad']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_intermediate_ad');
         $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_ad_hourly']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_summary_ad_hourly');
         $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_summary_zone_impression_history');
         $this->assertEqual($aRow['number'], 2);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_raw_ad_click');
         $this->assertEqual($aRow['number'], 0);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_raw_ad_impression');
         $this->assertEqual($aRow['number'], 30);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_raw_ad_request');
         $this->assertEqual($aRow['number'], 30);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_raw_tracker_impression');
         $this->assertEqual($aRow['number'], 1);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
+        $aRow = $this->_countRows('data_raw_tracker_variable_value');
         $this->assertEqual($aRow['number'], 0);
         // Reset the testing environment
         TestEnv::restoreEnv();
+    }
+
+    function _countRows($table)
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$table,true)}";
+        $rc = $this->oDbh->query($query);
+        return $rc->fetchRow();
     }
 
 }

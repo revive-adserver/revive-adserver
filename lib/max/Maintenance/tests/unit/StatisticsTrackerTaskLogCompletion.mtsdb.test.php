@@ -91,7 +91,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker_Task_LogCompletion ex
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
             WHERE
                 tracker_run_type = 0";
         $rs = $oDbh->query($query);
@@ -112,7 +112,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker_Task_LogCompletion ex
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
             WHERE
                 tracker_run_type = 1";
         $rs = $oDbh->query($query);
@@ -133,7 +133,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker_Task_LogCompletion ex
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
             WHERE
                 tracker_run_type = 2";
         $rs = $oDbh->query($query);

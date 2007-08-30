@@ -19,18 +19,21 @@ language                            = english
 ;------------------------------------------------------------------------------------------;
 
 [database]
-type                                = mysql
-host                                = localhost
-port                                = 3306
+type                                =
+host                                =
+port                                =
 username                            =
 password                            =
 name                                =
 persistent                          = false
 mysql4_compatibility                = false
-protocol			    = tcp
+protocol			                = tcp
 
 [databaseMysql]
 statisticsSortBufferSize            =
+
+[databasePgsql]
+schema                              =
 
 ;------------------------------------------------------------------------------------------;
 ; Optional Alternative Time Zone Setting                                                   ;

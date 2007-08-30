@@ -32,6 +32,12 @@ require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once 'Date.php';
 require_once 'Date/Span.php';
 
+// pgsql execution time before refactor: 285.65s
+// pgsql execution time after refactor: s
+
+// mysql execution time before refactor: 178.56s
+// mysql execution time after refactor: s
+
 /**
  * A class for performing an integration test of the Prioritisation Engine
  * via a test of the AdServer class.
@@ -80,12 +86,17 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
+        $tableDszih = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_zone_impression_history', true);
+        $tableAza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'ad_zone_assoc', true);
+        $tableDsaza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_ad_zone_assoc', true);
+        $tableLmp = $oDbh->quoteIdentifier($aConf['table']['prefix'].'log_maintenance_priority', true);
+
         // Test 0
         $query = "
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 0);
@@ -93,7 +104,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -101,7 +112,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -111,7 +122,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -125,7 +136,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}";
+                {$tableLmp}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertNull($aRow);
@@ -145,7 +156,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+            {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], $intervalsPerWeek * 4);
@@ -159,7 +170,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             ORDER BY
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
@@ -211,7 +222,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -219,7 +230,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -229,7 +240,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -364,7 +375,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -392,7 +403,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 2";
         $rc = $oDbh->query($query);
@@ -454,7 +465,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours) * 4);
@@ -468,7 +479,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start < '" . $oPreviousDate->format('%Y-%m-%d %H:%M:%S') . "'
             ORDER BY
@@ -524,7 +535,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start >= '" . $oPreviousDate->format('%Y-%m-%d %H:%M:%S') . "'
             ORDER BY
@@ -566,7 +577,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -574,7 +585,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -584,7 +595,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -694,7 +705,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -722,7 +733,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 2";
         $rc = $oDbh->query($query);
@@ -750,7 +761,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 3";
         $rc = $oDbh->query($query);
@@ -778,7 +789,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 4";
         $rc = $oDbh->query($query);
@@ -846,7 +857,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours1 + $hours2) * 4);
@@ -860,7 +871,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start < '" . $oPreviousDate->format('%Y-%m-%d %H:%M:%S') . "'
             ORDER BY
@@ -916,7 +927,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start = '2005-06-15 14:00:00'
             ORDER BY
@@ -965,7 +976,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start >= '2005-06-15 15:00:00'
                 AND interval_start < '2005-06-19 00:00:00'
@@ -1015,7 +1026,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start = '2005-06-19 00:00:00'
             ORDER BY
@@ -1057,7 +1068,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -1065,7 +1076,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1075,7 +1086,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1186,7 +1197,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 1";
         $rc = $oDbh->query($query);
@@ -1214,7 +1225,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 2";
         $rc = $oDbh->query($query);
@@ -1242,7 +1253,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 3";
         $rc = $oDbh->query($query);
@@ -1270,7 +1281,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 4";
         $rc = $oDbh->query($query);
@@ -1298,7 +1309,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 5";
         $rc = $oDbh->query($query);
@@ -1326,7 +1337,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 run_type,
                 updated_to
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_priority']}
+                {$tableLmp}
             WHERE
                 log_maintenance_priority_id = 6";
         $rc = $oDbh->query($query);
@@ -1382,12 +1393,18 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $oServiceLocator = &ServiceLocator::instance();
 
+        $tableDszih = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_zone_impression_history', true);
+        $tableAza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'ad_zone_assoc', true);
+        $tableDsaza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_ad_zone_assoc', true);
+        $tableLmp = $oDbh->quoteIdentifier($aConf['table']['prefix'].'log_maintenance_priority', true);
+
+
         // Test 0
         $query = "
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 0);
@@ -1395,7 +1412,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -1403,7 +1420,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1413,7 +1430,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1431,7 +1448,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], $intervalsPerWeek * 4);
@@ -1445,7 +1462,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             ORDER BY
                 operation_interval_id, zone_id";
         $rc = $oDbh->query($query);
@@ -1497,7 +1514,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -1505,7 +1522,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1515,7 +1532,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1680,7 +1697,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours) * 4);
@@ -1694,7 +1711,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start < '" . $oPreviousDate->format('%Y-%m-%d %H:%M:%S') . "'
             ORDER BY
@@ -1750,7 +1767,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start >= '" . $oPreviousDate->format('%Y-%m-%d %H:%M:%S') . "'
             ORDER BY
@@ -1792,7 +1809,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -1800,7 +1817,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1810,7 +1827,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -1956,7 +1973,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], ($intervalsPerWeek + $hours1 + $hours2) * 4);
@@ -1970,7 +1987,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start < '" . $oPreviousDate->format('%Y-%m-%d %H:%M:%S') . "'
             ORDER BY
@@ -2026,7 +2043,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start = '2005-06-15 14:00:00'
             ORDER BY
@@ -2075,7 +2092,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start >= '2005-06-15 15:00:00'
                 AND interval_start < '2005-06-19 00:00:00'
@@ -2125,7 +2142,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 interval_start = '2005-06-19 00:00:00'
             ORDER BY
@@ -2167,7 +2184,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 7); // 4 proper associations + 3 default with zone 0
@@ -2175,7 +2192,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -2185,7 +2202,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -2334,7 +2351,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], $intervalsPerWeek * 2);
@@ -2342,7 +2359,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 3);
@@ -2350,7 +2367,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -2360,7 +2377,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -2423,7 +2440,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $rc = $oDbh->query($query);
         $query = "
             UPDATE
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             SET
                 actual_impressions = 100
             WHERE
@@ -2435,7 +2452,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $rc = $oDbh->query($query);
         $query = "
             UPDATE
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             SET
                 actual_impressions = 100
             WHERE
@@ -2510,7 +2527,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], ($intervalsPerWeek * 2) + 2);
@@ -2518,7 +2535,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 forecast_impressions AS forecast_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2532,7 +2549,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 forecast_impressions AS forecast_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2546,7 +2563,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 3);
@@ -2554,7 +2571,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -2568,7 +2585,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority_factor,
                 past_zone_traffic_fraction
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2592,7 +2609,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority_factor,
                 past_zone_traffic_fraction
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2622,7 +2639,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority_factor,
                 past_zone_traffic_fraction
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2648,7 +2665,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -2730,7 +2747,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $rc = $oDbh->query($query);
         $query = "
             UPDATE
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             SET
                 actual_impressions = 120
             WHERE
@@ -2742,7 +2759,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
         $rc = $oDbh->query($query);
         $query = "
             UPDATE
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             SET
                 actual_impressions = 120
             WHERE
@@ -2829,7 +2846,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}";
+                {$tableDszih}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], ($intervalsPerWeek * 2) + 4);
@@ -2837,7 +2854,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 forecast_impressions AS forecast_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2851,7 +2868,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 forecast_impressions AS forecast_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableDszih}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2865,7 +2882,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}";
+                {$tableAza}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 3);
@@ -2873,7 +2890,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -2887,7 +2904,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority_factor,
                 past_zone_traffic_fraction
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2911,7 +2928,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority_factor,
                 past_zone_traffic_fraction
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2941,7 +2958,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                 priority_factor,
                 past_zone_traffic_fraction
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 operation_interval = 60
                 AND operation_interval_id = $currentOperationIntervalID
@@ -2967,7 +2984,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
             SELECT
                 count(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$tableDsaza}
             WHERE
                 priority > 0";
         $rc = $oDbh->query($query);
@@ -3011,13 +3028,19 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
+
+        $tableDszih = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_zone_impression_history', true);
+        $tableAza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'ad_zone_assoc', true);
+        $tableDsaza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_ad_zone_assoc', true);
+        $tableLmp = $oDbh->quoteIdentifier($aConf['table']['prefix'].'log_maintenance_priority', true);
+
         // Assert the values in the ad_zone_assoc table are correct
         $query = "
             SELECT
                 priority,
                 priority_factor
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$tableAza}
             WHERE
                 ad_id = {$aParams['ad_id']}
                 AND zone_id = {$aParams['zone_id']}";
@@ -3036,7 +3059,7 @@ class Maintenance_TestOfMaintenancePriorityAdServer extends UnitTestCase
                         priority_factor,
                         past_zone_traffic_fraction
                     FROM
-                        {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                        {$tableDsaza}
                     WHERE
                         operation_interval = {$aTestData['operation_interval']}
                         AND operation_interval_id = {$aTestData['operation_interval_id']}

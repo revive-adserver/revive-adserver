@@ -33,12 +33,11 @@ require_once MAX_PATH.'/lib/OA/Dal.php';
  */
 class OA_Version_Controller
 {
-//    var $oDBUpgrader;
-//    var$oLogger;
-
     var $oDbh;
 
     var $doApplicationVariable;
+
+    var $versionTablename;
 
     function OA_Version_Controller()
     {
@@ -48,17 +47,8 @@ class OA_Version_Controller
     function init($oDbh='')
     {
         $this->oDbh = $oDbh;
+        $this->versionTablename = $oDbh->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'application_variable', true);
     }
-
-//    /**
-//     * return upgrade info for a given database schema
-//     *
-//     * @return boolean
-//     */
-//    function _listDBUpgradesForSchema($schema)
-//    {
-//        return $this->oDBUpgrader->_queryLogTable('', '', $schema, DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED);
-//    }
 
     function tableAppVarsExists($aExistingTables)
     {
@@ -173,17 +163,17 @@ class OA_Version_Controller
 
     function _getQueryUpdate($name, $value)
     {
-        return sprintf("UPDATE {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable SET value = '%s' WHERE name = '%s'", $value, $name);
+        return sprintf("UPDATE {$this->versionTablename} SET value = '%s' WHERE name = '%s'", $value, $name);
     }
 
     function _getQueryInsert($name, $value)
     {
-        return sprintf("INSERT INTO {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable (name,value) VALUES ('%s', '%s')", $name, $value);
+        return sprintf("INSERT INTO {$this->versionTablename} (name,value) VALUES ('%s', '%s')", $name, $value);
     }
 
     function _getQuerySelect($name)
     {
-        return sprintf("SELECT value FROM {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable WHERE name = '%s'", $name);
+        return sprintf("SELECT value FROM {$this->versionTablename} WHERE name = '%s'", $name);
     }
 
     function _runQuery($query)
@@ -208,11 +198,14 @@ class OA_Version_Controller
 
     function removeMaxVersion()
     {
-        $query = "SELECT value FROM {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable WHERE name = 'max_version'";
-        if ($this->_execQuery($query)) {
-            $query = "DELETE FROM {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable WHERE name = 'max_version'";
+        $query = "SELECT value FROM {$this->versionTablename} WHERE name = 'max_version'";
+        if ($this->_execQuery($query))
+        {
+            $query = "DELETE FROM {$this->versionTablename} WHERE name = 'max_version'";
             return $this->_execQuery($query);
-        } else {
+        }
+        else
+        {
             return true;
         }
     }
@@ -220,7 +213,7 @@ class OA_Version_Controller
     // when rolling back to max
     function removeOpenadsVersion()
     {
-        $query = "DELETE FROM {$GLOBALS['_MAX']['CONF']['table']['prefix']}application_variable WHERE name = 'oa_version'";
+        $query = "DELETE FROM {$this->versionTablename} WHERE name = 'oa_version'";
         return $this->_execQuery($query);
     }
 }

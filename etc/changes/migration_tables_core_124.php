@@ -209,9 +209,9 @@ class Migration_124 extends Migration
 
 	function migrateCampaignId()
 	{
-	    $prefix = $this->getPrefix();
+	    $table = $this->oDBH->quoteIdentifier($this->getPrefix().'banners',true);
 	    $query = "
-	       UPDATE {$prefix}banners
+	       UPDATE {$table}
 	       set campaignid = clientid";
 	    $result = $this->oDBH->exec($query);
 	    if (PEAR::isError($result)) {

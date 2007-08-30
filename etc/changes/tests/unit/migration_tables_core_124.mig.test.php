@@ -39,15 +39,24 @@ class migration_tables_core_124Test extends MigrationTest
 {
     function testMigrateCampaignIds()
     {
-        $prefix = $this->getPrefix();
         $this->initDatabase(123, array('banners'));
-        
-        $sql = OA_DB_Sql::sqlForInsert('banners', array('bannerid' => '1', 'clientid' => 4));
+
+        $sql = OA_DB_Sql::sqlForInsert('banners', array(
+            'bannerid'           => '1',
+            'clientid'           => '4',
+            'htmltemplate'       => '',
+            'htmlcache'          => '',
+            'bannertext'         => '',
+            'compiledlimitation' => '',
+            'append'             => ''
+        ));
         $this->oDbh->exec($sql);
-        
+
         $this->upgradeToVersion(124);
-        
-        $rsBanners = DBC::NewRecordSet("SELECT campaignid FROM {$prefix}banners");
+
+        $table = $this->oDbh->quoteIdentifier($this->getPrefix().'banners',true);
+
+        $rsBanners = DBC::NewRecordSet("SELECT campaignid FROM {$table}");
         $this->assertTrue($rsBanners->find());
         $this->assertTrue($rsBanners->fetch());
         $this->assertEqual(4, $rsBanners->get('campaignid'));

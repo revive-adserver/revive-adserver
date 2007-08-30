@@ -227,7 +227,8 @@ class Migration_127 extends Migration
 	function migrateData()
 	{
 	    $prefix = $this->getPrefix();
-	    $query = "SELECT * FROM {$prefix}zones";
+	    $table = $this->oDBH->quoteIdentifier($prefix.'zones',true);
+	    $query = "SELECT * FROM {$table}";
 	    $rsZones = DBC::NewRecordSet($query);
 	    $result = $rsZones->find();
 	    if (PEAR::isError($result)) {
@@ -258,10 +259,10 @@ class Migration_127 extends Migration
 	        }
 	    }
 
-	    $tableAdZoneAssoc = "{$prefix}ad_zone_assoc";
-	    $tablePlacementZoneAssoc = "{$prefix}placement_zone_assoc";
-	    $tableBanners = "{$prefix}banners";
-	    $tableZones = "{$prefix}zones";
+	    $tableAdZoneAssoc = $this->oDBH->quoteIdentifier($prefix.'ad_zone_assoc',true);
+	    $tablePlacementZoneAssoc = $this->oDBH->quoteIdentifier($prefix.'placement_zone_assoc',true);
+	    $tableBanners = $this->oDBH->quoteIdentifier($prefix.'banners',true);
+	    $tableZones = $this->oDBH->quoteIdentifier($prefix.'zones',true);
 
 	    $sql = "
 	    INSERT INTO $tableAdZoneAssoc (zone_id, ad_id)
@@ -279,7 +280,7 @@ class Migration_127 extends Migration
 	    }
 
 	    $sql = "INSERT INTO $tableAdZoneAssoc (zone_id, ad_id, link_type)
-	     SELECT 0 zone_id, bannerid ad_id, 0 link_type FROM $tableBanners";
+	     SELECT 0 AS zone_id, bannerid AS ad_id, 0 AS link_type FROM $tableBanners";
 
 	    $result = $this->oDBH->exec($sql);
 	    if (PEAR::isError($result)) {
@@ -339,11 +340,11 @@ class ZoneAdObjectHandler
      */
     function insertAssocs($oDbh)
     {
-        $assocTable = $this->getAssocTable();
+        $assocTable = $oDbh->quoteIdentifier($this->prefix.$this->getAssocTable(),true);
         $adObjectColumn = $this->getAdObjectColumn();
         foreach($this->aAdObjectIds as $adObjectId) {
             $sql = "
-                INSERT INTO {$this->prefix}$assocTable (zone_id, $adObjectColumn)
+                INSERT INTO {$assocTable} (zone_id, $adObjectColumn)
                 VALUES ({$this->zone_id}, $adObjectId)";
             $result = $oDbh->exec($sql);
             if (PEAR::isError($result)) {

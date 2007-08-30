@@ -97,15 +97,23 @@ EOF
             ),
         );
         foreach ($aAValues as $aValues) {
+            $aValues += array(
+                'htmltemplate'       => '',
+                'htmlcache'          => '',
+                'bannertext'         => '',
+                'compiledlimitation' => '',
+                'append'             => ''
+            );
             $sql = OA_DB_Sql::sqlForInsert('banners', $aValues);
             $this->oDbh->exec($sql);
         }
 
         $this->upgradeToVersion(128);
 
+        $table = $this->oDbh->quoteIdentifier($prefix.'banners',true);
         $rsBanners = DBC::NewRecordSet("
             SELECT bannerid, transparent, parameters, autohtml, htmlcache, adserver
-            FROM {$prefix}banners
+            FROM {$table}
             ORDER BY bannerid");
         $rsBanners->find();
         $this->assertEqual(count($aAValues), $rsBanners->getRowCount());
@@ -222,7 +230,15 @@ EOF
             array('Geo:Region', '!~', 'IT|01,02', 'and'),
         );
 
-        $sql = OA_DB_Sql::sqlForInsert('banners', array('bannerid' => 1));
+        $sql = OA_DB_Sql::sqlForInsert('banners', array(
+            'bannerid'           => 1,
+            'htmltemplate'       => '',
+            'htmlcache'          => '',
+            'bannertext'         => '',
+            'compiledlimitation' => '',
+            'append'             => ''
+        ));
+
         $this->oDbh->exec($sql);
 
         $aValues = array();
@@ -240,10 +256,10 @@ EOF
         }
 
         $this->upgradeToVersion(128);
-
+        $table = $this->oDbh->quoteIdentifier($prefix.'acls',true);
         $rsAcls = DBC::NewRecordSet("
         SELECT type, comparison, data, logical
-        FROM {$prefix}acls
+        FROM {$table}
         ORDER BY executionorder");
         $this->assertTrue($rsAcls->find());
 

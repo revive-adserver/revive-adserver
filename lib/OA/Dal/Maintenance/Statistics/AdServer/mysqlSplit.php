@@ -75,8 +75,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit extends OA_Dal_Maintenan
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_ad_impression'] . '_' .
+        $table = $aConf['table']['data_raw_ad_impression'] . '_' .
                  date('Ymd');
         return $this->_getMaintenanceStatisticsLastRunInfo($type, "AdServer", $table, $oNow);
     }

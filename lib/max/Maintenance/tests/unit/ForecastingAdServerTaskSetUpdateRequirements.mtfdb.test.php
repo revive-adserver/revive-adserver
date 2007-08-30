@@ -116,7 +116,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 2
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
                 (
                     start_run,
                     end_run,
@@ -148,7 +148,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 3
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
                 (
                     date_time,
                     ad_id,
@@ -178,7 +178,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 4
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
                 (
                     start_run,
                     end_run,
@@ -210,7 +210,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 5
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
                 (
                     date_time,
                     ad_id,
@@ -240,7 +240,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 6
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
                 (
                     start_run,
                     end_run,
@@ -272,7 +272,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 7
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
                 (
                     start_run,
                     end_run,
@@ -304,7 +304,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 8
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
                 (
                     date_time,
                     ad_id,
@@ -345,9 +345,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $oTables->createTable('log_maintenance_forecasting');
 
         // Test 9
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061031',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061031
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -373,10 +374,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         TestEnv::restoreEnv();
         // Use non-split tables
         $conf['table']['split'] = true;
-
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061031',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061031
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -402,10 +403,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         TestEnv::restoreEnv();
         // Use non-split tables
         $conf['table']['split'] = true;
-
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061031',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061031
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -433,9 +434,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $conf['table']['split'] = true;
 
         // Test 10
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061101',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061101
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -461,10 +463,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         TestEnv::restoreEnv();
         // Use non-split tables
         $conf['table']['split'] = true;
-
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061101',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061101
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -490,10 +492,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         TestEnv::restoreEnv();
         // Use non-split tables
         $conf['table']['split'] = true;
-
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061101',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061101
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -521,9 +523,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         $conf['table']['split'] = true;
 
         // Test 11
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061102',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061102
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -549,10 +552,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         TestEnv::restoreEnv();
         // Use non-split tables
         $conf['table']['split'] = true;
-
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061102',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061102
+                {$table}
                 (
                     date_time,
                     ad_id,
@@ -578,10 +581,10 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         TestEnv::restoreEnv();
         // Use non-split tables
         $conf['table']['split'] = true;
-
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'].'_20061102',true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}_20061102
+                {$table}
                 (
                     date_time,
                     ad_id,

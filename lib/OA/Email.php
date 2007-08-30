@@ -190,6 +190,7 @@ class OA_Email
         // Fetch all the advertiser's placements
         $doPlacements = OA_Dal::factoryDO('campaigns');
         $doPlacements->clientid = $advertiserId;
+        $doPlacements->orderBy('campaignid');
         $doPlacements->find();
         if ($doPlacements->getRowCount() > 0) {
             while ($doPlacements->fetch()) {
@@ -205,6 +206,7 @@ class OA_Email
                 // Fetch all ads in the placement
                 $doBanners = OA_Dal::factoryDO('banners');
                 $doBanners->campaignid = $aPlacement['campaignid'];
+                $doBanners->orderBy('bannerid');
                 $doBanners->find();
                 if ($doBanners->getRowCount() > 0) {
                     $adsWithDelivery = false;
@@ -310,6 +312,7 @@ class OA_Email
 
         // Fetch the ad's stats for the report period, grouped by day
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDataSummaryAdHourly->selectAdd();
         $doDataSummaryAdHourly->selectAdd("SUM($type) as quantity");
         $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(day, '$date_format') as t_stamp_f");
         $doDataSummaryAdHourly->ad_id = $adId;
@@ -585,6 +588,7 @@ class OA_Email
         // Get the ads in the placement
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $aPlacement['campaignid'];
+        $doBanners->orderBy('bannerid');
         $doBanners->find();
         if ($doBanners->getRowCount() > 0) {
             // List the ads that will be deactivated along with the placement
@@ -751,6 +755,7 @@ class OA_Email
         // Fetch all ads in the placement
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->campaignid = $aPlacement['campaignid'];
+        $doBanners->orderBy('bannerid');
         $doBanners->find();
         if ($doBanners->getRowCount() > 0) {
             while ($doBanners->fetch()) {

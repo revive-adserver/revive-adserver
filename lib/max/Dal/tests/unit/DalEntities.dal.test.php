@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
-
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
@@ -61,9 +61,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAdsByPlacementId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table  = $conf['table']['prefix'] . $conf['table']['banners'];
         $oDbh = &OA_DB::singleton();
-
+        $aCleanupTables = array($conf['table']['banners']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -191,7 +191,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $this->assertEqual($aResult, $aExpectedResult);
 
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -208,9 +209,10 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetLinkedActiveAdIdsByZoneIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $adTable  = $conf['table']['prefix'] . $conf['table']['banners'];
-        $azaTable = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['banners'],$conf['table']['ad_zone_assoc']);
+        $tableAd  = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $tableAza = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -232,7 +234,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $oNow = new Date();
         $query = "
             INSERT INTO
-                $adTable
+                $tableAd
                 (
                     bannerid,
                     active,
@@ -278,7 +280,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
-                $azaTable
+                $tableAza
                 (
                     zone_id,
                     ad_id,
@@ -301,7 +303,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -328,7 +331,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $aExpectedResult = array(1 => array(1));
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 5
         $aData = array(
@@ -444,7 +448,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             2 => array(3, 4, 5)
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -463,9 +468,10 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveAdsDeliveryLimitationsByPlacementIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $adTable = $conf['table']['prefix'] . $conf['table']['banners'];
-        $dlTable = $conf['table']['prefix'] . $conf['table']['acls'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['banners'],$conf['table']['acls']);
+        $tableAd  = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $tableDl  = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -487,7 +493,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $oNow = new Date();
         $query = "
             INSERT INTO
-                $adTable
+                $tableAd
                 (
                     bannerid,
                     campaignid,
@@ -540,7 +546,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -571,7 +578,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 5
         $aData = array(
@@ -592,7 +600,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
-                $dlTable
+                $tableDl
                 (
                     bannerid,
                     logical,
@@ -640,7 +648,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 5
         $aData = array(
@@ -782,7 +791,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -799,9 +809,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetDeliveryLimitationsByAdId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['acls'];
         $oDbh = &OA_DB::singleton();
-
+        $aCleanupTables = array($conf['table']['acls']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'],true);
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -849,7 +859,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $adId = 1;
         $aResult = $oDal->getDeliveryLimitationsByAdId($adId);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -896,7 +907,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -914,8 +926,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveAgencyIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['agency'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['agency']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['agency'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -949,7 +962,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 3
         $aData = array(
@@ -962,7 +976,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -994,7 +1009,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 2);
         $this->assertEqual($aResult[1], 4);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -1013,8 +1029,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveChannelIdsByAgencyId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['channel'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['channel']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['channel'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -1061,7 +1078,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $query = "
@@ -1102,7 +1120,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 5
         $aData = array(
@@ -1160,7 +1179,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 2);
         $this->assertEqual($aResult[1], 5);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -1179,9 +1199,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveChannelIdsByAgencyPublisherId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['channel'];
         $oDbh = &OA_DB::singleton();
-
+        $aCleanupTables = array($conf['table']['channel']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['channel'],true);
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1232,7 +1252,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $st->execute($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -1249,7 +1270,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 5
         $aData = array(
@@ -1307,7 +1329,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 2);
         $this->assertEqual($aResult[1], 5);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -1324,8 +1347,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetDeliveryLimitationsByChannelId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['acls_channel'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['acls_channel']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls_channel'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -1374,7 +1398,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $channelId = 1;
         $aResult = $oDal->getDeliveryLimitationsByChannelId($channelId);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -1421,7 +1446,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -1453,9 +1479,10 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActivePlacementsByAdIdsPeriod()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $adTable        = $conf['table']['prefix'] . $conf['table']['banners'];
-        $placementTable = $conf['table']['prefix'] . $conf['table']['campaigns'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['banners'],$conf['table']['campaigns']);
+        $tableAd = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $tablePl = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -1505,7 +1532,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $oNow = new Date();
         $query = "
             INSERT INTO
-                $adTable
+                $tableAd
                 (
                     bannerid,
                     campaignid,
@@ -1542,7 +1569,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aData = array(
             1,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -1557,7 +1584,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
-                $placementTable
+                $tablePl
                 (
                     campaignid,
                     active,
@@ -1584,13 +1611,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
             1,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -1605,7 +1633,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
-                $placementTable
+                $tablePl
                 (
                     campaignid,
                     active,
@@ -1635,13 +1663,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 5
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -1656,7 +1685,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
-                $placementTable
+                $tablePl
                 (
                     campaignid,
                     campaignname,
@@ -1727,13 +1756,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 6
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -1748,7 +1778,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
-                $placementTable
+                $tablePl
                 (
                     campaignid,
                     campaignname,
@@ -1822,13 +1852,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 7
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -1881,12 +1912,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -1939,12 +1971,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -1997,13 +2030,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 8
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -2018,7 +2052,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $stAd->execute($aData);
         $query = "
             INSERT INTO
-                $placementTable
+                $tablePl
                 (
                     campaignid,
                     campaignname,
@@ -2092,13 +2126,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 9
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -2151,12 +2186,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -2209,12 +2245,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -2267,13 +2304,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 10
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -2309,13 +2347,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 11
         $aData = array(
             2,
             1,
-            '',
+            'f',
             '',
             '',
             '',
@@ -2331,7 +2370,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aData = array(
             3,
             1,
-            '',
+            'f',
             '',
             '',
             '',
@@ -2384,7 +2423,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -2401,8 +2441,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllPublisherIdsByAgencyId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['affiliates'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['affiliates']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['affiliates'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2443,7 +2484,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -2469,7 +2511,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 1);
         $this->assertEqual($aResult[1], 3);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -2484,8 +2527,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetZonesByZoneIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['zones'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['zones']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2594,7 +2638,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual($aResult[1]['block'], 14);
         $this->assertEqual($aResult[1]['capping'], 15);
         $this->assertEqual($aResult[1]['session_capping'], 16);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -2611,8 +2656,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllZonesIdsByPublisherId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['zones'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['zones']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2667,7 +2713,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -2708,7 +2755,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 1);
         $this->assertEqual($aResult[1], 3);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -2727,8 +2775,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllChannelForecastZonesIdsByPublisherId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['zones'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['zones']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2785,7 +2834,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $rows = $st->execute($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertNull($aResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -2804,7 +2854,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 5
         $aData = array(
@@ -2860,7 +2911,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 1);
         $this->assertEqual($aResult[1], 3);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
     /**
@@ -2875,8 +2927,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetLinkedZonesIdsByAdIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
         $oDbh = &OA_DB::singleton();
+        $aCleanupTables = array($conf['table']['ad_zone_assoc']);
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc'],true);
 
         $oDal = new MAX_Dal_Entities();
 
@@ -2921,7 +2974,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getLinkedZonesIdsByAdIds($aZoneIds);
         $aExpectedResult = array(1 => array(1));
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
 
         // Test 4
         $aData = array(
@@ -2967,7 +3021,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             2 => array(3, 4, 5)
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
+
     }
 
 }

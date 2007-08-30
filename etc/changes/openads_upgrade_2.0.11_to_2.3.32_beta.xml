@@ -130,7 +130,7 @@
     </database>
 
     <!-- Custom Install Scripts to execute -->
-    <!--prescript>prescript_openads_upgrade_2.0.11_to_2.3.32_beta.php</prescript-->
+    <prescript>prescript_openads_upgrade_2.0.11_to_2.3.32_beta.php</prescript>
     <postscript>postscript_openads_upgrade_2.0.11_to_2.3.32_beta.php</postscript>
 
 

@@ -79,6 +79,10 @@ class OA_DB_Integrity
         {
             return false;
         }
+        if (!$this->oDBUpgrader->applySchemaDefinitionChanges($this->version))
+        {
+            return false;
+        }
         if (! $this->oDBUpgrader->checkSchemaIntegrity($this->getFileChanges()))
         {
             return false;

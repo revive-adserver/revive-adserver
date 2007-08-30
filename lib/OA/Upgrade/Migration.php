@@ -123,13 +123,17 @@ class Migration
                 $this->aSQLStatements['table_copy']         = "CREATE TABLE %s ENGINE=%s (SELECT * FROM %s)";
                 $this->aSQLStatements['table_copy_temp']         = "CREATE TEMPORARY TABLE %s ENGINE=%s (SELECT * FROM %s)";
                 $this->aSQLStatements['table_rename']       = "RENAME TABLE %s TO %s";
+                $this->aSQLStatements['table_select']       = 'SELECT %s FROM %s';
+                $this->aSQLStatements['table_insert']       = 'INSERT INTO %s (%s) VALUES %s';
                 break;
             case 'pgsql':
-                $this->aSQLStatements['table_copy_all']   = "INSERT INTO %s SELECT * FROM %s";
-                $this->aSQLStatements['table_update_col'] = "UPDATE %s SET %s = %s.%s";
+                $this->aSQLStatements['table_copy_all']   = 'INSERT INTO "%s" SELECT * FROM "%s"';
+                $this->aSQLStatements['table_update_col'] = 'UPDATE "%s" SET %s = "%s".%s';
                 $this->aSQLStatements['table_copy']       = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
                 $this->aSQLStatements['table_copy_temp']  = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
                 $this->aSQLStatements['table_rename']     = 'ALTER TABLE "%s" RENAME TO "%s"';
+                $this->aSQLStatements['table_select']     = 'SELECT %s FROM "%s"';
+                $this->aSQLStatements['table_insert']     = 'INSERT INTO "%s" (%s) VALUES %s';
                 break;
             default:
                 '';
@@ -211,11 +215,15 @@ class Migration
     function insertColumnData($fromTable, $fromColumn, $toTable, $toColumn)
     {
         $prefix = $this->getPrefix();
-        $query  = "SELECT {$fromColumn} FROM {$prefix}{$fromTable}";
+        $statement  = $this->aSQLStatements['table_select'];
+        $query      = sprintf($statement, $fromColumn, $prefix.$fromTable);
+        //$query  = "SELECT {$fromColumn} FROM {$prefix}{$fromTable}";
         $this->_log('select query prepared: '.$query);
         $aData  = $this->oDBH->queryCol($query);
 
-        $query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
+        $statement  = $this->aSQLStatements['table_insert'];
+        $query      = sprintf($statement, $prefix.$fromTable, $toColumn, '(:data)');
+        //$query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
         $stmt   = & $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
         if (PEAR::isError($stmt))
         {

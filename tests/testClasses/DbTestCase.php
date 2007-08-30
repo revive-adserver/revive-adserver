@@ -72,7 +72,12 @@ class DbTestCase extends UnitTestCase
     function initOaTable($schemaPath)
     {
         $this->oaTable = new OA_DB_Table();
-        $this->oaTable->init(MAX_PATH . $schemaPath);
+        $result = $this->oaTable->init(MAX_PATH . $schemaPath);
+        if (PEAR::isError($result))
+        {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -82,13 +87,23 @@ class DbTestCase extends UnitTestCase
      */
     function initTables($aTables)
     {
-        foreach ($aTables as $table) {
-            $this->oaTable->createTable($table);
-            $this->oaTable->truncateTable($table);
+        foreach ($aTables as $table)
+        {
+            $result = $this->oaTable->createTable($table);
+            if (PEAR::isError($result))
+            {
+                return false;
+            }
+            $result = $this->oaTable->truncateTable($table);
+            if (PEAR::isError($result))
+            {
+                return false;
+            }
         }
+        return true;
     }
-    
-    
+
+
     function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];

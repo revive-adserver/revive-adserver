@@ -1097,6 +1097,7 @@ class SqlBuilder
     function _select($aColumns, $aTables, $aLimitations, $aGroupColumns, $primaryKey, $aLeftJoinedTables = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = OA_DB::singleton();
         $columns = '';
         if (is_array($aColumns)) {
             foreach ($aColumns as $column => $alias) {
@@ -1120,9 +1121,11 @@ class SqlBuilder
                     $table = $tableKey;
 
                     //  check for prefix
-                    if (!empty($conf['table']['prefix']) && stristr($table, $conf['table']['prefix']) === false) {
+                    if (!empty($conf['table']['prefix']) && strpos($table, $conf['table']['prefix']) != 0) {
                         $table = $conf['table']['prefix'] . $table;
                     }
+
+                    $qTable = $oDbh->quoteIdentifier($table, true);
 
                     $joinLimitation = '';
 
@@ -1137,11 +1140,11 @@ class SqlBuilder
                             }
                         }
                     } else {
-                        $tables .= " FROM $table AS $alias";
+                        $tables .= " FROM $qTable AS $alias";
                     }
 
                     if ($joinLimitation) {
-                        $tables .= " $joinType JOIN $table AS $alias ON ($joinLimitation)";
+                        $tables .= " $joinType JOIN $qTable AS $alias ON ($joinLimitation)";
                     } elseif (count($prev_aliases)) {
                         continue;
                     }
@@ -1157,7 +1160,7 @@ class SqlBuilder
                 }
             }
         } else {
-            $tables = "FROM $aTables";
+            $tables = "FROM ".$oDbh->quoteIdentifier($aTables, true);
         }
 
         $where = '';
@@ -1213,10 +1216,11 @@ class SqlBuilder
     function _update($aTable, $aVariables, $aLimitations)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = OA_DB::singleton();
         $table = '';
         if (is_array($aTable)) {
             foreach ($aTable as $tableName => $alias) {
-                $table = "$tableName AS $alias";
+                $table = $oDbh->quoteIdentifier($tableName)." AS $alias";
             }
         }
 
@@ -1238,8 +1242,7 @@ class SqlBuilder
         $query = "UPDATE $table" . $set . $where;
         $queryValid = true;
 
-        $dbh =& OA_DB::singleton();
-        return $dbh->exec($query);
+        return $oDbh->exec($query);
     }
 }
 ?>

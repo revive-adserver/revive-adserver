@@ -80,8 +80,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_ad_impression'];
+        $table = $aConf['table']['data_raw_ad_impression'];
         return $this->_getMaintenanceStatisticsLastRunInfo($type, "AdServer", $table, $oNow);
     }
 
@@ -216,7 +215,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
     function _saveIntermediateRejectEmptyVarConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $diac = $aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'];
+        $var   = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true);
+        $diac  = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
+        $diavv = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
         $query = "
             UPDATE
                 {$diac}
@@ -227,13 +228,13 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
             FROM
                 {$diac} AS diac2
             JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
+                {$var} AS v
             ON
                 (
                     diac2.tracker_id = v.trackerid
                 )
             LEFT JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$diavv} AS diavv
             ON
                 (
                     diac2.data_intermediate_ad_connection_id = diavv.data_intermediate_ad_connection_id
@@ -274,7 +275,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
     function _saveIntermediateDeduplicateConversions($oStart, $oEnd)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $diac = $aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'];
+        $diac  = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
+        $diavv = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true);
+        $var   = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true);
         $query = "
             UPDATE
                 {$diac}
@@ -283,9 +286,9 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                 updated = '". OA::getNow() ."',
                 comments = 'Duplicate of connection ID ' || diac2.data_intermediate_ad_connection_id
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$diavv} AS diavv
             JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['variables']} AS v
+                {$var} AS v
             ON
                 (
                     diavv.tracker_variable_id = v.variableid
@@ -293,13 +296,13 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
                     v.is_unique = 1
                 )
             JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac2
+                {$diac} AS diac2
             ON
                 (
                     v.trackerid = diac2.tracker_id
                 )
             JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv2
+                {$diavv} AS diavv2
             ON
                 (
                     diac2.data_intermediate_ad_connection_id = diavv2.data_intermediate_ad_connection_id

@@ -40,13 +40,14 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
     {
         $whereAffiliate = is_numeric($keyword) ? " OR a.affiliateid=$keyword" : '';
         $prefix = $this->getTablePrefix();
-
+        $oDbh = OA_DB::singleton();
+        $tableA     = $oDbh->quoteIdentifier($prefix.'affiliates',true);
         $query = "
         SELECT
             a.affiliateid AS affiliateid,
             a.name AS name
         FROM
-            {$prefix}affiliates AS a
+            {$tableA} AS a
         WHERE
             (
             a.name LIKE " . DBC::makeLiteral('%' . $keyword . '%') . "
@@ -65,17 +66,23 @@ class MAX_Dal_Admin_Affiliates extends MAX_Dal_Common
     function getPublishersByTracker($trackerid)
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableAza   = $oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true);
+        $tableZ     = $oDbh->quoteIdentifier($prefix.'zones',true);
+        $tableP     = $oDbh->quoteIdentifier($prefix.'affiliates',true);
+        $tableB     = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableCt    = $oDbh->quoteIdentifier($prefix.'campaigns_trackers',true);
 
         $query = "
             SELECT
                 p.affiliateid AS affiliateid,
                 p.name AS name
             FROM
-                {$prefix}ad_zone_assoc aza
-                JOIN {$prefix}zones z ON (aza.zone_id = z.zoneid)
-                JOIN {$prefix}affiliates p USING (affiliateid)
-                JOIN {$prefix}banners b ON (aza.ad_id = b.bannerid)
-                JOIN {$prefix}campaigns_trackers ct USING (campaignid)
+                {$tableAza} aza
+                JOIN {$tableZ} z ON (aza.zone_id = z.zoneid)
+                JOIN {$tableP} p USING (affiliateid)
+                JOIN {$tableB} b ON (aza.ad_id = b.bannerid)
+                JOIN {$tableCt} ct USING (campaignid)
             WHERE
                 ct.trackerid = ".DBC::makeLiteral($trackerid)."
             GROUP BY

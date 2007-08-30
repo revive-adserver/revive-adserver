@@ -157,7 +157,8 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
      */
     function queryAuditByUpgradeId($id)
     {
-        $query = "SELECT * FROM {$this->prefix}{$this->logTable} WHERE upgrade_action_id = {$id}";
+        $table = $this->getLogTableName();
+        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = {$id}";
         $aResult = $this->oDbh->queryAll($query);
         if ($this->isPearError($aResult, "error querying database audit table"))
         {
@@ -241,11 +242,14 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
      */
     function queryAuditAllDescending()
     {
+        $table  = $this->getLogTableName();
+        $tableJ = $this->oDBAuditor->getLogTableName();
         $query = "SELECT u.*, COUNT(d.upgrade_action_id) AS backups"
-                 ." FROM {$this->prefix}{$this->logTable} AS u"
-                ." LEFT JOIN {$this->prefix}{$this->oDBAuditor->logTable} AS d ON u.upgrade_action_id = d.upgrade_action_id"
+                 ." FROM {$table} AS u"
+                ." LEFT JOIN {$tableJ} AS d ON u.upgrade_action_id = d.upgrade_action_id"
                 ." AND d.action=30 AND d.info2 IS NULL"
-                ." GROUP BY u.upgrade_action_id"
+                ." GROUP BY u.upgrade_action_id, u.upgrade_name, u.version_to, u.version_from,"
+                ."  u.action, u.description, u.logfile, u.confbackup, u.updated"
                 ." ORDER BY u.upgrade_action_id DESC";
 
         $aResult = $this->oDbh->queryAll($query);
@@ -319,11 +323,12 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
      */
     function updateAuditBackupConfDroppedById($upgrade_action_id, $reason = 'dropped')
     {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET confbackup='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
+        $table = $this->getLogTableName();
+        $query = "UPDATE {$table} SET confbackup='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
 
         $result = $this->oDbh->exec($query);
 
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
         {
             return false;
         }
@@ -339,11 +344,12 @@ class OA_UpgradeAuditor extends OA_BaseUpgradeAuditor
      */
      function updateAuditBackupLogDroppedById($upgrade_action_id, $reason = 'dropped')
     {
-        $query = "UPDATE {$this->prefix}{$this->logTable} SET logfile='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
+        $table = $this->getLogTableName();
+        $query = "UPDATE {$table} SET logfile='{$reason}' WHERE upgrade_action_id='{$upgrade_action_id}'";
 
         $result = $this->oDbh->exec($query);
 
-        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTables}"))
+        if ($this->isPearError($result, "error updating {$this->prefix}{$this->logTable}"))
         {
             return false;
         }

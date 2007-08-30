@@ -178,8 +178,15 @@ class Migration_122 extends Migration
 	function migrateData()
 	{
 	    $prefix = $this->getPrefix();
-	    $tableCampaigns = $prefix . 'campaigns';
-	    $tableClients = $prefix . 'clients';
+	    $tableCampaigns = $this->oDBH->quoteIdentifier($prefix . 'campaigns',true);
+	    $tableClients = $this->oDBH->quoteIdentifier($prefix.'clients',true);
+
+        $sql = "UPDATE $tableClients SET parent = 0 WHERE parent IS NULL";
+        $result = $this->oDBH->exec($sql);
+        if (PEAR::isError($result)) {
+            return $this->_logErrorAndReturnFalse('Error updating data during migration 122: '.$result->getUserInfo());
+        }
+
         $sql = "
         INSERT INTO
             $tableCampaigns

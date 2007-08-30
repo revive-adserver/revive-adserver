@@ -52,11 +52,20 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Client_Language extends Plugins_
      */
     function test_getSqlLimitation()
     {
+        $oDbh = OA_DB::singleton();
+        if ($oDbh->dbsyntax == 'pgsql') {
+            $regexp = '~';
+            $not_regexp = '!~';
+        } else {
+            $regexp = 'REGEXP';
+            $not_regexp = 'NOT REGEXP';
+        }
+
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Client', 'Language');
         $result = $oPlugin->_getSqlLimitation('=~', 'en-gb');
-        $this->assertEqual($result, "LOWER(language) REGEXP ('(en-gb)')");
+        $this->assertEqual($result, "LOWER(language) {$regexp} ('(en-gb)')");
         $result = $oPlugin->_getSqlLimitation('!~', 'en-gb,foo');
-        $this->assertEqual($result, "LOWER(language) NOT REGEXP ('(en-gb)|(foo)')");
+        $this->assertEqual($result, "LOWER(language) {$not_regexp} ('(en-gb)|(foo)')");
     }
 
     function testOverlap()

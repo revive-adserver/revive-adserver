@@ -57,9 +57,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_'.$oDate->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_impression_" . $oDate->format('%Y%m%d') . "
+                {$table}
                 (
                     server_raw_tracker_impression_id,
                     tracker_id,
@@ -122,9 +123,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_click_'.$oDate->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_click_" . $oDate->format('%Y%m%d') . "
+                {$table}
                 (
                     tracker_id,
                     date_time
@@ -179,9 +181,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_'.$oDate->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_variable_value_" . $oDate->format('%Y%m%d') . "
+                {$table}
                 (
                     server_raw_tracker_impression_id,
                     tracker_variable_id,
@@ -236,7 +239,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     /**
      * Tests that the singleton() method only ever returns one class instance.
      */
-    function testSingleton()
+    function DEPRECATED_testSingleton()
     {
         $first = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
         $second = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
@@ -246,7 +249,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     /**
      * Tests the getMaintenanceStatisticsLastRunInfo() method.
      */
-    function testGetMaintenanceStatisticsLastRunInfo()
+    function DEPRECATED_testGetMaintenanceStatisticsLastRunInfo()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -265,9 +268,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now->setHour(18);
         $now->setMinute(22);
         $now->setSecond(10);
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_'.$now->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_impression_". $now->format('%Y%m%d') ."
+                {$table}
                 (
                     tracker_id,
                     date_time
@@ -281,9 +285,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now->setHour(12);
         $now->setMinute(34);
         $now->setSecond(56);
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_'.$now->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_impression_". $now->format('%Y%m%d') ."
+                {$table}
                 (
                     tracker_id,
                     date_time
@@ -297,9 +302,10 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $now->setHour(18);
         $now->setMinute(22);
         $now->setSecond(11);
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_'.$now->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_impression_". $now->format('%Y%m%d') ."
+                {$table}
                 (
                     tracker_id,
                     date_time
@@ -321,7 +327,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         // Insert an hourly (only) update
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}log_maintenance_statistics
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'log_maintenance_statistics',true)}
                 (
                     start_run,
                     end_run,
@@ -402,7 +408,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
     /**
      * Tests the deleteOldData() method.
      */
-    function testDeleteOldData()
+    function DEPRECATED_testDeleteOldData()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -430,59 +436,23 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
-        $now = new Date('2004-06-05');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
-        PEAR::pushErrorHandling(null);
-        $aRow = $oDbh->queryRow($query);
-        PEAR::popErrorHandling();
+
+        $aRow = $this->_getRowCount('data_raw_tracker_click', '2004-06-05',true);
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
-        $now = new Date('2004-06-06');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
-        $aRow = $oDbh->queryRow($query);
+
+        $aRow = $this->_getRowCount('data_raw_tracker_click','2004-06-06');
         $this->assertEqual($aRow['number'], 6);
-        $now = new Date('2004-06-05');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
-        PEAR::pushErrorHandling(null);
-        $aRow = $oDbh->queryRow($query);
-        PEAR::popErrorHandling();
+
+        $aRow = $this->_getRowCount('data_raw_tracker_impression','2004-06-05',true);
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
-        $now = new Date('2004-06-06');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
-        $aRow = $oDbh->queryRow($query);
+
+        $aRow = $this->_getRowCount('data_raw_tracker_impression','2004-06-06');
         $this->assertEqual($aRow['number'], 6);
-        $now = new Date('2004-06-05');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
-        PEAR::pushErrorHandling(null);
-        $aRow = $oDbh->queryRow($query);
-        PEAR::popErrorHandling();
+
+        $aRow = $this->_getRowCount('data_raw_tracker_variable_value','2004-06-05',true);
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
-        $now = new Date('2004-06-06');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
-        $aRow = $oDbh->queryRow($query);
+
+        $aRow = $this->_getRowCount('data_raw_tracker_variable_value','2004-06-06');
         $this->assertEqual($aRow['number'], 6);
 
         TestEnv::restoreEnv();
@@ -514,62 +484,54 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         // Test
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
-        $now = new Date('2004-06-05');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
-        PEAR::pushErrorHandling(null);
-        $aRow = $oDbh->queryRow($query);
-        PEAR::popErrorHandling();
+
+        $aRow = $this->_getRowCount('data_raw_tracker_click','2004-06-05',true);
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
-        $now = new Date('2004-06-06');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_click']}_" . $now->format('%Y%m%d');
-        $aRow = $oDbh->queryRow($query);
+
+        $aRow = $this->_getRowCount('data_raw_tracker_click','2004-06-06');
         $this->assertEqual($aRow['number'], 6);
-        $now = new Date('2004-06-05');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
-        PEAR::pushErrorHandling(null);
-        $aRow = $oDbh->queryRow($query);
-        PEAR::popErrorHandling();
+
+        $aRow = $this->_getRowCount('data_raw_tracker_impression','2004-06-05',true);
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
-        $now = new Date('2004-06-06');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_impression']}_" . $now->format('%Y%m%d');
-        $aRow = $oDbh->queryRow($query);
+
+        $aRow = $this->_getRowCount('data_raw_tracker_impression','2004-06-06');
         $this->assertEqual($aRow['number'], 6);
-        $now = new Date('2004-06-05');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
-        PEAR::pushErrorHandling(null);
-        $aRow = $oDbh->queryRow($query);
-        PEAR::popErrorHandling();
+
+        $aRow = $this->_getRowCount('data_raw_tracker_impression','2004-06-05',true);
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
-        $now = new Date('2004-06-06');
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_tracker_variable_value']}_" . $now->format('%Y%m%d');
-        $aRow = $oDbh->queryRow($query);
+
+        $aRow = $this->_getRowCount('data_raw_tracker_variable_value','2004-06-06');
         $this->assertEqual($aRow['number'], 6);
 
         TestEnv::restoreEnv();
+    }
+
+    function _getRowCount($table, $date='',$error=false)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $table = $aConf['table']['prefix'].$aConf['table'][$table];
+        if ($date)
+        {
+            $now = new Date($date);
+            $table.='_'.$now->format('%Y%m%d');
+        }
+        $oDbh = &OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($table,true);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$table}";
+        if($error)
+        {
+            PEAR::pushErrorHandling(null);
+        }
+        $aRow = $oDbh->queryRow($query);
+        if($error)
+        {
+            PEAR::popErrorHandling();
+        }
+        return $aRow;
     }
 
 }

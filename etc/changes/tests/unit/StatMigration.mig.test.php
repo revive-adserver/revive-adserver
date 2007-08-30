@@ -107,7 +107,7 @@ class StatMigrationTest extends MigrationTest
 
     function _checkDataTable($table, $cEntries, $mapCImpressions, $mapCClicks)
     {
-        $table = $this->getPrefix() . $table;
+        $table = $this->oDbh->quoteIdentifier($this->getPrefix().$table,true);
         $rsDsah = DBC::NewRecordSet("SELECT * FROM $table");
         $this->assertTrue($rsDsah->find());
         $this->assertEqual($cEntries, $rsDsah->getRowCount());

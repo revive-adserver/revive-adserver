@@ -680,6 +680,7 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         $this->_database_dsn_md5 = md5(OA_DB::getDsn());
         $GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5] = &$dbh;
+        $GLOBALS['_DB_DATAOBJECT']['CONFIG']['quote_identifiers'] = ($dbh->options['quote_identifier']);
 
         $this->_database = $dbh->getDatabase();
 

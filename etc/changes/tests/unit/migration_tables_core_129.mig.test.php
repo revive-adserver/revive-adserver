@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 
 /**
- * Test for migration class #127.
+ * Test for migration class #129.
  *
  * @package    changes
  * @subpackage TestSuite
@@ -40,7 +40,6 @@ class Migration_tables_core_129Test extends MigrationTest
 {
     function testMigrateData()
     {
-        $prefix = $this->getPrefix();
         $this->initDatabase(129, array('config', 'preference'));
 
         $this->setupPanConfig();
@@ -51,8 +50,9 @@ class Migration_tables_core_129Test extends MigrationTest
         $aValues = array('warn_limit_days' => 1);
 
         $migration->migrateData();
+        $table = $this->oDbh->quoteIdentifier($this->getPrefix().'preference');
+        $rsPreference = DBC::NewRecordSet("SELECT * from {$table}");
 
-        $rsPreference = DBC::NewRecordSet("SELECT * from {$prefix}preference");
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
         $aDataPreference = $rsPreference->toArray();

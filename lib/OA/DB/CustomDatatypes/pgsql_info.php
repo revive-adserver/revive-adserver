@@ -59,4 +59,31 @@ $aDatatypes = array(
     'openads_varchar'    => 'openads_varchar'
 );
 
+/**
+ * An array of MySQL nativetypes that have callback functions to convert
+ * them into MDB2 datatypes.
+ */
+$aNativetypes = array(
+//    'bigint',
+    'bpchar',
+    'bool'
+/*
+    'decimal',
+    'date',
+    'datetime',
+    'double',
+    'enum',
+    'float',
+    'int',
+    'mediumint',
+    'mediumtext',
+    'set',
+    'smallint',
+    'text',
+    'timestamp',
+    'tinyint',
+    'varchar'
+*/
+);
+
 ?>

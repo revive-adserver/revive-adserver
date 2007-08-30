@@ -128,7 +128,11 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
                                );
         $this->assertEqual($oAuditor->aParams['string'],'\'test_tables\'','wrong param value: string');
         $this->assertEqual($oAuditor->aParams['integer'],10,'wrong param value: integer');
-        $this->assertEqual($oAuditor->aParams['escape'],"'openad\'s value'",'wrong param value: escape');
+        if ($oAuditor->oDbh->dbsyntax == 'pgsql') {
+            $this->assertEqual($oAuditor->aParams['escape'],"'openad''s value'",'wrong param value: escape');
+        } else {
+            $this->assertEqual($oAuditor->aParams['escape'],"'openad\'s value'",'wrong param value: escape');
+        }
     }
 
     /**
@@ -304,13 +308,15 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
      */
     function test_getBackupTableStatus()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
     	$oAuditor = $this->_getAuditObject('OA_UpgradeAuditor');
     	$oAuditor->init($oAuditor->oDbh, '');
+
     	$aResult = $oAuditor->getBackupTableStatus(array(0 => array('tablename_backup' => 'upgrade_action')));
         $this->assertIsa($aResult,'array','not an array');
         $this->assertEqual(count($aResult[0]),3,'incorrect number of elements');
-    	$this->assertTrue($aResult[0]['backup_size'] > 0, 'data length < 0');
-    	$this->assertTrue($aResult[0]['backup_rows'] > 0, 'number of rows < 0');
+    	$this->assertTrue($aResult[0]['backup_size'] > 0, 'data length <= 0');
+    	$this->assertTrue($aResult[0]['backup_rows'] > 0, 'number of rows <= 0');
     }
 
     function _setupLogFile($logFile)
@@ -382,6 +388,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	$oAuditor->init($oAuditor->oDbh, $oLoggerMock);
     	$this->_test_logDBAuditAction($oAuditor->oDBAuditor, $this->aDBAuditParams, $this->_getDBAuditKeyParamsArray());
 
+    	$this->_createTestTables($oAuditor->oDbh);
 
     	// init data to be able to compare later
         $initData1 = $oAuditor->queryAuditByUpgradeId(1);
@@ -401,7 +408,6 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 
     	// setup
     	$this->_setupLogFile($logFile);
-    	$this->_createTestTables($oAuditor->oDbh);
 
     	// delete one with existing logfile but no write permission => false
     	mkdir( dirname($logFile));
@@ -454,7 +460,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	$this->assertTrue($oAuditor->updateAuditBackupConfDroppedById($upgrade_id, $reason));
 
     	$result = $oAuditor->oDbh->queryRow("SELECT confbackup
-							FROM {$this->prefix}{$oAuditor->logTable}
+							FROM {$oAuditor->getLogTablename()}
 							WHERE upgrade_action_id='{$upgrade_id}'");
 
         $this->assertEqual($result['confbackup'], $reason, "the message '$reason' has not been correctly set '{$result['confbackup']}'");
@@ -479,7 +485,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	$this->assertTrue($oAuditor->updateAuditBackupLogDroppedById($upgrade_id, $reason));
 
     	$result = $oAuditor->oDbh->queryRow("SELECT logfile
-							FROM {$this->prefix}{$oAuditor->logTable}
+							FROM {$oAuditor->getLogTablename()}
 							WHERE upgrade_action_id='{$upgrade_id}'");
 
         $this->assertEqual($result['logfile'], $reason, "the message '$reason' has not been correctly set : '{$result['logfile']}'");

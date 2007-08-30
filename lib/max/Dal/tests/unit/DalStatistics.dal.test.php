@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Dal/Statistics.php';
 require_once 'Date.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
  * A class for testing the non-DB specific MAX_Dal_Statistics DAL class.
@@ -61,9 +62,9 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-
-        $adTable = $conf['table']['prefix'] . $conf['table']['banners'];
-        $dsahTable = $conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'];
+        $aCleanupTables = array($conf['table']['banners'],$conf['table']['data_summary_ad_hourly']);
+        $adTable = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $dsahTable = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'],true);
 
         $oDalStatistics = new MAX_Dal_Statistics();
 
@@ -124,7 +125,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $aData = array(
             2,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -176,7 +177,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $aData = array(
             3,
             1,
-            '',
+            't',
             '',
             '',
             '',
@@ -192,7 +193,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $aData = array(
             1,
             2,
-            '',
+            't',
             '',
             '',
             '',
@@ -245,7 +246,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $oExpectedDate = new Date('2006-10-27 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
 
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp($aCleanupTables);
     }
 
     /**
@@ -394,9 +395,10 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertEqual($aResult, $aResultShouldBe);
 
         // Test 7:
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_channel_daily'],true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_channel_daily']}
+                {$table}
                 (
                     day,
                     channel_id,
@@ -525,7 +527,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aResultShouldBe);
-
         TestEnv::restoreEnv();
         TestEnv::restoreConfig();
     }
@@ -577,9 +578,10 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 4
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_zone_impression_history'],true);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$table}
                 (
                     operation_interval,
                     operation_interval_id,

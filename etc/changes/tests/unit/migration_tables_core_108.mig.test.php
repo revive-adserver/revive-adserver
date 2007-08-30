@@ -67,8 +67,9 @@ class Migration_tables_core_108Test extends MigrationTest
         );
 
         $migration->migrateData();
+        $table = $this->oDbh->quoteIdentifier($prefix.'preference',true);
 
-        $rsPreference = DBC::NewRecordSet("SELECT * from {$prefix}preference");
+        $rsPreference = DBC::NewRecordSet("SELECT * from {$table}");
         $rsPreference->find();
         $this->assertTrue($rsPreference->fetch());
         $aDataPreference = $rsPreference->toArray();

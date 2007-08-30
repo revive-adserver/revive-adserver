@@ -46,42 +46,42 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
      * @var MAX_Dal_Admin_Session
      */
     var $dalSession;
-    
+
     /**
      * MDB2 handle.
      *
      * @var MDB2_Driver_Common
      */
     var $dbh;
-    
+
     function setUp()
     {
         parent::setUp();
         $this->dalSession = OA_Dal::factoryDAL('session');
         $this->dbh = OA_DB::singleton();
     }
-    
-    
+
+
     function tearDown()
     {
         DataGenerator::cleanUp();
     }
-    
-    
+
+
     function testGetSerializedSession()
     {
         $actualSerializedData = $this->dalSession->getSerializedSession(SESSIONID);
         $this->assertFalse($actualSerializedData, 'The serialized data is false for non-existent session id.');
-        
+
         $this->generateSession();
         $this->assertSessionData();
-        
+
         $this->outdateSession(SESSIONID);
         $actualSerializedData = $this->dalSession->getSerializedSession(SESSIONID);
         $this->assertFalse($actualSerializedData, 'The serialized data is false for out-of-date session id.');
     }
-    
-    
+
+
     function testRefreshSession()
     {
         $this->generateSession();
@@ -89,8 +89,8 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
         $this->dalSession->refreshSession(SESSIONID);
         $this->assertSessionData();
     }
-    
-    
+
+
     function testStoreSessionData()
     {
         $this->dalSession->storeSerializedSession(SDATA, SESSIONID);
@@ -99,56 +99,60 @@ class MAX_Dal_Admin_SessionTest extends DalUnitTestCase
         $actualSerializedData = $this->dalSession->getSerializedSession(SESSIONID);
         $this->assertEqual(SDATA2, $actualSerializedData);
         $prefix = OA_Dal::getTablePrefix();
-        $this->dbh->exec("DELETE FROM {$prefix}session");
+        $table = $this->dbh->quoteIdentifier($prefix.'session');
+        $this->dbh->exec("DELETE FROM {$table}");
     }
-    
-    
+
+
     function testPruneOldSessions()
     {
         $this->generateSession();
         $this->dalSession->pruneOldSessions();
         $this->assertSessionData();
-        
+
         $this->outdateSession();
         $actualSerializedData = $this->dalSession->getSerializedSession(SESSIONID);
         $this->assertFalse($actualSerializedData, 'The serialized data is false for non-existent session id.');
         $this->dalSession->pruneOldSessions();
         $prefix = OA_Dal::getTablePrefix();
-        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM {$prefix}session");
+        $table = $this->dbh->quoteIdentifier($prefix.'session');
+        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM {$table}");
         $this->assertEqual(0, $cSessions);
     }
-    
-    
+
+
     function testDeleteSession()
     {
         $this->generateSession();
         $this->dalSession->deleteSession(SESSIONID);
         $prefix = OA_Dal::getTablePrefix();
-        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM {$prefix}session");
+        $table = $this->dbh->quoteIdentifier($prefix.'session');
+        $cSessions = $this->dbh->queryOne("SELECT count(*) AS c FROM {$table}");
         $this->assertEqual(0, $cSessions);
     }
-    
-    
+
+
     function assertSessionData($data = SDATA)
     {
         $actualSerializedData = $this->dalSession->getSerializedSession(SESSIONID);
         $this->assertEqual($data, $actualSerializedData);
     }
-    
-    
+
+
     function generateSession()
     {
         $dg = new DataGenerator();
         $dg->setDataOne('session', array('sessionid' => SESSIONID, 'sessiondata' => SDATA));
         $dg->generateOne('session');
     }
-    
-    
+
+
     function outdateSession()
     {
         $sessionId = SESSIONID;
         $prefix = OA_Dal::getTablePrefix();
-        $this->dbh->exec("UPDATE {$prefix}session set lastused = '2005-01-01 01:00:00' WHERE sessionid = '$sessionId'");
+        $table = $this->dbh->quoteIdentifier($prefix.'session');
+        $this->dbh->exec("UPDATE {$table} set lastused = '2005-01-01 01:00:00' WHERE sessionid = '$sessionId'");
     }
 }
 ?>

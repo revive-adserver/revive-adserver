@@ -114,7 +114,10 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             $default = $column['default'];#substr($column['adsrc'], 1, -1);
             if (is_null($default) && $notnull) {
                 $default = '';
-            } elseif (preg_match("/^'(.*)'::(?:character varying)$/", $default, $m)) {
+            } elseif ($column['type'] == 'bool') {
+                // Convert boolean defaults
+                $default = $default == 'true' ? 't' : 'f';
+            } elseif (preg_match("/^'(.*)'::(?:character varying|bpchar|text)$/", $default, $m)) {
                 // Make sure that casted expressions are correcty handled
                 $default = $m[1];
             }
@@ -143,6 +146,10 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
             $definition[$key] = $definition[0];
             if ($type == 'clob' || $type == 'blob') {
                 unset($definition[$key]['default']);
+            } elseif ($type == 'decimal') {
+                $precision =
+                $definition[$key]['length'] = ($definition[$key]['length'] >> 16).','.
+                    ($definition[$key]['length'] & 0xFF);
             }
             $definition[$key]['type'] = $type;
             $definition[$key]['mdb2type'] = $type;
@@ -184,15 +191,20 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
 
         $row = array_change_key_case($row, CASE_LOWER);
 
-        $db->loadModule('Manager', null, true);
-        $columns = $db->manager->listTableFields($table);
+        $query = 'SELECT attnum, attname FROM pg_attribute, pg_class';
+        $query.= ' WHERE pg_class.oid = pg_attribute.attrelid';
+        $query.= ' AND pg_class.relname = '.$db->quote($table, 'text');
+        $columns = $db->GetAssoc($query);
+        if (PEAR::isError($columns)) {
+            return $columns;
+        }
 
         $definition = array();
 
         $index_column_numbers = explode(' ', $row['indkey']);
 
         foreach ($index_column_numbers as $number) {
-            $definition['fields'][$columns[($number - 1)]] = array('sorting' => 'ascending');
+            $definition['fields'][$columns[$number]] = array('sorting' => 'ascending');
         }
         return $definition;
     }

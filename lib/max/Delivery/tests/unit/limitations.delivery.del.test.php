@@ -141,16 +141,25 @@ class DeliveryLimitationsTest extends UnitTestCase
         $this->assertFalse(MAX_limitationsGetSqlForString('=x', null, 'os'));
         $this->assertFalse(MAX_limitationsGetSqlForString('=x', '', 'os'));
 
-        $this->assertEqual("LOWER(os) REGEXP ('xp')",
+        $oDbh = OA_DB::singleton();
+        if ($oDbh->dbsyntax == 'pgsql') {
+            $regexp = '~';
+            $not_regexp = '!~';
+        } else {
+            $regexp = 'REGEXP';
+            $not_regexp = 'NOT REGEXP';
+        }
+
+        $this->assertEqual("LOWER(os) {$regexp} ('xp')",
             MAX_limitationsGetSqlForString('=x', 'xp', 'os'));
-        $this->assertEqual("LOWER(os) REGEXP ('x#p')",
+        $this->assertEqual("LOWER(os) {$regexp} ('x#p')",
             MAX_limitationsGetSqlForString('=x', 'x#p', 'os'));
 
         $this->assertTrue(MAX_limitationsGetSqlForString('!x', null, 'os'));
         $this->assertTrue(MAX_limitationsGetSqlForString('!x', '', 'os'));
-        $this->assertEqual("LOWER(os) NOT REGEXP ('xp')",
+        $this->assertEqual("LOWER(os) {$not_regexp} ('xp')",
             MAX_limitationsGetSqlForString('!x', 'xp', 'os'));
-        $this->assertEqual("LOWER(os) NOT REGEXP ('x#p')",
+        $this->assertEqual("LOWER(os) {$not_regexp} ('x#p')",
             MAX_limitationsGetSqlForString('!x', 'x#p', 'os'));
     }
 

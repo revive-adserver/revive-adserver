@@ -13893,11 +13893,11 @@
         <default_campaign_weight>1</default_campaign_weight>
         <client_welcome>t</client_welcome>
         <client_welcome_msg></client_welcome_msg>
-        <content_gzip_compression></content_gzip_compression>
+        <content_gzip_compression>f</content_gzip_compression>
         <userlog_email>t</userlog_email>
         <gui_show_campaign_info>t</gui_show_campaign_info>
-        <gui_show_campaign_preview></gui_show_campaign_preview>
-        <gui_campaign_anonymous></gui_campaign_anonymous>
+        <gui_show_campaign_preview>f</gui_show_campaign_preview>
+        <gui_campaign_anonymous>f</gui_campaign_anonymous>
         <gui_show_banner_info>t</gui_show_banner_info>
         <gui_show_banner_preview>t</gui_show_banner_preview>
         <gui_show_banner_html>t</gui_show_banner_html>
@@ -13982,11 +13982,11 @@
         <default_banner_destination></default_banner_destination>
         <client_welcome>t</client_welcome>
         <client_welcome_msg></client_welcome_msg>
-        <content_gzip_compression></content_gzip_compression>
+        <content_gzip_compression>f</content_gzip_compression>
         <userlog_email>t</userlog_email>
         <gui_show_campaign_info>t</gui_show_campaign_info>
-        <gui_show_campaign_preview></gui_show_campaign_preview>
-        <gui_campaign_anonymous></gui_campaign_anonymous>
+        <gui_show_campaign_preview>f</gui_show_campaign_preview>
+        <gui_campaign_anonymous>f</gui_campaign_anonymous>
         <gui_show_banner_info>t</gui_show_banner_info>
         <gui_show_banner_preview>t</gui_show_banner_preview>
         <gui_show_banner_html>t</gui_show_banner_html>
@@ -14075,8 +14075,8 @@
         <content_gzip_compression>t</content_gzip_compression>
         <userlog_email>t</userlog_email>
         <gui_show_campaign_info>t</gui_show_campaign_info>
-        <gui_show_campaign_preview></gui_show_campaign_preview>
-        <gui_campaign_anonymous></gui_campaign_anonymous>
+        <gui_show_campaign_preview>f</gui_show_campaign_preview>
+        <gui_campaign_anonymous>f</gui_campaign_anonymous>
         <gui_show_banner_info>t</gui_show_banner_info>
         <gui_show_banner_preview>t</gui_show_banner_preview>
         <gui_show_banner_html>t</gui_show_banner_html>
@@ -14161,17 +14161,17 @@
         <default_banner_destination></default_banner_destination>
         <client_welcome>t</client_welcome>
         <client_welcome_msg></client_welcome_msg>
-        <content_gzip_compression></content_gzip_compression>
+        <content_gzip_compression>f</content_gzip_compression>
         <userlog_email>t</userlog_email>
         <gui_show_campaign_info>t</gui_show_campaign_info>
-        <gui_show_campaign_preview></gui_show_campaign_preview>
-        <gui_campaign_anonymous></gui_campaign_anonymous>
+        <gui_show_campaign_preview>f</gui_show_campaign_preview>
+        <gui_campaign_anonymous>f</gui_campaign_anonymous>
         <gui_show_banner_info>t</gui_show_banner_info>
         <gui_show_banner_preview>t</gui_show_banner_preview>
         <gui_show_banner_html>t</gui_show_banner_html>
         <gui_show_matching>t</gui_show_matching>
         <gui_show_parents>t</gui_show_parents>
-        <gui_hide_inactive></gui_hide_inactive>
+        <gui_hide_inactive>f</gui_hide_inactive>
         <gui_link_compact_limit>50</gui_link_compact_limit>
         <gui_header_background_color></gui_header_background_color>
         <gui_header_foreground_color></gui_header_foreground_color>

@@ -41,7 +41,7 @@ class migration_tables_core_122Test extends MigrationTest
     {
         $prefix = $this->getPrefix();
         $this->initDatabase(121, array('clients', 'campaigns'));
-        
+
         $aCampaigns = array(
             array('clientid' => 3, 'parent' => 1, 'views' => '100', target => '1000'),
             array('clientid' => 4, 'parent' => 1, 'views' => '200', target => '1'),
@@ -59,8 +59,9 @@ class migration_tables_core_122Test extends MigrationTest
         }
 
         $this->upgradeToVersion(122);
-        
-        $rsCampaigns = DBC::NewRecordSet("SELECT * from {$prefix}campaigns");
+
+        $tableCampaigns = $this->oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $rsCampaigns = DBC::NewRecordSet("SELECT * from {$tableCampaigns}");
         $this->assertTrue($rsCampaigns->find());
         $this->assertEqual($cCampaigns, $rsCampaigns->getRowCount());
         for ($idxCampaign = 0; $idxCampaign < $cCampaigns; $idxCampaign++) {
@@ -71,8 +72,8 @@ class migration_tables_core_122Test extends MigrationTest
             $priority = $aCampaigns[$idxCampaign]['target'] > 0 ? 5 : 0;
             $this->assertEqual($priority, $rsCampaigns->get('priority'));
         }
-        
-        $rsClients = DBC::NewRecordSet("SELECT count(*) nclients FROM {$prefix}clients");
+        $tableClients = $this->oDbh->quoteIdentifier($prefix.'clients',true);
+        $rsClients = DBC::NewRecordSet("SELECT count(*) AS nclients FROM {$tableClients}");
         $this->assertTrue($rsClients->find());
         $this->assertTrue($rsClients->fetch());
         $this->assertEqual(count($aAValues) - $cCampaigns, $rsClients->get('nclients'));

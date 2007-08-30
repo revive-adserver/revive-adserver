@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: mysql.php 5503 2007-03-30 16:44:45Z andrew.hill@openads.org $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
@@ -75,8 +75,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_pgsql extends OA_Dal_Maintenance_Sta
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_impression'];
+        $table = $aConf['table']['data_raw_tracker_impression'];
         return $this->_getMaintenanceStatisticsLastRunInfo($type, "Tracker", $table, $oNow);
     }
 

@@ -97,7 +97,18 @@
             print "<strong>" . $this->getFailCount() . "</strong> fails and ";
             print "<strong>" . $this->getExceptionCount() . "</strong> exceptions.";
             print "</div>\n";
-            print "</body>\n</html>\n";
+
+            global $start;
+            if (!is_null($start))
+            {
+                list ($endUsec, $endSec) = explode(" ", microtime());
+                $endTime = ((float) $endUsec + (float) $endSec);
+                list ($startUsec, $startSec) = explode(" ", $start);
+                $startTime = ((float) $startUsec + (float) $startSec);
+                echo '<div align="right"><br/>Test Suite Execution Time ~ <b>';
+                echo substr(($endTime - $startTime), 0, 6);
+                echo '</b> seconds.</div>';
+            }
         }
 
         /**
@@ -148,7 +159,7 @@
                     ' line ' . $exception->getLine() . ']';
             print " -&gt; <strong>" . $this->_htmlEntities($message) . "</strong><br />\n";
         }
-		
+
 		/**
 		 *    Prints the message for skipping tests.
          *    @param string $message    Text of skip condition.
@@ -275,7 +286,7 @@
                     ' line ' . $exception->getLine() . ']';
             print "Exception " . $this->getExceptionCount() . "!\n$message\n";
         }
-		
+
 		/**
 		 *    Prints the message for skipping tests.
          *    @param string $message    Text of skip condition.

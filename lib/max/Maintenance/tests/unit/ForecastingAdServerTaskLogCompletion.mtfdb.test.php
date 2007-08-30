@@ -91,7 +91,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_LogCompletion 
             SELECT
                 *
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['log_maintenance_forecasting']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['log_maintenance_forecasting'],true)}";
         $aRow = $oDbh->getRow($query);
         $this->assertEqual($aRow['start_run'], '2004-06-06 18:10:00');
         $this->assertEqual($aRow['end_run'], '2004-06-06 18:12:00');

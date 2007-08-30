@@ -75,8 +75,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_impression'];
+        $table = $aConf['table']['data_raw_tracker_impression'];
         return $this->_getMaintenanceStatisticsLastRunInfo($type, "Tracker", $table, $oNow);
     }
 
@@ -101,7 +100,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
                  $aConf['table']['data_raw_tracker_impression'];
         $query = "
             DELETE FROM
-                $table
+                {$this->oDbh->quoteIdentifier($table,true)}
             WHERE
                 date_time <= " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         OA::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
@@ -116,7 +115,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
                  $aConf['table']['data_raw_tracker_variable_value'];
         $query = "
             DELETE FROM
-                $table
+                {$this->oDbh->quoteIdentifier($table,true)}
             WHERE
                 date_time <= " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         OA::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
@@ -131,7 +130,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysql extends OA_Dal_Maintenance_Sta
                  $aConf['table']['data_raw_tracker_click'];
         $query = "
             DELETE FROM
-                $table
+                {$this->oDbh->quoteIdentifier($table,true)}
             WHERE
                 date_time <= " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         OA::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .

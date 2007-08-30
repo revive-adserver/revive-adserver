@@ -48,14 +48,17 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
 	function getDeliveredByCampaign($campaignId, $oDate = null)
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableD = $oDbh->quoteIdentifier($prefix.'data_intermediate_ad',true);
         $query = "
             SELECT
                 SUM(dia.impressions) AS impressions_delivered,
                 SUM(dia.clicks) AS clicks_delivered,
                 SUM(dia.conversions) AS conversions_delivered
             FROM
-                {$prefix}banners AS b,
-                {$prefix}data_intermediate_ad AS dia
+                {$tableB} AS b,
+                {$tableD} AS dia
             WHERE
                 b.campaignid = " . DBC::makeLiteral($campaignId) . "
                 AND
@@ -93,9 +96,10 @@ class MAX_Dal_Admin_Data_intermediate_ad extends MAX_Dal_Common
         if ($table == null) {
             $table = $this->table;
         }
-
+        $oDbh = OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($prefix.$table,true);
         $query = '
-            UPDATE '.$prefix.$table
+            UPDATE '.$table
                 .' SET conversions=conversions'.$operation.'1
                     , total_basket_value=total_basket_value'.$operation.DBC::makeLiteral($basketValue).'
                     , total_num_items=total_num_items'.$operation.DBC::makeLiteral($numItems).'

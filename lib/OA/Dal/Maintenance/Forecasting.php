@@ -76,10 +76,10 @@ class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
     function getMaintenanceForecastingLastRunInfo($rawTable)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['log_maintenance_forecasting'];
+//        $table = $aConf['table']['prefix'] .
+//                 $aConf['table']['log_maintenance_forecasting'];
         return $this->getProcessLastRunInfo(
-            $table,
+            'log_maintenance_forecasting',
             array('operation_interval'),
             null,
             'updated_to',
@@ -201,6 +201,7 @@ class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
         if (empty($aWhere)) {
             return false;
         }
+        $tableName = $this->_getTablename($tableName);
         $where = "
                 date_time >= '" . $oStartDate->format('%Y-%m-%d %H:%M:%S') . "'
                 AND date_time <= '" . $oEndDate->format('%Y-%m-%d %H:%M:%S') . "'
@@ -230,9 +231,7 @@ class OA_Dal_Maintenance_Forecasting extends OA_Dal_Maintenance_Common
     function saveChannelSummaryForZones($oDate, $channelId, $aCount)
     {
         // Select existing channel/zone pairs that may already exist
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $table   = $aConf['table']['prefix'] .
-                   $aConf['table']['data_summary_channel_daily'];
+        $table = $this->_getTablename('data_summary_channel_daily');
         $aExistingData = array();
         $query = "
             SELECT

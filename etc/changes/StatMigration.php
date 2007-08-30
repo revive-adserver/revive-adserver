@@ -52,12 +52,10 @@ class StatMigration extends Migration
         }
     }
 
-
     function migrateCompactStats()
     {
-	    $prefix              = $this->getPrefix();
-	    $tableAdStats        = $prefix . 'adstats';
-	    $tableDataIntermediateAd = $prefix . 'data_intermediate_ad';
+	    $tableAdStats        = $this->_modifyTableName('adstats');
+	    $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
 
 	    $timestamp = date('Y-m-d H:i:s', time());
 
@@ -76,10 +74,10 @@ class StatMigration extends Migration
     function migrateRawStats()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-	    $prefix              = $this->getPrefix();
-	    $tableAdViews        = $prefix . 'adviews';
-	    $tableAdClicks        = $prefix . 'adclicks';
-	    $tableDataIntermediateAd = $prefix . 'data_intermediate_ad';
+
+	    $tableAdViews        = $this->_modifyTableName('adviews');
+	    $tableAdClicks       = $this->_modifyTableName('adclicks');
+	    $tableDataIntermediateAd = $this->_modifyTableName('data_intermediate_ad');
 
 	    $timestamp = date('Y-m-d H:i:s', time());
 
@@ -99,7 +97,6 @@ class StatMigration extends Migration
             $tmpTableInformation = "AS";
             $tmpCastDate = '::date';
             $tmpCastInt = '::integer';
-            OA_DB::createFunctions();
         }
 
 	    $sql = "
@@ -147,9 +144,8 @@ class StatMigration extends Migration
 
     function migrateStats($sql)
     {
-	    $prefix              = $this->getPrefix();
-	    $tableDataIntermediateAd = $prefix . 'data_intermediate_ad';
-	    $tableDataSummaryAdHourly = $prefix . 'data_summary_ad_hourly';
+	    $tableDataIntermediateAd  = $this->_modifyTableName('data_intermediate_ad');
+	    $tableDataSummaryAdHourly = $this->_modifyTableName('data_summary_ad_hourly');
 
 	    $result = $this->oDBH->exec($sql);
 
@@ -177,14 +173,12 @@ class StatMigration extends Migration
     {
 	    $date = new Date();
 	    $operationInterval = new OA_OperationInterval();
-	    $operationIntervalId =
-	       $operationInterval->convertDateToOperationIntervalID($date);
+	    $operationIntervalId = $operationInterval->convertDateToOperationIntervalID($date);
 	    $operationInterval = OA_OperationInterval::getOperationInterval();
 	    $aOperationIntervalDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($date);
 	    $dateStart = DBC::makeLiteral($aOperationIntervalDates['start']->format(TIMESTAMP_FORMAT));
 	    $dateEnd = DBC::makeLiteral($aOperationIntervalDates['end']->format(TIMESTAMP_FORMAT));
     }
-
 
     function statsCompacted()
     {
@@ -193,9 +187,19 @@ class StatMigration extends Migration
         return ($this->compactStats || $aConfig['compact_stats']);
     }
 
+    function _modifyTableName($table)
+    {
+	    return $this->oDBH->quoteIdentifier($this->getPrefix().$table, true);
+
+    }
+
     function correctCampaignTargets()
     {
         $prefix = $this->getPrefix();
+
+        $tblBanners = $this->_modifyTableName('banners');
+        $tblCampaigns = $this->_modifyTableName('campgaigns');
+        $tblSummary = $this->_modifyTableName('data_summary_ad_hourly');
 
 	    // We need to add delivered stats to the "Booked" amount to correctly port campaign targets from 2.0
         $statsSQL = "
@@ -205,9 +209,9 @@ class StatMigration extends Migration
                 SUM(dsah.clicks) AS sum_clicks,
                 SUM(dsah.conversions) AS sum_conversions
             FROM
-                {$prefix}banners AS b,
-                {$prefix}campaigns AS c,
-                {$prefix}data_summary_ad_hourly AS dsah
+                {$tblBanners} AS b,
+                {$tblCampaigns} AS c,
+                {$tblSummary} AS dsah
             WHERE
                 b.bannerid=dsah.ad_id
               AND c.campaignid=b.campaignid
@@ -233,7 +237,7 @@ class StatMigration extends Migration
                 clicks AS clicks,
                 conversions AS conversions
             FROM
-                {$prefix}campaigns
+                {$tblCampaigns}
             WHERE
                 views >= 0
               OR clicks >= 0
@@ -251,7 +255,7 @@ class StatMigration extends Migration
             if (!empty($stats[$rowCampaign['campaignid']]['sum_views']) || !empty($stats[$rowCampaign['campaignid']]['sum_clicks']) || !empty($stats[$rowCampaign['campaignid']]['sum_conversions'])) {
                 $this->oDBH->exec("
                     UPDATE
-                        {$prefix}campaigns
+                        {$tblCampaigns}
                     SET
                         views = IF(views >= 0, views+{$stats[$rowCampaign['campaignid']]['sum_views']}, views),
                         clicks = IF(clicks >= 0, clicks+{$stats[$rowCampaign['campaignid']]['sum_clicks']}, clicks),

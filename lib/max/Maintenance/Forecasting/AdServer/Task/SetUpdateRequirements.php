@@ -75,7 +75,8 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequirements extends MA
         $oLastUpdatedDate = &$oServiceLocator->get('lastUpdatedDate');
         // Determine when the last forecasting update happened
         if ($oLastUpdatedDate === false) {
-            $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+            //$table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+            $table = $conf['table']['data_raw_ad_impression'];
             if ($conf['table']['split']) {
                 // Suffix yesterday's date to table name
                 $oTableDate = new Date();

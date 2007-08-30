@@ -49,7 +49,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     /**
      * Tests the getMaintenanceStatisticsLastRunInfo() method.
      */
-    function testGetMaintenanceStatisticsLastRunInfo()
+    function DEPRECATED_testGetMaintenanceStatisticsLastRunInfo()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -71,9 +71,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $now->setHour(18);
         $now->setMinute(22);
         $now->setSecond(10);
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_'.$now->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_impression_". $now->format('%Y%m%d') ."
+                {$table}
                 (
                     ad_id,
                     creative_id,
@@ -91,9 +92,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $now->setHour(12);
         $now->setMinute(34);
         $now->setSecond(56);
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_'.$now->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_impression_". $now->format('%Y%m%d') ."
+                {$table}
                 (
                     ad_id,
                     creative_id,
@@ -111,9 +113,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $now->setHour(18);
         $now->setMinute(22);
         $now->setSecond(11);
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_'.$now->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_impression_". $now->format('%Y%m%d') ."
+                {$table}
                 (
                     ad_id,
                     creative_id,
@@ -137,9 +140,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_HOUR);
         $this->assertEqual($date, $now);
         // Insert an hourly (only) update
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'log_maintenance_statistics',true);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}log_maintenance_statistics
+                {$table}
                 (
                     start_run,
                     end_run,
@@ -220,7 +224,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     /**
      * Tests the summariseRequests() method.
      */
-    function testSummariseRequests()
+    function DEPRECATED_testSummariseRequests()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -244,13 +248,13 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_request";
+                {$oDbh->quoteIdentifier('tmp_ad_request',true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Insert 3 ad requests
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_request_20040506
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_request_20040506',true)}
                 (
                     ad_id,
                     creative_id,
@@ -275,7 +279,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_request_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_request_20040606',true)}
                 (
                     ad_id,
                     creative_id,
@@ -310,11 +314,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $end = new Date('2004-05-06 12:29:59');
         $aRow = $dsa->summariseRequests($start, $end);
         $this->assertEqual($aRow, 0);
+        $tmpAdTable = $oDbh->quoteIdentifier('tmp_ad_request',true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_request";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Summarise where one request exists
@@ -326,7 +331,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_request";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         // Summarise where the other two requests exists
@@ -338,7 +343,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_request
+                {$tmpAdTable}
             WHERE
                 day = '2004-05-06'";
         $aRow = $oDbh->queryRow($query);
@@ -347,7 +352,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_request
+                {$tmpAdTable}
             WHERE
                 day = '2004-06-06'";
         $aRow = $oDbh->queryRow($query);
@@ -356,7 +361,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 requests AS requests
             FROM
-                tmp_ad_request
+                {$tmpAdTable}
             WHERE
                 day = '2004-06-06'";
         $aRow = $oDbh->queryRow($query);
@@ -367,7 +372,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     /**
      * Tests the summariseImpressions() method.
      */
-    function testSummariseImpressions()
+    function DEPRECATED_testSummariseImpressions()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -387,17 +392,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $end = new Date('2004-06-06 12:29:59');
         $aRow = $dsa->summariseImpressions($start, $end);
         $this->assertEqual($aRow, 0);
+        $tmpAdTable = $oDbh->quoteIdentifier('tmp_ad_impression',true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_impression";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Insert 3 ad impressions
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_impression_20040506
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040506',true)}
                 (
                     ad_id,
                     creative_id,
@@ -422,7 +428,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_impression_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040606',true)}
                 (
                     ad_id,
                     creative_id,
@@ -457,11 +463,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $end = new Date('2004-05-06 12:29:59');
         $aRow = $dsa->summariseImpressions($start, $end);
         $this->assertEqual($aRow, 0);
+        $tmpAdTable = $oDbh->quoteIdentifier('tmp_ad_impression',true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_impression";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Summarise where one impression exists
@@ -473,7 +480,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_impression";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         // Summarise where the other two impression exists
@@ -485,7 +492,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_impression
+                {$tmpAdTable}
             WHERE
                 day = '2004-05-06'";
         $aRow = $oDbh->queryRow($query);
@@ -494,7 +501,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_impression
+                {$tmpAdTable}
             WHERE
                 day = '2004-06-06'";
         $aRow = $oDbh->queryRow($query);
@@ -503,7 +510,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 impressions AS impressions
             FROM
-                tmp_ad_impression
+                {$tmpAdTable}
             WHERE
                 day = '2004-06-06'";
         $aRow = $oDbh->queryRow($query);
@@ -514,7 +521,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     /**
      * Tests the summariseClicks() method.
      */
-    function testSummariseClicks()
+    function DEPRECATED_testSummariseClicks()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -534,17 +541,18 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $end = new Date('2004-06-06 12:29:59');
         $aRow = $dsa->summariseClicks($start, $end);
         $this->assertEqual($aRow, 0);
+        $tmpAdTable = $oDbh->quoteIdentifier('tmp_ad_click',true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_click";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Insert 3 ad clicks
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_click_20040506
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040506',true)}
                 (
                     ad_id,
                     creative_id,
@@ -569,7 +577,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_click_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040606',true)}
                 (
                     ad_id,
                     creative_id,
@@ -608,7 +616,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_click";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Summarise where one click exists
@@ -620,7 +628,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_click";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 1);
         // Summarise where the other two clicks exists
@@ -632,7 +640,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_click
+                {$tmpAdTable}
             WHERE
                 day = '2004-05-06'";
         $aRow = $oDbh->queryRow($query);
@@ -641,7 +649,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_click
+                {$tmpAdTable}
             WHERE
                 day = '2004-06-06'";
         $aRow = $oDbh->queryRow($query);
@@ -650,7 +658,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 clicks AS clicks
             FROM
-                tmp_ad_click
+                {$tmpAdTable}
             WHERE
                 day = '2004-06-06'";
         $aRow = $oDbh->queryRow($query);
@@ -661,7 +669,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     /**
      * Tests the summariseConnections() method.
      */
-    function testSummariseConnections()
+    function DEPRECATED_testSummariseConnections()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -687,11 +695,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $end = new Date('2004-06-06 12:29:59');
         $rows = $dsa->summariseConnections($start, $end);
         $this->assertEqual($rows, 0);
+        $tmpAdTable = $oDbh->quoteIdentifier('tmp_ad_connection',true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_connection";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
 
@@ -699,7 +708,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // impressions, ad clicks, and tracker impressions
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}banners
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'banners',true)}
                 (
                     bannerid,
                     description,
@@ -775,7 +784,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}campaigns_trackers
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns_trackers',true)}
                 (
                     campaignid,
                     trackerid,
@@ -819,7 +828,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_impression_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040606',true)}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -846,7 +855,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_click_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040606',true)}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -969,7 +978,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $stClicks->execute($aData);
         $queryImpressions = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_impression_20040506
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_impression_20040506',true)}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -996,7 +1005,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $queryClicks = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_ad_click_20040506
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_click_20040506',true)}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -1071,7 +1080,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $stClicks->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_impression_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040606',true)}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1115,7 +1124,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_impression_20040506
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040506',true)}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -1150,7 +1159,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_connection";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Summarise where just one tracker impression exists
@@ -1162,14 +1171,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_connection";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                tmp_ad_connection
+                {$tmpAdTable}
             WHERE
                 connection_action = 0";
         $aRow = $oDbh->queryRow($query);
@@ -1203,7 +1212,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                tmp_ad_connection
+                {$tmpAdTable}
             WHERE
                 connection_action = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1244,14 +1253,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_connection";
+                {$tmpAdTable}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                tmp_ad_connection
+                {$tmpAdTable}
             WHERE
                 inside_window = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1260,7 +1269,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                tmp_ad_connection
+                {$tmpAdTable}
             WHERE
                 connection_action = 1
                 AND connection_ad_id = 3";
@@ -1295,7 +1304,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                tmp_ad_connection
+                {$tmpAdTable}
             WHERE
                 connection_action = 1
                 AND connection_ad_id = 4";
@@ -1330,7 +1339,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                tmp_ad_connection
+                {$tmpAdTable}
             WHERE
                 connection_action = 0
                 AND connection_ad_id = 3";
@@ -1365,7 +1374,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                tmp_ad_connection
+                {$tmpAdTable}
             WHERE
                 connection_action = 0
                 AND connection_ad_id = 4";
@@ -1421,7 +1430,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}variables
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'variables',true)}
                 (
                     variableid, trackerid, purpose
                 )
@@ -1462,7 +1471,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                tmp_ad_impression
+                {$oDbh->quoteIdentifier('tmp_ad_impression',true)}
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start,
                     interval_end, ad_id, creative_id, zone_id, impressions
@@ -1503,7 +1512,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $query = "
             INSERT INTO
-                tmp_ad_click
+                {$oDbh->quoteIdentifier('tmp_ad_click',true)}
                 (
                     day, hour, operation_interval, operation_interval_id, interval_start,
                     interval_end, ad_id, creative_id, zone_id, clicks
@@ -1536,7 +1545,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     /**
      * Tests the saveIntermediate() method.
      */
-    function testSaveIntermediate()
+    function DEPRECATED_testSaveIntermediate()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -1576,21 +1585,21 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'])}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Re-create dropped tables
@@ -1604,7 +1613,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->_insertTestSaveIntermedaiteAdClick();
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_impression_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_20040606',true)}
                 (
                     server_raw_tracker_impression_id, server_raw_ip, viewer_id, viewer_session_id,
                     date_time, tracker_id, channel, language, ip_address, host_name, country,
@@ -1649,7 +1658,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_variable_value_20040606
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_20040606',true)}
                 (
                     server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
                 )
@@ -1677,7 +1686,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}data_raw_tracker_variable_value_20040607
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_20040607',true)}
                 (
                     server_raw_tracker_impression_id, server_raw_ip, tracker_variable_id, date_time, value
                 )
@@ -1697,7 +1706,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $rows = $st->execute($aData);
         $query = "
             INSERT INTO
-                tmp_ad_connection
+                {$oDbh->quoteIdentifier('tmp_ad_connection',true)}
                 (
                     server_raw_tracker_impression_id, server_raw_ip, date_time, operation_interval,
                     operation_interval_id, interval_start, interval_end, connection_viewer_id,
@@ -1774,14 +1783,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
             WHERE
                 server_raw_tracker_impression_id = 1
                 AND server_raw_ip = '127.0.0.1'";
@@ -1832,7 +1841,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']}
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)}
             WHERE
                 server_raw_tracker_impression_id = 2
                 AND server_raw_ip = '127.0.0.2'";
@@ -1884,15 +1893,15 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 4);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv,
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv,
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} AS diac
             WHERE
                 diac.server_raw_tracker_impression_id = 1
                 AND diac.server_raw_ip = '127.0.0.1'
@@ -1903,7 +1912,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
             WHERE
                 diavv.tracker_variable_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1912,7 +1921,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
             WHERE
                 diavv.tracker_variable_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -1921,8 +1930,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv,
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_connection']} AS diac
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv,
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} AS diac
             WHERE
                 diac.server_raw_tracker_impression_id = 2
                 AND diac.server_raw_ip = '127.0.0.2'
@@ -1933,7 +1942,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
             WHERE
                 diavv.tracker_variable_id = 3";
         $aRow = $oDbh->queryRow($query);
@@ -1942,7 +1951,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 diavv.*
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad_variable_value']} AS diavv
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
             WHERE
                 diavv.tracker_variable_id = 4";
         $aRow = $oDbh->queryRow($query);
@@ -1951,14 +1960,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -1977,7 +1986,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2012,7 +2021,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 0);
         // Re-create dropped tables
@@ -2036,14 +2045,14 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}";
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 2);
         $query = "
             SELECT
                 *
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
             WHERE
                 ad_id = 1";
         $aRow = $oDbh->queryRow($query);
@@ -2062,7 +2071,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
             SELECT
                 *
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)}
             WHERE
                 ad_id = 2";
         $aRow = $oDbh->queryRow($query);
@@ -2101,9 +2110,10 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         );
         foreach ($aTables AS $table) {
             foreach ($aDates AS $tableDate => $date) {
+                $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_ad_'.$table.'_'.$tableDate,true);
                 $query = "
                     INSERT INTO
-                        {$aConf['table']['prefix']}data_raw_ad_{$table}_{$tableDate}
+                        {$table}
                         (
                             ad_id,
                             creative_id,
@@ -2168,7 +2178,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     /**
      * Tests the deleteOldData() method.
      */
-    function testDeleteOldData()
+    function DEPRECATED_testDeleteOldData()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -2191,7 +2201,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         // Insert the test data
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}campaigns_trackers
+                {$oDbh->quoteIdentifier($aConf['table']['prefix'].'campaigns_trackers',true)}
                 (
                     viewwindow, clickwindow
                 )
@@ -2215,57 +2225,63 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
@@ -2291,57 +2307,63 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
@@ -2367,61 +2389,67 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $summarisedTo = new Date('2004-06-06 18:00:00');
         $dsa->deleteOldData($summarisedTo);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impressions'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_requests'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
@@ -2450,57 +2478,63 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
@@ -2527,57 +2561,63 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $summarisedTo = new Date('2004-06-06 17:59:59');
         $dsa->deleteOldData($summarisedTo);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
@@ -2604,57 +2644,63 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $summarisedTo = new Date('2004-06-06 18:00:00');
         $dsa->deleteOldData($summarisedTo);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_click'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_click']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_impression'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_impression']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         $now = new Date('2004-06-05');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         PEAR::pushErrorHandling(null);
         $aRow = $oDbh->queryRow($query);
         PEAR::popErrorHandling();
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         $now = new Date('2004-06-06');
+        $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_ad_request'].'_'.$now->format('%Y%m%d'),true);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_raw_ad_request']}_" . $now->format('%Y%m%d');
+                {$table}";
         $aRow = $oDbh->queryRow($query);
         $this->assertEqual($aRow['number'], 6);
         TestEnv::restoreEnv();

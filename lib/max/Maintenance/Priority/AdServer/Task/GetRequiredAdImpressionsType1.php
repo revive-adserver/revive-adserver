@@ -111,7 +111,9 @@ class GetRequiredAdImpressionsType1 extends MAX_Maintenance_Priority_AdServer_Ta
         // Get current date
         $oDate = $this->_getDate();
         $dateYMD = $oDate->format('%Y-%m-%d');
-        $table = $conf['table']['prefix'] . $conf['table']['campaigns'];
+        $oDbh = OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
+
         $aWheres = array(
             array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '$dateYMD')", 'AND'),
             array("$table.expire >= '$dateYMD'", 'AND'),

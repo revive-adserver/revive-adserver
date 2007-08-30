@@ -310,6 +310,26 @@ class OA_DB_Upgrade
         return true;
     }
 
+    function applySchemaDefinitionChanges($version)
+    {
+        if ($version == '049') {
+            // We need to ensure that the XML index definition matches the actual name, which might be truncated
+            foreach ($this->aDefinitionNew['tables'] as $tableName => $aTable) {
+                foreach ($aTable['indexes'] as $indexName => $aIndex) {
+                    $newIndexName = OA_phpAdsNew::phpPgAdsIndexToOpenads($indexName, $tableName, $this->prefix);
+                    if (empty($aIndex['primary']) && $indexName != $newIndexName) {
+                        $this->_logOnly('phppgads index detected, renaming '.$indexName.' to '.$newIndexName);
+                        $aIndex['was'] = $newIndexName;
+                        $this->aDefinitionNew['tables'][$tableName]['indexes'][$newIndexName] = $aIndex;
+                        unset($this->aDefinitionNew['tables'][$tableName]['indexes'][$indexName]);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     function _prepScript($file, $classprefix, $object)
     {
         if (!$file)
@@ -474,8 +494,9 @@ class OA_DB_Upgrade
         {
             return false;
         }
+        $aDefinitionNew = $this->_stripPrefixesFromDatabaseDefinition($this->aDefinitionNew);
         OA_DB::setCaseSensitive();
-        $aDiffs = $this->oSchema->compareDefinitions($this->aDefinitionNew, $aDefinitionOld);
+        $aDiffs = $this->oSchema->compareDefinitions($aDefinitionNew, $aDefinitionOld);
         OA_DB::disableCaseSensitive();
         if ($this->_isPearError($aDiffs, 'error comparing definitions'))
         {
@@ -834,18 +855,42 @@ class OA_DB_Upgrade
                 return false;
             }
         }
-        $statement = $this->aSQLStatements['table_copy'];
-        $query  = sprintf($statement, $this->prefix.$table, $this->prefix.$table_bak);
-        $result = $this->oSchema->db->exec($query);
-        if ($this->_isPearError($result, 'error creating table during rollback'))
+        if (!empty($this->aSQLStatements['table_move']))
         {
-            $this->_halt();
-            return false;
+            $oTable = new OA_DB_Table();
+            $oTable->init(MAX_PATH.'/etc/tables_core.xml');
+            $oTable->aDefinition = array('tables' => array($table => $aDef_bak));
+            $result = $oTable->createTable($table);
+            if (!$result)
+            {
+                $this->_logError('creating empty table during rollback');
+                $this->_halt();
+                return false;
+            }
+            $statement = $this->aSQLStatements['table_move'];
+            $query  = sprintf($statement, $this->prefix.$table, $this->prefix.$table_bak);
+            $result = $this->oSchema->db->exec($query);
+            if ($this->_isPearError($result, 'error populating table during rollback'))
+            {
+                $this->_halt();
+                return false;
+            }
         }
-        if (!$this->_createAllIndexes($aDef_bak, $this->prefix.$table))
+        else
         {
-            $this->_halt();
-            return false;
+            $statement = $this->aSQLStatements['table_copy'];
+            $query  = sprintf($statement, $this->prefix.$table, $this->prefix.$table_bak);
+            $result = $this->oSchema->db->exec($query);
+            if ($this->_isPearError($result, 'error creating table during rollback'))
+            {
+                $this->_halt();
+                return false;
+            }
+            if (!$this->_createAllIndexes($aDef_bak, $this->prefix.$table))
+            {
+                $this->_halt();
+                return false;
+            }
         }
 
         // compare the original and the restored definitions
@@ -1238,7 +1283,8 @@ class OA_DB_Upgrade
                 }
                 else
                 {
-                    $query  = "DROP TABLE {$this->prefix}{$table}";
+                    $tableName = $this->oSchema->db->quoteIdentifier($this->prefix.$table,true);
+                    $query  = "DROP TABLE {$tableName}";
                     $result = $this->oSchema->db->exec($query);
                     if (!$this->_isPearError($result, 'error removing table '.$this->prefix.$table))
                     {
@@ -1302,11 +1348,48 @@ class OA_DB_Upgrade
         {
             foreach ($this->aTaskList['indexes']['remove'] as $k => $aTask)
             {
+                $table = $this->prefix.$aTask['table'];
                 $index = $aTask['name'];
-                $table = $aTask['table'];
-                $primary = $aTask['primary'];
-                $result = $this->oSchema->db->manager->dropConstraint($this->prefix.$table, $index, $primary);
-                if ($this->_isPearError($result, 'error dropping constraint '.$index))
+
+                $aDBIndexes = $this->_listIndexes($table);
+                $aDBConstraints = $this->_listConstraints($table);
+
+                if (!empty($aTask['primary']))
+                {
+                    if (in_array($index, $aDBConstraints))
+                    {
+                        $result = $this->oSchema->db->manager->dropConstraint($table, $index, true);
+                    }
+                    elseif (in_array($indexOrig, $aDBConstraints))
+                    {
+                        // Ensure that the index is dropped even if it is not prefixed
+                        $result = $this->oSchema->db->manager->dropConstraint($table, $indexOrig, true);
+                    }
+                }
+                else
+                {
+                    $indexOrig = $index;
+                    $index = $this->oTable->_generateIndexName($table, $index);
+                    if (in_array($index, $aDBIndexes))
+                    {
+                        $result = $this->oSchema->db->manager->dropIndex($table, $index);
+                    }
+                    elseif (in_array($index, $aDBConstraints))
+                    {
+                        $result = $this->oSchema->db->manager->dropConstraint($table, $index, false);
+                    }
+                    elseif (in_array($indexOrig, $aDBIndexes))
+                    {
+                        // Ensure that the index is dropped even if it is not prefixed
+                        $result = $this->oSchema->db->manager->dropIndex($table, $indexOrig);
+                    }
+                    elseif (in_array($indexOrig, $aDBConstraints))
+                    {
+                        // Ensure that the index is dropped even if it is not prefixed
+                        $result = $this->oSchema->db->manager->dropConstraint($table, $indexOrig, false);
+                    }
+                }
+                if ($this->_isPearError($result, 'error dropping index '.$index))
                 {
                     $this->_halt();
                     return false;
@@ -1389,8 +1472,16 @@ class OA_DB_Upgrade
                             // and there is no task to remove it first
                             if (!array_key_exists('remove', $aIndex_tasks))
                             {
-                                $this->_logError('index '.$index.' already exists in table '.$this->prefix.$table.' in database '.$this->oSchema->db->database_name);
-                                $halt = true;
+                                $strippedIdx = preg_replace("/^{$table}_/", '', $index);
+                                // Are we trying to add an index with the table prefix and remiving the one without it?
+                                if ($strippedIdx == $index || !isset($aTable_tasks['indexes'][$strippedIdx]['remove'])) {
+                                    $this->_logError('index '.$index.' already exists in table '.$this->prefix.$table.' in database '.$this->oSchema->db->database_name);
+                                    $halt = true;
+                                } elseif ($strippedIdx != $index) {
+                                    $method = $aIndex_tasks['add'];
+                                    $this->_logOnly('remove/add index with a prefix, skipped task: '.$method);
+                                    continue;
+                                }
                             }
                         }
                         if (!$halt)
@@ -1417,6 +1508,8 @@ class OA_DB_Upgrade
     /**
      * verify and compile tasks
      *
+     * @todo Fix the primary key name
+     *
      * @return boolean
      */
     function _verifyTasksIndexesRemove()
@@ -1431,13 +1524,21 @@ class OA_DB_Upgrade
                     $aDBConstraints = $this->_listConstraints($this->prefix.$table);
                     foreach ($aTable_tasks['indexes'] AS $index => $aIndex_tasks)
                     {
-                        if (in_array($index, $aDBIndexes) || in_array($index, $aDBConstraints))
+                        // Matteo - todo fix primary key name
+                        $indexName = $this->oTable->_generateIndexName($this->prefix.$table, $index);
+                        if (in_array($indexName, $aDBIndexes) || in_array($indexName, $aDBConstraints))
                         {
                             if (isset($aIndex_tasks['remove']))
                             {
-                                $method = $aIndex_tasks['remove'];
-                                $this->_logOnly('task found: '.$method);
-                                $this->aTaskList['indexes']['remove'][] = $this->_compileTaskIndex('remove', $table, $index);
+                                $strippedIdx = substr($indexName, strlen($this->prefix));
+                                if ($strippedIdx != $index && isset($aTable_tasks['indexes'][$strippedIdx]['add'])) {
+                                    $method = $aIndex_tasks['remove'];
+                                    $this->_logOnly('remove/add index with a prefix, skipped task: '.$method);
+                                } else {
+                                    $method = $aIndex_tasks['remove'];
+                                    $this->_logOnly('task found: '.$method);
+                                    $this->aTaskList['indexes']['remove'][] = $this->_compileTaskIndex('remove', $table, $index);
+                                }
                             }
                         }
                     }
@@ -1472,7 +1573,7 @@ class OA_DB_Upgrade
                         $aDBFields = $this->_listTableFields($table);
                         foreach ($aTable_tasks['fields'] AS $field => $aField_tasks)
                         {
-                            $this->_logOnly('checking field: '.$this->prefix.$table.$field);
+                            $this->_logOnly('checking field: '.$this->prefix.$table.' '.$field);
                             if (!in_array($field, $aDBFields))
                             {
                                 if (array_key_exists('rename', $aField_tasks))
@@ -1513,6 +1614,8 @@ class OA_DB_Upgrade
                                     if ($task != 'rename')
                                     {
                                         $this->aTaskList['fields'][$task][] = $this->_compileTaskField($task, $table, $field, $field);
+//                                        $this->_logOnly(print_r($this->oSchema->db->reverse->getTableFieldDefinition($this->prefix.$table, $field), true));
+//                                        $this->_logOnly(print_r($this->aTaskList['fields'][$task][count($this->aTaskList['fields'][$task]) - 1], true));
                                     }
                                 }
                             }
@@ -1945,18 +2048,36 @@ class OA_DB_Upgrade
                     if ($primary)
                     {
                         $index = $this->prefix.$index;
+                        $indexOrig = '';
+                    }
+                    else
+                    {
+                        $indexOrig = $index;
+                        $index = $this->oTable->_generateIndexName($table_name, $index);
                     }
                     if (in_array($index, $aDBConstraints))
                     {
                         $result = $this->oSchema->db->manager->dropConstraint($table_name, $index, $primary);
                     }
+                    elseif (in_array($indexOrig, $aDBConstraints))
+                    {
+                        // Ensure that the index is dropped even if it is not prefixed
+                        $result = $this->oSchema->db->manager->dropConstraint($table_name, $indexOrig, $primary);
+                    }
                     $result = $this->oSchema->db->manager->createConstraint($table_name, $index, $aIndex_def);
                 }
                 else
                 {
+                    $indexOrig = $index;
+                    $index = $this->oTable->_generateIndexName($table_name, $index);
                     if (in_array($index, $aDBIndexes))
                     {
                         $result = $this->oSchema->db->manager->dropIndex($table_name, $index);
+                    }
+                    elseif (in_array($indexOrig, $aDBIndexes))
+                    {
+                        // Ensure that the index is dropped even if it is not prefixed
+                        $result = $this->oSchema->db->manager->dropIndex($table_name, $indexOrig);
                     }
                     $result = $this->oSchema->db->manager->createIndex($table_name, $index, $aIndex_def);
                 }
@@ -2038,10 +2159,14 @@ class OA_DB_Upgrade
             case 'mysql':
                 $engine = $this->oSchema->db->getOption('default_table_type');
                 $this->aSQLStatements['table_copy']     = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_move']     = "";
                 $this->aSQLStatements['table_rename']   = "RENAME TABLE %s TO %s";
                 break;
             case 'pgsql':
-                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                // Defaults disabled, they give issues with sequence dependencies
+                // $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s" INCLUDING DEFAULTS); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                $this->aSQLStatements['table_copy']     = 'CREATE TABLE "%1$s" (LIKE "%2$s"); INSERT INTO "%1$s" SELECT * FROM "%2$s"';
+                $this->aSQLStatements['table_move']     = 'INSERT INTO "%s" SELECT * FROM "%s"';
                 $this->aSQLStatements['table_rename']   = 'ALTER TABLE "%s" RENAME TO "%s"';
                 break;
             default:
@@ -2103,12 +2228,18 @@ class OA_DB_Upgrade
 
     function _listConstraints($table_name)
     {
-        return $this->oSchema->db->manager->listTableConstraints($table_name);
+        OA_DB::setCaseSensitive();
+        $aResult = $this->oSchema->db->manager->listTableConstraints($table_name);
+        OA_DB::disableCaseSensitive();
+        return $aResult;
     }
 
     function _listIndexes($table_name)
     {
-        return $this->oSchema->db->manager->listTableIndexes($table_name);
+        OA_DB::setCaseSensitive();
+        $aResult = $this->oSchema->db->manager->listTableIndexes($table_name);
+        OA_DB::disableCaseSensitive();
+        return $aResult;
     }
     /**
      * set the continue flag to false
@@ -2278,33 +2409,54 @@ class OA_DB_Upgrade
      */
     function _stripPrefixesFromDatabaseDefinition($aDefinition)
     {
-        if ($this->prefix !== '')
+        $aTables = array();
+        foreach ($aDefinition['tables'] AS $tablename => $aDef)
         {
+            $tablename = strtolower($tablename);
             $prefix = strtolower($this->prefix);
-            foreach ($aDefinition['tables'] AS $tablename => $aDef)
+            if ($prefix !== '' && substr($tablename, 0, strlen($prefix)) == $prefix)
             {
-                $tablename = strtolower($tablename);
-                if (substr($tablename, 0, strlen($prefix))==$prefix)
+                $strippedname = substr($tablename, strlen($prefix));
+            }
+            else
+            {
+                $strippedname = $tablename;
+            }
+            if (isset($aDef['indexes']))
+            {
+                foreach ($aDef['indexes'] AS $indexname => $aIndex)
                 {
-                    $strippedname = substr($tablename, strlen($prefix), strlen($tablename));
-                    if (isset($aDef['indexes']))
+                    $strippedidx = '';
+                    if (isset($aIndex['primary']))
                     {
-                        foreach ($aDef['indexes'] AS $indexname => $aIndex)
-                        {
-                            if (isset($aIndex['primary']))
-                            {
-                                $strippedidx = substr($indexname, strlen($prefix), strlen($indexname));
-                                $aDef['indexes'][$strippedidx] = $aIndex;
-                                unset($aDef['indexes'][$indexname]);
-                            }
-                        }
+                        $strippedidx = preg_replace("/^{$prefix}/", '', strtolower($indexname));
+                        $strippedidx = substr($strippedidx, 0, 63 - strlen($prefix));
                     }
-                    $aTables[$strippedname] = $aDef;
+                    else
+                    {
+                        $strippedidx = preg_replace("/^{$tablename}_/", '', strtolower($indexname));
+                        if ($strippedidx == $indexname && $strippedname != $tablename) {
+                            // Try to strip the non-prefixed table name
+                            $strippedidx = preg_replace("/^{$strippedname}_/", '', strtolower($indexname));
+                        }
+                        $strippedidx = substr($strippedidx, 0, 63 - 1 - strlen($strippedname) - strlen($prefix));
+                    }
+
+                    if ($strippedidx != $indexname)
+                    {
+                        if (isset($aIndex['was'])) {
+                            $aIndex['was'] = $strippedidx;
+                        }
+                        $aDef['indexes'][$strippedidx] = $aIndex;
+                        unset($aDef['indexes'][$indexname]);
+                    }
                 }
             }
-            unset($aDefinition['tables']);
-            $aDefinition['tables'] = $aTables;
+            $aTables[$strippedname] = $aDef;
         }
+        unset($aDefinition['tables']);
+        $aDefinition['tables'] = $aTables;
+
         return $aDefinition;
     }
 

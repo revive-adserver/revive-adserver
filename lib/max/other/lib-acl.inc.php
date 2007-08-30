@@ -197,12 +197,13 @@ function MAX_AclSave($acls, $aEntities, $page = false)
     // When a channel limitation changes - All banners with this channel must be re-learnt
     if ($page == 'channel-acl.php') {
         $affected_ads = array();
+        $table = OA_DB_Sql::modifyTableName($conf['table']['acls']);
 
         $query = "
             SELECT
                 DISTINCT(bannerid)
             FROM
-                {$conf['table']['prefix']}{$conf['table']['acls']}
+                {$table}
             WHERE
                 type = 'Site:Channel'
               AND (data = '{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId}' OR data LIKE '%,{$aclsObjectId},%' OR data LIKE '{$aclsObjectId},%')
@@ -215,9 +216,10 @@ function MAX_AclSave($acls, $aEntities, $page = false)
             $affected_ads[] = $row['bannerid'];
         }
         if (!empty($affected_ads)) {
+            $table = OA_DB_Sql::modifyTableName($conf['table']['banners']);
             $query = "
                 UPDATE
-                    {$conf['table']['prefix']}{$conf['table']['banners']}
+                    {$table}
                 SET
                     acls_updated = '{$now}'
                 WHERE
@@ -333,7 +335,7 @@ function MAX_AclValidate($page, $aParams) {
 function MAX_AclCopy($page, $from, $to) {
     $oDbh = &OA_DB::singleton();
     $conf =& $GLOBALS['_MAX']['CONF'];
-
+    $table = OA_DB_Sql::modifyTableName($conf['table']['acls']);
     switch ($page) {
         case 'channel-acl.php' :
             echo "Not implemented";
@@ -342,7 +344,7 @@ function MAX_AclCopy($page, $from, $to) {
             // Delete old limitations
             $query = "
                 DELETE FROM
-                      {$conf['table']['prefix']}{$conf['table']['acls']}
+                      {$table}
                 WHERE
                     bannerid = ". $oDbh->quote($to, 'integer');
             $res = $oDbh->exec($query);
@@ -352,11 +354,11 @@ function MAX_AclCopy($page, $from, $to) {
 
             // Copy ACLs
             $query = "
-                INSERT INTO {$conf['table']['prefix']}{$conf['table']['acls']}
+                INSERT INTO {$table}
                     SELECT
                         ". $oDbh->quote($to, 'integer') .", logical, type, comparison, data, executionorder
                     FROM
-                        {$conf['table']['prefix']}{$conf['table']['acls']}
+                        {$table}
                     WHERE
                         bannerid= ". $oDbh->quote($from, 'integer') ."
                     ORDER BY executionorder
@@ -419,8 +421,8 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
 {
     $dbh = &OA_DB::singleton();
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-
-    $result = $dbh->exec("UPDATE $prefix$objectTable SET compiledlimitation = 'true', acl_plugins = ''");
+    $table = $dbh->quoteIdentifier($prefix.$objectTable, true);
+    $result = $dbh->exec("UPDATE {$table} SET compiledlimitation = 'true', acl_plugins = ''");
     if (PEAR::isError($result)) {
         return $result;
     }

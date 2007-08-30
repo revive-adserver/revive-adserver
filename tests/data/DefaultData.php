@@ -217,7 +217,8 @@ class DefaultData
                 'ad_selection' => '',
                 'chain'        => '',
                 'prepend'      => '',
-                'append'       => ''
+                'append'       => '',
+                'what'         => ''
             )
         );
         $zoneOneTwoID = Admin_DA::addZone(
@@ -229,7 +230,8 @@ class DefaultData
                 'ad_selection' => '',
                 'chain'        => '',
                 'prepend'      => '',
-                'append'       => ''
+                'append'       => '',
+                'what'         => ''
             )
         );
         $zoneTwoOneID = Admin_DA::addZone(
@@ -241,7 +243,8 @@ class DefaultData
                 'ad_selection' => '',
                 'chain'        => '',
                 'prepend'      => '',
-                'append'       => ''
+                'append'       => '',
+                'what'         => ''
             )
         );
         $zoneTwoTwoID = Admin_DA::addZone(
@@ -253,7 +256,8 @@ class DefaultData
                 'ad_selection' => '',
                 'chain'        => '',
                 'prepend'      => '',
-                'append'       => ''
+                'append'       => '',
+                'what'         => ''
             )
         );
         // Link the ads to the zones

@@ -654,8 +654,9 @@ class Migration_108 extends Migration
 	    $tablePreference = $prefix . 'preference';
 	    $aColumns = $this->oDBH->manager->listTableFields($tablePreference);
 
+	    $table = $this->oDBH->quoteIdentifier($prefix.'config',true);
 	    $sql = "
-	       SELECT * from {$prefix}config";
+	       SELECT * from {$table}";
 	    $rsConfig = DBC::NewRecordSet($sql);
 	    if ($rsConfig->find() && $rsConfig->fetch()) {
 	        $aDataConfig = $rsConfig->toArray();

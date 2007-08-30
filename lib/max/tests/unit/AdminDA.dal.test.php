@@ -79,7 +79,7 @@ class Admin_DaTest extends DalUnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $tableName = $conf['table']['prefix'] . $tableName;
-        $sql = "SELECT MAX($tableIndexField) AS max FROM $tableName";
+        $sql = "SELECT MAX($tableIndexField) AS max FROM ".$dbh->quoteIdentifier($tableName, true);
         $result = $dbh->getRow($sql, array(), DB_FETCHMODE_ASSOC);
 
         return (int) $result['max'];
@@ -674,7 +674,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue($id > 0);
 
         // Get zone record as control element
-        $query = 'SELECT * FROM '.$conf['table']['prefix'].'zones WHERE zoneid = ' . $id;
+        $query = 'SELECT * FROM '.$dbh->quoteIdentifier($conf['table']['prefix'].'zones', true).' WHERE zoneid = ' . $id;
         $aZone1 = $dbh->getRow($query);
         $this->assertTrue(is_array($aZone1));
 
@@ -748,7 +748,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue($ret > 0);
 
         //  get zone record as control element
-        $query = 'SELECT * FROM '.$conf['table']['prefix'].'zones WHERE zoneid = ' . $ret;
+        $query = 'SELECT * FROM '.$dbh->quoteIdentifier($conf['table']['prefix'].'zones', true).' WHERE zoneid = ' . $ret;
         $aZone1 = $dbh->queryRow($query);
         $this->assertTrue(is_array($aZone1));
 
@@ -804,7 +804,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue($id > 0);
 
         //  get zone record as control element
-        $query = 'SELECT * FROM '.$conf['table']['prefix'].'zones WHERE zoneid = ' . $id;
+        $query = 'SELECT * FROM '.$dbh->quoteIdentifier($conf['table']['prefix'].'zones', true).' WHERE zoneid = ' . $id;
         $aZone1 = $dbh->queryRow($query);
         $this->assertTrue(is_array($aZone1));
 
@@ -813,7 +813,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(is_int($ret));
         $this->assertTrue($ret > 0);
 
-        $query = 'SELECT * FROM '.$conf['table']['prefix'].'zones WHERE zoneid = ' . $ret;
+        $query = 'SELECT * FROM '.$dbh->quoteIdentifier($conf['table']['prefix'].'zones', true).' WHERE zoneid = ' . $ret;
         $aZone2 = $dbh->queryRow($query);
         $this->assertTrue(is_array($aZone2));
 
@@ -1163,7 +1163,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->zoneId = $dg->generateOne('zones');
 
         // Populate data_summary_ad_hourly
-        $statsTable = $conf['table']['prefix'] . 'data_summary_ad_hourly';
+        $statsTable = $dbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly', true);
         for ($hour = 0; $hour < 24; $hour ++) {
             $sql = "INSERT INTO $statsTable
                 (   day,

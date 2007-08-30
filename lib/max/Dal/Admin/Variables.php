@@ -34,6 +34,16 @@ class MAX_Dal_Admin_Variables extends MAX_Dal_Common
     function getTrackerVariables($zoneid, $affiliateid, $selectForAffiliate)
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableZ = $oDbh->quoteIdentifier($prefix.'zones',true);
+        $tableAza = $oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true);
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableCt = $oDbh->quoteIdentifier($prefix.'campaigns_trackers',true);
+        $tableT = $oDbh->quoteIdentifier($prefix.'trackers',true);
+        $tableV = $oDbh->quoteIdentifier($prefix.'variables',true);
+        $tableVp = $oDbh->quoteIdentifier($prefix.'variable_publisher',true);
+
+
         $whereZoneAffiliate = empty($zoneid) ?
             "z.affiliateid = ".DBC::makeLiteral($affiliateid) :
             "z.zoneid = ".DBC::makeLiteral($zoneid);
@@ -47,13 +57,13 @@ class MAX_Dal_Admin_Variables extends MAX_Dal_Common
                 t.trackername AS tracker_name,
                 t.description AS tracker_description
             FROM
-                {$prefix}ad_zone_assoc aza JOIN
-                {$prefix}zones z ON (aza.zone_id = z.zoneid) JOIN
-                {$prefix}banners b ON (aza.ad_id = b.bannerid) JOIN
-                {$prefix}campaigns_trackers ct USING (campaignid) JOIN
-                {$prefix}trackers t USING (trackerid) JOIN
-                {$prefix}variables v USING (trackerid) LEFT JOIN
-                {$prefix}variable_publisher vp ON (vp.variable_id = v.variableid AND vp.publisher_id = z.affiliateid)
+                {$tableAza} aza JOIN
+                {$tableZ} z ON (aza.zone_id = z.zoneid) JOIN
+                {$tableB} b ON (aza.ad_id = b.bannerid) JOIN
+                {$tableCt} ct USING (campaignid) JOIN
+                {$tableT} t USING (trackerid) JOIN
+                {$tableV} v USING (trackerid) LEFT JOIN
+                {$tableVp} vp ON (vp.variable_id = v.variableid AND vp.publisher_id = z.affiliateid)
             WHERE
                 {$whereZoneAffiliate} AND
                 v.datatype = 'numeric'

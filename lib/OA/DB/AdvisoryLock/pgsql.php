@@ -106,8 +106,8 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
 
         // PostgreSQL needs two int4, we generate them using crc32
         $sId = array(
-            crc32($this->oDbh->getDsn().'/'.$aConf['table']['prefix']),
-            crc32($sName)
+            crc32($pref['instance_id']) & 0x7FFFFFFF,
+            crc32($sName) & 0x7FFFFFFF
         );
 
         return serialize($sId);

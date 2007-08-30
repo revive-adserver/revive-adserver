@@ -39,7 +39,9 @@ class MAX_Dal_Admin_Channel extends MAX_Dal_Common
 	function getChannelsAndAffiliates()
     {
         $prefix = $this->getTablePrefix();
-
+        $oDbh = OA_DB::singleton();
+        $tableCh = $oDbh->quoteIdentifier($prefix.'channel',true);
+        $tableAf = $oDbh->quoteIdentifier($prefix.'affiliates',true);
         $query = "
             SELECT
                 ch.channelid,
@@ -47,8 +49,8 @@ class MAX_Dal_Admin_Channel extends MAX_Dal_Common
                 ch.name,
                 af.name AS affiliatename
             FROM
-                {$prefix}channel AS ch,
-                {$prefix}affiliates AS af
+                {$tableCh} AS ch,
+                {$tableAf} AS af
             WHERE
                 af.affiliateid=ch.affiliateid
             ORDER BY ch.channelid

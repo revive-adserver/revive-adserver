@@ -923,7 +923,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $conf['maintenance']['channelForecasting'] = true;
         $conf['table']['split'] = false;
 
-        $impressionTable = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+        $impressionTable = $conf['table']['data_raw_ad_impression'];
 
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
@@ -945,7 +945,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SummariseChann
         $conf['maintenance']['channelForecasting'] = true;
         $conf['table']['split'] = true;
 
-        $impressionTable = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'] . '_20061013';
+        $impressionTable = $conf['table']['data_raw_ad_impression'] . '_20061013';
 
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);

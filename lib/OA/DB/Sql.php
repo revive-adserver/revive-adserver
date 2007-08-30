@@ -44,13 +44,13 @@ class OA_DB_Sql
      */
 	function sqlForInsert($table, $aValues)
 	{
-        $prefix = OA_DB_Sql::getPrefix();
 	    foreach($aValues as $column => $value) {
 	        $aValues[$column] = DBC::makeLiteral($value);
 	    }
         $sColumns = implode(",", array_keys($aValues));
         $sValues = implode(",", $aValues);
-        return "INSERT INTO {$prefix}$table ($sColumns) VALUES ($sValues)";
+        $table = OA_DB_Sql::modifyTableName($table);
+        return "INSERT INTO {$table} ($sColumns) VALUES ($sValues)";
 	}
 
 
@@ -66,9 +66,9 @@ class OA_DB_Sql
      */
     function deleteWhereOne($table, $idColumn, $id)
     {
-        $prefix = OA_DB_Sql::getPrefix();
         $dbh = &OA_DB::singleton();
-        $sql = "DELETE FROM {$prefix}$table WHERE $idColumn = $id";
+        $table = OA_DB_Sql::modifyTableName($table);
+        $sql = "DELETE FROM {$table} WHERE $idColumn = $id";
         return $dbh->exec($sql);
     }
 
@@ -86,9 +86,9 @@ class OA_DB_Sql
      */
     function &selectWhereOne($table, $idColumn, $id, $aColumns = array('*'))
     {
-        $prefix = OA_DB_Sql::getPrefix();
         $sColumns = implode(' ', $aColumns);
-        $sql = "SELECT $sColumns FROM {$prefix}$table WHERE $idColumn = $id";
+        $table = OA_DB_Sql::modifyTableName($table);
+        $sql = "SELECT $sColumns FROM {$table} WHERE $idColumn = $id";
         $rs = &DBC::NewRecordSet($sql);
         $result = $rs->find();
         if (PEAR::isError($result)) {
@@ -111,13 +111,13 @@ class OA_DB_Sql
      */
     function updateWhereOne($table, $idColumn, $id, $aValues)
     {
-        $prefix = OA_DB_Sql::getPrefix();
         $aSet = array();
         foreach ($aValues as $column => $value) {
             $aSet []= "$column = " . DBC::makeLiteral($value);
         }
         $sSet = implode(",", $aSet);
-        $sql = "UPDATE {$prefix}$table SET $sSet WHERE $idColumn = $id";
+        $table = OA_DB_Sql::modifyTableName($table);
+        $sql = "UPDATE {$table} SET $sSet WHERE $idColumn = $id";
         $dbh = &OA_DB::singleton();
         return $dbh->exec($sql);
     }
@@ -130,6 +130,13 @@ class OA_DB_Sql
     function getPrefix()
     {
         return $GLOBALS['_MAX']['CONF']['table']['prefix'];
+    }
+
+    function modifyTableName($table)
+    {
+        $prefix = OA_DB_Sql::getPrefix();
+        $oDbh = OA_DB::singleton();
+        return $oDbh->quoteIdentifier($prefix.$table, true);
     }
 }
 

@@ -73,11 +73,12 @@ class MAX_Admin_Preferences
             }
         }
         $oDbh = &OA_DB::singleton();
+        $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'],true);
         $query = "
             SELECT
                 *
             FROM
-                {$conf['table']['prefix']}{$conf['table']['preference']}
+                {$tablePrefs}
             WHERE
                 agencyid = ". $oDbh->quote($agencyId, 'integer');
 
@@ -136,6 +137,7 @@ class MAX_Admin_Preferences
         }
 
         $oDbh = &OA_DB::singleton();
+        $table_name = $oDbh->quoteIdentifier($table_name,true);
         $query = "
             SELECT
                 preference,
@@ -191,7 +193,7 @@ class MAX_Admin_Preferences
             default:
                 MAX::raiseError("The MAX_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
             }
-
+            $table_name = $oDbh->quoteIdentifier($table_name,true);
             $query = "
                 INSERT INTO {$table_name} (
                     {$table_column}, preference, value
@@ -211,6 +213,7 @@ class MAX_Admin_Preferences
                 PEAR::popErrorHandling();
                 if (PEAR::isError($rows)) {
                     // Can't INSERT, try UPDATE instead
+                    $table_name = $oDbh->quoteIdentifier($table_name,true);
                     $query = "
                         UPDATE
                             {$table_name}
@@ -275,52 +278,57 @@ class MAX_Admin_Preferences
                 $agencyId   = phpAds_isUser(phpAds_Agency) ? phpAds_getUserID() : 0;
             }
 
-            // Try to INSERT first
-            $query = "
-                INSERT INTO
-                    {$conf['table']['prefix']}{$conf['table']['preference']}
-                    (
-                    agencyid,
-                ";
+            // Try to UPDATE first
             foreach ($this->prefSql as $key => $value) {
-                $query .= "$key, ";
+                $sql[] = "$key = ". $oDbh->quote($value);
             }
-            $query = preg_replace('/, $/', '', $query);
-            $query .= "
-                    )
-                VALUES
-                    (
-                    ". $oDbh->quote($agencyId, 'integer') .",
-                ";
-            foreach ($this->prefSql as $value) {
-                $query .= $oDbh->quote($value) .", ";
-            }
-            $query = preg_replace('/, $/', '', $query);
-            $query .= '
-                    )
-                ';
+            $tablePrefs = $oDbh->quoteIdentifier('preference',true);
+            $query = "
+                UPDATE
+                    {$tablePrefs}
+                SET
+                    " . join(', ', $sql) . "
+                WHERE
+                    agencyid = ". $oDbh->quote($agencyId, 'integer');
+
             // Don't use a PEAR_Error handler
             PEAR::pushErrorHandling(null);
             $rows = $oDbh->exec($query);
             // Restore the PEAR_Error handler
             PEAR::popErrorHandling();
             if (PEAR::isError($rows)) {
-                // Can't INSERT, try UPDATE instead
-                foreach ($this->prefSql as $key => $value) {
-                    $sql[] = "$key = ". $oDbh->quote($value);
-                }
+                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
+            }
+            if (!$rows) {
+                // UPDATE didn't modify any row
                 $query = "
-                    UPDATE
-                        {$conf['table']['prefix']}{$conf['table']['preference']}
-                    SET
-                        " . join(', ', $sql) . "
-                    WHERE
-                        agencyid = ". $oDbh->quote($agencyId, 'integer');
-
-                $rows = $oDbh->exec($query);
-                if (PEAR::isError($rows)) {
-                    return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
+                    INSERT INTO
+                        {$tablePrefs}
+                        (
+                        agencyid,
+                    ";
+                foreach ($this->prefSql as $key => $value) {
+                    $query .= "$key, ";
                 }
+                $query = preg_replace('/, $/', '', $query);
+                $query .= "
+                        )
+                    VALUES
+                        (
+                        ". $oDbh->quote($agencyId, 'integer') .",
+                    ";
+                foreach ($this->prefSql as $value) {
+                    $query .= $oDbh->quote($value) .", ";
+                }
+                $query = preg_replace('/, $/', '', $query);
+                $query .= '
+                        )
+                    ';
+                // Don't use a PEAR_Error handler
+                PEAR::pushErrorHandling(null);
+                $rows = $oDbh->exec($query);
+                // Restore the PEAR_Error handler
+                PEAR::popErrorHandling();
             }
             unset($this->prefSql);
         }

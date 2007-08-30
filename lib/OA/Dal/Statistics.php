@@ -755,6 +755,7 @@ class OA_Dal_Statistics extends OA_Dal
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Extract the required MPE run information
+        $dsaza = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_ad_zone_assoc'],true);
         $query = "
             SELECT
                 dsaza.interval_start AS interval_start,
@@ -769,7 +770,7 @@ class OA_Dal_Statistics extends OA_Dal
                 dsaza.created AS created,
                 dsaza.expired AS expired
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
+                {$dsaza} AS dsaza
             WHERE
                 dsaza.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND
@@ -826,12 +827,13 @@ class OA_Dal_Statistics extends OA_Dal
             }
         }
         // Extract the required ad impressions delivered information
+        $dia = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true);
         $query = "
             SELECT
                 dia.zone_id AS zone_id,
                 dia.impressions AS ad_actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia
+                {$dia} AS dia
             WHERE
                 dia.operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND
@@ -859,13 +861,14 @@ class OA_Dal_Statistics extends OA_Dal
             $aZonesIds[] = $zoneId;
         }
         if (count($aZonesIds) > 0) {
+            $dszih = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_summary_zone_impression_history'],true);
             $query = "
                 SELECT
                     dszih.zone_id AS zone_id,
                     dszih.forecast_impressions AS zone_forecast_impressions,
                     dszih.actual_impressions AS zone_actual_impressions
                 FROM
-                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']} AS dszih
+                    {$dszih} AS dszih
                 WHERE
                     dszih.operation_interval = {$aConf['maintenance']['operationInterval']}
                     AND

@@ -49,6 +49,12 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         parent::MAX_Dal_Common();
     }
 
+    function _getTablename($tableName)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        return $this->oDbh->quoteIdentifier($aConf['table']['prefix'].($aConf['table'][$tableName] ? $aConf['table'][$tableName] : $tableName), true);
+    }
+
     /**
      * A method to store data about the times that various Maintenance
      * processes ran.
@@ -93,9 +99,10 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         $oEndDateCopy->copy($oEnd);
         $oDuration->setFromDateDiff($oStartDateCopy, $oEndDateCopy);
         // Prepare the logging query
+        $tableName = $this->_getTablename($tableName);
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}{$aConf['table'][$tableName]}
+                {$tableName}
                 (
                     start_run,
                     end_run,";
@@ -190,6 +197,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         if (!empty($aAdditionalFields)) {
             $query .= ', ' . implode(', ', $aAdditionalFields);
         }
+        $tableName = $this->_getTablename($tableName);
         $query .= "
             FROM
                 $tableName";
@@ -214,11 +222,12 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
             // No result was found above, and an alternate raw table was specified,
             // so search the raw table to see if a valid result can be generated
             // on the basis of the earliest raw data value
+            $tableName = $this->_getTablename($aAlternateInfo['tableName']);
             $query = "
                 SELECT
                     date_time AS date
                 FROM
-                    {$aAlternateInfo['tableName']}
+                    {$tableName}
                 ORDER BY date ASC
                 LIMIT 1";
             OA::debug('- Maintenance process run information not found - trying to get data from ' . $aAlternateInfo['tableName'], PEAR_LOG_DEBUG);
@@ -268,8 +277,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
     function getMaintenanceStatisticsLastRunInfo()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['log_maintenance_statistics'];
+        $table = $aConf['table']['log_maintenance_statistics'];
         return $this->getProcessLastRunInfo($table, array('adserver_run_type'));
     }
 
@@ -315,16 +323,17 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($type == 'ad') {
-            $table = $aConf['table']['prefix'] . $aConf['table']['acls'];
+            $table = 'acls';
             $key = 'bannerid';
             $keyAs = 'ad_id';
         } else if ($type == 'channel') {
-            $table = $aConf['table']['prefix'] . $aConf['table']['acls_channel'];
+            $table = 'acls_channel';
             $key = 'channelid';
             $keyAs = 'ad_id';
         } else {
             return null;
         }
+        $tableName = $this->_getTablename($table);
         $query = "
             SELECT
                 $key AS $keyAs,
@@ -334,7 +343,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
                 data,
                 executionorder
             FROM
-                $table
+                $tableName
             WHERE
                 $key = $id
             ORDER BY executionorder";
@@ -368,11 +377,12 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
         } else {
             $tableType = $type;
         }
+        $tableName = $this->_getTablename('campaigns_trackers');
         $query = "
             SELECT
                 MAX(" . $tableType . "window) AS max
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['campaigns_trackers']}";
+                {$tableName}";
         OA::debug('- Finding the largest active ' . $type . ' connection window', PEAR_LOG_DEBUG);
         $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();

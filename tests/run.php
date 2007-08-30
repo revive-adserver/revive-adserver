@@ -68,6 +68,7 @@ if (!empty($runner->host)) {
 
 // Ensure emails are not sent due to activation/deactivation effect
 define('DISABLE_ALL_EMAILS', 1);
+global $start;
 
 $start = microtime();
 
@@ -119,19 +120,20 @@ if ($level == 'all') {
     $runner->runFile($layer, $folder, $file);
 }
 
-
+/* now in the paintFooter() method of a html reporter
 // Display execution time
 list ($endUsec, $endSec) = explode(" ", microtime());
 $endTime = ((float) $endUsec + (float) $endSec);
 list ($startUsec, $startSec) = explode(" ", $start);
 $startTime = ((float) $startUsec + (float) $startSec);
 
-/* TODO: Extract this to the paintFooter() method of a reporter */
 if ($runner->output_format_name == 'html') {
     echo '<div align="right"><br/>Test Suite Execution Time ~ <b>';
     echo substr(($endTime - $startTime), 0, 6);
     echo '</b> seconds.</div>';
 }
+*/
+
 $runner->exitWithCode();
 
 ?>

@@ -134,7 +134,8 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     {
         OA::debug(' - Copying '.$sTableName.' from '.$oStart->format('%Y-%m-%d %H:%M:%S').' to '.$oEnd->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
-        $prefix = $this->getTablePrefix();
+        //$prefix = $this->getTablePrefix();
+        $sTableName = $this->_getTablename($sTableName);
         $oMainDbh =& OA_DB_Distributed::singleton();
 
         if (PEAR::isError($oMainDbh)) {
@@ -157,7 +158,7 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
                 }
                 $oStatement = $oMainDbh->prepare("
                     INSERT INTO
-                        {$prefix}{$sTableName} (".
+                        {$sTableName} (".
                             join(', ', $aFields).
                         ") VALUES (".
                             join(', ', $aBindings)."
@@ -191,10 +192,11 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
 
         OA::debug(' - Pruning '.$sTableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
-        $prefix = $this->getTablePrefix();
+        //$prefix = $this->getTablePrefix();
+        $sTableName = $this->_getTablename($sTableName);
         $query = "
               DELETE FROM
-                {$prefix}$sTableName
+              {$sTableName}
               WHERE
                 date_time < ".
                     DBC::makeLiteral($oTimestamp->format('%Y-%m-%d %H:%M:%S'))."
@@ -211,12 +213,12 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      */
     function _getFirstRecordTimestamp($sTableName)
     {
-        $prefix = $this->getTablePrefix();
+        $sTableName = $this->_getTablename($sTableName);
         $query = "
               SELECT
                 MIN(date_time) AS date_time
               FROM
-                {$prefix}$sTableName
+                {$sTableName}
             ";
 
         $sTimestamp = $this->oDbh->getOne($query);
@@ -240,12 +242,13 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     {
         $oEnd->subtractSeconds(1);
 
-        $prefix = $this->getTablePrefix();
+        //$prefix = $this->getTablePrefix();
+        $sTableName = $this->_getTablename($sTableName);
         $query = "
               SELECT
                 *
               FROM
-                {$prefix}$sTableName
+                {$sTableName}
               WHERE
                 date_time BETWEEN ".
                     DBC::makeLiteral($oStart->format('%Y-%m-%d %H:%M:%S'))." AND ".

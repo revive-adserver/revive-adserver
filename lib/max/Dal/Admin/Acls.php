@@ -41,13 +41,13 @@ class MAX_Dal_Admin_Acls extends MAX_Dal_Common
     function getAclsByDataValueType($findInSet, $type)
     {
         $findInSet = "FIND_IN_SET(".DBC::makeLiteral($findInSet).", data)";
-        $prefix = $this->getTablePrefix();
+        $table = $this->oDbh->quoteIdentifier($this->getTablePrefix().'acls');
     	$query = "
             SELECT
                 *,
                 $findInSet
             FROM
-                {$prefix}acls
+                {$table}
             WHERE
                 type = ".DBC::makeLiteral($type)."
                 AND $findInSet > 0
@@ -55,8 +55,8 @@ class MAX_Dal_Admin_Acls extends MAX_Dal_Common
 
         return DBC::NewRecordSet($query);
     }
-    
-    
+
+
     /**
      * Returns the record set for either 'acls' or 'acls_channels' table,
      * all records and rows.
@@ -66,12 +66,12 @@ class MAX_Dal_Admin_Acls extends MAX_Dal_Common
      */
     function &getRsAcls($table)
     {
-        $prefix = $this->getTablePrefix();
+        $table = $this->oDbh->quoteIdentifier($this->getTablePrefix().$table);
         $query = "
             SELECT
                 *
             FROM
-                {$prefix}{$table}";
+                {$table}";
         return DBC::NewRecordSet($query);
     }
 }

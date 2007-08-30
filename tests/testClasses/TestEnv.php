@@ -61,6 +61,11 @@ class TestEnv
                 PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
                 die();
             }
+            $result = OA_DB::createFunctions();
+            if (PEAR::isError($result) && !$ignore_errors) {
+                PEAR::raiseError("TestEnv unable to create the required functions.", PEAR_LOG_ERR);
+                die();
+            }
         }
     }
 
@@ -137,10 +142,11 @@ class TestEnv
                 {
                     case 'insert':
                         $oDbh = &OA_DB::singleton();
-                        // Add the table prefix to the INSERT statement, if required
-                        $query = $v;
-                        if (!empty($aConf['table']['prefix'])) {
-                            $query = preg_replace('/INSERT INTO /', "INSERT INTO {$aConf['table']['prefix']}", $query);
+                        $query = '';
+                        if (preg_match('/INSERT INTO (?P<table>[\w\W]+) (?P<query>\([\w\W\s]+\);)/U',$v, $aMatches))
+                        {
+                            $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aMatches['table'],true);
+                            $query = 'INSERT INTO '.$table.' '.$aMatches['query'];
                         }
                         $res = $oDbh->query($query);
                         if (!$res || PEAR::isError($res))
@@ -220,7 +226,7 @@ class TestEnv
      * causing any transaction to be committed. In this case, this
      * method is needed to re-set the testing database.
      */
-    function restoreEnv()
+    function restoreEnv($dropTmpTables='false')
     {
         $oDbh = &OA_DB::singleton();
         // Rollback any transactions that have not been closed
@@ -228,7 +234,10 @@ class TestEnv
         while ($oDbh->inTransaction(true) || $oDbh->inTransaction()) {
             TestEnv::rollbackTransaction();
         }
-        TestEnv::dropTempTables();
+        if ($dropTmpTables)
+        {
+            TestEnv::dropTempTables();
+        }
         // Truncate all known core tables
         $oTable = &OA_DB_Table_Core::singleton();
         $oTable->truncateAllTables();

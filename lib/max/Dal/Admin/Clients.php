@@ -51,12 +51,15 @@ class MAX_Dal_Admin_Clients extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $whereClient = is_numeric($keyword) ? " OR c.clientid = $keyword" : '';
+        $oDbh = OA_DB::singleton();
+        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix().'clients',true);
+
         $query = "
             SELECT
                 c.clientid AS clientid,
                 c.clientname AS clientname
             FROM
-                {$conf['table']['prefix']}{$conf['table']['clients']} AS c
+                {$tableC} AS c
             WHERE
                 (
                     c.clientname LIKE ". DBC::makeLiteral('%'. $keyword. '%') . $whereClient ."

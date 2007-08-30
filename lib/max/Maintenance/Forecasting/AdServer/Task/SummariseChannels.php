@@ -370,7 +370,7 @@ class MAX_Maintenance_Forecasting_AdServer_Task_SummariseChannels extends MAX_Ma
         if ($conf['maintenance']['channelForecasting'] != true) {
             return array();
         }
-        $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+        $table = $conf['table']['data_raw_ad_impression'];
         if ($conf['table']['split']) {
             $table .= '_' . $oStartDate->format('%Y%m%d');
         }

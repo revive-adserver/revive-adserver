@@ -64,8 +64,6 @@ class Migration_326 extends Migration
 		$this->aObjectMap['campaigns']['updated'] = array('fromTable'=>'campaigns', 'fromField'=>'updated');
     }
 
-
-
     /**
      * Backup the priorities field before altering
      *
@@ -75,8 +73,15 @@ class Migration_326 extends Migration
 	{
 	    $prefix = $this->getPrefix();
 	    $statement = $this->aSQLStatements['table_copy_temp'];
-        $engine = $this->oDBH->getOption('default_table_type');
-	    $query      = sprintf($statement, $prefix . 'campaigns_325', $engine, $prefix . 'campaigns');
+	    if ($this->oDBH->dbsyntax == 'mysql')
+	    {
+            $engine = $this->oDBH->getOption('default_table_type');
+    	    $query      = sprintf($statement, $prefix . 'campaigns_325', $engine, $prefix . 'campaigns');
+	    }
+	    else if ($this->oDBH->dbsyntax == 'pgsql')
+	    {
+    	    $query      = sprintf($statement, $prefix.'campaigns_325', $prefix.'campaigns');
+	    }
         $result     = $this->oDBH->exec($query);
         if (PEAR::isError($result))
         {
@@ -95,8 +100,8 @@ class Migration_326 extends Migration
 	{
         // Restore the campaigns.priority value mapping old->new values
         $prefix = $this->getPrefix();
-        $tbl_campaigns = $prefix . 'campaigns';
-        $tbl_campaigns_325 = $prefix . 'campaigns_325';
+        $tbl_campaigns     = $this->oDBH->quoteIdentifier($prefix . 'campaigns',true);
+        $tbl_campaigns_325 = $this->oDBH->quoteIdentifier($prefix . 'campaigns_325',true);
 
         $query = "
             UPDATE

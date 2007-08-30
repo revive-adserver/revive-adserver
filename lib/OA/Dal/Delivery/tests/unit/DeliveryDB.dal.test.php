@@ -22,51 +22,64 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id $
 */
 
 require_once MAX_PATH . '/lib/OA/Dal/Delivery/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
 require_once 'Log.php';
 
+// pgsql execution time before refactor: 132.33s
+// pgsql execution time after refactor: 20.217s
+
 /**
- * A class for testing the MySQL version of the Delivery Engine DAL class.
+ * A class for testing the Delivery Engine DAL class.
  *
  * @package    MaxDal
  * @subpackage TestSuite
  * @author     Unknown!
+ *
+ *
+ * this method combines and replaces the previously separate mysql and pgsql tests
+ *
  */
-class Test_OA_Dal_Delivery_mysql extends UnitTestCase
+class Test_OA_Dal_DeliveryDB extends UnitTestCase
 {
-    /**
-     * A private method to test if it is okay to run these tests
-     * or not.
-     *
-     * @access private
-     * @return boolean True if the database in used is MySQL, false
-     *                 otherwise.
-     */
-    function _testOkayToRun()
+    var $oDbh;
+    var $prefix;
+
+    function Test_OA_Dal_DeliveryDB()
     {
-        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql') {
-            return true;
-        }
-        return false;
+        $this->UnitTestCase();
+        $this->oDbh = OA_DB::singleton();
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $this->prefix = $aConf['table']['prefix'];
+        $error = TestEnv::loadData('0.3.27_delivery', 'insert');
     }
 
     function before()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
+        //$error = TestEnv::loadData('0.3.27_delivery', 'insert');
+    }
+
+    /**
+     * A private method to close delivery connection after tests are run
+     *
+     */
+    function _testCloseConnection()
+    {
+        if ($this->oDbh->dbsyntax == 'pgsql')
+        {
+            if (!empty($GLOBALS['_MAX']['ADMIN_DB_LINK'])) {
+                pg_close($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+                unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
+            }
         }
-        $error = TestEnv::loadData('0.3.27_delivery', 'insert');
     }
 
     function after()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
-        TestEnv::restoreEnv();
+//        $this->_testCloseConnection();
+//        TestEnv::restoreEnv();
     }
 
     /**
@@ -75,12 +88,21 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_connect()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $GLOBALS['_MAX']['ADMIN_DB_LINK'] = OA_Dal_Delivery_connect();
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
-        $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'mysql link');
+        if ($this->oDbh->dbsyntax == 'mysql')
+        {
+            $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'mysql link');
+        }
+        else if ($this->oDbh->dbsyntax == 'pgsql')
+        {
+            $this->assertEqual(get_resource_type($GLOBALS['_MAX']['ADMIN_DB_LINK']), 'pgsql link');
+        }
+    }
+
+    function _getTableName($table)
+    {
+        return $this->oDbh->quoteIdentifier($this->prefix.$table, true);
     }
 
     /**
@@ -89,13 +111,17 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_query()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $res = OA_Dal_Delivery_query("SELECT * FROM {$aConf['table']['prefix']}banners limit 1");
+        $res = OA_Dal_Delivery_query("SELECT * FROM {$this->_getTableName('banners')} limit 1");
         $this->assertTrue($res);
-        $row = @mysql_fetch_array($res);
+        if ($this->oDbh->dbsyntax == 'mysql')
+        {
+            $row = @mysql_fetch_array($res);
+        }
+        else if ($this->oDbh->dbsyntax == 'pgsql')
+        {
+            $row = @pg_fetch_array($res);
+        }
         $this->assertTrue($row);
         $this->assertNoErrors('test_OA_Dal_Delivery_query');
     }
@@ -106,9 +132,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getZoneInfo()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $zoneid     = 61;
         $aReturn    = OA_Dal_Delivery_getZoneInfo($zoneid);
         //$prn        = var_export($aReturn, TRUE);
@@ -122,9 +145,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getZoneLinkedAds()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $zoneid     = 61;
         $aReturn    = OA_Dal_Delivery_getZoneLinkedAds($zoneid);
 
@@ -155,9 +175,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getLinkedAds()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $placementid = 1;
         $search     = 'campaignid:'.$placementid;
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
@@ -227,9 +244,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getAd()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $ad_id      = 1;
         $aReturn    = OA_Dal_Delivery_getAd($ad_id);
         $this->assertIsA($aReturn, 'array');
@@ -242,9 +256,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getChannelLimitations()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $channelid  = 1;
         $aReturn    = OA_Dal_Delivery_getChannelLimitations($channelid);
         //$prn        = var_export($aReturn, TRUE);
@@ -258,9 +269,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      **/
     function test_OA_Dal_Delivery_getCreative()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
 //        $filename   = 'adOneTwoOneID.gif';
 //        $aReturn    = OA_Dal_Delivery_getCreative($filename);
 //        $prn        = var_export($aReturn, TRUE);
@@ -274,9 +282,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getTracker()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $trackerid  = 1;
         $aReturn    = OA_Dal_Delivery_getTracker($trackerid);
         $this->assertEqual($aReturn['advertiser_id'],1);
@@ -298,9 +303,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getTrackerVariables()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $trackerid  = 1;
         $aReturn    = OA_Dal_Delivery_getTrackerVariables($trackerid);
         $this->assertEqual(count($aReturn), 2);
@@ -312,9 +314,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_logAction()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $aConf = $GLOBALS['_MAX']['CONF'];
         $res = OA_Dal_Delivery_logAction(
             "{$aConf['table']['prefix']}data_raw_ad_impression",
@@ -359,9 +358,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_logTracker()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
             "{$aConf['table']['prefix']}data_raw_tracker_impression",
@@ -387,9 +383,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_OA_Dal_Delivery_logVariableValues()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
             "{$aConf['table']['prefix']}data_raw_tracker_impression",
@@ -430,9 +423,6 @@ class Test_OA_Dal_Delivery_mysql extends UnitTestCase
      */
     function test_lastTest()
     {
-        if (!$this->_testOkayToRun()) {
-            return;
-        }
         TestEnv::restoreEnv();
     }
 }

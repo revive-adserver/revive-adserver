@@ -1012,7 +1012,18 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
     function currID($seq_name)
     {
         $sequence_name = $this->quoteIdentifier($this->getSequenceName($seq_name), true);
-        return $this->queryOne("SELECT last_value FROM $sequence_name", 'integer');
+        $this->expectError(MDB2_ERROR_NOSUCHTABLE);
+        $result = $this->queryOne("SELECT last_value FROM $sequence_name", 'integer');
+        $this->popExpect();
+        if (PEAR::isError($result)) {
+            // Try with the original name
+            $sequence_name = $this->quoteIdentifier($seq_name, true);
+            $result2 = $this->queryOne("SELECT last_value FROM $sequence_name", 'integer');
+            if (!PEAR::isError($result2)) {
+                $result = $result2;
+            }
+        }
+        return $result;
     }
 }
 

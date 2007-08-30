@@ -78,7 +78,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['banners'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
         $query = "
             SELECT
                 bannerid AS ad_id,
@@ -127,8 +127,8 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $adTable  = $conf['table']['prefix'] . $conf['table']['banners'];
-        $azaTable = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
+        $adTable  = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $azaTable = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc'],true);
         $query = "
             SELECT
                 aza.zone_id AS zone_id,
@@ -201,8 +201,8 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $adTable  = $conf['table']['prefix'] . $conf['table']['banners'];
-        $dlTable  = $conf['table']['prefix'] . $conf['table']['acls'];
+        $adTable  = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $dlTable  = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'],true);
         $query = "
             SELECT
                 a.bannerid AS ad_id,
@@ -281,7 +281,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['acls'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'],true);
         $query = "
             SELECT
                 logical AS logical,
@@ -323,7 +323,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
     function getAllActiveAgencyIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['agency'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['agency'],true);
         $query = "
             SELECT
                 agencyid AS agency_id
@@ -381,7 +381,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['channel'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['channel'],true);
         $query = "
             SELECT
                 channelid AS channel_id
@@ -431,7 +431,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['acls_channel'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls_channel'],true);
         $query = "
             SELECT
                 logical AS logical,
@@ -509,8 +509,8 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $adTable        = $conf['table']['prefix'] . $conf['table']['banners'];
-        $placementTable = $conf['table']['prefix'] . $conf['table']['campaigns'];
+        $adTable        = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $placementTable = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
         $query = "
             SELECT
                 p.campaignid AS placement_id,
@@ -579,7 +579,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['affiliates'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['affiliates'],true);
         $query = "
             SELECT
                 affiliateid AS publisher_id
@@ -626,7 +626,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['zones'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
         $query = "
             SELECT
                 zoneid AS zone_id,
@@ -692,7 +692,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['zones'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
         $query = "
             SELECT
                 zoneid AS zone_id
@@ -745,7 +745,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['zones'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
         $query = "
             SELECT
                 zoneid AS zone_id
@@ -792,7 +792,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['ad_zone_assoc'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc'],true);
         $query = "
             SELECT
                 ad_id AS ad_id,

@@ -134,14 +134,15 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
         case 'blob':
             return 'BYTEA';
         case 'integer':
+            // Openads customisation, removed PRIMARY KEY after BIGSERIAL and SERIAL
             if (!empty($field['autoincrement'])) {
                 if (!empty($field['length'])) {
                     $length = $field['length'];
                     if ($length > 4) {
-                        return 'BIGSERIAL PRIMARY KEY';
+                        return 'BIGSERIAL';
                     }
                 }
-                return 'SERIAL PRIMARY KEY';
+                return 'SERIAL';
             }
             if (!empty($field['length'])) {
                 $length = $field['length'];
@@ -463,6 +464,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
             break;
         case 'datetime':
         case 'timestamp':
+        case 'timestamptz':
             $type[] = 'timestamp';
             $length = null;
             break;

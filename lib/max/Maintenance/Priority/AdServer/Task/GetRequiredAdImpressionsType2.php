@@ -86,7 +86,8 @@ class GetRequiredAdImpressionsType2 extends MAX_Maintenance_Priority_AdServer_Ta
     function _getValidPlacements()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['campaigns'];
+        $oDbh = OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
         $aWheres = array(
             array("($table.target_impression >= 0 OR $table.target_click >= 0 OR $table.target_conversion >= 0)", 'AND'),
             array("$table.priority >= 1", 'AND'),

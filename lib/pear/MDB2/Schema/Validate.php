@@ -679,7 +679,7 @@ class MDB2_Schema_Validate
             break;
         case 'date':
             if (!preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})/', $field_value)
-                && $field_value !== 'CURRENT_DATE'
+                && $field_value !== 'CURRENT_DATE' && strtolower($field_value) !== 'now()'
             ) {
 
 
@@ -698,7 +698,7 @@ class MDB2_Schema_Validate
             break;
         case 'timestamp':
             if (!preg_match('/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{2}):([0-9]{2}):([0-9]{2})/', $field_value)
-                && $field_value !== 'CURRENT_TIMESTAMP'
+                && $field_value !== 'CURRENT_TIMESTAMP' && strtolower($field_value) !== 'now()'
             ) {
 
 

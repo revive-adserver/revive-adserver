@@ -58,7 +58,9 @@ class OA_UpgradePrescript
     {
         $this->oSchema  = MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
         $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        OA_DB::setCaseSensitive();
         $aPrev  = $this->oSchema->getDefinitionFromDatabase(array($prefix.'database_action'));
+        OA_DB::disableCaseSensitive();
         $aCurr  = $this->_getLatestDatabaseActionSchema($prefix);
         $aChanges = $this->oSchema->compareDefinitions($aCurr, $aPrev);
         if (is_array($aChanges) && count($aChanges)>0)

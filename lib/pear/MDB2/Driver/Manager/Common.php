@@ -331,7 +331,6 @@ class MDB2_Driver_Manager_Common extends MDB2_Module_Common
         if (PEAR::isError($db)) {
             return $db;
         }
-
         $name = $db->quoteIdentifier($name, true);
         return $db->exec("DROP TABLE $name");
     }

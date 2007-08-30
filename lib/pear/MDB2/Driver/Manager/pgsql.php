@@ -214,10 +214,12 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return MDB2_OK;
         }
 
+        $tableName = $db->quoteIdentifier($name,true);
+
         if (!empty($changes['add']) && is_array($changes['add'])) {
             foreach ($changes['add'] as $field_name => $field) {
                 $query = 'ADD ' . $db->getDeclaration($field['type'], $field_name, $field);
-                $result = $db->exec("ALTER TABLE $name $query");
+                $result = $db->exec("ALTER TABLE $tableName $query");
                 if (PEAR::isError($result)) {
                     return $result;
                 }
@@ -228,7 +230,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             foreach ($changes['remove'] as $field_name => $field) {
                 $field_name = $db->quoteIdentifier($field_name, true);
                 $query = 'DROP ' . $field_name;
-                $result = $db->exec("ALTER TABLE $name $query");
+                $result = $db->exec("ALTER TABLE $tableName $query");
                 if (PEAR::isError($result)) {
                     return $result;
                 }
@@ -247,23 +249,44 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                         return $db->raiseError(MDB2_ERROR_CANNOT_ALTER, null, null,
                             'changing column type for "'.$change_name.'\" requires PostgreSQL 8.0 or above', __FUNCTION__);
                     }
-                    $db->loadModule('Datatype', null, true);
-                    $query = "ALTER $field_name TYPE ".$db->datatype->getTypeDeclaration($field['definition']);
-                    $result = $db->exec("ALTER TABLE $name $query");
+                    //$db->loadModule('Datatype', null, true);
+                    //$query = "ALTER $field_name TYPE ".$db->datatype->getTypeDeclaration($field['definition']);
+                    $options = $field['definition'];
+                    unset($options['notnull']);
+                    unset($options['default']);
+                    unset($options['autoincrement']);
+                    $declaration = $db->getDeclaration($field['definition']['type'], '', $options);
+                    $declaration = preg_replace('/ DEFAULT NULL$/', '', $declaration);
+                    $query = "ALTER $field_name TYPE".$declaration;
+                    $result = $db->exec("ALTER TABLE $tableName $query");
                     if (PEAR::isError($result)) {
                         return $result;
+                    }
+                    if (!empty($field['definition']['autoincrement'])) {
+                        unset($field['definition']['default']);
+                        $field['definition']['notnull'] = true;
+                        $result = $this->createSequence($name.'_'.$field_name);
+                        if (PEAR::isError($result)) {
+                            return $result;
+                        }
+                        $query = "ALTER $field_name SET DEFAULT nextval('".$db->quoteIdentifier($db->getSequenceName($name.'_'.$field_name))."')";
+                        $result = $db->exec("ALTER TABLE $tableName $query");
+                        if (PEAR::isError($result)) {
+                            return $result;
+                        }
+                        // TODO pg_depend
                     }
                 }
                 if (array_key_exists('default', $field['definition'])) {
                     $query = "ALTER $field_name SET DEFAULT ".$db->quote($field['definition']['default'], $field['definition']['type']);
-                    $result = $db->exec("ALTER TABLE $name $query");
+                    $result = $db->exec("ALTER TABLE $tableName $query");
                     if (PEAR::isError($result)) {
                         return $result;
                     }
                 }
                 if (!empty($field['definition']['notnull'])) {
                     $query = "ALTER $field_name ".($field['definition']['notnull'] ? "SET" : "DROP").' NOT NULL';
-                    $result = $db->exec("ALTER TABLE $name $query");
+                    $result = $db->exec("ALTER TABLE $tableName $query");
                     if (PEAR::isError($result)) {
                         return $result;
                     }
@@ -274,17 +297,16 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         if (!empty($changes['rename']) && is_array($changes['rename'])) {
             foreach ($changes['rename'] as $field_name => $field) {
                 $field_name = $db->quoteIdentifier($field_name, true);
-                $result = $db->exec("ALTER TABLE $name RENAME COLUMN $field_name TO ".$db->quoteIdentifier($field['name'], true));
+                $result = $db->exec("ALTER TABLE $tableName RENAME COLUMN $field_name TO ".$db->quoteIdentifier($field['name'], true));
                 if (PEAR::isError($result)) {
                     return $result;
                 }
             }
         }
 
-        $name = $db->quoteIdentifier($name, true);
         if (!empty($changes['name'])) {
             $change_name = $db->quoteIdentifier($changes['name'], true);
-            $result = $db->exec("ALTER TABLE $name RENAME TO ".$change_name);
+            $result = $db->exec("ALTER TABLE $tableName RENAME TO ".$change_name);
             if (PEAR::isError($result)) {
                 return $result;
             }
@@ -429,14 +451,15 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             SELECT
                 proname
             FROM
-                pg_proc pr,
-                pg_type tp
+                pg_proc pr JOIN
+                pg_type tp ON (tp.oid = pr.prorettype) JOIN
+                pg_namespace ns ON (ns.oid = pr.pronamespace)
             WHERE
-                tp.oid = pr.prorettype
-                AND pr.proisagg = FALSE
+                pr.proisagg = FALSE
                 AND tp.typname <> 'trigger'
-                AND pr.pronamespace IN
-                    (SELECT oid FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname != 'information_schema')";
+                AND ns.nspname NOT LIKE 'pg_%' AND ns.nspname != 'information_schema')
+                AND pg_catalog.pg_function_is_visible(pr.oid)
+            ";
         $result = $db->queryCol($query);
         if (PEAR::isError($result)) {
             return $result;
@@ -475,6 +498,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             . ' (SELECT 1 FROM pg_views'
             . '  WHERE viewname = c.relname)'
             . " AND c.relname !~ '^(pg_|sql_)'"
+            . ' AND pg_catalog.pg_table_is_visible(c.oid)'
             . ' UNION'
             . ' SELECT c.relname AS "Name"'
             . ' FROM pg_class c'
@@ -486,6 +510,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             . ' (SELECT 1 FROM pg_user'
             . '  WHERE usesysid = c.relowner)'
             . " AND c.relname !~ '^pg_'"
+            . ' AND pg_catalog.pg_table_is_visible(c.oid)'
             . (!empty($prefix) ? 'AND c.relname ILIKE '.$db->quote($prefix.'%', 'text') : '');
         $result = $db->queryCol($query);
         if (PEAR::isError($result)) {
@@ -545,10 +570,23 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $table = $db->quote($table, 'text');
-        $subquery = "SELECT indexrelid FROM pg_index, pg_class";
-        $subquery.= " WHERE pg_class.relname=$table AND pg_class.oid=pg_index.indrelid AND indisunique != 't' AND indisprimary != 't'";
-        $query = "SELECT relname FROM pg_class WHERE oid IN ($subquery)";
+        $oid = $this->_getMatchingTableOid($table);
+
+        if (empty($oid)) {
+            return array();
+        }
+
+        $query = "
+            SELECT
+                ci.relname
+            FROM
+                pg_class ci JOIN
+                pg_index i ON (ci.oid = i.indexrelid)
+            WHERE
+                i.indisunique <> 't' AND
+                i.indisprimary <> 't' AND
+                i.indrelid = {$oid}
+        ";
         $indexes = $db->queryCol($query, 'text');
         if (PEAR::isError($indexes)) {
             return $indexes;
@@ -585,10 +623,22 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             return $db;
         }
 
-        $table = $db->quote($table, 'text');
-        $subquery = "SELECT indexrelid FROM pg_index, pg_class";
-        $subquery.= " WHERE pg_class.relname=$table AND pg_class.oid=pg_index.indrelid AND (indisunique = 't' OR indisprimary = 't')";
-        $query = "SELECT relname FROM pg_class WHERE oid IN ($subquery)";
+        $oid = $this->_getMatchingTableOid($table);
+
+        if (empty($oid)) {
+            return array();
+        }
+
+        $query = "
+            SELECT
+                ci.relname
+            FROM
+                pg_class ci JOIN
+                pg_index i ON (ci.oid = i.indexrelid)
+            WHERE
+                (i.indisunique = 't' OR i.indisprimary = 't') AND
+                i.indrelid = {$oid}
+        ";
         $constraints = $db->queryCol($query);
         if (PEAR::isError($constraints)) {
             return $constraints;
@@ -671,7 +721,8 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
 
         $query = "SELECT relname FROM pg_class WHERE relkind = 'S' AND relnamespace IN";
-        $query.= "(SELECT oid FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname != 'information_schema')";
+        $query.= " (SELECT oid FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname != 'information_schema')";
+        $query.= " AND pg_catalog.pg_table_is_visible(oid)";
         $table_names = $db->queryCol($query);
         if (PEAR::isError($table_names)) {
             return $table_names;
@@ -689,6 +740,11 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
     /**
      * New OPENADS method
      *
+     *
+     * this simulated show table status assumed that pgsql was compiled with a default page size (8k)
+     * and will return wrong data if it isn't.
+     *
+     *
      * @param string $table
      * @return array
      */
@@ -700,11 +756,23 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         }
 
         $autoIncrement = NULL;
-        $schemaName    = 'public';
+        if (!empty($GLOBALS['_MAX']['CONF']['databasePgsql']['schema'])) {
+            $schemaName    = $GLOBALS['_MAX']['CONF']['databasePgsql']['schema'];
+        } else {
+            $aSchemas = $this->listCurrentSchemas();
+            $schemaName = $aSchemas[0];
+        }
         $blockSz       = 8192;
 
         $qSchemaName = $db->quote($schemaName);
-        $qTableName  = $db->quote($tableName);
+        $qTableName  = $db->quote($table);
+
+        // We need to ANALYZE the table if we want a meaningful result
+        // this can take minutes to execute
+        // it will give the most up-to-date statistics
+        // otherwise we will get the last analyzed statistics
+        // which will depend on when the scheduled analysis was last run
+        $db->exec("ANALYZE {$db->quoteIdentifier($table)}");
 
         $pkeyDefault = $db->queryOne("
             SELECT
@@ -717,17 +785,17 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                 tc.table_schema = {$qSchemaName} AND
                 tc.table_name = {$qTableName} AND
                 tc.constraint_type = 'PRIMARY KEY' AND
-                c.column_default ILIKE 'nextval(%';
+                c.column_default LIKE 'nextval(%';
             ");
 
         if (!PEAR::isError($pkeyDefault) && preg_match('/^nextval\(\'(.+)\'.*\).*$/', $pkeyDefault, $aMatches)) {
             $pkeySequence = $aMatches[1];
+            $query =   "SELECT
+                            last_value + CASE WHEN is_called THEN 1 ELSE 0 END
+                        FROM
+                            ".$db->quoteIdentifier($schemaName).".".$pkeySequence;
 
-            $autoIncrement = $db->queryOne("
-                SELECT
-                    last_value
-                FROM
-                    ".$db->quoteIdentifier($schemaName).".".$db->quoteIdentifier($pkeySequence));
+            $autoIncrement = $db->queryOne($query);
         }
 
         $result = $db->queryRow("
@@ -744,18 +812,70 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
             ", null, MDB2_FETCHMODE_ASSOC);
 
         if (PEAR::isError($result)) {
+            return array();
+        }
+
+        return array($result);
+    }
+
+    function listCurrentSchemas()
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $schemas = $db->queryOne("SELECT pg_catalog.current_schemas(false)");
+
+        if (PEAR::isError($schemas)) {
+            return array();
+        }
+
+        $schemas = substr($schemas, 1, -1);
+        $aSchemas = explode(',', $schemas);
+        foreach ($aSchemas as $k => $v) {
+            $aSchemas[$k] = preg_replace('/^"(.*)"$/', '$1', $v);
+        }
+
+        return $aSchemas;
+    }
+
+    function _getMatchingTableOid($table)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $table = $db->quote($table, 'text');
+
+        foreach ($this->listCurrentSchemas() as $schema) {
+            $schema = $db->quote($schema, 'text');
+            $query = "
+                SELECT
+                    c.oid
+                FROM
+                    pg_class c JOIN
+                    pg_namespace n ON (n.oid = c.relnamespace)
+                WHERE
+                    pg_catalog.pg_table_is_visible(c.oid) AND
+                    c.relname = {$table} AND
+                    n.nspname = {$schema}
+            ";
+            $oid = $db->queryOne($query);
+
+            if (PEAR::isError($oid)) {
+                return $oid;
+            } elseif (!empty($oid)) {
+                break;
+            }
+        }
+
+        if (empty($oid)) {
             return false;
         }
 
-        $query      = "SHOW TABLE STATUS LIKE '{$table}'";
-        $result     = $db->queryAll($query);
-        if (PEAR::isError($result))
-        {
-            return array();
-        }
-        return $result;
+        return $oid;
     }
-
-
 }
 ?>

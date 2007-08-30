@@ -75,8 +75,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
     function getMaintenanceStatisticsLastRunInfo($type, $oNow = null)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_impression'] . '_' .
+        $table = $aConf['table']['data_raw_tracker_impression'] . '_' .
                  date('Ymd');
         return $this->_getMaintenanceStatisticsLastRunInfo($type, "Tracker", $table, $oNow);
     }
@@ -135,7 +134,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     SELECT
                         *
                     FROM
-                        $table
+                        {$this->oDbh->quoteIdentifier($table,true)}
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";
@@ -171,7 +170,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     SELECT
                         *
                     FROM
-                        $table
+                        {$this->oDbh->quoteIdentifier($table,true)}
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";
@@ -207,7 +206,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     SELECT
                         *
                     FROM
-                        $table
+                        {$this->oDbh->quoteIdentifier($table,true)}
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";

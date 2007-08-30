@@ -374,10 +374,10 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertTrue($this->_tableExists('table1', $oDB_Upgrade->aDBTables), 'source table not found in database');
 
-        OA_DB::setQuoteIdentifier();
+        OA_DB::setCaseSensitive();
         $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
         $aTbl_def_bak  = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.$table_bak));
-        OA_DB::disabledQuoteIdentifier();
+        OA_DB::disableCaseSensitive();
 
         $aTbl_def_orig = $aTbl_def_orig['tables'][$this->prefix.'table1'];
         $aTbl_def_bak  = $aTbl_def_bak['tables'][$this->prefix.$table_bak];
@@ -397,8 +397,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($this->_tableExists('table1',$oDB_Upgrade->aDBTables), 'test table was not restored');
 
+        OA_DB::setCaseSensitive();
         $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
         $aTbl_def_rest = $aTbl_def_rest['tables'][$this->prefix.'table1'];
+        OA_DB::disableCaseSensitive();
 
         // also test field definition properties?
         foreach ($aTbl_def_orig['fields'] AS $field=>$aDef)
@@ -520,7 +522,10 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $oDB_Upgrade->aChanges['affected_tables']['constructive'] = array('table1_autoinc');
 
+        OA_DB::setCaseSensitive();
         $aTbl_def_orig = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1_autoinc'));
+        OA_DB::disableCaseSensitive();
+
         $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
 
         $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(5),'prep rollback failed');
@@ -536,9 +541,11 @@ class Test_DB_Upgrade extends UnitTestCase
         $table_bak = $oDB_Upgrade->aRestoreTables['tables_core']['920']['table1_autoinc'][0]['tablename_backup'];
         $this->assertTrue($this->_tableExists($table_bak, $oDB_Upgrade->aDBTables), 'backup table not found in database');
 
-        OA_DB::setQuoteIdentifier();
+        //OA_DB::setQuoteIdentifier();
+        OA_DB::setCaseSensitive();
         $aTbl_def_bak = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.$table_bak));
-        OA_DB::disabledQuoteIdentifier();
+        OA_DB::disableCaseSensitive();
+        //OA_DB::disabledQuoteIdentifier();
 
         $aTbl_def_orig = $aTbl_def_orig['tables'][$this->prefix.'table1_autoinc'];
         $aTbl_def_bak  = $aTbl_def_bak['tables'][$this->prefix.$table_bak];
@@ -558,7 +565,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
         $this->assertTrue($this->_tableExists('table1_autoinc',$oDB_Upgrade->aDBTables), 'test table was not restored');
 
+        OA_DB::setCaseSensitive();
         $aTbl_def_rest = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1_autoinc'));
+        OA_DB::disableCaseSensitive();
+
         $aTbl_def_rest = $aTbl_def_rest['tables']['table1_autoinc'];
 
         // also test field definition properties?
@@ -921,14 +931,23 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesRemove(),'failed _verifyTasksIndexesRemove');
 
         // no migration callbacks on index events
-
+        OA_DB::setCaseSensitive();
         $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table1');
-        $this->assertTrue(in_array('index2', $aConstraints),'index2 not found');
+        OA_DB::disableCaseSensitive();
+
+        $this->assertTrue(in_array($this->prefix.'table1_index2', $aConstraints),'index2 not found');
 
         $this->assertTrue($oDB_Upgrade->_executeTasksIndexesRemove(),'failed _executeTasksIndexesRemove');
 
+        OA_DB::setCaseSensitive();
         $aConstraints = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table1');
-        $this->assertFalse(in_array('index2', $aConstraints),'index2 found');
+        OA_DB::disableCaseSensitive();
+
+        $this->assertFalse(in_array($this->prefix.'table1_index2', $aConstraints),'index2 found');
+        if (file_exists(MAX_PATH.'/var/changes_test_indexRemove.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_indexRemove.xml');
+        }
         if (file_exists(MAX_PATH.'/var/changes_test_indexRemove.xml'))
         {
             @unlink(MAX_PATH.'/var/changes_test_indexRemove.xml');
@@ -954,20 +973,37 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($oDB_Upgrade->_verifyTasksIndexesAdd(),'failed _verifyTasksIndexesAdd');
 
         // no migration callbacks on index events
-
+        OA_DB::setCaseSensitive();
         $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table2');
+        OA_DB::disableCaseSensitive();
+
         $this->assertFalse(in_array($this->prefix.'table2_pkey', $aConstraints),'table2_pkey found');
         $this->assertFalse(in_array('index_unique', $aConstraints),'index_unique found');
+
+        OA_DB::setCaseSensitive();
         $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes($this->prefix.'table2');
+        OA_DB::disableCaseSensitive();
+
         $this->assertFalse(in_array('index_new', $aIndexes),'index_new found');
 
         $this->assertTrue($oDB_Upgrade->_executeTasksIndexesAdd(),'failed _executeTasksIndexesAdd');
 
+        OA_DB::setCaseSensitive();
         $aConstraints   = $oDB_Upgrade->oSchema->db->manager->listTableConstraints($this->prefix.'table2');
+        OA_DB::disableCaseSensitive();
+
         $this->assertTrue(in_array($this->prefix.'table2_pkey', $aConstraints),'table2_pkey not found');
-        $this->assertTrue(in_array('index_unique', $aConstraints),'index_unique not found');
+        $this->assertTrue(in_array($this->prefix.'table2_index_unique', $aConstraints),'index_unique not found');
+
+        OA_DB::setCaseSensitive();
         $aIndexes       = $oDB_Upgrade->oSchema->db->manager->listTableIndexes($this->prefix.'table2');
-        $this->assertTrue(in_array('index_new', $aIndexes),'index_new not found');
+        OA_DB::disableCaseSensitive();
+
+        $this->assertTrue(in_array($this->prefix.'table2_index_new', $aIndexes),'index_new not found');
+        if (file_exists(MAX_PATH.'/var/changes_test_indexAdd.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_indexAdd.xml');
+        }
         if (file_exists(MAX_PATH.'/var/changes_test_indexAdd.xml'))
         {
             @unlink(MAX_PATH.'/var/changes_test_indexAdd.xml');
@@ -1172,7 +1208,10 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
 
+        OA_DB::setCaseSensitive();
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
+        OA_DB::disableCaseSensitive();
+
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['default'],'','wrong original default value');
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],32,'wrong original length value');
 
@@ -1190,7 +1229,11 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
         $oDB_Upgrade->oMigrator->tally();
+
+        OA_DB::setCaseSensitive();
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
+        OA_DB::disableCaseSensitive();
+
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['default'],'foo','wrong assigned default value');
         $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['a_text_field']['length'],64,'wrong assigned length value');
         if (file_exists(MAX_PATH.'/var/changes_test_tableAlter2.xml'))
@@ -1207,9 +1250,14 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->aTaskList = array();
         $this->assertTrue($oDB_Upgrade->_verifyTasksTablesAlter(),'failed _verifyTasksTablesAlter: change field');
 
+        OA_DB::setCaseSensitive();
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
+        OA_DB::disableCaseSensitive();
+
         $this->assertFalse($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['autoincrement'],'','wrong original autoincrement value');
-        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],9,'wrong original length value');
+
+        // MySQL-only
+        //$this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],9,'wrong original length value');
 
         Mock::generatePartial(
             'Migration',
@@ -1225,13 +1273,23 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertTrue($oDB_Upgrade->_executeTasksTablesAlter(),'failed _executeTasksTablesAlter: change field');
         $oDB_Upgrade->oMigrator->tally();
+
+        OA_DB::setCaseSensitive();
         $aDef = $oDB_Upgrade->oSchema->getDefinitionFromDatabase(array($this->prefix.'table1'));
+        OA_DB::disableCaseSensitive();
+
         $this->assertTrue($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['autoincrement'],'wrong assigned autoincrement value');
-        $this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
         if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
         {
             @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
         }
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
+        {
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
+        }
+
+        // MySQL-only
+        //$this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
 
         // Test 4 : rename field
         $oDB_Upgrade->aDefinitionNew    = $oDB_Upgrade->oSchema->parseDatabaseDefinitionFile($this->path.'schema_test_tableAlter4.xml');
@@ -1391,6 +1449,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oTable = new OA_DB_Table();
         $oTable->init($this->path.'schema_test_original.xml');
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        OA_DB::setCaseSensitive();
         if ($this->_tableExists('table1', $aExistingTables))
         {
             $this->assertTrue($oTable->dropTable($this->prefix.'table1'),'error dropping test table1');
@@ -1399,6 +1458,8 @@ class Test_DB_Upgrade extends UnitTestCase
         {
             $this->assertTrue($oTable->dropTable($this->prefix.'table2'),'error dropping test table2');
         }
+
+        OA_DB::disableCaseSensitive();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertFalse($this->_tableExists('table1', $aExistingTables), '_dropTestTables');
         $this->assertFalse($this->_tableExists('table2', $aExistingTables), '_dropTestTables');

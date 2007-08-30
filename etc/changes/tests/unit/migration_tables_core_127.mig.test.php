@@ -44,7 +44,7 @@ class migration_tables_core_127Test extends MigrationTest
         $aIdsExpected = array(3,4,5,6);
         $aIdsActual = OA_upgrade_getAdObjectIds($sIdHolders, 'bannerid');
         $this->assertEqual($aIdsExpected, $aIdsActual);
-        
+
         $sIdHolders = "clientid:11";
         $aIdsExpected = array(11);
         $aIdsActual = OA_upgrade_getAdObjectIds($sIdHolders, 'clientid');
@@ -55,13 +55,13 @@ class migration_tables_core_127Test extends MigrationTest
         $aIdsActual = OA_upgrade_getAdObjectIds($sIdHolders, 'clientid');
         $this->assertEqual($aIdsExpected, $aIdsActual);
     }
-    
-    
+
+
     function testMigrateData()
     {
         $prefix = $this->getPrefix();
         $this->initDatabase(126, array('zones', 'ad_zone_assoc', 'placement_zone_assoc', 'banners'));
-        
+
         $aAValues = array(
             array('zoneid' => 1, 'zonetype' => 0, 'what' => ''),
             array('zoneid' => 2, 'zonetype' => 0, 'what' => 'bannerid:3'),
@@ -70,10 +70,15 @@ class migration_tables_core_127Test extends MigrationTest
             array('zoneid' => 5, 'zonetype' => 3, 'what' => 'clientid:5', 'delivery' => phpAds_ZoneBanner, 'width' => 468, 'height' => 60),
         );
         foreach ($aAValues as $aValues) {
+            $aValues += array(
+                'chain'   => '',
+                'prepend' => '',
+                'append'  => '',
+            );
             $sql = OA_DB_Sql::sqlForInsert('zones', $aValues);
             $this->oDbh->exec($sql);
         }
-        
+
         $aABannerValues = array(
             array('bannerid' => 1, 'campaignid' => 3),
             array('bannerid' => 2, 'campaignid' => 3),
@@ -84,18 +89,27 @@ class migration_tables_core_127Test extends MigrationTest
             array('bannerid' => 7, 'campaignid' => 5, 'storagetype' => 'sql', 'width' => 125, 'height' => 125),
         );
         foreach ($aABannerValues as $aBannerValues) {
+            $aBannerValues += array(
+                'htmltemplate'       => '',
+                'htmlcache'          => '',
+                'bannertext'         => '',
+                'compiledlimitation' => '',
+                'append'             => ''
+            );
             $sql = OA_DB_Sql::sqlForInsert('banners', $aBannerValues);
             $this->oDbh->exec($sql);
         }
 
         $this->upgradeToVersion(127);
-        
+
         $aAssocTables = array(
-            "{$prefix}ad_zone_assoc WHERE link_type = 1" => 5,
-            "{$prefix}ad_zone_assoc WHERE link_type = 0" => 7,
-            "{$prefix}placement_zone_assoc" => 3);
-        foreach($aAssocTables as $assocTable => $cAssocs) {
-            $rsCAssocs = DBC::NewRecordSet("SELECT count(*) cassocs FROM $assocTable");
+            $this->oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true)." WHERE link_type = 1" => 5,
+            $this->oDbh->quoteIdentifier($prefix.'ad_zone_assoc',true)." WHERE link_type = 0" => 7,
+            $this->oDbh->quoteIdentifier($prefix.'placement_zone_assoc',true) => 3);
+
+        foreach($aAssocTables as $assocTable => $cAssocs)
+        {
+            $rsCAssocs = DBC::NewRecordSet("SELECT count(*) AS cassocs FROM $assocTable");
             $this->assertTrue($rsCAssocs->find());
             $this->assertTrue($rsCAssocs->fetch());
             $this->assertEqual($cAssocs, $rsCAssocs->get('cassocs'), "%s: The table involved: $assocTable");

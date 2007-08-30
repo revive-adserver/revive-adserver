@@ -31,6 +31,9 @@ require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once 'Date.php';
 
+// pgsql execution time before refactor: s
+// pgsql execution time after refactor: s
+
 /**
  * A class for performing integration testing the MAX_Maintenance_Statistics_Tracker class.
  *
@@ -58,7 +61,7 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = 'max_';
+        $conf['table']['prefix'] = 'maX_';
         $oDbh = &OA_DB::singleton();
         $oTable = &OA_DB_Table_Core::singleton();
         // Create the required tables
@@ -67,10 +70,15 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
         $oTable->createTable('data_raw_tracker_variable_value');
         $oTable->createTable('log_maintenance_statistics');
         $oTable->createTable('userlog');
+
+        $drti = $oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_impression', true);
+        $drtvv = $oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_variable_value', true);
+        $drtc = $oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_click', true);
+
         // Insert the test data
         $query = "
             INSERT INTO
-                max_data_raw_tracker_impression
+                {$drti}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -122,7 +130,7 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_data_raw_tracker_variable_value
+                {$drtvv}
             VALUES
             (
                 1,
@@ -135,7 +143,7 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
 
         $query = "
             INSERT INTO
-                max_data_raw_tracker_click
+                {$drtc}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -319,7 +327,8 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_impression']}";
+                {$drti}
+        ";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 1);
@@ -327,7 +336,8 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}";
+                {$drtvv}
+        ";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 1);
@@ -335,7 +345,8 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_click']}";
+                {$drtc}
+        ";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 30);

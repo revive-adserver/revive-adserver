@@ -402,6 +402,7 @@ class OA_Upgrade
 
     function getProductApplicationVersion()
     {
+        $appPrefix = $this->oDbh->dbsyntax == 'pgsql' ? 'for PostgreSQL ' : '';
         switch ($this->versionInitialApplication)
         {
             case '' :
@@ -410,7 +411,7 @@ class OA_Upgrade
                 return '2.1.29-rc';
             case '200.313' :
             case '200.314' :
-                return '2.0.11-pr1';
+                return $appPrefix.'2.0.11-pr1';
             case 'v0.3.31-alpha' :
                 return '2.3.31-alpha';
             default :
@@ -640,7 +641,13 @@ class OA_Upgrade
                      );
             if ($valid)
             {
-                $this->versionInitialSchema['tables_core'] = '099';
+                if ($this->oDbh->dbsyntax == 'pgsql') {
+                    // Openads 2.0 for PostgreSQL
+                    $this->versionInitialSchema['tables_core'] = '049';
+                } else {
+                    // Openads 2.0
+                    $this->versionInitialSchema['tables_core'] = '099';
+                }
                 if (!$this->initDatabaseConnection())
                 {
                     $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
@@ -1519,41 +1526,49 @@ class OA_Upgrade
             return false;
         }
         $tblTmp = $prefix.'tmp_dbpriviligecheck';
+        $tblTmpQuoted = $this->oDbh->quoteIdentifier($tblTmp,true);
         if (in_array($tblTmp, $aExistingTables))
         {
-            $result = $this->oDbh->exec("DROP TABLE {$tblTmp}");
+            $result = $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
         }
         if (PEAR::isError($result))
         {
             $this->oLogger->logError('Test privileges table already exists and you don\'t have permissions to remove it');
             return false;
         }
-        $result = $this->oDbh->exec("CREATE TABLE {$tblTmp} (tmp int)");
+
+        $result = $this->oDbh->exec("CREATE TABLE {$tblTmpQuoted} (tmp int)");
         if (PEAR::isError($result))
         {
-            $this->oLogger->logError('Failed to create test privileges table - check your database permissions');
+            $this->oLogger->logError('Failed to create test privileges index - check your database permissions');
             return false;
         }
         $result   = $this->oDbh->manager->listTableFields($tblTmp);
         PEAR::popErrorHandling();
         if (PEAR::isError($result))
         {
+            $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
             $this->oLogger->logError('Failed to list test privileges table fields - check your database permissions');
             return false;
         }
-        $result = $this->oDbh->exec("ALTER TABLE {$tblTmp} ADD INDEX {$tblTmp}_idx ( `tmp`)");
+        $result = $this->oDbh->manager->createIndex($tblTmp, $tblTmp.'_idx', array(
+            'fields' => array(
+                'tmp' => array( 'sorting' => 'ascending' )
+        )));
         if (PEAR::isError($result))
         {
+            $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
             $this->oLogger->logError('Failed to create test privileges index - check your database permissions');
             return false;
         }
-        $result = $this->oDbh->exec("ALTER TABLE {$tblTmp} DROP INDEX {$tblTmp}_idx");
+        $result = $this->oDbh->manager->dropIndex($tblTmp, $tblTmp.'_idx');
         if (PEAR::isError($result))
         {
+            $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
             $this->oLogger->logError('Failed to drop test privileges index - check your database permissions');
             return false;
         }
-        $result = $this->oDbh->exec("DROP TABLE {$tblTmp}");
+        $result = $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
         if (PEAR::isError($result))
         {
             $this->oLogger->logError('Failed to drop test privileges table - check your database permissions');

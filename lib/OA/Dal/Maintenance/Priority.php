@@ -108,8 +108,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function getMaintenancePriorityLastRunInfo($type = null, $aAdditionalFields = array())
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['log_maintenance_priority'];
+        $table = $aConf['table']['log_maintenance_priority'];
         $aFields = array('operation_interval');
         if (is_array($aAdditionalFields) && !empty($aAdditionalFields)) {
             $aFields = array_merge($aFields, $aAdditionalFields);
@@ -143,7 +142,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
+        $table             = $this->_getTablename('campaigns');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.campaignid",
@@ -197,8 +196,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
-        $joinTable         = $aConf['table']['prefix'] . $aConf['table']['banners'];
+        $table             = $this->_getTablename('campaigns');
+        $joinTable         = $this->_getTablename('banners');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.clientid AS advertiser_id",
@@ -230,9 +229,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
-        $joinTable1        = $aConf['table']['prefix'] . $aConf['table']['banners'];
-        $joinTable2        = $aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad'];
+        $table = $this->_getTablename('campaigns');
+        $joinTable1 = $this->_getTablename('banners');
+        $joinTable2 = $this->_getTablename('data_intermediate_ad');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "SUM($joinTable2.requests) AS sum_requests",
@@ -266,9 +265,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
-        $joinTable1        = $aConf['table']['prefix'] . $aConf['table']['banners'];
-        $joinTable2        = $aConf['table']['prefix'] . $aConf['table']['data_intermediate_ad'];
+        $table = $this->_getTablename('campaigns');
+        $joinTable1 = $this->_getTablename('banners');
+        $joinTable2 = $this->_getTablename('data_intermediate_ad');
+
         $query['table']    = $table;
         $query['fields']   = array(
                                 "SUM($joinTable2.requests) AS sum_requests",
@@ -353,10 +353,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function &getAllZonesWithAllocInv()
     {
         OA::debug('  - Getting all of the zones with ad impressions allocated', PEAR_LOG_DEBUG);
-        $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = 'tmp_ad_zone_impression';
+        $table = $this->oDbh->quoteIdentifier('tmp_ad_zone_impression',true);
         $query['table']    = $table;
+
         $query['fields']   = array(
                                 "$table.zone_id",
                                 "$table.ad_id",
@@ -399,7 +399,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $aCurrentDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $previousOptIntID = OA_OperationInterval::previousOperationIntervalID($currentOpIntID);
         $aPreviousDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
-        $table = $aConf['table']['prefix'] . $aConf['table']['data_summary_zone_impression_history'];
+        $table = $this->_getTablename('data_summary_zone_impression_history');
         $query = "
             SELECT
                 t1.zone_id AS zone_id,
@@ -427,11 +427,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             $aResult[$aRow['zone_id']] = $aRow;
         }
         // Get all possible zones in the system
+        $table = $this->_getTablename('zones');
         $query = "
             SELECT
                 zoneid AS zone_id
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['zones']}";
+                {$table}";
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             if (!isset($aResult[$aRow['zone_id']])) {
@@ -479,13 +480,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Select those ads where the delivery limitations were changed in the current
         // operation interval
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($aLastRun['now']);
+        $table1 = $this->_getTablename('banners');
+        $table2 = $this->_getTablename('campaigns');
         $query = "
             SELECT
                 b.bannerid AS ad_id,
                 b.acls_updated AS changed
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
-                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c
+                {$table1} AS b,
+                {$table2} AS c
             WHERE
                 b.acls_updated >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
@@ -501,13 +504,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $oDate = new Date();
         $oDate->copy($aDates['start']);
         $oDate->subtractSeconds(1);
+        $table1 = $this->_getTablename('banners');
+        $table2 = $this->_getTablename('campaigns');
         $query = "
             SELECT
                 b.bannerid AS ad_id,
                 b.acls_updated AS changed
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
-                {$aConf['table']['prefix']}{$aConf['table']['campaigns']} AS c
+                {$table1} AS b,
+                {$table2} AS c
             WHERE
                 b.acls_updated >= '" . $aLastRun['start_run']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
@@ -589,11 +594,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $aFinalResult = array();
         // Obtain the earliest existing interval_start date found in the
         // data_summary_ad_zone_assoc table
+        $table = $this->_getTablename('data_summary_ad_zone_assoc');
         $query = "
             SELECT
                 interval_start AS interval_start
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$table}
             ORDER BY
                 interval_start
             LIMIT
@@ -621,13 +627,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Obtain the ad ID, zone ID and number of impressions delivered for every ad/zone
         // combination that delivered impressions in the previous operation interval
         OA::debug("  - Getting details of ad/zone pairs that delivered last OI", PEAR_LOG_DEBUG);
+        $table = $this->_getTablename('data_intermediate_ad');
         $query = "
             SELECT
                 ad_id AS ad_id,
                 zone_id AS zone_id,
                 SUM(impressions) AS impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
+                {$table}
             WHERE
                 operation_interval = {$aConf['maintenance']['operationInterval']}
                 AND operation_interval_id = $previousOperationIntervalID
@@ -674,6 +681,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $foundAll = false;
                 while (!$foundAll) {
                     if (!empty($aAds) && !empty($aZones)) {
+                        $table = $this->_getTablename('data_summary_ad_zone_assoc');
                         $query = "
                             SELECT
                                 ad_id AS ad_id,
@@ -686,7 +694,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 created AS created,
                                 expired AS expired
                             FROM
-                                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                                {$table}
                             WHERE
                                 ad_id IN (" . implode(', ', $aAds) . ")
                                 AND zone_id IN (" . implode(', ', $aZones) . ")
@@ -777,6 +785,8 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Select the details of all ad/zones that had required/requested impressions,
         // in the previous operation interval, but for which no impressions were delivered
         OA::debug('  - Getting details of ad/zone pairs that did not deliver last OI (but should have)', PEAR_LOG_DEBUG);
+        $table1 = $this->_getTablename('data_summary_ad_zone_assoc');
+        $table2 = $this->_getTablename('data_intermediate_ad');
         $query = "
             SELECT
                 dsaza.ad_id AS ad_id,
@@ -789,9 +799,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 dsaza.created AS created,
                 dsaza.expired AS expired
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']} AS dsaza
+                {$table1} AS dsaza
             LEFT JOIN
-                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']} AS dia
+                {$table2} AS dia
             ON
                 dsaza.ad_id = dia.ad_id
                 AND dsaza.zone_id = dia.zone_id
@@ -898,6 +908,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 $foundAll = false;
                 while (!$foundAll) {
                     if (!empty($aAds) && !empty($aZones)) {
+                        $table = $this->_getTablename('data_summary_ad_zone_assoc');
                         $query = "
                             SELECT
                                 ad_id AS ad_id,
@@ -914,7 +925,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 interval_start AS interval_start,
                                 interval_end AS interval_end
                             FROM
-                                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                                {$table}
                             WHERE
                                 ad_id IN (" . implode(', ', $aAds) . ")
                                 AND zone_id IN (" . implode(', ', $aZones) . ")
@@ -993,11 +1004,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             if (!empty($aNotInLastOIPastPriorityResult)) {
                 foreach ($aNotInLastOIPastPriorityResult as $a => $aAd) {
                     foreach ($aAd as $z => $aZone) {
+                        $table = $this->_getTablename('data_intermediate_ad');
                         $query = "
                             SELECT
                                 SUM(impressions) AS impressions
                             FROM
-                                {$aConf['table']['prefix']}{$aConf['table']['data_intermediate_ad']}
+                                {$table}
                             WHERE
                                 operation_interval = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval']}
                                 AND operation_interval_id = {$aNotInLastOIPastPriorityResult[$a][$z]['operation_interval_id']}
@@ -1203,9 +1215,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Delete all category-based (ie. link_type = MAX_AD_ZONE_LINK_CATEGORY) priorities
         // from ad_zone_assoc
         OA::debug('  - Zeroing category-based priorities', PEAR_LOG_DEBUG);
+        $table = $this->_getTablename('ad_zone_assoc');
         $query = "
             DELETE FROM
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                {$table}
             WHERE
                 link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
         $rows = $this->oDbh->exec($query);
@@ -1225,12 +1238,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // Obtain the list of all existing normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL)
             // ad/zone pairs that are in the ad_zone_assoc table
             OA::debug('    - Getting all existing ad/zone pairs with priorities', PEAR_LOG_DEBUG);
+            $table = $this->_getTablename('ad_zone_assoc');
             $query = "
                 SELECT
                     ad_id,
                     zone_id
                 FROM
-                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                    {$table}
                 WHERE
                     link_type = " . MAX_AD_ZONE_LINK_CATEGORY;
             $aRows = $this->oDbh->queryAll($query);
@@ -1257,9 +1271,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 reset($aAds);
                 while (list($adId,) = each($aAds)) {
                     OA::debug("    - Zeroing ad ID $adId, zone ID $zoneID pair priority.", PEAR_LOG_DEBUG);
+                    $table = $this->_getTablename('ad_zone_assoc');
                     $query = "
                         UPDATE
-                            {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                            {$table}
                         SET
                             priority = 0
                         WHERE
@@ -1282,9 +1297,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 while (list(,$aZoneData)  = each($aData)) {
                     if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
                         foreach ($aZoneData['ads'] as $aAdZonePriority) {
+                            $table = $this->_getTablename('ad_zone_assoc');
                             $query = "
                                 UPDATE
-                                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                                    {$table}
                                 SET
                                     priority = {$aAdZonePriority['priority']},
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
@@ -1319,9 +1335,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
             // Set all normal (ie. link_type = MAX_AD_ZONE_LINK_NORMAL) priorities to zero
             OA::debug('    - Zeroing all existing ad/zone pair priorities', PEAR_LOG_DEBUG);
+            $table = $this->_getTablename('ad_zone_assoc');
             $query = "
                 UPDATE
-                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                    {$table}
                 SET
                     priority = 0
                 WHERE
@@ -1341,9 +1358,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 while (list(,$aZoneData)  = each($aData)) {
                     if (is_array($aZoneData['ads']) && (count($aZoneData['ads']) > 0)) {
                         foreach ($aZoneData['ads'] as $aAdZonePriority) {
+                            $table = $this->_getTablename('ad_zone_assoc');
                             $query = "
                                 UPDATE
-                                    {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']}
+                                    {$table}
                                 SET
                                     priority = {$aAdZonePriority['priority']},
                                     priority_factor = " . (is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor']) . ",
@@ -1373,9 +1391,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Expire the old priority values in data_summary_ad_zone_assoc
         OA::debug("  - Epiring old priority values in {$aConf['table']['data_summary_ad_zone_assoc']}", PEAR_LOG_DEBUG);
+        $table = $this->_getTablename('data_summary_ad_zone_assoc');
         $query = "
             UPDATE
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                {$table}
             SET
                 expired = '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "',
                 expired_by = 0
@@ -1413,9 +1432,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     }
                 }
             }
+            $table = $this->_getTablename('data_summary_ad_zone_assoc');
             $query = "
                 INSERT INTO
-                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_zone_assoc']}
+                    {$table}
                     (
                         operation_interval,
                         operation_interval_id,
@@ -1532,13 +1552,14 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $dateConstraints .= implode(' OR ', $aDateConstraints);
         $dateConstraints .= ")";
         // Form the database query
+        $table = $this->_getTablename('data_summary_zone_impression_history');
         $query = "
             SELECT
                 zone_id AS zone_id,
                 operation_interval_id AS operation_interval_id,
                 ROUND(SUM(actual_impressions)/COUNT(actual_impressions)) AS average_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$table}
             WHERE
                 zone_id IN (" . implode(', ', $aZoneIds) . ")
                 AND operation_interval = {$aConf['maintenance']['operationInterval']}
@@ -1604,6 +1625,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Construct the SQL to obtain the impressions
+        $table = $this->_getTablename('data_summary_zone_impression_history');
         $query = "
             SELECT
                 zone_id AS zone_id,
@@ -1611,7 +1633,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 forecast_impressions AS forecast_impressions,
                 actual_impressions AS actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$table}
             WHERE
                 zone_id IN (" . implode(', ', $aZoneIds) . ")
                 AND operation_interval = {$aConf['maintenance']['operationInterval']}
@@ -1713,6 +1735,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         // Obtain past zone impression forecasts, so that they can be updated with the
         // actual impressions that happened, if possible
         OA::debug('   - Getting past zone impression forecast rows so actual impressions and past forecasts can be looked at', PEAR_LOG_DEBUG);
+        $table = $this->_getTablename('data_summary_zone_impression_history');
         $sSelectQuery = "
 	        SELECT
 	            zone_id,
@@ -1723,7 +1746,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 forecast_impressions,
                 actual_impressions
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$table}
             WHERE
                 zone_id in (" . join(',', array_keys($aForecasts)) . ")
                 AND operation_interval = {$aConf['maintenance']['operationInterval']}
@@ -1759,9 +1782,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         $rc->free();
         // Prepare SQL statement for use later
+        $table = $this->_getTablename('data_summary_zone_impression_history');
         $sInsertQuery = "
             INSERT INTO
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$table}
                 (
                     zone_id,
                     operation_interval,
@@ -1791,9 +1815,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             // Oh noz! No transaction support? How tragic!
             OA::debug('   - Saving zone impression forecasts WITHOUT transaction support', PEAR_LOG_DEBUG);
             // Prepare SQL statement for use later
+            $table = $this->_getTablename('data_summary_zone_impression_history');
             $sUpdateQuery = "
                 UPDATE
-                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                    {$table}
                 SET
                     forecast_impressions = ?
                 WHERE
@@ -1866,9 +1891,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
             // Delete all the past zone impression forecast records
             OA::debug('   - Deleting past zone impression forecasts', PEAR_LOG_DEBUG);
+            $table = $this->_getTablename('data_summary_zone_impression_history');
             $sDeleteQuery =  "
                 DELETE FROM
-                    {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                    {$table}
                 WHERE
                 	zone_id IN (" . join( ',', array_keys( $aForecasts ) ) . ")
                 	AND interval_start >= '{$aIntervalStart['min']}' AND interval_start <= '{$aIntervalStart['max']}'
@@ -1924,15 +1950,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function getActiveZones()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        $table1 = $this->_getTablename('zones');
+        $table2 = $this->_getTablename('ad_zone_assoc');
+        $table3 = $this->_getTablename('banners');
         $query = "
             SELECT
                 z.zoneid AS zoneid,
                 z.zonename AS zonename,
                 z.zonetype AS zonetype
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z,
-                {$aConf['table']['prefix']}{$aConf['table']['ad_zone_assoc']} AS aza,
-                {$aConf['table']['prefix']}{$aConf['table']['banners']} as b
+                {$table1} AS z,
+                {$table2} AS aza,
+                {$table3} as b
             WHERE
                 z.zoneid = aza.zone_id
                 AND
@@ -1960,9 +1989,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     function saveRequiredAdImpressions($aData)
     {
         if (is_array($aData) && (count($aData) > 0)) {
+            $tableTmp = $this->oDbh->quoteIdentifier('tmp_ad_required_impression');
             $query = "
                 INSERT INTO
-                    tmp_ad_required_impression
+                    {$tableTmp}
                     (
                         ad_id,
                         required_impressions
@@ -1999,12 +2029,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return array();
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
+        $tableTmp = $this->oDbh->quoteIdentifier('tmp_ad_required_impression');
         $query = "
             SELECT
                 ad_id AS ad_id,
                 required_impressions AS required_impressions
             FROM
-                tmp_ad_required_impression
+                {$tableTmp}
             WHERE
                 ad_id IN (" . implode(', ', $aAdvertID) . ')';
         // Don't use a PEAR_Error handler
@@ -2052,7 +2083,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aCurrentDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['data_summary_zone_impression_history'];
+        $table             = $this->_getTablename('data_summary_zone_impression_history');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.zone_id AS zone_id",
@@ -2070,7 +2101,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Get all possible zones in the system
         $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['zones'];
+        $table             = $this->_getTablename($aConf['table']['zones']);
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.zoneid AS zone_id"
@@ -2114,7 +2145,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
         $query = array();
-        $table             = $aConf['table']['prefix'] . $aConf['table']['ad_zone_assoc'];
+        $table             = $this->_getTablename('ad_zone_assoc');
         $query['table']    = $table;
         $query['fields']   = array(
                                 "$table.ad_id AS ad_id",
@@ -2141,14 +2172,15 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      */
     function saveAllocatedImpressions($aData)
     {
+        $tableTmp = $this->oDbh->quoteIdentifier('tmp_ad_zone_impression');
         // Make sure that the table is empty
- 	    $query = "TRUNCATE TABLE tmp_ad_zone_impression";
+ 	    $query = "TRUNCATE TABLE {$tableTmp}";
         $this->oDbh->exec($query);
 
         if (is_array($aData) && (count($aData) > 0)) {
             $query = "
                 INSERT INTO
-                    tmp_ad_zone_impression
+                    {$tableTmp}
                     (
                         ad_id,
                         zone_id,
@@ -2225,6 +2257,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $oDateWeekEnd = new Date();
         $oDateWeekEnd->copy($aDates['end']);
         // Select the zone forecasts from the database
+        $tableName = $this->_getTablename('data_summary_zone_impression_history');
         $query = "
             SELECT
                 zone_id AS zone_id,
@@ -2233,7 +2266,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 interval_start AS interval_start,
                 interval_end AS interval_end
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_zone_impression_history']}
+                {$tableName}
             WHERE
                 zone_id = $zoneId
                 AND operation_interval = {$aConf['maintenance']['operationInterval']}

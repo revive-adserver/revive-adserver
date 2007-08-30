@@ -1689,6 +1689,10 @@ class MDB2_Driver_Common extends PEAR
         if ($check_option && !$this->options['quote_identifier']) {
             return $str;
         }
+        if ($str == '')
+        {
+            return $str;
+        }
         $str = str_replace($this->identifier_quoting['end'], $this->identifier_quoting['escape'] . $this->identifier_quoting['end'], $str);
         return $this->identifier_quoting['start'] . $str . $this->identifier_quoting['end'];
     }

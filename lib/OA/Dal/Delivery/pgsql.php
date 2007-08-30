@@ -68,6 +68,9 @@ function OA_Dal_Delivery_connect($database = 'database') {
     } else {
         $dbLink = @pg_connect(join(' ', $dbParams));
     }
+    if ($dbLink && !empty($conf['databasePgsql']['schema'])) {
+            @pg_query("SET search_path='{$conf['databasePgsql']['schema']}'");
+    }
     return $dbLink;
 }
 
@@ -107,13 +110,14 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
  */
 function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column = '')
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-
     $dbName = ($database == 'rawDatabase') ? 'RAW_DB_LINK' : 'ADMIN_DB_LINK';
     if (!isset($GLOBALS['_MAX'][$dbName]) || !(is_resource($GLOBALS['_MAX'][$dbName]))) {
         return false;
     }
-    return pg_fetch_result(pg_query("SELECT currval('".substr("{$conf['table']['prefix']}{$conf['table'][$table]}_{$column}", 0, 59)."_seq')"), 0, 0);
+    $seqName = substr($column, 0, 29).'_seq';
+    $seqName = substr($table, 0, 62 - strlen($seqName)).'_'.$seqName;
+    $query = "SELECT currval('\"".$seqName."\"')";
+    return pg_fetch_result(pg_query($query), 0, 0);
 }
 
 
@@ -148,9 +152,9 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         p.default_banner_url AS default_banner_url,
         p.default_banner_destination AS default_banner_dest
     FROM
-        {$conf['table']['prefix']}{$conf['table']['zones']} AS z,
-        {$conf['table']['prefix']}{$conf['table']['affiliates']} AS a,
-        {$conf['table']['prefix']}{$conf['table']['preference']} AS p
+        \"{$conf['table']['prefix']}{$conf['table']['zones']}\" AS z,
+        \"{$conf['table']['prefix']}{$conf['table']['affiliates']}\" AS a,
+        \"{$conf['table']['prefix']}{$conf['table']['preference']}\" AS p
     WHERE
         z.zoneid={$zoneid}
       AND
@@ -171,7 +175,7 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
             p.default_banner_url AS default_banner_url,
             p.default_banner_destination AS default_banner_dest
         FROM
-            {$conf['table']['prefix']}{$conf['table']['preference']} AS p
+            \"{$conf['table']['prefix']}{$conf['table']['preference']}\" AS p
         WHERE
             p.agencyid = 0
         ");
@@ -268,9 +272,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             c.capping AS cap_campaign,
             c.session_capping AS session_cap_campaign
         FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
-            {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']} AS az,
-            {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
+            \"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d,
+            \"{$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}\" AS az,
+            \"{$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS c
         WHERE
             az.zone_id = {$zoneid}
           AND
@@ -360,24 +364,6 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
  *                              or false on failure
  */
 function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = true) {
-    $conf = $GLOBALS['_MAX']['CONF'];
-
-    $aRows['xAds']  = array();
-    $aRows['cAds']  = array();
-    $aRows['clAds'] = array();
-    $aRows['ads']   = array();
-    $aRows['lAds']  = array();
-    $aRows['count_active'] = 0;
-    $aRows['zone_companion'] = false;
-    $aRows['count_active'] = 0;
-
-    $totals = array(
-        'xAds'  => 0,
-        'cAds'  => 0,
-        'clAds' => 0,
-        'ads'   => 0,
-        'lAds'  => 0
-    );
 
     if ($campaignid > 0) {
         $precondition = " AND d.campaignid = '".$campaignid."' ";
@@ -396,7 +382,11 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
             return null;
         }
     }
-    while ($aAd = pgsql_fetch_assoc($rAds)) {
+    $aRows['count_active'] = 0;
+    $totals = array();
+    $totals['xAds'] = 0;
+    $totals['lAds'] = 0;
+    while ($aAd = pg_fetch_assoc($rAds)) {
         // Is the ad Exclusive, Low, or Normal Priority?
         if ($aAd['campaign_priority'] == -1) {
             // Ad is in an exclusive placement
@@ -432,20 +422,20 @@ function OA_Dal_Delivery_getLinkedAds($search, $campaignid = '', $lastpart = tru
     }
     // If there are paid ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
-    if (is_array($aRows['ads'])) {
+    if (isset($aRows['ads']) && is_array($aRows['ads'])) {
         $totals['ads'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority ads, sort by priority
-    if (is_array($aRows['lAds'])) {
+    if (isset($aRows['lAds']) && is_array($aRows['lAds'])) {
         uasort($aRows['lAds'], '_pgsqlSortArrayPriority');
     }
     // If there are paid companion ads, prepare array of priority totals
     // to allow delivery to do the scaling work later
-    if (is_array($aRows['cAds'])) {
+    if (isset($aRows['cAds']) && is_array($aRows['cAds'])) {
         $totals['cAds'] = _pgsqlGetTotalPrioritiesByCP($aRows['ads']);
     }
     // If there are low priority companion ads, sort by priority
-    if (is_array($aRows['clAds'])) {
+    if (isset($aRows['clAds']) && is_array($aRows['clAds'])) {
         uasort($aRows['clAds'], '_pgsqlSortArrayPriority');
     }
     $aRows['priority'] = $totals;
@@ -503,8 +493,8 @@ function OA_Dal_Delivery_getAd($ad_id) {
         c.capping AS cap_campaign,
         c.session_capping AS session_cap_campaign
     FROM
-        {$conf['table']['prefix']}{$conf['table']['banners']} AS d,
-        {$conf['table']['prefix']}{$conf['table']['campaigns']} AS c
+        \"{$conf['table']['prefix']}{$conf['table']['banners']}\" AS d,
+        \"{$conf['table']['prefix']}{$conf['table']['campaigns']}\" AS c
     WHERE
         d.bannerid={$ad_id}
         AND
@@ -536,7 +526,7 @@ function OA_Dal_Delivery_getChannelLimitations($channelid) {
     SELECT
             acl_plugins,compiledlimitation
     FROM
-            {$conf['table']['prefix']}{$conf['table']['channel']}
+            \"{$conf['table']['prefix']}{$conf['table']['channel']}\"
     WHERE
             channelid={$channelid}");
     if (!is_resource($rLimitation)) {
@@ -564,7 +554,7 @@ function OA_Dal_Delivery_getCreative($filename)
             contents,
             UNIX_TIMESTAMP(t_stamp) AS t_stamp
         FROM
-            {$conf['table']['prefix']}{$conf['table']['images']}
+            \"{$conf['table']['prefix']}{$conf['table']['images']}\"
         WHERE
             filename = '{$filename}'
     ");
@@ -602,7 +592,7 @@ function OA_Dal_Delivery_getTracker($trackerid)
             t.blockwindow AS blockwindow,
             t.appendcode AS appendcode
         FROM
-            {$conf['table']['prefix']}{$conf['table']['trackers']} AS t
+            \"{$conf['table']['prefix']}{$conf['table']['trackers']}\" AS t
         WHERE
             t.trackerid={$trackerid}
     ");
@@ -634,7 +624,7 @@ function OA_Dal_Delivery_getTrackerVariables($trackerid)
             v.datatype AS type,
             v.variablecode AS variablecode
         FROM
-            {$conf['table']['prefix']}{$conf['table']['variables']} AS v
+            \"{$conf['table']['prefix']}{$conf['table']['variables']}\" AS v
         WHERE
             v.trackerid={$trackerid}
     ");
@@ -665,7 +655,7 @@ function OA_Dal_Delivery_getMaintenanceInfo()
         SELECT
             maintenance_timestamp
         FROM
-            {$conf['table']['prefix']}{$conf['table']['preference']}
+            \"{$conf['table']['prefix']}{$conf['table']['preference']}\"
         WHERE agencyid = 0
     ");
     if (!is_resource($result)) {
@@ -675,7 +665,7 @@ function OA_Dal_Delivery_getMaintenanceInfo()
             return null;
         }
     } else {
-        $result = pgsql_fetch_assoc($result);
+        $result = pg_fetch_assoc($result);
 
         return $result['maintenance_timestamp'];
     }
@@ -713,7 +703,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $query = "
         INSERT INTO
-            $table
+            \"{$table}\"
             (
                 viewer_id,
                 viewer_session_id,
@@ -812,8 +802,6 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     }
     // Strip end comma!
     $query = substr_replace($query, '', strlen($query) - 1);
-    // Strip end comma!
-    $query = substr_replace($query, '', strlen($query) - 1);
     $query .= "
             )
         VALUES
@@ -832,8 +820,9 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $query .= "
                 '{$zoneInfo['channel_ids']}',";
     }
+    $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
     $query .= "
-                '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
+                '".substr($httpLanguage, 0, 32)."',
                 '{$_SERVER['REMOTE_ADDR']}',
                 '{$_SERVER['REMOTE_HOST']}',";
     if (isset($geotargeting['country_code'])) {
@@ -952,11 +941,16 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     } else {
         $log_viewerId = $viewerId;
     }
+    $source = isset($_GET['source']) ? $_GET['source'] : '';
+    $referer = isset($_GET['referer']) ? $_GET['referer'] : '';
+    $httpUserAgent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+    $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
+
     // Log the raw data
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $res = OA_Dal_Delivery_query("
         INSERT INTO
-            {$table}
+            \"{$table}\"
         (
             server_raw_ip,
             viewer_id,
@@ -997,9 +991,9 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '',
             '".$dateFunc('Y-m-d H:i:s')."',
             '$trackerId',
-            '".MAX_commonDecrypt($_GET['source'])."',
+            '".MAX_commonDecrypt($source)."',
             '{$zoneInfo['channel_ids']}',
-            '".substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 32)."',
+            '".substr($httpLanguage, 0, 32)."',
             '{$_SERVER['REMOTE_ADDR']}',
             '{$_SERVER['REMOTE_HOST']}',
             '{$geotargeting['country_code']}',
@@ -1007,9 +1001,9 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$zoneInfo['host']}',
             '{$zoneInfo['path']}',
             '{$zoneInfo['query']}',
-            '{$_GET['referer']}',
+            '{$referer}',
             '',
-            '".substr($_SERVER['HTTP_USER_AGENT'], 0, 255)."',
+            '".substr($httpUserAgent, 0, 255)."',
             '{$userAgentInfo['os']}',
             '{$userAgentInfo['browser']}',
             '".intval($maxHttps)."',
@@ -1024,7 +1018,11 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '{$geotargeting['netspeed']}',
             '{$geotargeting['continent']}'
     )", 'rawDatabase');
-    return $res ? OA_Dal_Delivery_insertId('rawDatabase', $table, preg_replace('/^data/', 'server', $table).'_id') : false;
+
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $pkey = 'server'.substr($table, strlen($aConf['table']['prefix']) + 4);
+
+    return $res ? OA_Dal_Delivery_insertId('rawDatabase', $table, $pkey) : false;
 }
 
 /**
@@ -1053,10 +1051,11 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
     if (empty($aRows)) {
         return;
     }
+    OA_Dal_Delivery_query("BEGIN", 'rawDatabase');
     foreach ($aRows as $sValues) {
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}
+                \"{$conf['table']['prefix']}{$conf['table']['data_raw_tracker_variable_value']}\"
                 (
                     tracker_variable_id,
                     server_raw_tracker_impression_id,
@@ -1069,9 +1068,11 @@ function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressi
         $res = OA_Dal_Delivery_query($query, 'rawDatabase');
 
         if (!$res) {
+            OA_Dal_Delivery_query("ROLLBACK", 'rawDatabase');
             return false;
         }
     }
+    OA_Dal_Delivery_query("COMMIT", 'rawDatabase');
 
     return true;
 }
@@ -1137,9 +1138,9 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     );
 
     $aTables = array(
-        $conf['table']['prefix'].$conf['table']['banners'] . ' AS d',
-        $conf['table']['prefix'].$conf['table']['campaigns'] . ' AS m',
-        $conf['table']['prefix'].$conf['table']['ad_zone_assoc'] . ' AS az'
+        '"'.$conf['table']['prefix'].$conf['table']['banners'] . '" AS d',
+        '"'.$conf['table']['prefix'].$conf['table']['campaigns'] . '" AS m',
+        '"'.$conf['table']['prefix'].$conf['table']['ad_zone_assoc'] .'" AS az'
     );
 
     $select = "
@@ -1388,8 +1389,8 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
                     $part_array[$k] = substr($part_array[$k], 4);
                     if($part_array[$k] != '' && $part_array[$k] != ' ')
                     {
-                        $aTables[] = $conf['table']['prefix'].$conf['table']['ad_category_assoc'] . ' AS ac';
-                        $aTables[] = $conf['table']['prefix'].$conf['table']['category'] . ' AS cat';
+                        $aTables[] = '"'.$conf['table']['prefix'].$conf['table']['ad_category_assoc'] . '" AS ac';
+                        $aTables[] = '"'.$conf['table']['prefix'].$conf['table']['category'] . '" AS cat';
 
                         if ($operator == 'OR')
                             $conditions .= "OR d.bannerid=ac.ad_id AND ac.category_id=cat.category_id ";

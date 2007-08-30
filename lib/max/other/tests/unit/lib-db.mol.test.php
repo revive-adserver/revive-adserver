@@ -41,11 +41,13 @@ class LibDbTest extends DalUnitTestCase
     function testPhpAds_dbQuery()
     {
         $prefix = $this->getPrefix();
+        $oDbh = OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($prefix.'zones',true);
         $cBanners = 5;
         $doZones = OA_Dal::factoryDO('zones');
         $aZoneIds = DataGenerator::generate($doZones, $cBanners);
 
-        $queryResult = phpAds_dbQuery(" SeLeCt * from {$prefix}zones");
+        $queryResult = phpAds_dbQuery(" SeLeCt * from {$table}");
         $this->assertTrue($queryResult);
 
         $this->assertEqual($cBanners, phpAds_dbNumRows($queryResult));
@@ -57,15 +59,15 @@ class LibDbTest extends DalUnitTestCase
         }
         $this->assertEqual($cBanners, $idxZone);
 
-        $queryResult = phpAds_dbQuery("dElEtE from {$prefix}zones where zoneid > 30000");
+        $queryResult = phpAds_dbQuery("dElEtE from {$table} where zoneid > 30000");
         $this->assertTrue($queryResult);
         $this->assertEqual(0, phpAds_dbAffectedRows($queryResult));
 
-        $queryResult = phpAds_dbQuery(" uPDATe {$prefix}zones set zonename = 'blah' where zoneid = " . $aZoneIds[0] . " or zoneid = " . $aZoneIds[1]);
+        $queryResult = phpAds_dbQuery(" uPDATe {$table} set zonename = 'blah' where zoneid = " . $aZoneIds[0] . " or zoneid = " . $aZoneIds[1]);
         $this->assertTrue($queryResult);
         $this->assertEqual(2, phpAds_dbAffectedRows($queryResult));
 
-        $queryResult = phpAds_dbQuery("insert into {$prefix}zones () values ()");
+        $queryResult = phpAds_dbQuery("insert into {$table} (zonename) values ('')");
         $this->assertTrue($queryResult);
         $this->assertEqual(1, phpAds_dbAffectedRows($queryResult));
     }

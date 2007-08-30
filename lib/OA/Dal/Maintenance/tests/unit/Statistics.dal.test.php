@@ -78,7 +78,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
                 object,
                 details
             FROM
-                {$conf['table']['prefix']}{$conf['table']['userlog']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['userlog'],true)}
             WHERE
                 userlogid = 1";
 
@@ -102,7 +102,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
                 object,
                 details
             FROM
-                {$conf['table']['prefix']}{$conf['table']['userlog']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['userlog'],true)}
             WHERE
                 userlogid = 2";
 
@@ -146,7 +146,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
                 {$runTypeField},
                 updated_to
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
             WHERE
                 log_maintenance_statistics_id = 1";
         $rc = $oDbh->query($query);
@@ -172,7 +172,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
                 {$runTypeField},
                 updated_to
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
             WHERE
                 log_maintenance_statistics_id = 1";
         $rc = $oDbh->query($query);
@@ -190,7 +190,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
                 {$runTypeField},
                 updated_to
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
             WHERE
                 log_maintenance_statistics_id = 2";
         $rc = $oDbh->query($query);
@@ -216,7 +216,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
                 {$runTypeField},
                 updated_to
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_statistics']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
             WHERE
                 log_maintenance_statistics_id = 3";
         $rc = $oDbh->query($query);

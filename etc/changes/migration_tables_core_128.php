@@ -50,6 +50,16 @@ class Migration_128 extends Migration
 
 	function beforeAlterField__banners__transparent()
 	{
+	    if ($this->oDBH->dbsyntax == 'pgsql') {
+    	    $table = $this->oDBH->quoteIdentifier($this->getPrefix().'banners',true);
+
+    	    $sql = "ALTER TABLE {$table} ALTER transparent DROP DEFAULT";
+    	    $this->oDBH->exec($sql);
+    	    $sql = "ALTER TABLE {$table} ALTER transparent TYPE SMALLINT USING (CASE WHEN transparent = 't' THEN 1 ELSE 0 END)";
+    	    $this->oDBH->exec($sql);
+    	    $sql = "ALTER TABLE {$table} ALTER transparent SET DEFAULT 0";
+    	    $this->oDBH->exec($sql);
+	    }
 		return $this->beforeAlterField('banners', 'transparent');
 	}
 
@@ -85,23 +95,25 @@ class Migration_128 extends Migration
 
 	function migrateSwfProperties()
 	{
-	    $prefix = $this->getPrefix();
+        $table = $this->oDBH->quoteIdentifier($this->getPrefix().'banners',true);
 
-	    $sql = "
-	       UPDATE {$prefix}banners
-	       SET transparent = 0
-	       WHERE transparent = 2";
-	    $result = $this->oDBH->exec($sql);
-	    if (PEAR::isError($result)) {
-	        return $this->_logErrorAndReturnFalse('Error migrating SWF properties during migration 128: '.$result->getUserInfo());
-	    }
+	    if ($this->oDBH->dbsyntax == 'mysql') {
+    	    $sql = "
+    	       UPDATE {$table}
+    	       SET transparent = 0
+    	       WHERE transparent = 2";
+    	    $result = $this->oDBH->exec($sql);
+    	    if (PEAR::isError($result)) {
+    	        return $this->_logErrorAndReturnFalse('Error migrating SWF properties during migration 128: '.$result->getUserInfo());
+    	    }
+        }
 
 	    $sql = "
 	       SELECT
 	           bannerid,
 	           htmlcache
 	       FROM
-	           {$prefix}banners
+	           {$table}
 	       WHERE
 	           contenttype = 'swf'
 	    ";
@@ -123,7 +135,7 @@ class Migration_128 extends Migration
                 }
                 $params = serialize($params);
                 $sql = "
-        	       UPDATE {$prefix}banners
+        	       UPDATE {$table}
         	       SET parameters = '".$this->oDBH->escape($params)."'
         	       WHERE bannerid = '{$bannerId}'
                 ";
@@ -138,14 +150,14 @@ class Migration_128 extends Migration
 
 	function migrateGoogleAdSense()
 	{
-	    $prefix = $this->getPrefix();
+        $table = $this->oDBH->quoteIdentifier($this->getPrefix().'banners',true);
 
 	    $sql = "
 	       SELECT
 	           bannerid,
 	           htmltemplate
 	       FROM
-	           {$prefix}banners
+	           {$table}
 	       WHERE
 	           storagetype = 'html' AND
 	           autohtml = 't'
@@ -165,7 +177,7 @@ class Migration_128 extends Migration
                           "<script type='text/javascript' src='{url_prefix}/ag.php'></script>".
                           "</span>";
                 $sql = "
-        	       UPDATE {$prefix}banners
+        	       UPDATE {$table}
         	       SET adserver = 'google', htmlcache = '".$this->oDBH->escape($buffer)."'
         	       WHERE bannerid = '{$bannerId}'
                 ";
@@ -208,7 +220,7 @@ class Migration_128 extends Migration
 
 	function migrateAcls()
 	{
-	    $tableAcls = $this->getPrefix() . "acls";
+	    $tableAcls = $this->oDBH->quoteIdentifier($this->getPrefix()."acls",true);
 	    $sql = "SELECT * FROM $tableAcls ORDER BY bannerid, executionorder";
 	    $rsAcls = DBC::NewRecordSet($sql);
 	    if (!$rsAcls->find()) {

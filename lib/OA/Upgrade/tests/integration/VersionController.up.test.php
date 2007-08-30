@@ -57,11 +57,11 @@ class Test_VersionController extends UnitTestCase
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
         $this->assertEqual($oVerCtrl->getSchemaVersion('tables_test'),1001,'wrong schema version retrieved');
+        $this->_deleteTestRecord('tables_test');
     }
 
     function test_putSchemaVersion()
     {
-        $this->_deleteTestRecord('tables_test');
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
         $this->assertEqual($oVerCtrl->putSchemaVersion('tables_test',1001),1001,'error inserting schema version');
@@ -90,7 +90,6 @@ class Test_VersionController extends UnitTestCase
 
     function test_putApplicationVersion()
     {
-        $this->_deleteTestRecord('oa_version');
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
         $this->assertEqual($oVerCtrl->putApplicationVersion(1001),1001,'error inserting application version');
@@ -105,17 +104,17 @@ class Test_VersionController extends UnitTestCase
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
         $this->assertEqual($oVerCtrl->getSchemaVersion('plugin_test'),1001,'wrong plugin version retrieved');
+        $this->_deleteTestRecord('plugin_test');
     }
 
     function test_putPluginVersion()
     {
-        $this->_deleteTestRecord('tables_test');
         $oVerCtrl = new OA_Version_Controller();
         $oVerCtrl->init(OA_DB::singleton(OA_DB::getDsn()));
-        $this->assertEqual($oVerCtrl->putPluginVersion('tables_test',1001),1001,'error inserting plugin version');
-        $this->assertEqual($oVerCtrl->putPluginVersion('tables_test',1002),1002,'error updating plugin version');
-        $this->assertNotEqual($oVerCtrl->getPluginVersion('tables_test'),1001,'wrong plugin version retrieved');
-        $this->_deleteTestRecord('tables_test');
+        $this->assertEqual($oVerCtrl->putPluginVersion('plugin_test',1001),1001,'error inserting plugin version');
+        $this->assertEqual($oVerCtrl->putPluginVersion('plugin_test',1002),1002,'error updating plugin version');
+        $this->assertNotEqual($oVerCtrl->getPluginVersion('plugin_test'),1001,'wrong plugin version retrieved');
+        $this->_deleteTestRecord('plugin_test');
     }
 
     function _createTestRecord($name, $value)
@@ -124,7 +123,8 @@ class Test_VersionController extends UnitTestCase
         $doApplicationVariable->name = $name;
         $doApplicationVariable->value = $value;
         $doApplicationVariable->delete();
-        $appvar = DataGenerator::generateOne($doApplicationVariable);
+        $appVar = DataGenerator::generateOne($doApplicationVariable);
+        $this->assertTrue($appVar, 'Failed to create test record: '.$name.' = '.$value);
         return $appVar;
     }
 
@@ -132,7 +132,7 @@ class Test_VersionController extends UnitTestCase
     {
         $doApplicationVariable = OA_Dal::factoryDO('application_variable');
         $doApplicationVariable->name = $name;
-        $doApplicationVariable->delete();
+        $this->assertTrue($doApplicationVariable->delete(), 'Failed to delete test record: '.$name);
     }
 }
 

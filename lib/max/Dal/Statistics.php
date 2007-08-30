@@ -67,8 +67,8 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
         }
         // Get the required data
         $conf = $GLOBALS['_MAX']['CONF'];
-        $adTable = $conf['table']['prefix'] . $conf['table']['banners'];
-        $dsahTable = $conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'];
+        $adTable = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
+        $dsahTable = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'],true);
         $query = "
             SELECT
                 dsah.day AS day,
@@ -162,7 +162,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
             return null;
         }
         // Get the required data
-        $table = $conf['table']['prefix'] . $conf['table']['data_summary_channel_daily'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_channel_daily'],true);
         if ($hack) {
             $columnName = 'actual_impressions';
         } else {
@@ -298,7 +298,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
             }
         }
         // Get the required data
-        $table = $conf['table']['prefix'] . $conf['table']['data_summary_zone_impression_history'];
+        $table = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_zone_impression_history'],true);
         $aResult = array();
         reset($aZoneIds);
         while (list($key, $zoneId) = each($aZoneIds)) {

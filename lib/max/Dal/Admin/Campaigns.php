@@ -232,6 +232,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 				"absolute"  => true
 			);
         }
+        $oDbh = OA_DB::singleton();
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableD = $oDbh->quoteIdentifier($prefix.'data_intermediate_ad',true);
 
         // Does the campaign have lifetime impression targets?
         if ($aCampaignData['impressions'] > 0) {
@@ -240,8 +243,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                     SUM(dia.impressions) AS delivered,
                     MIN(dia.day) AS day_of_first
                 FROM
-                    {$prefix}data_intermediate_ad AS dia,
-                    {$prefix}banners AS b
+                    {$tableD} AS dia,
+                    {$tableB} AS b
                 WHERE
                     dia.ad_id = b.bannerid
                     AND
@@ -262,8 +265,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                     SUM(dia.clicks) AS delivered,
                     MIN(dia.day) AS day_of_first
                 FROM
-                    {$prefix}data_intermediate_ad AS dia,
-                    {$prefix}banners AS b
+                    {$tableD} AS dia,
+                    {$tableB} AS b
                 WHERE
                     dia.ad_id = b.bannerid
                     AND
@@ -285,8 +288,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                     SUM(dia.conversions) AS delivered,
                     MIN(dia.day) AS day_of_first
                 FROM
-                    {$prefix}data_intermediate_ad AS dia,
-                    {$prefix}banners AS b
+                    {$tableD} AS dia,
+                    {$tableB} AS b
                 WHERE
                     dia.ad_id = b.bannerid
                     AND
@@ -416,6 +419,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     {
         $whereCampaign = is_numeric($keyword) ? " OR m.campaignid=". DBC::makeLiteral($keyword) : '';
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $tableC = $oDbh->quoteIdentifier($prefix.'clients',true);
 
         $query = "
         SELECT
@@ -423,8 +429,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             m.campaignname AS campaignname,
             m.clientid AS clientid
         FROM
-            {$prefix}campaigns AS m,
-            {$prefix}clients AS c
+            {$tableM} AS m,
+            {$tableC} AS c
         WHERE
             (
             m.clientid=c.clientid
@@ -446,6 +452,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     function getAllCampaigns($listorder, $orderdirection)
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
 
         $query = "
             SELECT
@@ -454,7 +462,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 campaignname,
                 active
             FROM
-                {$prefix}campaigns " .
+                {$tableM} " .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
@@ -473,6 +481,9 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     function getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection)
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $tableC = $oDbh->quoteIdentifier($prefix.'clients',true);
 
         $query = "
             SELECT
@@ -481,8 +492,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 m.campaignname as campaignname,
                 m.active as active
             FROM
-                {$prefix}campaigns AS m,
-                {$prefix}clients AS c
+                {$tableM} AS m,
+                {$tableC} AS c
             WHERE
                 c.clientid=m.clientid
                 AND c.agencyid=". DBC::makeLiteral($agency_id) .
@@ -498,9 +509,11 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     function countActiveCampaigns()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = OA_DB::singleton();
+        $tableM = $oDbh->quoteIdentifier($this->getTablePrefix().'campaigns',true);
 
         $query_active_campaigns = "SELECT count(*) AS count".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." WHERE active='t'";
+            " FROM ".$tableM." WHERE active='t'";
         return $this->oDbh->queryOne($query_active_campaigns);
     }
 
@@ -512,10 +525,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
     function countActiveCampaignsUnderAgency($agency_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = OA_DB::singleton();
+        $tableM = $oDbh->quoteIdentifier($this->getTablePrefix().'campaigns',true);
+        $tableC = $oDbh->quoteIdentifier($this->getTablePrefix().'clients',true);
 
         $query_active_campaigns = "SELECT count(*) AS count".
-            " FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-            ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
+            " FROM ".$tableM." AS m".
+            ",".$tableC." AS c".
             " WHERE m.clientid=c.clientid".
             " AND c.agencyid=". DBC::makeLiteral($agency_id) .
             " AND m.active='t'";

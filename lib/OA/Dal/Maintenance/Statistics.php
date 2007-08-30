@@ -61,9 +61,10 @@ class OA_Dal_Maintenance_Statistics extends OA_Dal_Maintenance_Common
     function setMaintenanceStatisticsRunReport($report)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        $tableName = $this->_getTablename('userlog');
         $query = "
             INSERT INTO
-                {$aConf['table']['prefix']}{$aConf['table']['userlog']}
+                {$tableName}
                 (
                     timestamp,
                     usertype,

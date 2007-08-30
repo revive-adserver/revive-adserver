@@ -232,6 +232,8 @@ function datatype_openads_bigint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
+            unset($aParameters['previous']['unsigned']);
+            unset($aParameters['current']['unsigned']);
             return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
@@ -554,9 +556,6 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
-                $value .= '(' . $aParameters['field']['length'] . ')';
-            }
             if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
@@ -574,6 +573,7 @@ function datatype_openads_double_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
+            $aParameters['current']['length'] = 8;
             return $db->datatype->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
@@ -623,6 +623,9 @@ function datatype_openads_enum_callback(&$db, $method, $aParameters)
             $name = $db->quoteIdentifier($aParameters['name'], true);
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
+            if (isset($aParameters['field']['length']) && $aParameters['field']['length'] == "'t','f'") {
+                $datatype = "BOOLEAN";
+            }
             $value = $name . ' ' . $datatype;
             $value .= $declaration_options;
             return $value;
@@ -680,9 +683,6 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
-                $value .= '(' . $aParameters['field']['length'] . ')';
-            }
             if (isset($aParameters['field']['unsigned']) && $aParameters['field']['unsigned']) {
                 $value .= ' UNSIGNED';
             }
@@ -700,6 +700,7 @@ function datatype_openads_float_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "float" datatype
+            $aParameters['current']['length'] = 4;
             return $db->datatype->_compareFloatDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
@@ -767,6 +768,8 @@ function datatype_openads_int_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
+            unset($aParameters['previous']['unsigned']);
+            unset($aParameters['current']['unsigned']);
             return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
@@ -834,6 +837,8 @@ function datatype_openads_mediumint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
+            unset($aParameters['previous']['unsigned']);
+            unset($aParameters['current']['unsigned']);
             return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
@@ -884,9 +889,6 @@ function datatype_openads_mediumtext_callback(&$db, $method, $aParameters)
             $datatype = $db->datatype->mapPrepareDatatype($aParameters['type']);
             $declaration_options = $db->datatype->_getDeclarationOptions($aParameters['field']);
             $value = $name . ' ' . $datatype;
-            if (isset($aParameters['field']['length']) && is_numeric($aParameters['field']['length'])) {
-                $value .= '(' . $aParameters['field']['length'] . ')';
-            }
             $value .= $declaration_options;
             return $value;
         case 'comparedefinition':
@@ -1012,6 +1014,8 @@ function datatype_openads_smallint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
+            unset($aParameters['previous']['unsigned']);
+            unset($aParameters['current']['unsigned']);
             return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
@@ -1066,7 +1070,7 @@ function datatype_openads_text_callback(&$db, $method, $aParameters)
                 $value .= '(' . $aParameters['field']['length'] . ')';
             }
             // Strip out any "DEFAULT NULL" value from the options
-            $declaration_options = preg_replace('/DEFAULT NULL /', '', $declaration_options);
+            $declaration_options = preg_replace('/DEFAULT NULL NOT NULL/', "DEFAULT '' NOT NULL", $declaration_options);
             $value .= $declaration_options;
             return $value;
         case 'comparedefinition':
@@ -1205,6 +1209,8 @@ function datatype_openads_tinyint_callback(&$db, $method, $aParameters)
         case 'comparedefinition':
             // Return the same array of changes that would be used for
             // the built in "integer" datatype
+            unset($aParameters['previous']['unsigned']);
+            unset($aParameters['current']['unsigned']);
             return $db->datatype->_compareIntegerDefinition($aParameters['current'], $aParameters['previous']);
         case 'quote':
             // Convert the datatype value into a quoted nativetype value
@@ -1273,6 +1279,60 @@ function datatype_openads_varchar_callback(&$db, $method, $aParameters)
             // Return the PostgreSQL nativetype declaration for this custom datatype
             return 'VARCHAR';
     }
+}
+
+/**
+ * A callback function to map the MySQL nativetype "CHAR" into
+ * the extended MDB2 datatype "openads_char".
+ *
+ * @param MDB2 $db       The MDB2 database reource object.
+ * @param array $aFields The standard array of fields produced from the
+ *                       MySQL command "SHOW COLUMNS". See
+ *                       {@link http://dev.mysql.com/doc/refman/5.0/en/describe.html}
+ *                       for more details on the format of the fields.
+ *                          "type"      The nativetype column type
+ *                          "null"      "YES" or "NO"
+ *                          "key"       "PRI", "UNI", "MUL", or null
+ *                          "default"   The default value of the column
+ *                          "extra"     "auto_increment", or null
+ * @return array Returns an array of the following items:
+ *                  0 => An array of possible MDB2 datatypes. As this is
+ *                       a custom type, always has one entry, "openads_char".
+ *                  1 => The length of the type, if defined by the nativetype,
+ *                       otherwise null.
+ *                  2 => A boolean value indicating the "unsigned" nature of numeric
+ *                       fields. Always null in this case, as the type is not numeric.
+ *                  3 => A boolean value indicating the "fixed" nature of text
+ *                       fields. Always null in this case, as the type is not text.
+ */
+function nativetype_bpchar_callback(&$db, $aFields)
+{
+    // Prepare the type array
+    $aType = array();
+    $aType[] = 'openads_char';
+    // Can the length of the CHAR field be found?
+    if ($aFields['length'] == '-1' && !empty($aFields['atttypmod'])) {
+        $length = $aFields['atttypmod'] - 4;
+    }
+    // No unsigned value needed
+    $unsigned = null;
+    // No fixed value needed
+    $fixed = null;
+    return array($aType, $length, $unsigned, $fixed);
+}
+
+
+function nativetype_bool_callback(&$db, $aFields)
+{
+    // Prepare the type array
+    $aType = array();
+    $aType[] = 'openads_enum';
+    $length = "'t','f'";
+    // No unsigned value needed
+    $unsigned = null;
+    // No fixed value needed
+    $fixed = null;
+    return array($aType, $length, $unsigned, $fixed);
 }
 
 ?>

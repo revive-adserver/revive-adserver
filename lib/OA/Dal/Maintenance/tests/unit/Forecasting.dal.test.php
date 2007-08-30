@@ -77,7 +77,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                 duration,
                 updated_to
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
             WHERE
                 log_maintenance_forecasting_id = 1";
         $rc = $oDbh->query($query);
@@ -102,7 +102,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                 duration,
                 updated_to
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
             WHERE
                 log_maintenance_forecasting_id = 1";
         $rc = $oDbh->query($query);
@@ -120,7 +120,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
                 duration,
                 updated_to
             FROM
-                {$conf['table']['prefix']}{$conf['table']['log_maintenance_forecasting']}
+                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
             WHERE
                 log_maintenance_forecasting_id = 2";
         $rc = $oDbh->query($query);
@@ -145,12 +145,11 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
     function testGetMaintenanceForecastingLastRunInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Forecasting();
 
         // Test 1
-        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($table);
+        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($conf['table']['data_raw_ad_impression']);
         $this->assertFalse($result);
 
         // Test 2
@@ -158,7 +157,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $oEndDate   = new Date('2005-06-21 15:01:01');
         $oUpdatedTo = new Date('2005-06-21 15:59:59');
         $oMaxDalMaintenance->setMaintenanceForecastingLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo);
-        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($table);
+        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($conf['table']['data_raw_ad_impression']);
         $this->assertTrue(is_array($result));
         $this->assertEqual($result['updated_to'], '2005-06-21 15:59:59');
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);
@@ -168,7 +167,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $oEndDate   = new Date('2005-06-21 14:01:01');
         $oUpdatedTo = new Date('2005-06-21 14:59:59');
         $oMaxDalMaintenance->setMaintenanceForecastingLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo);
-        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($table);
+        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($conf['table']['data_raw_ad_impression']);
         $this->assertTrue(is_array($result));
         $this->assertEqual($result['updated_to'], '2005-06-21 15:59:59');
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);
@@ -176,7 +175,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $oEndDate   = new Date('2005-06-21 16:01:01');
         $oUpdatedTo = new Date('2005-06-21 16:59:59');
         $oMaxDalMaintenance->setMaintenanceForecastingLastRunInfo($oStartDate, $oEndDate, $oUpdatedTo);
-        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($table);
+        $result = $oMaxDalMaintenance->getMaintenanceForecastingLastRunInfo($conf['table']['data_raw_ad_impression']);
         $this->assertTrue(is_array($result));
         $this->assertEqual($result['updated_to'], '2005-06-21 16:59:59');
         $this->assertEqual($result['operation_interval'], $conf['maintenance']['operationInterval']);
@@ -214,13 +213,12 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -231,13 +229,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -250,13 +248,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -269,13 +267,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -290,13 +288,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -311,13 +309,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -332,13 +330,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -351,13 +349,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $oStartDate = new Date('2006-10-12 00:00:00');
         $oEndDate = new Date('2006-10-12 23:59:59');
         $aZoneIds = '';
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -372,13 +370,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = '';
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            ''
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -394,22 +392,21 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
 
         // Test 3
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
         $query = "
             INSERT INTO
-                $tableName
+                {$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)}
                 (
                     date_time,
                     ad_id,
@@ -462,23 +459,23 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
         TestEnv::restoreEnv();
 
         // Test 4
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $query = "
             INSERT INTO
-                $tableName
+                {$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)}
                 (
                     date_time,
                     ad_id,
@@ -539,23 +536,23 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $aZoneIds = array(
             0 => 7
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[7], 1);
         TestEnv::restoreEnv();
 
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $query = "
             INSERT INTO
-                $tableName
+                {$oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true)}
                 (
                     date_time,
                     ad_id,
@@ -664,13 +661,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
             0 => 7,
             1 => 9
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
@@ -693,13 +690,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
             0 => 7,
             1 => 9
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
@@ -722,13 +719,13 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
             0 => 7,
             1 => 9
         );
-        $tableName = $conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'];
+
         $aResult = $oMaxDalMaintenance->summariseRecordsInZonesBySqlLimitations(
             $aSqlLimitations,
             $oStartDate,
             $oEndDate,
             $aZoneIds,
-            $tableName
+            $conf['table']['data_raw_ad_impression']
         );
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 0);
@@ -749,7 +746,7 @@ class Test_OA_Dal_Maintenance_Forecasting extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Forecasting();
-        $table = $conf['table']['prefix'] . $conf['table']['data_summary_channel_daily'];
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_channel_daily'],true);
 
         // Test 1
         $oDate = new Date('2006-10-12 12:00:00');

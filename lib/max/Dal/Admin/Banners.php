@@ -51,6 +51,10 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
 
         $whereBanner = is_numeric($keyword) ? " OR b.bannerid=". DBC::makeLiteral($keyword) : '';
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $tableC = $oDbh->quoteIdentifier($prefix.'clients',true);
 
         $query = "
         SELECT
@@ -61,9 +65,9 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
             b.contenttype as type,
             m.clientid as clientid
         FROM
-            {$prefix}banners AS b,
-            {$prefix}campaigns AS m,
-            {$prefix}clients AS c
+            {$tableB} AS b,
+            {$tableM} AS m,
+            {$tableC} AS c
         WHERE
             (
             m.clientid=c.clientid
@@ -93,13 +97,16 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function getAllBanners($listorder, $orderdirection)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
         $query = "SELECT bannerid AS ad_id".
         ",campaignid".
         ",alt".
         ",description".
         ",active".
         ",storagetype AS type".
-        " FROM ".$conf['table']['prefix'].$conf['table']['banners'];
+        " FROM ".$tableB;
         $query .= $this->getSqlListOrder($listorder, $orderdirection);
         return $this->oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
     }
@@ -117,6 +124,10 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function getAllBannersUnderAgency($agency_id, $listorder, $orderdirection)
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $tableC = $oDbh->quoteIdentifier($prefix.'clients',true);
 
         $query = "
             SELECT
@@ -127,9 +138,9 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 b.active AS active,
                 b.storagetype AS type
             FROM
-                {$prefix}banners AS b,
-                {$prefix}campaigns AS m,
-                {$prefix}clients AS c
+                {$tableB} AS b,
+                {$tableM} AS m,
+                {$tableC} AS c
             WHERE
                 b.campaignid = m.campaignid
                 AND m.clientid = c.clientid
@@ -152,9 +163,14 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function countActiveBanners()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+
         $query_active_banners = "SELECT count(*) AS count".
-            " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
-            ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
+            " FROM ".$tableB." AS b".
+            ",".$tableM." AS m".
             " WHERE b.campaignid=m.campaignid".
             " AND m.active='t'".
             " AND b.active='t'";
@@ -164,9 +180,13 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function countActiveBannersUnderAdvertiser($advertiser_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableM = $oDbh->quoteIdentifier($prefix.'campaigns',true);
         $query_active_banners = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
-        ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
+        " FROM ".$tableB." AS b".
+        ",".$tableM." AS m".
         " WHERE b.campaignid=m.campaignid".
         " AND m.clientid=". DBC::makeLiteral($advertiser_id) .
         " AND m.active='t'".
@@ -184,11 +204,16 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function countActiveBannersUnderAgency($agency_id)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB   = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableCa  = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $tableCl  = $oDbh->quoteIdentifier($prefix.'clients',true);
 
         $query_active_banners = "SELECT count(*) AS count".
-        " FROM ".$conf['table']['prefix'].$conf['table']['banners']." AS b".
-        ",".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
-        ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
+        " FROM ".$tableB." AS b".
+        ",".$tableCa." AS m".
+        ",".$tableCl." AS c".
         " WHERE m.clientid=c.clientid".
         " AND b.campaignid=m.campaignid".
         " AND c.agencyid=". DBC::makeLiteral($agency_id) .
@@ -225,8 +250,9 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function moveBannerToCampaign($bannerId, $campaignId)
     {
         $Record = DBC::NewRecord();
-        $prefix = $this->getTablePrefix();
-        return $Record->update($prefix.'banners',
+        $oDbh = OA_DB::singleton();
+        $tableB  = $oDbh->quoteIdentifier($this->getTablePrefix().'banners',true);
+        return $Record->update($tableB,
             array(),
             "bannerid=". DBC::makeLiteral($bannerId),
             array('campaignid' => DBC::makeLiteral($campaignId)));
@@ -240,6 +266,10 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
     function getBannersCampaignsClients()
     {
         $prefix = $this->getTablePrefix();
+        $oDbh = OA_DB::singleton();
+        $tableB  = $oDbh->quoteIdentifier($prefix.'banners',true);
+        $tableC  = $oDbh->quoteIdentifier($prefix.'campaigns',true);
+        $tableCl = $oDbh->quoteIdentifier($prefix.'clients',true);
 
         $query = "
             SELECT
@@ -250,9 +280,9 @@ class MAX_Dal_Admin_Banners extends MAX_Dal_Common
                 c.campaignname,
                 cl.clientname
             FROM
-                {$prefix}banners AS b,
-                {$prefix}campaigns as c,
-                {$prefix}clients as cl
+                {$tableB} AS b,
+                {$tableC} AS c,
+                {$tableCl} AS cl
             WHERE
                 c.campaignid=b.campaignid
                 AND cl.clientid=c.clientid
