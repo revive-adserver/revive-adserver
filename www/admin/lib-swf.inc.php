@@ -29,14 +29,14 @@ $Id$
 */
 
 // Define SWF tags
-define ('swf_tag_identify', 		 chr(0x46).chr(0x57).chr(0x53));
-define ('swf_tag_compressed', 		 chr(0x43).chr(0x57).chr(0x53));
-define ('swf_tag_geturl',   		 chr(0x83));
-define ('swf_tag_null',     		 chr(0x00));
-define ('swf_tag_actionpush', 		 chr(0x96));
-define ('swf_tag_actiongetvariable', chr(0x1C));
-define ('swf_tag_actiongeturl2', 	 chr(0x9A).chr(0x01));
-define ('swf_tag_actiongetmember', 	 chr(0x4E));
+define ('swf_tag_identify', 		 "FWS");
+define ('swf_tag_compressed', 		 "CWS");
+define ('swf_tag_geturl',   		 "\x83");
+define ('swf_tag_null',     		 "\x00");
+define ('swf_tag_actionpush', 		 "\x96");
+define ('swf_tag_actiongetvariable', "\x1C");
+define ('swf_tag_actiongeturl2', 	 "\x9A\x01");
+define ('swf_tag_actiongetmember', 	 "\x4E");
 
 
 // Define preferences
@@ -279,6 +279,8 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	$allowedcount = 1;
 	$final = $buffer;
 
+	$masked_parts = array();
+
 	while (preg_match('/								# begin
 							^
 							(
@@ -318,6 +320,11 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 		$geturl_part	= $m[2];
 		$previous_part	= $m[1];
 
+		// Replace masked parts with actual content
+		if (count($masked_parts)) {
+		    $previous_part = strtr($previous_part, array_flip($masked_parts));
+		}
+
 		$allowed_types = array(12, 26, 34); // DoAction, PlaceObject2, DefineButton2
 		$original = '';
 		for ($len = 2; $len < strlen($previous_part); $len++)
@@ -348,7 +355,8 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 
 			if ($object_len >= $expected_len)
 			{
-				$original = $replacement = $recordheader.$geturl_part;
+				$replacement = $original = $recordheader.$geturl_part;
+
 				break;
 			}
 		}
@@ -400,15 +408,8 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 
 						swf_tag_null;
 
-
         // Check for functions (ActionDefineFunction)
-		if (preg_match('/^(..)(.*?(..)\x9B)/s', strrev($previous_part), $m)) {
-		    $tmp = $m;
-		    $m[0] = strrev($tmp[0]);
-		    $m[1] = strrev($tmp[2]);
-		    $m[2] = strrev($tmp[3]);
-		    $m[3] = strrev($tmp[1]);
-
+        if (preg_match('/^.*(\x9B(..).*?)(..)$/s', $recordheader, $m)) {
 			$fheader_len = unpack('v', $m[2]);
 			$fheader_len = current($fheader_len);
 			$fbody_len = unpack('v', $m[3]);
@@ -417,7 +418,7 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 			{
 				// getURL is inside an ActionDefineFunction
 				$fbody_len += strlen($geturl2_part) - strlen($geturl_part);
-				$geturl_part	= $m[0].$geturl_part;
+				$geturl_part	= $m[1].$m[3].$geturl_part;
 				$geturl2_part	= $m[1].pack('v', $fbody_len).$geturl2_part;
 			}
 		}
@@ -429,15 +430,31 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 		$replacement = substr($replacement, $object_extended ? 6 : 2);
 
 		if ($object_len2 < 0x3F)
-			$replacement = chr(0x80 | $object_len2).$object_tag{1}.$replacement;
+			$replacement = chr(($object_tag{0} && 0xC0) | $object_len2).$object_tag{1}.$replacement;
 		else
 			$replacement = chr(ord($object_tag{0}) | 0x3F).$object_tag{1}.pack('V', $object_len2).$replacement;
+
+		// Check for DefineSprite
+		$definesprite_part = substr($previous_part, -strlen($recordheader) - 10, 10);
+		if (preg_match('/^\xFF\x09(....)(....)$/s', $definesprite_part, $m)) {
+            // Long DefineSprite recordheader
+			$object_len = unpack('V', $m[1]);
+			$object_len = current($object_len);
+
+			$object_tag = substr($definesprite_part, 0, 2);
+
+			$object_len += strlen($geturl2_part) - strlen($geturl_part);
+
+			$original = $definesprite_part.$original;
+
+			$replacement = chr(ord($object_tag{0}) | 0x3F).$object_tag{1}.pack('V', $object_len).$m[2].$replacement;
+		}
 
 		// Is this link allowed to be converted?
 		if (in_array($allowedcount, $allowed))
 		{
-			// Convert
-			$final = str_replace($original, $replacement, $final);
+    		// Convert
+		    $final = str_replace($original, $replacement, $final);
 
 			// Fix file size
 			$file_size = unpack('V', substr($final, 4, 4));
@@ -448,12 +465,15 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 			$parameters[$linkcount] = $allowedcount;
 
 			$linkcount++;
+		} else {
+    		$mask = '^'.pack('v', $allowedcount).'|'.str_pad('', strlen($geturl_part) - 5, "\xDE\xAD\xBE\xEF").'$';
+
+    		$masked_parts[$geturl_part] = $mask;
 		}
 
 		$allowedcount++;
 
-		$replacement = str_replace($geturl2_part, str_repeat("\0", strlen($geturl2_part)), $replacement);
-		$buffer = str_replace($original, $replacement, $buffer);
+		$buffer = strtr($final, $masked_parts);
 	}
 
 
@@ -465,7 +485,7 @@ function phpAds_SWFConvert($buffer, $compress, $allowed)
 	return (array($final, $parameters));
 }
 
-/* Debug function
+// Debug function
 function hex_dump($str)
 {
     echo "<pre>";
@@ -492,6 +512,6 @@ function hex_dump($str)
 	echo "\n</pre>";
 	flush();
 }
-*/
+
 
 ?>

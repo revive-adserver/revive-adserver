@@ -460,6 +460,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 campaignid,
                 clientid,
                 campaignname,
+                oac_campaign_id,
                 active
             FROM
                 {$tableM} " .
