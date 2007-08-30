@@ -26,7 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/mysql.php';
+//require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/mysql.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
 
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_Tracker_mysql_MySql class.
