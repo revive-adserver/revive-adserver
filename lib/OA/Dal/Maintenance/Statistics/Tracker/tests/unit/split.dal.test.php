@@ -26,24 +26,26 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/mysqlSplit.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/'.$GLOBALS['_MAX']['CONF']['database']['type'].'Split.php';
 
 /**
- * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_mysqlSplit class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_<dbms>Split classes.
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCase
+class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
 {
+    var $dbms;
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit()
+    function Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit()
     {
         $this->UnitTestCase();
+        $this->dbms = $GLOBALS['_MAX']['CONF']['database']['type'];
     }
 
     /**
@@ -241,8 +243,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
      */
     function DEPRECATED_testSingleton()
     {
-        $first = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
-        $second = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        if ($this->dbms == 'mysql')
+        {
+            $first = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+            $second = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $first = new OA_Dal_Maintenance_Statistics_Tracker_pgsqlSplit();
+            $second = new OA_Dal_Maintenance_Statistics_Tracker_pgsqlSplit();
+        }
         $this->assertIdentical($first, $second);
     }
 
@@ -255,7 +265,14 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $oDbh = &OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['operationInterval'] = 60;
-        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        if ($this->dbms == 'mysql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_pgsqlSplit();
+        }
         // Create the required tables
         $now = new Date();
         $dsa->tables->createTable('data_raw_tracker_impression', $now);
@@ -414,7 +431,14 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $oDbh = &OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
-        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        if ($this->dbms == 'mysql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_pgsqlSplit();
+        }
         // Create the required tables
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_tracker_click', $now);
@@ -462,7 +486,14 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysqlSplit extends UnitTestCas
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
-        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        if ($this->dbms == 'mysql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_pgsqlSplit();
+        }
         // Create the required tables
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_tracker_click', $now);

@@ -30,21 +30,23 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/'.$GLOBALS['_MAX']['CONF']['database']['type'].'.php';
 
 /**
- * A class for testing the OA_Dal_Maintenance_Statistics_Tracker_mysql_MySql class.
+ * A class for testing the OA_Dal_Maintenance_Statistics_Tracker class.
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
+class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
 {
+    var $dbms;
 
     /**
      * The constructor method.
      */
-    function Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql()
+    function Dal_TestOfMaxDalMaintenanceStatisticsTracker()
     {
         $this->UnitTestCase();
+        $this->dbms = $GLOBALS['_MAX']['CONF']['database']['type'];
     }
 
     /**
@@ -237,8 +239,16 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
      */
     function testSingleton()
     {
-        $first = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
-        $second = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        if ($this->dbms == 'mysql')
+        {
+            $first = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+            $second = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $first = new OA_Dal_Maintenance_Statistics_Tracker_pgsql();
+            $second = new OA_Dal_Maintenance_Statistics_Tracker_pgsql();
+        }
         $this->assertIdentical($first, $second);
     }
 
@@ -251,7 +261,14 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $oDbh = &OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 60;
         $aConf['table']['split'] = false;
-        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        if ($this->dbms == 'mysql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_pgsql();
+        }
         // Test with no data
         $date = $dsa->getMaintenanceStatisticsLastRunInfo(OA_DAL_MAINTENANCE_STATISTICS_UPDATE_OI);
         $this->assertNull($date);
@@ -382,7 +399,14 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $aConf['maintenance']['compactStatsGrace'] = 0;
-        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        if ($this->dbms == 'mysql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_pgsql();
+        }
         // Insert the test data
         $this->_insertTestDeleteImpressions();
         $this->_insertTestDeleteVariableValues();
@@ -414,7 +438,14 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackermysql extends UnitTestCase
         TestEnv::restoreEnv();
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
-        $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        if ($this->dbms == 'mysql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();
+        }
+        else if ($this->dbms == 'pgsql')
+        {
+            $dsa = new OA_Dal_Maintenance_Statistics_Tracker_pgsql();
+        }
         // Insert the test data
         $this->_insertTestDeleteImpressions();
         $this->_insertTestDeleteVariableValues();
