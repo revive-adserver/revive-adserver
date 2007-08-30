@@ -71,7 +71,7 @@ function phpAds_userlogAdd($action, $object, $details = '')
 	$now = strtotime(OA::getNow());
     $query = "
         INSERT INTO
-            {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['userlog'],true)}
+            ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['userlog'],true)."
             (
                 timestamp,
                 usertype,
