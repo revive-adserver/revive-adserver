@@ -78,26 +78,26 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             if (!empty($invocationType->publisherPlugin)) {
                 $available[$pluginKey] = $invocationType->publisherPlugin;
                 $names[$pluginKey] = $invocationType->getName();
+                if (!empty($invocationType->default)) {
+                    $defaultPublisherPlugin = $invocationType->name;
+                }
             }
         }
 
         $affiliateid = $this->affiliateid;
 
+        echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
+
         if (count($available) == 1) {
             // Only one publisher invocation plugin available
-            $publisherPlugin = array_keys($available);
-            $codetype = $publisherPlugin[0];
+            $codetype = $defaultPublisherPlugin;
         } elseif (count($available) > 1) {
             // Multiple publisher invocation plugins available
-            if (!empty($_GET['codetype'])) {
-                $codetype = $_GET['codetype'];
-            } else {
-                $publisherPlugin = array_keys($available);
-                $codetype = $publisherPlugin[0];
+            if (is_null($codetype)) {
+                $codetype = $defaultPublisherPlugin;
             }
 
             // Show the publisher invocation selection drop down
-            echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='GET' onSubmit='return max_formValidate(this);'>\n";
             echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
             echo "<input type='hidden' name='affiliateid' value='{$affiliateid}'>";
             echo "<tr><td height='25' colspan='3'><b>". MAX_Plugin_Translation::translate('Please choose the type of invocation', 'invocationTags') ."</b></td></tr>";
@@ -114,7 +114,6 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 
             echo phpAds_ShowBreak($print = false);
             echo "<br />";
-            echo '</form>';
         } else {
             // No publisher invocation plugins available
             $code = 'Error: No publisher invocation plugins available';
@@ -148,8 +147,6 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
         echo "</textarea></td></tr>";
         echo "</table><br />";
 
-        echo "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
-
         // Show parameters for the publisher invocation list
         echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
         echo "<tr><td height='25' colspan='3'><img src='images/icon-overview.gif' align='absmiddle'>&nbsp;<b>".$GLOBALS['strParameters']."</b></td></tr>";
@@ -163,9 +160,9 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
         //echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
         echo "</table>";
         // Pass in current values
-        foreach ($globalVariables as $key) {
-            echo "<input type='hidden' name='{$key}' value='{$$key}' />";
-        }
+
+        echo "<input type='hidden' name='affiliateid' value='{$affiliateid}' />";
+
         echo "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
         echo "</form>";
 

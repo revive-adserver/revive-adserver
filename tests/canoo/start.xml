@@ -3,7 +3,7 @@
 <project name="delivery" basedir="." default="main">
 
   <import file="includes/init.xml"/>
-  
+
   <property name="openads.path" value="${basedir}/../.."/>
   <property name="openads.url" value="${protocol}://${host}/${basepath}"/>
   <property name="openads.example_url" value="${openads.url}/example.php"/>
@@ -32,13 +32,13 @@
       </transaction>
     </sql>
   </target>
-  
+
   <target name="init-delivery-files">
     <copy file="php/example.php" todir="${openads.path}/www" />
   </target>
-  
+
   <target name="init-delivery" depends="init-delivery-db, init-delivery-files" />
-  
+
   <target name="delivery">
     <echo message="Base URL: ${openads.url}" />
     <ant antfile="usecases/delivery/ac.xml" />
@@ -46,6 +46,7 @@
     <ant antfile="usecases/delivery/ag.xml" />
     <ant antfile="usecases/delivery/ai.xml" />
     <ant antfile="usecases/delivery/ajs.xml" />
+    <ant antfile="usecases/delivery/spc.xml" />
     <ant antfile="usecases/delivery/al.xml" />
     <ant antfile="usecases/delivery/alocal.xml" />
     <ant antfile="usecases/delivery/apu.xml" />
@@ -56,15 +57,15 @@
     <ant antfile="usecases/delivery/ti.xml" />
     <ant antfile="usecases/delivery/tjs.xml" />
   </target>
-  
+
   <target name="test-one">
     <ant antfile="usecases/${uc}.xml" />
   </target>
-  
+
   <target name="clean">
     <delete dir="target" />
   </target>
-  
+
   <target name="main" depends="clean, init-delivery, delivery" />
-  
+
 </project>

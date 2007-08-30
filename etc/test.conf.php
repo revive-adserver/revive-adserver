@@ -82,6 +82,7 @@ view                                = avw.php
 xmlrpc                              = axmlrpc.php
 local                               = alocal.php
 frontcontroller                     = fc.php
+singlepagecall                      = spc.php
 
 [store]
 mode                                =

@@ -17,18 +17,18 @@
 <project name="canoo" default="run-test-canoo" basedir=".">
   <property name="canoo.log" value="${basedir}/canoo.log"/>
   <property name="timeout" value="60000"/>
-  
+
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
-  
+
   <condition property="property_file" value="user.local.properties" else="user.remote.properties">
     <istrue value="${run.local}"/>
   </condition>
   <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
-  
+
   <property file="${basedir}/ec2.properties"/>
   <property name="ec2.openads.config" value="${canoo.host}.conf.php"/>
   <property name="ec2.openads.database" value="openads"/>
-  
+
   <macrodef name="canoo-ssh" description="Executes ssh command on the currently configured ec2 machine.">
     <attribute name="command" description="Command to be executed."/>
     <attribute name="username" default="admin"/>
@@ -80,6 +80,7 @@
     <canoo-ssh command="tar xzf ${canoo.package} -C ${ec2.openads.dir}"/>
     <canoo-ssh command="touch ${ec2.openads.dir}/var/INSTALLED"/>
     <canoo-ssh command="chmod -R a+w ${ec2.openads.dir}/var"/>
+    <canoo-ssh command="chmod -R a+w ${ec2.openads.dir}/www/images"/>
     <canoo-scp dir="${ec2.openads.dir}/www">
       <files>
         <fileset dir="${basedir}/tests/canoo/php/" includes="*"/>
@@ -111,6 +112,7 @@
         <fileset dir="tests" includes="${ec2.openads.config}"/>
       </files>
     </canoo-scp>
+    <canoo-ssh command="rm -f ${ec2.openads.dir}/var/UPGRADE"/>
   </target>
 
   <macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
@@ -134,7 +136,7 @@
       </if>
     </sequential>
   </macrodef>
-  
+
   <target name="run-test-canoo">
     <execute-webtest target="init-delivery-db" />
     <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openads.dir=${ec2.openads.dir}" />

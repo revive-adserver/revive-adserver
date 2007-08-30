@@ -7,7 +7,7 @@
 ]
 >
 
-<!-- Test that ac.php prints the banner 
+<!-- Test that ac.php prints the banner
   @TODO and that it wraps it into <html><head><body> tags -->
 <project name="Openads delivery - ac.php" basedir="../.." default="main">
   <import file="../../includes/init.xml"/>
@@ -19,10 +19,10 @@
       <steps>
         <invoke description="Invoke delivery file" url="/delivery/ac.php?bannerid=2" />
         &checkForErrors;
-        &verifyLinks;
         <verifyTitle description="Check that title contains 'Advertisement'" text="Advertisement" />
         <verifyText description="Check that ad prints: 'html test banner'" regex="true" text="html test banner" />
         &verifyLoginBeacon;
+        &verifyLinks;
       </steps>
     </testSpec>
   </target>

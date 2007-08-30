@@ -42,7 +42,7 @@ $Id$
  *
  * @return string   The JS-ified string
  */
-function MAX_javascriptToHTML($string, $varName, $output = true)
+function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
 {
     $jsLines = array();
     $search[] = "\\"; $replace[] = "\\\\";
@@ -56,7 +56,8 @@ function MAX_javascriptToHTML($string, $varName, $output = true)
             $jsLines[] = $varName . ' += "' . trim(str_replace($search, $replace, $line)) . '\n";';
         }
     }
-    $buffer = "var {$varName} = '';\n";
+
+    $buffer = (($localScope) ? 'var ' : '') . $varName ." = '';\n";
     $buffer .= implode("\n", $jsLines);
     if ($output == true) {
         $buffer .= "\ndocument.write({$varName});\n";
