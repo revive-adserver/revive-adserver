@@ -52,8 +52,9 @@ $Id$
         <td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
     <tr>
 {else}
+    {cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
     {foreach key=clientId item=client from=$from}
-        {cycle values="#F6F6F6,#FFFFFF" assign=bgColor}
+        {cycle name=bgcolor assign=bgColor}
     <tr height='25' bgcolor="{$bgColor}">
 
         <td height='25'>
