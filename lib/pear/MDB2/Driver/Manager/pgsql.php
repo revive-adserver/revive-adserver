@@ -772,7 +772,7 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
         // it will give the most up-to-date statistics
         // otherwise we will get the last analyzed statistics
         // which will depend on when the scheduled analysis was last run
-        $db->exec("ANALYZE {$db->quoteIdentifier($table)}");
+        $db->exec("ANALYZE ".$db->quoteIdentifier($table, true));
 
         $pkeyDefault = $db->queryOne("
             SELECT

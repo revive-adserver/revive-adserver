@@ -94,7 +94,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)."
             WHERE
                 adserver_run_type = 0";
         $rc = $oDbh->query($query);
@@ -115,7 +115,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)."
             WHERE
                 adserver_run_type = 1";
         $rc = $oDbh->query($query);
@@ -136,7 +136,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_LogCompletion e
             SELECT
                 *
             FROM
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_statistics'],true)."
             WHERE
                 adserver_run_type = 2";
         $rc = $oDbh->query($query);

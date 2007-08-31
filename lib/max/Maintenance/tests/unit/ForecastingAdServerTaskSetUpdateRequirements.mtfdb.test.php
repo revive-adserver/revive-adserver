@@ -116,7 +116,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 2
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)."
                 (
                     start_run,
                     end_run,
@@ -148,7 +148,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 3
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)."
                 (
                     date_time,
                     ad_id,
@@ -178,7 +178,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 4
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)."
                 (
                     start_run,
                     end_run,
@@ -210,7 +210,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 5
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)."
                 (
                     date_time,
                     ad_id,
@@ -240,7 +240,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 6
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)."
                 (
                     start_run,
                     end_run,
@@ -272,7 +272,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 7
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['log_maintenance_forecasting'],true)."
                 (
                     start_run,
                     end_run,
@@ -304,7 +304,7 @@ class Maintenance_TestOfMAX_Maintenance_Forecasting_AdServer_Task_SetUpdateRequi
         // Test 8
         $query = "
             INSERT INTO
-                {$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
+                ".$oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)."
                 (
                     date_time,
                     ad_id,
