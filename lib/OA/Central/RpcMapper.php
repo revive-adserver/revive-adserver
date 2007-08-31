@@ -385,16 +385,16 @@ class OA_Central_RpcMapper
      *         (
      *             [0] => Array
      *                 (
-     *                     [start] => 2007-08-01 00:00:00 (as PEAR::Date)
-     *                     [end] => 2007-08-01 23:59:59 (as PEAR::Date)
+     *                     [start] => 2007-08-01 00:00:00
+     *                     [end] => 2007-08-01 23:59:59
      *                     [revenue] => 10.54
      *                     [type] => CPC
      *                 )
      *
      *             [1] => Array
      *                 (
-     *                     [start] => 2007-08-02 00:00:00 (as PEAR::Date)
-     *                     [end] => 2007-08-02 23:59:59 (as PEAR::Date)
+     *                     [start] => 2007-08-02 00:00:00
+     *                     [end] => 2007-08-02 23:59:59
      *                     [revenue] => 6.34
      *                     [type] => CPC
      *                 )
@@ -405,8 +405,8 @@ class OA_Central_RpcMapper
      *         (
      *             [0] => Array
      *                 (
-     *                     [start] => 2007-08-02 00:00:00 (as PEAR::Date)
-     *                     [end] => 2007-08-02 23:59:59 (as PEAR::Date)
+     *                     [start] => 2007-08-02 00:00:00
+     *                     [end] => 2007-08-02 23:59:59
      *                     [revenue] => 1.23
      *                     [type] => CPM
      *                 )

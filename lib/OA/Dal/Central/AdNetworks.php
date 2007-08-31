@@ -93,11 +93,14 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
             return;
         }
 
+        $start = new Date($aRevenue['start']);
+        $end   = new Date($aRevenue['end']);
+
         $aRevenue += array(
-            'start_day'  => $aRevenue['start']->format('%Y-%m-%d'),
-            'start_hour' => (int)$aRevenue['start']->format('%H'),
-            'end_day'    => $aRevenue['end']->format('%Y-%m-%d'),
-            'end_hour'   => (int)$aRevenue['end']->format('%H')
+            'start_day'  => $start->format('%Y-%m-%d'),
+            'start_hour' => (int)$start->format('%H'),
+            'end_day'    => $end->format('%Y-%m-%d'),
+            'end_hour'   => (int)$end->format('%H')
         );
     }
 

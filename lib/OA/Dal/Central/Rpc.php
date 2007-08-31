@@ -166,15 +166,15 @@ class OA_Dal_Central_Rpc
      *
      * @static
      *
-     * @param string $dateTime DateTime.iso8601 formatted data
-     * @return Date A PEAR::Date instance
+     * @param string $dateTime DateTime.iso8601 formatted timestamp
+     * @return string A YYYY-MM-DD HH:MI:SS formatted timestamp
      */
     function utcToDate($dateTime)
     {
         $timeStamp = strtotime($dateTime);
         $tzOffset = date('Z', $timeStamp);
 
-        return new Date($timeStamp + $tzOffset);
+        return date('Y-m-d H:i:s', $timeStamp + $tzOffset);
     }
 }
 
