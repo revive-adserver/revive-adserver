@@ -40,6 +40,7 @@ $Id$
  */
 
 require_once 'init.php';
+require_once MAX_PATH . '/OA/DB.php';
 require_once MAX_PATH . '/lib/simpletest/xml.php';
 require_once MAX_PATH . '/tests/testClasses/TestFiles.php';
 
@@ -67,6 +68,11 @@ foreach ($aLayer as $layer) {
         foreach ($aDirectories as $dirName => $aFiles) {
             $oReporter->paintCaseStart("Directory $dirName ($testName)");
             foreach ($aFiles as $fileName) {
+                // Drop database on PgSQL before starting
+                if (strcasecmp($GLOBALS['_MAX']['CONF']['database']['type'], 'pgsql') === 0)
+                {
+                    OA_DB::dropDatabase($GLOBALS['_MAX']['CONF']['database']['name']);
+                }
                 $oReporter->paintMethodStart($fileName);
                 $returncode = -1;
                 $output_lines = '';

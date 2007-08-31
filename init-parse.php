@@ -55,16 +55,6 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     if (!is_null($configFile)) {
         $configFile = '.' . $configFile;
     }
-    // Is this a web, or a cli call?
-    if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
-        if (!isset($GLOBALS['argv'][1])) {
-            echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
-            exit(1);
-        }
-        $host = trim($GLOBALS['argv'][1]);
-    } else {
-       $host = getHostName();
-    }
     // Is the system running the test environment?
     if (is_null($configFile) && defined('TEST_ENVIRONMENT_RUNNING')) {
         if (isset($_SERVER['SERVER_NAME'])) {
@@ -86,6 +76,16 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
             define('TEST_ENVIRONMENT_NO_CONFIG', true);
             return array();
         }
+    }
+    // Is this a web, or a cli call?
+    if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
+        if (!isset($GLOBALS['argv'][1])) {
+            echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
+            exit(1);
+        }
+        $host = trim($GLOBALS['argv'][1]);
+    } else {
+        $host = getHostName();
     }
     // Is the .ini file for the hostname being used directly accessible?
     if (file_exists($configPath . '/' . $host . $configFile . '.conf' . $type)) {
