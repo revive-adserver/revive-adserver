@@ -262,7 +262,7 @@ if (isset($submit)) {
             switch(true) {
             case ($active != $active_old):
                 // Run the Maintenance Priority Engine process
-                MAX_Maintenance_Priority::run();
+                MAX_Maintenance_Priority::scheduleRun();
                 break;
             case ($active == 't'):
                 if ((!empty($target_type_variable) && ${$target_type_variable} != $target_old)
@@ -272,7 +272,7 @@ if (isset($submit)) {
                     || $conversions != $previousconversions
                     || $impressions != $previousimpressions) {
                     // Run the Maintenance Priority Engine process
-                    MAX_Maintenance_Priority::run();
+                    MAX_Maintenance_Priority::scheduleRun();
                 }
                 break;
             }

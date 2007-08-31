@@ -93,6 +93,7 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mts'   => array('Maintenance Statistics Engine',       NO_DB),
         'mtsdb' => array('Maintenance Statistics Engine (DB)',  DB_NO_TABLES),
         'mtp'   => array('Maintenance Priority Engine',         NO_DB),
+        'mtpdb' => array('Maintenance Priority Engine (DB)',    DB_WITH_TABLES),
         'mtf'   => array('Maintenance Forecasting Engine',      NO_DB),
         'mtfdb' => array('Maintenance Forecasting Engine (DB)', DB_NO_TABLES),
         'plg'   => array('Plugins',                             DB_WITH_TABLES),

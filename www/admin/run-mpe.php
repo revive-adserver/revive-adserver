@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -28,46 +25,35 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+/**
+ * A script file to run the Maintenance Priority Engine.
+ */
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-//require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once 'DB/DataObject.php';
+// Send headers to the client before proceeding
+flush();
 
-// Register input variables
-phpAds_registerGlobal ('returnurl','agencyid');
+// Prevent output
+ob_start();
 
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+// Run maintenance
+// Done this way so that it works in CLI PHP
+$path = dirname(__FILE__);
+require_once $path . '/../../init.php';
 
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-if (!empty($agencyid)) {
-    $doAgency = OA_Dal::factoryDO('agency');
-    $doAgency->agencyid = $agencyid;
-    $doAgency->delete();
+// Set longer time out, and ignore user abort
+if (!ini_get('safe_mode')) {
+    @set_time_limit($conf['maintenance']['timeLimitScripts']);
+    @ignore_user_abort(true);
 }
 
-// Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::scheduleRun();
+require_once MAX_PATH .'/lib/max/Maintenance/Priority.php';
 
-// Rebuild cache
-// phpAds_cacheDelete();
+MAX_Maintenance_Priority::run();
 
-if (!isset($returnurl) || $returnurl == '') {
-	$returnurl = 'advertiser-index.php';
-}
+// Get and clean output buffer
+$buffer = ob_get_clean();
 
-MAX_Admin_Redirect::redirect($returnurl);
+// Flush output buffer, stripping the
+echo preg_replace('/^#!.*\n/', '', $buffer);
 
 ?>

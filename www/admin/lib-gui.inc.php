@@ -192,7 +192,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     global $strLogout, $strNavigation, $strShortcuts;
     global $strAuthentification, $strSearch, $strHelp, $strStartOver;
     global $keyHome, $keyUp, $keyNextItem, $keyPreviousItem, $keySearch, $session;
-    global $breakdown;
+    global $breakdown, $xajax;
     $phpAds_GUIDone = true;
     $phpAds_NavID   = $ID;
     $mozbar = '';
@@ -452,6 +452,9 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     if (!defined('phpAds_installing')) {
         echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/formValidation.php'></script>\n";
     }
+    if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
+        $xajax->printJavascript('./', 'js/xajax.js');
+    }
 
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar.js'></script>\n";
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/lang/calendar-en.js'></script>\n";
@@ -604,6 +607,18 @@ function phpAds_PageFooter($imgPath='')
     echo "</tr>\n";
     echo "</table>\n";
     echo "\n\n";
+    if (!empty($session['RUN_MPE']) && $session['RUN_MPE'] === true) {
+        echo "<div id='runMpe' name='runMpe'>&#160;</div>";
+        echo "<script language='JavaScript' type='text/javascript'>";
+        echo "<!--//\n";
+        echo "xajax_OA_runMPE();";
+        echo "//-->\n";
+        echo "</script>";
+
+        unset($session['RUN_MPE']);
+        phpAds_SessionDataStore();
+    }
+
     if (!ereg("/(index|updates-product|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
         // Add Product Update redirector
         if (phpAds_isUser(phpAds_Admin) && function_exists('xml_parser_create') && !isset($session['maint_update_js'])) {

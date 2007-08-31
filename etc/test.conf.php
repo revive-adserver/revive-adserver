@@ -377,5 +377,5 @@ saveStats=false
 
 [test]
 urlToTracSvnBrowser = https://developer.openads.org/browser/branches/max/trunk/
-
+phpPath = /usr/local/bin/php
 ;------------------------------------------------------------------------------------------;

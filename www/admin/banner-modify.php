@@ -70,9 +70,9 @@ if (!empty($bannerid)) {
 
         // Increase the memory for running the maintenance
         increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
-        
+
         // Run the Maintenance Priority Engine process
-        MAX_Maintenance_Priority::run();
+        MAX_Maintenance_Priority::scheduleRun();
 
         // Rebuild cache
         // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
@@ -101,7 +101,7 @@ if (!empty($bannerid)) {
         $new_bannerid = $doBanners->duplicate();
 
         // Run the Maintenance Priority Engine process
-        MAX_Maintenance_Priority::run();
+        MAX_Maintenance_Priority::scheduleRun();
 
         // Rebuild cache
         // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';

@@ -32,6 +32,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
@@ -247,7 +248,7 @@ if (isset($submit)) {
     } else {
         $bannerid = $doBanners->insert();
         // Run the Maintenance Priority Engine process
-        MAX_Maintenance_Priority::run();
+        MAX_Maintenance_Priority::scheduleRun();
     }
 
     // Determine what the next page is

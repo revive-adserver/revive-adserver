@@ -116,6 +116,11 @@ class MAX_Maintenance_Priority
         return true;
     }
 
+    function scheduleRun()
+    {
+        $session['RUN_MPE'] = true;
+        phpAds_SessionDataStore();
+    }
 }
 
 ?>

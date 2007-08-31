@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.5                                                              |
@@ -7,9 +6,6 @@
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,46 +24,29 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+$path = dirname(__FILE__);
+require_once $path . '/../../../../../init.php';
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-//require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once 'DB/DataObject.php';
+class Test_ForkOf_MAX_Maintenanace_Priority
+{
+    function testForkRun()
+    {
+        require_once MAX_PATH .'/lib/max/Maintenance/Priority.php';
 
-// Register input variables
-phpAds_registerGlobal ('returnurl','agencyid');
+        $pid = pcntl_fork();
+        if ($pid == -1) {
+            // something bad happened
+        } else if ($pid == 0) {
+            $resultChild = MAX_Maintenance_Priority::run();
+        } else {
+            $resultParent = MAX_Maintenance_Priority::run();
+        }
 
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin);
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-if (!empty($agencyid)) {
-    $doAgency = OA_Dal::factoryDO('agency');
-    $doAgency->agencyid = $agencyid;
-    $doAgency->delete();
+        (isset($resultParent) && $resultParent === true) ? exit : exit(1);
+    }
 }
 
-// Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::scheduleRun();
-
-// Rebuild cache
-// phpAds_cacheDelete();
-
-if (!isset($returnurl) || $returnurl == '') {
-	$returnurl = 'advertiser-index.php';
-}
-
-MAX_Admin_Redirect::redirect($returnurl);
+$test = new Test_ForkOf_MAX_Maintenanace_Priority();
+$test->testForkRun();
 
 ?>

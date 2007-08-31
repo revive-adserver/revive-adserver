@@ -28,46 +28,16 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
-
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-//require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once 'DB/DataObject.php';
-
-// Register input variables
-phpAds_registerGlobal ('returnurl','agencyid');
-
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin);
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-if (!empty($agencyid)) {
-    $doAgency = OA_Dal::factoryDO('agency');
-    $doAgency->agencyid = $agencyid;
-    $doAgency->delete();
+function OA_runMPE()
+{
+    $objResponse = new xajaxResponse();
+    $objResponse->addAssign("run-mpe", "innerHTML", "<img src='run-mpe.php' />");
+    return $objResponse;
 }
 
-// Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::scheduleRun();
-
-// Rebuild cache
-// phpAds_cacheDelete();
-
-if (!isset($returnurl) || $returnurl == '') {
-	$returnurl = 'advertiser-index.php';
-}
-
-MAX_Admin_Redirect::redirect($returnurl);
+require_once MAX_PATH .'/lib/xajax/xajax.inc.php';
+$xajax = new xajax();
+$xajax->registerFunction("OA_runMPE");
+$xajax->processRequests();
 
 ?>

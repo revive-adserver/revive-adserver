@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | Openads v2.5                                                              |
@@ -7,9 +6,6 @@
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -28,46 +24,30 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+require_once MAX_PATH .'/lib/max/Maintenance/Priority.php';
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-//require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
-require_once 'DB/DataObject.php';
+/**
+ * @package    MaxMaintenance
+ * @subpackage TestSuite
+ * @author     Alexander J. Tarachanowicz <aj.tarachanowicz@openads.org>
+ */
 
-// Register input variables
-phpAds_registerGlobal ('returnurl','agencyid');
+class Test_MAX_Maintenance_Priority extends UnitTestCase
+{
+    function xtestRun()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
 
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+        $result = MAX_Maintenance_Priority::run();
+        $this->assertTrue($result);
 
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
+        $phpPath    = $aConf['test']['phpPath'] .' -f';
+        $testPath   = MAX_PATH .'/lib/max/Maintenance/tests/unit/maintenance-priority-test.php';
+        $host       = $_SERVER['SERVER_NAME'];
+        system("$phpPath $testPath $host", $result);
 
-if (!empty($agencyid)) {
-    $doAgency = OA_Dal::factoryDO('agency');
-    $doAgency->agencyid = $agencyid;
-    $doAgency->delete();
+        // 0 means it executed successfully, meaning the test was successful
+        $this->assertEqual($result, 0);
+    }
 }
-
-// Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::scheduleRun();
-
-// Rebuild cache
-// phpAds_cacheDelete();
-
-if (!isset($returnurl) || $returnurl == '') {
-	$returnurl = 'advertiser-index.php';
-}
-
-MAX_Admin_Redirect::redirect($returnurl);
-
 ?>

@@ -68,7 +68,7 @@ if (!empty($clientid)) {
 }
 
 // Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::run();
+MAX_Maintenance_Priority::scheduleRun();
 
 // Rebuild cache
 // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';

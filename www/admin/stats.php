@@ -29,6 +29,7 @@ $Id$
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
