@@ -1500,6 +1500,15 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
+function OA_cacheGetPublisherZones($affiliateid, $cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
+if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
+$output = OA_Dal_Delivery_getPublisherZones($affiliateid);
+$output = OA_Delivery_Cache_store_return($sName, $output);
+}
+return $output;
+}
 // Set the viewer's remote information used in logging
 // and delivery limitation evaluation
 MAX_remotehostProxyLookup();

@@ -2097,6 +2097,15 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
+function OA_cacheGetPublisherZones($affiliateid, $cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
+if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
+$output = OA_Dal_Delivery_getPublisherZones($affiliateid);
+$output = OA_Delivery_Cache_store_return($sName, $output);
+}
+return $output;
+}
 function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
 $conf = $GLOBALS['_MAX']['CONF'];

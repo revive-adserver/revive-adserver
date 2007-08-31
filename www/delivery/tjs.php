@@ -1511,6 +1511,15 @@ $output = OA_Delivery_Cache_store_return($sName, $output);
 }
 return $output;
 }
+function OA_cacheGetPublisherZones($affiliateid, $cached = true)
+{
+$sName  = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
+if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
+$output = OA_Dal_Delivery_getPublisherZones($affiliateid);
+$output = OA_Delivery_Cache_store_return($sName, $output);
+}
+return $output;
+}
 function MAX_javascriptToHTML($string, $varName, $output = true, $localScope = true)
 {
 $jsLines = array();
