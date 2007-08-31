@@ -134,7 +134,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     SELECT
                         *
                     FROM
-                        {$this->oDbh->quoteIdentifier($table,true)}
+                        ".$this->oDbh->quoteIdentifier($table,true)."
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";
@@ -170,7 +170,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     SELECT
                         *
                     FROM
-                        {$this->oDbh->quoteIdentifier($table,true)}
+                        ".$this->oDbh->quoteIdentifier($table,true)."
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";
@@ -206,7 +206,7 @@ class OA_Dal_Maintenance_Statistics_Tracker_mysqlSplit extends OA_Dal_Maintenanc
                     SELECT
                         *
                     FROM
-                        {$this->oDbh->quoteIdentifier($table,true)}
+                        ".$this->oDbh->quoteIdentifier($table,true)."
                     WHERE
                         date_time > " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                     LIMIT 1";

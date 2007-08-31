@@ -820,7 +820,7 @@ class OA_Dal_Maintenance_Statistics_Common
             // connections into the temporary table for this connection action type
             $query = "
                 INSERT INTO
-                    {$this->oDbh->quoteIdentifier($tempTable,true)}
+                    ".$this->oDbh->quoteIdentifier($tempTable,true)."
                     (
                         server_raw_tracker_impression_id,
                         server_raw_ip,
@@ -868,7 +868,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     ct.status AS connection_status
                 FROM
                     $trackerImpressionTable AS drti,
-                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)} AS ct
+                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)." AS ct
                 WHERE
                     drti.tracker_id = ct.trackerid";
             if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
@@ -936,7 +936,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         // (ie. raw ad impressions, or raw ad clicks, depending on $action), where possible
                         $query = "
                             INSERT INTO
-                                {$this->oDbh->quoteIdentifier('tmp_ad_connection',true)}
+                                ".$this->oDbh->quoteIdentifier('tmp_ad_connection',true)."
                                 (
                                     server_raw_tracker_impression_id,
                                     server_raw_ip,
@@ -1005,10 +1005,10 @@ class OA_Dal_Maintenance_Statistics_Common
                                 tt.connection_status AS connection_status,
                                 IF(tt.date_time < DATE_ADD(drad.date_time, " . OA_Dal::quoteInterval('tt.connection_window', 'SECOND') . "), 1, 0) AS inside_window
                             FROM
-                                {$this->oDbh->quoteIdentifier($tempTable,true)} AS tt,
-                                {$this->oDbh->quoteIdentifier($adTable,true)} AS drad,
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)} AS b,
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)} AS ct
+                                ".$this->oDbh->quoteIdentifier($tempTable,true)." AS tt,
+                                ".$this->oDbh->quoteIdentifier($adTable,true)." AS drad,
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b,
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)." AS ct
                             WHERE";
                             if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
                                 $query .= "
@@ -1279,12 +1279,12 @@ class OA_Dal_Maintenance_Statistics_Common
         $table = $aConf['table']['prefix'] .
                  $aConf['table'][$intermediateTable];
         // See if any rows were inserted into the tmp_union table
-        $query = "SELECT COUNT(*) AS count FROM {$this->oDbh->quoteIdentifier('tmp_union',true)}";
+        $query = "SELECT COUNT(*) AS count FROM ".$this->oDbh->quoteIdentifier('tmp_union',true)."";
         $aRows = $this->oDbh->queryRow($query);
         if ($aRows['count'] > 0) {
             $query = "
                 INSERT INTO
-                    {$this->oDbh->quoteIdentifier($table,true)}
+                    ".$this->oDbh->quoteIdentifier($table,true)."
                     (
                         day,
                         hour,
@@ -1325,7 +1325,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     IFNULL(SUM(tu.total_num_items), 0) AS total_num_items,
                     '".OA::getNow()."' AS updated
                 FROM
-                    {$this->oDbh->quoteIdentifier('tmp_union',true)} AS tu
+                    ".$this->oDbh->quoteIdentifier('tmp_union',true)." AS tu
                 GROUP BY
                     day,
                     hour,
@@ -1432,7 +1432,7 @@ class OA_Dal_Maintenance_Statistics_Common
         // Select conversions with both basket value and items number or none of them
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier('tmp_conversions',true)}
+                ".$this->oDbh->quoteIdentifier('tmp_conversions',true)."
                 (
                     data_intermediate_ad_connection_id,
                     day,
@@ -1461,15 +1461,15 @@ class OA_Dal_Maintenance_Statistics_Common
                 SUM(IF(v.purpose = 'basket_value' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)) AS basket_value,
                 SUM(IF(v.purpose = 'num_items' AND diac.connection_status = ". MAX_CONNECTION_STATUS_APPROVED .", diavv.value, 0)) AS num_items
             FROM
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} AS diac
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)." AS diac
             LEFT JOIN
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} AS diavv
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." AS diavv
             USING
                 (
                     data_intermediate_ad_connection_id
                 )
             LEFT JOIN
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)} AS v
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)." AS v
             ON
                 (
                     diavv.tracker_variable_id = v.variableid
@@ -1554,7 +1554,7 @@ class OA_Dal_Maintenance_Statistics_Common
             // Save the connections to the data_intermediate_ad_connection table
             $query = "
                 INSERT INTO
-                    {$this->oDbh->quoteIdentifier($outerTable,true)}
+                    ".$this->oDbh->quoteIdentifier($outerTable,true)."
                     (
                         server_raw_tracker_impression_id,
                         server_raw_ip,
@@ -1649,8 +1649,8 @@ class OA_Dal_Maintenance_Statistics_Common
                     tac.inside_window AS inside_window,
                     '".OA::getNow()."'
                 FROM
-                    {$this->oDbh->quoteIdentifier('tmp_ad_connection',true)} AS tac,
-                    {$this->oDbh->quoteIdentifier($trackerImpressionTable,true)} AS drti
+                    ".$this->oDbh->quoteIdentifier('tmp_ad_connection',true)." AS tac,
+                    ".$this->oDbh->quoteIdentifier($trackerImpressionTable,true)." AS drti
                 WHERE
                     tac.server_raw_tracker_impression_id = drti.server_raw_tracker_impression_id
                     AND
@@ -1696,7 +1696,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
                 $query = "
                     INSERT INTO
-                        {$this->oDbh->quoteIdentifier($innerTable,true)}
+                        ".$this->oDbh->quoteIdentifier($innerTable,true)."
                         (
                             data_intermediate_ad_connection_id,
                             tracker_variable_id,
@@ -1707,9 +1707,9 @@ class OA_Dal_Maintenance_Statistics_Common
                         drtvv.tracker_variable_id AS tracker_variable_id,
                         drtvv.value AS value
                     FROM
-                        {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} AS diac,
-                        {$this->oDbh->quoteIdentifier($trackerVariableValueTable,true)} AS drtvv,
-                        {$this->oDbh->quoteIdentifier($trackerImpressionTable,true)} AS drti
+                        ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)." AS diac,
+                        ".$this->oDbh->quoteIdentifier($trackerVariableValueTable,true)." AS drtvv,
+                        ".$this->oDbh->quoteIdentifier($trackerImpressionTable,true)." AS drti
                     WHERE
                         diac.server_raw_tracker_impression_id = drti.server_raw_tracker_impression_id
                         AND
@@ -1809,7 +1809,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 zone_id AS zone_id,
                 SUM(impressions) AS actual_impressions
             FROM
-                {$this->oDbh->quoteIdentifier($fromTable,true)}
+                ".$this->oDbh->quoteIdentifier($fromTable,true)."
             WHERE
                 interval_start >= ". $this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
                 AND interval_end <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
@@ -1829,7 +1829,7 @@ class OA_Dal_Maintenance_Statistics_Common
         while ($row = $rc->fetchRow()) {
             $query = "
                 UPDATE
-                    {$this->oDbh->quoteIdentifier($toTable,true)}
+                    ".$this->oDbh->quoteIdentifier($toTable,true)."
                 SET
                     actual_impressions = {$row['actual_impressions']}
                 WHERE
@@ -1846,7 +1846,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 // Unable to UPDATE, try INSERT instead
                 $query = "
                     INSERT INTO
-                        {$this->oDbh->quoteIdentifier($toTable,true)}
+                        ".$this->oDbh->quoteIdentifier($toTable,true)."
                         (
                             operation_interval,
                             operation_interval_id,
@@ -1987,7 +1987,7 @@ class OA_Dal_Maintenance_Statistics_Common
         $finalToTable   = $aConf['table']['prefix'] . $aConf['table'][$toTable];
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($finalToTable,true)}
+                ".$this->oDbh->quoteIdentifier($finalToTable,true)."
                 (
                     day,
                     hour,
@@ -2020,7 +2020,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 SUM(total_num_items) AS total_num_items,
                 '".date('Y-m-d H:i:s')."'
             FROM
-                {$this->oDbh->quoteIdentifier($finalFromTable,true)}
+                ".$this->oDbh->quoteIdentifier($finalFromTable,true)."
             WHERE
                 day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date')."
                 AND hour >= ". $this->oDbh->escape($oStartDate->format('%H'))."
@@ -2073,7 +2073,7 @@ class OA_Dal_Maintenance_Statistics_Common
             SELECT DISTINCT
                 ad_id AS ad_id
             FROM
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
             WHERE
                 day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
                 AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
@@ -2097,7 +2097,7 @@ class OA_Dal_Maintenance_Statistics_Common
             SELECT DISTINCT
                 zone_id AS zone_id
             FROM
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
             WHERE
                 day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
                 AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
@@ -2139,8 +2139,8 @@ class OA_Dal_Maintenance_Statistics_Common
                 c.revenue AS revenue,
                 c.revenue_type AS revenue_type
             FROM
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)} AS c,
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)} AS a
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)." AS c,
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS a
             WHERE
                 a.bannerid IN (" . $this->oDbh->escape(implode(', ', $aAdIds)) . ")
                 AND a.campaignid = c.campaignid
@@ -2231,7 +2231,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPM:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPM]} * {$aInfo['revenue']} / 1000,
                                 updated = '". OA::getNow() ."'
@@ -2245,7 +2245,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPC:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['revenue']},
                                 updated = '". OA::getNow() ."'
@@ -2259,7 +2259,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPA:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_revenue = {$aAdFinanceMappings[MAX_FINANCE_CPA]} * {$aInfo['revenue']},
                                 updated = '". OA::getNow() ."'
@@ -2305,7 +2305,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 z.technology_cost AS technology_cost,
                 z.technology_cost_type AS technology_cost_type
             FROM
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['zones'],true)} AS z
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['zones'],true)." AS z
             WHERE
                 z.zoneid IN (" . $this->oDbh->escape(implode(', ', $aZoneIds)) . ")
                 AND z.cost IS NOT NULL
@@ -2414,7 +2414,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPM:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPM]} * {$aInfo['cost']} / 1000,
                                 updated = '". OA::getNow() ."'
@@ -2428,7 +2428,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPC:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['cost']},
                                 updated = '". OA::getNow() ."'
@@ -2442,7 +2442,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPA:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_CPA]} * {$aInfo['cost']},
                                 updated = '". OA::getNow() ."'
@@ -2456,7 +2456,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_RS:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_RS]} * {$aInfo['cost']} / 100,
                                 updated = '". OA::getNow() ."'
@@ -2470,7 +2470,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_BV:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_BV]} * {$aInfo['cost']} / 100,
                                 updated = '". OA::getNow() ."'
@@ -2484,7 +2484,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_AI:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_cost = {$aZoneFinanceMappings[MAX_FINANCE_AI]} * {$aInfo['cost']},
                                 updated = '". OA::getNow() ."'
@@ -2501,7 +2501,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             // Reset costs to be sure we don't leave out rows without conversions
                             $innerQuery = "
                                 UPDATE
-                                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                                 SET
                                     total_cost = 0,
                                     updated = '". OA::getNow() ."'
@@ -2521,8 +2521,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
                                 FROM
-                                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} diac,
-                                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} diavv
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)." diac,
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." diavv
                                 WHERE
                                     diac.zone_id = {$aInfo['zone_id']}
                                     AND diavv.data_intermediate_ad_connection_id = diac.data_intermediate_ad_connection_id
@@ -2543,7 +2543,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             while ($row = $rc->fetchRow()) {
                                 $innermostQuery = "
                                     UPDATE
-                                        {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                        ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                                     SET
                                         total_cost = '".$row['total_cost']."',
                                         updated = '". OA::getNow() ."'
@@ -2564,7 +2564,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             // Reset costs to be sure we don't leave out rows without conversions
                             $innerQuery = "
                                 UPDATE
-                                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                                 SET
                                     total_cost = 0,
                                     updated = '". OA::getNow() ."'
@@ -2584,8 +2584,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
                                 FROM
-                                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)} diac,
-                                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)} diavv
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true)." diac,
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_variable_value'],true)." diavv
                                 WHERE
                                     diac.zone_id = {$aInfo['zone_id']}
                                     AND diavv.data_intermediate_ad_connection_id = diac.data_intermediate_ad_connection_id
@@ -2606,7 +2606,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             while ($row = $rc->fetchRow()) {
                                 $innermostQuery = "
                                     UPDATE
-                                        {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                        ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                                     SET
                                         total_cost = '".$row['total_cost']."',
                                         updated = '". OA::getNow() ."'
@@ -2650,7 +2650,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPM:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_techcost = ({$aZoneFinanceMappings[MAX_FINANCE_CPM]} / 1000) * {$aInfo['technology_cost']},
                                 updated = '". OA::getNow() ."'
@@ -2664,7 +2664,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_CPC:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_techcost = {$aZoneFinanceMappings[MAX_FINANCE_CPC]} * {$aInfo['technology_cost']},
                                 updated = '". OA::getNow() ."'
@@ -2678,7 +2678,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     case MAX_FINANCE_RS:
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
                             SET
                                 total_techcost = {$aZoneFinanceMappings[MAX_FINANCE_RS]} * {$aInfo['technology_cost']} / 100,
                                 updated = '". OA::getNow() ."'
@@ -2732,8 +2732,8 @@ class OA_Dal_Maintenance_Statistics_Common
                 ca.activate AS start,
                 ca.expire AS end
             FROM
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)} AS ca,
-                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)} AS cl
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)." AS ca,
+                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['clients'],true)." AS cl
             WHERE
                 ca.clientid = cl.clientid";
         OA::debug('- Selecting all placements', PEAR_LOG_DEBUG);
@@ -2756,8 +2756,8 @@ class OA_Dal_Maintenance_Statistics_Common
                             SUM(dia.clicks) AS clicks,
                             SUM(dia.conversions) AS conversions
                         FROM
-                            {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)} AS dia,
-                            {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)} AS b
+                            ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
+                            ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
                         WHERE
                             dia.ad_id = b.bannerid
                             AND b.campaignid = {$aPlacement['campaign_id']}";
@@ -2803,7 +2803,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             // One of the placement targets was exceeded, so disable
                             $query = "
                                 UPDATE
-                                    {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
                                 SET
                                     active = 'f'
                                 WHERE
@@ -2828,7 +2828,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         $disableReason |= OA_PLACEMENT_DISABLED_DATE;
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
                             SET
                                 active = 'f'
                             WHERE
@@ -2855,7 +2855,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             alt AS alt,
                             url AS url
                         FROM
-                            {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)}
+                            ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
                         WHERE
                             campaignid = {$aPlacement['campaign_id']}";
                     OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}", PEAR_LOG_DEBUG);
@@ -3000,8 +3000,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 SUM(dia.clicks) AS clicks,
                                 SUM(dia.conversions) AS conversions
                             FROM
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)} AS dia,
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)} AS b
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)." AS dia,
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)." AS b
                             WHERE
                                 dia.ad_id = b.bannerid
                                 AND b.campaignid = {$aPlacement['campaign_id']}";
@@ -3026,7 +3026,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
                         $query = "
                             UPDATE
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
                             SET
                                 active = 't'
                             WHERE
@@ -3049,7 +3049,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 alt AS alt,
                                 url AS url
                             FROM
-                                {$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)}
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
                             WHERE
                                 campaignid = {$aPlacement['campaign_id']}";
                         OA::debug("- Getting the advertisements for placement ID {$aPlacement['campaign_id']}",
@@ -3123,7 +3123,7 @@ class OA_Dal_Maintenance_Statistics_Common
                  $aConf['table']['data_raw_ad_request'];
         $query = "
             DELETE FROM
-                {$this->oDbh->quoteIdentifier($table,true)}
+                ".$this->oDbh->quoteIdentifier($table,true)."
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
@@ -3152,7 +3152,7 @@ class OA_Dal_Maintenance_Statistics_Common
                  $aConf['table']['data_raw_ad_impression'];
         $query = "
             DELETE FROM
-                {$this->oDbh->quoteIdentifier($table,true)}
+                ".$this->oDbh->quoteIdentifier($table,true)."
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
@@ -3167,7 +3167,7 @@ class OA_Dal_Maintenance_Statistics_Common
                  $aConf['table']['data_raw_ad_click'];
         $query = "
             DELETE FROM
-                {$this->oDbh->quoteIdentifier($table,true)}
+                ".$this->oDbh->quoteIdentifier($table,true)."
             WHERE
                 date_time <= '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'";
         OA::debug("- Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
@@ -3225,7 +3225,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     SELECT
                         *
                     FROM
-                        {$this->oDbh->quoteIdentifier($table,true)}
+                        ".$this->oDbh->quoteIdentifier($table,true)."
                     WHERE
                         date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
@@ -3279,7 +3279,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     SELECT
                         *
                     FROM
-                        {$this->oDbh->quoteIdentifier($table,true)}
+                        ".$this->oDbh->quoteIdentifier($table,true)."
                     WHERE
                         date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";
@@ -3316,7 +3316,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     SELECT
                         *
                     FROM
-                        {$this->oDbh->quoteIdentifier($table,true)}
+                        ".$this->oDbh->quoteIdentifier($table,true)."
                     WHERE
                         date_time > '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') ."'
                     LIMIT 1";

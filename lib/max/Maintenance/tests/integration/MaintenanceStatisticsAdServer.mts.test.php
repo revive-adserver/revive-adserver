@@ -101,7 +101,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         // Insert the test data
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)."
                 (
                     bannerid,
                     campaignid,
@@ -205,7 +205,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true)."
                 (
                     campaignid,
                     campaignname,
@@ -272,7 +272,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'],true)."
             VALUES
                 (?, ?, ?, ?, ?, ?)";
         $aTypes = array(
@@ -299,7 +299,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-            {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['clients'],true)}
+            ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['clients'],true)."
             (
                 clientid,
                 agencyid,
@@ -344,7 +344,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -519,7 +519,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)."
                 (
                     viewer_id,
                     viewer_session_id,
@@ -694,7 +694,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'],true)."
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -748,7 +748,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['trackers'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['trackers'],true)."
                 (
                     trackerid,
                     trackername,
@@ -774,7 +774,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true)."
                 (
                     zoneid,
                     affiliateid,
@@ -827,7 +827,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['channel'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['channel'],true)."
                 (
                     channelid,
                     agencyid,
@@ -868,7 +868,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls'],true)."
                 (
                     bannerid,
                     logical,
@@ -899,7 +899,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls_channel'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls_channel'],true)."
                 (
                     channelid,
                     logical,
@@ -930,7 +930,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
         $query = "
             INSERT INTO
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)}
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)."
                 (
                     bannerid,
                     campaignid,
@@ -1084,7 +1084,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$this->oDbh->quoteIdentifier($conf['table']['prefix'].$table,true)}";
+                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$table,true);
         $rc = $this->oDbh->query($query);
         return $rc->fetchRow();
     }
