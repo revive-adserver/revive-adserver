@@ -37,6 +37,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Central_AdNetworks extends UnitTestCase
 {
+    var $aCleanupTables = array('clients','campaigns','banners', 'affiliates', 'ad_zone_assoc', 'zones');
     /**
      * The constructor method.
      */
@@ -130,6 +131,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->_mockSendReference($oAdNetworks, new XML_RPC_Response(0, 1, 'testMock'));
         $result = $oAdNetworks->getCategories();
         $this->assertFalse($result);
+        DataGenerator::cleanUp($this->aCleanupTables);
     }
 
     /**
@@ -175,7 +177,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $result = $oAdNetworks->getLanguages();
         $this->assertEqual($result, $aLanguages);
-
+        DataGenerator::cleanUp($this->aCleanupTables);
     }
 
     /**
@@ -250,6 +252,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $oDo->fetch();
         $row = $oDo->toArray();
         $this->assertEqual($row['clientname'], 'Beccati.com (2)');
+        DataGenerator::cleanUp($this->aCleanupTables);
     }
 
     /**
@@ -360,6 +363,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $aExpected = $this->_getRevenueArray2();
         $this->assertEqual($aStats, $aExpected);
+        DataGenerator::cleanUp($this->aCleanupTables);
     }
 
     function _subscribeArray()
