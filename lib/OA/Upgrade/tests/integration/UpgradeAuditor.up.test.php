@@ -459,8 +459,9 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
 
     	$this->assertTrue($oAuditor->updateAuditBackupConfDroppedById($upgrade_id, $reason));
 
+    	$table = $oAuditor->getLogTablename();
     	$result = $oAuditor->oDbh->queryRow("SELECT confbackup
-							FROM {$oAuditor->getLogTablename()}
+							FROM {$table}
 							WHERE upgrade_action_id='{$upgrade_id}'");
 
         $this->assertEqual($result['confbackup'], $reason, "the message '$reason' has not been correctly set '{$result['confbackup']}'");
@@ -483,9 +484,9 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	$oAuditor->init($oAuditor->oDbh, '');
 
     	$this->assertTrue($oAuditor->updateAuditBackupLogDroppedById($upgrade_id, $reason));
-
+    	$table = $oAuditor->getLogTablename();
     	$result = $oAuditor->oDbh->queryRow("SELECT logfile
-							FROM {$oAuditor->getLogTablename()}
+							FROM {$table}
 							WHERE upgrade_action_id='{$upgrade_id}'");
 
         $this->assertEqual($result['logfile'], $reason, "the message '$reason' has not been correctly set : '{$result['logfile']}'");
