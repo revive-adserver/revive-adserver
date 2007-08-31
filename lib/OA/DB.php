@@ -104,9 +104,12 @@ class OA_DB
                     $aOptions['use_transactions'] = true;
                 }
             }
-            
+            else if (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
+                $aOptions['quote_identifier'] = '"';
+            }
+
             $aOptions += OA_DB::getDatatypeMapOptions();
-            
+
             // Create the new database connection
             OA::disableErrorHandling();
             $oDbh = &MDB2::singleton($dsn, $aOptions);
@@ -135,22 +138,22 @@ class OA_DB
         }
         return $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5];
     }
-    
+
     /**
      * Set any custom MDB2 datatypes & nativetype mappings
      *
      * @return array
-     * @static 
+     * @static
      */
     function getDatatypeMapOptions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        
+
         $aOptions = array();
         $aOptions['datatype_map'] = '';
         $aOptions['datatype_map_callback'] = '';
         $aOptions['nativetype_map_callback'] = '';
-        
+
         $customTypesInfoFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
                            $aConf['database']['type'] . '_info.php';
         $customTypesFile = MAX_PATH . '/lib/OA/DB/CustomDatatypes/' .
@@ -184,7 +187,7 @@ class OA_DB
                 }
             }
         }
-        
+
         return $aOptions;
     }
 

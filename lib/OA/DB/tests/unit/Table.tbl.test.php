@@ -123,6 +123,48 @@ class Test_OA_DB_Table extends UnitTestCase
         fclose($fp);
     }
 
+    function _writeSequenceTestDatabaseSchema()
+    {
+        $fp = fopen(MAX_PATH . '/var/test.xml', 'w');
+        fwrite($fp, '<?xml version="1.0" encoding="ISO-8859-1" ?>');
+        fwrite($fp, '<database>');
+        fwrite($fp, ' <name>test_db</name>');
+        fwrite($fp, ' <create>true</create>');
+        fwrite($fp, ' <overwrite>false</overwrite>');
+        fwrite($fp, ' <table>');
+        fwrite($fp, '  <name>test_table</name>');
+        fwrite($fp, '  <declaration>');
+        fwrite($fp, '   <field>');
+        fwrite($fp, '    <name>test_id</name>');
+        fwrite($fp, '    <type>openads_mediumint</type>');
+        fwrite($fp, '    <unsigned>true</unsigned>');
+        fwrite($fp, '    <length>9</length>');
+        fwrite($fp, '    <notnull>true</notnull>');
+        fwrite($fp, '    <default>0</default>');
+        fwrite($fp, '    <autoincrement>1</autoincrement>');
+        fwrite($fp, '   </field>');
+        fwrite($fp, '   <field>');
+        fwrite($fp, '    <name>test_desc</name>');
+        fwrite($fp, '    <type>openads_varchar</type>');
+        fwrite($fp, '    <length>32</length>');
+        fwrite($fp, '    <notnull>true</notnull>');
+        fwrite($fp, '    <default></default>');
+        fwrite($fp, '   </field>');
+        fwrite($fp, '   <index>');
+        fwrite($fp, '    <name>test_pkey</name>');
+        fwrite($fp, '    <primary>true</primary>');
+        fwrite($fp, '    <field>');
+        fwrite($fp, '     <name>test_id</name>');
+        fwrite($fp, '     <sorting>ascending</sorting>');
+        fwrite($fp, '    </field>');
+        fwrite($fp, '   </index>');
+        fwrite($fp, '  </declaration>');
+        fwrite($fp, ' </table>');
+        fwrite($fp, '</database>');
+        fclose($fp);
+    }
+
+
     /**
      * A private method to write out a test database schema with string types in XML.
      *
@@ -433,6 +475,66 @@ class Test_OA_DB_Table extends UnitTestCase
         TestEnv::restoreConfig();
     }
 
+    function test_resetSequence()
+    {
+        // Test 1
+
+        $oDbh = &OA_DB::singleton();
+        if ($oDbh->dbsyntax == 'pgsql')
+        {
+            $conf = &$GLOBALS['_MAX']['CONF'];
+            $conf['table']['prefix'] = '';
+            $conf['table']['split'] = false;
+            $oTable = new OA_DB_Table();
+            $this->_writeSequenceTestDatabaseSchema();
+            $oTable->init(MAX_PATH . '/var/test.xml');
+            $oTable->createAllTables();
+            $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+            $this->assertEqual($aExistingTables[0],'test_table');
+
+            OA_DB::setCaseSensitive();
+            $aSequences = $oDbh->manager->listSequences();
+            OA_DB::disableCaseSensitive();
+            $this->assertEqual($aSequences[0],'test_table_test_id');
+
+            for ($i=1;$i<11;$i++)
+            {
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table',true)." (test_desc) VALUES ('{$i}')";
+                $oDbh->query($query);
+            }
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table');
+            reset($aRows);
+            foreach ($aRows as $k => $v)
+            {
+                $this->assertTrue($v['test_id'] == $v['test_desc'],'sequence problem with new table');
+            }
+            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $oDbh->query($query);
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table');
+
+            $this->assertTrue($oTable->resetSequence('test_table_test_id_seq'),'failed to reset sequence on test_table');
+
+            for ($i=1;$i<11;$i++)
+            {
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table',true)." (test_desc) VALUES ('{$i}')";
+                $oDbh->query($query);
+            }
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table');
+            reset($aRows);
+            foreach ($aRows as $k => $v)
+            {
+                $this->assertTrue($v['test_id'] == $v['test_desc'],'sequence problem after reset: '.$v['test_id'].'=>'.$v['test_desc']);
+            }
+            $oTable->dropTable('test_table');
+        }
+    }
+
     /**
      * A method to test the create required tables method.
      *
@@ -484,7 +586,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertTrue($oTable->dropTable($prefix.'foo'));
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual(count($aExistingTables), 0, $prefix.'foo');
-        TestEnv::restoreEnv();
+        //TestEnv::restoreEnv();
 
         // Test 2
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -504,7 +606,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $result = $oDbh->query($query);
         OA::enableErrorHandling();
         $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
-        TestEnv::restoreEnv();
+        //TestEnv::restoreEnv();
 
         // Test 3
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -520,7 +622,7 @@ class Test_OA_DB_Table extends UnitTestCase
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual(count($aExistingTables), 0, 'Table OA_foo');
 
-        TestEnv::restoreEnv();
+        //TestEnv::restoreEnv();
 
         // Test 4
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -536,8 +638,9 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertTrue($oTable->dropTable('oA_foo'));
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual(count($aExistingTables), 0, 'Table oA_foo');
-        TestEnv::restoreEnv();
+        //TestEnv::restoreEnv();
     }
+
 }
 
 ?>
