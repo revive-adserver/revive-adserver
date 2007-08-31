@@ -159,6 +159,7 @@ class DataGenerator
             $do = OA_Dal::factoryDO($table);
             $do->whereAdd('1=1');
             $do->delete($useWhere = true);
+            DataGenerator::resetSequence($table);
         }
         // Cleanup ancestor ids
         DataGenerator::getReferenceId();
@@ -318,7 +319,7 @@ class DataGenerator
      * Return (or set) a default field value based on field type
      *
      * @see DB_DataObject for list of defined field types
-     * 
+     *
      * @param string $fieldType        Field type to set
      * @param string $setDefaultValue  Value to set
      * @return string
@@ -327,7 +328,7 @@ class DataGenerator
     function defaultValueByType($fieldType, $setDefaultValue = null)
     {
         static $aDefaultValues;
-        
+
         if ($setDefaultValue !== null) {
             $aDefaultValues[$fieldType] = $setDefaultValue;
         }
@@ -432,6 +433,48 @@ class DataGenerator
             $convertedData[$column] = array($value);
         }
         $this->setData($table, $convertedData);
+    }
+
+    /**
+     * Resets a (postgresql) sequence to 1
+     * similar to OA_Table::resetSequence()
+     * DOESN'T SEEM TO WORK THO
+     *
+     * @param string $sequence the name of the sequence to reset
+     * @return boolean true on success, false otherwise
+     */
+    function resetSequence($tableName)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        if ($aConf['database']['type'] == 'pgsql')
+        {
+            $oDbh = OA_DB::singleton();
+            OA_DB::setCaseSensitive();
+            $aSequences = $oDbh->manager->listSequences();
+            OA_DB::disableCaseSensitive();
+            if (is_array($aSequences))
+            {
+                OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
+                PEAR::pushErrorHandling(null);
+                $tableName = substr($aConf['table']['prefix'].$tableName, 0, 29).'_';
+                foreach ($aSequences AS $k => $sequence)
+                {
+                    if (strpos($sequence, $tableName) === 0)
+                    {
+                        $sequence = $oDbh->quoteIdentifier($sequence.'_seq',true);
+                        $result = $oDbh->exec("SELECT setval('$sequence', 1, false)");
+                        break;
+                    }
+                }
+                PEAR::popErrorHandling();
+                if (PEAR::isError($result)) {
+                    OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERROR);
+                    return false;
+                }
+            }
+
+        }
+        return true;
     }
 }
 
