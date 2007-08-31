@@ -1464,7 +1464,7 @@ class OA_Upgrade
                     $this->oLogger->logError('cannot include temporary file '.$tmpFile);
                     return false;
                 }
-                @unlink($tmpFile);
+                //@unlink($tmpFile);
             } else {
                 $this->oLogger->logError('cannot write temporary file '.$tmpFile);
                 return false;
@@ -1483,6 +1483,10 @@ class OA_Upgrade
                     {
                         $this->oLogger->logError('script returned false '.$class);
                         return false;
+                    }
+                    if (file_exists($tmpFile))
+                    {
+                        @unlink($tmpFile);
                     }
                     return true;
                 }
