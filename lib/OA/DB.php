@@ -104,9 +104,6 @@ class OA_DB
                     $aOptions['use_transactions'] = true;
                 }
             }
-            else if (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
-                $aOptions['quote_identifier'] = '"';
-            }
 
             $aOptions += OA_DB::getDatatypeMapOptions();
 
@@ -120,6 +117,11 @@ class OA_DB
             OA::disableErrorHandling();
             $success = $oDbh->connect();
             OA::enableErrorHandling();
+            if (PEAR::isError($success)) {
+                return $success;
+            }
+            // Set schema if needed
+            $success = OA_DB::setSchema($oDbh);
             if (PEAR::isError($success)) {
                 return $success;
             }
@@ -407,6 +409,7 @@ class OA_DB
         $newOptionsValue = OA_DB_MDB2_DEFAULT_OPTIONS ^ MDB2_PORTABILITY_FIX_CASE;
         $oDbh = &OA_DB::singleton();
         $oDbh->setOption('portability',  $newOptionsValue);
+        $oDbh->setOption('quote_identifier',  true);
     }
 
     /**
@@ -421,6 +424,56 @@ class OA_DB
     {
         $oDbh = &OA_DB::singleton();
         $oDbh->setOption('portability',  OA_DB_MDB2_DEFAULT_OPTIONS);
+        OA_DB::setQuoteIdentifier();
+    }
+
+    /**
+     * A method to set the default schema. The schema will be created if missing.
+     *
+     * @param MDB2_Driver_common $oDbh
+     * @return mixed True on succes, PEAR_Error otherwise
+     */
+    function setSchema($oDbh)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        // Connect to PgSQL schema if needed
+        if ($oDbh->dbsyntax == 'pgsql' &&!empty($oDbh->connected_database_name)) {
+            if (empty($aConf['databasePgsql']['schema'])) {
+                // No need to deal with schemas
+                return true;
+            }
+            OA::disableErrorHandling();
+            $result = $oDbh->exec("SET search_path = '{$aConf['databasePgsql']['schema']}'");
+            OA::enableErrorHandling();
+            if (PEAR::isError($result)) {
+                // Schema not found, try to create it
+                OA::disableErrorHandling();
+                $schema = $oDbh->quoteIdentifier($aConf['databasePgsql']['schema'], true);
+                $result = $oDbh->exec("CREATE SCHEMA {$schema}");
+                OA::enableErrorHandling();
+                if (PEAR::isError($result)) {
+                    // Schema was not created, return error
+                    return $result;
+                }
+                OA::disableErrorHandling();
+                $result = $oDbh->exec("SET search_path = '{$aConf['databasePgsql']['schema']}'");
+                OA::enableErrorHandling();
+                if (PEAR::isError($result)) {
+                    // Schema was created, but SET search_path failed...
+                    return $result;
+                }
+                OA::disableErrorHandling();
+                $result = OA_DB::createFunctions();
+                OA::enableErrorHandling();
+                if (PEAR::isError($result)) {
+                    // Could not create functions
+                    return $result;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
