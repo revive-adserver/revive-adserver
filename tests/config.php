@@ -97,14 +97,14 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
 //        'mtf'   => array('Maintenance Forecasting Engine',      NO_DB),
 //        'mtfdb' => array('Maintenance Forecasting Engine (DB)', DB_NO_TABLES),
 //        'plg'   => array('Plugins',                             DB_WITH_TABLES),
-//        'admin' => array('Administrative Interface',            NO_DB),
+        'admin' => array('Administrative Interface',            NO_DB),
 //        //'dev'   => array('Developer Tools',                     DB_WITH_TABLES),
-        'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
-//        'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
-//        'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES),
-//        //'oac'   => array('Openads Central',                     DB_NO_TABLES),
-//        'oacdb' => array('Openads Central (DB)',                DB_WITH_TABLES),
-//        'util'  => array('Commonly used utilities',             NO_DB)
+//        'mol'   => array('Openads Other Libraries',             DB_WITH_TABLES),
+        'up'    => array('Upgrade Classes',                     DB_WITH_TABLES),
+        'mig'   => array('Upgrade Migration Classes',           DB_NO_TABLES),
+        //'oac'   => array('Openads Central',                     DB_NO_TABLES),
+        'oacdb' => array('Openads Central (DB)',                DB_WITH_TABLES),
+        'util'  => array('Commonly used utilities',             NO_DB)
     );
 
 /*
