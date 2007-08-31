@@ -187,6 +187,38 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
 }
 
 /**
+ * This function gets a list of zones for a publisher (indexed on zone_id)
+ *
+ * @param int $publisherid   The ID of the publisher
+ * @return array|false  An array containing the zones for that publisher
+ *                      or false on failure
+ */
+function OA_Dal_Delivery_getPublisherZones($publisherid) {
+    $conf = $GLOBALS['_MAX']['CONF'];
+
+    $rZones = OA_Dal_Delivery_query("
+    SELECT
+        z.zoneid AS zone_id,
+        z.affiliateid AS publisher_id,
+        z.zonename AS name,
+        z.delivery AS type
+    FROM
+        {$conf['table']['prefix']}{$conf['table']['zones']} AS z
+    WHERE
+        z.affiliateid={$publisherid}
+    ");
+
+    if (!is_resource($rZones)) {
+        return false;
+    }
+    while ($aZone = mysql_fetch_assoc($rZones)) {
+        $aZones[$aZone['zone_id']] = $aZone;
+    }
+
+    return ($aZones);
+}
+
+/**
  * The function to get and return the ads linked to a zone
  *
  * @param  int   $zoneid The id of the zone to get linked ads for

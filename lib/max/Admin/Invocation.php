@@ -112,10 +112,22 @@ class MAX_Admin_Invocation {
 
         $conf = $GLOBALS['_MAX']['CONF'];
 
+        // codetype is needed to do lazy invocation of the invocation tag so register it seperatly
+        global $codetype;
+        $this->codetype = $codetype;
+
+        if($invocationTag === null) {
+            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
+        }
+        if($invocationTag === false) {
+            OA::debug('Error while factory invocationTag plugin');
+            exit();
+        }
+
         $globalVariables = array(
             'affiliateid', 'bannerid', 'block',
             'blockcampaign', 'campaignid', 'clientid',
-            'codetype', 'bannerUrl', 'delay', 'delay_type',
+            'bannerUrl', 'delay', 'delay_type',
             'domains_table', 'extra', 'height',
             'hostlanguage', 'ilayer', 'iframetracking', 'left',
             'location', 'menubar', 'parameters', 'popunder',
@@ -128,6 +140,12 @@ class MAX_Admin_Invocation {
             'withtext', 'zoneid', 'xmlrpcproto',
             'xmlrpctimeout', 'comments'
         );
+
+        // Add any plugin-specific option values to the global array...
+        foreach($invocationTag->defaultOptionValues as $key => $default) {
+            phpAds_registerGlobal($key);
+            $globalVariables[] = $key;
+        }
 
         foreach($globalVariables as $makeMeGlobal) {
             global $$makeMeGlobal;
@@ -143,14 +161,6 @@ class MAX_Admin_Invocation {
             // also make this variable a class attribute
             // so plugins could have an access to these values (and modify them)
             $this->$makeMeGlobal = &$$makeMeGlobal;
-        }
-
-        if($invocationTag === null) {
-            $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
-        }
-        if($invocationTag === false) {
-            OA::debug('Error while factory invocationTag plugin');
-            exit();
         }
 
         // pass global variables as object attributes

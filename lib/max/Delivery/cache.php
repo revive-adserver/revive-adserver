@@ -540,4 +540,25 @@ function MAX_cacheGetGoogleJavaScript($cached = true)
     return $output;
 }
 
+
+/**
+ * Cache-wrapper for OA_Dal_Delivery_getPublisherZones()
+ *
+ * The function to get and return a list of zones for a publisher
+ *
+ * @param boolean  $cached    Should a cache lookup be performed?
+ * @return array   $output    An array of zones for the publisher indexed on zone_id
+ *
+ */
+function OA_cacheGetPublisherZones($affiliateid, $cached = true)
+{
+    $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
+    if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
+        $output = OA_Dal_Delivery_getPublisherZones($affiliateid);
+        $output = OA_Delivery_Cache_store_return($sName, $output);
+    }
+
+    return $output;
+}
+
 ?>

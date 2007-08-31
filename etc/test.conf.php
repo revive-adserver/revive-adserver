@@ -85,6 +85,7 @@ xmlrpc                              = axmlrpc.php
 local                               = alocal.php
 frontcontroller                     = fc.php
 singlepagecall                      = spc.php
+spcjs                               = spcjs.php
 
 [store]
 mode                                =

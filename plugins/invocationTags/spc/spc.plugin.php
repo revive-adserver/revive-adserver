@@ -40,6 +40,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         'target' => '',
         'source' => '',
         'withtext' => 0,
+        'noscript' => 1,
     );
 
     /**
@@ -111,7 +112,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         foreach ($this->defaultOptionValues as $feature => $default) {
             // Skip source here since it's dealt with earlier
             if ($feature == 'source') { continue; }
-            if (!empty($mi->$feature)) {
+            if ($mi->$feature != $this->defaultOptionValues[$feature]) {
                 $additionalParams .= "&amp;{$feature}=" . $mi->$feature;
             }
         }
@@ -126,73 +127,9 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         if ($mi->comments) {
             $search = array("{affiliate['mnemonic']}");
             $replace = array($affiliate['mnemonic']);
-            $script .= str_replace($search, $replace, MAX_Plugin_Translation::translate('SPC Setup Instructions', $this->module, $this->package));
-        }
-$script .= "    <script type='text/javascript'><!--// <![CDATA[
-        var {$varprefix}channel = '{$channel}';
-        var {$varprefix}zones = {\n" . implode(",\n", $zones[phpAds_ZoneBanner]) . "\n        };\n";
-        if (!empty($zones[phpAds_ZonePopup])) {
-            $script .="        var {$varprefix}popupZones = {\n";
-            $script .= implode(",\n", $zones[phpAds_ZonePopup]) . "\n        };\n";
-        }
-        $script .= "        var {$varprefix}uri = 'http:" . MAX_commonConstructPartialDeliveryUrl('') . "spc.js';\n";
-        $script .= "        var {$varprefix}uri_ssl = 'https:" . MAX_commonConstructPartialDeliveryUrl('', true) . "spc.js';\n";
-        $script .= "        var {$varprefix}options = '" .((!empty($additionalParams)) ? $additionalParams : '') . "';
-    // ]]> --></script>\n";
-
-        if ($mi->comments) {
-            $search = array('{url}');
-            $replace = array(MAX_commonConstructPartialDeliveryUrl(''));
             $script .= str_replace($search, $replace, MAX_Plugin_Translation::translate('SPC Header script comment', $this->module, $this->package));
         }
-        $script .= "
-    <script type='text/javascript'><!--// <![CDATA[
-        {$varprefix}zoneids = '';
-        for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
-
-        var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
-        var {$varprefix}r=Math.floor(Math.random()*99999999);
-        {$varprefix}output = new Array();
-
-        var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
-        {$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
-        {$varprefix}spc+=\"&channel=\"+{$varprefix}channel+\"&r=\"+{$varprefix}r;" .
-        ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
-        if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
-        if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);
-        {$varprefix}spc+=\"'><\"+\"/script>\";
-        document.write({$varprefix}spc);
-
-        function {$varprefix}show(name) {
-            if ((typeof({$varprefix}zones[name]) == 'undefined') || (typeof({$varprefix}output[name]) == 'undefined')) {
-                return;
-            } else {
-                document.write({$varprefix}output[name]);
-            }
-        }";
-        if (!empty($zones[phpAds_ZonePopup])) {
-            $script .= "
-
-        function {$varprefix}showpop(name) {
-            if (typeof({$varprefix}popupZones[name]) == 'undefined') {
-                return;
-            }
-
-            var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
-            {$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?zoneid=\"+{$varprefix}popupZones[name];
-            {$varprefix}pop+=\"&source=\"+{$varprefix}channel+\"&r=\"+{$varprefix}r;" .
-            ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
-            {$varprefix}spc+=\"{$additionalParams}\";
-            if (window.location) {$varprefix}pop+=\"&loc=\"+escape(window.location);
-            if (document.referrer) {$varprefix}pop+=\"&referer=\"+escape(document.referrer);
-            {$varprefix}pop+=\"'><\"+\"/script>\";
-
-            document.write({$varprefix}pop);
-        }    ";
-        }
-        $script .= "\n    // ]]> --></script>";
-
-        $script .= "
+        $script .= "\n    <script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['spcjs']) . "?id={$mi->affiliateid}{$additionalParams}'></script>
 </head>
 
 <body>";
@@ -210,9 +147,9 @@ $script .= "    <script type='text/javascript'><!--// <![CDATA[
 <script type='text/javascript'><!--// <![CDATA[
     {$varprefix}show('{$zone['zonename']}');
 // ]]> --></script>";
-                    if ($zone['delivery'] != phpAds_ZoneText) {
+                    if ($zone['delivery'] != phpAds_ZoneText && $mi->noscript) {
                         $script .= "<noscript><a target='_blank' href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?n={$zone['n']}'>";
-                        $script .= "<img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$zone['zoneid']}&n={$zone['n']}' /></a>";
+                        $script .= "<img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
                         $script .= "</noscript>";
                     }
                 }
@@ -258,10 +195,26 @@ $script .= "    <script type='text/javascript'><!--// <![CDATA[
             'target'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
-            'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'noscript'      => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         );
 
         return $options;
+    }
+
+    function noscript()
+    {
+        $maxInvocation = &$this->maxInvocation;
+        $noscript = (isset($maxInvocation->noscript)) ? $maxInvocation->noscript : 1;
+
+        $option = '';
+        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        $option .= "<tr><td width='30'>&nbsp;</td>";
+        $option .= "<td width='200'>Include &lt;noscript&gt; tags</td>";
+        $option .= "<td width='370'><input type='radio' name='noscript' value='1'".($noscript == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
+        $option .= "<input type='radio' name='noscript' value='0'".($noscript == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
+        $option .= "</tr>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        return $option;
     }
 }
 

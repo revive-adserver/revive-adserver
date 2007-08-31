@@ -69,7 +69,4 @@ MAX_cookieFlush();
 header("Content-type: application/x-javascript");
 echo $spc_output;
 
-// Include the external FlashObject script
-MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), '"openads_fo"');
-
 ?>

@@ -1,0 +1,118 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v2.5                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: ag.php 8911 2007-08-10 09:47:46Z andrew.hill@openads.org $
+*/
+
+// Require the initialisation file
+require_once '../../init-delivery.php';
+
+// Required files
+require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
+require_once MAX_PATH . '/lib/max/Delivery/flash.php';
+
+// Get the affiliateid from the querystring if present
+MAX_commonRegisterGlobalsArray(array('id'));
+
+// Get JS
+$output = OA_SPCGetJavaScript($id);
+
+// Output JS
+header("Content-Type: text/javascript");
+header("Content-Size: ".strlen($output));
+header("Expires: ".gmdate('r', time() + 86400));
+
+echo $output;
+
+function OA_SPCGetJavaScript($affiliateid)
+{
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $varprefix = $conf['var']['prefix'];
+    MAX_Dal_Delivery_Include();
+    $aZones = OA_cacheGetPublisherZones($affiliateid);
+    foreach ($aZones as $zoneid => $aZone) {
+        $zones[$aZone['type']][] = "            '{$aZone['name']}' : {$zoneid}";
+    }
+    $additionalParams = '';
+    foreach ($_GET as $key => $value) {
+        if ($key == 'id') { continue; }
+        $additionalParams .= "&amp;{$key}={$value}";
+    }
+    $script = "
+    if (typeof({$varprefix}zones) == 'undefined') {
+        var {$varprefix}zones = {\n" . implode(",\n", $zones[0]) . "\n        };
+    }
+    {$varprefix}zoneids = '';
+    for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
+
+    if (typeof({$varprefix}channel) == 'undefined') { {$varprefix}channel = ''; }
+    var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
+    var {$varprefix}r=Math.floor(Math.random()*99999999);
+    {$varprefix}output = new Array();
+
+    var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
+    {$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
+    {$varprefix}spc+=\"&channel=\"+{$varprefix}channel+\"&r=\"+{$varprefix}r;" .
+    ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
+    if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
+    if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);
+    {$varprefix}spc+=\"'><\"+\"/script>\";
+    document.write({$varprefix}spc);
+
+    function {$varprefix}show(name) {
+        if ((typeof({$varprefix}zones[name]) == 'undefined') || (typeof({$varprefix}output[name]) == 'undefined')) {
+            return;
+        } else {
+            document.write({$varprefix}output[name]);
+        }
+    }
+
+    function {$varprefix}showpop(name) {
+        if (typeof({$varprefix}popupZones[name]) == 'undefined') {
+            return;
+        }
+
+        var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
+        {$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?zoneid=\"+{$varprefix}popupZones[name];
+        {$varprefix}pop+=\"&source=\"+{$varprefix}channel+\"&r=\"+{$varprefix}r;" .
+        ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
+        {$varprefix}spc+=\"{$additionalParams}\";
+        if (window.location) {$varprefix}pop+=\"&loc=\"+escape(window.location);
+        if (document.referrer) {$varprefix}pop+=\"&referer=\"+escape(document.referrer);
+        {$varprefix}pop+=\"'><\"+\"/script>\";
+
+        document.write({$varprefix}pop);
+    }
+";
+
+    // Add the FlashObject include to the SPC output
+    $script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), 'openads_fo');
+
+    // Add PWIK libries
+
+    return $script;
+}
+
+?>
