@@ -40,7 +40,7 @@ $Id$
  */
 
 require_once 'init.php';
-require_once MAX_PATH . '/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/simpletest/xml.php';
 require_once MAX_PATH . '/tests/testClasses/TestFiles.php';
 
