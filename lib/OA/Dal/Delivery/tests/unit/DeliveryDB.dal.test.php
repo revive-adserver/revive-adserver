@@ -112,7 +112,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     function test_OA_Dal_Delivery_query()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $res = OA_Dal_Delivery_query("SELECT * FROM ".$this->_getTableName('banners'). "limit 1");
+        $res = OA_Dal_Delivery_query("SELECT * FROM ".$this->_getTableName('banners')." limit 1");
         $this->assertTrue($res);
         if ($this->oDbh->dbsyntax == 'mysql')
         {
