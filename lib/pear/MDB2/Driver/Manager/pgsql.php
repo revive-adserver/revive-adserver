@@ -187,7 +187,18 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
      *                             actually perform them otherwise.
      * @access public
      *
-      * @return mixed MDB2_OK on success, a MDB2 error on failure
+     * @todo Openads note - Altering column type is only partially working. There are issue when moving
+     *       to a type which doesn't allow implicit casts from the original datatype (i.e. TEXT to INT)
+     *       and when the old default is not compatible with the new type. We might need to improve the
+     *       method to get the original definition of the field and correctly deal with not currently
+     *       not supported cases. Also, changing a field to become "serial" doesn't correctly link the
+     *       sequence to the table, so any drop statement won't cascade to the sequence. As a workaround
+     *       we might rename the old field, add a new serial field with the correct definition, migrate
+     *       the data and drop the old field. The only issue with that is that the field order will change,
+     *       but since the SQL standard doesn't in fact guarantee any row/column order, it should be a
+     *       minor issue.
+     *
+     * @return mixed MDB2_OK on success, a MDB2 error on failure
      */
     function alterTable($name, $changes, $check)
     {
@@ -277,7 +288,6 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                         if (PEAR::isError($result)) {
                             return $result;
                         }
-                        // TODO pg_depend
                     }
                 }
                 if (array_key_exists('default', $field['definition'])) {
