@@ -324,11 +324,13 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         foreach (array('2007-07-31', '2007-08-01', '2007-08-02') as $day) {
             for ($hour = 0; $hour < 24; $hour++) {
                 $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                $doDsah->day = $day;
-                $doDsah->hour = $hour;
-                $doDsah->ad_id = $bannerId;
+                $doDsah->day         = $day;
+                $doDsah->hour        = $hour;
+                $doDsah->ad_id       = $bannerId;
+                $doDsah->zone_id     = 0;
+                $doDsah->creative_id = 0;
                 $doDsah->impressions = 12 - abs($hour - 12);
-                $doDsah->clicks = floor($doDsah->impressions / 6);
+                $doDsah->clicks      = floor($doDsah->impressions / 6);
                 $doDsah->insert();
             }
         }
