@@ -53,6 +53,7 @@ class OA_Dal_Maintenance_Statistics_AdServer_pgsql extends OA_Dal_Maintenance_St
         parent::OA_Dal_Maintenance_Statistics_Common();
         $this->dateCastString = '::date';
         $this->hourCastString  = '::integer';
+        $this->timestampCastString = '::timestamp';
     }
 
     /**

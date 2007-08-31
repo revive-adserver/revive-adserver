@@ -144,6 +144,21 @@ class OA_Dal_Maintenance_Statistics_Common
     var $hourCastSting;
 
     /**
+     * A sting that can be used in SQL to cast a value into a timestamp.
+     *
+     * For example, when using string timestamp literals to create a
+     * temporary table, the datatype would be otherwise unknown.
+     *
+     *  CREATE TEMPORARY TABLE
+     *      foo
+     *  AS SELECT
+     *      '2007-04-11 13:49:18'{$this->timestampCastSting}
+     *
+     * @var string
+     */
+    var $timestampCastSting;
+
+    /**
      * The constructor method.
      *
      * @return OA_Dal_Maintenance_Statistics_Common
@@ -558,8 +573,8 @@ class OA_Dal_Maintenance_Statistics_Common
                     DATE_FORMAT(drad.date_time, '%k'){$this->hourCastString} AS hour,
                     $operationInterval AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
-                    ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
-                    ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_end,
+                    ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
+                    ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_end,
                     drad.ad_id AS ad_id,
                     drad.creative_id AS creative_id,
                     drad.zone_id AS zone_id,
@@ -656,8 +671,8 @@ class OA_Dal_Maintenance_Statistics_Common
                             DATE_FORMAT(tlo.date_time, '%k'){$this->hourCastString} AS hour,
                             {$aConf['maintenance']['operationInterval']} AS operation_interval,
                             $operationIntervalID AS operation_interval_id,
-                            ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
-                            ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_end,
+                            ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
+                            ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_end,
                             tlo.ad_id AS ad_id,
                             tlo.creative_id AS creative_id,
                             tlo.zone_id AS zone_id,
