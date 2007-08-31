@@ -112,7 +112,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     function test_OA_Dal_Delivery_query()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $res = OA_Dal_Delivery_query("SELECT * FROM {$this->_getTableName('banners')} limit 1");
+        $res = OA_Dal_Delivery_query("SELECT * FROM ".$this->_getTableName('banners'). "limit 1");
         $this->assertTrue($res);
         if ($this->oDbh->dbsyntax == 'mysql')
         {
@@ -315,8 +315,9 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     function test_OA_Dal_Delivery_logAction()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+
         $res = OA_Dal_Delivery_logAction(
-            "{$aConf['table']['prefix']}data_raw_ad_impression",
+            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_ad_impression',true),
             '',
             1,
             0,
@@ -334,7 +335,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->assertTrue($res);
 
         $res = OA_Dal_Delivery_logAction(
-            "{$aConf['table']['prefix']}data_raw_ad_click",
+            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_ad_click',true),
             '',
             1,
             0,
@@ -360,7 +361,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
-            "{$aConf['table']['prefix']}data_raw_tracker_impression",
+            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_tracker_impression',true),
             '',
             1,
             '127.0.0.1',
@@ -385,7 +386,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
-            "{$aConf['table']['prefix']}data_raw_tracker_impression",
+            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_tracker_impression',true),
             '',
             1,
             '127.0.0.1',
