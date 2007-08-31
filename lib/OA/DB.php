@@ -103,7 +103,9 @@ class OA_DB
                     // Enable transaction support
                     $aOptions['use_transactions'] = true;
                 }
-            }
+            } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
+                $aOptions['quote_identifier'] = '"';
+	        }
 
             $aOptions += OA_DB::getDatatypeMapOptions();
 
