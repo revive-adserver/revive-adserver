@@ -203,10 +203,11 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
         while (!$oDate->after(new Date($aParams['end']))) {
             foreach ($aZoneIds as $zoneId) {
                 $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
-                $doDsah->day     = $oDate->format('%Y-%m-%d');
-                $doDsah->hour    = (int)$oDate->format('%H');
-                $doDsah->ad_id   = $bannerId;
-                $doDsah->zone_id = $zoneId;
+                $doDsah->day         = $oDate->format('%Y-%m-%d');
+                $doDsah->hour        = (int)$oDate->format('%H');
+                $doDsah->ad_id       = $bannerId;
+                $doDsah->zone_id     = $zoneId;
+                $doDsah->creative_id = 0;
 
                 $doDsahClone = clone($doDsah);
                 if (!$doDsahClone->count()) {
