@@ -282,7 +282,7 @@ class MAX_Admin_Preferences
             foreach ($this->prefSql as $key => $value) {
                 $sql[] = "$key = ". $oDbh->quote($value);
             }
-            $tablePrefs = $oDbh->quoteIdentifier('preference',true);
+            $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'],true);
             $query = "
                 UPDATE
                     {$tablePrefs}
