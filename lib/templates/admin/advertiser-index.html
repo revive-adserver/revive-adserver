@@ -1,3 +1,40 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v2.5                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
+
+-->*}
+
+{if $aOacAdvertisers|@count}
+    {include file=advertiser-index-list.html from=$aOacAdvertisers}
+
+    <br /><br />
+{/if}
+
+
 
 <img src="images/icon-advertiser-new.gif" border="0" align="absmiddle">&nbsp;
 <a href="advertiser-edit.php" accesskey="{t key=AddNew}">{t str=AddClient_Key}</a>&nbsp;&nbsp;
@@ -29,126 +66,7 @@
         <td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
     <tr>
 {else}
-{foreach key=clientId item=client from=$clients}
-    {cycle values="#F6F6F6,#FFFFFF" assign=bgColor}
-    <tr height='25' bgcolor="{$bgColor}">
-
-        <td height='25'>
-    {if $client.campaigns}
-        {if $client.expand}
-            <a href='advertiser-index.php?collapse=client:{$clientId}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>
-        {else}
-            <a href='advertiser-index.php?expand=client:{$clientId}'><img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>
-        {/if}
-    {else}
-            <img src='images/spacer.gif' height='16' width='16' align='absmiddle'>
-    {/if}
-
-            <img src='images/icon-advertiser.gif' align='absmiddle'>
-            <a href='advertiser-edit.php?clientid={$clientId}'>{$client.clientname|escape:html}</a>
-        </td>
-
-        <td height='25'>{$clientId}</td>
-
-        <td height='25'>
-    {if $client.expand && !$client.campaigns}
-            <a href='campaign-edit.php?clientid={$clientId}'><img src='images/icon-campaign-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    {else}
-            &nbsp;
-    {/if}
-        </td>
-
-        <td height='25'>
-            <a href='advertiser-campaigns.php?clientid={$clientId}'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;
-        </td>
-
-        <td height='25'>
-            <a href='advertiser-delete.php?clientid={$clientId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteClient}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-
-        </tr>
-
-    {if $client.campaigns && $client.expand}
-        {foreach key=campaignId item=campaign from=$client.campaigns}
-
-        <tr height='1'>
-            <td bgcolor="{$bgColor}"><img src='images/spacer.gif' width='1' height='1'></td>
-            <td colspan='5' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
-        </tr>
-
-        <tr height='25' bgcolor="{$bgColor}">
-        <td height='25'>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-            {if $campaign.banners}
-                {if $campaign.expand}
-            <a href='advertiser-index.php?collapse=campaign:{$clientId}-{$campaignId}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>
-                {else}
-            <a href='advertiser-index.php?expand=campaign:{$clientId}-{$campaignId}'><img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>
-                {/if}
-            {else}
-            <img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;
-            {/if}
-
-            {if $campaign.active == 't'}
-            <img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;
-                {else}
-            <img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;
-            {/if}
-
-            <a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>{$campaign.campaignname|escape:html}</td>
-        </td>
-
-        <td height='25'>{$campaignId}</td>
-
-        <td height='25'>
-            {if !$campaign.banners}
-            <a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}'><img src='images/icon-banner-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-            {else}
-            &nbsp;
-            {/if}
-        </td>
-
-        <td height='25'>
-            <a href='campaign-banners.php?clientid={$clientId}&campaignid={$campaignId}'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;
-        </td>
-
-        <td height='25'>
-            <a href='campaign-delete.php?clientid={$clientId}&campaignid={$campaignId}&returnurl=advertiser-index.php'{phpAds_DelConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-    </tr>
-
-            {if $campaign.expand && $campaign.banners}
-                {foreach key=bannerId item=banner from=$campaign.banners}
-    <tr height='1'>
-        <td bgcolor="{$bgColor}"><img src='images/spacer.gif' width='1' height='1'></td>
-        <td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
-    </tr>
-
-    <tr height='25' bgcolor="{$bgColor}">
-        <td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-            <img src='{oa_icon banner=$banner campaign=$campaign}' align='absmiddle'>
-            &nbsp;<a href='banner-edit.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'>{$banner.name}</a>
-         </td>
-        <td height='25'>{$bannerId}</td>
-        <td>&nbsp;</td>
-        <td height='25'>
-            <a href='banner-acl.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-        <td height='25'>
-            <a href='banner-delete.php?clientid={$clientId}&campaignid={$campaignId}&bannerid={$bannerId}&returnurl=advertiser-index.php' {phpAds_DelConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-    </tr>
-                {/foreach}
-            {/if}
-        {/foreach}
-    {/if}
-    <tr height='1'>
-        <td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
-    </tr>
-
-{/foreach}
+    {include file=advertiser-index-list.html from=$clients}
 {/if}
 
     <tr>

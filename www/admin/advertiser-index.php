@@ -247,8 +247,8 @@ foreach (array_keys($aOacAdvertisers) as $advertiserId) {
     }
 }
 
-$oTpl->assign_by_ref('aOacAdvertisers', $aOacAdvertisers);
-$oTpl->assign_by_ref('clients', $clients);
+$oTpl->assign('aOacAdvertisers', $aOacAdvertisers);
+$oTpl->assign('clients', $clients);
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
