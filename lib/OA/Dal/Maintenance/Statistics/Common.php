@@ -1279,7 +1279,7 @@ class OA_Dal_Maintenance_Statistics_Common
         $table = $aConf['table']['prefix'] .
                  $aConf['table'][$intermediateTable];
         // See if any rows were inserted into the tmp_union table
-        $query = "SELECT COUNT(*) AS count FROM ".$this->oDbh->quoteIdentifier('tmp_union',true)."";
+        $query = "SELECT COUNT(*) AS count FROM ".$this->oDbh->quoteIdentifier('tmp_union',true);
         $aRows = $this->oDbh->queryRow($query);
         if ($aRows['count'] > 0) {
             $query = "
