@@ -258,6 +258,9 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
                     $declaration = $db->getDeclaration($field['definition']['type'], '', $options);
                     $declaration = preg_replace('/ DEFAULT NULL$/', '', $declaration);
                     $query = "ALTER $field_name TYPE".$declaration;
+                    if (strpos($declaration, 'INTEGER') === 1) {
+                        $query .= " USING $field_name::INTEGER";
+                    }
                     $result = $db->exec("ALTER TABLE $tableName $query");
                     if (PEAR::isError($result)) {
                         return $result;

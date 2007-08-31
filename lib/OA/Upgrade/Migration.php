@@ -120,8 +120,8 @@ class Migration
                 $this->aSQLStatements['table_copy_all']     = "INSERT IGNORE INTO %s SELECT * FROM %s";
                 //$this->aSQLStatements['table_copy_cols'] = "INSERT IGNORE INTO (%s %s) VALUES (SELECT %s FROM %s)";
                 $this->aSQLStatements['table_update_col']   = "UPDATE IGNORE %s SET %s = %s.%s";
-                $this->aSQLStatements['table_copy']         = "CREATE TABLE %s ENGINE=%s (SELECT * FROM %s)";
-                $this->aSQLStatements['table_copy_temp']         = "CREATE TEMPORARY TABLE %s ENGINE=%s (SELECT * FROM %s)";
+                $this->aSQLStatements['table_copy']         = "CREATE TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
+                $this->aSQLStatements['table_copy_temp']    = "CREATE TEMPORARY TABLE %s ENGINE={$engine} (SELECT * FROM %s)";
                 $this->aSQLStatements['table_rename']       = "RENAME TABLE %s TO %s";
                 $this->aSQLStatements['table_select']       = 'SELECT %s FROM %s';
                 $this->aSQLStatements['table_insert']       = 'INSERT INTO %s (%s) VALUES %s';

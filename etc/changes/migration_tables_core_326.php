@@ -73,21 +73,32 @@ class Migration_326 extends Migration
 	{
 	    $prefix = $this->getPrefix();
 	    $statement = $this->aSQLStatements['table_copy_temp'];
-	    if ($this->oDBH->dbsyntax == 'mysql')
-	    {
-            $engine = $this->oDBH->getOption('default_table_type');
-    	    $query      = sprintf($statement, $prefix . 'campaigns_325', $engine, $prefix . 'campaigns');
-	    }
-	    else if ($this->oDBH->dbsyntax == 'pgsql')
-	    {
-    	    $query      = sprintf($statement, $prefix.'campaigns_325', $prefix.'campaigns');
-	    }
+	    $query      = sprintf($statement, $prefix . 'campaigns_325', $prefix . 'campaigns');
         $result     = $this->oDBH->exec($query);
         if (PEAR::isError($result))
         {
             $this->_log('error copying campaigns table for priority migration');
             return false;
         }
+
+        if ($this->oDBH->dbsyntax == 'pgsql') {
+            $campaignsTable = $this->oDBH->quoteidentifier($prefix.'campaigns',true);
+            $query  = "ALTER TABLE {$campaignsTable} ALTER priority DROP DEFAULT";
+            $result = $this->oDBH->exec($query);
+            if (PEAR::isError($result))
+            {
+                $this->_log('error dropping campaigns table default for priority migration');
+                return false;
+            }
+            $query  = "UPDATE {$campaignsTable} SET priority = '0'";
+            $result = $this->oDBH->exec($query);
+            if (PEAR::isError($result))
+            {
+                $this->_log('error zeroing campaigns table priority');
+                return false;
+            }
+        }
+
 		return $this->beforeAlterField('campaigns', 'priority');
 	}
 
@@ -103,11 +114,22 @@ class Migration_326 extends Migration
         $tbl_campaigns     = $this->oDBH->quoteIdentifier($prefix . 'campaigns',true);
         $tbl_campaigns_325 = $this->oDBH->quoteIdentifier($prefix . 'campaigns_325',true);
 
+        if ($this->oDBH->dbsyntax == 'pgsql') {
+            $updateTables = "{$tbl_campaigns}";
+            $updatePrefix = '';
+            $updateFrom   = "FROM {$tbl_campaigns_325}";
+        } else {
+            $updateTables = "{$tbl_campaigns}, {$tbl_campaigns_325}";
+            $updatePrefix = "{$tbl_campaigns}.";
+            $updateFrom   = '';
+        }
+
         $query = "
             UPDATE
-                {$tbl_campaigns}, {$tbl_campaigns_325}
+                {$updateTables}
             SET
-                {$tbl_campaigns}.priority = 5
+                {$updatePrefix}priority = 5
+            {$updateFrom}
             WHERE
                 {$tbl_campaigns}.campaignid={$tbl_campaigns_325}.campaignid
               AND {$tbl_campaigns_325}.priority='h'
@@ -118,9 +140,10 @@ class Migration_326 extends Migration
         }
         $query = "
             UPDATE
-                {$tbl_campaigns}, {$tbl_campaigns_325}
+                {$updateTables}
             SET
-                {$tbl_campaigns}.priority = 3
+                {$updatePrefix}priority = 3
+            {$updateFrom}
             WHERE
                 {$tbl_campaigns}.campaignid={$tbl_campaigns_325}.campaignid
               AND {$tbl_campaigns_325}.priority='m'
@@ -131,9 +154,10 @@ class Migration_326 extends Migration
         }
         $query = "
             UPDATE
-                {$tbl_campaigns}, {$tbl_campaigns_325}
+                {$updateTables}
             SET
-                {$tbl_campaigns}.priority = 0
+                {$updatePrefix}priority = 0
+            {$updateFrom}
             WHERE
                 {$tbl_campaigns}.campaignid={$tbl_campaigns_325}.campaignid
               AND {$tbl_campaigns_325}.priority='l'
