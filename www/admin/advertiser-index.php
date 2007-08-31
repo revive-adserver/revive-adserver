@@ -96,7 +96,7 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$oTpl = new OA_Admin_Template('advertiser-index.tpl');
+$oTpl = new OA_Admin_Template('advertiser-index.html');
 
 
 // Get clients & campaigns and build the tree
