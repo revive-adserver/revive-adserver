@@ -59,7 +59,9 @@ class OA_UpgradePostscript
                           'ad_cs_data_last_sent',
                           'ad_cs_data_last_received',
                         );
+        OA_DB::setCaseSensitive();
         $aDef  = $this->oSchema->getDefinitionFromDatabase(array($prefix.$table));
+        OA_DB::disableCaseSensitive();
         if (is_array($aDef) && count($aDef)>0)
         {
             $aTask['remove'] = array();
