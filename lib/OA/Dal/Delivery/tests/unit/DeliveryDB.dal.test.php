@@ -317,7 +317,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $res = OA_Dal_Delivery_logAction(
-            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_ad_impression',true),
+            $this->prefix.'data_raw_ad_impression',
             '',
             1,
             0,
@@ -335,7 +335,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->assertTrue($res);
 
         $res = OA_Dal_Delivery_logAction(
-            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_ad_click',true),
+            $this->prefix.'data_raw_ad_click',
             '',
             1,
             0,
@@ -361,7 +361,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
-            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_tracker_impression',true),
+            $this->prefix.'data_raw_tracker_impression',
             '',
             1,
             '127.0.0.1',
@@ -386,7 +386,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $id = OA_Dal_Delivery_logTracker(
-            $this->oDbh->quoteIdentifier($this->prefix.'data_raw_tracker_impression',true),
+            $this->prefix.'data_raw_tracker_impression',
             '',
             1,
             '127.0.0.1',
