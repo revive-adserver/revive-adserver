@@ -807,12 +807,14 @@ class OA_Dal_Maintenance_Statistics_Common
         $oCurrentDate->copy($aDates['start']);
         for ($counter = 0; $counter <= $days; $counter++) {
             // Create the temporary table for these connection type
-            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+            if (isset($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) && $GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
                 // Create the cookieless conversion temporary table
                 $tempTable = 'tmp_tracker_impression_ad_' . $action . '_connection_cookieless';
+                $cookielessConversions = true;
             } else {
                 // Create the normal conversion temporary table
                 $tempTable = 'tmp_tracker_impression_ad_' . $action . '_connection';
+                $cookielessConversions = false;
             }
             OA::setTempDebugPrefix('- ');
             $this->tempTables->createTable($tempTable);
@@ -845,7 +847,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         operation_interval_id,
                         interval_start,
                         interval_end,";
-            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+            if ($cookielessConversions) {
                 $query .= "
                         ip_address,
                         user_agent,";
@@ -868,7 +870,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     $operationIntervalID AS operation_interval_id,
                     ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
                     ". $this->oDbh->quote($aDates['end']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_end,";
-            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+            if ($cookielessConversions) {
                 $query .= "
                     drti.ip_address AS ip_address,
                     drti.user_agent AS user_agent,";
@@ -886,7 +888,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)." AS ct
                 WHERE
                     drti.tracker_id = ct.trackerid";
-            if ($GLOBALS['_MAX']['MSE']['COOKIELESS_CONVERSIONS']) {
+            if ($cookielessConversions) {
                 $query .= "
                     AND
                     drti.ip_address != ''

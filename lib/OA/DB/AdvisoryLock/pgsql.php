@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 /**
  * An abstract class defining the interface for using advisory locks inside Openads.
@@ -48,7 +49,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
 
         // Acquire lock
         $bAcquired = $this->oDbh->extended->getOne(
-            "SELECT pg_try_advisory_lock(?, ?)",
+            "SELECT pg_try_advisory_lock(?::int4, ?::int4)",
             'boolean',
             $aParams
         );
@@ -71,7 +72,7 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
 
         // Relase lock
         $bReleased = $this->oDbh->extended->getOne(
-            "SELECT pg_advisory_unlock(?, ?)",
+            "SELECT pg_advisory_unlock(?::int4, ?::int4)",
             'boolean',
             $aParams
         );
@@ -102,11 +103,11 @@ class OA_DB_AdvisoryLock_pgsql extends OA_DB_AdvisoryLock
      */
     function _getId($sName)
     {
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
 
         // PostgreSQL needs two int4, we generate them using crc32
         $sId = array(
-            crc32($pref['instance_id']) & 0x7FFFFFFF,
+            crc32($platformHash) & 0x7FFFFFFF,
             crc32($sName) & 0x7FFFFFFF
         );
 
