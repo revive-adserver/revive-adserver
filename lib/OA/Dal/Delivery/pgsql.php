@@ -114,6 +114,9 @@ function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column =
     if (!isset($GLOBALS['_MAX'][$dbName]) || !(is_resource($GLOBALS['_MAX'][$dbName]))) {
         return false;
     }
+    if ($table[0] == '"') {
+        $table = substr($table, 1, -1);
+    }
     $seqName = substr($column, 0, 29).'_seq';
     $seqName = substr($table, 0, 62 - strlen($seqName)).'_'.$seqName;
     $query = "SELECT currval('\"".$seqName."\"')";
@@ -735,7 +738,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $query = "
         INSERT INTO
-            \"{$table}\"
+            {$table}
             (
                 viewer_id,
                 viewer_session_id,
@@ -982,7 +985,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $res = OA_Dal_Delivery_query("
         INSERT INTO
-            \"{$table}\"
+            {$table}
         (
             server_raw_ip,
             viewer_id,
@@ -1052,7 +1055,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     )", 'rawDatabase');
 
     $aConf = $GLOBALS['_MAX']['CONF'];
-    $pkey = 'server'.substr($table, strlen($aConf['table']['prefix']) + 4);
+    $pkey = 'server'.substr($table, strlen($aConf['table']['prefix']) + 5);
 
     return $res ? OA_Dal_Delivery_insertId('rawDatabase', $table, $pkey) : false;
 }
