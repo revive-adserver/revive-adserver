@@ -247,9 +247,6 @@ class OA_Admin_Config
         $aDistConf = @parse_ini_file($distConfig, true);
 
         // Check for deprecated keys to remove from existing user conf
-        /**
-         * @todo Do we really want to do this... it will strip "custom/advanced" config items
-         */
         foreach ($this->conf as $key => $value) {
         	if (array_key_exists($key, $aDistConf)) {
         	    foreach ($this->conf[$key] as $subKey => $subValue) {
