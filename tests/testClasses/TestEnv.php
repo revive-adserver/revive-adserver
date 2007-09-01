@@ -103,6 +103,10 @@ class TestEnv
      */
     function getDataSQL($source, $mode)
     {
+	// XML files are loaded from a cache, if available
+	if (@include(MAX_PATH . "/tests/data/testData_{$source}.php")) {
+		return isset($aDataset) && is_array($aDataset) ? $aDataset : false;
+	}
 
         require_once MAX_PATH . '/tests/testClasses/MAX_TestData_XML_Parser.php';
         $xml = new MAX_TestData_XML_Parser($mode);

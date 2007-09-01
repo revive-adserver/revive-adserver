@@ -148,3 +148,4 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
 }
 
 ?>
+
