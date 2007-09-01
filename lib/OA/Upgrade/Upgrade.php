@@ -894,6 +894,13 @@ class OA_Upgrade
                 $this->upgrading_from_milestone_version = false;
                 return true;
             }
+            else if ($this->oConfiguration->checkForConfigAdditions()) {
+                $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
+                $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                $this->upgrading_from_milestone_version = false;
+                return true;
+            }
             else if ($current)
             {
                 $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
