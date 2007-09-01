@@ -450,13 +450,13 @@ function MAX_limitationsGetSqlForString($op, $sData, $columnName)
         return _getWhereComponent('NOT LIKE', "'%$sData%'", $columnName);
     } elseif ($op == '=x') {
         $operator = '~';
-        if ($aConf['database']['type'] == 'mysql') {
+        if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
             $operator = 'REGEXP';
         }
         return _getWhereComponent($operator, "'$sData'", $columnName);
     } else {
         $operator = '!~';
-        if ($aConf['database']['type'] == 'mysql') {
+        if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
             $operator = 'NOT REGEXP';
         }
         return _getWhereComponent($operator, "'$sData'", $columnName);

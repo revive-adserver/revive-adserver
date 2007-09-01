@@ -118,6 +118,8 @@ class DeliveryLimitationsTest extends UnitTestCase
 
     function test_MAX_limitationsGetSqlForString()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         $this->assertFalse(MAX_limitationsGetSqlForString('==', null, 'os'));
         $this->assertFalse(MAX_limitationsGetSqlForString('==', '', 'os'));
         $this->assertEqual("LOWER(os) = ('xp')",
@@ -141,8 +143,7 @@ class DeliveryLimitationsTest extends UnitTestCase
         $this->assertFalse(MAX_limitationsGetSqlForString('=x', null, 'os'));
         $this->assertFalse(MAX_limitationsGetSqlForString('=x', '', 'os'));
 
-        $oDbh = OA_DB::singleton();
-        if ($oDbh->dbsyntax == 'pgsql') {
+        if (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
             $regexp = '~';
             $not_regexp = '!~';
         } else {
