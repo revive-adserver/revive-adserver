@@ -38,21 +38,21 @@ $Id$
 if (!defined('phpAds_installing')) {
     // Require the initialisation file
     require_once '../../../init.php';
-    
+
     // Required files
     require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
     require_once MAX_PATH . '/lib/max/language/Default.php';
-    
+
     // Load the user preferences from the database
     $pref = MAX_Admin_Preferences::loadPrefs();
-    
+
     // Load the required language files
     Language_Default::load();
-    
+
     // Send content-type header
     header("Content-type: application/x-javascript");
 } else {
-    echo "<script language='JavaScript' type='text/javascript'>";
+    echo "<script language='JavaScript' type='text/javascript'><!--";
 }
 ?>
 
@@ -313,12 +313,12 @@ function max_formValidate(f)
 			   '\n' +
 			   '<?php echo addslashes(html_entity_decode($strFieldFixBeforeContinue2)) ?>' +
 			   '\n');
-			   
+
 		// Select field with first error
 		f.elements[first].select();
 		f.elements[first].focus();
 	}
-	
+
     return (noerrors);
 }
 
@@ -357,12 +357,12 @@ function getObj(name)
 function max_formValidateHtml(obj)
 {
 	var htmlCode = obj.value;
-	
+
 	var openTags;
 	var closeTags;
 	openTags = 0;
 	closeTags = 0;
-	
+
 	pattern = /<!--/;
 	pattern2 = /-->/;
 	htmlCodes = htmlCode.split(pattern);
@@ -401,7 +401,7 @@ function max_formValidateHtml(obj)
 			}
 		}
 	}
-	
+
 	if(openTags != closeTags) {
         if(openTags > closeTags) {
             var difference = openTags - closeTags;
@@ -411,18 +411,18 @@ function max_formValidateHtml(obj)
             var difference = closeTags - openTags;
             var errorMsg  = '<?php echo $GLOBALS['strWarningMissing']; ?>' + difference + '<?php echo $GLOBALS['strWarningMissingOpening']; ?>';
         }
-        
+
 		var ignore = confirm (errorMsg + ' \n <?php echo $GLOBALS['strSubmitAnyway']; ?> ?')
 		if (!ignore)
-			return false;	
+			return false;
     }
-	
-	return true;	
+
+	return true;
 }
 
 <?php
 if (defined('phpAds_installing')) {
-    echo "</script>";
+    echo "--></script>";
 }
 ?>
 
