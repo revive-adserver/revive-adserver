@@ -1377,7 +1377,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue(in_array('b_id_field_pk', $aDBFields),'b_id_field_pk not found in table1');
         if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
         {
-            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter6.xml');
         }
 
         // Test 3 : remove field
