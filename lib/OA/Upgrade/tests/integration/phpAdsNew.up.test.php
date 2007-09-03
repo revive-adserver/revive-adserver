@@ -61,10 +61,12 @@ class Test_OA_phpAdsNew extends UnitTestCase
         {
             $this->assertEqual($oPAN->engine,'PANENGINE','mysql storage engine not detected');
         }
-        else if ($GLOBALS['_MAX']['CONF']['database']['type']=='pgsql')
-        {
-            $this->assertEqual($oPAN->engine,'','engine incorrectly detected for pgsql');
-        }
+//      no longer matters if engine type is found
+//      the sql statements should be separated so as to ensure that the engine is not used for pgsql
+//        else if ($GLOBALS['_MAX']['CONF']['database']['type']=='pgsql')
+//        {
+//            $this->assertEqual($oPAN->engine,'','engine incorrectly detected for pgsql');
+//        }
         $this->assertEqual($oPAN->prefix,'panprefix_','prefix not detected');
 
     }
