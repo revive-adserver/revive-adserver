@@ -1040,7 +1040,12 @@ class SqlBuilder
             }
         }
         // Set the final DELETE query
-        $query = 'DELETE FROM ' . $deleteTables . ' USING ' . $tables . $where;
+        $query = 'DELETE FROM ' . $deleteTables;
+        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
+        {
+            $query.= ' USING ' . $tables;
+        }
+        $query.= $where;
         // Doublecheck that there is something in the WHERE clause
         //  - to ensure that a bug does not delete the entire contents of a table!
         if (strlen($where) > 0) {
