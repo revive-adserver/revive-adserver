@@ -132,10 +132,10 @@ class Test_OA_DB_Table extends UnitTestCase
         fwrite($fp, ' <create>true</create>');
         fwrite($fp, ' <overwrite>false</overwrite>');
         fwrite($fp, ' <table>');
-        fwrite($fp, '  <name>test_table</name>');
+        fwrite($fp, '  <name>test_table1</name>');
         fwrite($fp, '  <declaration>');
         fwrite($fp, '   <field>');
-        fwrite($fp, '    <name>test_id</name>');
+        fwrite($fp, '    <name>test_id1</name>');
         fwrite($fp, '    <type>openads_mediumint</type>');
         fwrite($fp, '    <unsigned>true</unsigned>');
         fwrite($fp, '    <length>9</length>');
@@ -144,17 +144,46 @@ class Test_OA_DB_Table extends UnitTestCase
         fwrite($fp, '    <autoincrement>1</autoincrement>');
         fwrite($fp, '   </field>');
         fwrite($fp, '   <field>');
-        fwrite($fp, '    <name>test_desc</name>');
+        fwrite($fp, '    <name>test_desc1</name>');
         fwrite($fp, '    <type>openads_varchar</type>');
         fwrite($fp, '    <length>32</length>');
         fwrite($fp, '    <notnull>true</notnull>');
         fwrite($fp, '    <default></default>');
         fwrite($fp, '   </field>');
         fwrite($fp, '   <index>');
-        fwrite($fp, '    <name>test_pkey</name>');
+        fwrite($fp, '    <name>test_table1_pkey</name>');
         fwrite($fp, '    <primary>true</primary>');
         fwrite($fp, '    <field>');
-        fwrite($fp, '     <name>test_id</name>');
+        fwrite($fp, '     <name>test_id1</name>');
+        fwrite($fp, '     <sorting>ascending</sorting>');
+        fwrite($fp, '    </field>');
+        fwrite($fp, '   </index>');
+        fwrite($fp, '  </declaration>');
+        fwrite($fp, ' </table>');
+        fwrite($fp, ' <table>');
+        fwrite($fp, '  <name>test_table2</name>');
+        fwrite($fp, '  <declaration>');
+        fwrite($fp, '   <field>');
+        fwrite($fp, '    <name>test_id2</name>');
+        fwrite($fp, '    <type>openads_mediumint</type>');
+        fwrite($fp, '    <unsigned>true</unsigned>');
+        fwrite($fp, '    <length>9</length>');
+        fwrite($fp, '    <notnull>true</notnull>');
+        fwrite($fp, '    <default>0</default>');
+        fwrite($fp, '    <autoincrement>1</autoincrement>');
+        fwrite($fp, '   </field>');
+        fwrite($fp, '   <field>');
+        fwrite($fp, '    <name>test_desc2</name>');
+        fwrite($fp, '    <type>openads_varchar</type>');
+        fwrite($fp, '    <length>32</length>');
+        fwrite($fp, '    <notnull>true</notnull>');
+        fwrite($fp, '    <default></default>');
+        fwrite($fp, '   </field>');
+        fwrite($fp, '   <index>');
+        fwrite($fp, '    <name>test_table2_pkey</name>');
+        fwrite($fp, '    <primary>true</primary>');
+        fwrite($fp, '    <field>');
+        fwrite($fp, '     <name>test_id2</name>');
         fwrite($fp, '     <sorting>ascending</sorting>');
         fwrite($fp, '    </field>');
         fwrite($fp, '   </index>');
@@ -488,50 +517,155 @@ class Test_OA_DB_Table extends UnitTestCase
             $oTable = new OA_DB_Table();
             $this->_writeSequenceTestDatabaseSchema();
             $oTable->init(MAX_PATH . '/var/test.xml');
-            $oTable->createAllTables();
+            $oTable->createTable('test_table1');
             $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-            $this->assertEqual($aExistingTables[0],'test_table');
+            $this->assertEqual($aExistingTables[0],'test_table1');
 
             OA_DB::setCaseSensitive();
             $aSequences = $oDbh->manager->listSequences();
             OA_DB::disableCaseSensitive();
-            $this->assertEqual($aSequences[0],'test_table_test_id');
+            $this->assertEqual($aSequences[0],'test_table1_test_id1');
 
             for ($i=1;$i<11;$i++)
             {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table',true)." (test_desc) VALUES ('{$i}')";
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
                 $oDbh->query($query);
             }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
             $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table');
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
             reset($aRows);
             foreach ($aRows as $k => $v)
             {
-                $this->assertTrue($v['test_id'] == $v['test_desc'],'sequence problem with new table');
+                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem with new table');
             }
-            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table1',true);
             $oDbh->query($query);
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
             $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table');
+            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table1');
 
-            $this->assertTrue($oTable->resetSequence('test_table_test_id_seq'),'failed to reset sequence on test_table');
+            $this->assertTrue($oTable->resetSequence('test_table1_test_id1_seq'),'failed to reset sequence on test_table1');
 
             for ($i=1;$i<11;$i++)
             {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table',true)." (test_desc) VALUES ('{$i}')";
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
                 $oDbh->query($query);
             }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table',true);
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
             $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table');
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
             reset($aRows);
             foreach ($aRows as $k => $v)
             {
-                $this->assertTrue($v['test_id'] == $v['test_desc'],'sequence problem after reset: '.$v['test_id'].'=>'.$v['test_desc']);
+                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem after reset: '.$v['test_id1'].'=>'.$v['test_desc1']);
             }
-            $oTable->dropTable('test_table');
+            $oTable->dropTable('test_table1');
+            @unlink(MAX_PATH . '/var/test.xml');
+        }
+    }
+
+    /**
+     * test reseting of all sequences
+     *
+     * @return boolean true on success, false otherwise
+     */
+    function test_resetAllSequences()
+    {
+        $oDbh = &OA_DB::singleton();
+        if ($oDbh->dbsyntax == 'pgsql')
+        {
+            $conf = &$GLOBALS['_MAX']['CONF'];
+            $conf['table']['prefix'] = '';
+            $conf['table']['split'] = false;
+            $oTable = new OA_DB_Table();
+            $this->_writeSequenceTestDatabaseSchema();
+            $oTable->init(MAX_PATH . '/var/test.xml');
+            $oTable->createAllTables();
+            $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+            $this->assertEqual($aExistingTables[0],'test_table1');
+            $this->assertEqual($aExistingTables[1],'test_table2');
+
+            OA_DB::setCaseSensitive();
+            $aSequences = $oDbh->manager->listSequences();
+            OA_DB::disableCaseSensitive();
+            $this->assertEqual($aSequences[0],'test_table1_test_id1');
+            $this->assertEqual($aSequences[1],'test_table2_test_id2');
+
+            // table1
+            for ($i=1;$i<11;$i++)
+            {
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
+                $oDbh->query($query);
+            }
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
+            reset($aRows);
+            foreach ($aRows as $k => $v)
+            {
+                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem with new table');
+            }
+            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table1',true);
+            $oDbh->query($query);
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table1');
+
+            // table2
+            for ($i=1;$i<11;$i++)
+            {
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table2',true)." (test_desc2) VALUES ('{$i}')";
+                $oDbh->query($query);
+            }
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table2');
+            reset($aRows);
+            foreach ($aRows as $k => $v)
+            {
+                $this->assertTrue($v['test_id2'] == $v['test_desc2'],'sequence problem with new table');
+            }
+            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table2',true);
+            $oDbh->query($query);
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table2');
+
+            $this->assertTrue($oTable->resetAllSequences(''),'failed to reset all sequences');
+
+            // table1
+            for ($i=1;$i<11;$i++)
+            {
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
+                $oDbh->query($query);
+            }
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
+            reset($aRows);
+            foreach ($aRows as $k => $v)
+            {
+                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem after reset: '.$v['test_id1'].'=>'.$v['test_desc1']);
+            }
+            $oTable->dropTable('test_table1');
+
+            // table2
+            for ($i=1;$i<11;$i++)
+            {
+                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table2',true)." (test_desc2) VALUES ('{$i}')";
+                $oDbh->query($query);
+            }
+            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
+            $aRows = $oDbh->queryAll($query);
+            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table2');
+            reset($aRows);
+            foreach ($aRows as $k => $v)
+            {
+                $this->assertTrue($v['test_id2'] == $v['test_desc2'],'sequence problem after reset: '.$v['test_id2'].'=>'.$v['test_desc2']);
+            }
+            $oTable->dropTable('test_table2');
+
             @unlink(MAX_PATH . '/var/test.xml');
         }
     }
