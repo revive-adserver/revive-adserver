@@ -973,6 +973,7 @@ class SqlBuilder
     function _delete($aTables, $aLimitations, $aOtherTables = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
         // Set the tables to delete from, using the table aliases
         if (!is_array($aTables) || empty($aTables)) {
             PEAR::raiseError('Invalid parameter $aTables');
@@ -982,7 +983,7 @@ class SqlBuilder
         foreach ($aTables as $table => $alias) {
             // Check the table prefix is in place
             if (!empty($conf['table']['prefix']) && (stristr($table, $conf['table']['prefix']) === false)) {
-                $table = $conf['table']['prefix'] . $table;
+                $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $table,true);
             }
             $deleteTables .= ($deleteTables == '') ? $table : ', ' . $table;
         }
@@ -991,7 +992,7 @@ class SqlBuilder
         foreach ($aTables as $table => $alias) {
             // Check the table prefix is in place
             if (!empty($conf['table']['prefix']) && (stristr($table, $conf['table']['prefix']) === false)) {
-                $table = $conf['table']['prefix'] . $table;
+                $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $table,true);
             }
             $tables .= ($tables == '') ? $table : ', ' . $table;
         }
@@ -1001,7 +1002,7 @@ class SqlBuilder
                 if (is_null($aTables[$otherTable])) {
                     // Check the table prefix is in place
                     if (!empty($conf['table']['prefix']) && (stristr($otherTable, $conf['table']['prefix']) === false)) {
-                        $otherTable = $conf['table']['prefix'] . $otherTable;
+                        $otherTable = $oDbh->quoteIdentifier($conf['table']['prefix'] . $otherTable, true);
                     }
                     $tables .= ($tables == '') ? $otherTable : ', ' . $otherTable;
                 }
@@ -1029,6 +1030,7 @@ class SqlBuilder
             foreach ($aLimitations as $limitation) {
                 // Convert the limitation from alias form to table name form
                 foreach ($aLimitationTables as $alias => $table) {
+                    $table = $oDbh->quoteIdentifier($table, true);
                     $limitation = preg_replace("/^$alias\./", "$table.", $limitation);
                 }
                 $where .= ($where == '') ? ' WHERE ' . $limitation : ' AND ' . $limitation;
@@ -1039,8 +1041,7 @@ class SqlBuilder
         // Doublecheck that there is something in the WHERE clause
         //  - to ensure that a bug does not delete the entire contents of a table!
         if (strlen($where) > 0) {
-            $dbh = &OA_DB::singleton();
-            return $dbh->exec($query);
+            return $oDbh->exec($query);
         } else {
             return PEAR::raiseError('Invalid WHERE clause');
         }
