@@ -883,9 +883,9 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertEqual($aTaskList['fields']['add'][0]['field'], 'b_id_field_pk', 'wrong field name');
         $this->assertEqual(count($aTaskList['fields']['add'][0]['cargo']),1, 'incorrect number of add fields tasks in task list');
         $this->assertTrue(isset($aTaskList['fields']['add'][0]['cargo']['add']['b_id_field_pk']),'b_id_field_pk field not found in task add array');
-        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter6.xml'))
         {
-            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
+            @unlink(MAX_PATH.'/var/changes_test_tableAlter6.xml');
         }
 
         // Test 3 : remove field
@@ -1000,10 +1000,6 @@ class Test_DB_Upgrade extends UnitTestCase
         OA_DB::disableCaseSensitive();
 
         $this->assertTrue(in_array($this->prefix.'table2_index_new', $aIndexes),'index_new not found');
-        if (file_exists(MAX_PATH.'/var/changes_test_indexAdd.xml'))
-        {
-            @unlink(MAX_PATH.'/var/changes_test_indexAdd.xml');
-        }
         if (file_exists(MAX_PATH.'/var/changes_test_indexAdd.xml'))
         {
             @unlink(MAX_PATH.'/var/changes_test_indexAdd.xml');
@@ -1283,10 +1279,6 @@ class Test_DB_Upgrade extends UnitTestCase
         {
             @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
         }
-        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
-        {
-            @unlink(MAX_PATH.'/var/changes_test_tableAlter5.xml');
-        }
 
         // MySQL-only
         //$this->assertEqual($aDef['tables'][$this->prefix.'table1']['fields']['b_id_field']['length'],11,'wrong assigned length value');
@@ -1375,7 +1367,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $this->assertTrue($this->_tableExists('table2', $oDB_Upgrade->aDBTables),'table2 not found');
         $aDBFields = $oDB_Upgrade->oSchema->db->manager->listTableFields($this->prefix.'table2');
         $this->assertTrue(in_array('b_id_field_pk', $aDBFields),'b_id_field_pk not found in table1');
-        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter5.xml'))
+        if (file_exists(MAX_PATH.'/var/changes_test_tableAlter6.xml'))
         {
             @unlink(MAX_PATH.'/var/changes_test_tableAlter6.xml');
         }
@@ -1513,7 +1505,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
         $this->_createTestTables($oDB_Upgrade->oSchema->db);
-        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
+        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.test.log";
 
         $oDBAuditor   = new OA_DB_UpgradeAuditor();
         $this->assertTrue($oDBAuditor->init($oDB_Upgrade->oSchema->db), 'error initialising upgrade auditor, probable error creating database action table');
