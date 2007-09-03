@@ -589,16 +589,50 @@ class Test_OA_Upgrade extends UnitTestCase
      */
     function test_recoverUpgrade()
     {
-//        $datapath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+        $host = getHostName();
+        $confFile = $host.'.conf.php';
+        if (file_exists(MAX_PATH.'/var/test_'.$confFile))
+        {
+            if (! @unlink(MAX_PATH.'/var/test_'.$confFile))
+            {
+                $this->oLogger->logError('failed to remove the backup configuration file');
+                return false;
+            }
+        }
+        if (file_exists(MAX_PATH.'/var/'.$confFile))
+        {
+            if (! copy(MAX_PATH.'/var/'.$confFile,MAX_PATH.'/var/test_'.$confFile))
+            {
+                $this->assertTrue(false,'test failed to backup conf file before upgrade recovery');
+                return false;
+            }
+        }
+
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->_pickupRecoveryFile();
-
-//        $this->assertTrue(file_exists($datapath.'RECOVER'),'test file RECOVER is missing');
-//        $this->assertTrue(@copy($datapath.'RECOVER',MAX_PATH.'/var/RECOVER'),'failed to copy test RECOVER file');
 
         $this->_writeTestRecoveryFile();
 
         $oUpgrade->recoverUpgrade();
+
+        if (file_exists(MAX_PATH.'/var/'.$confFile))
+        {
+            if (! @unlink(MAX_PATH.'/var/'.$confFile))
+            {
+                $this->oLogger->logError('failed to remove the backup configuration file');
+                return false;
+            }
+        }
+        if (file_exists(MAX_PATH.'/var/test_'.$confFile))
+        {
+            if (! copy(MAX_PATH.'/var/test_'.$confFile,MAX_PATH.'/var/'.$confFile))
+            {
+                $this->assertTrue(false,'test failed to restore the test conf file after upgrade recovery');
+                return false;
+            }
+            @unlink(MAX_PATH.'/var/test_'.$confFile);
+        }
+
 
         $aAudit = $oUpgrade->oAuditor->queryAuditAllDescending();
         // we should have another 13 records in the upgrade_action audit table
