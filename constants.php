@@ -50,7 +50,7 @@ function setupConstants()
 
     // This old PAN constant is used in a couple places but could well conflict with the configured DB
     // TODO: find any uses of this constant and re-think their place.
-    define('phpAds_dbmsname', 'MySQL');
+    //define('phpAds_dbmsname', 'MySQL');
 
     // Database connection constants
     define('MAX_DSN_ARRAY',                 0);
@@ -261,6 +261,15 @@ function setupConstants()
         // Set the True Type Font path
         if (isset($GLOBALS['_MAX']['CONF']['graphs']['ttfDirectory'])) {
             define('IMAGE_CANVAS_SYSTEM_FONT_PATH', $GLOBALS['_MAX']['CONF']['graphs']['ttfDirectory']);
+        }
+        // Set the dbms type
+        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
+        {
+            define('phpAds_dbmsname', 'MySQL');
+        }
+        else if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql')
+        {
+            define('phpAds_dbmsname', 'Postgres');
         }
     }
 }
