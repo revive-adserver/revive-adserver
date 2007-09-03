@@ -532,6 +532,7 @@ class Test_OA_DB_Table extends UnitTestCase
                 $this->assertTrue($v['test_id'] == $v['test_desc'],'sequence problem after reset: '.$v['test_id'].'=>'.$v['test_desc']);
             }
             $oTable->dropTable('test_table');
+            @unlink(MAX_PATH . '/var/test.xml');
         }
     }
 
