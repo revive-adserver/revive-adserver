@@ -694,7 +694,9 @@ class Test_OA_Upgrade extends UnitTestCase
         $doApplicationVariable->name    = $name;
         $doApplicationVariable->value   = $value;
         $doApplicationVariable->delete();
-        return DataGenerator::generateOne($doApplicationVariable);
+        $id = DataGenerator::generateOne($doApplicationVariable);
+        $this->assertTrue($id,'failed to generate application variable '.$name.'='.$value);
+        return $id;
     }
 
     function _getTestAppVarValue($name, $value)
