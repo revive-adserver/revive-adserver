@@ -53,7 +53,7 @@ class StatMigrationTest extends MigrationTest
         $oDbh = &$this->oDbh;
 
         $migration = new StatMigration();
-        $migration->init($this->oDbh);
+        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
 
         $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertCompactStatsTestData');
 
@@ -150,7 +150,7 @@ class StatMigrationTest extends MigrationTest
     {
         $oDbh = &$this->oDbh;
         $migration = new StatMigration();
-        $migration->init($oDbh);
+        $migration->init($oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
 
         $cEntries = $this->prepareTestData($mapCImpressions, $mapCClicks, '_insertRawStatsTestData');
 

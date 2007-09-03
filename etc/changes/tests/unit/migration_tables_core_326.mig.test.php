@@ -73,7 +73,7 @@ class Migration_tables_core_326Test extends MigrationTest
         );
 
         $oLogger = new OA_UpgradeLogger();
-        $oLogger->setLogFile('test_326.log');
+        $oLogger->setLogFile('DB_Upgrade.test.log');
 
         $oDB_Upgrade = & new OA_DB_Upgrade($oLogger);
 

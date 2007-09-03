@@ -131,7 +131,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->prefix = '';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
-        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
+        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.test.log";
         return $oDB_Upgrade;
     }
 
@@ -152,7 +152,7 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->prefix = '';
         $oDB_Upgrade->versionFrom = 1;
         $oDB_Upgrade->versionTo = 2;
-        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.dev.test.log";
+        $oDB_Upgrade->logFile = MAX_PATH . "/var/DB_Upgrade.test.log";
 
         $aDBTables = array(0=>$this->prefix.'z_table1_bak1',
                            1=>$this->prefix.'z_table1_bak2',

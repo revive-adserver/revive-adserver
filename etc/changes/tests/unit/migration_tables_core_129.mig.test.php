@@ -45,7 +45,7 @@ class Migration_tables_core_129Test extends MigrationTest
         $this->setupPanConfig();
 
         $migration = new Migration_129();
-        $migration->init($this->oDbh);
+        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
 
         $aValues = array('warn_limit_days' => 1);
 

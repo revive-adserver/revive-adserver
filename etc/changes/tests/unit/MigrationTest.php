@@ -115,6 +115,7 @@ class MigrationTest extends DbTestCase
         $oLogger->setReturnValue('log', true);
 
         $this->oDBUpgrader = new OA_DB_Upgrade($oLogger);
+        $this->oDBUpgrader->logFile = MAX_PATH.'/var/DB_Upgrade.test.log';
         $this->oDBUpgrader->initMDB2Schema();
         $auditor   = new OA_DB_UpgradeAuditor();
         $this->oDBUpgrader->oAuditor = &$auditor;

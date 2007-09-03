@@ -52,7 +52,7 @@ class Migration_531Test extends MigrationTest
         $this->assertTrue($result);
 
         $migration = new Migration_531();
-        $migration->init($this->oDbh);
+        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
         $migration->migrateInstanceId();
 
         $this->assertEqual(OA_Dal_ApplicationVariables::get('platform_hash'), 'foo');

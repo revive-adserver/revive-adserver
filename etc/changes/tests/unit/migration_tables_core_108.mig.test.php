@@ -50,7 +50,7 @@ class Migration_tables_core_108Test extends MigrationTest
         $this->setupPanConfig();
 
         $migration = new Migration_108();
-        $migration->init($this->oDbh);
+        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
 
         $aValues = array(
             'gui_show_parents'   => 't',
@@ -91,7 +91,7 @@ class Migration_tables_core_108Test extends MigrationTest
         $host = getHostName();
 
         $migration = new Migration_108();
-        $migration->init($this->oDbh);
+        $migration->init($this->oDbh, MAX_PATH.'/var/DB_Upgrade.test.log');
 
         $this->checkNoGeoTargeting($migration, $host);
         $this->checkGeoIp($migration, $host);
