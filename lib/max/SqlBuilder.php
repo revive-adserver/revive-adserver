@@ -983,8 +983,9 @@ class SqlBuilder
         foreach ($aTables as $table => $alias) {
             // Check the table prefix is in place
             if (!empty($conf['table']['prefix']) && (stristr($table, $conf['table']['prefix']) === false)) {
-                $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $table,true);
+                $table = $conf['table']['prefix'] . $table;
             }
+            $table = $oDbh->quoteIdentifier($table,true);
             $deleteTables .= ($deleteTables == '') ? $table : ', ' . $table;
         }
         // Set the list of table names and aliases to use
@@ -992,8 +993,9 @@ class SqlBuilder
         foreach ($aTables as $table => $alias) {
             // Check the table prefix is in place
             if (!empty($conf['table']['prefix']) && (stristr($table, $conf['table']['prefix']) === false)) {
-                $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $table,true);
+                $table = $conf['table']['prefix'] . $table;
             }
+            $table = $oDbh->quoteIdentifier($table,true);
             $tables .= ($tables == '') ? $table : ', ' . $table;
         }
         if (is_array($aOtherTables)) {
@@ -1002,8 +1004,9 @@ class SqlBuilder
                 if (is_null($aTables[$otherTable])) {
                     // Check the table prefix is in place
                     if (!empty($conf['table']['prefix']) && (stristr($otherTable, $conf['table']['prefix']) === false)) {
-                        $otherTable = $oDbh->quoteIdentifier($conf['table']['prefix'] . $otherTable, true);
+                        $otherTable = $conf['table']['prefix'] . $otherTable;
                     }
+                    $otherTable = $oDbh->quoteIdentifier($otherTable, true);
                     $tables .= ($tables == '') ? $otherTable : ', ' . $otherTable;
                 }
             }

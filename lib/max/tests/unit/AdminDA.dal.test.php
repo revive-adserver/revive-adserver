@@ -74,7 +74,6 @@ class Admin_DaTest extends DalUnitTestCase
         $this->dbh =& OA_DB::singleton();
     }
 
-
     function getLastRecordInserted($tableName, $tableIndexField)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -84,6 +83,7 @@ class Admin_DaTest extends DalUnitTestCase
 
         return (int) $result['max'];
     }
+
 
     // +---------------------------------------+
     // | Test relational/constraint-related    |
@@ -858,6 +858,16 @@ class Admin_DaTest extends DalUnitTestCase
         $ret = Admin_DA::addAdZone(array('zone_id' => $this->zoneId, 'ad_id' => $this->bannerId));
         $this->assertTrue(is_int($ret));
         $this->assertTrue($ret > 0);
+    }
+
+    function testdeleteAdZones()
+    {
+
+        $this->_generateStats();
+        $ret = Admin_DA::addAdZone(array('zone_id' => $this->zoneId, 'ad_id' => $this->bannerId));
+        $this->assertTrue(is_int($ret));
+        $this->assertTrue($ret > 0);
+        Admin_DA::deleteAdZones(array('zone_id' => $this->zoneId, 'ad_id' => $this->adId));
     }
 
     function testDeleteImage()
