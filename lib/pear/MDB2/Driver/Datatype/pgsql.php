@@ -124,8 +124,7 @@ class MDB2_Driver_Datatype_pgsql extends MDB2_Driver_Datatype_Common
 
         switch ($field['type']) {
         case 'text':
-            $length = !empty($field['length'])
-                ? $field['length'] : $db->options['default_text_field_length'];
+            $length = !empty($field['length']) ? $field['length'] : false;
             $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
             return $fixed ? ($length ? 'CHAR('.$length.')' : 'CHAR('.$db->options['default_text_field_length'].')')
                 : ($length ? 'VARCHAR('.$length.')' : 'TEXT');
