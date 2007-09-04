@@ -2,11 +2,11 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Max Media Manager v0.3                                                    |
-| =================                                                         |
+| Openads v2.5                                                              |
+| ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2006 m3 Media Services Limited                         |
-| For contact details, see: http://www.m3.net/                              |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: english.php 176 2006-03-14 17:40:19Z andrew@m3.net $
+$Id$
 */
 
 $conf = $GLOBALS['_MAX']['CONF'];
