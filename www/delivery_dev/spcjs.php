@@ -50,10 +50,9 @@ function OA_SPCGetJavaScript($affiliateid)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $varprefix = $conf['var']['prefix'];
-    MAX_Dal_Delivery_Include();
     $aZones = OA_cacheGetPublisherZones($affiliateid);
     foreach ($aZones as $zoneid => $aZone) {
-        $zones[$aZone['type']][] = "            '{$aZone['name']}' : {$zoneid}";
+        $zones[$aZone['type']][] = "            '" . addslashes($aZone['name']) . "' : {$zoneid}";
     }
     $additionalParams = '';
     foreach ($_GET as $key => $value) {
@@ -61,20 +60,22 @@ function OA_SPCGetJavaScript($affiliateid)
         $additionalParams .= "&amp;{$key}={$value}";
     }
     $script = "
-    if (typeof({$varprefix}zones) == 'undefined') {
-        var {$varprefix}zones = {\n" . implode(",\n", $zones[0]) . "\n        };
+    if (typeof({$varprefix}zones) != 'undefined') {
+        var {$varprefix}zoneids = '';
+        for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
+        {$varprefix}zoneids += '&nz=1';
+    } else {
+        var {$varprefix}zoneids = '" . implode('|', array_keys($aZones)) . "';
     }
-    {$varprefix}zoneids = '';
-    for (var zonename in {$varprefix}zones) {$varprefix}zoneids += escape(zonename+'=' + {$varprefix}zones[zonename] + \"|\");
 
-    if (typeof({$varprefix}channel) == 'undefined') { {$varprefix}channel = ''; }
+    if (typeof({$varprefix}source) == 'undefined') { {$varprefix}source = ''; }
     var {$varprefix}p=location.protocol=='https:'?'https:':'http:';
     var {$varprefix}r=Math.floor(Math.random()*99999999);
     {$varprefix}output = new Array();
 
     var {$varprefix}spc=\"<\"+\"script type='text/javascript' \";
     {$varprefix}spc+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['singlepagecall'])."?zones=\"+{$varprefix}zoneids;
-    {$varprefix}spc+=\"&channel=\"+{$varprefix}channel+\"&r=\"+{$varprefix}r;" .
+    {$varprefix}spc+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
     ((!empty($additionalParams)) ? "\n    {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
     if (window.location) {$varprefix}spc+=\"&loc=\"+escape(window.location);
     if (document.referrer) {$varprefix}spc+=\"&referer=\"+escape(document.referrer);
@@ -82,7 +83,7 @@ function OA_SPCGetJavaScript($affiliateid)
     document.write({$varprefix}spc);
 
     function {$varprefix}show(name) {
-        if ((typeof({$varprefix}zones[name]) == 'undefined') || (typeof({$varprefix}output[name]) == 'undefined')) {
+        if (typeof({$varprefix}output[name]) == 'undefined') {
             return;
         } else {
             document.write({$varprefix}output[name]);
@@ -96,7 +97,7 @@ function OA_SPCGetJavaScript($affiliateid)
 
         var {$varprefix}pop=\"<\"+\"script type='text/javascript' \";
         {$varprefix}pop+=\"src='\"+{$varprefix}p+\"".MAX_commonConstructPartialDeliveryUrl($conf['file']['popup'])."?zoneid=\"+{$varprefix}popupZones[name];
-        {$varprefix}pop+=\"&source=\"+{$varprefix}channel+\"&r=\"+{$varprefix}r;" .
+        {$varprefix}pop+=\"&source=\"+{$varprefix}source+\"&r=\"+{$varprefix}r;" .
         ((!empty($additionalParams)) ? "\n        {$varprefix}spc+=\"{$additionalParams}\";" : '') . "
         {$varprefix}spc+=\"{$additionalParams}\";
         if (window.location) {$varprefix}pop+=\"&loc=\"+escape(window.location);
@@ -108,9 +109,7 @@ function OA_SPCGetJavaScript($affiliateid)
 ";
 
     // Add the FlashObject include to the SPC output
-    $script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), 'openads_fo');
-
-    // Add PWIK libries
+    $script .= MAX_javascriptToHTML(MAX_flashGetFlashObjectExternal(), $varprefix . 'fo');
 
     return $script;
 }

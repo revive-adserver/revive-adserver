@@ -142,7 +142,7 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
 
         echo "<tr><td colspan='2'><textarea name='bannercode' class='code-gray' rows='30' cols='80' style='width:800;' readonly>";
 
-        echo $code;
+        echo htmlspecialchars($code);
 
         echo "</textarea></td></tr>";
         echo "</table><br />";

@@ -101,7 +101,6 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         while ($doZones->fetch() && $row = $doZones->toArray()) {
             $row['n'] = $affiliate['mnemonic'] . substr(md5(uniqid('', 1)), 0, 7);
             $aZones[] = $row;
-            $zones[$row['delivery']][] = "            '{$row['zonename']}' : {$row['zoneid']}";
         }
 
         if(count($aZones) == 0) {
@@ -111,7 +110,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $additionalParams = "";
         foreach ($this->defaultOptionValues as $feature => $default) {
             // Skip source here since it's dealt with earlier
-            if ($feature == 'source') { continue; }
+            if ($feature == 'source' || $feature == 'noscript') { continue; }
             if ($mi->$feature != $this->defaultOptionValues[$feature]) {
                 $additionalParams .= "&amp;{$feature}=" . $mi->$feature;
             }
@@ -120,54 +119,51 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $varprefix = $conf['var']['prefix'];
         $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
         $channel = (!empty($mi->source)) ? $mi->source : $affiliate['mnemonic'] . "/test/preview";
-        $script = "
-<html>
+        $script = "<?xml version='1.0' encoding='UTF-8' ?><!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
-    <title>{$affiliate['name']} - Single Page Call (SPC) tags - Test page</title>\n";
+    <title>{$affiliate['name']} - Single Page Call (SPC) tags - Test page</title>";
         if ($mi->comments) {
             $search = array("{affiliate['mnemonic']}");
             $replace = array($affiliate['mnemonic']);
+            $script .= "\n    <!--/*\n";
             $script .= str_replace($search, $replace, MAX_Plugin_Translation::translate('SPC Header script comment', $this->module, $this->package));
+            $script .= "\n    */-->";
+        }
+        if ($mi->source) {
+            $script .= "\n    <script type='text/javascript'><!--// <![CDATA[\n        var {$varprefix}source = '{$mi->source}';\n    // ]]> --></script>";
         }
         $script .= "\n    <script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['spcjs']) . "?id={$mi->affiliateid}{$additionalParams}'></script>
 </head>
 
-<body>";
+<body><div id='body'>";
 
         if ($mi->comments) {
-            $script .= MAX_Plugin_Translation::translate('SPC codeblock comment', $this->module, $this->package);
+            $script .= "\n    <!--/*\n" . MAX_Plugin_Translation::translate('SPC codeblock comment', $this->module, $this->package) . "\n    */-->";
         }
 
         foreach($aZones as $zone) {
-            $name = str_replace('\'','',$zone['zonename']) . " - " . str_replace('\'','',$zone['width']) . "x". str_replace('\'','',$zone['height']);
-            if ($zone['delivery'] != phpAds_ZonePopup) {
-                $script .= "
+            $name = $zone['zonename'] . ' ' . (($zone['width'] > -1) ? $zone['width'] : '*') . 'x' . (($zone['height'] > -1) ? $zone['height'] : '*');
+            $script .= "<hr />{$name}<hr />\n";
 
-<br /><br />$name<br />
-<script type='text/javascript'><!--// <![CDATA[
-    {$varprefix}show('{$zone['zonename']}');
-// ]]> --></script>";
-                    if ($zone['delivery'] != phpAds_ZoneText && $mi->noscript) {
-                        $script .= "<noscript><a target='_blank' href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?n={$zone['n']}'>";
-                        $script .= "<img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
-                        $script .= "</noscript>";
-                    }
-                }
-                else {
-                    // This is a popup zone, so generate popup.php invocation not javascript
-
-                    $script .= "
-
-<br /><br />$name<br />
-<script type='text/javascript'><!--// <![CDATA[
-    {$varprefix}showpop('{$zone['zonename']}');
-// ]]> --></script>
-";
-                }
+            $codeblock = "<script type='text/javascript'><!--// <![CDATA[";
+            $js_func = $varprefix . (($zone['delivery'] == phpAds_ZonePopup) ? 'showpop' : 'show');
+            if ($mi->comments) {
+                $codeblock .= "\n    /* {$name} */";
+            }
+            $codeblock .= "\n    {$js_func}({$zone['zoneid']});\n// ]]> --></script>";
+            if ($zone['delivery'] != phpAds_ZoneText && $mi->noscript) {
+                $codeblock .= "<noscript><a target='_blank' href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?n={$zone['n']}'>";
+                $codeblock .= "<img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
+                $codeblock .= "</noscript>";
             }
 
+            $script .= "\n\n" . $codeblock;
+
+            $script .=  "<textarea id='code_{$zone['zoneid']}' rows='10' cols='80'>" . htmlspecialchars($codeblock) . "</textarea>";
+        }
             $script .= "
-</body>
+</div></body>
 </html>";
 
         return $script;

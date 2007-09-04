@@ -23,27 +23,33 @@ require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 /* Register input variables                              */
 /*-------------------------------------------------------*/
 
-MAX_commonRegisterGlobalsArray(array('zones' ,'channel', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q'));
+MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-// Derive the channel/source parameter
-$source = MAX_commonDeriveSource($channel);
+// Derive the source parameter
+$source = MAX_commonDeriveSource($source);
 
 $zones = explode('|', $zones);
 $spc_output = '';
 foreach ($zones as $thisZone) {
     if (empty($thisZone)) continue;
-    list($zonename,$thisZoneid) = explode('=', $thisZone);
+    // nz is set when "named zones" are being used, this allows a zone to be selected more than once
+    if ($nz) {
+        list($zonename,$thisZoneid) = explode('=', $thisZone);
+        $varname = $zonename;
+    } else {
+        $thisZoneid = $varname = $thisZone;
+    }
 
     $what = 'zone:'.$thisZoneid;
     // Get the banner
     $output = MAX_adSelect($what, $clientid, $target, $source, $withtext, $context, true, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
 
     // Store the html2js'd output for this ad
-    $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$zonename}']", false, false) . "\n";
+    $spc_output .= MAX_javascriptToHTML($output['html'], $conf['var']['prefix'] . "output['{$varname}']", false, false) . "\n";
 
     // Block this banner for next invocation
     if (!empty($block) && !empty($output['bannerid'])) {
