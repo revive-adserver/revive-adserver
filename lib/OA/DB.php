@@ -299,6 +299,9 @@ class OA_DB
     function createFunctions()
     {
         $oDbh = &OA_DB::singleton();
+        if (PEAR::isError($oDbh)) {
+            return $oDbh;
+        }
         $functionsFile = MAX_PATH . '/etc/core.' . $oDbh->dsn['phptype'] . '.php';
         if (is_readable($functionsFile)) {
             if ($oDbh->dsn['phptype'] == 'pgsql') {
@@ -345,7 +348,13 @@ class OA_DB
         }
 
         // Otherwise load the language.
-        $query = 'CREATE LANGUAGE ' . $lang;
+        $version = $oDbh->getOne("SELECT VERSION()");
+        if (version_compare($version, '8.1', '>=')) {
+            $query = 'CREATE LANGUAGE ' . $lang;
+        } else {
+            $query = "CREATE FUNCTION plpgsql_call_handler() RETURNS language_handler AS '\$libdir/plpgsql' LANGUAGE C; ";
+            $query .= "CREATE LANGUAGE plpgsql HANDLER plpgsql_call_handler;";
+        }
         OA::disableErrorHandling();
         $result = $oDbh->exec($query);
         OA::enableErrorHandling();
