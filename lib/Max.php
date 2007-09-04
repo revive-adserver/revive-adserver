@@ -156,7 +156,7 @@ EOF;
             // Log fatal message here as execution will stop
             $errorType = MAX::errorConstantToString($type);
             if (!is_string($message)) $message = print_r($message, true);
-            OA::debug($type . ' :: ' . $message, null, null, PEAR_LOG_EMERG);
+            OA::debug($type . ' :: ' . $message, PEAR_LOG_EMERG);
             exit();
         }
         $error = PEAR::raiseError($message, $type, $behaviour);
