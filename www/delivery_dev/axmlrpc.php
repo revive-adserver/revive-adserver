@@ -33,6 +33,7 @@ setupIncludePath();
 // Required files
 require_once MAX_PATH . '/lib/max/Delivery/XML-RPC.php';
 
+
 // Configure the XML-RPC server to use the varous OA_Delivery_XmlRpc_View
 // function to handle the XML-RPC ad view requests
 $server = new XML_RPC_Server(array(

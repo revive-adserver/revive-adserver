@@ -62,7 +62,7 @@ class MAX_CurlWrapper
         curl_close ($ch);
 
         if ($returned === false) {
-            OA::debug('there was an error in the curl transmission of data', $file, $line);
+            OA::debug('there was an error in the curl transmission of data', PEAR_LOG_ERROR);
             return false;
         }
         return $returned;
