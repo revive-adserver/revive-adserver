@@ -803,10 +803,12 @@ class MDB2_Driver_Manager_pgsql extends MDB2_Driver_Manager_Common
 
         if (!PEAR::isError($pkeyDefault) && preg_match('/^nextval\(\'(.+)\'.*\).*$/', $pkeyDefault, $aMatches)) {
             $pkeySequence = $aMatches[1];
+            // Strip eventual schema (8.0 seems to return the schema as well)
+            $pkeySequence = preg_replace('/^.*?\./', '', $pkeySequence);
             $query =   "SELECT
                             last_value + CASE WHEN is_called THEN 1 ELSE 0 END
                         FROM
-                            ".$db->quoteIdentifier($schemaName).".".$pkeySequence;
+                            ".$db->quoteIdentifier($schemaName, true).".".$db->quoteIdentifier($pkeySequence, true);
 
             $autoIncrement = $db->queryOne($query);
         }
