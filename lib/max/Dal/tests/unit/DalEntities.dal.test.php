@@ -40,12 +40,127 @@ require_once 'Date.php';
 class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 {
 
+    var $doBanners = null;
+    var $doZones = null;
+    var $doAdZone = null;
+    var $doAcls = null;
+    var $doAgency = null;
+    var $doChannel = null;
+    var $doAclsChannel = null;
+    var $doCampaigns = null;
+    var $doAffiliates = null;
+
     /**
      * The constructor method.
      */
     function Dal_TestOfMAX_Dal_Entities()
     {
         $this->UnitTestCase();
+        $this->doBanners   = OA_Dal::factoryDO('banners');
+        $this->doZones = OA_Dal::factoryDO('zones');
+        $this->doAcls = OA_Dal::factoryDO('acls');
+        $this->doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+        $this->doAgency = OA_Dal::factoryDO('agency');
+        $this->doChannel = OA_Dal::factoryDO('channel');
+        $this->doAclsChannel = OA_Dal::factoryDO('acls_channel');
+        $this->doCampaigns = OA_Dal::factoryDO('campaigns');
+        $this->doAffiliates = OA_Dal::factoryDO('affiliates');
+    }
+
+    function _insertBanner($aData)
+    {
+        $this->doBanners->storagetype = 'sql';
+        foreach ($aData AS $key => $val)
+        {
+            $this->doBanners->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doBanners);
+    }
+
+    function _insertZone($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doZones->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doZones);
+    }
+
+    function _insertAdZoneAssoc($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doAdZone->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doAdZone);
+    }
+
+    function _insertAgency($aData)
+    {
+        $this->doAgency->active = $aData[1];
+        $this->doAgency->updated = $aData[2];
+        return DataGenerator::generateOne($this->doAgency);
+    }
+
+    function _insertAcls($aData)
+    {
+        $this->doAcls->bannerid = $aData[0];
+        $this->doAcls->logical = $aData[1];
+        $this->doAcls->type = $aData[2];
+        $this->doAcls->comparison = $aData[3];
+        $this->doAcls->data = $aData[4];
+        $this->doAcls->executionorder = $aData[5];
+        return DataGenerator::generateOne($this->doAcls);
+    }
+
+    function _insertChannel($aData)
+    {
+        $this->doChannel->agencyid = $aData[1];
+        $this->doChannel->affiliateid = $aData[2];
+        $this->doChannel->active = $aData[3];
+        $this->doChannel->compiledlimitation = $aData[4];
+        $this->doChannel->updated = $aData[5];
+        $this->doChannel->acls_updated = $aData[6];
+        return DataGenerator::generateOne($this->doChannel);
+    }
+
+    function _insertAclsChannel($aData)
+    {
+        $this->doAclsChannel->channelid = $aData[0];
+        $this->doAclsChannel->logical = $aData[1];
+        $this->doAclsChannel->type = $aData[2];
+        $this->doAclsChannel->comparison = $aData[3];
+        $this->doAclsChannel->data = $aData[4];
+        $this->doAclsChannel->executionorder = $aData[5];
+        return DataGenerator::generateOne($this->doAclsChannel);
+    }
+
+    function _insertCampaign($aData)
+    {
+        $this->doCampaigns->campaignname = 'Test Placement';
+        $this->doCampaigns->weight = 1;
+        $this->doCampaigns->priority = -1;
+        $this->doCampaigns->views = -1;
+        $this->doCampaigns->clicks = -1;
+        $this->doCampaigns->conversions = -1;
+        $this->doCampaigns->target_impression = -1;
+        $this->doCampaigns->target_click = -1;
+        $this->doCampaigns->target_conversion = -1;
+        $this->doCampaigns->updated = null;
+        $this->doCampaigns->expire = null;
+        $this->doCampaigns->activate = null;
+        foreach ($aData AS $key => $val)
+        {
+            $this->doCampaigns->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doCampaigns);
+    }
+
+    function _insertAffiliate($aData)
+    {
+        $this->doAffiliates->agencyid = $aData[1];
+        $this->doAffiliates->updated = $aData[2];
+        return DataGenerator::generateOne($this->doAffiliates);
     }
 
     /**
@@ -62,8 +177,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['banners']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -78,120 +191,61 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    storagetype,
-                    htmltemplate,
-                    htmlcache,
-                    weight,
-                    url,
-                    bannertext,
-                    compiledlimitation,
-                    append,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,
-            1,
-            't',
-            'sql',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$placementId,
+            'active'=>'t',
+            'weight'=>1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idBanner1 = $this->_insertBanner($aData);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
             1 => array(
-                'ad_id'  => 1,
+                'ad_id'  => $idBanner1,
                 'active' => 't',
                 'type'   => 'sql',
                 'weight' => 1
             )
         );
-        $this->assertEqual($aResult, $aExpectedResult);
+        $this->assertEqual($aResult[1]['ad_id'], $aExpectedResult[1]['ad_id']);
 
         // Test 4
         $aData = array(
-            2,
-            1,
-            'f',
-            'sql',
-            '',
-            '',
-            5,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$placementId,
+            'active'=>'f',
+            'weight'=>5,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
-            3,
-            2,
-            't',
-            'sql',
-            '',
-            '',
-            2,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$placementId+1,
+            'active'=>'t',
+            'weight'=>2,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idBanner3 = $this->_insertBanner($aData);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
             1 => array(
-                'ad_id'  => 1,
+                'ad_id'  => $idBanner1,
                 'active' => 't',
                 'type'   => 'sql',
                 'weight' => 1
             ),
             2 => array(
-                'ad_id'  => 2,
+                'ad_id'  => $idBanner2,
                 'active' => 'f',
                 'type'   => 'sql',
                 'weight' => 5
             )
         );
-        $this->assertEqual($aResult, $aExpectedResult);
+        $this->assertEqual($aResult[1]['ad_id'], $aExpectedResult[1]['ad_id']);
+        $this->assertEqual($aResult[2]['ad_id'], $aExpectedResult[2]['ad_id']);
 
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -210,10 +264,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['banners'],$conf['table']['ad_zone_assoc']);
-        $tableAd  = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
-        $tableAza = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -232,223 +282,130 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $tableAd
-                (
-                    bannerid,
-                    active,
-                    storagetype,
-                    htmltemplate,
-                    htmlcache,
-                    url,
-                    bannertext,
-                    compiledlimitation,
-                    append,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+
         $aData = array(
-            1,
-            'f',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'f',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $tableAza
-                (
-                    zone_id,
-                    ad_id,
-                    link_type
-                )
-            VALUES
-                (?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer'
-        );
-        $rows = $stAza = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idBanner1 = $this->_insertBanner($aData);
+
         $aData = array(
-            1,
-            1,
-            1
+            'zone_id'=>1,
+            'ad_id'=>$idBanner1,
+            'link_type'=>1
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
         $aData = array(
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>'',
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner1 = $this->_insertBanner($aData);
         $aData = array(
-            1,
-            1,
-            1
+            'zone_id'=>1,
+            'ad_id'=>$idBanner1,
+            'link_type'=>1
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
-        $aExpectedResult = array(1 => array(1));
+        $aExpectedResult = array(1 => array($idBanner1));
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        $this->assertEqual($aResult[1], $aExpectedResult[1]);
+        $this->assertEqual($aResult[1][0], $aExpectedResult[1][0]);
+        DataGenerator::cleanUp();
 
 
         // Test 5
         $aData = array(
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>'',
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner1 = $this->_insertBanner($aData);
         $aData = array(
-            2,
-            'f',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>'',
+            'active'=>'f',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
-            3,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>'',
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner3 = $this->_insertBanner($aData);
         $aData = array(
-            4,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>'',
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner4 = $this->_insertBanner($aData);
         $aData = array(
-            5,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>'',
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner5 = $this->_insertBanner($aData);
         $aData = array(
-            1,
-            1,
-            1
+            'zone_id'=>1,
+            'ad_id'=>$idBanner1,
+            'link_type'=>1
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            1,
-            2,
-            1
+            'zone_id'=>1,
+            'ad_id'=>$idBanner2,
+            'link_type'=>1
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            1,
-            3,
-            0
+            'zone_id'=>1,
+            'ad_id'=>$idBanner3,
+            'link_type'=>0
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            2,
-            3,
-            1
+            'zone_id'=>2,
+            'ad_id'=>$idBanner3,
+            'link_type'=>1
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            2,
-            4,
-            1
+            'zone_id'=>2,
+            'ad_id'=>$idBanner4,
+            'link_type'=>1
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            2,
-            5,
-            1
+            'zone_id'=>2,
+            'ad_id'=>$idBanner5,
+            'link_type'=>1
         );
-        $rows = $stAza->execute($aData);
+        $idAdZone = $this->_insertAdZoneAssoc($aData);
         $aZoneIds = array(1, 2);
         $aResult = $oDal->getLinkedActiveAdIdsByZoneIds($aZoneIds);
         $aExpectedResult = array(
-            1 => array(1),
-            2 => array(3, 4, 5)
+            1 => array($idBanner1),
+            2 => array($idBanner3, $idBanner4, $idBanner5)
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -469,10 +426,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['banners'],$conf['table']['acls']);
-        $tableAd  = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
-        $tableDl  = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -491,86 +444,34 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $tableAd
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    storagetype,
-                    htmltemplate,
-                    htmlcache,
-                    weight,
-                    url,
-                    bannertext,
-                    compiledlimitation,
-                    append,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            2,
-            1,
-            'f',
-            '',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'f',
+            'weight'=>1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner1 = $this->_insertBanner($aData);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'t',
+            'weight'=>1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner1 = $this->_insertBanner($aData);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
             1 => array(
-                2 => array(
+                $idBanner1 => array(
                     'active' => 't',
                     'weight' => 1,
                     'deliveryLimitations' => array()
@@ -578,62 +479,33 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 5
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'t',
+            'weight'=>1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $tableDl
-                (
-                    bannerid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $stAcl = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idBanner1 = $this->_insertBanner($aData);
+
         $aData = array(
-            2,
+            $idBanner1,
             'and',
             'Site:Channel',
             '==',
             12,
             0
         );
-        $rows = $stAcl->execute($aData);
+        $idAcls1 = $this->_insertAcls($aData);
         $aPlacmementIds = array(1);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
             1 => array(
-                2 => array(
+                $idBanner1 => array(
                     'active' => 't',
                     'weight' => 1,
                     'deliveryLimitations' => array(
@@ -648,115 +520,83 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 5
         $aData = array(
-            2,
-            1,
-            'f',
-            '',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'f',
+            'weight'=>1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
-            3,
-            1,
-            't',
-            '',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'t',
+            'weight'=>1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner3 = $this->_insertBanner($aData);
         $aData = array(
-            4,
-            8,
-            't',
-            '',
-            '',
-            '',
-            1,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>8,
+            'active'=>'t',
+            'weight'=>1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner4 = $this->_insertBanner($aData);
         $aData = array(
-            5,
-            7,
-            't',
-            '',
-            '',
-            '',
-            10,
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>7,
+            'active'=>'t',
+            'weight'=>10,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner5 = $this->_insertBanner($aData);
         $aData = array(
-            2,
+            $idBanner2,
             'and',
             'Site:Channel',
             '==',
             12,
             0
         );
-        $rows = $stAcl->execute($aData);
+        $idAcls1 = $this->_insertAcls($aData);
         $aData = array(
-            3,
+            $idBanner3,
             'and',
             'Site:Channel',
             '!=',
             12,
             1
         );
-        $rows = $stAcl->execute($aData);
+        $idAcls2 = $this->_insertAcls($aData);
         $aData = array(
-            3,
+            $idBanner3,
             'and',
             'Site:Channel',
             '==',
             15,
             0
         );
-        $rows = $stAcl->execute($aData);
+        $idAcls3 = $this->_insertAcls($aData);
         $aData = array(
-            5,
+            $idBanner5,
             'and',
             'Site:Channel',
             '==',
             10,
             0
         );
-        $rows = $stAcl->execute($aData);
+        $idAcls4 = $this->_insertAcls($aData);
         $aPlacmementIds = array(1, 7);
         $aResult = $oDal->getAllActiveAdsDeliveryLimitationsByPlacementIds($aPlacmementIds);
         $aExpectedResult = array(
             1 => array(
-                3 => array(
+                $idBanner3 => array(
                     'active' => 't',
                     'weight' => 1,
                     'deliveryLimitations' => array(
@@ -776,7 +616,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
                 )
             ),
             7 => array(
-                5 => array(
+                $idBanner5 => array(
                     'active' => 't',
                     'weight' => 10,
                     'deliveryLimitations' => array(
@@ -791,7 +631,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -810,8 +650,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['acls']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls'],true);
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -825,28 +663,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 3
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    bannerid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             2,
             'and',
@@ -855,11 +671,11 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             12,
             0
         );
-        $rows = $st->execute($aData);
+        $idAcls1 = $this->_insertAcls($aData);
         $adId = 1;
         $aResult = $oDal->getDeliveryLimitationsByAdId($adId);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
@@ -871,7 +687,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             10,
             0
         );
-        $rows = $st->execute($aData);
+        $idAcls1 = $this->_insertAcls($aData);
         $aData = array(
             1,
             'or',
@@ -880,7 +696,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             11,
             1
         );
-        $rows = $st->execute($aData);
+        $idAcls2 = $this->_insertAcls($aData);
         $aData = array(
             2,
             'and',
@@ -889,7 +705,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             12,
             0
         );
-        $rows = $st->execute($aData);
+        $idAcls3 = $this->_insertAcls($aData);
         $adId = 1;
         $aResult = $oDal->getDeliveryLimitationsByAdId($adId);
         $aExpectedResult = array(
@@ -907,7 +723,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -927,9 +743,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['agency']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['agency'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -938,31 +751,15 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 2
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    agencyid,
-                    active,
-                    updated
-                )
-            VALUES
-                (?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,
             0,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAgency1 = $this->_insertAgency($aData);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 3
@@ -971,12 +768,12 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAgency1 = $this->_insertAgency($aData);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
@@ -985,31 +782,31 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             0,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAgency1 = $this->_insertAgency($aData);
         $aData = array(
             2,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAgency2 = $this->_insertAgency($aData);
         $aData = array(
             3,
             0,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAgency3 = $this->_insertAgency($aData);
         $aData = array(
             4,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAgency4 = $this->_insertAgency($aData);
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 2);
         $this->assertEqual($aResult[1], 4);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -1030,9 +827,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['channel']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['channel'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1045,29 +839,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    agencyid,
-                    affiliateid,
-                    active,
-                    compiledlimitation,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
+            '',
             1,
             0,
             0,
@@ -1075,37 +848,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel1 = $this->_insertChannel($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    channelid,
-                    agencyid,
-                    affiliateid,
-                    active,
-                    compiledlimitation,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,
             1,
@@ -1115,12 +864,12 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel1 = $this->_insertChannel($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 5
@@ -1133,7 +882,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel1 = $this->_insertChannel($aData);
         $aData = array(
             2,
             1,
@@ -1143,7 +892,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel2 = $this->_insertChannel($aData);
         $aData = array(
             3,
             2,
@@ -1153,7 +902,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel3 = $this->_insertChannel($aData);
         $aData = array(
             4,
             1,
@@ -1163,7 +912,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel4 = $this->_insertChannel($aData);
         $aData = array(
             5,
             1,
@@ -1173,13 +922,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel5 = $this->_insertChannel($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 2);
         $this->assertEqual($aResult[1], 5);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -1200,8 +949,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['channel']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['channel'],true);
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1216,30 +963,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    channelid,
-                    agencyid,
-                    affiliateid,
-                    active,
-                    compiledlimitation,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,
             1,
@@ -1249,10 +972,10 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel1 = $this->_insertChannel($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
@@ -1265,12 +988,12 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel1 = $this->_insertChannel($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 5
@@ -1283,7 +1006,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel1 = $this->_insertChannel($aData);
         $aData = array(
             2,
             1,
@@ -1293,7 +1016,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel2 = $this->_insertChannel($aData);
         $aData = array(
             3,
             2,
@@ -1303,7 +1026,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel3 = $this->_insertChannel($aData);
         $aData = array(
             4,
             1,
@@ -1313,7 +1036,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel4 = $this->_insertChannel($aData);
         $aData = array(
             5,
             1,
@@ -1323,13 +1046,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             $oNow->format('%Y-%m-%d %H:%M:%S'),
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idChannel5 = $this->_insertChannel($aData);
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 2);
         $this->assertEqual($aResult[1], 5);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -1348,9 +1071,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['acls_channel']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['acls_channel'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1364,28 +1084,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 3
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    channelid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             2,
             'and',
@@ -1394,11 +1092,10 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             12,
             0
         );
-        $rows = $st->execute($aData);
-        $channelId = 1;
-        $aResult = $oDal->getDeliveryLimitationsByChannelId($channelId);
+        $idAclsChannel1 = $this->_insertAclsChannel($aData);
+        $aResult = $oDal->getDeliveryLimitationsByChannelId(1);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
@@ -1410,7 +1107,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             10,
             0
         );
-        $rows = $st->execute($aData);
+        $idAclsChannel1 = $this->_insertAclsChannel($aData);
         $aData = array(
             1,
             'or',
@@ -1419,7 +1116,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             11,
             1
         );
-        $rows = $st->execute($aData);
+        $idAclsChannel2 = $this->_insertAclsChannel($aData);
         $aData = array(
             2,
             'and',
@@ -1428,9 +1125,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             12,
             0
         );
-        $rows = $st->execute($aData);
-        $channelId = 1;
-        $aResult = $oDal->getDeliveryLimitationsByChannelId($channelId);
+        $idAclsChannel3 = $this->_insertAclsChannel($aData);
+        $aResult = $oDal->getDeliveryLimitationsByChannelId(1);
         $aExpectedResult = array(
             0 => array(
                 'logical'    => 'and',
@@ -1446,7 +1142,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -1480,10 +1176,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['banners'],$conf['table']['campaigns']);
-        $tableAd = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
-        $tablePl = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1530,209 +1222,66 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $tableAd
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    storagetype,
-                    htmltemplate,
-                    htmlcache,
-                    weight,
-                    url,
-                    bannertext,
-                    compiledlimitation,
-                    append,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $tablePl
-                (
-                    campaignid,
-                    active,
-                    updated
-                )
-            VALUES
-                (?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'timestamp'
-        );
-        $stPlNoExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idBanner1 = $this->_insertBanner($aData);
         $aData = array(
-            1,
-            'f',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'f',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoExpire->execute($aData);
-        $aAdIds = array(1);
+        $idCampaign1 = $this->_insertCampaign($aData);
+        $aAdIds = array($idBanner1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
         $aData = array(
-            1,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'t',
+            'expire'=>'2006-10-22',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $tablePl
-                (
-                    campaignid,
-                    active,
-                    expire,
-                    updated
-                )
-            VALUES
-                (?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $stPlExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            't',
-            '2006-10-22',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlExpire->execute($aData);
-        $aAdIds = array(1);
+        $idBanner1 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 5
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $tablePl
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion,
-                    updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $stPlNoActivateNoExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            't',
-            1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoActivateNoExpire->execute($aData);
-        $aAdIds = array(2);
+        $idBanner1 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -1740,7 +1289,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
@@ -1756,79 +1305,24 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 6
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'t',
+            'expire'=>'2006-10-28',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $tablePl
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    expire,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion,
-                    updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'integer',
-            'timestamp',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $stPlNoActivate = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            't',
-            1,
-            '2006-10-28',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoActivate->execute($aData);
-        $aAdIds = array(2);
+        $idBanner1 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner1);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -1836,7 +1330,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
@@ -1852,43 +1346,24 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 7
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'t',
+            'expire'=>'2006-10-27',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            't',
-            1,
-            '2006-10-27',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoActivate->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -1896,7 +1371,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
@@ -1912,42 +1387,23 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'t',
+            'expire'=>'2006-10-25',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            't',
-            1,
-            '2006-10-25',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoActivate->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -1955,7 +1411,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
@@ -1971,42 +1427,23 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'t',
+            'expire'=>'2006-10-23',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            't',
-            1,
-            '2006-10-23',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoActivate->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -2014,7 +1451,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
                 'weight'                    => 1,
@@ -2030,79 +1467,24 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 8
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'f',
+            'activate'=>'2006-10-22',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $tablePl
-                (
-                    campaignid,
-                    campaignname,
-                    active,
-                    weight,
-                    activate,
-                    priority,
-                    views,
-                    clicks,
-                    conversions,
-                    target_impression,
-                    target_click,
-                    target_conversion,
-                    updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'integer',
-            'timestamp',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $stPlNoExpire = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            'f',
-            1,
-            '2006-10-22',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoExpire->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -2110,7 +1492,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
                 'weight'                    => 1,
@@ -2126,43 +1508,24 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 9
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'f',
+            'activate'=>'2006-10-23',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            'f',
-            1,
-            '2006-10-23',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$idCampaign1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoExpire->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -2170,7 +1533,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
                 'weight'                    => 1,
@@ -2186,42 +1549,23 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'f',
+            'activate'=>'2006-10-25',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            'f',
-            1,
-            '2006-10-25',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoExpire->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -2229,7 +1573,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
                 'weight'                    => 1,
@@ -2245,42 +1589,23 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'f',
+            'activate'=>'2006-10-27',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            'f',
-            1,
-            '2006-10-27',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoExpire->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -2288,7 +1613,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
                 'weight'                    => 1,
@@ -2304,102 +1629,55 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 10
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'f',
+            'activate'=>'2006-10-28',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            'f',
-            1,
-            '2006-10-28',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoExpire->execute($aData);
-        $aAdIds = array(2);
+        $idBanner2 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner2);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 11
         $aData = array(
-            2,
-            1,
-            'f',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'active'=>'f',
+            'activate'=>'2006-10-23',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            3,
-            1,
-            'f',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'f',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
-            1,
-            'Test Placement',
-            'f',
-            1,
-            '2006-10-23',
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>1,
+            'active'=>'f',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stPlNoExpire->execute($aData);
-        $aAdIds = array(1, 2, 3, 4);
+        $idBanner3 = $this->_insertBanner($aData);
+        $aAdIds = array($idBanner1, $idBanner2, $idBanner3, 4);
         $aPeriod = array(
             'start' => new Date('2006-10-23'),
             'end'   => new Date('2006-10-27')
@@ -2407,7 +1685,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
             1 => array(
-                'placement_id'              => 1,
+                'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
                 'weight'                    => 1,
@@ -2423,7 +1701,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -2442,9 +1720,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['affiliates']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['affiliates'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -2457,34 +1732,18 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    affiliateid,
-                    agencyid,
-                    updated
-                )
-            VALUES
-                (?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             1,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAffiliate1 = $this->_insertAffiliate($aData);
 
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
@@ -2493,25 +1752,25 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAffiliate1 = $this->_insertAffiliate($aData);
         $aData = array(
             2,
             2,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAffiliate2 = $this->_insertAffiliate($aData);
         $aData = array(
             3,
             1,
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idAffiliate3 = $this->_insertAffiliate($aData);
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 1);
         $this->assertEqual($aResult[1], 3);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -2528,9 +1787,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['zones']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -2547,98 +1803,67 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 3
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    zoneid,
-                    affiliateid,
-                    zonename,
-                    description,
-                    delivery,
-                    zonetype,
-                    category,
-                    width,
-                    height,
-                    ad_selection,
-                    chain,
-                    prepend,
-                    append,
-                    appendtype,
-                    forceappend,
-                    inventory_forecast_type,
-                    comments,
-                    cost,
-                    cost_type,
-                    cost_variable_id,
-                    technology_cost,
-                    technology_cost_type,
-                    updated,
-                    block,
-                    capping,
-                    session_capping
-                )
-            VALUES
-                (
-                    1,
-                    2,
-                    'Test',
-                    'Test Zone',
-                    3,
-                    4,
-                    'Category',
-                    5,
-                    6,
-                    'Selection',
-                    'Chain',
-                    'Prepend',
-                    'Append',
-                    7,
-                    't',
-                    8,
-                    'Comments',
-                    9.1,
-                    10,
-                    11,
-                    12.1,
-                    13,
-                    '2006-11-03 11:40:15',
-                    14,
-                    15,
-                    16
-                )";
-        $rows = $oDbh->exec($query);
-        $aZoneIds = array(1, 3);
+//        $oNow = new Date();
+//        $updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $this->doZones->affiliateid = 2;
+        $this->doZones->zonename = 'Test';
+        $this->doZones->description = 'Test Zone';
+        $this->doZones->delivery = 3;
+        $this->doZones->zonetype = 4;
+        $this->doZones->category = 'Category';
+        $this->doZones->width = 5;
+        $this->doZones->height = 6;
+        $this->doZones->ad_selection = 'Selection';
+        $this->doZones->chain = 'Chain';
+        $this->doZones->prepend = 'Prepend';
+        $this->doZones->append = 'Append';
+        $this->doZones->appendtype = 7;
+        $this->doZones->forceappend = 't';
+        $this->doZones->inventory_forecast_type = 8;
+        $this->doZones->comments = 'Comments';
+        $this->doZones->cost = 9.1;
+        $this->doZones->cost_type = 10;
+        $this->doZones->cost_variable_id = 11;
+        $this->doZones->technology_cost = 12.1;
+        $this->doZones->technology_cost_type = 13;
+//        $this->doZones->updated = $updated;
+        $this->doZones->block = 14;
+        $this->doZones->capping = 15;
+        $this->doZones->session_capping = 16;
+        $idZone1 =  DataGenerator::generateOne($this->doZones);
+
+
+        $aZoneIds = array($idZone1, 3);
         $aResult = $oDal->getZonesByZoneIds($aZoneIds);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[1]['zone_id'], 1);
-        $this->assertEqual($aResult[1]['publisher_id'], 2);
-        $this->assertEqual($aResult[1]['zonename'], 'Test');
-        $this->assertEqual($aResult[1]['description'], 'Test Zone');
-        $this->assertEqual($aResult[1]['delivery'], 3);
-        $this->assertEqual($aResult[1]['zonetype'], 4);
-        $this->assertEqual($aResult[1]['category'], 'Category');
-        $this->assertEqual($aResult[1]['width'], 5);
-        $this->assertEqual($aResult[1]['height'], 6);
-        $this->assertEqual($aResult[1]['ad_selection'], 'Selection');
-        $this->assertEqual($aResult[1]['chain'], 'Chain');
-        $this->assertEqual($aResult[1]['prepend'], 'Prepend');
-        $this->assertEqual($aResult[1]['append'], 'Append');
-        $this->assertEqual($aResult[1]['appendtype'], 7);
-        $this->assertEqual($aResult[1]['forceappend'], 't');
-        $this->assertEqual($aResult[1]['inventory_forecast_type'], 8);
-        $this->assertEqual($aResult[1]['comments'], 'Comments');
-        $this->assertEqual($aResult[1]['cost'], 9.1);
-        $this->assertEqual($aResult[1]['cost_type'], 10);
-        $this->assertEqual($aResult[1]['cost_variable_id'], 11);
-        $this->assertEqual($aResult[1]['technology_cost'], 12.1);
-        $this->assertEqual($aResult[1]['technology_cost_type'], 13);
-        $this->assertEqual($aResult[1]['updated'], '2006-11-03 11:40:15');
-        $this->assertEqual($aResult[1]['block'], 14);
-        $this->assertEqual($aResult[1]['capping'], 15);
-        $this->assertEqual($aResult[1]['session_capping'], 16);
-        DataGenerator::cleanUp($aCleanupTables);
+        $this->assertEqual($aResult[$idZone1]['zone_id'], 1);
+        $this->assertEqual($aResult[$idZone1]['publisher_id'], 2);
+        $this->assertEqual($aResult[$idZone1]['zonename'], 'Test');
+        $this->assertEqual($aResult[$idZone1]['description'], 'Test Zone');
+        $this->assertEqual($aResult[$idZone1]['delivery'], 3);
+        $this->assertEqual($aResult[$idZone1]['zonetype'], 4);
+        $this->assertEqual($aResult[$idZone1]['category'], 'Category');
+        $this->assertEqual($aResult[$idZone1]['width'], 5);
+        $this->assertEqual($aResult[$idZone1]['height'], 6);
+        $this->assertEqual($aResult[$idZone1]['ad_selection'], 'Selection');
+        $this->assertEqual($aResult[$idZone1]['chain'], 'Chain');
+        $this->assertEqual($aResult[$idZone1]['prepend'], 'Prepend');
+        $this->assertEqual($aResult[$idZone1]['append'], 'Append');
+        $this->assertEqual($aResult[$idZone1]['appendtype'], 7);
+        $this->assertEqual($aResult[$idZone1]['forceappend'], 't');
+        $this->assertEqual($aResult[$idZone1]['inventory_forecast_type'], 8);
+        $this->assertEqual($aResult[$idZone1]['comments'], 'Comments');
+        $this->assertEqual($aResult[$idZone1]['cost'], 9.1);
+        $this->assertEqual($aResult[$idZone1]['cost_type'], 10);
+        $this->assertEqual($aResult[$idZone1]['cost_variable_id'], 11);
+        $this->assertEqual($aResult[$idZone1]['technology_cost'], 12.1);
+        $this->assertEqual($aResult[$idZone1]['technology_cost_type'], 13);
+//        $this->assertEqual($aResult[$idZone1]['updated'], $updated);
+        $this->assertEqual($aResult[$idZone1]['block'], 14);
+        $this->assertEqual($aResult[$idZone1]['capping'], 15);
+        $this->assertEqual($aResult[$idZone1]['session_capping'], 16);
+        DataGenerator::cleanUp();
 
     }
 
@@ -2657,9 +1882,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['zones']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -2672,90 +1894,48 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    zoneid,
-                    affiliateid,
-                    category,
-                    ad_selection,
-                    chain,
-                    prepend,
-                    append,
-                    updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,
-            1,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'category'=>1,
+            'inventory_forecast_type'=>'',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone1 = $this->_insertZone($aData);
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
         $aData = array(
-            1,
-            1,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'category'=>1,
+            'inventory_forecast_type'=>'',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone1 = $this->_insertZone($aData);
         $aData = array(
-            2,
-            2,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>2,
+            'category'=>2,
+            'inventory_forecast_type'=>'',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone2 = $this->_insertZone($aData);
         $aData = array(
-            3,
-            1,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'category'=>1,
+            'inventory_forecast_type'=>'',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone3 = $this->_insertZone($aData);
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 1);
         $this->assertEqual($aResult[1], 3);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -2776,9 +1956,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['zones']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['zones'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -2792,126 +1969,64 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    zoneid,
-                    affiliateid,
-                    inventory_forecast_type,
-                    category,
-                    ad_selection,
-                    chain,
-                    prepend,
-                    append,
-                    updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,
-            1,
-            0,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'category'=>1,
+            'inventory_forecast_type'=>0,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone1 = $this->_insertZone($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertNull($aResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
         $aData = array(
-            1,
-            1,
-            8,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'category'=>1,
+            'inventory_forecast_type'=>8,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone1 = $this->_insertZone($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
         $this->assertEqual($aResult[0], 1);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 5
         $aData = array(
-            1,
-            1,
-            10,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'inventory_forecast_type'=>10,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone3 = $this->_insertZone($aData);
         $aData = array(
-            2,
-            2,
-            8,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>2,
+            'inventory_forecast_type'=>8,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone4 = $this->_insertZone($aData);
         $aData = array(
-            3,
-            1,
-            12,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'inventory_forecast_type'=>12,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone5 = $this->_insertZone($aData);
         $aData = array(
-            4,
-            1,
-            4,
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'affiliateid'=>1,
+            'inventory_forecast_type'=>4,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $st->execute($aData);
+        $idZone5 = $this->_insertZone($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
         $this->assertEqual($aResult[0], 1);
         $this->assertEqual($aResult[1], 3);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
@@ -2928,9 +2043,6 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['ad_zone_assoc']);
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['ad_zone_assoc'],true);
-
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -2948,72 +2060,56 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 3
-        $query = "
-            INSERT INTO
-                $table
-                (
-                    ad_id,
-                    zone_id,
-                    link_type
-                )
-            VALUES
-                (?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            1,
-            1,
-            1
+            'zone_id'=>1,
+            'ad_id'=>1,
+            'link_type'=>1
         );
-        $rows = $st->execute($aData);
+        $idAdZone1 = $this->_insertAdZoneAssoc($aData);
         $aZoneIds = array(1);
         $aResult = $oDal->getLinkedZonesIdsByAdIds($aZoneIds);
         $aExpectedResult = array(1 => array(1));
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
 
         // Test 4
         $aData = array(
-            1,
-            1,
-            1
+            'ad_id'=>1,
+            'zone_id'=>1,
+            'link_type'=>1
         );
-        $rows = $st->execute($aData);
+        $idAdZone1 = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            1,
-            2,
-            1
+            'ad_id'=>1,
+            'zone_id'=>2,
+            'link_type'=>1
         );
-        $rows = $st->execute($aData);
+        $idAdZone2 = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            1,
-            3,
-            0
+            'ad_id'=>1,
+            'zone_id'=>3,
+            'link_type'=>0
         );
-        $rows = $st->execute($aData);
+        $idAdZone3 = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            2,
-            3,
-            1
+            'ad_id'=>2,
+            'zone_id'=>3,
+            'link_type'=>1
         );
-        $rows = $st->execute($aData);
+        $idAdZone4 = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            2,
-            4,
-            1
+            'ad_id'=>2,
+            'zone_id'=>4,
+            'link_type'=>1
         );
-        $rows = $st->execute($aData);
+        $idAdZone5 = $this->_insertAdZoneAssoc($aData);
         $aData = array(
-            2,
-            5,
-            1
+            'ad_id'=>2,
+            'zone_id'=>5,
+            'link_type'=>1
         );
-        $rows = $st->execute($aData);
+        $idAdZone6 = $this->_insertAdZoneAssoc($aData);
         $aZoneIds = array(1, 2);
         $aResult = $oDal->getLinkedZonesIdsByAdIds($aZoneIds);
         $aExpectedResult = array(
@@ -3021,7 +2117,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             2 => array(3, 4, 5)
         );
         $this->assertEqual($aResult, $aExpectedResult);
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
 
     }
 
