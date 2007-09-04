@@ -25,6 +25,7 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once 'XML/RPC.php';
@@ -88,6 +89,8 @@ class OA_Sync
             'rc'      => 0.3,
             'stable'  => 0.4
         );
+
+        $version = OA::stripVersion($version, array('dev', 'stable'));
 
         if (preg_match('/^v/', $version)) {
             $v = preg_split('/[.-]/', substr($version, 1));

@@ -173,6 +173,23 @@ class OA
     }
 
     /**
+     * A method to strip unwanted ending tags from an Openads version string.
+     *
+     * @static
+     * @param string $version The original version string.
+     * @param array  $aAllow  An array of allowed tags
+     * @return string The stripped version string.
+     */
+    function stripVersion($version, $aAllow = null)
+    {
+        if (is_null($aAllow)) {
+            $aAllow = array();
+        }
+        //return preg_replace('/^(.+?)-(?!beta(-rc\d+)?|rc\d+|'.join('|', $aAllow).').+$/', '$1', $version);
+        return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+|'.join('|', $aAllow).'))?).*$/', '$1', $version);
+    }
+
+    /**
      * A method to temporarily disable PEAR error handling by
      * pushing a null error handler onto the top of the stack.
      *
