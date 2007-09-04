@@ -1504,6 +1504,7 @@ function OA_cacheGetPublisherZones($affiliateid, $cached = true)
 {
 $sName  = OA_Delivery_Cache_getName(__FUNCTION__, $affiliateid);
 if (!$cached || ($output = OA_Delivery_Cache_fetch($sName)) === false) {
+MAX_Dal_Delivery_Include();
 $output = OA_Dal_Delivery_getPublisherZones($affiliateid);
 $output = OA_Delivery_Cache_store_return($sName, $output);
 }
