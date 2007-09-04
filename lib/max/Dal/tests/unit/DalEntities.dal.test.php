@@ -772,7 +772,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[0], 1);
+        $this->assertEqual($aResult[0], $idAgency1);
         DataGenerator::cleanUp();
 
 
@@ -804,8 +804,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActiveAgencyIds();
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
-        $this->assertEqual($aResult[0], 2);
-        $this->assertEqual($aResult[1], 4);
+        $this->assertEqual($aResult[0], $idAgency2);
+        $this->assertEqual($aResult[1], $idAgency4);
         DataGenerator::cleanUp();
 
     }
@@ -868,7 +868,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[0], 1);
+        $this->assertEqual($aResult[0], $idChannel1);
         DataGenerator::cleanUp();
 
 
@@ -926,8 +926,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActiveChannelIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
-        $this->assertEqual($aResult[0], 2);
-        $this->assertEqual($aResult[1], 5);
+        $this->assertEqual($aResult[0], $idChannel2);
+        $this->assertEqual($aResult[1], $idChannel5);
         DataGenerator::cleanUp();
 
     }
@@ -992,7 +992,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[0], 1);
+        $this->assertEqual($aResult[0], $idChannel1);
         DataGenerator::cleanUp();
 
 
@@ -1050,8 +1050,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllActiveChannelIdsByAgencyPublisherId(1, 1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
-        $this->assertEqual($aResult[0], 2);
-        $this->assertEqual($aResult[1], 5);
+        $this->assertEqual($aResult[0], $idChannel2);
+        $this->assertEqual($aResult[1], $idChannel5);
         DataGenerator::cleanUp();
 
     }
@@ -1288,7 +1288,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
@@ -1329,7 +1329,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
@@ -1370,7 +1370,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
@@ -1410,7 +1410,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
@@ -1450,7 +1450,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 't',
@@ -1491,7 +1491,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
@@ -1532,7 +1532,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
@@ -1559,7 +1559,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            'campaignid'=>1,
+            'campaignid'=>$idCampaign1,
             'active'=>'t',
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -1572,7 +1572,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
@@ -1599,7 +1599,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            'campaignid'=>1,
+            'campaignid'=>$idCampaign1,
             'active'=>'t',
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -1612,7 +1612,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
@@ -1640,7 +1640,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            'campaignid'=>1,
+            'campaignid'=>$idCampaign1,
             'active'=>'t',
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -1664,14 +1664,14 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $idCampaign1 = $this->_insertCampaign($aData);
         $aData = array(
-            'campaignid'=>1,
+            'campaignid'=>$idCampaign1,
             'active'=>'f',
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
-            'campaignid'=>1,
+            'campaignid'=>$idCampaign1,
             'active'=>'f',
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -1684,7 +1684,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         );
         $aResult = $oDal->getAllActivePlacementsByAdIdsPeriod($aAdIds, $aPeriod);
         $aExpectedResult = array(
-            1 => array(
+            $idCampaign1 => array(
                 'placement_id'              => $idCampaign1,
                 'placement_name'            => 'Test Placement',
                 'active'                    => 'f',
@@ -1742,7 +1742,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[0], 1);
+        $this->assertEqual($aResult[0], $idAffiliate1);
         DataGenerator::cleanUp();
 
 
@@ -1768,8 +1768,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllPublisherIdsByAgencyId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
-        $this->assertEqual($aResult[0], 1);
-        $this->assertEqual($aResult[1], 3);
+        $this->assertEqual($aResult[0], $idAffiliate1);
+        $this->assertEqual($aResult[1], $idAffiliate3);
         DataGenerator::cleanUp();
 
     }
@@ -1904,7 +1904,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[0], 1);
+        $this->assertEqual($aResult[0], $idZone1);
         DataGenerator::cleanUp();
 
 
@@ -1933,8 +1933,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
-        $this->assertEqual($aResult[0], 1);
-        $this->assertEqual($aResult[1], 3);
+        $this->assertEqual($aResult[0], $idZone1);
+        $this->assertEqual($aResult[1], $idZone3);
         DataGenerator::cleanUp();
 
     }
@@ -1992,7 +1992,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 1);
-        $this->assertEqual($aResult[0], 1);
+        $this->assertEqual($aResult[0], $idZone1);
         DataGenerator::cleanUp();
 
 
@@ -2002,30 +2002,30 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
             'inventory_forecast_type'=>10,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $idZone3 = $this->_insertZone($aData);
+        $idZone1 = $this->_insertZone($aData);
         $aData = array(
             'affiliateid'=>2,
             'inventory_forecast_type'=>8,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $idZone4 = $this->_insertZone($aData);
+        $idZone2 = $this->_insertZone($aData);
         $aData = array(
             'affiliateid'=>1,
             'inventory_forecast_type'=>12,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $idZone5 = $this->_insertZone($aData);
+        $idZone3 = $this->_insertZone($aData);
         $aData = array(
             'affiliateid'=>1,
             'inventory_forecast_type'=>4,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $idZone5 = $this->_insertZone($aData);
+        $idZone4 = $this->_insertZone($aData);
         $aResult = $oDal->getAllChannelForecastZonesIdsByPublisherId(1);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 2);
-        $this->assertEqual($aResult[0], 1);
-        $this->assertEqual($aResult[1], 3);
+        $this->assertEqual($aResult[0], $idZone1);
+        $this->assertEqual($aResult[1], $idZone3);
         DataGenerator::cleanUp();
 
     }
