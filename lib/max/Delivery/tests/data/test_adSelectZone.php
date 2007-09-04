@@ -3332,7 +3332,7 @@ $aLinked_ads = array (
               'campaign_priority' => '5',
               'campaign_weight' => '0',
               'campaign_companion' => '0',
-              'priority' => '0',
+              'priority' => '0.01098901099',
             ),
             1035 =>
             array (
