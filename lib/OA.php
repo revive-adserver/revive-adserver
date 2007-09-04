@@ -182,11 +182,8 @@ class OA
      */
     function stripVersion($version, $aAllow = null)
     {
-        if (is_null($aAllow)) {
-            $aAllow = array();
-        }
-        //return preg_replace('/^(.+?)-(?!beta(-rc\d+)?|rc\d+|'.join('|', $aAllow).').+$/', '$1', $version);
-        return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+|'.join('|', $aAllow).'))?).*$/', '$1', $version);
+        $allow = is_null($aAllow) ? '' : '|'.join('|', $aAllow);
+        return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+'.$allow.'))?).*$/', '$1', $version);
     }
 
     /**
