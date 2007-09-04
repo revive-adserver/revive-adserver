@@ -1352,6 +1352,14 @@ $format = 'Y-m-d H:i:s';
 }
 return date($format, time());
 }
+function stripVersion($version, $aAllow = null)
+{
+if (is_null($aAllow)) {
+$aAllow = array();
+}
+//return preg_replace('/^(.+?)-(?!beta(-rc\d+)?|rc\d+|'.join('|', $aAllow).').+$/', '$1', $version);
+return preg_replace('/^v?(\d+.\d+.\d+(?:-(?:beta(?:-rc\d+)?|rc\d+|'.join('|', $aAllow).'))?).*$/', '$1', $version);
+}
 function disableErrorHandling()
 {
 PEAR::pushErrorHandling(null);
