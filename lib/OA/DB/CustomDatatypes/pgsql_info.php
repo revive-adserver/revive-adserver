@@ -66,6 +66,7 @@ $aDatatypes = array(
 $aNativetypes = array(
 //    'bigint',
     'bpchar',
+    'float4',
     'bool'
 /*
     'decimal',
@@ -73,7 +74,6 @@ $aNativetypes = array(
     'datetime',
     'double',
     'enum',
-    'float',
     'int',
     'mediumint',
     'mediumtext',

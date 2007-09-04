@@ -1335,4 +1335,16 @@ function nativetype_bool_callback(&$db, $aFields)
     return array($aType, $length, $unsigned, $fixed);
 }
 
+function nativetype_float4_callback(&$db, $aFields)
+{
+    // Prepare the type array
+    $aType = array();
+    $aType[] = 'openads_float';
+    $length = 4;
+    // No unsigned value needed
+    $unsigned = null;
+    // No fixed value needed
+    $fixed = null;
+    return array($aType, $length, $unsigned, $fixed);
+}
 ?>
