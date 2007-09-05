@@ -382,88 +382,12 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      *
      * The test is carried out by ensuring that the correct values for the required
      * impressions are sent to the DAL's saveRequiredAdImpressions() method.
-     */
-    function testDistributePlacementImpressions()
-    {
-        $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
-        $aPlacements = array();
-
-        // Set the current date/time
-        $oServiceLocator = &ServiceLocator::instance();
-        $oServiceLocator->remove('now');
-        $oDate = new Date('2005-12-09 12:00:01');
-        $oServiceLocator->register('now', $oDate);
-
-        // Create a "normal" placement to test with
-        $oPlacement = new MAX_Entity_Placement(
-            array(
-                'campaignid' => 1,
-                'activate'   => '2005-11-09',
-                'expire'     => '2005-12-09'
-            )
-        );
-        $oPlacement->impressionTargetTotal = 5000;
-        $oPlacement->requiredImpressions = 24;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 2, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 3, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
-        $aPlacements[] = $oPlacement;
-
-        // Create a "daily limit" placement to test with
-        $oPlacement = new MAX_Entity_Placement(
-            array(
-                'campaignid' => 2,
-                'expire'     => OA_Dal::noDateValue()
-            )
-        );
-        $oPlacement->impressionTargetDaily = 24;
-        $oPlacement->requiredImpressions = 24;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 4, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 5, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
-        $oPlacement->aAds[] = $oAd;
-        $aPlacements[] = $oPlacement;
-
-        // Set the DAL saveRequiredAdImpressions() method to expect the
-        // desired input from the distributePlacementImpressions() method.
-        $oGetRequiredAdImpressionsType1->oDal->expectOnce(
-            'saveRequiredAdImpressions',
-            array(
-                array(
-                    array(
-                        'ad_id'                => 1,
-                        'required_impressions' => (double) 1
-                    ),
-                    array(
-                        'ad_id'                => 2,
-                        'required_impressions' => (double) 1
-                    ),
-                    array(
-                        'ad_id'                => 4,
-                        'required_impressions' => (double) 2
-                    )
-                )
-            )
-        );
-
-        // Test
-        $oGetRequiredAdImpressionsType1->distributePlacementImpressions($aPlacements);
-    }
-
-    /**
-     * A method to test the distributePlacementImpressionsByZonePattern() method.
-     *
-     * The test is carried out by ensuring that the correct values for the required
-     * impressions are sent to the DAL's saveRequiredAdImpressions() method.
      *
      * The test uses equal cumulative zone forecasts for each operation interval,
      * and the advertisements are not delivery limited, so that the expected
      * required impression results are the same as those in the test above.
      */
-    function testDistributePlacementImpressionsByZonePattern()
+    function testDistributePlacementImpressions()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
@@ -568,13 +492,13 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         );
 
         // Test
-        $oGetRequiredAdImpressionsType1->distributePlacementImpressionsByZonePattern($aPlacements);
+        $oGetRequiredAdImpressionsType1->distributePlacementImpressions($aPlacements);
 
         TestEnv::restoreConfig();
     }
 
     /**
-     * A method to test the _getAdImpressionsByZonePattern() method.
+     * A method to test the _getAdImpressions() method.
      *
      * Test 1: Test with invalid parameters, and ensure that zero impressions are
      *         allocated.
@@ -593,7 +517,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      *         a blocking delivery limitation, and ensure that the correct number of
      *         impressions are allocated.
      */
-    function test_getAdImpressionsByZonePattern()
+    function test_getAdImpressions()
     {
         $aConf = &$GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
@@ -615,28 +539,28 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oDate = new Date();
         $oPlacementExpiryDate = new Date();
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             'foo',
             $totalRequiredAdImpressions,
             $oDate,
             $oPlacementExpiryDate
         );
         $this->assertEqual($result, 0);
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             'foo',
             $oDate,
             $oPlacementExpiryDate
         );
         $this->assertEqual($result, 0);
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             'foo',
             $oPlacementExpiryDate
         );
         $this->assertEqual($result, 0);
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
@@ -665,7 +589,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oDate = new Date('2006-02-15 12:07:01');
         $oPlacementExpiryDate = new Date('2006-12-15 23:59:59');
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
@@ -699,7 +623,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             array()
         );
         $oGetRequiredAdImpressionsType1->GetRequiredAdImpressionsType1();
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
@@ -736,7 +660,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             $aCumulativeZoneForecast
         );
         $oGetRequiredAdImpressionsType1->GetRequiredAdImpressionsType1();
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
@@ -795,7 +719,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             $aCumulativeZoneForecast
         );
         $oGetRequiredAdImpressionsType1->GetRequiredAdImpressionsType1();
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,
@@ -854,7 +778,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
             $aCumulativeZoneForecast
         );
         $oGetRequiredAdImpressionsType1->GetRequiredAdImpressionsType1();
-        $result = $oGetRequiredAdImpressionsType1->_getAdImpressionsByZonePattern(
+        $result = $oGetRequiredAdImpressionsType1->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
             $oDate,

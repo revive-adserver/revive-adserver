@@ -169,7 +169,6 @@ channelForecasting                  = false
 
 [priority]
 instantUpdate                       = true
-useZonePatterning                   = false
 defaultZoneForecastImpressions      = 10
 defaultClickRatio                   = 0.005
 defaultConversionRatio              = 0.0001

@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
  *
  * @package    Max
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  * @static
  */
 class DefaultData
@@ -50,13 +50,15 @@ class DefaultData
      *  - Test Advertiser 1
      *    - Placement 11
      *      - High Priority
-     *      - Daily target of 120 impressions (5 per hour)
+     *      - Daily target of 120 impressions (5 per
+     *        hour assuming even delivery each hour)
      *        - Advertisement 111
      *          - Banner Weight 1
      *    - Placement 12
      *      - High Priority
      *      - Runs from 2005-01-01 to 2005-12-31
-     *      - Total target of 87,600 (10 per hour)
+     *      - Total target of 87,600 (10 per hour
+     *        assuming even delivery each hour)
      *        - Advertisement 121
      *          - Banner Weight 2
      *        - Advertisement 122

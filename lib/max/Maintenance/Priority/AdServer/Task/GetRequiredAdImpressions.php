@@ -97,11 +97,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                 $this->getPlacementImpressionInventoryRequirement($aAllPlacements[$k]);
                 $aAllPlacements[$k]->setAdverts();
             }
-            if ($conf['priority']['useZonePatterning']) {
-                $this->distributePlacementImpressionsByZonePattern($aAllPlacements);
-            } else {
-                $this->distributePlacementImpressions($aAllPlacements);
-            }
+            $this->distributePlacementImpressions($aAllPlacements);
         }
     }
 
@@ -301,184 +297,6 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
     /**
      * A method to distribute the calculated required placement impressions between the placement's
      * children advertisements. Impression allocation takes in to account ad weight, and the number
-     * of operations intervals the ad will active in given date/time delivery constraints.
-     *
-     * The calculated ad impressions are written to the temporary table tmp_ad_required_impression
-     * for later analysis by the {@link AllocateZoneImpressions} class.
-     *
-     * @param array $aPlacements An array of {@link MAX_Entity_Placement} objects which require
-     *                           that their total required impressions be distributed between the
-     *                           component advertisements.
-     */
-    function distributePlacementImpressions($aPlacements)
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        // Create an array for storing required ad impressions
-        $aRequiredAdImpressions = array();
-        // Get the current operation interval start/end dates
-        $aCurrentOperationIntervalDates =
-            OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->_getDate());
-        // For each placement
-        foreach ($aPlacements as $oPlacement) {
-            // Get date object to represent placement expiration date
-            if (
-                   ($oPlacement->impressionTargetDaily > 0)
-                   ||
-                   ($oPlacement->clickTargetDaily > 0)
-                   ||
-                   ($oPlacement->conversionTargetDaily > 0)
-               ) {
-                // The placement has a daily target to meet, so treat the
-                // placement as if it expires at the end of "today", regardless
-                // of the existance of any activation or expiration dates that
-                // may (or may not) be set for the placement
-                $oDate = &$this->_getDate();
-                // Get the end of the day from this date
-                $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
-            } else if (
-                   ($oPlacement->expire != OA_Dal::noDateValue())
-                   &&
-                   (
-                       ($oPlacement->impressionTargetTotal > 0)
-                       ||
-                       ($oPlacement->clickTargetTotal > 0)
-                       ||
-                       ($oPlacement->conversionTargetTotal > 0)
-                   )
-               ) {
-                // The placement has an expiration date, and has some kind of
-                // (total) inventory requirement, so treat the placement as if
-                // it expires at the end of the expiration date
-                $oPlacementExpiryDate = &$this->_getDate($oPlacement->expire);
-                // Placement expires at end of expiry date, so add one day less one
-                // second, so we have a date with time portion 23:59:59
-                $oPlacementExpiryDate->addSeconds(SECONDS_PER_DAY - 1);
-            } else {
-                // Error! There should not be any other kind of high-priority
-                // placement in terms of activation/expiration dates and
-                // either (total) inventory requirements or daily targets
-                $message = "- Error calculating the end date for Placement ID {$oPlacement->id}.";
-                OA::debug($message, PEAR_LOG_ERR);
-                continue;
-            }
-            // Determine number of remaining operation intervals for placement
-            $placementRemainingOperationIntervals =
-                OA_OperationInterval::getIntervalsRemaining(
-                    $aCurrentOperationIntervalDates['start'],
-                    $oPlacementExpiryDate
-                );
-            // Sum the weights of all (active) ads in placement
-            $totalWeight = $this->_getPlacementAdWeightTotal($oPlacement);
-            if (PEAR::isError($totalWeight, MAX_ERROR_INVALIDARGS)) {
-                /**
-                 * @TODO Ensure that this PEAR::Error is handled by calling code, or
-                 *       raise an error instead of returning.
-                 */
-                return $totalWeight;
-            }
-            // Calculate number impressions per weight value of 1 (one)
-            $totalImpressionsPerUnitWeight = $oPlacement->requiredImpressions / $totalWeight;
-            // For each (active) advertisement
-            reset($oPlacement->aAds);
-            while (list($adId, $oAd) = each($oPlacement->aAds)) {
-                // Get impressions required, based on the ad weight
-                $requiredAdImpressions = 0;
-                if ($oAd->active && ($oAd->weight > 0)) {
-                    $requiredAdImpressions = $oAd->weight * $totalImpressionsPerUnitWeight;
-                }
-                if ($requiredAdImpressions > 0) {
-                    $oDeliveryLimitation =
-                        new MAX_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
-                    if ($oDeliveryLimitation->deliveryBlocked($aCurrentOperationIntervalDates['start']) == false) {
-                        // Find number of active operation intervals
-                        $activeAdOpInts =
-                            $oDeliveryLimitation->getActiveAdOperationIntervals(
-                                $placementRemainingOperationIntervals,
-                                $aCurrentOperationIntervalDates['start'],
-                                $oPlacementExpiryDate
-                            );
-                        // Are there active intervals for the ad?
-                        if ($activeAdOpInts > 0) {
-                            // Divide number required impressions between active operation intervals
-                            $oAd->requiredImpressions = round($requiredAdImpressions / $activeAdOpInts);
-                            // Delivery Hack
-                            if (!empty($conf['maintenance']['deliveryHack'])) {
-                                $oServiceLocator = &ServiceLocator::instance();
-                                $oDateNow = &$oServiceLocator->get('now');
-                                $hour = $oDateNow->getHour();
-                                $factor = 0.22;
-                                switch ($hour) {
-                                    case 8:
-                                        $factor = 0.9;
-                                        break;
-                                    case 9:
-                                        $factor = 1.43;
-                                        break;
-                                    case 10:
-                                        $factor = 1.78;
-                                        break;
-                                    case 11:
-                                        $factor = 1.86;
-                                        break;
-                                    case 12:
-                                        $factor = 2.35;
-                                        break;
-                                    case 13:
-                                        $factor = 2.2;
-                                        break;
-                                    case 14:
-                                        $factor = 1.66;
-                                        break;
-                                    case 15:
-                                        $factor = 1.84;
-                                        break;
-                                    case 16:
-                                        $factor = 1.86;
-                                        break;
-                                    case 17:
-                                        $factor = 1.87;
-                                        break;
-                                    case 18:
-                                        $factor = 2.08;
-                                        break;
-                                    case 19:
-                                        $factor = 2.05;
-                                        break;
-                                    case 20:
-                                        $factor = 1.52;
-                                        break;
-                                    case 21:
-                                        $factor = 1.43;
-                                        break;
-                                    case 22:
-                                        $factor = 1.42;
-                                        break;
-                                    case 23:
-                                        $factor = 0.86;
-                                        break;
-                                }
-                                $oAd->requiredImpressions =
-                                    round(($requiredAdImpressions / $activeAdOpInts) * $factor);
-                            }
-
-                            $aRequiredAdImpressions[] = array(
-                                'ad_id'                => $oAd->id,
-                                'required_impressions' => $oAd->requiredImpressions
-                            );
-                        }
-                    }
-                }
-            }
-        }
-        // Save the required impressions into the temporary database table
-        OA::setTempDebugPrefix('- ');
-        $this->oTable->createTable('tmp_ad_required_impression', null, true);
-        $this->oDal->saveRequiredAdImpressions($aRequiredAdImpressions);
-    }
-
-    /**
-     * A method to distribute the calculated required placement impressions between the placement's
-     * children advertisements. Impression allocation takes in to account ad weight, and the number
      * of operations intervals the ad will be active in given date/time delivery limitations, and
      * the pattern of available impressions for the zone(s) the advertisements are linked to.
      *
@@ -489,7 +307,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      *                           that their total required impressions be distributed between the
      *                           component advertisements.
      */
-    function distributePlacementImpressionsByZonePattern($aPlacements)
+    function distributePlacementImpressions($aPlacements)
     {
         // Create an array for storing required ad impressions
         $aRequiredAdImpressions = array();
@@ -562,7 +380,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
                         // Based on the average zone pattern of the zones the ad is
                         // linked to, calculate how many of these impressions should
                         // be delivered in the next operation interval
-                        $oAd->requiredImpressions = $this->_getAdImpressionsByZonePattern(
+                        $oAd->requiredImpressions = $this->_getAdImpressions(
                                 $oAd,
                                 $totalRequiredAdImpressions,
                                 $aCurrentOperationIntervalDates['start'],
@@ -625,7 +443,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      * @return integer The number of impressions the advertisement should deliver in the next
      *                 operation interval.
      */
-    function _getAdImpressionsByZonePattern($oAd, $totalRequiredAdImpressions, $oDate, $oPlacementExpiryDate)
+    function _getAdImpressions($oAd, $totalRequiredAdImpressions, $oDate, $oPlacementExpiryDate)
     {
         // Check the parameters, and return 0 impressions if not valid
         if (!is_a($oAd, 'MAX_Entity_Ad') || !is_numeric($totalRequiredAdImpressions) ||
