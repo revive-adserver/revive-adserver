@@ -39,5 +39,11 @@ $words = array(
     'SPC codeblock comment' => "      * Each of the code blocks below refers to an individual ad placement zone,
       * to show the ad, just place the tag into your page HTML
       * at the position that you want the ad to show",
+    'SPC Header script instrct' => "      To use single page call on your page include the
+      following <script> code in your site's <head> tag",
+    'SPC codeblock instrct' => "      Each of the code blocks below refers to an
+        individual ad placement zone to show the ad, just place the tag into your
+        page HTML at the position that you want the ad to show",
+
 );
 ?>

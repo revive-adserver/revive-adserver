@@ -137,6 +137,10 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
     <title>{$affiliate['name']} - Single Page Call (SPC) tags - Test page</title>";
+        if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 && strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
+            $script .="\n    <script type='text/javascript' src='js-gui.js'></script>";
+        }
+
         if ($mi->comments) {
             $search = array("{affiliate['mnemonic']}");
             $replace = array($affiliate['mnemonic']);
@@ -153,12 +157,28 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 <body><div id='body'>";
 
         if ($mi->comments) {
-            $script .= "\n    <!--/*\n" . MAX_Plugin_Translation::translate('SPC codeblock comment', $this->module, $this->package) . "\n    */-->";
+            $script .= "
+<blockquote>
+<b>Instructions:</b> ". htmlspecialchars(MAX_Plugin_Translation::translate('SPC Header script instrct', $this->module, $this->package));
+
+            $script  .= "<table>";
+            // Show clipboard button only on IE since Mozilla will throw a security warning
+            if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 && strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
+                $script .= "<tr><td align='right'><img src='images/icon-clipboard.gif'>&nbsp;";
+                $script .= "<a href='javascript:max_CopyClipboard(\"spcJsSrc\");'>".$GLOBALS['strCopyToClipboard']."</a></td></tr>";
+            }
+
+            $scriptJs = "<script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['spcjs']) . "?id={$mi->affiliateid}{$additionalParams}'></script>";
+            $script .= "<tr><td><textarea id='spcJsSrc'rows='1' cols='80'>". htmlspecialchars($scriptJs) ."</textarea></td></tr></table>";
+            $script .= MAX_Plugin_Translation::translate('SPC codeblock instrct', $this->module, $this->package) ." </blockquote>";
+
+            $script .= "\n\n\n    <!--/*\n" . MAX_Plugin_Translation::translate('SPC codeblock comment', $this->module, $this->package) . "\n    */-->";
+
         }
 
         foreach($aZones as $zone) {
-            $name = $zone['zonename'] . ' ' . (($zone['width'] > -1) ? $zone['width'] : '*') . 'x' . (($zone['height'] > -1) ? $zone['height'] : '*');
-            $script .= "<hr />{$name}<hr />\n";
+            $name = '[id'. $zone['zoneid'] .'] '. $zone['zonename'] . ' ' . (($zone['width'] > -1) ? $zone['width'] : '*') . 'x' . (($zone['height'] > -1) ? $zone['height'] : '*');
+            $script .= "<br><br>{$name}<br>\n";
 
             $codeblock = "<script type='text/javascript'><!--// <![CDATA[";
             $js_func = $varprefix . (($zone['delivery'] == phpAds_ZonePopup) ? 'showpop' : 'show');
@@ -171,10 +191,48 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
                 $codeblock .= "<img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
                 $codeblock .= "</noscript>";
             }
+            if ($mi->comments) {
+            $script .= "
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr height='32'>
+    <td width='32'><img src='images/cropmark-tl.gif' width='32' height='32'></td>
+    <td background='images/ruler-top.gif'>&nbsp;</td>
+    <td width='32'><img src='images/cropmark-tr.gif' width='32' height='32'></td>
+</tr>
+<tr>
+    <td width='32' background='images/ruler-left.gif'>&nbsp;</td>
+    <td bgcolor='#FFFFFF'>";
+            }
 
             $script .= "\n\n" . $codeblock;
 
-            $script .=  "<textarea id='code_{$zone['zoneid']}' rows='10' cols='80'>" . htmlspecialchars($codeblock) . "</textarea>";
+            if ($mi->comments) {
+            $script .= "    </td>
+    <td width='32'>&nbsp;</td>
+</tr>
+<tr height='32'>
+    <td width='32'><img src='images/cropmark-bl.gif' width='32' height='32'></td>
+    <td>&nbsp;</td>
+    <td width='32'><img src='images/cropmark-br.gif' width='32' height='32'></td>
+</tr>
+</table>";
+            $script .= "
+<table>
+<tr>
+    <td><img src='images/icon-generatecode.gif' align='absmiddle'><b>Bannercode</b></td>";
+            // Show clipboard button only on IE since Mozilla will throw a security warning
+            if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 && strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
+                $script .= "<td align='right'><img src='images/icon-clipboard.gif'>&nbsp;";
+                $script .= "<a href='javascript:max_CopyClipboard(\"code_{$zone['zoneid']}\");'>".$GLOBALS['strCopyToClipboard']."</a></td>";
+            }
+            $script .= "
+</tr>
+<tr>
+    <td colspan='2'><textarea id='code_{$zone['zoneid']}' rows='10' cols='80'>" . htmlspecialchars($codeblock) . "</textarea>
+</tr>
+</table>
+";
+            }
         }
             $script .= "
 </div></body>
