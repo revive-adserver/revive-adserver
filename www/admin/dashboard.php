@@ -45,7 +45,7 @@ MAX_Permission::checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-$iframe = isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] == 'iframe';
+$iframe = !empty($_GET['iframe']);
 
 if (!$iframe) {
     phpAds_PageHeader("1.0");
@@ -55,8 +55,8 @@ $oTpl = new OA_Admin_Template($iframe ? 'dashboard-iframe.html' : 'dashboard-ind
 
 if ($iframe) {
     $oTpl->assign('ssoAdmin',     OA_Dal_ApplicationVariables::get('sso_admin'));
-    $oTpl->assign('ssoPasswd',    OA_Dal_ApplicationVariables::get('sso_passwd'));
-    $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?iframe'));
+    $oTpl->assign('ssoPasswd',    OA_Dal_ApplicationVariables::get('sso_password'));
+    $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?iframe=1'));
     $oTpl->assign('casLoginURL',  'https://login.openads.org:8443/cas-server/login');
     $oTpl->assign('serviceURL',   'http://forum.openads.org/index.php?act=module&module=cas');
 }
