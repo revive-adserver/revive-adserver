@@ -69,25 +69,23 @@ class MAX_Dal_Inventory_Trackers extends MAX_Dal_Common
 
         $rank = 0;
         $appendcodes = array();
-        $query = "
-            INSERT INTO {$this->prefix}{$this->conf['table']['tracker_append']} (
-                tracker_id, tagcode, paused, autotrack, rank
-            ) VALUES (
-                ?, ?, ?, ?, ?
-            )";
-        $aTypes = array('integer', 'text', 'text', 'text', 'integer');
-        $st = $this->oDbh->prepare($query, $aTypes);
-
+        $doTrackerAppend = OA_Dal::factoryDO('tracker_append');
+        $doTrackerAppend->tracker_id = $tracker_id;
         foreach ($codes as $v) {
-            $tagcode = trim($v['tagcode']);
+            $tagcode   = trim($v['tagcode']);
+            $paused    = $v['paused'] ? 't' : 'f';
+            $autotrack = $v['autotrack'] ? 't' : 'f';
             if (!strlen($tagcode)) {
                 continue;
             }
-            $paused    = $v['paused'] ? 't' : 'f';
-            $autotrack = $v['autotrack'] ? 't' : 'f';
-            $result = $st->execute(array($tracker_id, $tagcode, $paused, $autotrack, ++$rank));
-            if (PEAR::isError($result)) {
-                MAX::raiseError($result, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
+            $doTA = clone($doTrackerAppend);
+            $doTA->tagcode   = $tagcode;
+            $doTA->paused    = $paused;
+            $doTA->autotrack = $autotrack;
+            $doTA->rank      = ++$rank;
+            $result = $doTA->insert();
+            if (empty($result)) {
+                MAX::raiseError("Could not insert tracker append row", MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
 
             $appendcodes[] = array('tagcode' => $tagcode, 'paused' => $paused, 'autotrack' => $autotrack);
