@@ -476,7 +476,7 @@ class DataGenerator
         }
         else if ($aConf['database']['type'] == 'mysql')
         {
-            OA::disbleErrorHandling();
+            OA::disableErrorHandling();
             $result = $oDbh->exec("ALTER TABLE {$tableName} AUTO_INCREMENT = 1");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
