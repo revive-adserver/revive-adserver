@@ -52,11 +52,11 @@ if (!$iframe) {
 }
 
 $oTpl = new OA_Admin_Template($iframe ? 'dashboard-iframe.html' : 'dashboard-index.html');
+$oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?iframe=1'));
 
 if ($iframe) {
     $oTpl->assign('ssoAdmin',     OA_Dal_ApplicationVariables::get('sso_admin'));
     $oTpl->assign('ssoPasswd',    OA_Dal_ApplicationVariables::get('sso_password'));
-    $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?iframe=1'));
     $oTpl->assign('casLoginURL',  'https://login.openads.org:8443/cas-server/login');
     $oTpl->assign('serviceURL',   'http://forum.openads.org/index.php?act=module&module=cas');
 }
