@@ -116,6 +116,7 @@ function MMM_buildNavigation()
 
     $GLOBALS['phpAds_nav'] = array (
         "admin" => array (
+            "1"                         =>  array("dashboard.php" => $GLOBALS['strHome']),
             "2"                         =>  array("stats.php" => $GLOBALS['strStats']),
               "2.1"                     =>  array("stats.php?1=1" => $GLOBALS['strClientsAndCampaigns']),
                 "2.1.1"                 =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strClientHistory']),
