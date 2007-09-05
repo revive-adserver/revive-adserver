@@ -36,6 +36,8 @@ class OA_Admin_Template extends Smarty
 {
     var $templateName;
 
+    var $_tabIndex = 0;
+
     function OA_Admin_Template($templateName)
     {
         $this->template_dir = MAX_PATH . '/lib/templates/admin';
@@ -45,11 +47,15 @@ class OA_Admin_Template extends Smarty
         $this->caching = false;
 
         $this->register_function('t', array('OA_Admin_Template',  '_function_t'));
+        $this->register_function('tabindex', array('OA_Admin_Template',  '_function_tabindex'));
+
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
 
         $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template',  '_function_phpAds_ShowBreak'));
         $this->register_function('phpAds_DelConfirm', array('OA_Admin_Template',  '_function_phpAds_DelConfirm'));
+
+        $this->register_block('oa_edit', array('OA_Admin_Template',  '_block_edit'));
 
         $this->templateName = $templateName;
 
@@ -72,6 +78,11 @@ class OA_Admin_Template extends Smarty
             return $GLOBALS['key'.$aParams['key']];
         }
         $smarty->trigger_error("t: missing 'str' or 'key' parameters");
+    }
+
+    function _function_tabindex($aParams, &$smarty)
+    {
+        return ' tabindex="'.++$smarty->_tabIndex.'"';
     }
 
     function _function_oa_icon($aParams, &$smarty)
@@ -138,6 +149,29 @@ class OA_Admin_Template extends Smarty
             }
         } else {
             $smarty->trigger_error("t: missing 'str'parameter");
+        }
+    }
+
+    function _block_edit($aParams, $content, &$smarty, &$repeat)
+    {
+        static $break = false;
+
+        if (!$repeat) {
+            $aParams['content'] = $content;
+            if (isset($aParams['params']) && is_array($aParams)) {
+                $aParams += $aParams['params'];
+            }
+            if (!isset($aParams['break'])) {
+                $aParams['break'] = $break;
+            }
+
+            $smarty->assign('_e', $aParams);
+            $result = $smarty->fetch('_edit.html');
+            $smarty->clear_assign('_e');
+
+            $break = $aParams['type'] != 'section';
+
+            return $result;
         }
     }
 

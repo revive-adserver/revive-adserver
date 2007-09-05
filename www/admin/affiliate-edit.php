@@ -392,401 +392,325 @@ if ($affiliateid != "") {
         $affiliate_extra['page_rank'] = '';
     }
 }
-$tabindex = 1;
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-echo "<br /><br />";
-echo "<form name='affiliateform' method='post' action='affiliate-edit.php' onSubmit='return max_formValidate(this);'>";
-echo "<input type='hidden' name='affiliateid' value='".(isset($affiliateid) && $affiliateid != '' ? $affiliateid : '')."'>";
-echo "<input type='hidden' name='move' value='".(isset($move) && $move != '' ? $move : '')."'>";
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strBasicInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+$oTpl = new OA_Admin_Template('affiliate-edit.html');
 
-// Name
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
+$oTpl->assign('affiliateid', $affiliateid);
+$oTpl->assign('move', $move);
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<td width='100%'><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='name' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['name'])."' tabindex='".($tabindex++)."'></td>";
-} else {
-    echo "<td width='100%'>".(isset($affiliate['name']) ? $affiliate['name'] : '');
-}
+$aLanguages = array('' => $strDefault) + MAX_Admin_Languages::AvailableLanguages();
 
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Mnemonic
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strMnemonic."</td><td>";
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='mnemonic' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['mnemonic'])."' tabindex='".($tabindex++)."' maxlength='5'>";
-} else {
-    echo (isset($affiliate['mnemonic']) ? $affiliate['mnemonic'] : '');
-}
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Website
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strWebsite."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='website' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate['website'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Contact
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strContact."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='contact' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['contact'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Email
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strEMail."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='email' size='35' style='width:350px;' value='".phpAds_htmlQuotes($affiliate['email'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-
-if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-    // Language
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-    echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strLanguage."</td><td>";
-    echo "<select name='language' tabindex='".($tabindex++)."'>";
-    echo "<option value='' SELECTED>".$strDefault."</option>\n";
-
-    $languages = MAX_Admin_Languages::AvailableLanguages();
-    while (list($k, $v) = each($languages)) {
-        if (isset($affiliate['language']) && $affiliate['language'] == $k) {
-            echo "<option value='$k' selected>$v</option>\n";
-        } else {
-            echo "<option value='$k'>$v</option>\n";
-        }
-    }
-
-    echo "</select></td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-}
-
-// Public?
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='hidden' name='publiczones_old' value='".$affiliate['publiczones']."'>";
-    echo "<input type='checkbox' name='publiczones' value='t'".($affiliate['publiczones'] == 't' ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strMakePublisherPublic;
-    echo "</td></tr>";
-}
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "</table>";
-
-echo "<br /><br />";
-echo "<br /><br />";
-
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strLoginInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Error message?
-if (isset($errormessage) && count($errormessage)) {
-    echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
-    echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
-    echo "<img src='images/error.gif' align='absmiddle'>&nbsp;";
-
-    while (list($k,$v) = each($errormessage)) {
-        echo "<font color='#AA0000'><b>".$v."</b></font><br />";
-    }
-
-    echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-}
-
-// Username
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
-
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<td width='370'><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='affiliateusername' size='25' value='".phpAds_htmlQuotes($affiliate['username'])."' tabindex='".($tabindex++)."'></td>";
-} else {
-    echo "<td width='370'>".(isset($affiliate['username']) ? $affiliate['username'] : '');
-}
-
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Password
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-    echo "<td width='370'><input class='flat' type='password' name='affilaitepassword' size='25' value='".$affiliate['password']."' tabindex='".($tabindex++)."'>";
-    echo "</td></tr>";
-} else {
-    echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strOldPassword."</td><td width='100%'>";
-    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='password' name='pwold' size='25' value='' tabindex='".($tabindex++)."'>";
-    echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strNewPassword."</td><td width='100%'>";
-    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='password' name='pw' size='25' value='' tabindex='".($tabindex++)."'>";
-    echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strRepeatPassword."</td><td width='100%'>";
-    echo "<input onBlur='max_formValidateElement(this);' class='flat' type='password' name='pw2' size='25' value='' tabindex='".($tabindex++)."'>";
-    echo "</td></tr>";
-}
-
-// Permissions
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
+$oTpl->assign('fields', array(
+    array(
+        'title'     => $strBasicInformation,
+        'fields'    => array(
+            array(
+                'name'      => 'name',
+                'label'     => $strName,
+                'value'     => $affiliate['name'],
+                'freezed'   => !phpAds_isUser(phpAds_Admin|phpAds_Agency)
+            ),
+            array(
+                'name'      => 'mnemonic',
+                'label'     => $strMnemonic,
+                'value'     => $affiliate['mnemonic'],
+                'freezed'   => phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'website',
+                'label'     => $strWebsite,
+                'value'     => $affiliate['website']
+            ),
+            array(
+                'name'      => 'contact',
+                'label'     => $strContact,
+                'value'     => $affiliate['contact']
+            ),
+            array(
+                'name'      => 'email',
+                'label'     => $strEMail,
+                'value'     => $affiliate['email']
+            ),
+            array(
+                'name'      => 'language',
+                'label'     => $strLanguage,
+                'type'      => 'select',
+                'options'   => $aLanguages,
+                'selected'  => $affiliate['language'],
+                'hidden'    => MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)
+            ),
+            array(
+                'name'      => 'publiczones',
+                'label'     => $strMakePublisherPublic,
+                'type'      => 'checkbox',
+                'value'     => 't',
+                'checked'   => $affiliate['publiczones'] == 't',
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'old'       => $affiliate['publiczones']
+            )
+        )
+    ),
+    array(
+        'title'     => $strLoginInformation,
+        'errors'    => count($errormessage) ? $error_message : false,
+        'fields'    => array(
+            array(
+                'name'      => 'username',
+                'style'     => 'small',
+                'label'     => $strUsername,
+                'value'     => $affiliate['username'],
+                'freezed'   => phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'affiliatepassword',
+                'style'     => 'small',
+                'label'     => $strPassword,
+                'type'      => 'text',
+                'value'     => $affiliate['password'],
+                'hidden'    => phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'pwold',
+                'style'     => 'small',
+                'label'     => $strOldPassword,
+                'type'      => 'password',
+                'hidden'    => !phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'pw',
+                'style'     => 'small',
+                'label'     => $strNewPassword,
+                'type'      => 'password',
+                'hidden'    => !phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'pw2',
+                'style'     => 'small',
+                'label'     => $strRepeatPassword,
+                'type'      => 'password',
+                'hidden'    => !phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateModifyInfo,
+                'type'      => 'checkbox',
+                'value'     => phpAds_ModifyInfo,
+                'checked'   => $affiliate['permissions'] & phpAds_ModifyInfo,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateModifyZones,
+                'type'      => 'checkbox',
+                'value'     => phpAds_EditZone,
+                'checked'   => $affiliate['permissions'] & phpAds_EditZone,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_EditZone,
+                'onclick'   => 'MMM_cascadePermissionsChange()'
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateAddZone,
+                'type'      => 'checkbox',
+                'value'     => phpAds_AddZone,
+                'checked'   => $affiliate['permissions'] & phpAds_AddZone,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_AddZone,
+                'indent'    => true
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateDeleteZone,
+                'type'      => 'checkbox',
+                'value'     => phpAds_DeleteZone,
+                'checked'   => $affiliate['permissions'] & phpAds_DeleteZone,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_DeleteZone,
+                'indent'    => true
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateLinkBanners,
+                'type'      => 'checkbox',
+                'value'     => phpAds_LinkBanners,
+                'checked'   => $affiliate['permissions'] & phpAds_LinkBanners,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_LinkBanners
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateGenerateCode,
+                'type'      => 'checkbox',
+                'value'     => MAX_AffiliateGenerateCode,
+                'checked'   => $affiliate['permissions'] & MAX_AffiliateGenerateCode,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.MAX_AffiliateGenerateCode
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateZoneStats,
+                'type'      => 'checkbox',
+                'value'     => MAX_AffiliateViewZoneStats,
+                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewZoneStats,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewZoneStats
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateApprPendConv,
+                'type'      => 'checkbox',
+                'value'     => MAX_AffiliateViewOnlyApprPendConv,
+                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewOnlyApprPendConv,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewOnlyApprPendConv
+            )
+        )
+    ),
+    array(
+        'title'     => $strPaymentInformation,
+        'fields'    => array(
+            array(
+                'name'      => 'address',
+                'label'     => $strAddress,
+                'value'     => $affiliate_extra['address']
+            ),
+            array(
+                'name'      => 'city',
+                'label'     => $strCity,
+                'value'     => $affiliate_extra['city']
+            ),
+            array(
+                'name'      => 'postcode',
+                'label'     => $strPostcode,
+                'value'     => $affiliate_extra['postcode']
+            ),
+            array(
+                'name'      => 'country',
+                'label'     => $strCountry,
+                'value'     => $affiliate_extra['country']
+            ),
+            array(
+                'name'      => 'phone',
+                'label'     => $strPhone,
+                'value'     => $affiliate_extra['phone']
+            ),
+            array(
+                'name'      => 'fax',
+                'label'     => $strFax,
+                'value'     => $affiliate_extra['fax']
+            ),
+            array(
+                'name'      => 'account_contact',
+                'label'     => $strAccountContact,
+                'value'     => $affiliate_extra['account_contact']
+            ),
+            array(
+                'name'      => 'payee_name',
+                'label'     => $strPayeeName,
+                'value'     => $affiliate_extra['payee_name']
+            ),
+            array(
+                'type'      => 'custom',
+                'template'  => 'taxid',
+                'label'     => $strTaxID,
+                'value'     => $affiliate_extra['tax_id']
+            ),
+            array(
+                'name'      => 'mode_of_payment',
+                'label'     => $strModeOfPayment,
+                'type'      => 'select',
+                'options'   => empty($pref['publisher_payment_modes']) ?
+                                    array($strPaymentChequeByPost) :
+                                    explode(',', $pref['publisher_payment_modes']),
+                'selected'  => $affiliate_extra['mode_of_payment']
+            ),
+            array(
+                'name'      => 'currency',
+                'label'     => $strCurrency,
+                'type'      => 'select',
+                'options'   => empty($pref['publisher_currencies']) ?
+                                    array($strCurrencyGBP) :
+                                    explode(',', $pref['publisher_currencies']),
+                'selected'  => $affiliate_extra['currency']
+            )
+        )
+    ),
+    array(
+        'title'     => $strOtherInformation,
+        'fields'    => array(
+            array(
+                'name'      => 'unique_users',
+                'style'     => 'small',
+                'label'     => $strUniqueUsersMonth,
+                'value'     => $affiliate_extra['unique_users']
+            ),
+            array(
+                'name'      => 'unique_views',
+                'style'     => 'small',
+                'label'     => $strUniqueViewsMonth,
+                'value'     => $affiliate_extra['unique_views']
+            ),
+            array(
+                'name'      => 'page_rank',
+                'style'     => 'small',
+                'label'     => $strPageRank,
+                'value'     => $affiliate_extra['page_rank']
+            ),
+            array(
+                'name'      => 'category',
+                'label'     => $strCategory,
+                'type'      => 'select',
+                'style'     => 'big',
+                'options'   => empty($pref['publisher_categories']) ?
+                                    array($strCurrencyGBP) :
+                                    explode(',', $pref['publisher_categories']),
+                'selected'  => $affiliate_extra['category']
+            ),
+            array(
+                'name'      => 'comments',
+                'label'     => $strComments,
+                'type'      => 'textarea',
+                'value'     => $affiliate_extra['comments']
+            ),
+            array(
+                'name'      => 'help_file',
+                'label'     => $strHelpFile,
+                'type'      => 'select',
+                'style'     => 'big',
+                'options'   => empty($pref['publisher_help_files']) ?
+                                    array($strCurrencyGBP) :
+                                    explode(',', $pref['publisher_help_files']),
+                'selected'  => $affiliate_extra['help_file']
+            ),
+        )
+    )
+));
 
 //    Hidden - see #542
 //
-//    echo "<tr><td width='30'>&nbsp;</td><td width='200'>". 'Account type' ."</td>";
-//    echo "<td width='370'><select onchange='MMM_accountTypeChange()' name='account_type' tabindex='".($tabindex++)."'>";
-//    echo "<option value='publisher'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Publisher' ."</option>";
-//    echo "<option value='affiliate'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Affiliate' ."</option>";
-//    echo "</select>";
-//    echo "</td></tr>";
-//    echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-//    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
+//    echo "<tr><td width='30'>&nbsp;</td><td width='200'>". 'Account type' ."</td>
+//    echo "<td width='370'><select onchange='MMM_accountTypeChange()' name='account_type' tabindex='".($tabindex++)."'>
+//    echo "<option value='publisher'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Publisher' ."</option>
+//    echo "<option value='affiliate'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Affiliate' ."</option>
+//    echo "</select>
+//    echo "</td></tr>
+//    echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>
+//    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>
 
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_ModifyInfo."'".(phpAds_ModifyInfo & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateModifyInfo;
-    echo "</td></tr>";
+$oTpl->display();
 
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input onclick='MMM_cascadePermissionsChange()' id='affiliatepermissions_".phpAds_EditZone."' type='checkbox' name='affiliatepermissions[]' value='".phpAds_EditZone."'".(phpAds_EditZone & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateModifyZones;
-    echo "</td></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<img src='images/indent.gif'><input type='checkbox' id='affiliatepermissions_".phpAds_AddZone."' name='affiliatepermissions[]' value='".phpAds_AddZone."'".(phpAds_AddZone & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateAddZone;
-    echo "</td></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<img src='images/indent.gif'><input type='checkbox' id='affiliatepermissions_".phpAds_DeleteZone."' name='affiliatepermissions[]' value='".phpAds_DeleteZone."'".(phpAds_DeleteZone & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateDeleteZone;
-    echo "</td></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='checkbox' name='affiliatepermissions[]' value='".phpAds_LinkBanners."'".(phpAds_LinkBanners & $affiliate['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateLinkBanners;
-    echo "</td></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='checkbox' name='affiliatepermissions[]' value='".MAX_AffiliateGenerateCode."'".(MAX_AffiliateGenerateCode & $affiliate['permissions'] ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateGenerateCode;
-    echo "</td></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='checkbox' name='affiliatepermissions[]' value='".MAX_AffiliateViewZoneStats."'".(MAX_AffiliateViewZoneStats & $affiliate['permissions'] ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateZoneStats;
-    echo "</td></tr>";
-
-    echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-    echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-    echo "<input type='checkbox' name='affiliatepermissions[]' value='".MAX_AffiliateViewOnlyApprPendConv."'".(MAX_AffiliateViewOnlyApprPendConv & $affiliate['permissions'] ? ' checked="checked"' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-    echo $strAllowAffiliateApprPendConv;
-    echo "</td></tr>";
-}
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "</table>";
-
-echo "<br><br>";
-
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strPaymentInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Address
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strAddress."</td><td>";
-echo "<textarea class='code' cols='45' rows='3' name='address' wrap='off' dir='ltr' style='width:350px;";
-echo "' tabindex='".($tabindex++)."'>".phpAds_htmlQuotes($affiliate_extra['address'])."</textarea>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// City
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strCity."</td><td>";
-echo "<input class='flat' type='text' name='city' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['city'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Postcode
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPostcode."</td><td>";
-echo "<input class='flat' type='text' name='postcode' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['postcode'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Country
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strCountry."</td><td>";
-echo "<input class='flat' type='text' name='country' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['country'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Phone
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPhone."</td><td>";
-echo "<input class='flat' type='text' name='phone' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['phone'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Fax
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strFax."</td><td>";
-echo "<input class='flat' type='text' name='fax' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['fax'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Account contact
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strAccountContact."</td><td>";
-echo "<input class='flat' type='text' name='account_contact' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['account_contact'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Payee name
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPayeeName."</td><td>";
-echo "<input class='flat' type='text' name='payee_name' size='35' style='width:350px;' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['payee_name'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Tax ID
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strTaxID."</td><td>";
-echo "<input onClick='MMM_taxIdChange(this)' class='flat' type='radio' name='tax_id_present' id='tax_id_present_f' value='f' tabindex='".($tabindex++)."'".(empty($affiliate_extra['tax_id']) || (isset($affiliate['tax_id_present']) && $affiliate['tax_id_present'] != 't') ? ' checked' : '').">".$strNo."<br>";
-echo "<input onClick='MMM_taxIdChange(this)' class='flat' type='radio' name='tax_id_present' id='tax_id_present_t' value='t' tabindex='".($tabindex++)."'".(!empty($affiliate_extra['tax_id']) || (isset($affiliate['tax_id_present']) && $affiliate['tax_id_present'] == 't') ? ' checked' : '').">".$strYes."&nbsp;&nbsp;";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='tax_id' size='25' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['tax_id'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Mode of payment
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strModeOfPayment."</td><td>";
-echo "<select type='text' name='mode_of_payment' dir='ltr' tabindex='".($tabindex++)."'>";
-if (empty($pref['publisher_payment_modes'])) {
-    $payment_modes = array($strPaymentChequeByPost);
-} else {
-    $payment_modes = explode(',', $pref['publisher_payment_modes']);
-}
-foreach ($payment_modes as $v) {
-    echo "<option value='".htmlentities($v)."'".($affiliate_extra['mode_of_payment'] == $v ? ' selected' : '').">".htmlentities($v)."</option>";
-}
-echo "</select>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Currency
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strCurrency."</td><td>";
-echo "<select type='text' name='currency' dir='ltr' tabindex='".($tabindex++)."'>";
-if (empty($pref['publisher_currencies'])) {
-    $currencies = array($strCurrencyGBP);
-} else {
-    $currencies = explode(',', $pref['publisher_currencies']);
-}
-foreach ($currencies as $v) {
-    echo "<option value='".htmlentities($v)."'".($affiliate_extra['currency'] == $v ? ' selected' : '').">".htmlentities($v)."</option>";
-}
-echo "</select>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "</table>";
-
-echo "<br><br>";
-
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strOtherInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-// Unique users
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUniqueUsersMonth."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='unique_users' size='25' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['unique_users'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Unique views
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUniqueViewsMonth."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='unique_views' size='25' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['unique_views'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Page rank
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPageRank."</td><td>";
-echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' name='page_rank' size='25' dir='ltr' value='".phpAds_htmlQuotes($affiliate_extra['page_rank'])."' tabindex='".($tabindex++)."'>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-// Category
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strCategory."</td><td>";
-echo "<select type='text' name='category' style='width:350px;' dir='ltr' tabindex='".($tabindex++)."'>";
-if (empty($pref['publisher_categories'])) {
-    $categories = array();
-} else {
-    $categories = explode(',', $pref['publisher_categories']);
-}
-foreach ($categories as $v) {
-    echo "<option value='".htmlentities($v)."'".($affiliate_extra['category'] == $v ? ' selected' : '').">".htmlentities($v)."</option>";
-}
-echo "</select>";
-echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-    // Comments
-    echo "<tr><td width='30'>&nbsp;</td>";
-    echo "<td width='200'>".$strComments."</td>";
-
-    echo "<td><textarea class='code' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
-    echo "' tabindex='".($tabindex++)."'>".htmlentities($affiliate['comments'])."</textarea>";
-    echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-    // Help file
-    echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strHelpFile."</td><td>";
-    echo "<select type='text' name='help_file' style='width:350px;' dir='ltr' tabindex='".($tabindex++)."'>";
-    if (empty($pref['publisher_help_files'])) {
-        $help_files = array();
-    } else {
-        $help_files = explode(',', $pref['publisher_help_files']);
-    }
-    foreach ($help_files as $v) {
-        echo "<option value='".htmlentities($v)."'".($affiliate_extra['help_file'] == $v ? ' selected' : '').">".htmlentities($v)."</option>";
-    }
-    echo "</select>";
-    echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-}
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-echo "</table>";
-
-echo "<br /><br />";
-echo "<input type='submit' name='submit' value='".(isset($affiliateid) && $affiliateid != '' ? $strSaveChanges : $strNext.' >')."' tabindex='".($tabindex++)."'>";
-echo "</form>";
 
 /*-------------------------------------------------------*/
 /* Form requirements                                     */
@@ -858,21 +782,6 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
     MMM_accountTypeChange();
 
 <?php } ?>
-
-    function MMM_taxIdChange(o)
-    {
-        var t = findObj('tax_id');
-
-        if (t) {
-            t.disabled = o.form.tax_id_present[0].checked;
-
-            if (t.disabled) {
-                max_formValidateElement(t);
-            }
-        }
-    }
-
-    MMM_taxIdChange(findObj('tax_id_present_f'));
 
 //-->
 </script>
