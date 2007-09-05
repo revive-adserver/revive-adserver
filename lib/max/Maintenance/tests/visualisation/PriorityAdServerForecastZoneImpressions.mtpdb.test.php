@@ -48,6 +48,11 @@ require_once 'Image/Graph.php';
 class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
 {
     var $run;
+    var $tblZones;
+    var $tblBanners;
+    var $tblAdZoneAssoc;
+    var $tblDSZIH;
+
 
     /**
      * The constructor method.
@@ -62,6 +67,11 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         Mock::generatePartial('ForecastZoneImpressions',
                               'PartialMockForecastZoneImpressions',
                               array('_getDal', '_init'));
+        $this->tblZones = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true);
+        $this->tblBanners = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true);
+        $this->tblAdZoneAssoc = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true);
+        $this->tblDSZIH = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_zone_impression_history'],true);
+
     }
 
     /**
@@ -82,10 +92,11 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
         $oForecastZoneImpressions->ForecastZoneImpressions();
+
         // Prepare the test data required for the test
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['zones']}
+                {$this->tblZones}
                 (
                     zoneid,
                     zonename,
@@ -110,7 +121,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['banners']}
+                {$this->tblBanners}
                 (
                     bannerid,
                     active,
@@ -135,7 +146,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
+                {$this->tblAdZoneAssoc}
                 (
                     zone_id,
                     ad_id
@@ -150,7 +161,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             case 'pgsql':
                 $query = "
                     COPY
-                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                        {$this->tblDSZIH}
                     FROM
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
                     WITH DELIMITER
@@ -161,7 +172,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     LOAD DATA INFILE
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
                     INTO TABLE
-                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                        {$this->tblDSZIH}
                     FIELDS TERMINATED BY
                         '\\t'
                     LINES TERMINATED BY
@@ -171,7 +182,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             UPDATE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$this->tblDSZIH}
             SET
                 forecast_impressions = NULL";
         $oDbh->exec($query);
@@ -230,7 +241,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 SELECT
                     actual_impressions
                 FROM
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    {$this->tblDSZIH}
                 WHERE
                     operation_interval = {$conf['maintenance']['operationInterval']}
                     AND operation_interval_id = $operationIntervalId
@@ -336,7 +347,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         // Prepare the test data required for the test
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['zones']}
+                {$this->tblZones}
                 (
                     zoneid,
                     zonename,
@@ -361,7 +372,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['banners']}
+                {$this->tblBanners}
                 (
                     bannerid,
                     active,
@@ -386,7 +397,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
+                {$this->tblAdZoneAssoc}
                 (
                     zone_id,
                     ad_id
@@ -404,7 +415,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     LOAD DATA INFILE
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
                     INTO TABLE
-                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                        {$this->tblDSZIH}
                     FIELDS TERMINATED BY
                         '\\t'
                     LINES TERMINATED BY
@@ -413,7 +424,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             case "pgsql":
                 $query = "
                     COPY
-                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                        {$this->tblDSZIH}
                     FROM
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
                     WITH DELIMITER
@@ -423,7 +434,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             UPDATE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$this->tblDSZIH}
             SET
                 forecast_impressions = NULL";
         $oDbh->exec($query);
@@ -484,7 +495,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 SELECT
                     actual_impressions
                 FROM
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    {$this->tblDSZIH}
                 WHERE
                     operation_interval = {$conf['maintenance']['operationInterval']}
                     AND operation_interval_id = $operationIntervalId
@@ -593,7 +604,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         // Prepare the test data required for the test
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['zones']}
+                {$this->tblZones}
                 (
                     zoneid,
                     zonename,
@@ -618,7 +629,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['banners']}
+                {$this->tblBanners}
                 (
                     bannerid,
                     active,
@@ -643,7 +654,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['ad_zone_assoc']}
+                {$this->tblAdZoneAssoc}
                 (
                     zone_id,
                     ad_id
@@ -661,7 +672,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                     LOAD DATA INFILE
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
                     INTO TABLE
-                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                        {$this->tblDSZIH}
                     FIELDS TERMINATED BY
                         '\\t'
                     LINES TERMINATED BY
@@ -670,7 +681,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
             case 'pgsql':
                 $query = "
                     COPY
-                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                        {$this->tblDSZIH}
                     FROM
                         '" . MAX_PATH . "/lib/max/Maintenance/data/PriorityAdServerForecastZoneImpressions.sql'
                     WITH DELIMITER
@@ -680,7 +691,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $oDbh->exec($query);
         $query = "
             UPDATE
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$this->tblDSZIH}
             SET
                 forecast_impressions = NULL";
         $oDbh->exec($query);
@@ -698,7 +709,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         // Delete the existing data that comes before this date
         $query = "
             DELETE FROM
-                {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                {$this->tblDSZIH}
             WHERE
                 interval_start < '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'";
         $oDbh->exec($query);
@@ -748,7 +759,7 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
                 SELECT
                     actual_impressions
                 FROM
-                    {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                    {$this->tblDSZIH}
                 WHERE
                     operation_interval = {$conf['maintenance']['operationInterval']}
                     AND operation_interval_id = $operationIntervalId

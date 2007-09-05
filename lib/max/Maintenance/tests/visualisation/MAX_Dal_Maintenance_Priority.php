@@ -56,11 +56,12 @@ class MAX_Dal_Maintenance_TestOfForecastZoneImpressions extends OA_Dal_Maintenan
         // exists
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_zone_impression_history'],true);
         foreach ($aForecasts as $zoneId => $aOperationIntervals) {
             foreach ($aOperationIntervals as $id => $aValues) {
                 $query = "
                     UPDATE
-                        {$conf['table']['prefix']}{$conf['table']['data_summary_zone_impression_history']}
+                        {$table}
                     SET
                         forecast_impressions = {$aValues['forecast_impressions']}
                     WHERE
