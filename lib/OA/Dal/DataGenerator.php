@@ -446,9 +446,9 @@ class DataGenerator
     function resetSequence($tableName)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
+        $oDbh = OA_DB::singleton();
         if ($aConf['database']['type'] == 'pgsql')
         {
-            $oDbh = OA_DB::singleton();
             OA_DB::setCaseSensitive();
             $aSequences = $oDbh->manager->listSequences();
             OA_DB::disableCaseSensitive();
@@ -474,6 +474,17 @@ class DataGenerator
             }
 
         }
+        else if ($aConf['database']['type'] == 'mysql')
+        {
+            PEAR::pushErrorHandling(null);
+            $result = $oDbh->exec("ALTER TABLE {$tableName} AUTO_INCREMENT = 1");
+            PEAR::popErrorHandling();
+            if (PEAR::isError($result)) {
+                OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERROR);
+                return false;
+            }
+        }
+
         return true;
     }
 }
