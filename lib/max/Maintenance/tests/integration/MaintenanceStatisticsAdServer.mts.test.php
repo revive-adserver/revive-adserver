@@ -32,8 +32,10 @@ require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'Date.php';
 
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+
 // pgsql execution time before refactor: 209.89s
-// pgsql execution time after refactor: s
+// pgsql execution time after refactor: 63.105s
 
 
 /**
@@ -53,6 +55,19 @@ require_once 'Date.php';
 class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 {
     var $oDbh;
+    var $doBanners = null;
+    var $doCampaigns = null;
+    var $doCampaignsTrackers = null;
+    var $doClients = null;
+    var $doAcls = null;
+    var $doChannel = null;
+    var $doAclsChannel = null;
+    var $doZones = null;
+    var $doTrackers = null;
+    var $tblDRT;
+    var $tblDRAI;
+    var $tblDRTI;
+
 
     /**
      * The constructor method.
@@ -60,6 +75,285 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
     function Maintenance_TestOfMaintenanceStatisticsAdServer()
     {
         $this->UnitTestCase();
+        $this->oDbh = &OA_DB::singleton();
+        $this->doBanners   = OA_Dal::factoryDO('banners');
+        $this->doCampaigns = OA_Dal::factoryDO('campaigns');
+        $this->doCampaignsTrackers = OA_Dal::factoryDO('campaigns_trackers');
+        $this->doClients = OA_Dal::factoryDO('clients');
+        $this->doAcls = OA_Dal::factoryDO('acls');
+        $this->doAclsChannel = OA_Dal::factoryDO('acls_channel');
+        $this->doChannel = OA_Dal::factoryDO('channel');
+        $this->doZones = OA_Dal::factoryDO('zones');
+        $this->doTrackers = OA_Dal::factoryDO('trackers');
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $this->tblDRT = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true);
+        $this->tblDRAI = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true);
+        $this->tblDRTI = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'],true);
+    }
+
+    function _insertBanner($aData)
+    {
+        $this->doBanners->active='t';
+        $this->doBanners->contenttype='';
+        $this->doBanners->pluginversion=0;
+        $this->doBanners->storagetype='html';
+        $this->doBanners->filename='';
+        $this->doBanners->imageurl='';
+        $this->doBanners->htmltemplate='<h3>Test Banner</h3>';
+        $this->doBanners->htmlcache='<h3>Test Banner</h3>';
+        $this->doBanners->width=0;
+        $this->doBanners->height=0;
+        $this->doBanners->weight=1;
+        $this->doBanners->seq=0;
+        $this->doBanners->target='';
+        $this->doBanners->url='http://example.com/';
+        $this->doBanners->alt='';
+        $this->doBanners->status='';
+        $this->doBanners->bannertext='';
+        $this->doBanners->description='Banner';
+        $this->doBanners->autohtml='t';
+        $this->doBanners->adserver='';
+        $this->doBanners->block=0;
+        $this->doBanners->capping=0;
+        $this->doBanners->session_capping=0;
+        $this->doBanners->compiledlimitation='';
+        $this->doBanners->append='';
+        $this->doBanners->appendtype=0;
+        $this->doBanners->bannertype=0;
+        $this->doBanners->alt_filename='';
+        $this->doBanners->alt_imageurl='';
+        $this->doBanners->alt_contenttype='';
+        foreach ($aData AS $key => $val)
+        {
+            $this->doBanners->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doBanners);
+    }
+
+    function _insertCampaign($aData)
+    {
+        $this->doCampaigns->campaignname = 'Test Advertiser - Default Campaign';
+        $this->doCampaigns->views = -1;
+        $this->doCampaigns->clicks = -1;
+        $this->doCampaigns->conversions = -1;
+        $this->doCampaigns->expire = OA_Dal::noDateValue();
+        $this->doCampaigns->activate = OA_Dal::noDateValue();
+        $this->doCampaigns->active = 't';
+        $this->doCampaigns->priority = 'l';
+        $this->doCampaigns->weight = 1;
+        $this->doCampaigns->target_impression = 1;
+        $this->doCampaigns->target_click = 0;
+        $this->doCampaigns->target_conversion = 0;
+        $this->doCampaigns->anonymous = 'f';
+        $this->doCampaigns->companion = 0;
+        $this->doCampaigns->updated = null;
+        foreach ($aData AS $key => $val)
+        {
+            $this->doCampaigns->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doCampaigns);
+    }
+
+    function _insertCampaignsTracker($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doCampaignsTrackers->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doCampaignsTrackers);
+    }
+
+    function _insertClients($aData)
+    {
+        $this->doClients->agencyid=0;
+        $this->doClients->clientname='Test Advertiser';
+        $this->doClients->contact='Test Contact';
+        $this->doClients->email='test1@example.com';
+        $this->doClients->clientusername='';
+        $this->doClients->clientpassword='';
+        $this->doClients->permissions=0;
+        $this->doClients->language='';
+        $this->doClients->report='t';
+        $this->doClients->reportinterval=7;
+        $this->doClients->reportlastdate='2004-11-26';
+        $this->doClients->reportdeactivate='t';
+        foreach ($aData AS $key => $val)
+        {
+            $this->doClients->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doClients);
+    }
+
+    function _insertAcls($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doAcls->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doAcls);
+    }
+
+    function _insertChannel($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doChannel->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doChannel);
+    }
+
+    function _insertAclsChannel($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doAclsChannel->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doAclsChannel);
+    }
+
+    function _insertZone($aData)
+    {
+        $this->doZones->description='';
+        $this->doZones->delivery=0;
+        $this->doZones->zonetype=3;
+        $this->doZones->category='';
+        $this->doZones->width=-1;
+        $this->doZones->height=-1;
+        $this->doZones->ad_selection='';
+        $this->doZones->chain='';
+        $this->doZones->prepend='';
+        $this->doZones->append='';
+        $this->doZones->appendtype=0;
+        $this->doZones->inventory_forecast_type=0;
+        $this->doZones->what='';
+        foreach ($aData AS $key => $val)
+        {
+            $this->doZones->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doZones);
+    }
+
+    function _insertTracker($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doTrackers->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doTrackers);
+    }
+
+    function _insertDataRawTracker($aData)
+    {
+        $query = "
+            INSERT INTO
+            {$this->tblDRT}
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    channel_ids,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser,
+                    max_https
+                )
+            VALUES
+                (
+                '{$aData[0]}',
+                '{$aData[1]}',
+                '{$aData[2]}',
+                {$aData[3]},
+                {$aData[4]},
+                {$aData[5]},
+                '{$aData[6]}',
+                '{$aData[7]}',
+                '{$aData[8]}',
+                '{$aData[9]}',
+                '{$aData[10]}',
+                '{$aData[11]}',
+                '{$aData[12]}',
+                '{$aData[13]}',
+                '{$aData[14]}',
+                '{$aData[15]}',
+                '{$aData[16]}',
+                '{$aData[17]}',
+                '{$aData[18]}',
+                '{$aData[19]}',
+                '{$aData[20]}',
+                '{$aData[21]}'
+                )";
+        return $this->oDbh->exec($query);
+    }
+
+    function _insertDataRawAdImpression($aData)
+    {
+        $query = "
+            INSERT INTO
+                {$this->tblDRAI}
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    ad_id,
+                    creative_id,
+                    zone_id,
+                    channel,
+                    channel_ids,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser,
+                    max_https
+                )
+            VALUES
+                (
+                '{$aData[0]}',
+                '{$aData[1]}',
+                '{$aData[2]}',
+                {$aData[3]},
+                {$aData[4]},
+                {$aData[5]},
+                '{$aData[6]}',
+                '{$aData[7]}',
+                '{$aData[8]}',
+                '{$aData[9]}',
+                '{$aData[10]}',
+                '{$aData[11]}',
+                '{$aData[12]}',
+                '{$aData[13]}',
+                '{$aData[14]}',
+                '{$aData[15]}',
+                '{$aData[16]}',
+                '{$aData[17]}',
+                '{$aData[18]}',
+                '{$aData[19]}',
+                '{$aData[20]}',
+                '{$aData[21]}'
+                )";
+        return $this->oDbh->exec($query);
     }
 
     /**
@@ -67,636 +361,441 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
      */
     function testClass()
     {
-        // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
-        // options can be changed while the test is running
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $this->oDbh = &OA_DB::singleton();
         $oTable = &OA_DB_Table_Core::singleton();
-        // Create the required tables
-        $oTable->createTable('banners');
-        $oTable->createTable('campaigns');
-        $oTable->createTable('campaigns_trackers');
-        $oTable->createTable('clients');
-        $oTable->createTable('data_intermediate_ad');
-        $oTable->createTable('data_intermediate_ad_connection');
-        $oTable->createTable('data_intermediate_ad_variable_value');
-        $oTable->createTable('data_raw_ad_click');
-        $oTable->createTable('data_raw_ad_impression');
-        $oTable->createTable('data_raw_ad_request');
-        $oTable->createTable('data_raw_tracker_impression');
-        $oTable->createTable('data_raw_tracker_variable_value');
-        $oTable->createTable('data_summary_ad_hourly');
-        $oTable->createTable('data_summary_zone_impression_history');
-        $oTable->createTable('log_maintenance_statistics');
-        $oTable->createTable('preference');
-        $oTable->createTable('preference_advertiser');
-        $oTable->createTable('trackers');
-        $oTable->createTable('userlog');
-        $oTable->createTable('variables');
-        $oTable->createTable('zones');
-        $oTable->createTable('channel');
-        $oTable->createTable('acls');
-        $oTable->createTable('acls_channel');
+        $oTable->createAllTables();
 
-        // Insert the test data
+        //create the clients
+        $aData = array(
+            'clientname'=>'Test Advertiser 1'
+        );
+        $idClient1 = $this->_insertClients($aData);
+        $aData = array(
+            'clientname'=>'Test Advertiser 2'
+        );
+        $idClient2 = $this->_insertClients($aData);
+
+        // create the campaigns
+        $aData = array(
+            'clientid'=>$idClient1
+        );
+        $idCampaign1 = $this->_insertCampaign($aData);
+        $aData = array(
+            'clientid'=>$idClient1
+        );
+        $idCampaign2 = $this->_insertCampaign($aData);
+        $aData = array(
+            'clientid'=>$idClient1
+        );
+        $idCampaign3 = $this->_insertCampaign($aData);
+        $aData = array(
+            'clientid'=>$idClient2
+        );
+        $idCampaign4 = $this->_insertCampaign($aData);
+        $aData = array(
+            'clientid'=>$idClient2
+        );
+        $idCampaign5 = $this->_insertCampaign($aData);
+        $aData = array(
+            'clientid'=>$idClient2
+        );
+        $idCampaign6 = $this->_insertCampaign($aData);
+
+        // create the campaign trackers
+        $aData = array(
+                        'campaignid'=>$idCampaign1,
+                        'trackerid'=>$idCamTracker1,
+                        'viewwindow'=>86400,
+                        'clickwindow'=>0,
+                        'status'=>1
+                      );
+        $idCamTracker1 = $this->_insertCampaignsTracker($aData);
+        $aData = array(
+                        'campaignid'=>$idCampaign2,
+                        'trackerid'=>$idCamTracker1,
+                        'viewwindow'=>86400,
+                        'clickwindow'=>0,
+                        'status'=>1
+                      );
+        $idCamTracker2 = $this->_insertCampaignsTracker($aData);
+        $aData = array(
+                        'campaignid'=>$idCampaign3,
+                        'trackerid'=>$idCamTracker1,
+                        'viewwindow'=>86400,
+                        'clickwindow'=>0,
+                        'status'=>4
+                      );
+        $idCamTracker3 = $this->_insertCampaignsTracker($aData);
+
+        // create the banners
+        $aData = array(
+                        'campaignid'=>$idCampaign1,
+                       );
+        $idBanner1 = $this->_insertBanner($aData);
+        $aData = array(
+                        'campaignid'=>$idCampaign2,
+                       );
+        $idBanner2 = $this->_insertBanner($aData);
+        $aData = array(
+                        'campaignid'=>$idCampaign3,
+                       );
+        $idBanner3 = $this->_insertBanner($aData);
+        $aData = array(
+                        'campaignid'=>$idCampaign4,
+                       );
+        $idBanner4 = $this->_insertBanner($aData);
+        $aData = array(
+                        'campaignid'=>$idCampaign5,
+                       );
+        $idBanner5 = $this->_insertBanner($aData);
+        $aData = array(
+                        'campaignid'=>$idCampaign6,
+                       );
+        $idBanner6 = $this->_insertBanner($aData);
+
+        $aData = array(
+                        'trackername'=>'Test Advertiser 1 - Default Tracker',
+                        'description'=>'',
+                        'clientid'=>$idClient1,
+                        'viewwindow'=>86400,
+                        'clickwindow'=>0,
+                        'blockwindow'=>0,
+                        'appendcode'=>''
+                     );
+        $idTracker1 = $this->_insertTracker($aData);
+
+        $aData = array(
+                        'affiliateid'=>1,
+                        'zonename'=>'Test Publisher 1 - Default',
+                      );
+        $idZone1 = $this->_insertZone($aData);
+
+        $aData = array(
+                        'affiliateid'=>2,
+                        'zonename'=>'Test Publisher 2 - Default',
+                      );
+        $idZone2 = $this->_insertZone($aData);
+
+        $aData = array(
+                        'agencyid'=>0,
+                        'affiliateid'=>1,
+                        'name'=>'Test Channel - Page Url',
+                        'description'=>'',
+                        'compiledlimitation'=>'MAX_checkSite_Pageurl(\'example\', \'=~\')',
+                        'acl_plugins'=>'Site:Pageurl',
+                        'active'=>'1',
+                        'comments'=>'',
+                        'updated'=>OA_Dal::noDateValue(),
+                        'acls_updated'=>'2007-01-08 12:09:17'
+                      );
+        $idChannel1 = $this->_insertChannel($aData);
+
+        $aData = array(
+                        'agencyid'=>0,
+                        'affiliateid'=>1,
+                        'name'=>'Test Channel - Referrer',
+                        'description'=>'Test Channel - referrer = www.referrer.com',
+                        'compiledlimitation'=>'MAX_checkSite_Referingpage(\'refer.com\', \'=~\')',
+                        'acl_plugins'=>'Site:Referingpage',
+                        'active'=>'1',
+                        'comments'=>'',
+                        'updated'=>OA_Dal::noDateValue(),
+                        'acls_updated'=>'2007-01-08 12:32:27'
+                      );
+        $idChannel2 = $this->_insertChannel($aData);
+
+        $aData = array(
+                        'bannerid'=>$idBanner7,
+                        'logical'=>'and',
+                        'type'=>'Site:Channel',
+                        'comparison'=>'==',
+                        'data'=>'1',
+                        'executionorder'=>0
+                      );
+        $idAcls1 = $this->_insertAcls($aData);
+        $aData = array(
+                        'bannerid'=>$idBanner7,
+                        'logical'=>'and',
+                        'type'=>'Site:Channel',
+                        'comparison'=>'==',
+                        'data'=>'2',
+                        'executionorder'=>1,
+                      );
+        $idAcls1 = $this->_insertAcls($aData);
+
+        $aData = array(
+            'channelid'=>$idChannel1,
+            'logical'=>'and',
+            'type'=>'Site:Pageurl',
+            'comparison'=>'=~',
+            'data'=>'example',
+            'executionorder'=>0
+        );
+        $idAclsChannel1 = $this->_insertAclsChannel($aData);
+
+        $aData = array(
+            'channelid'=>$idChannel1,
+            'logical'=>'and',
+            'type'=>'Site:Referingpage',
+            'comparison'=>'=~',
+            'data'=>'refer.com',
+            'executionorder'=>1,
+        );
+        $idAclsChannel2 = $this->_insertAclsChannel($aData);
+
+        $aData = array(
+                        'campaignid'=>$idCampaign6,
+                        'compiledlimitation'=>"(MAX_checkSite_Channel('{$idChannel1}', '==')) and (MAX_checkSite_Channel('$idChannel2', '=='))",
+                        'acl_plugins'=>'Site:Channel',
+                       );
+        $idBanner7 = $this->_insertBanner($aData);
+        $channelIds = "|{$idChannel1}|$idChannel2|";
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',$idBanner2,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',$idBanner4,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',$idBanner2,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',$idBanner4,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',$idBanner4,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawTracker($aData);
+
+
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',$idBanner2,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',$idBanner4,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',$idBanner1,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',$idBanner2,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',$idBanner4,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',$idBanner4,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',$idBanner3,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',$idBanner5,0,$idZone1,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+        $aData = array(
+            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',$idBanner6,0,$idZone2,'',$channelIds,'en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
+        );
+        $this->_insertDataRawAdImpression($aData);
+
         $query = "
             INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)."
+                {$this->tblDRTI}
                 (
-                    bannerid,
-                    campaignid,
-                    active,
-                    contenttype,
-                    pluginversion,
-                    storagetype,
-                    filename,
-                    imageurl,
-                    htmltemplate,
-                    htmlcache,
-                    width,
-                    height,
-                    weight,
-                    seq,
-                    target,
-                    url,
-                    alt,
-                    status,
-                    bannertext,
-                    description,
-                    autohtml,
-                    adserver,
-                    block,
-                    capping,
-                    session_capping,
-                    compiledlimitation,
-                    append,
-                    appendtype,
-                    bannertype,
-                    alt_filename,
-                    alt_imageurl,
-                    alt_contenttype
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            1,1,'t','',0,'html','','','<h3>Test Banner 1</h3>','<h3>Test Banner 1</h3>',0,0,1,0,'',
-            'http://example.com/','','','','Banner 1','t','',0,0,0,'','',0,0,'','',''
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            2,2,'t','',0,'html','','','<h3>Test Banner 2</h3>','<h3>Test Banner 2</h3>',0,0,1,0,'',
-            'http://example.com/','','','','Banner 2','t','',0,0,0,'','',0,0,'','',''
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            3,3,'t','',0,'html','','','<h3>Test Banner 3</h3>','<h3>Test Banner 3</h3>',0,0,1,0,'',
-            'http://example.com/','','','','Banner 3','t','',0,0,0,'','',0,0,'','',''
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            4,4,'t','',0,'html','','','<h3>Test Banner 4</h3>','<h3>Test Banner 4</h3>',0,0,1,0,'',
-            'http://example.com/','','','','Banner 4','t','',0,0,0,'','',0,0,'','',''
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            5,5,'t','',0,'html','','','<h3>Test Banner 5</h3>','<h3>Test Banner 5</h3>',0,0,1,0,'',
-            'http://example.com/','','','','Banner 5','t','',0,0,0,'','',0,0,'','',''
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            6,6,'t','',0,'html','','','<h3>Test Banner 6</h3>','<h3>Test Banner 6</h3>',0,0,1,0,'',
-            'http://example.com/','','','','Banner 6','t','',0,0,0,'','',0,0,'','',''
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true)."
-                (
-                    campaignid,
-                    campaignname,
-                    clientid,
-                    views,
-                    clicks,
-                    conversions,
-                    expire,
-                    activate,
-                    active,
-                    priority,
-                    weight,
-                    target_impression,
-                    target_click,
-                    target_conversion,
-                    anonymous,
-                    companion
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'timestamp',
-            'timestamp',
-            'text',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            1,'Test Advertiser 1 - Default Campaign 1',1,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            2,'Test Advertiser 1 - Default Campaign 2',1,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            3,'Test Advertiser 1 - Default Campaign 3',1,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            4,'Test Advertiser 2 - Default Campaign 1',2,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            5,'Test Advertiser 2 - Default Campaign 2',2,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            6,'Test Advertiser 2 - Default Campaign 3',2,-1,-1,-1,OA_Dal::noDateValue(),OA_Dal::noDateValue(),'t','l',1,0,0,0,'f',0
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'],true)."
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            1,1,1,86400,0,1
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            2,2,1,86400,0,1
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            3,3,1,86400,0,4
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-            ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['clients'],true)."
-            (
-                clientid,
-                agencyid,
-                clientname,
-                contact,
-                email,
-                clientusername,
-                clientpassword,
-                permissions,
-                language,
-                report,
-                reportinterval,
-                reportlastdate,
-                reportdeactivate
-            )
-        VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'integer',
-            'timestamp',
-            'text'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            1,0,'Test Advertiser 1','Test Contact 1','test1@example.com','','',0,'','t',7,'2004-11-26','t'
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            2,0,'Test Advertiser 2','Test Contact 2','test2@example.com','','',0,'','t',7,'2004-11-26','t'
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true)."
-                (
-                    viewer_id,
-                    viewer_session_id,
-                    date_time,
-                    ad_id,
-                    creative_id,
-                    zone_id,
-                    channel,
-                    channel_ids,
-                    language,
-                    ip_address,
-                    host_name,
-                    country,
-                    https,
-                    domain,
-                    page,
-                    query,
-                    referer,
-                    search_term,
-                    user_agent,
-                    os,
-                    browser,
-                    max_https
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'text',
-            'integer',
-            'timestamp',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true)."
-                (
-                    viewer_id,
-                    viewer_session_id,
-                    date_time,
-                    ad_id,
-                    creative_id,
-                    zone_id,
-                    channel,
-                    channel_ids,
-                    language,
-                    ip_address,
-                    host_name,
-                    country,
-                    https,
-                    domain,
-                    page,
-                    query,
-                    referer,
-                    search_term,
-                    user_agent,
-                    os,
-                    browser,
-                    max_https
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'text',
-            'integer',
-            'timestamp',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',4,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,0,1,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,0,2,'','|1|2|','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'],true)."
-                (
-                    server_raw_tracker_impression_id,
                     server_raw_ip,
                     viewer_id,
                     viewer_session_id,
@@ -721,12 +820,11 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
                 )
             VALUES
                 (
-                    1,
                     'singleDB',
                     '7030ec9e03911a66006cba951848e454',
                     '',
                     '2004-11-26 12:10:42',
-                    1,
+                    $idTracker1,
                     NULL,
                     '|3|4|',
                     'en-us,en',
@@ -745,300 +843,6 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
                     0
                 )";
         $rows = $this->oDbh->exec($query);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['trackers'],true)."
-                (
-                    trackerid,
-                    trackername,
-                    description,
-                    clientid,
-                    viewwindow,
-                    clickwindow,
-                    blockwindow,
-                    appendcode
-                )
-            VALUES
-                (
-                    1,
-                    'Test Advertiser 1 - Default Tracker',
-                    '',
-                    1,
-                    86400,
-                    0,
-                    0,
-                    ''
-                )";
-        $rows = $this->oDbh->exec($query);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true)."
-                (
-                    zoneid,
-                    affiliateid,
-                    zonename,
-                    description,
-                    delivery,
-                    zonetype,
-                    category,
-                    width,
-                    height,
-                    ad_selection,
-                    chain,
-                    prepend,
-                    append,
-                    appendtype,
-                    forceappend,
-                    inventory_forecast_type,
-                    what
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'integer',
-            'integer',
-            'text',
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'integer',
-            'text'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            1,1,'Test Publisher 1 - Default','',0,3,'',-1,-1,'','','','',0,'f',0,''
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            2,2,'Test Publisher 2 - Default','',0,3,'',-1,-1,'','','','',0,'f',0,''
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['channel'],true)."
-                (
-                    channelid,
-                    agencyid,
-                    affiliateid,
-                    name,
-                    description,
-                    compiledlimitation,
-                    acl_plugins,
-                    active,
-                    comments,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            1,0,1,'Test Channel - Page Url','','MAX_checkSite_Pageurl(\'example\', \'=~\')','Site:Pageurl',1,'',OA_Dal::noDateValue(),'2007-01-08 12:09:17'
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            2,0,1,'Test Channel - Referrer','Test Channel - referrer = www.referrer.com','MAX_checkSite_Referingpage(\'refer.com\', \'=~\')','Site:Referingpage',1,'',OA_Dal::noDateValue(),'2007-01-08 12:32:27'
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls'],true)."
-                (
-                    bannerid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            7,'and','Site:Channel','==','1',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            7,'and','Site:Channel','==','2',1
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['acls_channel'],true)."
-                (
-                    channelid,
-                    logical,
-                    type,
-                    comparison,
-                    data,
-                    executionorder
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            1,'and','Site:Pageurl','=~','example',0
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            2,'and','Site:Referingpage','=~','refer.com',0
-        );
-        $rows = $st->execute($aData);
-
-        $query = "
-            INSERT INTO
-                ".$this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true)."
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    contenttype,
-                    pluginversion,
-                    storagetype,
-                    filename,
-                    imageurl,
-                    htmltemplate,
-                    htmlcache,
-                    width,
-                    height,
-                    weight,
-                    seq,
-                    target,
-                    url,
-                    alt,
-                    status,
-                    bannertext,
-                    description,
-                    autohtml,
-                    adserver,
-                    block,
-                    capping,
-                    session_capping,
-                    compiledlimitation,
-                    acl_plugins,
-                    append,
-                    appendtype,
-                    bannertype,
-                    alt_filename,
-                    alt_imageurl,
-                    alt_contenttype
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'integer'
-        );
-        $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            7,
-            6,
-            't',
-            '',
-            0,
-            'html',
-            '',
-            '',
-            '<h3>Test Banner 7</h3>',
-            '<h3>Test Banner 7</h3>',
-            0,
-            0,
-            1,
-            0,
-            '',
-            'http://example.com/',
-            '',
-            '',
-            '',
-            'Banner 7',
-            't',
-            '',
-            0,
-            0,
-            0,
-            '(MAX_checkSite_Channel(\'1\', \'==\')) and (MAX_checkSite_Channel(\'2\', \'==\'))',
-            'Site:Channel',
-            '',
-            0,
-            0,
-            '',
-            '',
-            ''
-        );
-        $rows = $st->execute($aData);
 
         // Set up the config as desired for testing
         $conf['maintenance']['operationInterval'] = 60;

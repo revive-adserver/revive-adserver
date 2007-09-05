@@ -480,7 +480,7 @@ class OA_DB_Table
         }
         else if ($aConf['database']['type'] == 'mysql')
         {
-            $result = $this->oDbh->exec("ALTER TABLE {$sequence} AUTO_INCREMENT = 1");
+            $result = $this->oDbh->exec("ALTER TABLE {$GLOBALS['_MAX']['CONF']['table']['prefix']}{$sequence} AUTO_INCREMENT = 1");
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to reset sequence on table ' . $sequence, PEAR_LOG_ERROR);
