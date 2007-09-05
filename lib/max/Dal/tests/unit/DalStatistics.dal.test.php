@@ -38,13 +38,62 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  */
 class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 {
+    var $doBanners = null;
+    var $doDSAH = null;
+    var $doDSZIH = null;
+    //var $doDSCD = null;
 
+    /**
+     * The constructor method.
+     */
     /**
      * The constructor method.
      */
     function Dal_TestOfMAX_Dal_Statistics()
     {
         $this->UnitTestCase();
+        $this->doBanners   = OA_Dal::factoryDO('banners');
+        $this->doDSAH = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $this->doDSZIH = OA_Dal::factoryDO('data_summary_zone_impression_history');
+        //$this->doDSCD = OA_Dal::factoryDO('data_summary_channel_daily');
+    }
+
+    function _insertBanner($aData)
+    {
+        $this->doBanners->storagetype = 'sql';
+        foreach ($aData AS $key => $val)
+        {
+            $this->doBanners->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doBanners);
+    }
+
+    function _insertDataSummaryAdHourly($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doDSAH->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doDSAH);
+    }
+
+// THIS DOES NOT HAVE A DATAOBJECT AND MAY BE DEPRECATED
+//    function _insertDataSummaryChannelDaily($aData)
+//    {
+//        foreach ($aData AS $key => $val)
+//        {
+//            $this->doDSCD->$key = $val;
+//        }
+//        return DataGenerator::generateOne($this->doDSCD);
+//    }
+
+    function _insertDataSummaryZoneImpressionHistory($aData)
+    {
+        foreach ($aData AS $key => $val)
+        {
+            $this->doDSZIH->$key = $val;
+        }
+        return DataGenerator::generateOne($this->doDSZIH);
     }
 
     /**
@@ -62,10 +111,6 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $aCleanupTables = array($conf['table']['banners'],$conf['table']['data_summary_ad_hourly']);
-        $adTable = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['banners'],true);
-        $dsahTable = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'],true);
-
         $oDalStatistics = new MAX_Dal_Statistics();
 
         // Test 1
@@ -86,169 +131,182 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 
         // Test 3
         $oNow = new Date();
-        $query = "
-            INSERT INTO
-                $adTable
-                (
-                    bannerid,
-                    campaignid,
-                    active,
-                    storagetype,
-                    htmltemplate,
-                    htmlcache,
-                    weight,
-                    url,
-                    bannertext,
-                    compiledlimitation,
-                    append,
-                    updated,
-                    acls_updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'timestamp',
-            'timestamp'
-        );
-        $stAd = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+
         $aData = array(
-            2,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$placementId,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
-        $query = "
-            INSERT INTO
-                $dsahTable
-                (
-                    day,
-                    hour,
-                    ad_id,
-                    creative_id,
-                    zone_id,
-                    updated
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'date',
-            'integer',
-            'integer',
-            'integer',
-            'integer',
-            'timestamp'
-        );
-        $stDsah = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $idBanner1 = $this->_insertBanner($aData);
         $aData = array(
-            '2006-10-30',
-            12,
-            2,
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'day'=>'2006-10-30',
+            'hour'=>12,
+            'ad_id'=>$idBanner1,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stDsah->execute($aData);
+        $idDSAH1 = $this->_insertDataSummaryAdHourly($aData);
+
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
         $oExpectedDate = new Date('2006-10-30 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
 
         // Test 4
         $aData = array(
-            3,
-            1,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>$placementId,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
-            1,
-            2,
-            't',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S'),
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'campaignid'=>999,
+            'active'=>'t',
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
+            'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stAd->execute($aData);
+        $idBanner3 = $this->_insertBanner($aData);
         $aData = array(
-            '2006-10-29',
-            12,
-            2,
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'day'=>'2006-10-29',
+            'hour'=>12,
+            'ad_id'=>$idBanner2,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stDsah->execute($aData);
+        $idDSAH1 = $this->_insertDataSummaryAdHourly($aData);
         $aData = array(
-            '2006-10-28',
-            12,
-            2,
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'day'=>'2006-10-28',
+            'hour'=>12,
+            'ad_id'=>$idBanner2,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stDsah->execute($aData);
+        $idDSAH2 = $this->_insertDataSummaryAdHourly($aData);
         $aData = array(
-            '2006-10-27',
-            12,
-            3,
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'day'=>'2006-10-27',
+            'hour'=>12,
+            'ad_id'=>$idBanner2,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stDsah->execute($aData);
+        $idDSAH3 = $this->_insertDataSummaryAdHourly($aData);
         $aData = array(
-            '2006-10-26',
-            12,
-            4,
-            '',
-            '',
-            $oNow->format('%Y-%m-%d %H:%M:%S')
+            'day'=>'2006-10-26',
+            'hour'=>12,
+            'ad_id'=>999,
+            'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
         );
-        $rows = $stDsah->execute($aData);
+        $idDSAH4 = $this->_insertDataSummaryAdHourly($aData);
+
         $oResult = $oDalStatistics->getPlacementFirstStatsDate($placementId);
         $oExpectedDate = new Date('2006-10-27 12:00:00');
         $this->assertEqual($oResult, $oExpectedDate);
 
-        DataGenerator::cleanUp($aCleanupTables);
+        DataGenerator::cleanUp();
     }
 
+    /**
+     * A method to test the getRecentAverageZoneForecastByZoneIds() method.
+     *
+     * Requirements:
+     * Test 1: Test with invalid zone IDs arrays, and ensure null is returned.
+     * Test 2: Test with no channel forecasting types set, and ensure null is returned.
+     * Test 3: Test with no data in the database, and ensure null is returned.
+     * Test 4: Test with a single value in the database, and ensure the correct average
+     *         is returned.
+     * Test 5: Test with multiple values in the database, and ensure the correct averages
+     *         are returned.
+     */
+    function testGetRecentAverageZoneForecastByZoneIds()
+    {
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $oDbh = &OA_DB::singleton();
+        $oDalStatistics = new MAX_Dal_Statistics();
+
+        // Test 1
+        $aZoneIds = 'foo';
+        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
+        $this->assertNull($aResult);
+
+        $aZoneIds = array(1, 'foo', 3);
+        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
+        $this->assertNull($aResult);
+
+        // Test 2
+        $conf['maintenance']['channelForecasting'] = '';
+        $aZoneIds = array(1, 2, 3);
+        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
+        $this->assertNull($aResult);
+
+        $conf['maintenance']['channelForecasting'] = 'foo,bar';
+        $aZoneIds = array(1, 2, 3);
+        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
+        $this->assertNull($aResult);
+
+        TestEnv::restoreConfig();
+
+        // Test 3
+        $conf['maintenance']['channelForecasting'] = true;
+        $aZoneIds = array(1, 2, 3);
+        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
+        $this->assertNull($aResult);
+
+        // Test 4
+        $aData = array(
+            'operation_interval'=>60,
+            'operation_interval_id'=>'',
+            'interval_start'=>'2006-10-24 12:00:00',
+            'interval_end'=>'2006-10-24 12:59:59',
+            'zone_id'=>1,
+            'forecast_impressions'=>500
+        );
+        $idDSZIH1 = $this->_insertDataSummaryZoneImpressionHistory($aData);
+        $aZoneIds = array(1, 2, 3);
+        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
+        $aExpectedResult = array(
+            1 => 500
+        );
+        $this->assertEqual($aResult, $aExpectedResult);
+        DataGenerator::cleanUp();
+
+        // Test 5
+        $aData = array(
+            'operation_interval'=>60,
+            'operation_interval_id'=>'',
+            'interval_start'=>'2006-10-24 12:00:00',
+            'interval_end'=>'2006-10-24 12:59:59',
+            'zone_id'=>1,
+            'forecast_impressions'=>500
+        );
+        $idDSZIH2 = $this->_insertDataSummaryZoneImpressionHistory($aData);
+        $aData = array(
+            'operation_interval'=>60,
+            'operation_interval_id'=>'',
+            'interval_start'=>'2006-10-24 11:00:00',
+            'interval_end'=>'2006-10-24 11:59:59',
+            'zone_id'=>1,
+            'forecast_impressions'=>300
+        );
+        $idDSZIH3 = $this->_insertDataSummaryZoneImpressionHistory($aData);
+        $aData = array(
+            'operation_interval'=>60,
+            'operation_interval_id'=>'',
+            'interval_start'=>'2006-10-24 12:00:00',
+            'interval_end'=>'2006-10-24 12:59:59',
+            'zone_id'=>2,
+            'forecast_impressions'=>500
+        );
+        $idDSZIH4 = $this->_insertDataSummaryZoneImpressionHistory($aData);
+        $aZoneIds = array(1, 2, 3);
+        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
+        $aExpectedResult = array(
+            1 => 400,
+            2 => 500
+        );
+        $this->assertEqual($aResult, $aExpectedResult);
+        DataGenerator::cleanUp();
+
+        TestEnv::restoreConfig();
+    }
+
+// THIS DOES NOT HAVE A DATAOBJECT AND MAY BE DEPRECATED
     /**
      * A method to test the getChannelDailyInventoryForecastByChannelZoneIds() method.
      *
@@ -266,7 +324,7 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
      *         of the same day of the week, and ensure the correct data is returned.
      * Test 10: Multi-day test.
      */
-    function testGetChannelDailyInventoryForecastByChannelZoneIds()
+/*    function testGetChannelDailyInventoryForecastByChannelZoneIds()
     {
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
@@ -395,32 +453,13 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
         $this->assertEqual($aResult, $aResultShouldBe);
 
         // Test 7:
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_channel_daily'],true);
-        $query = "
-            INSERT INTO
-                {$table}
-                (
-                    day,
-                    channel_id,
-                    zone_id,
-                    forecast_impressions
-                )
-            VALUES
-                (?, ?, ?, ?)";
-        $aTypes = array(
-            'date',
-            'integer',
-            'integer',
-            'integer'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            '2006-10-20',
-            1,
-            1,
-            9
+            'day'=>'2006-10-20',
+            'channel_id'=>1,
+            'zone_id'=>1,
+            'forecast_impressions'=>9
         );
-        $rows = $st->execute($aData);
+        $idDACD1 = $this->_insertDataSummaryChannelDaily($aData);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -441,12 +480,12 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 
         // Test 8
         $aData = array(
-            '2006-10-14',
-            1,
-            2,
-            999
+            'day'=>'2006-10-14',
+            'channel_id'=>1,
+            'zone_id'=>2,
+            'forecast_impressions'=>999
         );
-        $rows = $st->execute($aData);
+        $idDACD2 = $this->_insertDataSummaryChannelDaily($aData);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -467,20 +506,20 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 
         // Test 9
         $aData = array(
-            '2006-10-13',
-            1,
-            1,
-            4999
+            'day'=>'2006-10-13',
+            'channel_id'=>1,
+            'zone_id'=>1,
+            'forecast_impressions'=>4999
         );
-        $rows = $st->execute($aData);
+        $idDACD1 = $this->_insertDataSummaryChannelDaily($aData);
         $aData = array(
-            '2006-10-13',
-            1,
-            2,
-            5999
+            'day'=>'2006-10-13',
+            'channel_id'=>1,
+            'zone_id'=>2,
+            'forecast_impressions'=>5999
         );
         $rows = $st->execute($aData);
-        $conf['maintenance']['channelForecasting'] = 'true';
+        $idDACD2 = $this->_insertDataSummaryChannelDaily($aData);
         $channelId = 1;
         $aZoneIds = array(1, 2);
         $aPeriod = array(
@@ -500,12 +539,12 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 
         // Test 10
         $aData = array(
-            '2006-10-05',
-            1,
-            1,
-            13
+            'day'=>'2006-10-05',
+            'channel_id'=>1,
+            'zone_id'=>1,
+            'forecast_impressions'=>13
         );
-        $rows = $st->execute($aData);
+        $idDACD1 = $this->_insertDataSummaryChannelDaily($aData);
         $conf['maintenance']['channelForecasting'] = 'true';
         $channelId = 1;
         $aZoneIds = array(1, 2);
@@ -527,136 +566,10 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
             )
         );
         $this->assertEqual($aResult, $aResultShouldBe);
-        TestEnv::restoreEnv();
+        DataGenerator::cleanUp();
         TestEnv::restoreConfig();
     }
-
-    /**
-     * A method to test the getRecentAverageZoneForecastByZoneIds() method.
-     *
-     * Requirements:
-     * Test 1: Test with invalid zone IDs arrays, and ensure null is returned.
-     * Test 2: Test with no channel forecasting types set, and ensure null is returned.
-     * Test 3: Test with no data in the database, and ensure null is returned.
-     * Test 4: Test with a single value in the database, and ensure the correct average
-     *         is returned.
-     * Test 5: Test with multiple values in the database, and ensure the correct averages
-     *         are returned.
-     */
-    function testGetRecentAverageZoneForecastByZoneIds()
-    {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
-        $oDalStatistics = new MAX_Dal_Statistics();
-
-        // Test 1
-        $aZoneIds = 'foo';
-        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
-        $this->assertNull($aResult);
-
-        $aZoneIds = array(1, 'foo', 3);
-        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
-        $this->assertNull($aResult);
-
-        // Test 2
-        $conf['maintenance']['channelForecasting'] = '';
-        $aZoneIds = array(1, 2, 3);
-        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
-        $this->assertNull($aResult);
-
-        $conf['maintenance']['channelForecasting'] = 'foo,bar';
-        $aZoneIds = array(1, 2, 3);
-        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
-        $this->assertNull($aResult);
-
-        TestEnv::restoreConfig();
-
-        // Test 3
-        $conf['maintenance']['channelForecasting'] = true;
-        $aZoneIds = array(1, 2, 3);
-        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
-        $this->assertNull($aResult);
-
-        // Test 4
-        $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_zone_impression_history'],true);
-        $query = "
-            INSERT INTO
-                {$table}
-                (
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    zone_id,
-                    forecast_impressions
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'date',
-            'date',
-            'integer',
-            'integer'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-        $aData = array(
-            60,
-            '',
-            '2006-10-24 12:00:00',
-            '2006-10-24 12:59:59',
-            1,
-            500
-        );
-        $rows = $st->execute($aData);
-        $aZoneIds = array(1, 2, 3);
-        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
-        $aExpectedResult = array(
-            1 => 500
-        );
-        $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
-
-        // Test 5
-        $aData = array(
-            60,
-            '',
-            '2006-10-24 12:00:00',
-            '2006-10-24 12:59:59',
-            1,
-            500
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            60,
-            '',
-            '2006-10-24 11:00:00',
-            '2006-10-24 11:59:59',
-            1,
-            300
-        );
-        $rows = $st->execute($aData);
-        $aData = array(
-            60,
-            '',
-            '2006-10-24 12:00:00',
-            '2006-10-24 12:59:59',
-            2,
-            500
-        );
-        $rows = $st->execute($aData);
-        $aZoneIds = array(1, 2, 3);
-        $aResult = $oDalStatistics->getRecentAverageZoneForecastByZoneIds($aZoneIds);
-        $aExpectedResult = array(
-            1 => 400,
-            2 => 500
-        );
-        $this->assertEqual($aResult, $aExpectedResult);
-        TestEnv::restoreEnv();
-
-        TestEnv::restoreConfig();
-    }
+*/
 
 }
 
