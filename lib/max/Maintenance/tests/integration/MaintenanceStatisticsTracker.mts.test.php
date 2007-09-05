@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once 'Date.php';
 
 // pgsql execution time before refactor: s
-// pgsql execution time after refactor: s
+// pgsql execution time after refactor: 3.9714s
 
 /**
  * A class for performing integration testing the MAX_Maintenance_Statistics_Tracker class.
@@ -44,6 +44,10 @@ require_once 'Date.php';
  */
 class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
 {
+    var $oDbh;
+    var $tblDRTC;
+    var $tblDRTI;
+    var $tblDRTVV;
 
     /**
      * The constructor method.
@@ -51,6 +55,66 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
     function Maintenance_TestOfMaintenanceStatisticsTracker()
     {
         $this->UnitTestCase();
+        $this->oDbh = &OA_DB::singleton();
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $this->tblDRTC  = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_click'],true);
+        $this->tblDRTI  = $this->oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_impression', true);
+        $this->tblDRTVV = $this->oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_variable_value', true);
+        $conf['maintenance']['operationInterval'] = 60;
+        $conf['maintenance']['compactStats'] = false;
+        $conf['modules']['Tracker'] = true;
+        $conf['table']['split'] = false;
+    }
+
+    function _insertDataRawTrackerClick($aData)
+    {
+        $query = "
+            INSERT INTO
+            {$this->tblDRTC}
+                (
+                    viewer_id,
+                    viewer_session_id,
+                    date_time,
+                    tracker_id,
+                    channel,
+                    language,
+                    ip_address,
+                    host_name,
+                    country,
+                    https,
+                    domain,
+                    page,
+                    query,
+                    referer,
+                    search_term,
+                    user_agent,
+                    os,
+                    browser,
+                    max_https
+                )
+        VALUES
+                (
+                '{$aData[0]}',
+                '{$aData[1]}',
+                '{$aData[2]}',
+                {$aData[3]},
+                '{$aData[4]}',
+                '{$aData[5]}',
+                '{$aData[6]}',
+                '{$aData[7]}',
+                '{$aData[8]}',
+                '{$aData[9]}',
+                '{$aData[10]}',
+                '{$aData[11]}',
+                '{$aData[12]}',
+                '{$aData[13]}',
+                '{$aData[14]}',
+                '{$aData[15]}',
+                '{$aData[16]}',
+                '{$aData[17]}',
+                '{$aData[18]}'
+                )";
+        return $this->oDbh->exec($query);
     }
 
     /**
@@ -60,9 +124,6 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
     {
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = 'maX_';
-        $oDbh = &OA_DB::singleton();
         $oTable = &OA_DB_Table_Core::singleton();
         // Create the required tables
         $oTable->createTable('data_raw_tracker_click');
@@ -71,14 +132,10 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
         $oTable->createTable('log_maintenance_statistics');
         $oTable->createTable('userlog');
 
-        $drti = $oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_impression', true);
-        $drtvv = $oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_variable_value', true);
-        $drtc = $oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_click', true);
-
         // Insert the test data
         $query = "
             INSERT INTO
-                {$drti}
+                {$this->tblDRTI}
                 (
                     server_raw_tracker_impression_id,
                     server_raw_ip,
@@ -126,11 +183,11 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
                     'Firefox',
                     0
                 )";
-        $rows = $oDbh->exec($query);
+        $rows = $this->oDbh->exec($query);
 
         $query = "
             INSERT INTO
-                {$drtvv}
+                {$this->tblDRTVV}
             VALUES
             (
                 1,
@@ -139,182 +196,129 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
                 '2004-11-26 12:10:42',
                 42
             )";
-        $rows = $oDbh->exec($query);
+        $rows = $this->oDbh->exec($query);
 
-        $query = "
-            INSERT INTO
-                {$drtc}
-                (
-                    viewer_id,
-                    viewer_session_id,
-                    date_time,
-                    tracker_id,
-                    channel,
-                    language,
-                    ip_address,
-                    host_name,
-                    country,
-                    https,
-                    domain,
-                    page,
-                    query,
-                    referer,
-                    search_term,
-                    user_agent,
-                    os,
-                    browser,
-                    max_https
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'text',
-            'integer',
-            'timestamp',
-            'integer',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'text',
-            'integer'
-        );
-        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',2,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:47',6,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',4,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:50',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:51',5,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',6,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',1,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:52',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',1,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:53',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',5,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:54',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',1,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:55',6,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',5,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:56',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',1,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',6,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',5,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:57',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',1,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:58',6,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',2,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:07:59',6,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',4,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:00',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',4,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',3,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',5,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
         $aData = array(
             '7030ec9e03911a66006cba951848e454','','2004-11-26 12:08:01',6,'','en-us,en','127.0.0.1','','',0,'localhost','/test.html','','','','Mozilla/5.0 (X11; U; Linux i686; rv:1.7.3) Gecko/20041001 Firefox/0.10.1','Linux','Firefox',0
         );
-        $rows = $st->execute($aData);
+        $this->_insertDataRawTrackerClick($aData);
 
-        // Set up the config as desired for testing
-        $conf['maintenance']['operationInterval'] = 60;
-        $conf['maintenance']['compactStats'] = false;
-        $conf['modules']['Tracker'] = true;
-        $conf['table']['split'] = false;
         // Set the "current" time
         $oDateNow = new Date('2004-11-28 12:00:00');
         $oServiceLocator = &ServiceLocator::instance();
@@ -327,27 +331,24 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
             SELECT
                 COUNT(*) AS number
             FROM
-                {$drti}
-        ";
-        $rc = $oDbh->query($query);
+                {$this->tblDRTI}";
+        $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$drtvv}
-        ";
-        $rc = $oDbh->query($query);
+                {$this->tblDRTVV}";
+        $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 1);
         $query = "
             SELECT
                 COUNT(*) AS number
             FROM
-                {$drtc}
-        ";
-        $rc = $oDbh->query($query);
+                {$this->tblDRTC}";
+        $rc = $this->oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 30);
         // Reset the testing environment
