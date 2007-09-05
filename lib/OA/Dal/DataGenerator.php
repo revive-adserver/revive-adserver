@@ -455,7 +455,7 @@ class DataGenerator
             if (is_array($aSequences))
             {
                 OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
-                PEAR::pushErrorHandling(null);
+                OA::disableErrorHandling(null);
                 $tableName = substr($aConf['table']['prefix'].$tableName, 0, 29).'_';
                 foreach ($aSequences AS $k => $sequence)
                 {
@@ -466,7 +466,7 @@ class DataGenerator
                         break;
                     }
                 }
-                PEAR::popErrorHandling();
+                OA::enableErrorHandling();
                 if (PEAR::isError($result)) {
                     OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERROR);
                     return false;
@@ -476,9 +476,9 @@ class DataGenerator
         }
         else if ($aConf['database']['type'] == 'mysql')
         {
-            PEAR::pushErrorHandling(null);
+            OA::disbleErrorHandling();
             $result = $oDbh->exec("ALTER TABLE {$tableName} AUTO_INCREMENT = 1");
-            PEAR::popErrorHandling();
+            OA::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to reset sequence on table ' . $tableName, PEAR_LOG_ERROR);
                 return false;

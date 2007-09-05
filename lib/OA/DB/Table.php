@@ -467,7 +467,7 @@ class OA_DB_Table
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         OA::debug('Resetting sequence ' . $sequence, PEAR_LOG_DEBUG);
-        PEAR::pushErrorHandling(null);
+        OA::disableErrorHandling(null);
 
         if ($aConf['database']['type'] == 'pgsql') {
             $sequence = $this->oDbh->quoteIdentifier($sequence,true);
@@ -475,6 +475,15 @@ class OA_DB_Table
             OA::enableErrorHandling();
             if (PEAR::isError($result)) {
                 OA::debug('Unable to reset sequence on table ' . $table, PEAR_LOG_ERROR);
+                return false;
+            }
+        }
+        else if ($aConf['database']['type'] == 'mysql')
+        {
+            $result = $this->oDbh->exec("ALTER TABLE {$sequence} AUTO_INCREMENT = 1");
+            OA::enableErrorHandling();
+            if (PEAR::isError($result)) {
+                OA::debug('Unable to reset sequence on table ' . $sequence, PEAR_LOG_ERROR);
                 return false;
             }
         }
@@ -498,25 +507,39 @@ class OA_DB_Table
         OA_DB::disableCaseSensitive();
         if (is_array($aSequences)) {
             $aTables = $this->aDefinition['tables'];
-            foreach ($aSequences as $sequence) {
-                $match = false;
-                foreach (array_keys($this->aDefinition['tables']) as $tableName) {
-                    $tableName = substr($aConf['table']['prefix'].$tableName, 0, 29).'_';
-                    if (strpos($sequence, $tableName) === 0) {
-                        $match = true;
-                        break;
+            if ($this->oDbh->dbsyntax == 'pgsql')
+            {
+                foreach ($aSequences as $sequence) {
+                    $match = false;
+                    foreach (array_keys($this->aDefinition['tables']) as $tableName) {
+                        $tableName = substr($aConf['table']['prefix'].$tableName, 0, 29).'_';
+                        if (strpos($sequence, $tableName) === 0) {
+                            $match = true;
+                            break;
+                        }
                     }
+                    if (!$match) {
+                        continue;
+                    }
+                    // listSequences returns sequence names without trailing '_seq'
+                    $sequence .= '_seq';
+                    OA::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
+                	if (!$this->resetSequence($sequence)) {
+                	    OA::debug('Unable to reset the sequence ' . $sequence, PEAR_LOG_ERROR);
+                	    $allSequencesReset = false;
+                	}
                 }
-                if (!$match) {
-                    continue;
+            }
+            else if ($this->oDbh->dbsyntax == 'mysql')
+            {
+                foreach (array_keys($this->aDefinition['tables']) as $tableName)
+                {
+                	if (!$this->resetSequence($tableName))
+                	{
+                	    OA::debug('Unable to reset the auto-increment for ' . $tableName, PEAR_LOG_ERROR);
+                	    $allSequencesReset = false;
+                	}
                 }
-                // listSequences returns sequence names without trailing '_seq'
-                $sequence .= '_seq';
-                OA::debug('Resetting the ' . $sequence . ' sequence', PEAR_LOG_DEBUG);
-            	if (!$this->resetSequence($sequence)) {
-            	    OA::debug('Unable to reset the sequence ' . $sequence, PEAR_LOG_ERROR);
-            	    $allSequencesReset = false;
-            	}
             }
         }
         return $allSequencesReset;

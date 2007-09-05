@@ -506,63 +506,69 @@ class Test_OA_DB_Table extends UnitTestCase
 
     function test_resetSequence()
     {
-        // Test 1
-
         $oDbh = &OA_DB::singleton();
         if ($oDbh->dbsyntax == 'pgsql')
         {
-            $conf = &$GLOBALS['_MAX']['CONF'];
-            $conf['table']['prefix'] = '';
-            $conf['table']['split'] = false;
-            $oTable = new OA_DB_Table();
-            $this->_writeSequenceTestDatabaseSchema();
-            $oTable->init(MAX_PATH . '/var/test.xml');
-            $oTable->createTable('test_table1');
-            $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-            $this->assertEqual($aExistingTables[0],'test_table1');
+            $sequence = 'test_table1_test_id1_seq';
+        }
+        else if ($oDbh->dbsyntax == 'mysql')
+        {
+            $sequence = 'test_table1';
+        }
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $this->_writeSequenceTestDatabaseSchema();
+        $oTable->init(MAX_PATH . '/var/test.xml');
+        $oTable->createTable('test_table1');
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual($aExistingTables[0],'test_table1');
 
+        if ($oDbh->dbsyntax == 'pgsql')
+        {
             OA_DB::setCaseSensitive();
             $aSequences = $oDbh->manager->listSequences();
             OA_DB::disableCaseSensitive();
             $this->assertEqual($aSequences[0],'test_table1_test_id1');
-
-            for ($i=1;$i<11;$i++)
-            {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
-                $oDbh->query($query);
-            }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
-            reset($aRows);
-            foreach ($aRows as $k => $v)
-            {
-                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem with new table');
-            }
-            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $oDbh->query($query);
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table1');
-
-            $this->assertTrue($oTable->resetSequence('test_table1_test_id1_seq'),'failed to reset sequence on test_table1');
-
-            for ($i=1;$i<11;$i++)
-            {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
-                $oDbh->query($query);
-            }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
-            reset($aRows);
-            foreach ($aRows as $k => $v)
-            {
-                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem after reset: '.$v['test_id1'].'=>'.$v['test_desc1']);
-            }
-            $oTable->dropTable('test_table1');
-            @unlink(MAX_PATH . '/var/test.xml');
         }
+
+        for ($i=1;$i<11;$i++)
+        {
+            $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
+            $oDbh->query($query);
+        }
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
+        reset($aRows);
+        foreach ($aRows as $k => $v)
+        {
+            $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem with new table');
+        }
+        $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $oDbh->query($query);
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),0,'failed to delete rows from test_table1');
+
+        $this->assertTrue($oTable->resetSequence($sequence),'failed to reset sequence on test_table1');
+
+        for ($i=1;$i<11;$i++)
+        {
+            $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
+            $oDbh->query($query);
+        }
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
+        reset($aRows);
+        foreach ($aRows as $k => $v)
+        {
+            $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem after reset: '.$v['test_id1'].'=>'.$v['test_desc1']);
+        }
+        $oTable->dropTable('test_table1');
+        @unlink(MAX_PATH . '/var/test.xml');
     }
 
     /**
@@ -573,101 +579,109 @@ class Test_OA_DB_Table extends UnitTestCase
     function test_resetAllSequences()
     {
         $oDbh = &OA_DB::singleton();
+//        if ($oDbh->dbsyntax == 'pgsql')
+//        {
+//            $sequence = 'test_table1_test_id1_seq';
+//        }
+//        else if ($oDbh->dbsyntax == 'mysql')
+//        {
+//            $sequence = 'test_table1';
+//        }
+        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf['table']['prefix'] = '';
+        $conf['table']['split'] = false;
+        $oTable = new OA_DB_Table();
+        $this->_writeSequenceTestDatabaseSchema();
+        $oTable->init(MAX_PATH . '/var/test.xml');
+        $oTable->createAllTables();
+        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
+        $this->assertEqual($aExistingTables[0],'test_table1');
+        $this->assertEqual($aExistingTables[1],'test_table2');
+
         if ($oDbh->dbsyntax == 'pgsql')
         {
-            $conf = &$GLOBALS['_MAX']['CONF'];
-            $conf['table']['prefix'] = '';
-            $conf['table']['split'] = false;
-            $oTable = new OA_DB_Table();
-            $this->_writeSequenceTestDatabaseSchema();
-            $oTable->init(MAX_PATH . '/var/test.xml');
-            $oTable->createAllTables();
-            $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-            $this->assertEqual($aExistingTables[0],'test_table1');
-            $this->assertEqual($aExistingTables[1],'test_table2');
-
             OA_DB::setCaseSensitive();
             $aSequences = $oDbh->manager->listSequences();
             OA_DB::disableCaseSensitive();
             $this->assertEqual($aSequences[0],'test_table1_test_id1');
             $this->assertEqual($aSequences[1],'test_table2_test_id2');
-
-            // table1
-            for ($i=1;$i<11;$i++)
-            {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
-                $oDbh->query($query);
-            }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
-            reset($aRows);
-            foreach ($aRows as $k => $v)
-            {
-                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem with new table');
-            }
-            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $oDbh->query($query);
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table1');
-
-            // table2
-            for ($i=1;$i<11;$i++)
-            {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table2',true)." (test_desc2) VALUES ('{$i}')";
-                $oDbh->query($query);
-            }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table2');
-            reset($aRows);
-            foreach ($aRows as $k => $v)
-            {
-                $this->assertTrue($v['test_id2'] == $v['test_desc2'],'sequence problem with new table');
-            }
-            $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table2',true);
-            $oDbh->query($query);
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),0,'failed to delete rows from test_table2');
-
-            $this->assertTrue($oTable->resetAllSequences(''),'failed to reset all sequences');
-
-            // table1
-            for ($i=1;$i<11;$i++)
-            {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
-                $oDbh->query($query);
-            }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
-            reset($aRows);
-            foreach ($aRows as $k => $v)
-            {
-                $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem after reset: '.$v['test_id1'].'=>'.$v['test_desc1']);
-            }
-            $oTable->dropTable('test_table1');
-
-            // table2
-            for ($i=1;$i<11;$i++)
-            {
-                $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table2',true)." (test_desc2) VALUES ('{$i}')";
-                $oDbh->query($query);
-            }
-            $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
-            $aRows = $oDbh->queryAll($query);
-            $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table2');
-            reset($aRows);
-            foreach ($aRows as $k => $v)
-            {
-                $this->assertTrue($v['test_id2'] == $v['test_desc2'],'sequence problem after reset: '.$v['test_id2'].'=>'.$v['test_desc2']);
-            }
-            $oTable->dropTable('test_table2');
-
-            @unlink(MAX_PATH . '/var/test.xml');
         }
+
+        // table1
+        for ($i=1;$i<11;$i++)
+        {
+            $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
+            $oDbh->query($query);
+        }
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
+        reset($aRows);
+        foreach ($aRows as $k => $v)
+        {
+            $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem with new table');
+        }
+        $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $oDbh->query($query);
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),0,'failed to delete rows from test_table1');
+
+        // table2
+        for ($i=1;$i<11;$i++)
+        {
+            $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table2',true)." (test_desc2) VALUES ('{$i}')";
+            $oDbh->query($query);
+        }
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table2');
+        reset($aRows);
+        foreach ($aRows as $k => $v)
+        {
+            $this->assertTrue($v['test_id2'] == $v['test_desc2'],'sequence problem with new table');
+        }
+        $query = "DELETE FROM ".$oDbh->quoteIdentifier('test_table2',true);
+        $oDbh->query($query);
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),0,'failed to delete rows from test_table2');
+
+        $this->assertTrue($oTable->resetAllSequences(),'failed to reset all sequences');
+
+        // table1
+        for ($i=1;$i<11;$i++)
+        {
+            $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table1',true)." (test_desc1) VALUES ('{$i}')";
+            $oDbh->query($query);
+        }
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table1',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table1');
+        reset($aRows);
+        foreach ($aRows as $k => $v)
+        {
+            $this->assertTrue($v['test_id1'] == $v['test_desc1'],'sequence problem after reset: '.$v['test_id1'].'=>'.$v['test_desc1']);
+        }
+        $oTable->dropTable('test_table1');
+
+        // table2
+        for ($i=1;$i<11;$i++)
+        {
+            $query = "INSERT INTO ".$oDbh->quoteIdentifier('test_table2',true)." (test_desc2) VALUES ('{$i}')";
+            $oDbh->query($query);
+        }
+        $query = "SELECT * FROM ".$oDbh->quoteIdentifier('test_table2',true);
+        $aRows = $oDbh->queryAll($query);
+        $this->assertEqual(count($aRows),10,'incorrect number of rows in test_table2');
+        reset($aRows);
+        foreach ($aRows as $k => $v)
+        {
+            $this->assertTrue($v['test_id2'] == $v['test_desc2'],'sequence problem after reset: '.$v['test_id2'].'=>'.$v['test_desc2']);
+        }
+        $oTable->dropTable('test_table2');
+
+        @unlink(MAX_PATH . '/var/test.xml');
     }
 
     /**
