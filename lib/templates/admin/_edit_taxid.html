@@ -35,7 +35,7 @@ $Id$
     <td width='200'>{$_e.label}</td>
     <td>
         <input onClick='MMM_taxIdChange(this)' class='flat' type='radio' name='tax_id_present' id='tax_id_present_f'
-            value='f'{tabindex}{if !$_e.vars.tax_id || $_e.vars.tax_id_present != 't'} checked="checked"{/if}>{t str=No}<br />
+            value='f'{tabindex}{if !$_e.vars.tax_id && $_e.vars.tax_id_present != 't'} checked="checked"{/if}>{t str=No}<br />
         <input onClick='MMM_taxIdChange(this)' class='flat' type='radio' name='tax_id_present' id='tax_id_present_t'
             value='t'{tabindex}{if $_e.vars.tax_id || $_e.vars.tax_id_present == 't'} checked="checked"{/if}>{t str=Yes}&nbsp;&nbsp;
         <input onBlur='max_formValidateElement(this);' class='flat' type='text' name='tax_id' size='25' dir='ltr'

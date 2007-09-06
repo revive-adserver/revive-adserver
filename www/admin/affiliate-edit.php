@@ -497,6 +497,15 @@ $oTpl->assign('fields', array(
                 'hidden'    => !phpAds_isUser(phpAds_Affiliate)
             ),
             array(
+                'name'      => 'account_type',
+                'label'     => 'Account type',
+                'type'      => 'select',
+                'options'   => array('publisher' => 'Publisher', 'affiliate' => 'Affiliate'),
+                'selected'  => ($affiliate['permissions'] & MAX_AffiliateIsReallyAffiliate) ? 'affiliate' : 'publisher',
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'onchange'  => 'MMM_accountTypeChange()'
+            ),
+            array(
                 'name'      => 'affiliatepermissions[]',
                 'label'     => $strAllowAffiliateModifyInfo,
                 'type'      => 'checkbox',
@@ -625,7 +634,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'custom',
                 'template'  => 'taxid',
                 'label'     => $strTaxID,
-                'value'     => $affiliate_extra['tax_id']
+                'vars'      => $affiliate_extra
             ),
             array(
                 'name'      => 'mode_of_payment',
