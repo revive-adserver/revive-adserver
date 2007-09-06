@@ -85,6 +85,10 @@ else
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
+$oTpl = new OA_Admin_Template('affiliate-index.html');
+
 $loosezones = false;
 
 $doAffiliates = OA_Dal::factoryDO('affiliates');
@@ -106,6 +110,8 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
 	$affiliates[$row_affiliates['affiliateid']] = $row_affiliates;
 	$affiliates[$row_affiliates['affiliateid']]['expand'] = 0;
 	$affiliates[$row_affiliates['affiliateid']]['count'] = 0;
+    $affiliates[$row_affiliates['affiliateid']]['channels'] = Admin_DA::getChannels(array('publisher_id' => $row_affiliates['affiliateid']));
+
 }
 
 $doZones = OA_Dal::factoryDO('zones');
@@ -161,7 +167,6 @@ while ($doAdZoneAssoc->fetch() && $row_ad_zones = $doAdZoneAssoc->toArray()) {
     $zones[$row_ad_zones['zone_id']]['num_ads'] = $row_ad_zones['num_ads'];
 }
 
-
 // Add ID found in expand to expanded nodes
 if (isset($expand) && $expand != '')
 {
@@ -191,8 +196,6 @@ for ($i=0; $i < $node_array_size;$i++)
 	}
 }
 
-
-
 // Build Tree
 if (isset($zones) && is_array($zones) && count($zones) > 0)
 {
@@ -205,254 +208,6 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 	unset ($zones);
 }
 
-
-
-echo "<img src='images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;";
-echo "<a href='affiliate-edit.php' accesskey=".$keyAddNew.">".$strAddNewAffiliate_Key."</a>&nbsp;&nbsp;";
-phpAds_ShowBreak();
-
-
-
-echo "<br /><br />";
-echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-
-echo "<tr height='25'>";
-echo '<td height="25" width="40%"><b>&nbsp;&nbsp;<a href="affiliate-index.php?listorder=name">'.$GLOBALS['strName'].'</a>';
-
-if (($listorder == "name") || ($listorder == ""))
-{
-	if  (($orderdirection == "") || ($orderdirection == "down"))
-	{
-		echo ' <a href="affiliate-index.php?orderdirection=up">';
-		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-	}
-	else
-	{
-		echo ' <a href="affiliate-index.php?orderdirection=down">';
-		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-	}
-	echo '</a>';
-}
-
-echo '</b></td>';
-echo '<td height="25"><b><a href="affiliate-index.php?listorder=id">'.$GLOBALS['strID'].'</a>';
-
-if ($listorder == "id")
-{
-	if  (($orderdirection == "") || ($orderdirection == "down"))
-	{
-		echo ' <a href="affiliate-index.php?orderdirection=up">';
-		echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
-	}
-	else
-	{
-		echo ' <a href="affiliate-index.php?orderdirection=down">';
-		echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
-	}
-	echo '</a>';
-}
-
-echo '</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-echo "<td height='25'>&nbsp;</td>";
-echo "<td height='25'>&nbsp;</td>";
-echo "<td height='25'>&nbsp;</td>";
-echo "</tr>";
-
-echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
-
-if (!isset($affiliates) || !is_array($affiliates) || count($affiliates) == 0)
-{
-	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='6'>";
-	echo "&nbsp;&nbsp;".$strNoAffiliates;
-	echo "</td></tr>";
-
-	echo "<td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
-}
-else
-{
-	$i=0;
-	foreach (array_keys($affiliates) as $key)
-	{
-		$affiliate = $affiliates[$key];
-		$channels = Admin_DA::getChannels(array('publisher_id' => $affiliate['affiliateid']));
-
-		echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-
-		// Icon & name
-		echo "<td height='25'>";
-		if (isset($affiliate['zones']))
-		{
-			if ($affiliate['expand'] == '1')
-				echo "&nbsp;<a href='affiliate-index.php?collapse=".$affiliate['affiliateid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;";
-			else
-				echo "&nbsp;<a href='affiliate-index.php?expand=".$affiliate['affiliateid']."'><img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;";
-		}
-		else
-			echo "&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;";
-
-		echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;";
-
-        // set low priority campaign warning if any of this affiliate's zones
-        // are without low-priority ads
-        $zone_overview_icon = 'icon-zone.gif';
-        $zone_overview_warning_start = '';
-        $zone_overview_warning_end = '';
-        foreach($affiliates[$affiliate['affiliateid']]['zones'] as $aff_zone) {
-            if ($aff_zone['lpc_flag']) {
-                $zone_overview_icon = 'icon-zone-w.gif';
-                $zone_overview_warning_start = "<acronym title='Warning - Publisher has zones with no low-priority ads linked'>";
-                $zone_overview_warning_end = "</acronym>";
-            }
-        }
-
-		echo "<a href='affiliate-edit.php?affiliateid=".$affiliate['affiliateid']."'>".$affiliate['name']."</a>";
-		echo "</td>";
-
-		// ID
-		echo "<td height='25'>".$affiliate['affiliateid']."</td>";
-
-		// Button - Create
-		echo "<td height='25'>";
-		if ($affiliate['expand'] == '1' || !isset($affiliate['zones']))
-			echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."'><img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='$strCreate'>&nbsp;$strCreate</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-		else
-			echo "&nbsp;";
-		echo "</td>";
-
-		// Button - Zone overview
-		echo "<td height='25'>";
-		echo "<a href='affiliate-zones.php?affiliateid=".$affiliate['affiliateid']."'>".$zone_overview_warning_start."<img src='images/".$zone_overview_icon."' border='0' align='absmiddle' alt='{$GLOBALS['strZones']}'>".$zone_overview_warning_end."&nbsp;{$GLOBALS['strZones']}</a>&nbsp;&nbsp;";
-		echo "</td>";
-
-		// Button - Channel overview
-		echo "<td height='25'>";
-		echo "<a href='affiliate-channels.php?affiliateid={$affiliate['affiliateid']}'>";
-		if (empty($channels)) {
-		    echo "<img src='images/icon-channel-d.gif' border='0' align='absmiddle' alt='{$GLOBALS['strChannels']}'>";
-		} else {
-		    echo "<img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{$GLOBALS['strChannels']}'>";
-	    }
-	    echo "&nbsp;{$GLOBALS['strChannels']}</a>&nbsp;&nbsp;";
-
-		echo "</td>";
-
-		// Button - Delete
-		echo "<td height='25'>";
-		echo "<a href='affiliate-delete.php?affiliateid=".$affiliate['affiliateid']."&returnurl=affiliate-index.php'".phpAds_DelConfirm($strConfirmDeleteAffiliate)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-		echo "</td></tr>";
-
-		if (isset($affiliate['zones']) && sizeof ($affiliate['zones']) > 0 && $affiliate['expand'] == '1')
-		{
-			$zones = $affiliate['zones'];
-
-			foreach (array_keys($zones) as $zkey)
-			{
-				// Divider
-				echo "<tr height='1'>";
-				echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-				echo "<td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
-				echo "</tr>";
-
-				// Icon & name
-				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
-				echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
-
-                if (!empty($zones[$zkey]['num_ads']))
-				{
-					if ($zones[$zkey]['delivery'] == phpAds_ZoneBanner) {
-                        // set low priority campaign warning if zone has no low-priority ads
-                        $zone_overview_icon = 'icon-zone.gif';
-                        $zone_overview_warning_start = '';
-                        $zone_overview_warning_end = '';
-                        if ($zones[$zkey]['lpc_flag']) {
-                            $zone_overview_icon = 'icon-zone-w.gif';
-                            $zone_overview_warning_start = "<acronym title='Warning - There are no low-priority ads linked to this zone'>";
-                            $zone_overview_warning_end = "</acronym>";
-                        }
-						echo $zone_overview_warning_start."<img src='images/".$zone_overview_icon."' align='absmiddle'>".$zone_overview_warning_end."&nbsp;";
-					} elseif ($zones[$zkey]['delivery'] == phpAds_ZoneInterstitial) {
-						echo "<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;";
-					} elseif ($zones[$zkey]['delivery'] == phpAds_ZonePopup) {
-						echo "<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;";
-					} elseif ($zones[$zkey]['delivery'] == phpAds_ZoneText) {
-						echo "<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;";
-					}
-				}
-				else
-				{
-					if ($zones[$zkey]['delivery'] == phpAds_ZoneBanner)
-						echo "<img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;";
-					elseif ($zones[$zkey]['delivery'] == phpAds_ZoneInterstitial)
-						echo "<img src='images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;";
-					elseif ($zones[$zkey]['delivery'] == phpAds_ZonePopup)
-						echo "<img src='images/icon-popup-d.gif' align='absmiddle'>&nbsp;";
-					elseif ($zones[$zkey]['delivery'] == phpAds_ZoneText)
-						echo "<img src='images/icon-textzone-d.gif' align='absmiddle'>&nbsp;";
-				}
-
-				echo "<a href='zone-edit.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'>".$zones[$zkey]['zonename']."</td>";
-				echo "</td>";
-
-				// ID
-				echo "<td height='25'>".$zones[$zkey]['zoneid']."</td>";
-
-				// Button 1
-				echo "<td height='25'>";
-				echo "&nbsp;";
-				echo "</td>";
-
-				// Button 3
-				echo "<td height='25'>";
-				echo "&nbsp;";
-				echo "</td>";
-
-				// Button 2
-				echo "<td height='25'>";
-				echo "<a href='zone-include.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;";
-				echo "</td>";
-
-				// Button 4
-				echo "<td height='25'>";
-				echo "<a href='zone-delete.php?affiliateid=".$affiliate['affiliateid']."&zoneid=".$zones[$zkey]['zoneid']."&returnurl=affiliate-index.php'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-				echo "</td></tr>";
-			}
-		}
-
-		echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-		$i++;
-	}
-}
-
-if ($loosezones)
-{
-	echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
-	echo "<td height='25'>&nbsp;&nbsp;";
-	echo "<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;";
-	echo $strZonesWithoutAffiliate."</td>";
-	echo "<td height='25'>&nbsp;-&nbsp;</td>";
-	echo "<td height='25' colspan='3'>";
-	echo "<a href='affiliate-edit.php?move=t'>";
-	echo "<img src='images/".$phpAds_TextDirection."/icon-update.gif' border='0' align='absmiddle' alt='$strMoveToNewAffiliate'>&nbsp;$strMoveToNewAffiliate</a>&nbsp;&nbsp;";
-	echo "</td>";
-	echo "</tr>";
-
-	echo "<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-}
-
-echo "<tr><td height='25' colspan='6' align='".$phpAds_TextAlignRight."'>";
-echo "<img src='images/triangle-d.gif' align='absmiddle' border='0'>";
-echo "&nbsp;<a href='affiliate-index.php?expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";
-echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
-echo "<img src='images/".$phpAds_TextDirection."/triangle-l.gif' align='absmiddle' border='0'>";
-echo "&nbsp;<a href='affiliate-index.php?expand=none' accesskey='".$keyCollapseAll."'>".$strCollapseAll."</a>";
-echo "</td></tr>";
-
-echo "</table>";
-
-
-// Total number of clients
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doZones = OA_Dal::factoryDO('zones');
 
@@ -464,26 +219,17 @@ if (phpAds_isUser(phpAds_Agency)) {
 $countZone = $doZones->count();
 $countAffiliate = $doAffiliates->count();
 
-echo "\t\t\t\t<br /><br /><br /><br />\n";
-echo "\t\t\t\t<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>\n";
-echo "\t\t\t\t<tr>\n";
-echo "\t\t\t\t\t<td height='25' colspan='3'>&nbsp;&nbsp;<b>".$strOverall."</b></td>\n";
-echo "\t\t\t\t</tr>\n";
-echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
-echo "\t\t\t\t</tr>\n";
+$oTpl->assign('affiliates',     $affiliates);
+$oTpl->assign('countZone',      $countZone);
+$oTpl->assign('countAffiliate', $countAffiliate);
+$oTpl->assign('loosezones',     $loosezones);
+$oTpl->assign('listorder',      $listorder);
+$oTpl->assign('orderdirection', $orderdirection);
+$oTpl->assign('phpAds_ZoneBanner',          phpAds_ZoneBanner);
+$oTpl->assign('phpAds_ZoneInterstitial',    phpAds_ZoneInterstitial);
+$oTpl->assign('phpAds_ZonePopup',           phpAds_ZonePopup);
+$oTpl->assign('phpAds_ZoneText'.            phpAds_ZoneText);
 
-echo "\t\t\t\t<tr>\n";
-echo "\t\t\t\t\t<td height='25'>&nbsp;&nbsp;".$strTotalZones.": <b>".$countZone."</b></td>\n";
-echo "\t\t\t\t\t<td height='25'>".$strTotalAffiliates.": <b>".$countAffiliate."</b></td>\n";
-echo "\t\t\t\t</tr>\n";
-
-echo "\t\t\t\t<tr height='1'>\n";
-echo "\t\t\t\t\t<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>\n";
-echo "\t\t\t\t</tr>\n";
-
-echo "\t\t\t\t</table>\n";
-echo "\t\t\t\t<br /><br />\n";
 
 /*-------------------------------------------------------*/
 /* Store preferences                                     */
@@ -498,6 +244,7 @@ phpAds_SessionDataStore();
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
+$oTpl->display();
 
 phpAds_PageFooter();
 

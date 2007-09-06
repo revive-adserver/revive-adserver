@@ -1,0 +1,230 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v2.5                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+
+<tr height='25'>
+	<td height="25" width="40%">
+		<b>&nbsp;&nbsp;{oa_title_sort str=Name item=name order=down default=1 url=affiliate-index.php}</b>
+	</td>
+	<td height="25">
+		<b>{oa_title_sort str=ID item=id order=down url=affiliate-index.php}</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	</td>
+	<td height='25'>&nbsp;</td>
+	<td height='25'>&nbsp;</td>
+	<td height='25'>&nbsp;</td>
+</tr>
+<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+
+{if !$affiliates|@count}
+	<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='6'>
+	&nbsp;&nbsp;{t str=NoAffiliates}
+	</td></tr>
+
+	<td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+{else}
+
+{cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
+{foreach key=key item=affiliate from=$from}
+	{cycle name=bgcolor assign=bgColor}
+
+	<tr height='25' bgcolor="{$bgColor}">
+
+	{* Icon & name *}
+		<td height='25'>
+		{if $affiliate.zones}
+		    {if $affiliate.expand}
+				&nbsp;<a href='affiliate-index.php?collapse={$affiliate.affiliateid}'><img src='images/triangle-d.gif' align='absmiddle' border='0'></a>&nbsp;
+			{else}
+				&nbsp;<a href='affiliate-index.php?expand={$affiliate.affiliateid}'><img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'></a>&nbsp;
+			{/if}
+		{else}
+			&nbsp;<img src='images/spacer.gif' height='16' width='16'>&nbsp;
+		{/if}
+			<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;
+		    {* set low priority campaign warning if any of this affiliate's zones *}
+		    {* are without low-priority ads *}
+		    {assign var='zone_overview_icon' value='icon-zone.gif'}
+		    {assign var='zone_overview_warning_start' value=''}
+		    {assign var='zone_overview_warning_e' value=''}
+	        {foreach key=key item=aff_zone from=$affiliate.zones}
+		        {if $aff_zone.lpc_flag}
+			        {assign var='zone_overview_icon' value='icon-zone-w.gif'}
+			        {assign var='zone_overview_warning_start' value='<acronym title="Warning - Publisher has zones with no low-priority ads linked">'}
+			        {assign var='zone_overview_warning_end' value='</acronym>'}
+	            {/if}
+            {/foreach}			
+
+			<a href='affiliate-edit.php?affiliateid={$affiliate.affiliateid}'>{$affiliate.name}</a>
+		</td>
+		{* ID *}
+		<td height='25'>{$affiliate.affiliateid}</td>
+
+		{* Button - Create *}
+		<td height='25'>
+		{if $affiliate.expand||!$affiliate.zones}
+			<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}'><img src='images/icon-zone-new.gif' border='0' align='absmiddle' alt='{t str=Create}'>&nbsp;{t str=Create}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		{else}
+			&nbsp;
+		{/if}
+		</td>
+
+		{* Button - Zone overview *}
+		<td height='25'>
+			<a href='affiliate-zones.php?affiliateid={$affiliate.affiliateid}'>{$zone_overview_warning_start}<img src='images/{$zone_overview_icon}' border='0' align='absmiddle' alt='{t str=Zones}'>{$zone_overview_warning_end}&nbsp;{t str=Zones}</a>&nbsp;&nbsp;
+		</td>
+
+		{* Button - Channel overview *}
+		<td height='25'>
+			<a href='affiliate-channels.php?affiliateid={$affiliate.affiliateid}'>
+			{if !$affiliate.channels}
+			    <img src='images/icon-channel-d.gif' border='0' align='absmiddle' alt='{t str=Channels}'>
+		    {else}
+			    <img src='images/icon-channel.gif' border='0' align='absmiddle' alt='{t str=Channels}'>
+			{/if}
+		    &nbsp;{t str=Channels}</a>&nbsp;&nbsp;
+		</td>
+
+		{* Button - Delete *}
+		<td height='25'>
+			<a href='affiliate-delete.php?affiliateid={$affiliate.affiliateid}&returnurl=affiliate-index.php'{phpAds_DelConfirm str=ConfirmDeleteAffiliate}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		</td>
+    </tr>
+
+    {if $affiliate.zones && $affiliate.expand}
+
+		{assign var='zones' value=$affiliate.zones}
+
+		{foreach key='zKey' item='zone' from=$zones}
+			{cycle name=bgcolor assign=bgColor}
+
+			{* Divider *}
+			<tr height='1'>
+			<td bgcolor='{$bgColor}'><img src='images/spacer.gif' width='1' height='1'></td>
+			<td colspan='6' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>
+			</tr>
+
+			{* Icon & name *}
+			<tr height='25' bgcolor='{$bgColor}'><td height='25'>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;
+
+			{if $zone.num_ads}
+    			{if $zone.delivery == $phpAds_ZoneBanner}
+	                {* set low priority campaign warning if zone has no low-priority ads *}
+	                {assign var='zone_overview_icon' value='icon-zone.gif'}
+	                {assign var='zone_overview_warning_start' value=''}
+	                {assign var='zone_overview_warning_end' value=''}
+                    {if $zone.lpc_flag}
+	                	{assign var='zone_overview_icon' value='icon-zone-w.gif'}
+	                	{assign var='zone_overview_warning_start' value='<acronym title="Warning - There are no low-priority ads linked to this zone">'}
+	                	{assign var='zone_overview_warning_end' value='</acronym>'}
+	                {/if}
+
+	                {$zone_overview_warning_start}<img src='images/{$zone_overview_icon}' align='absmiddle'>{$zone_overview_warning_end}&nbsp;
+
+	            {elseif $zone.delivery == $phpAds_ZoneInterstitial}
+					<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;
+				{elseif $zone.delivery == $phpAds_ZonePopup}
+					<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;
+				{elseif $zone.delivery == $phpAds_ZoneText}
+					<img src='images/icon-textzone.gif' align='absmiddle'>&nbsp;
+                {/if}
+			{else}
+				{if $zone.delivery == $phpAds_ZoneBanner}
+					<img src='images/icon-zone-d.gif' align='absmiddle'>&nbsp;
+				{elseif $zone.delivery == $phpAds_ZoneInterstitial}
+					<img src='images/icon-interstitial-d.gif' align='absmiddle'>&nbsp;
+				{elseif $zone.delivery == $phpAds_ZonePopup}
+					<img src='images/icon-popup-d.gif' align='absmiddle'>&nbsp;
+				{elseif $zone.delivery == $phpAds_ZoneText}
+					<img src='images/icon-textzone-d.gif' align='absmiddle'>&nbsp;
+				{/if}
+			{/if}
+
+			<a href='zone-edit.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}'>{$zone.zonename}</td>
+			</td>
+
+			{* ID *}
+			<td height='25'>{$zone.zoneid}</td>
+
+			{* Button 1 *}
+			<td height='25'>
+			&nbsp;
+			</td>
+
+			{* Button 3 *}
+			<td height='25'>
+			&nbsp;
+			</td>
+
+			{* Button 2 *}
+			<td height='25'>
+			<a href='zone-include.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;{t str=IncludedBanners}</a>&nbsp;&nbsp;
+			</td>
+
+			{* Button 4 *}
+			<td height='25'>
+			<a href='zone-delete.php?affiliateid={$affiliate.affiliateid}&zoneid={$zone.zoneid}&returnurl=affiliate-index.php' {phpAds_DelConfirm str=ConfirmDeleteZone}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+			</td></tr>
+
+			
+		{/foreach}
+	{/if}    
+	<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+{/foreach}
+{/if}
+
+{if $loosezones}
+<tr height='25'>
+	<td height='25'>&nbsp;&nbsp;
+		<img src='images/icon-zone.gif' align='absmiddle'>&nbsp;
+		{t str=ZonesWithoutAffiliate}</td>
+	<td height='25'>&nbsp;-&nbsp;</td>
+	<td height='25' colspan='3'>
+		<a href='affiliate-edit.php?move=t'>
+		<img src='images/{$phpAds_TextDirection}/icon-update.gif' border='0' align='absmiddle' alt='{t str=MoveToNewAffiliate}'>&nbsp;{t str=MoveToNewAffiliate}</a>&nbsp;&nbsp;
+	</td>
+</tr>
+
+<tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>
+{/if}
+
+<tr>
+	<td height='25' colspan='6' align='".$phpAds_TextAlignRight."'>
+		<img src='images/triangle-d.gif' align='absmiddle' border='0'>
+		&nbsp;<a href='affiliate-index.php?expand=all' accesskey='{$keyExpandAll}'>{t str=ExpandAll}</a>
+		&nbsp;&nbsp;|&nbsp;&nbsp;
+		<img src='images/{$phpAds_TextDirection}/triangle-l.gif' align='absmiddle' border='0'>
+		&nbsp;<a href='affiliate-index.php?expand=none' accesskey='{keyCollapseAll}'>{t str=CollapseAll}</a>
+	</td>
+</tr>
+
+</table>
