@@ -119,8 +119,13 @@ class MAX_Maintenance_Priority
     function scheduleRun()
     {
         global $session;
-        $session['RUN_MPE'] = true;
-        phpAds_SessionDataStore();
+
+        if ($GLOBALS['_MAX']['CONF']['instantUpdate']) {
+            $session['RUN_MPE'] = true;
+            phpAds_SessionDataStore();
+            return true;
+        }
+        return false;
     }
 }
 
