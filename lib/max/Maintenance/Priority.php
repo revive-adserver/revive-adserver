@@ -120,7 +120,7 @@ class MAX_Maintenance_Priority
     {
         global $session;
 
-        if ($GLOBALS['_MAX']['CONF']['instantUpdate']) {
+        if ($GLOBALS['_MAX']['CONF']['priority']['instantUpdate']) {
             $session['RUN_MPE'] = true;
             phpAds_SessionDataStore();
             return true;
