@@ -654,19 +654,19 @@ $oTpl->assign('fields', array(
                 'name'      => 'unique_users',
                 'style'     => 'small',
                 'label'     => $strUniqueUsersMonth,
-                'value'     => $affiliate_extra['unique_users']
+                'value'     => $affiliate_extra['unique_users'] ? $affiliate_extra['unique_users'] : ''
             ),
             array(
                 'name'      => 'unique_views',
                 'style'     => 'small',
                 'label'     => $strUniqueViewsMonth,
-                'value'     => $affiliate_extra['unique_views']
+                'value'     => $affiliate_extra['unique_views'] ? $affiliate_extra['unique_views'] : ''
             ),
             array(
                 'name'      => 'page_rank',
                 'style'     => 'small',
                 'label'     => $strPageRank,
-                'value'     => $affiliate_extra['page_rank']
+                'value'     => $affiliate_extra['page_rank'] ? $affiliate_extra['page_rank'] : ''
             ),
             array(
                 'name'      => 'category',
@@ -674,7 +674,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'select',
                 'style'     => 'big',
                 'options'   => empty($pref['publisher_categories']) ?
-                                    array($strCurrencyGBP) :
+                                    array() :
                                     explode(',', $pref['publisher_categories']),
                 'selected'  => $affiliate_extra['category']
             ),
@@ -690,7 +690,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'select',
                 'style'     => 'big',
                 'options'   => empty($pref['publisher_help_files']) ?
-                                    array($strCurrencyGBP) :
+                                    array() :
                                     explode(',', $pref['publisher_help_files']),
                 'selected'  => $affiliate_extra['help_file']
             ),
