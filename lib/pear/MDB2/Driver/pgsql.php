@@ -577,11 +577,14 @@ class MDB2_Driver_pgsql extends MDB2_Driver_Common
      */
     function &standaloneQuery($query, $types = null, $is_manip = false)
     {
-        $connection = $this->_doConnect('template1', false);
+        $connection = $this->_doConnect('postgres', false);
         if (PEAR::isError($connection)) {
-            $err =& $this->raiseError(MDB2_ERROR_CONNECT_FAILED, null, null,
-                'Cannot connect to template1', __FUNCTION__);
-            return $err;
+            $connection = $this->_doConnect('template1', false);
+            if (PEAR::isError($connection)) {
+                $err =& $this->raiseError(MDB2_ERROR_CONNECT_FAILED, null, null,
+                    'Cannot connect to postgres nor template1 databases', __FUNCTION__);
+                return $err;
+            }
         }
 
         $offset = $this->offset;
