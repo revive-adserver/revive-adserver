@@ -58,12 +58,15 @@ class TestEnv
             $aConf = $GLOBALS['_MAX']['CONF'];
             $result = OA_DB::createDatabase($aConf['database']['name']);
             if (PEAR::isError($result) && !$ignore_errors) {
-                PEAR::raiseError("TestEnv unable to create the {$aConf['database']['name']} test database.", PEAR_LOG_ERR);
+                PEAR::raiseError(
+                    "TestEnv unable to create the {$aConf['database']['name']} test database."
+                    . $result->getUserInfo(), PEAR_LOG_ERR);
                 die(1);
             }
             $result = OA_DB::createFunctions();
             if (PEAR::isError($result) && !$ignore_errors) {
-                PEAR::raiseError("TestEnv unable to create the required functions.", PEAR_LOG_ERR);
+                PEAR::raiseError("TestEnv unable to create the required functions."
+                    . $result->getUserInfo(), PEAR_LOG_ERR);
                 die(1);
             }
         }
