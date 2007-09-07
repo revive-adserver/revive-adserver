@@ -55,6 +55,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         'source' => '',
         'withtext' => 0,
         'noscript' => 1,
+        'ssl' => 0,
     );
 
     /**
@@ -123,8 +124,8 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 
         $additionalParams = "";
         foreach ($this->defaultOptionValues as $feature => $default) {
-            // Skip source here since it's dealt with earlier
-            if ($feature == 'source' || $feature == 'noscript') { continue; }
+            // Skip invocation code settings here if they don't affect delivery
+            if ($feature == 'source' || $feature == 'noscript' || $feature == 'ssl') { continue; }
             if ($mi->$feature != $this->defaultOptionValues[$feature]) {
                 $additionalParams .= "&amp;{$feature}=" . $mi->$feature;
             }
@@ -133,6 +134,8 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         $varprefix = $conf['var']['prefix'];
         $name = (!empty($GLOBALS['_MAX']['PREF']['name'])) ? $GLOBALS['_MAX']['PREF']['name'] : MAX_PRODUCT_NAME;
         $channel = (!empty($mi->source)) ? $mi->source : $affiliate['mnemonic'] . "/test/preview";
+        $uri = (!empty($mi->ssl)) ? MAX_commonConstructSecureDeliveryUrl() : MAX_commonConstructDeliveryUrl();
+
         $script = "<?xml version='1.0' encoding='UTF-8' ?><!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
@@ -140,7 +143,6 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         if (strpos ($_SERVER['HTTP_USER_AGENT'], 'MSIE') > 0 && strpos ($_SERVER['HTTP_USER_AGENT'], 'Opera') < 1) {
             $script .="\n    <script type='text/javascript' src='js-gui.js'></script>";
         }
-
         if ($mi->comments) {
             $search = array("{affiliate['mnemonic']}");
             $replace = array($affiliate['mnemonic']);
@@ -151,7 +153,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
         if ($mi->source) {
             $script .= "\n    <script type='text/javascript'><!--// <![CDATA[\n        var {$varprefix}source = '{$mi->source}';\n    // ]]> --></script>";
         }
-        $script .= "\n    <script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['spcjs']) . "?id={$mi->affiliateid}{$additionalParams}'></script>
+        $script .= "\n    <script type='text/javascript' src='{$uri}{$conf['file']['spcjs']}?id={$mi->affiliateid}{$additionalParams}'></script>
 </head>
 
 <body><div id='body'>";
@@ -168,8 +170,8 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
                 $script .= "<a href='javascript:max_CopyClipboard(\"spcJsSrc\");'>".$GLOBALS['strCopyToClipboard']."</a></td></tr>";
             }
 
-            $scriptJs = "<script type='text/javascript' src='" . MAX_commonConstructDeliveryUrl($conf['file']['spcjs']) . "?id={$mi->affiliateid}{$additionalParams}'></script>";
-            $script .= "<tr><td><textarea id='spcJsSrc'rows='1' cols='80'>". htmlspecialchars($scriptJs) ."</textarea></td></tr></table>";
+            $scriptJs = "<script type='text/javascript' src='{$uri}{$conf['file']['spcjs']}?id={$mi->affiliateid}{$additionalParams}'></script>";
+            $script .= "<tr><td><textarea id='spcJsSrc' rows='1' cols='120'>". htmlspecialchars($scriptJs) ."</textarea></td></tr></table>";
             $script .= MAX_Plugin_Translation::translate('SPC codeblock instrct', $this->module, $this->package) ." </blockquote>";
 
             $script .= "\n\n\n    <!--/*\n" . MAX_Plugin_Translation::translate('SPC codeblock comment', $this->module, $this->package) . "\n    */-->";
@@ -178,7 +180,7 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 
         foreach($aZones as $zone) {
             $name = '[id'. $zone['zoneid'] .'] '. $zone['zonename'] . ' ' . (($zone['width'] > -1) ? $zone['width'] : '*') . 'x' . (($zone['height'] > -1) ? $zone['height'] : '*');
-            $script .= "<br><br>{$name}<br>\n";
+            $script .= "<br /><br />{$name}<br />\n";
 
             $codeblock = "<script type='text/javascript'><!--// <![CDATA[";
             $js_func = $varprefix . (($zone['delivery'] == phpAds_ZonePopup) ? 'showpop' : 'show');
@@ -187,8 +189,8 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
             }
             $codeblock .= "\n    {$js_func}({$zone['zoneid']});\n// ]]> --></script>";
             if ($zone['delivery'] != phpAds_ZoneText && $mi->noscript) {
-                $codeblock .= "<noscript><a target='_blank' href='".MAX_commonConstructDeliveryUrl($conf['file']['click'])."?n={$zone['n']}'>";
-                $codeblock .= "<img border='0' alt='' src='".MAX_commonConstructDeliveryUrl($conf['file']['view'])."?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
+                $codeblock .= "<noscript><a target='_blank' href='{$uri}{$conf['file']['click']}?n={$zone['n']}'>";
+                $codeblock .= "<img border='0' alt='' src='{$uri}{$conf['file']['view']}?zoneid={$zone['zoneid']}&amp;n={$zone['n']}' /></a>";
                 $codeblock .= "</noscript>";
             }
             if ($mi->comments) {
@@ -264,22 +266,45 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
             'source'        => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'withtext'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'noscript'      => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
+            'ssl'           => MAX_PLUGINS_INVOCATION_TAGS_CUSTOM,
         );
 
         return $options;
     }
 
+    /**
+     * A custom handler for the <noscript> option
+     *
+     * @return string HTML to show the <noscript> option
+     */
     function noscript()
     {
         $maxInvocation = &$this->maxInvocation;
-        $noscript = (isset($maxInvocation->noscript)) ? $maxInvocation->noscript : 1;
+        $noscript = (isset($maxInvocation->noscript)) ? $maxInvocation->noscript : $this->defaultOptionValues['noscript'];
 
         $option = '';
         $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         $option .= "<tr><td width='30'>&nbsp;</td>";
-        $option .= "<td width='200'>Include &lt;noscript&gt; tags</td>";
+        $option .= "<td width='200'>" . MAX_Plugin_Translation::translate('Option - noscript', $this->module, $this->package) . "</td>";
         $option .= "<td width='370'><input type='radio' name='noscript' value='1'".($noscript == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
         $option .= "<input type='radio' name='noscript' value='0'".($noscript == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
+        $option .= "</tr>";
+        $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+        return $option;
+    }
+
+
+    function ssl()
+    {
+        $maxInvocation = &$this->maxInvocation;
+        $ssl = (isset($maxInvocation->ssl)) ? $maxInvocation->ssl : $this->defaultOptionValues['ssl'];
+
+        $option = '';
+        $option .= "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+        $option .= "<tr><td width='30'>&nbsp;</td>";
+        $option .= "<td width='200'>" . MAX_Plugin_Translation::translate('Option - SSL', $this->module, $this->package) . "</td>";
+        $option .= "<td width='370'><input type='radio' name='ssl' value='1'".($ssl == 1 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strYes']."<br />";
+        $option .= "<input type='radio' name='ssl' value='0'".($ssl == 0 ? " checked='checked'" : '')." tabindex='".($maxInvocation->tabindex++)."'>&nbsp;".$GLOBALS['strNo']."</td>";
         $option .= "</tr>";
         $option .= "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
         return $option;

@@ -44,6 +44,7 @@ $words = array(
     'SPC codeblock instrct' => "      Each of the code blocks below refers to an
         individual ad placement zone to show the ad, just place the tag into your
         page HTML at the position that you want the ad to show",
-
+    'Option - noscript' => 'Include &lt;noscript&gt; tags',
+    'Option - SSL' => 'Generate code for use on SSL pages',
 );
 ?>
