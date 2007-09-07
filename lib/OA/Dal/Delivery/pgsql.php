@@ -211,7 +211,7 @@ function OA_Dal_Delivery_getPublisherZones($publisherid) {
     if (!is_resource($rZones)) {
         return false;
     }
-    while ($aZone = mysql_fetch_assoc($rZones)) {
+    while ($aZone = pg_fetch_assoc($rZones)) {
         $aZones[$aZone['zone_id']] = $aZone;
     }
 
