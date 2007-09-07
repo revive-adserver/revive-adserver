@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones',
-                               'errormessage', 'affiliateusername', 'affilaitepassword', 'affiliatepermissions', 'submit',
+                               'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
                                'publiczones_old', 'pwold', 'pw', 'pw2', 'mnemonic', 'comments',
                                'address', 'city', 'postcode', 'country', 'phone', 'fax', 'account_contact',
                                'payee_name', 'tax_id_present', 'tax_id', 'mode_of_payment', 'currency',
@@ -119,11 +119,11 @@ if (isset($submit)) {
         $affiliate['publiczones'] = isset($publiczones) ? 't' : 'f';
 
         // Password
-        if (isset($affilaitepassword)) {
-            if ($affilaitepassword == '') {
+        if (isset($affiliatepassword)) {
+            if ($affiliatepassword == '') {
                 $affiliate['password'] = '';
-            } elseif ($affilaitepassword != '********') {
-                $affiliate['password'] = md5($affilaitepassword);
+            } elseif ($affiliatepassword != '********') {
+                $affiliate['password'] = md5($affiliatepassword);
             }
         }
         // Username
@@ -283,7 +283,7 @@ if (isset($submit)) {
         exit;
     } else {
         // If an error occured set the password back to its previous value
-        $affiliate['password'] = $affilaitepassword;
+        $affiliate['password'] = $affiliatepassword;
     }
 }
 
@@ -394,6 +394,17 @@ if ($affiliateid != "") {
 }
 
 /*-------------------------------------------------------*/
+/* Form requirements                                     */
+/*-------------------------------------------------------*/
+
+// Get unique affiliate
+// XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
+$doAffiliates = OA_Dal::factoryDO('affiliates');
+$aUniqueNames = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
+$aUniqueUsers = MAX_Permission::getUniqueUserNames($affiliate['username']);
+
+
+/*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
@@ -414,7 +425,7 @@ $oTpl->assign('fields', array(
                 'name'      => 'name',
                 'label'     => $strName,
                 'value'     => $affiliate['name'],
-                'freezed'   => !phpAds_isUser(phpAds_Admin|phpAds_Agency)
+                'freezed'   => phpAds_isUser(phpAds_Affiliate)
             ),
             array(
                 'name'      => 'mnemonic',
@@ -461,7 +472,7 @@ $oTpl->assign('fields', array(
         'errors'    => count($errormessage) ? $error_message : false,
         'fields'    => array(
             array(
-                'name'      => 'username',
+                'name'      => 'affiliateusername',
                 'style'     => 'small',
                 'label'     => $strUsername,
                 'value'     => $affiliate['username'],
@@ -471,7 +482,7 @@ $oTpl->assign('fields', array(
                 'name'      => 'affiliatepassword',
                 'style'     => 'small',
                 'label'     => $strPassword,
-                'type'      => 'text',
+                'type'      => 'password',
                 'value'     => $affiliate['password'],
                 'hidden'    => phpAds_isUser(phpAds_Affiliate)
             ),
@@ -691,7 +702,7 @@ $oTpl->assign('fields', array(
                 'name'      => 'comments',
                 'label'     => $strComments,
                 'type'      => 'textarea',
-                'value'     => $affiliate_extra['comments']
+                'value'     => $affiliate['comments']
             ),
             array(
                 'name'      => 'help_file',
@@ -707,29 +718,8 @@ $oTpl->assign('fields', array(
     )
 ));
 
-//    Hidden - see #542
-//
-//    echo "<tr><td width='30'>&nbsp;</td><td width='200'>". 'Account type' ."</td>
-//    echo "<td width='370'><select onchange='MMM_accountTypeChange()' name='account_type' tabindex='".($tabindex++)."'>
-//    echo "<option value='publisher'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Publisher' ."</option>
-//    echo "<option value='affiliate'".(MAX_AffiliateIsReallyAffiliate & $affiliate['permissions'] ? ' selected="selected"' : '').">". 'Affiliate' ."</option>
-//    echo "</select>
-//    echo "</td></tr>
-//    echo "<tr><td><img src='images/spacer.gif' height='1' width='30'></td>
-//    echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>
-
-$oTpl->display();
 
 
-/*-------------------------------------------------------*/
-/* Form requirements                                     */
-/*-------------------------------------------------------*/
-
-// Get unique affiliate
-// XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
-$doAffiliates = OA_Dal::factoryDO('affiliates');
-$unique_names = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
-$unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
 
 ?>
 
@@ -796,6 +786,8 @@ $unique_users = MAX_Permission::getUniqueUserNames($affiliate['username']);
 </script>
 
 <?php
+
+$oTpl->display();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
