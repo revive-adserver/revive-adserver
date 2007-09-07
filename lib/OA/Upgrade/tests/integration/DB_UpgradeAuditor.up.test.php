@@ -142,7 +142,7 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         TestEnv::restoreConfig();
-        TestEnv::restoreEnv();
+        //TestEnv::restoreEnv();
 
         // Test 2
         $GLOBALS['_MAX']['CONF']['table']['prefix'] = 'OA_';
@@ -153,7 +153,7 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $this->assertTrue(in_array($oAuditor->prefix.$oAuditor->logTable, $aDBTables));
         $this->_dropAuditTable($oAuditor->prefix.$oAuditor->logTable);
         TestEnv::restoreConfig();
-        TestEnv::restoreEnv();
+        //TestEnv::restoreEnv();
     }
 
     function test_checkCreateAuditTable()
@@ -280,11 +280,12 @@ class Test_OA_DB_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oAuditor = $this->_getAuditObject('OA_DB_UpgradeAuditor');
 
-        if ($oAuditor->oDbh->dbsyntax == 'pgsql') {
-            // We need to ANALYZE the table if we want a meaningful result
-            $table = $oAuditor->oDbh->quoteIdentifier($aConf['table']['prefix'].'database_action',true);
-            $oAuditor->oDbh->exec("ANALYZE {$table}");
-        }
+//  analyze now takes place in the pgsql mdb2 manager driver
+//        if ($oAuditor->oDbh->dbsyntax == 'pgsql') {
+//            // We need to ANALYZE the table if we want a meaningful result
+//            $table = $oAuditor->oDbh->quoteIdentifier($aConf['table']['prefix'].'database_action',true);
+//            $oAuditor->oDbh->exec("ANALYZE {$table}");
+//        }
 
         $aResult = $oAuditor->getTableStatus('database_action');
         $this->assertIsa($aResult,'array','not an array');
