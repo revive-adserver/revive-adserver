@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {
     // start stacked output buffering
     ob_start();
-    
+
     if (!((strstr($what, 'zone')) or (strstr($what, 'campaign')) or (strstr($what, 'banner')))) {
         if ($zoneid) {
             $what = "zone:".$zoneid;
@@ -52,12 +52,13 @@ function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target 
             $what = "bannerid:".$bannerid;
         }
     }
-
+    // init-variables will have set "loc" to $_SERVER['HTTP_REFERER']
+    // however - in local mode (only), this is not the case
+    global $loc, $referer;
+    $referer = $loc;
     $loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
         getHostName() .
 		$_SERVER['REQUEST_URI'];
-
-	$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
     $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $loc, $referer);
     if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
