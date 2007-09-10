@@ -1252,16 +1252,24 @@ setupIncludePath();
 // Required files
 function logSQL($oDbh)
 {
-if (substr_count($oDbh->last_query, 'SELECT')>0)
+if (substr_count($oDbh->last_query, 'EXPLAIN')==0)
 {
-$substr = substr($oDbh->last_query,0,6);
-if ($substr == 'SELECT')
+$i = strpos($oDbh->last_query, 'SELECT');
+if ($i === false)
 {
-$msg = $oDbh->last_query;
-$log = fopen(MAX_PATH."/var/sql.log", 'a');
-fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.$msg.">>\n");
-fclose($log);
+return;
 }
+else if ($i === 0)
+{
+$select = $oDbh->last_query;
+}
+else if ($i > 0)
+{
+$select = substr($oDbh->last_query,$i, strlen($oDbh->last_query));
+}
+$log = fopen(MAX_PATH."/var/sql.log", 'a');
+fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.$select.">>\n");
+fclose($log);
 }
 }
 class OA
