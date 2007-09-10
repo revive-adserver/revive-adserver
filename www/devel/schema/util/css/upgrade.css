@@ -70,15 +70,20 @@ line-height: 95%;
     color: #333333;
     font-weight: bold;
     text-decoration: none;
+    border-top: solid 1px;
+    border-left: solid 1px;
+    border-bottom: solid 1px;
+    border-right: solid 1px;
+    border-color: rgb(210, 210, 210);
 }
 .tablebody {
     padding: 3px;
     border: inset 1px #222222;
-    /*border-top: solid 1px;
+    border-top: solid 1px;
     border-left: solid 1px;
     border-bottom: solid 1px;
     border-right: solid 1px;
-    border-color: rgb(210, 210, 210);*/
+    border-color: rgb(210, 210, 210);
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
