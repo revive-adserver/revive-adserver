@@ -34,7 +34,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Swf.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -44,6 +43,7 @@ $banner = MAX_commonGetValueUnslashed('banner');
 // Required files
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
+require_once MAX_PATH . '/www/admin/lib-swf.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
@@ -1045,6 +1045,16 @@ function _handleUploadedFile($name, $type, $imageOnly=false)
         $aFile['contenttype'] = _getFileContentType($uploaded['name']);
         // Set Flash-specific features
         if ($aFile['contenttype'] == 'swf') {
+
+            // Fix any wrong-case'd clickTAG commands
+            if(phpAds_SWFCompressed($uploaded['buffer'])) {
+                $uploaded['buffer'] = phpAds_SWFDecompress($uploaded['buffer']);
+                $uploaded['buffer'] = preg_replace("/([c|C][l|L][i|I][c|C][k|K][t|T][a|A][g|G])/", "clickTAG", $uploaded['buffer']);
+                $uploaded['buffer'] = phpAds_SWFCompress($uploaded['buffer']);
+            } else {
+                $uploaded['buffer'] = preg_replace("/([c|C][l|L][i|I][c|C][k|K][t|T][a|A][g|G])/", "clickTAG", $uploaded['buffer']);
+            }
+
             $aFlashFile = _handleFlashFile($uploaded);
             $aFile = array_merge($aFile, $aFlashFile);
         }
@@ -1053,30 +1063,14 @@ function _handleUploadedFile($name, $type, $imageOnly=false)
     return $aFile;
 }
 
-function _handleFlashFile(&$uploaded)
+function _handleFlashFile($uploaded)
 {
-    $aFile = array(
-        'width'         => 0,
-        'height'        => 0,
-        'pluginversion' => 0,
-        'editswf'       => false
-    );
-
-    $oSwf = OA_Swf::factorySwf($uploaded['buffer'], true);
-    if (!PEAR::isError($oSwf)) {
-        // Fix any wrong-case'd clickTAG commands
-        if($oSwf->isCompressed()) {
-            $uploaded['buffer'] = $oCompressed->compress();
-        } else {
-            $uploaded['buffer'] = $oCompressed->_buffer;
-        }
-
-        // Get dimensions of Flash file
-        list ($aFile['width'], $aFile['height']) = $oSwf->FrameSize->getDimensions();
-        $aFile['pluginversion'] = $oSwf->getVersion();
-        // Check if the Flash banner includes hard coded urls
-        $aFile['editswf'] = ($aFile['pluginversion'] >= 3 && count($oSwf->aLinks));
-    }
+    $aFile = array();
+    // Get dimensions of Flash file
+    list ($aFile['width'], $aFile['height']) = phpAds_SWFDimensions($uploaded['buffer']);
+    $aFile['pluginversion'] = phpAds_SWFVersion($uploaded['buffer']);
+    // Check if the Flash banner includes hard coded urls
+    $aFile['editswf'] = ($aFile['pluginversion'] >= 3 && phpAds_SWFInfo($uploaded['buffer']));
 
     return $aFile;
 }
