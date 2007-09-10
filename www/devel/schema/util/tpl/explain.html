@@ -25,29 +25,33 @@
             <th class="textmini">table</th>
             <th class="textmini">ref</th>
             <th class="textmini">type</th>
+            <th class="textmini">rows</th>
             <th class="textmini">key</th>
             <th class="textmini">key_len</th>
             <th class="textmini">possible_keys</th>
-            <th class="textmini">rows</th>
             <th class="textmini">select_type</th>
             <th class="textmini">extra</th>
         </tr>
     <?php
         foreach ($v['result'] AS $rk => $rv)
         {
-            if (($v['rows']>10) && ($v['key_type']=='ALL'))
+            $style =  '';
+            if (trim($rv['type'])=='ALL')
             {
-                $style =  'style="background:pink"';
+                if ($rv['rows']>10)
+                {
+                    $style =  'style="background:lightpink"';
+                }
             }
     ?>
-            <tr <?php echo $style; ?> >
+            <tr>
                 <td class="tablebody"><?php echo $rv['table']; ?></td>
                 <td class="tablebody"><?php echo $rv['ref']; ?></td>
+                <td class="tablebody" <?php echo $style; ?>><?php echo $rv['type']; ?></td>
+                <td class="tablebody" <?php echo $style; ?> ><?php echo $rv['rows']; ?></td>
+                <td class="tablebody" ><?php echo $rv['key']; ?></td>
                 <td class="tablebody"><?php echo $rv['key_len']; ?></td>
-                <td class="tablebody"><?php echo $rv['type']; ?></td>
-                <td class="tablebody"><?php echo $rv['key']; ?></td>
                 <td class="tablebody"><?php echo $rv['possible_keys']; ?></td>
-                <td class="tablebody"><?php echo $rv['rows']; ?></td>
                 <td class="tablebody"><?php echo $rv['select_type']; ?></td>
                 <td class="tablebody"><?php echo $rv['extra']; ?></td>
 
