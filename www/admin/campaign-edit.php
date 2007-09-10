@@ -871,7 +871,7 @@ echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>".$strComments."</td>";
 
 echo "<td><textarea class='code' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
-echo "' tabindex='".($tabindex++)."'>".htmlentities($row['comments'])."</textarea></td></tr>";
+echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($row['comments'])."</textarea></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";

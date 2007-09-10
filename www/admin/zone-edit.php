@@ -480,9 +480,9 @@ if ($res_noresults) {
     foreach ($res_tracker_variables as $k=>$v) {
         echo "<option value='{$v['variable_id']}' ".(($zone['cost_variable_id'] == $v['variable_id']) ? ' SELECTED ' : '').">".
             "[id".$v['tracker_id']."] ".
-            htmlentities(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
+            htmlspecialchars(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
             ": ".
-            htmlentities(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
+            htmlspecialchars(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
         "</option>";
     }
 }
@@ -503,9 +503,9 @@ if ($res_noresults) {
     foreach ($res_tracker_variables as $k=>$v) {
         echo "<option value='{$v['variable_id']}' ".(in_array($v['variable_id'], $cost_variable_ids) ? ' SELECTED ' : '').">".
             "[id".$v['tracker_id']."] ".
-            htmlentities(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
+            htmlspecialchars(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
             ": ".
-            htmlentities(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
+            htmlspecialchars(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
         "</option>";
     }
 }
@@ -543,7 +543,7 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>".$strComments."</td>";
 echo "<td><textarea class='code' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
-echo "' tabindex='".($tabindex++)."'>".htmlentities($zone['comments'])."</textarea></td></tr>";
+echo "' tabindex='".($tabindex++)."'>".htmlspecialchars($zone['comments'])."</textarea></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";

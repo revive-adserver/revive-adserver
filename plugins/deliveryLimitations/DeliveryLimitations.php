@@ -203,7 +203,7 @@ class Plugins_DeliveryLimitations extends MAX_Plugin_Common
     function displayData()
     {
     	global $tabindex;
-        echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value='".htmlentities(isset($this->data) ? $this->data : "", ENT_QUOTES)."' tabindex='".($tabindex++)."'>";
+        echo "<input type='text' size='40' name='acl[{$this->executionorder}][data]' value=\"".htmlspecialchars(isset($this->data) ? $this->data : "")."\" tabindex='".($tabindex++)."'>";
     }
 
     /**

@@ -347,8 +347,8 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
     if ($conf['max']['uiEnabled'] == true)
     {
         echo "<br />";
-        echo "<form name='login' method='post' action='".basename($_SERVER['PHP_SELF']);
-        echo (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ? '?'.htmlentities($_SERVER['QUERY_STRING']) : '')."'>";
+        echo "<form name='login' method='post' action=\"".basename($_SERVER['PHP_SELF']);
+        echo (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ? '?'.htmlspecialchars($_SERVER['QUERY_STRING']) : '')."\">";
         echo "<input type='hidden' name='phpAds_cookiecheck' value='".$_COOKIE['sessionID']."'>";
         echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
         echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";

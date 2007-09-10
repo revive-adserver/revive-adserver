@@ -203,7 +203,7 @@ class MAX_Admin_PasswordRecovery
         }
 
         echo "<form method='post' action='password-recovery.php'>\n";
-        echo "<input type='hidden' name='id' value='".htmlentities($id)."' />";
+        echo "<input type='hidden' name='id' value=\"".htmlspecialchars($id)."\" />";
 
         echo "<div class='install'>".$GLOBALS['strPwdRecEnterPassword']."</div>";
         echo "<table cellpadding='0' cellspacing='0' border='0'>";

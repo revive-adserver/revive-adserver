@@ -173,7 +173,7 @@ echo "<tr><td width='30'>&nbsp;</td>";
 echo "<td width='200'>{$GLOBALS['strComments']}</td>";
 
 echo "<td><textarea class='comments' cols='45' rows='6' name='comments' wrap='off' dir='ltr' style='width:350px;";
-echo "' tabindex='".($tabIndex++)."'>".htmlentities($channel['comments'])."</textarea></td></tr>";
+echo "' tabindex='".($tabIndex++)."'>".htmlspecialchars($channel['comments'])."</textarea></td></tr>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";

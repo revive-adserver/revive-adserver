@@ -151,9 +151,9 @@ if (!empty($zoneid)) {
         foreach ($res_tracker_variables as $k=>$v) {
             echo "<option value='{$v['variable_id']}' ".(($zone['cost_variable_id'] == $v['variable_id']) ? ' SELECTED ' : '').">".
                 "[id".$v['tracker_id']."] ".
-                htmlentities(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
+                htmlspecialchars(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
                 ": ".
-                htmlentities(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
+                htmlspecialchars(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
             "</option>";
         }
     }
@@ -174,9 +174,9 @@ if (!empty($zoneid)) {
         foreach ($res_tracker_variables as $k=>$v) {
             echo "<option value='{$v['variable_id']}' ".(in_array($v['variable_id'], $cost_variable_ids) ? ' SELECTED ' : '').">".
                 "[id".$v['tracker_id']."] ".
-                htmlentities(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
+                htmlspecialchars(empty($v['tracker_description']) ? $v['tracker_name'] : $v['tracker_description']).
                 ": ".
-                htmlentities(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
+                htmlspecialchars(empty($v['variable_description']) ? $v['variable_name'] : $v['variable_description']).
             "</option>";
         }
     }

@@ -527,7 +527,7 @@ if (isset($trackerid) && $trackerid != '')
                                         echo "<tr class='jscode'><td colspan='2'>&nbsp;</td></tr>\n";
                                         echo "<tr class='jscode' valign='top'>\n";
                                             echo "<td>".$strVariableCode."</td>\n";
-                                            echo "<td><table cellpadding='0' cellspacing='0'><tr valign='top'><td>variable&nbsp;=&nbsp;</td><td><textarea name='variablecode".$k."' rows='3' cols='40'>".htmlentities(stripslashes($v['variablecode']))."</textarea></td></tr></table></td>\n";
+                                            echo "<td><table cellpadding='0' cellspacing='0'><tr valign='top'><td>variable&nbsp;=&nbsp;</td><td><textarea name='variablecode".$k."' rows='3' cols='40'>".htmlspecialchars(stripslashes($v['variablecode']))."</textarea></td></tr></table></td>\n";
                                         echo "</tr>\n";
                                     echo "</table>\n";
                                 echo"</td>\n";
