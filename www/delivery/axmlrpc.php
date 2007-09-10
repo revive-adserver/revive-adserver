@@ -1250,6 +1250,20 @@ MAX_commonInitVariables();
 MAX_cookieUnpackCapping();
 setupIncludePath();
 // Required files
+function logSQL($oDbh)
+{
+if (substr_count($oDbh->last_query, 'SELECT')>0)
+{
+$substr = substr($oDbh->last_query,0,6);
+if ($substr == 'SELECT')
+{
+$msg = $oDbh->last_query;
+$log = fopen(MAX_PATH."/var/sql.log", 'a');
+fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.$msg.">>\n");
+fclose($log);
+}
+}
+}
 class OA
 {
 function debug($message = null, $priority = PEAR_LOG_INFO)
