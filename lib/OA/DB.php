@@ -106,6 +106,13 @@ class OA_DB
             } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
                 $aOptions['quote_identifier'] = '"';
 	        }
+            // this will log select queries to a var/sql.log
+            // currently used for analysis purposes
+	        if (isset($aConf['debug']['logSQL']) && $aConf['debug']['logSQL'])
+	        {
+                $aOptions['debug'] = true;
+                $aOptions['debug_handler'] = 'logSQL';
+	        }
 
             $aOptions += OA_DB::getDatatypeMapOptions();
 

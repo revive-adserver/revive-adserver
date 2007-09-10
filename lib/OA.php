@@ -27,6 +27,28 @@ $Id$
 
 require_once 'Log.php';
 require_once 'PEAR.php';
+/**
+ * this is a method to capture select queries and write them to a logfile
+ * for analysis purposes
+ * to trigger set $GLOBALS['_MAX']['CONF']['debug']['logSQL'] = 1
+ *
+ * @param mdb2 connecction $oDbh
+ */
+function logSQL($oDbh)
+{
+    if (substr_count($oDbh->last_query, 'SELECT')>0)
+    {
+        $substr = substr($oDbh->last_query,0,6);
+        if ($substr == 'SELECT')
+        {
+            $msg = $oDbh->last_query;
+            $log = fopen(MAX_PATH."/var/sql.log", 'a');
+            fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.$msg.">>\n");
+            fclose($log);
+        }
+    }
+}
+
 
 /**
  * The core Openads class, providing handy methods that are useful everywhere!
@@ -212,7 +234,6 @@ class OA
             PEAR::popErrorHandling();
         }
     }
-
 }
 
 ?>
