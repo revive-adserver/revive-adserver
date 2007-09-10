@@ -1188,11 +1188,11 @@ class SqlBuilder
 
         $query = $columns . $tables . $where . $group;
 
-        return SqlBuilder::_query($query, $primaryKey);
+        return  SqlBuilder::_query($query, $primaryKey);
     }
 
     /**
-     * Performs and SQL query.
+     * Performs an SQL query.
      *
      * @param string $query
      * @param string $primaryKey
@@ -1200,17 +1200,30 @@ class SqlBuilder
      */
     function _query($query, $primaryKey)
     {
-        $rs = DBC::NewRecordSet($query);
+//        $rs = DBC::NewRecordSet($query);
+//        $aDataEntities = array();
+//        if ($rs->find()) {
+//            while ($rs->fetch()) {
+//                $dataEntity = $rs->toArray();
+//                $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;
+//            }
+//            return $aDataEntities;
+//        } else {
+//            return false;
+//        }
+
+        $oDbh = OA_DB::singleton();
+        $aResult =  $oDbh->queryAll($query);
         $aDataEntities = array();
-        if ($rs->find()) {
-            while ($rs->fetch()) {
-                $dataEntity = $rs->toArray();
-                $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;
-            }
-            return $aDataEntities;
-        } else {
+        if (PEAR::isError($aResult))
+        {
             return false;
         }
+        foreach ($aResult AS $k => $dataEntity)
+        {
+            $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;
+        }
+        return $aDataEntities;
     }
 
 
