@@ -60,6 +60,40 @@ class Test_OA_Upgrade_Config extends UnitTestCase
         $oUpConfig->getInitialConfig();
     }
 
+    /**
+     * This function checks for any new items in the config dist file
+     */
+    function test_checkForConfigAdditions()
+    {
+        $oUpConfig = new OA_Upgrade_Config();
+        // First check that the working config file agrees with the dist config file
+        $this->assertFalse($oUpConfig->checkForConfigAdditions($new), 'New config items have not been added to test.conf.php');
+
+        // Assert no new items detected when $new === $old
+        $new = $oUpConfig->aConfig;
+        $this->assertFalse($oUpConfig->checkForConfigAdditions($new), 'New config items mistakenly detected');
+
+        // Add a new item to an existing sub-array
+        $new = $oUpConfig->aConfig;
+        $new['database']['key'] = 'value';
+        $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New config items (added to existing sub-array) not detected');
+
+        // Add a completely new empty sub-array
+        $new = $oUpConfig->aConfig;
+        $new['newSubArray'] = array();
+        $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New config items (empty sub-array) not detected');
+
+        // Add a new sub-array with a new item
+        $new = $oUpConfig->aConfig;
+        $new['newSubArray'] = array('key' => 'value');
+        $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New config items (new sub array with value) not detected');
+
+        // Add a new item not in a sub-array (so top level)
+        $new = $oUpConfig->aConfig;
+        $new['key'] = 'value';
+        $this->assertTrue($oUpConfig->checkForConfigAdditions($new), 'New (top level) config items not detected');
+
+    }
 }
 
 ?>

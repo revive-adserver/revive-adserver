@@ -19,6 +19,7 @@ name                                = oa_simpletest ; Don't set this to be your 
                                                     ; created/dropped during testing!
 persistent                          = false
 mysql4_compatibility                = false
+protocol			                = tcp
 
 ;------------------------------------------------------------------------------------------;
 ; Do NOT Change Any Of The Following!                                                      ;
@@ -159,7 +160,7 @@ Tracker                             = true
 
 [maintenance]
 autoMaintenance                     = 1
-
+autoMaintenanceDelay                = 5      ; Delay for automaintenance, should be lesser than opearationInterval
 timeLimitScripts                    = 300    ; Should maintenance scripts be limited to run no longer than
                                              ; this many seconds? Set to 0 for no time limit
 
@@ -370,6 +371,14 @@ xmlrpcScript=/www/delivery/delivery-xmlrpc.php
 [geotargeting]
 type="none"
 saveStats=false
+geoipCountryLocation=
+geoipRegionLocation=
+geoipCityLocation=
+geoipAreaLocation=
+geoipDmaLocation=
+geoipOrgLocation=
+geoipIspLocation=
+geoipNetspeedLocation=
 
 ;------------------------------------------------------------------------------------------;
 ; Test configuration

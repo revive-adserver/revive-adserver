@@ -259,6 +259,46 @@ class OA_Upgrade_Config
             }
         }
     }
+
+    /**
+     * Check if there are items in the dist.conf.php file
+     * which do not exist in the working conf array
+     *
+     * @param array optional $aConfigWork - An array of "dist" config items 
+     *                               or null to read the dist.conf.php file
+     * @return boolean True for new config items
+     */
+    function checkForConfigAdditions($aConfDist = null)
+    {
+        if (is_null($aConfDist)) {
+            $aConfDist = @parse_ini_file(MAX_PATH . '/etc/dist.conf.php', true);
+        }
+
+        // If the $aConfDist array is empty, then either an empty array was passed in
+        // or there was an error parsing the dist.conf.php file, return false so user's
+        // config file remains unchanged
+        if (empty($aConfDist)) {
+            return false;
+        }
+
+        // Check for any new keys in dist
+        foreach ($aConfDist as $key => $value) {
+        	if (array_key_exists($key, $this->aConfig)) {
+        	    if (is_array($aConfDist[$key])) {
+            	    foreach ($aConfDist[$key] as $subKey => $subValue) {
+            	    	if (!array_key_exists($subKey, $this->aConfig[$key])) {
+                            return true;
+            	    	}
+            	    }
+        	    }
+        	} else {
+                return true;
+        	}
+        }
+
+        // If we get here, there are no keys in the dist that do not exist in the working conf
+        return false;
+    }
 }
 
 
