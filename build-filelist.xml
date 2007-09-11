@@ -70,6 +70,7 @@
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/upgrade/**"/>
     <include name="scripts/updateDocs.sh"/>
+    <include name="scripts/translations/**"/>
     <include name="tutorials/**"/>
     <include name="simulation/**"/>
     <include name="var/*.conf.php*"/>
