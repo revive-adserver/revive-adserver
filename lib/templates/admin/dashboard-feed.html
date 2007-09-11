@@ -1,6 +1,5 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
@@ -26,34 +25,13 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
-// Require the initialisation file
-require_once '../../init.php';
+-->*}
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+<h3>{$title}</h3>
 
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin);
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-$module = !empty($_REQUEST['module']) ? $_REQUEST['module'] : 'Index';
-
-if (!preg_match('/[a-z0-9]+/i', $module) || !file_exists(MAX_PATH.'/lib/OA/Dashboard/'.$module.'.php')) {
-    $module = 'Placeholder';
-}
-
-require(MAX_PATH.'/lib/OA/Dashboard/'.$module.'.php');
-$module = 'OA_Dashboard_'.$module;
-
-$oDashboard = new $module();
-$oDashboard->start();
-
-?>
+<ul>
+{foreach item=f from=$feed}
+    <li><a href="{$f.link|escape}" target="_blank">{$f.title|escape}</a></li>
+{/foreach}
+</ul>
