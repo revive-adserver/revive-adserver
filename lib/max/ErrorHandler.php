@@ -2,7 +2,7 @@
 /* Reminder: always indent with 4 spaces (no tabs). */
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
