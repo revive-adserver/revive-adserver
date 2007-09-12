@@ -38,18 +38,20 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
      * A method to launch and display the widget
      *
      */
-    function display()
+    function display($aParams)
     {
         $oTpl = new OA_Admin_Template('dashboard-iframe.html');
 
         $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
         $ssoPasswd = OA_Dal_ApplicationVariables::get('sso_password');
 
-        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=SsoDetails'));
+        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Iframe'));
+        $oTpl->assign('errorURL',     MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=SsoDetails&error='));
         $oTpl->assign('ssoAdmin',     $ssoAdmin ? $ssoAdmin : 'foo');
         $oTpl->assign('ssoPasswd',    $ssoPasswd ? md5($ssoPasswd) : 'bar');
         $oTpl->assign('casLoginURL',  'https://login.openads.org/sso/login');
         $oTpl->assign('serviceURL',   'https://login.openads.org/account/account.auth');
+        $oTpl->assign('casLT',        empty($aParams['lt']) ? '' : $aParams['lt']);
 
         $oTpl->display();
     }

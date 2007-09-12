@@ -35,9 +35,13 @@ $Id$
 <!--{literal}
 
 function prepareLoginForm() {
-	$('casLoginForm').action = casLoginURL;
-	$("lt").value = loginTicket;
-	$('casLoginForm').submit();
+    if (error) {
+        location.href = '{/literal}{$errorURL|escape:javascript}{literal}' + encodeURIComponent(error);
+    } else {
+    	$('casLoginForm').action = casLoginURL;
+    	$("lt").value = loginTicket;
+    	$('casLoginForm').submit();
+    }
 }
 
 function checkForLoginTicket() {
@@ -74,13 +78,16 @@ function checkForLoginTicket() {
 function $(id) {
 	return document.getElementById(id);
 }
+
 var loginTicket;
 var error;
 var casLoginURL;
 var thisPageURL;
 
 checkForLoginTicket();
+
 onload = prepareLoginForm;
+
 //-->{/literal}
 </script>
 </head>
@@ -98,8 +105,7 @@ if ( error ) {
 <input type="hidden" name="_eventId" value="submit"/>
 <input type="hidden" name="username" value="{$ssoAdmin|escape}" >
 <input type="hidden" name="password" value="{$ssoPasswd|escape}" >
-<input type="hidden" name="login-at" value="{$dashboardURL|escape}" >
-<input type="hidden" name="lt" id="lt" value="">
+<input type="hidden" name="lt" id="lt" value="{$casLT|escape}">
 <input type="hidden" name="service" value="{$serviceURL|escape}">
 </form>
 </body>
