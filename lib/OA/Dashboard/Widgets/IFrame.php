@@ -45,13 +45,14 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
         $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
         $ssoPasswd = OA_Dal_ApplicationVariables::get('sso_password');
 
-        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Iframe'));
+        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=IFrame'));
         $oTpl->assign('errorURL',     MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=SsoDetails&error='));
         $oTpl->assign('ssoAdmin',     $ssoAdmin ? $ssoAdmin : 'foo');
-        $oTpl->assign('ssoPasswd',    $ssoPasswd ? md5($ssoPasswd) : 'bar');
+        // md5 doesn't work yet - we will have to either reconfigure cas-server or create different url for
+        // logging in using hashed password
+        $oTpl->assign('ssoPasswd',    $ssoPasswd); // ? md5($ssoPasswd) : 'bar');
         $oTpl->assign('casLoginURL',  'https://login.openads.org/sso/login');
         $oTpl->assign('serviceURL',   'https://login.openads.org/account/account.auth');
-        $oTpl->assign('casLT',        empty($aParams['lt']) ? '' : $aParams['lt']);
 
         $oTpl->display();
     }

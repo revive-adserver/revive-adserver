@@ -40,7 +40,9 @@ function prepareLoginForm() {
     } else {
     	$('casLoginForm').action = casLoginURL;
     	$("lt").value = loginTicket;
-    	$('casLoginForm').submit();
+    	if ($("lt").value != 'undefined') {
+    	   $('casLoginForm').submit();
+    	}
     }
 }
 
@@ -84,14 +86,10 @@ var error;
 var casLoginURL;
 var thisPageURL;
 
-checkForLoginTicket();
-
-onload = prepareLoginForm;
-
 //-->{/literal}
 </script>
 </head>
-<body>
+<body onload="checkForLoginTicket(); prepareLoginForm();">
 loading...
 <script type="text/javascript" language="javascript">
 <!--{literal}
@@ -105,7 +103,7 @@ if ( error ) {
 <input type="hidden" name="_eventId" value="submit"/>
 <input type="hidden" name="username" value="{$ssoAdmin|escape}" >
 <input type="hidden" name="password" value="{$ssoPasswd|escape}" >
-<input type="hidden" name="lt" id="lt" value="{$casLT|escape}">
+<input type="hidden" name="lt" id="lt" value="">
 <input type="hidden" name="service" value="{$serviceURL|escape}">
 </form>
 </body>
