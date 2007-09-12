@@ -193,7 +193,6 @@ class TestRunner
         $this->runCase($test);
         // Tear down the environment for the test
         $configAfter = TestEnv::parseConfigFile();
-        $configAfter['origin']['host'] = 'rubqrv';
         $configDiff = array_diff_assoc_recursive($configBefore, $configAfter);
         if (!empty($configDiff)) {
             OA::debug("Config file was changed by test: {$folder} {$file} Diff: " . print_r($configDiff, true), PEAR_LOG_DEBUG);
