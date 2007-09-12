@@ -32,6 +32,9 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 function parseLogFile()
 {
     $oDbh = &OA_DB::singleton();
+
+    OA::disableErrorHandling();
+
     $data = file_get_contents(MAX_PATH."/var/sql.log");
     $i = preg_match_all('|<<([\s\W\w]+)>>|U',$data, $aMatches);
     if ($i > 1)
@@ -41,21 +44,34 @@ function parseLogFile()
             if (substr_count($v, 'tmp_')==0)
             {
                 $result = $oDbh->getAssoc('EXPLAIN '.$v);
-                if (PEAR::isError($result))
+                if (!PEAR::isError($result))
                 {
-                    break;
+                    $aResult[$k]['query']  = $v;
+                    $aResult[$k]['result'] = $result;
                 }
-                $aResult[$k]['query']  = $v;
-                $aResult[$k]['result'] = $result;
+                else
+                {
+                    $aResult[$k]['query']  = $v;
+                    $aResult[$k]['result'][0]['table'] = '...';
+                    $aResult[$k]['result'][0]['ref']   = '...';
+                    $aResult[$k]['result'][0]['type']  = '...';
+                    $aResult[$k]['result'][0]['rows']  = '...';
+                    $aResult[$k]['result'][0]['key']   = '...';
+                    $aResult[$k]['result'][0]['key_len']= '...';
+                    $aResult[$k]['result'][0]['possible_keys']= '...';
+                    $aResult[$k]['result'][0]['select_type']= '...';
+                    $aResult[$k]['result'][0]['extra'] = '...';
+                }
             }
         }
     }
+    OA::enableErrorHandling();
     return $aResult;
 }
 
 $aDisplay = parseLogFile();
-
 include 'tpl/explain.html';
+
 
 
 ?>

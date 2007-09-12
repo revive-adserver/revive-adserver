@@ -13,6 +13,8 @@
 <body>
 <div class="tablediv" style="background: #FFFFFF;">
     <h2>Openads Schema Analysis Utilities</h2>
+    <br />
+    <a href="showindexes.php" target="_blank" >Show Indexes</a>
     <?php
         foreach ($aDisplay AS $k => $v)
         {
@@ -36,20 +38,33 @@
         foreach ($v['result'] AS $rk => $rv)
         {
             $style =  '';
-            if (trim($rv['type'])=='ALL')
+            switch (trim($rv['type']))
             {
-                if ($rv['rows']>10)
-                {
-                    $style =  'style="background:lightpink"';
-                }
+                case 'ALL':
+                case 'index_merge':
+                case 'index':
+                case 'index_subquery':
+                case 'range':
+                case 'unique_subquery':
+                    if ($rv['rows']>10)
+                    {
+                        $style =  'style="background:lightpink"';
+                    }
+                    break;
+                case 'eq_ref':
+                case 'const':
+                case 'system':
+                    $style =  'style="background:lightgreen"';
+                    break;
+
             }
     ?>
             <tr>
                 <td class="tablebody"><?php echo $rv['table']; ?></td>
                 <td class="tablebody"><?php echo $rv['ref']; ?></td>
                 <td class="tablebody" <?php echo $style; ?>><?php echo $rv['type']; ?></td>
-                <td class="tablebody" <?php echo $style; ?> ><?php echo $rv['rows']; ?></td>
-                <td class="tablebody" ><?php echo $rv['key']; ?></td>
+                <td class="tablebody"><?php echo $rv['rows']; ?></td>
+                <td class="tablebody"><?php echo $rv['key']; ?></td>
                 <td class="tablebody"><?php echo $rv['key_len']; ?></td>
                 <td class="tablebody"><?php echo $rv['possible_keys']; ?></td>
                 <td class="tablebody"><?php echo $rv['select_type']; ?></td>
