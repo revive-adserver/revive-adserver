@@ -39,11 +39,15 @@ class ConfigMigrationTest extends UnitTestCase
 {
 	var $moduleDir;
 	var $packageDir;
-    
+	var $host;
+
     function setUp()
 	{
+	    $this->host = $_SERVER['HTTP_HOST'];
+	    $_SERVER['HTTP_HOST'] = 'test1';
+
 		$GLOBALS['_MAX']['CONF']['webpath']['delivery'] = getHostName();
-		
+
 		// set up test folders
     	$this->moduleDir = MAX_PATH . '/var/plugins/config/testModule';
     	if(!file_exists($this->moduleDir)) {
@@ -54,18 +58,27 @@ class ConfigMigrationTest extends UnitTestCase
     		mkdir($this->packageDir);
     	}
 	}
-	
+
+	function tearDown()
+	{
+        if (file_exists(MAX_PATH.'/var/'.getHostName().'.conf.php'))
+        {
+            @unlink(MAX_PATH.'/var/'.getHostName().'.conf.php');
+        }
+	    $_SERVER['HTTP_HOST'] = $this->host;
+	}
+
     function testGetGeotargetingConfig()
     {
     	$array1 = array('type' => 'testType');
     	MAX_Plugin::writePluginConfig($array1, 'testModule');
     	$array2 = array('key2' => 'val2');
     	MAX_Plugin::writePluginConfig($array2, 'testModule', 'testType');
-    	
+
     	$configMigration = new ConfigMigration();
     	$this->assertEqual(array_merge($array1, $array2), $configMigration->getPluginsConfigByType('testModule'));
     }
-    
+
     function testMergeConfigWith()
     {
     	$this->createConfigIfNotExists();
@@ -77,29 +90,37 @@ class ConfigMigrationTest extends UnitTestCase
     	$configMigration->mergeConfigWith('testSection', $aTest);
     	$this->checkGlobalConfigConsists('testSection', $aTest);
     }
-    
+
     function testRenamePluginsConfigAffix()
     {
         // create testing files
         touch($this->moduleDir.'/test_host.plugin.conf.ini');
         touch($this->packageDir.'/test_host.plugin.conf.ini');
-        
+
         $configMigration = new ConfigMigration();
         $aFiles = $configMigration->getPluginsConfigFiles('testModule', 'ini');
         $this->assertTrue(!empty($aFiles));
-        
+
         // rename them
         $configMigration->renamePluginsConfigAffix('ini', 'php');
-        
+
         // get all config files and test that ini files doesn't exist anymore
         $aFiles = $configMigration->getPluginsConfigFiles('testModule', 'ini');
         $this->assertTrue(empty($aFiles));
-        
+
         // Test that configs were correctly renamed
         $this->assertTrue(file_exists($this->moduleDir.'/test_host.plugin.conf.php'));
         $this->assertTrue(file_exists($this->packageDir.'/test_host.plugin.conf.php'));
+
+        @unlink($this->packageDir.'/'.getHostName().'.plugin.conf.php');
+        @unlink($this->packageDir.'/test_host.plugin.conf.php');
+        @unlink($this->packageDir);
+
+        @unlink($this->moduleDir.'/'.getHostName().'.plugin.conf.php');
+        @unlink($this->moduleDir.'/test_host.plugin.conf.php');
+        @unlink($this->moduleDir);
     }
-    
+
     /**
      * Checks if $testArray exists in $section in global config file
      *
@@ -117,14 +138,14 @@ class ConfigMigrationTest extends UnitTestCase
             }
         }
     }
-    
+
     /**
      * This method creates config if it doesn't exist so test won't fail
      *
      */
     function createConfigIfNotExists()
     {
-        if (!(file_exists('/var/'.getHostName().'.conf.php'))) {
+        if (!(file_exists(MAX_PATH.'/var/'.getHostName().'.conf.php'))) {
         	$oConfig = new OA_Upgrade_Config();
         	$oConfig->putNewConfigFile();
         	$oConfig->writeConfig(true);
