@@ -68,6 +68,7 @@ class Test_prescript_2_3_33_beta_rc4 extends UnitTestCase
         $this->assertTrue(in_array($this->prefix.$table, $aExistingTables), 'old database_action table not found');
 
         $this->assertTrue($oUpgrade->runScript('prescript_openads_upgrade_2.3.33-beta-rc4.php'));
+        TestEnv::restoreConfig();
     }
 
 }
