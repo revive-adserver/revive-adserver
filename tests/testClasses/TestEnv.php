@@ -197,6 +197,8 @@ class TestEnv
         if (!empty($backupConfigFilename) && is_readable($backupConfigFilename)) {
             $configFile = TestEnv::getConfigFilename();
             copy($backupConfigFilename, $configFile);
+        } else {
+            OA::debug("Could not restore config file from backup: {$backupConfigFilename}");
         }
         $newConf = TestEnv::parseConfigFile();
         foreach($newConf as $configGroup => $configGroupSettings) {
