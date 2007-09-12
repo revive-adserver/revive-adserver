@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -28,35 +25,29 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+/**
+ * A class to display the dashboard iframe container
+ *
+ */
+class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
+{
+    /**
+     * A method to launch and display the widget
+     *
+     */
+    function display()
+    {
+        phpAds_PageHeader("1.0");
 
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+        $oTpl = new OA_Admin_Template('dashboard-index.html');
+        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=IFrame'));
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
+        $oTpl->display();
 
-$widget = !empty($_REQUEST['widget']) ? $_REQUEST['widget'] : 'Index';
-
-if (preg_match('/[a-z0-9]+/i', $widget) && file_exists(MAX_PATH.'/lib/OA/Dashboard/Widgets/'.$widget.'.php')) {
-    // Load widget
-    require(MAX_PATH.'/lib/OA/Dashboard/Widgets/'.$widget.'.php');
-    $widget = 'OA_Dashboard_Widget_'.$widget;
-} else {
-    // Show empty widget
-    require(MAX_PATH.'/lib/OA/Dashboard/Widget.php');
-    $widget = 'OA_Dashboard_Widget';
+        phpAds_PageFooter();
+    }
 }
-
-$oDashboard = new $widget();
-$oDashboard->display($_REQUEST);
 
 ?>
