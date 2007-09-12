@@ -32,6 +32,36 @@ $Id$
 class OA_Dashboard_Widget
 {
     /**
+     * The user permissions mask, defaults to admin + agencies + publishers
+     *
+     * @var int
+     */
+    var $accessList;
+
+    /**
+     * The class constructor
+     *
+     * @return OA_Dashboard_Widget
+     */
+    function OA_Dashboard_Widget()
+    {
+        $this->checkAccess();
+    }
+
+    /**
+     * A method to check for permissions to display the widget
+     *
+     */
+    function checkAccess()
+    {
+        if (is_null($this->accessList)) {
+            $this->accessList = phpAds_Admin|phpAds_Agency|phpAds_Affiliate;
+        }
+
+        MAX_Permission::checkAccess($this->accessList);
+    }
+
+    /**
      * A method to launch and display the widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST

@@ -37,9 +37,6 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
-// Security check
-MAX_Permission::checkAccess(phpAds_Admin);
-
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/

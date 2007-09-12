@@ -48,6 +48,8 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      */
     function OA_Dashboard_Widget_Feed($title, $url, $posts = 5)
     {
+        parent::OA_Dashboard_Widget();
+
         $this->title = $title;
         $this->url   = $url;
         $this->posts = $posts;
