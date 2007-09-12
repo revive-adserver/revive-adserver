@@ -59,7 +59,7 @@ function OA_Dal_Delivery_connect($database = 'database') {
     }
     $dbParams   = array();
     $dbParams[] = 'port='.(isset($dbConf['port']) ? $dbConf['port'] : 5432);
-    $dbParams[] = !empty($dbConf['socket']) ? '' : 'host='.$dbConf['host'];
+    $dbParams[] = !empty($dbConf['protocol']) && $dbConf['protocol'] == 'unix' ? '' : 'host='.$dbConf['host'];
     $dbParams[] = empty($dbConf['username']) ? '' : 'user='.$dbConf['username'];
     $dbParams[] = empty($dbConf['password']) ? '' : 'password='.$dbConf['password'];
     $dbParams[] = 'dbname='.$dbConf['name'];
