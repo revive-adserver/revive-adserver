@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  * A class to display the dashboard iframe content
  *
  */
-class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
+class OA_Dashboard_Widget_SsoDetails extends OA_Dashboard_Widget
 {
     /**
      * A method to launch and display the widget
@@ -40,16 +40,7 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
      */
     function display()
     {
-        $oTpl = new OA_Admin_Template('dashboard-iframe.html');
-
-        $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
-        $ssoPasswd = OA_Dal_ApplicationVariables::get('sso_password');
-
-        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=SsoDetails'));
-        $oTpl->assign('ssoAdmin',     $ssoAdmin ? $ssoAdmin : 'foo');
-        $oTpl->assign('ssoPasswd',    $ssoPasswd ? md5($ssoPasswd) : 'bar');
-        $oTpl->assign('casLoginURL',  'https://login.openads.org/sso/login');
-        $oTpl->assign('serviceURL',   'https://login.openads.org/account/account.auth');
+        $oTpl = new OA_Admin_Template('dashboard-ssodetails.html');
 
         $oTpl->display();
     }

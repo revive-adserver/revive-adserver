@@ -34,73 +34,17 @@ $Id$
 <script type="text/javascript">
 <!--{literal}
 
-function prepareLoginForm() {
-	$('casLoginForm').action = casLoginURL;
-	$("lt").value = loginTicket;
-	$('casLoginForm').submit();
+function doSomething()
+{
+    alert('Wrong password!\n\nThis is just a placeholder message ;)')
 }
 
-function checkForLoginTicket() {
-	var loginTicketProvided = false;
-	var query	= '';
-    	casLoginURL = '{/literal}{$casLoginURL|escape:javascript}{literal}';
-    	casLoginURL += '?login-at=' + encodeURIComponent ('{/literal}{$dashboardURL|escape:javascript}{literal}');
+onload = doSomething;
 
-	query	= window.location.search;
-	query	= query.substr (1, query.length - 1);
-
-
-	var param	= new Array();
-	var temp	= new Array();
-	param	= query.split ('&');
-
-	i = 0;
-	while (param[i]) {
-		temp		= param[i].split ('=');
-		if (temp[0] == 'lt') {
-			loginTicket = temp[1];
-			loginTicketProvided = true;
-		}
-		if (temp[0] == 'error_message') {
-        	    error = temp[1];
-        	}
-		i++;
-	}
-	if (!loginTicketProvided) {
-		location.href = casLoginURL + '&get-lt=true';
-	}
-}
-
-function $(id) {
-	return document.getElementById(id);
-}
-var loginTicket;
-var error;
-var casLoginURL;
-var thisPageURL;
-
-checkForLoginTicket();
-onload = prepareLoginForm;
 //-->{/literal}
 </script>
 </head>
 <body>
-loading...
-<script type="text/javascript" language="javascript">
-<!--{literal}
-if ( error ) {
-	error = decodeURIComponent (error);
-	document.write (error);
-}
-//-->{/literal}
-</script>
-<form id="casLoginForm" action="" method="post">
-<input type="hidden" name="_eventId" value="submit"/>
-<input type="hidden" name="username" value="{$ssoAdmin|escape}" >
-<input type="hidden" name="password" value="{$ssoPasswd|escape}" >
-<input type="hidden" name="login-at" value="{$dashboardURL|escape}" >
-<input type="hidden" name="lt" id="lt" value="">
-<input type="hidden" name="service" value="{$serviceURL|escape}">
-</form>
+
 </body>
 </html>
