@@ -100,6 +100,7 @@ class TestRunner
     function TestRunner()
     {
         $this->findDefaults();
+        TestEnv::backupConfig();
     }
 
     /**
@@ -195,7 +196,7 @@ class TestRunner
         $configAfter = TestEnv::parseConfigFile();
         $configDiff = array_diff_assoc_recursive($configBefore, $configAfter);
         if (!empty($configDiff)) {
-            OA::debug("Config file was changed by test: {$folder} {$file} Diff: " . print_r($configDiff, true), PEAR_LOG_DEBUG);
+            OA::debug("Config file was changed by test: {$folder} {$file}", PEAR_LOG_DEBUG);
         }
         TestRunner::teardownEnv($layer);
     }
@@ -414,6 +415,8 @@ class TestRunner
 
     function exitWithCode()
     {
+        TestEnv::removeBackupConfig();
+
         if ($this->hasFailures()) {
             exit(1); // non-zero signals execution failure to anyone running this script
         } else {

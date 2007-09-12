@@ -55,7 +55,6 @@ class Test_prescript_2_3_33_beta_rc4 extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
         $this->oConfiguration = $oUpgrade->oConfiguration;
-        $this->assertTrue($this->_backupConfig(),'failed to backup the test config file');
         $oUpgrade->initDatabaseConnection();
         $oDbh = & $oUpgrade->oDbh;
 
@@ -69,50 +68,6 @@ class Test_prescript_2_3_33_beta_rc4 extends UnitTestCase
         $this->assertTrue(in_array($this->prefix.$table, $aExistingTables), 'old database_action table not found');
 
         $this->assertTrue($oUpgrade->runScript('prescript_openads_upgrade_2.3.33-beta-rc4.php'));
-
-        $this->assertTrue($this->_restoreConfigBackup(),'failed to restore test config file');
-    }
-
-    function _backupConfig()
-    {
-        if (!$this->oConfiguration->oConfig->backupConfig($this->configFile))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    function _restoreConfigBackup()
-    {
-        $confBackup = MAX_PATH.'/var/'.$this->oConfiguration->oConfig->backupFilename;
-        if ($confBackup)
-        {
-            if (file_exists($this->configFile))
-            {
-                if (! @unlink($this->configFile))
-                {
-                    OA::debug('failed to remove current configuration file');
-                    return false;
-                }
-            }
-            if (!file_exists($confBackup))
-            {
-                OA::debug('failed to find backup configuration file');
-                return false;
-            }
-            if (! copy($confBackup,$this->configFile))
-            {
-                return false;
-            }
-            OA::debug('restored config file '.$this->configFile);
-            if (! @unlink($confBackup))
-            {
-                OA::debug('failed to remove backup configuration file');
-                return false;
-            }
-            OA::debug('removed backup config file '.$confBackup);
-        }
-        return true;
     }
 
 }

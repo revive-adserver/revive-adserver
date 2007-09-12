@@ -192,7 +192,12 @@ class TestEnv
     {
         // Destroy cached table classes
         OA_DB_Table_Core::destroy();
-        // Re-parse the config file
+        // Restore and Re-parse the config file
+        $backupConfigFilename = $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
+        if (!empty($backupConfigFilename) && is_readable($backupConfigFilename)) {
+            $configFile = TestEnv::getConfigFilename();
+            copy($backupConfigFilename, $configFile);
+        }
         $newConf = TestEnv::parseConfigFile();
         foreach($newConf as $configGroup => $configGroupSettings) {
             foreach($configGroupSettings as $confName => $confValue) {
@@ -209,20 +214,29 @@ class TestEnv
      */
     function parseConfigFile()
     {
+        $configFile = TestEnv::getConfigFilename();
+        if (file_exists($configFile)) {
+            return @parse_ini_file($configFile, true);
+        }
+    }
+
+    function getConfigFilename()
+    {
         if (isset($_SERVER['SERVER_NAME'])) {
             // If test runs from web-client first check if host test config exists
             // This could be used to have different tests for different configurations
             $host = getHostName();
             $testFilePath = MAX_PATH . '/var/'.$host.'.test.conf.php';
             if (file_exists($testFilePath)) {
-                return @parse_ini_file($testFilePath, true);
+                return $testFilePath;
             }
         }
         // Look into default location
         $testFilePath = MAX_PATH . '/var/test.conf.php';
         if (file_exists($testFilePath)) {
-            return @parse_ini_file($testFilePath, true);
+            return $testFilePath;
         }
+
     }
 
     /**
@@ -311,6 +325,33 @@ class TestEnv
 
     }
 
+    /**
+     * This function makes a backup copy of the config file to ensure that tests which write change
+     * to the config file are able to roll-back their changes by calling restoreConfig
+     *
+     */
+    function backupConfig()
+    {
+        $backupConfigFilename =& $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
+        if (empty($backupConfigFilename)) {
+            $backupConfigFilename = MAX_PATH . '/var/' . uniqid('backup') . '.conf.php';
+        }
+        $configFile = TestEnv::getConfigFilename();
+
+        // Backup user's original config file
+        if (file_exists($configFile)) {
+            return (copy($configFile, $backupConfigFilename));
+        }
+        return false;
+    }
+
+    function removeBackupConfig()
+    {
+        $backupConfigFilename = $GLOBALS['_MAX']['TEST']['backupConfigFilename'];
+        if (!empty($backupConfigFilename) && file_exists($backupConfigFilename)) {
+            unlink($backupConfigFilename);
+        }
+    }
 }
 
 ?>
