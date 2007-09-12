@@ -70,10 +70,10 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
  		$Graph =& Image_Graph::factory('graph', $Canvas);
 
-		$Font =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/trebuc.ttf');
-		$Font->setSize(8);
+		$Font =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/Vera.ttf');
+		$Font->setSize(7);
 
-		$FontT =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/trebucbd.ttf');
+		$FontT =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/VeraBd.ttf');
 		$FontT->setSize(11);
 
 		$Graph->setFont($Font);
