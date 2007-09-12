@@ -88,7 +88,7 @@ class TestRunner
      * @var string The host which should be used for tests
      */
     var $host;
-    
+
     /** @var int The number of times any run has failed.
      * @todo Consider querying report object instead of storing failures.
      */
@@ -183,6 +183,7 @@ class TestRunner
         $type = $GLOBALS['_MAX']['TEST']['test_type'];
         // Set up the environment for the test
         TestRunner::setupEnv($layer);
+        $configBefore = TestEnv::parseConfigFile();
         // Add the test file to a SimpleTest group
         $testName = $this->_testName($layer, $folder, $file);
         $secondaryName = $this->_secondaryTestName($layer);
@@ -191,6 +192,12 @@ class TestRunner
         $test->addTestFile($testFile);
         $this->runCase($test);
         // Tear down the environment for the test
+        $configAfter = TestEnv::parseConfigFile();
+        $configAfter['origin']['host'] = 'rubqrv';
+        $configDiff = array_diff_assoc_recursive($configBefore, $configAfter);
+        if (!empty($configDiff)) {
+            OA::debug("Config file was changed by test: {$folder} {$file} Diff: " . print_r($configDiff, true), PEAR_LOG_DEBUG);
+        }
         TestRunner::teardownEnv($layer);
     }
 
@@ -414,6 +421,37 @@ class TestRunner
             exit(0); // the UNIX success code -- all-clear
         }
     }
+}
+
+function array_diff_assoc_recursive($array1, $array2)
+{
+    foreach($array1 as $key => $value)
+    {
+        if(is_array($value))
+        {
+              if(!isset($array2[$key]))
+              {
+                  $difference[$key] = $value;
+              }
+              elseif(!is_array($array2[$key]))
+              {
+                  $difference[$key] = $value;
+              }
+              else
+              {
+                  $new_diff = array_diff_assoc_recursive($value, $array2[$key]);
+                  if($new_diff != FALSE)
+                  {
+                        $difference[$key] = $new_diff;
+                  }
+              }
+          }
+          elseif(!isset($array2[$key]) || $array2[$key] != $value)
+          {
+              $difference[$key] = $value;
+          }
+    }
+    return !isset($difference) ? 0 : $difference;
 }
 
 ?>
