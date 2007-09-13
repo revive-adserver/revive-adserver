@@ -33,6 +33,8 @@ require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/lib/max/Delivery/javascript.php';
 
+MAX_commonSetNoCacheHeaders();
+
 /*-------------------------------------------------------*/
 /* Register input variables                              */
 /*-------------------------------------------------------*/
