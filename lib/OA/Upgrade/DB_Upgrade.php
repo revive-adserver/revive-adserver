@@ -39,7 +39,6 @@ class OA_DB_Upgrade
     var $schema;
     var $versionTo;
 
-    var $path_schema;
     var $path_changes;
     var $file_schema;
     var $file_changes;
@@ -119,7 +118,6 @@ class OA_DB_Upgrade
     {
         //this->__construct();
         $this->path_changes = MAX_PATH.'/etc/changes/';
-        $this->path_schema = $this->path_changes;
 
         // so that this class can log to the caller's log
         // and write it's own log if necessary (testing)
@@ -191,7 +189,7 @@ class OA_DB_Upgrade
             $this->aChanges = array();
             $this->aDefinitionNew = array();
 
-            $this->file_schema  = "{$this->path_schema}schema_{$schema}_{$this->versionTo}.xml";
+            $this->file_schema  = "{$this->path_changes}schema_{$schema}_{$this->versionTo}.xml";
             $this->file_changes  = "{$this->path_changes}changes_{$schema}_{$this->versionTo}.xml";
             $this->file_migrate  = "{$this->path_changes}migration_{$schema}_{$this->versionTo}.php";
 
@@ -822,12 +820,12 @@ class OA_DB_Upgrade
             if (in_array($this->prefix.$aAction['tablename'], $this->aDBTables))
             {
                 $this->_logOnly("new table {$this->prefix}{$aAction['tablename']} found in database");
-                $this->aAddedTables[$aAction['schema_name']][$aAction['version']][$aAction['tablename']] = $aAction;
             }
             else
             {
-                $this->_logError("new table {$this->prefix}{$aAction['tablename']} not found in database");
+                $this->_logOnly("new table {$this->prefix}{$aAction['tablename']} not found in database");
             }
+            $this->aAddedTables[$aAction['schema_name']][$aAction['version']][$aAction['tablename']] = $aAction;
         }
         return true;
     }
@@ -848,7 +846,7 @@ class OA_DB_Upgrade
     {
         if ($dropfirst)
         {
-            $result = $this->dropTable($table);
+            $result = $this->dropTable($table, true);
             if (!$result)
             {
                 $this->_logError('dropping '.$this->prefix.$table. ' during rollback');
@@ -2348,10 +2346,10 @@ class OA_DB_Upgrade
      * @param string $table
      * @return boolean
      */
-    function dropTable($table)
+    function dropTable($table, $critical=false)
     {
         $this->aDBTables = $this->_listTables();
-        if (!in_array($this->prefix.$table, $this->aDBTables))
+        if ($critical && (!in_array($this->prefix.$table, $this->aDBTables)))
         {
             $this->_logError('wanted to drop table '.$this->prefix.$table.' but it wasn\'t there');
             return false;
