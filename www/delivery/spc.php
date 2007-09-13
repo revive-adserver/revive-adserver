@@ -2613,6 +2613,7 @@ $buffer .= "\ndocument.write({$varName});\n";
 }
 return $buffer;
 }
+MAX_commonSetNoCacheHeaders();
 MAX_commonRegisterGlobalsArray(array('zones' ,'source', 'block', 'blockcampaign', 'exclude', 'mmm_fo', 'q', 'nz'));
 // Derive the source parameter
 $source = MAX_commonDeriveSource($source);
