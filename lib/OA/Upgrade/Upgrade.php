@@ -127,6 +127,10 @@ class OA_Upgrade
         $this->oTable       = new OA_DB_Table();
         $this->oIntegrity   = new OA_DB_Integrity();
 
+        if ($this->seekFantasyUpgradeFile())
+        {
+            $this->upgradePath  = MAX_PATH.'/etc/changesfantasy/';
+        }
         $this->oDBUpgrader->path_changes = $this->upgradePath;
 
         $this->aDsn['database'] = array();
@@ -895,18 +899,27 @@ class OA_Upgrade
                 $this->upgrading_from_milestone_version = false;
                 return true;
             }
-            else if ($this->oConfiguration->checkForConfigAdditions()) {
+            else if ($current)
+            {
+                if ($this->seekFantasyUpgradeFile())
+                {
+                    $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
+                    $this->aPackageList[0]  = 'openads_fantasy_upgrade_999.999.999.xml';
+                    $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
+                    $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                    return true;
+                }
+                $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
+                $this->aPackageList = array();
+                return false;
+            }
+            else if ($this->oConfiguration->checkForConfigAdditions())
+            {
                 $this->existing_installation_status = OA_STATUS_CAN_UPGRADE;
                 $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                 $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
                 $this->upgrading_from_milestone_version = false;
                 return true;
-            }
-            else if ($current)
-            {
-                $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
-                $this->aPackageList = array();
-                return false;
             }
             $this->existing_installation_status = OA_STATUS_OAD_VERSION_FAILED;
             return false;
@@ -1235,12 +1248,18 @@ class OA_Upgrade
         }
         else
         {
-            $this->package_file = 'openads_version_stamp_'.OA_VERSION;
+            $version = OA_VERSION;
+            if ($this->seekFantasyUpgradeFile())
+            {
+                $version = '999.999.999';
+                $this->createFantasyRecoveryFile();
+            }
+            $this->package_file = 'openads_version_stamp_'.$version;
             $this->oLogger->setLogFile($this->_getUpgradeLogFileName($timing));
             $this->oDBUpgrader->logFile = $this->oLogger->logFile;
             $this->oAuditor->setUpgradeActionId();
             $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
-                                                'version_to'=>OA_VERSION,
+                                                'version_to'=>$version,
                                                 'version_from'=>$this->getProductApplicationVersion(),
                                                 'logfile'=>basename($this->oLogger->logFile)
                                                 )
@@ -1254,16 +1273,16 @@ class OA_Upgrade
                 $this->oLogger->logError('Failed to upgrade configuration file');
                 return false;
             }
-            if ($this->versionInitialApplication != OA_VERSION)
+            if ($this->versionInitialApplication != $version)
             {
-                if (!$this->oVersioner->putApplicationVersion(OA_VERSION))
+                if (!$this->oVersioner->putApplicationVersion($version))
                 {
-                    $this->$this->oLogger->logError('Failed to update application version to '.OA_VERSION);
-                    $this->message = 'Failed to update application version to '.OA_VERSION;
+                    $this->$this->oLogger->logError('Failed to update application version to '.$version);
+                    $this->message = 'Failed to update application version to '.$version;
                     return false;
                 }
                 $this->versionInitialApplication = $this->oVersioner->getApplicationVersion();
-                $this->oLogger->log('Application version updated to '. OA_VERSION);
+                $this->oLogger->log('Application version updated to '. $version);
             }
             $this->oAuditor->updateAuditAction(array('description'=>'UPGRADE COMPLETE',
                                                      'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
@@ -1706,7 +1725,7 @@ class OA_Upgrade
                 $this->oLogger->logError('schema prepping prescript: '.$this->upgradePath.$file);
                 return false;
             }
-            if(!$this->oDBUpgrader->runPreScript($this->upgradePath.$file))
+            if(!$this->oDBUpgrader->runPreScript(array($this)))
             {
                 $this->oLogger->logError('schema prepping prescript: '.$this->upgradePath.$file);
                 return false;
@@ -1731,7 +1750,7 @@ class OA_Upgrade
                 $this->oLogger->logError('schema prepping postscript: '.$this->upgradePath.$file);
                 return false;
             }
-            if(!$this->oDBUpgrader->runPostScript($this->upgradePath.$file))
+            if(!$this->oDBUpgrader->runPostScript(array($this)))
             {
                 $this->oLogger->logError('schema prepping postscript: '.$this->upgradePath.$file);
                 return false;
@@ -1933,6 +1952,31 @@ class OA_Upgrade
             return $aResult;
         }
         return false;
+    }
+
+    /**
+     * looks for the UPGRADE.FANTASY file
+     *
+     * @return array | false
+     */
+     function seekFantasyUpgradeFile()
+    {
+        return file_exists(MAX_PATH.'/var/UPGRADE.FANTASY');
+    }
+
+    /**
+     * copy a recovery file to a RECOVERY.FANTASY file
+     *
+     */
+    function createFantasyRecoveryFile()
+    {
+        if ($this->seekFantasyUpgradeFile())
+        {
+            if (file_exists($this->recoveryFile))
+            {
+                @copy($this->recoveryFile, $this->recoveryFile.'.FANTASY');
+            }
+        }
     }
 
     /**
