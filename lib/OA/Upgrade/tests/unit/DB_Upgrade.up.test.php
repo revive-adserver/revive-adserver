@@ -166,7 +166,10 @@ class Test_DB_Upgrade extends UnitTestCase
         Mock::generatePartial(
                                 'OA_DB_UpgradeAuditor',
                                 $mockAuditor = 'OA_DB_UpgradeAuditor'.rand(),
-                                array('queryAuditBackupTablesByUpgradeId','queryAuditAddedTablesByUpgradeId')
+                                array('queryAuditBackupTablesByUpgradeId',
+                                      'queryAuditAddedTablesByUpgradeId',
+                                      'queryAuditUpgradeStartedByUpgradeId'
+                                     )
                              );
         $oDB_Upgrade->oAuditor = new $mockAuditor($this);
 
@@ -231,7 +234,17 @@ class Test_DB_Upgrade extends UnitTestCase
         $oDB_Upgrade->oAuditor->setReturnValue('queryAuditAddedTablesByUpgradeId', $aAdded);
         $oDB_Upgrade->oAuditor->expectOnce('queryAuditAddedTablesByUpgradeId');
 
-        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(1));
+        $aSchemaInfo = array(0 => array('schema_name'=>'test_schema',
+                                        'info2'=>999
+                                       )
+                            );
+        $oDB_Upgrade->oAuditor->setReturnValue('queryAuditUpgradeStartedByUpgradeId', $aSchemaInfo);
+        $oDB_Upgrade->oAuditor->expectOnce('queryAuditUpgradeStartedByUpgradeId');
+
+        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(1, $version, $schema));
+
+        $this->assertEqual($version, $aSchemaInfo[0]['info2'],'wrong schema version returned');
+        $this->assertEqual($schema, $aSchemaInfo[0]['schema_name'],'wrong schema version returned');
 
         $this->assertEqual(count($oDB_Upgrade->aRestoreTables),'1','wrong count tables restore array');
         $this->assertTrue(isset($oDB_Upgrade->aRestoreTables['tables_core']),'schema not found in restore array');
