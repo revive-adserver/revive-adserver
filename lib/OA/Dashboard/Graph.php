@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once('Image/Graph.php');
 
 /**
@@ -34,6 +35,7 @@ require_once('Image/Graph.php');
  */
 class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 {
+    var $oTpl;
     var $title;
     var $aData;
 
@@ -41,16 +43,80 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      * The class constructor
      *
      * @param string $title
-     * @param string $url
-     * @param int $posts
      * @return OA_Dashboard_Widget_Feed
      */
-    function OA_Dashboard_Widget_Graph($title, $aData)
+    function OA_Dashboard_Widget_Graph($title)
     {
         parent::OA_Dashboard_Widget();
 
         $this->title = $title;
-        $this->aData = array_slice($aData, -7);
+
+        $this->oTpl = new OA_Admin_Template('passthrough.html');
+    }
+
+    /**
+     * A method to check if there is a cached version of the graph
+     *
+     * @return boolean
+     */
+    function isCached()
+    {
+        return false;
+    }
+
+    /**
+     * A method to set the grap data.
+     *
+     * @param array $aData An array with two members for impressions and clicks:
+     *
+     * Array
+     * (
+     *      [0] => Array
+     *          (
+     *              [09-01] => 1000
+     *              [09-02] => 1000
+     *              [09-03] => 1000
+     *              [09-04] => 1000
+     *              [09-05] => 1000
+     *              [09-06] => 1000
+     *              [09-07] => 1000
+     *          )
+     *
+     *      [1] => Array
+     *          (
+     *              [09-01] => 10
+     *              [09-02] => 10
+     *              [09-03] => 10
+     *              [09-04] => 10
+     *              [09-05] => 10
+     *              [09-06] => 10
+     *              [09-07] => 10
+     *          )
+     *
+     * )
+     */
+    function setData($aData)
+    {
+        if (isset($aData[0]) && is_array($aData[0]) && isset($aData[1]) && is_array($aData[1])) {
+            $this->aData = array(
+                array_slice($aData[0], -7),
+                array_slice($aData[1], -7)
+            );
+        }
+    }
+
+    /**
+     * A method to use zeroed data to draw an empty graph
+     *
+     */
+    function setDummyData()
+    {
+        $this->aData = array();
+        for ($i = 0; $i < 7; $i++) {
+            $day = date('m-d', time() - 86400 * (7 - $i));
+            $this->aData[0][$day] = 0;
+            $this->aData[1][$day] = 0;
+        }
     }
 
     /**
@@ -60,6 +126,10 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      */
     function display($aParams)
     {
+        if (is_null($this->aData)) {
+            $this->setDummyData();
+        }
+
 		$Canvas =& Image_Canvas::factory('png',
 			array(
 				'width'		=> 300,
@@ -134,17 +204,21 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         $AxisY->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
         $AxisY2->setDataPreprocessor(Image_Graph::factory('Image_Graph_DataPreprocessor_Function', $func));
 
+        ob_start();
 		$Graph->done();
-/*
-        $oTpl = new OA_Admin_Template('dashboard-graph.html');
+		$content = ob_get_clean();
 
-        $oTpl->assign('title', $this->title);
-        $oTpl->assign('feed', array_slice($oRss->getItems(), 0, $this->posts));
+        $this->oTpl->assign('content', $content);
 
-        $oTpl->display();
-*/
+        $this->oTpl->display();
     }
 
+    /**
+     * A method to format a value using metrics (k, M, B)
+     *
+     * @param float $value
+     * @return string
+     */
     function _formatY($value)
     {
         $unit = '';

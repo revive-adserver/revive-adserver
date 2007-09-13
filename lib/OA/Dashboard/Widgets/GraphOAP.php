@@ -36,13 +36,18 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
 {
     function OA_Dashboard_Widget_GraphOAP()
     {
-        $aData = array();
-        for ($i = 0; $i < 7; $i++) {
-            $aData[0][date('m-d', time() - 86400 * (7 - $i))] = mt_rand(1500, 2000);
-            $aData[1][date('m-d', time() - 86400 * (7 - $i))] = mt_rand(15, 20);
-        }
+        parent::OA_Dashboard_Widget_Graph('OAP Graph');
 
-        parent::OA_Dashboard_Widget_Graph('OAP Graph', $aData);
+        if (!$this->isCached()) {
+            $aData = array();
+            for ($i = 0; $i < 7; $i++) {
+                $day = date('m-d', time() - 86400 * (7 - $i));
+                $aData[0][$day] = mt_rand(1500, 2000);
+                $aData[1][$day] = mt_rand(15, 20);
+            }
+
+            $this->setData($aData);
+        }
     }
 }
 
