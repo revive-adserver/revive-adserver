@@ -181,7 +181,11 @@ class OA_Sync
         ));
 
         // Add statistics
-        $params[] = XML_RPC_Encode($this->buildStats());
+        $aStats = array();
+        foreach ($this->buildStats() as $k => $v) {
+            $aStats[$k] = XML_RPC_encode($v);
+        }
+        $params[] = new XML_RPC_Value($aStats, 'struct');
 
         // Create XML-RPC request message
         $msg = new XML_RPC_Message("Openads.Sync", $params);
@@ -194,11 +198,19 @@ class OA_Sync
 
                 // Prepare cache
                 $cache = $ret[1];
+
+                // Update last run
+                OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
             } else {
                 $ret = array($response->faultCode(), $response->faultString());
 
                 // Prepare cache
                 $cache = false;
+
+                // Update last run
+                if ($response->faultCode() == 800) {
+                    OA_Dal_ApplicationVariables::set('sync_last_run', date('Y-m-d H:i:s'));
+                }
             }
 
             // prepare update query
