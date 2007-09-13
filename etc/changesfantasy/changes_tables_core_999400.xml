@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>999400</version>
+  <comments>fantasy upgrade: remove index, add primary key constraint</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>999400</version>
+      <change>
+        <table>
+          <name>astro</name>
+        <index>
+          <add>
+            <name>astro_pkey</name>
+            <was>astro_pkey</was>
+            <primary>true</primary>
+            <indexfield>
+              <name>id_changed_field</name>
+              <sorting>ascending</sorting>
+            </indexfield>
+          </add>
+        </index>
+        <index>
+          <remove>
+            <name>id_field</name>
+        </remove>
+      </index>
+    </table>
+  </change>
+</changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>999400</version>
+  </changeset>
+</destructive>
+</instructionset>

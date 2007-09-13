@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>999350</version>
+  <comments>fantasy upgrade: remove autoincremnt field</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>999350</version>
+</changeset>
+</constructive>
+<destructive>
+  <changeset>
+    <name>openads</name>
+    <version>999350</version>
+    <change>
+      <table>
+        <name>astro</name>
+      <remove>
+        <field>
+          <name>auto_renamed_field</name>
+        </field>
+      </remove>
+    </table>
+  </change>
+</changeset>
+</destructive>
+</instructionset>
