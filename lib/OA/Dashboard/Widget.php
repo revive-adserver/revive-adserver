@@ -55,7 +55,7 @@ class OA_Dashboard_Widget
     function checkAccess()
     {
         if (is_null($this->accessList)) {
-            $this->accessList = phpAds_Admin|phpAds_Agency|phpAds_Affiliate;
+            $this->accessList = phpAds_Admin;
         }
 
         MAX_Permission::checkAccess($this->accessList);

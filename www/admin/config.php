@@ -227,7 +227,6 @@ function MMM_buildNavigation()
         ),
 
         "agency"    => array (
-            "1"                         =>  array("dashboard.php" => $GLOBALS['strHome']),
             "2"                         =>  array("stats.php" => $GLOBALS['strStats']),
               "2.1"                     =>  array("stats.php?1=1" => $GLOBALS['strClientsAndCampaigns']),
                 "2.1.1"                 =>  array("stats.php?entity=advertiser&breakdown=history&clientid=$clientid" => $GLOBALS['strClientHistory']),
@@ -368,7 +367,6 @@ function MMM_buildNavigation()
         ),
 
         "affiliate" => array (
-            "5"                     =>  array("dashboard.php" => $GLOBALS['strHome']),
             "1"                     =>  array("stats.php?entity=affiliate&breakdown=history&affiliateid=$affiliateid" => $GLOBALS['strStats']),
               "1.1"                 =>  array("stats.php?entity=affiliate&breakdown=history&affiliateid=$affiliateid" => $GLOBALS['strAffiliateHistory']),
                 "1.1.1"             =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&day=$day" => $GLOBALS['strDailyStats']),
