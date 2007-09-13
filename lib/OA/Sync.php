@@ -28,6 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+
+require_once 'Date.php';
 require_once 'XML/RPC.php';
 
 /**
@@ -141,7 +143,7 @@ class OA_Sync
      *               Item 0 is the XML-RPC error code (special meanings: 0 - no error, 800 - No updates)
      *               Item 1 is either the error message (item 1 != 0), or an array containing update info
      */
-    function checkForUpdates($already_seen = 0, $send_sw_data = true)
+    function checkForUpdates($already_seen = 0)
     {
         global $XML_RPC_erruser;
 
@@ -151,34 +153,35 @@ class OA_Sync
 
         $params = array(
             new XML_RPC_Value('Openads', 'string'),
-            new XML_RPC_Value($this->getConfigVersion(OA_VERSION), 'string'),
+            new XML_RPC_Value($this->getConfigVersion(OA_Dal_ApplicationVariables::get('oa_version')), 'string'),
             new XML_RPC_Value($already_seen, 'string'),
             new XML_RPC_Value('', 'string'),
             new XML_RPC_Value(OA_Dal_ApplicationVariables::get('platform_hash'), 'string')
         );
 
-        if ($send_sw_data) {
-            // Prepare software data
-            $params[] = XML_RPC_Encode(array(
-                'os_type'                    => php_uname('s'),
-                'os_version'                => php_uname('r'),
+        // Prepare software data
+        $params[] = XML_RPC_Encode(array(
+            'os_type'                   => php_uname('s'),
+            'os_version'                => php_uname('r'),
 
-                'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
-                'webserver_version'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+            'webserver_type'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^(.*?)/.*$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
+            'webserver_version'            => isset($_SERVER['SERVER_SOFTWARE']) ? preg_replace('#^.*?/(.*?)(?: .*)?$#', '$1', $_SERVER['SERVER_SOFTWARE']) : '',
 
-                'db_type'                    => phpAds_dbmsname,
-                'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
+            'db_type'                   => phpAds_dbmsname,
+            'db_version'                => $this->oDbh->queryOne("SELECT VERSION()"),
 
-                'php_version'                => phpversion(),
-                'php_sapi'                    => ucfirst(php_sapi_name()),
-                'php_extensions'            => get_loaded_extensions(),
-                'php_register_globals'        => (bool)ini_get('register_globals'),
-                'php_magic_quotes_gpc'        => (bool)ini_get('magic_quotes_gpc'),
-                'php_safe_mode'                => (bool)ini_get('safe_mode'),
-                'php_open_basedir'            => (bool)strlen(ini_get('open_basedir')),
-                'php_upload_tmp_readable'    => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR),
-            ));
-        }
+            'php_version'               => phpversion(),
+            'php_sapi'                  => ucfirst(php_sapi_name()),
+            'php_extensions'            => get_loaded_extensions(),
+            'php_register_globals'      => (bool)ini_get('register_globals'),
+            'php_magic_quotes_gpc'      => (bool)ini_get('magic_quotes_gpc'),
+            'php_safe_mode'             => (bool)ini_get('safe_mode'),
+            'php_open_basedir'          => (bool)strlen(ini_get('open_basedir')),
+            'php_upload_tmp_readable'   => (bool)is_readable(ini_get('upload_tmp_dir').DIRECTORY_SEPARATOR),
+        ));
+
+        // Add statistics
+        $params[] = XML_RPC_Encode($this->buildStats());
 
         // Create XML-RPC request message
         $msg = new XML_RPC_Message("Openads.Sync", $params);
@@ -218,6 +221,83 @@ class OA_Sync
         }
 
         return array(-1, 'No response from the server');
+    }
+
+    /**
+     * Build global statistics array to be sent through Sync
+     *
+     * @return array
+     */
+    function buildStats()
+    {
+        $lastRun = OA_Dal_ApplicationVariables::get('sync_last_run');
+
+        if ($lastRun) {
+            $oStart = new Date($lastRun);
+        } else {
+            $oStart = new Date();
+            $oStart->subtractSpan(new Date_Span('1-0-0-0'));
+            $oStart->setMinute(0);
+            $oStart->setSecond(0);
+        }
+
+        $oEnd = new Date();
+        $oEnd->setMinute(0);
+        $oEnd->setSecond(0);
+
+        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $tableDsah = $this->oDbh->quoteIdentifier($prefix.'data_summary_ad_hourly', true);
+
+        $query = "
+            SELECT
+                day,
+                hour,
+                SUM(impressions) AS total_impressions,
+                SUM(clicks) AS total_clicks
+            FROM
+                $tableDsah
+            WHERE
+                ((day = :start AND hour >= :starthour) OR day > :start) AND
+                ((day = :end AND hour < :endhour) OR day < :end)
+            GROUP BY
+                day,
+                hour
+            ORDER BY
+                day,
+                hour
+        ";
+
+        $oSth = $this->oDbh->prepare($query, array(
+            'start'     => 'date',
+            'end'       => 'date',
+            'starthour' => 'integer',
+            'endhour'   => 'integer'
+        ));
+
+        $rsStats = $oSth->execute(array(
+            'start'     => $oStart->format('%Y-%m-%d'),
+            'end'       => $oEnd->format('%Y-%m-%d'),
+            'starthour' => $oStart->format('%H'),
+            'endhour'   => $oEnd->format('%H')
+        ));
+
+        $oSth->free();
+
+        $aStats = array();
+
+        while ($row = $rsStats->fetchRow()) {
+            $timeStamp = strtotime(sprintf('%s %02d:00:00', $row['day'], $row['hour']));
+            $tzOffset = date('Z', $timeStamp);
+
+            $oDate = new Date($timeStamp - $tzOffset);
+
+            $aStats[$oDate->format('%Y-%m-%d %H:%M:%S')] = array(
+                'impressions' => $row['total_impressions'],
+                'clicks'      => $row['total_clicks']
+            );
+        }
+
+        return $aStats;
     }
 }
 

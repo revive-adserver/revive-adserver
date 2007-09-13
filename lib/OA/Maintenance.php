@@ -224,7 +224,7 @@ class OA_Maintenance
             require_once MAX_PATH . '/lib/OA/Sync.php';
 
             $oSync = new OA_Sync($this->conf, $this->pref);
-            $res = $oSync->checkForUpdates(0, true);
+            $res = $oSync->checkForUpdates(0);
 
             if ($res[0] != 0 && $res[0] != 800) {
                 OA::debug("Openads Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
