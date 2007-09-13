@@ -589,6 +589,11 @@ class Openads_Schema_Manager
 
         $aChanges = $this->oSchema->parseChangesetDefinitionFile($input_file);
 
+        if (PEAR::isError($aChanges))
+        {
+            return false;
+        }
+
         if (isset($aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]))
         {
             $aChanges['constructive']['tables']['change'][$table_name]['add']['fields'][$field_name]['was'] = $field_name_was;

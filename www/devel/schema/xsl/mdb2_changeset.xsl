@@ -326,19 +326,14 @@
         <xsl:if test="$method!='remove'">
             <xsl:if test="$method!='change'">
                 <td class="tablebody">
-                    <span id="was_edit_field" style="display:inline;">
-                        <xsl:call-template name="showwasfield">
-                            <xsl:with-param name="table">
-                                <xsl:value-of select="$table"/>
-                            </xsl:with-param>
-                            <!--xsl:with-param name="method">
-                                <xsl:value-of select="$method"/>
-                            </xsl:with-param-->
-                        </xsl:call-template>
-                    </span>
-                    <span id="was_show_field" style="display:none;">
-                        <xsl:value-of select="was"/>
-                    </span>
+                    <xsl:call-template name="showwasfield">
+                        <xsl:with-param name="table">
+                            <xsl:value-of select="$table"/>
+                        </xsl:with-param>
+                        <!--xsl:with-param name="method">
+                            <xsl:value-of select="$method"/>
+                        </xsl:with-param-->
+                    </xsl:call-template>
                 </td>
             </xsl:if>
             <td class="tablebody"><xsl:value-of select="type"/></td>
@@ -426,20 +421,25 @@
     <xsl:variable name="value"><xsl:value-of select="was"/></xsl:variable>
     <xsl:variable name="form_name"><xsl:text>frm_</xsl:text><xsl:value-of select="$value"/></xsl:variable>
 
-    <form id="{$form_name}" method="POST" action="archive.php">
+    <span id="was_edit_field_{$fieldname}" style="display:inline;">
+        <form id="{$form_name}" method="POST" action="archive.php">
 
-        <span class="titlemini" id="fld_old_{$fieldname}" name="fld_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('{$form_name}'),'{$table}','{$field}');" ><xsl:value-of select="$value"/></span>
+            <span class="titlemini" id="fld_old_{$fieldname}" name="fld_old_name" style="cursor: pointer;display:inline;" ondblclick="xajax_editFieldProperty(xajax.getFormValues('{$form_name}'),'{$table}','{$field}');" ><xsl:value-of select="$value"/></span>
 
-        <input type="text" id="fld_new_{$fieldname}" name="fld_new_name" ondblclick="xajax_editFieldProperty(xajax.getFormValues('{$form_name}','{$table}','{$field}')" style="display:none" value="{$value}"/>
+            <input type="text" id="fld_new_{$fieldname}" name="fld_new_name" ondblclick="xajax_editFieldProperty(xajax.getFormValues('{$form_name}','{$table}','{$field}')" style="display:none" value="{$value}"/>
 
-        <input type="submit" id="btn_field_save_{$fieldname}" name="btn_field_save" style="display:none" value="save"/>
+            <input type="submit" id="btn_field_save_{$fieldname}" name="btn_field_save" style="display:none" value="save"/>
 
-        <input type="submit" id="btn_exit_{$fieldname}" name="btn_exit_name" onclick="xajax_exitFieldProperty(xajax.getFormValues('{$form_name}'),'{$table}','{$field}');" style="display:none" value="exit"/>
+            <input type="submit" id="btn_exit_{$fieldname}" name="btn_exit_name" onclick="xajax_exitFieldProperty(xajax.getFormValues('{$form_name}'),'{$table}','{$field}');" style="display:none" value="exit"/>
 
-        <input type="hidden" name="fld_old_name" value="{$field}"/>
-        <input type="hidden" name="table_name" value="{$table}"/>
+            <input type="hidden" name="fld_old_name" value="{$field}"/>
+            <input type="hidden" name="table_name" value="{$table}"/>
 
-    </form>
+        </form>
+    </span>
+    <span id="was_show_field_{$fieldname}" style="display:none;">
+        <xsl:value-of select="was"/>
+    </span>
 </xsl:template>
 
 <xsl:template name="showwastable">
