@@ -31,11 +31,6 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once 'DB/DataObject/Cast.php';
 
-// Include FTP emulation library if extension is not present
-if (!function_exists("ftp_connect")) {
-	include_once MAX_PATH . '/www/admin/lib-ftp.inc.php';
-}
-
 /*-------------------------------------------------------*/
 /* Store a file on the webserver                         */
 /*-------------------------------------------------------*/
@@ -326,6 +321,10 @@ function phpAds_FTPStore($server, $name, $buffer, $overwrite = false)
 		if (@ftp_fput($conn_id, $name, $tempfile, FTP_BINARY)) {
 			$stored_url = $name;
 		}
+        //  chmod file so that it's world readable
+        if(function_exists(ftp_chmod) && !@ftp_chmod($conn_id, 0644, $name)) {
+            OA::debug('Unable to modify FTP permissions for file: '. $server['path'] .'/'. $name, PEAR_LOG_INFO);
+        }
 		@fclose($tempfile);
 		@ftp_quit($conn_id);
 	}
@@ -362,6 +361,10 @@ function phpAds_FTPDuplicate($server, $name)
 			if (@ftp_fput ($conn_id, $name, $tempfile, FTP_BINARY)) {
 				$stored_url = $name;
 			}
+            //  chmod file so that it's world readable
+            if (function_exists('ftp_chmod') && !@ftp_chmod($conn_id, 0644, $name)) {
+                OA::debug('Unable to modify FTP permissions for file: '. $server['path'] .'/'. $name, PEAR_LOG_INFO);
+            }
 		}
 		@fclose($tempfile);
 		@ftp_quit($conn_id);

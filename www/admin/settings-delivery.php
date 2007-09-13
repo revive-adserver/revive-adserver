@@ -93,12 +93,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         }
     }
     if (isset($store_ftpHost)) {
+
         // Check that the FTP host can be contacted
-
-        if(!function_exists(ftp_connect)) {
-            include_once MAX_PATH . '/www/admin/lib-ftp.inc.php';
-        }
-
         if ($ftpsock = @ftp_connect($store_ftpHost)) {
             if (@ftp_login($ftpsock, $store_ftpUsername, $store_ftpPassword)) {
 
@@ -117,14 +113,25 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
                     //  save the 1x1.gif temporarily
                     $filename = MAX_PATH .'/var/1x1.gif';
-                    $fp = fopen($filename, 'w+');
-                    fwrite($fp, base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='));
-
+                    $fp = @fopen($filename, 'w+');
+                    @fwrite($fp, base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='));
+                    // check path to ensure there is not a leading slash
+                    if (($store_ftpPath != "") && (substr($store_ftpPath, 0, 1) == "/")) {
+                        $store_ftpPath = substr($store_ftpPath, 1);
+                    }
+                    // change path
+                    if ($store_ftpPath != "") {
+                        @ftp_chdir($ftpsock, $store_ftpPath);
+                    }
                     //  upload to server
-                    ftp_put($ftpsock, $filename, $store_ftpPath.'/1x1.gif', FTP_BINARY);
-
+                    @ftp_put($ftpsock, '1x1.gif', MAX_PATH.'/var/1x1.gif', FTP_BINARY);
+                    //  chmod file so that it's world readable
+                    if (function_exists('ftp_chmod') && !@ftp_chmod($ftpsock, 0644, '1x1.gif')) {
+                        OA::debug('Unable to modify FTP permissions for file: '. $store_ftpPath .'/1x1.gif', PEAR_LOG_INFO);
+                    }
                     //  delete temp 1x1.gif file
-                    fclose($fp);
+                    @fclose($fp);
+                    @ftp_close($ftpsock);
                     unlink($filename);
                 } else {
                     $errormessage[1][] = $strTypeFTPErrorDir;
