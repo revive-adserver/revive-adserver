@@ -388,7 +388,7 @@ class OA_DB_Upgrade
      *
      * @return boolean
      */
-    function upgrade()
+    function upgrade($versionFrom='')
     {
         $this->_logOnly('verifying '.$this->timingStr.' changes');
         $result = $this->oSchema->verifyAlterDatabase($this->aChanges[$this->timingStr]);
@@ -399,6 +399,7 @@ class OA_DB_Upgrade
             if ($result)
             {
                 $this->oAuditor->logAuditAction(array('info1'=>'UPGRADE STARTED',
+                                                      'info2'=>$versionFrom,
                                                       'action'=>DB_UPGRADE_ACTION_UPGRADE_STARTED,
                                                      )
                                                );
@@ -416,14 +417,6 @@ class OA_DB_Upgrade
                     else
                     {
                         $this->_logOnly('UPGRADE SUCCEEDED');
-//                        foreach ($this->aAddedTables AS $table => $added)
-//                        {
-//                            $this->oAuditor->logAuditAction(array('info1'=>'added new table',
-//                                                                  'tablename'=>$table,
-//                                                                  'action'=>DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
-//                                                                 )
-//                                                           );
-//                        }
                         $this->oAuditor->logAuditAction(array('info1'=>'UPGRADE SUCCEEDED',
                                                               'action'=>DB_UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                              )
@@ -784,8 +777,19 @@ class OA_DB_Upgrade
      * @param integer $id
      * @return boolean
      */
-    function prepRollbackByAuditId($id)
+    function prepRollbackByAuditId($id, &$versionInitialSchema, &$schemaName)
     {
+
+        $aResult = $this->oAuditor->queryAuditUpgradeStartedByUpgradeId($id);
+        if ($this->_isPearError($aResult))
+        {
+            $this->_logError('failed to retrieve the details of the schema that was upgraded');
+            $aResult[0]['schema_name'] = 'unkown';
+            $aResult[1]['info2']       = 'unkown';
+        }
+        $schemaName = $aResult[0]['schema_name'];
+        $versionInitialSchema = $aResult[0]['info2'];
+
         $this->aRestoreTables   = array();
         $this->aAddedTables     = array();
 
@@ -1240,6 +1244,11 @@ class OA_DB_Upgrade
                     $result = $this->oSchema->db->exec($query);
                     if (!$this->_isPearError($result, 'error renaming table '.$tbl_old.' to '.$tbl_new))
                     {
+                        $this->oAuditor->logAuditAction(array('info1'=>'renamed table',
+                                                              'tablename'=>$aTask['name'],
+                                                              'action'=>DB_UPGRADE_ACTION_UPGRADE_TABLE_ADDED,
+                                                             )
+                                                       );
                         if (!$this->_executeMigrationMethodTable($aTask['name'], 'afterRenameTable'))
                         {
                             $this->_halt();

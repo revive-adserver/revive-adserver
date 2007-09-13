@@ -202,6 +202,19 @@ class OA_DB_UpgradeAuditor extends OA_BaseUpgradeAuditor
         return $aResult;
     }
 
+    function queryAuditUpgradeStartedByUpgradeId($id)
+    {
+        $table = $this->getLogTableName();
+        $query = "SELECT * FROM {$table} WHERE upgrade_action_id = {$id}"
+                 ." AND action =".DB_UPGRADE_ACTION_UPGRADE_STARTED.' LIMIT 1';
+        $aResult = $this->oDbh->queryAll($query);
+        if ($this->isPearError($aResult, "error querying database audit table"))
+        {
+            return false;
+        }
+        return $aResult;
+    }
+
     function queryAuditByDBUpgradeId($id)
     {
         $table = $this->getLogTableName();

@@ -365,7 +365,7 @@ class Test_DB_Upgrade extends UnitTestCase
                                                     )
                                              );
 
-        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(1),'prep rollback failed');
+        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(1, $version, $schema),'prep rollback failed');
 
         $oDB_Upgrade->aDBTables = $oDB_Upgrade->_listTables();
 
@@ -491,7 +491,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->_dropTestTables($oDB_Upgrade->oSchema->db);
 
-        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(4),'prep rollback failed');
+        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(4, $version, $schema),'prep rollback failed');
 
         $this->assertTrue($oDB_Upgrade->rollback(), 'rollback failed');
 
@@ -528,7 +528,7 @@ class Test_DB_Upgrade extends UnitTestCase
 
         $this->assertTrue($oDB_Upgrade->_backup(),'_backup failed');
 
-        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(5),'prep rollback failed');
+        $this->assertTrue($oDB_Upgrade->prepRollbackByAuditId(5, $version, $schema),'prep rollback failed');
 
         $this->assertIsA($oDB_Upgrade->aRestoreTables, 'array', 'aRestoreTables not an array');
 

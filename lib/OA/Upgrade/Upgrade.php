@@ -267,7 +267,7 @@ class OA_Upgrade
                 $this->oAuditor->setUpgradeActionId();
 
                 $this->oLogger->log('Preparing to rollback package '.$this->package_file);
-                if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId']))
+                if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId'], $versionInitialSchema, $schemaName))
                 {
                     $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
                                                           'action'=>UPGRADE_ACTION_ROLLBACK_FAILED,
@@ -325,6 +325,7 @@ class OA_Upgrade
                     {
                         $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
                     }
+                    $this->oVersioner->putSchemaVersion($schemaName, $versionInitialSchema);
                 }
                 $this->oLogger->log('Finished rolling back package '.$this->package_file);
                 $this->oLogger->log('Information regarding the problems encountered during the upgrade can be found in');
@@ -1668,7 +1669,7 @@ class OA_Upgrade
             {
                 if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
                 {
-                    if ($this->oDBUpgrader->upgrade())
+                    if ($this->oDBUpgrader->upgrade($this->versionInitialSchema[$aPkg['schema']]))
                     {
                         if ($this->_runUpgradeSchemaPostscript($aPkg['postscript']))
                         {
@@ -1686,7 +1687,7 @@ class OA_Upgrade
                 {
                     if ($this->_runUpgradeSchemaPreScript($aPkg['prescript']))
                     {
-                        if ($this->oDBUpgrader->upgrade())
+                        if ($this->oDBUpgrader->upgrade($this->versionInitialSchema[$aPkg['schema']]))
                         {
                             if ($this->_runUpgradeSchemaPostscript($aPkg['postscript']))
                             {
