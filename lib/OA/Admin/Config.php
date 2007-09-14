@@ -248,9 +248,9 @@ class OA_Admin_Config
 
         // Check for deprecated keys to remove from existing user conf
         /**
-         * @todo Do we really want to do this... it will strip "custom/advanced" config items
+         * WARNING: THIS ALSO REMOVES USER-DEFINED KEYS
          */
-        foreach ($this->conf as $key => $value) {
+        /*foreach ($this->conf as $key => $value) {
         	if (array_key_exists($key, $aDistConf)) {
         	    foreach ($this->conf[$key] as $subKey => $subValue) {
         	        if (!array_key_exists($subKey, $aDistConf[$key])) {
@@ -260,7 +260,7 @@ class OA_Admin_Config
         	} else {
                 unset($this->conf[$key]);
         	}
-        }
+        }*/
 
         // Check for new keys in dist to add to existing user conf
         foreach ($aDistConf as $key => $value) {
