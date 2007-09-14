@@ -249,9 +249,9 @@ class OA_Sync
         } else {
             $oStart = new Date();
             $oStart->subtractSpan(new Date_Span('1-0-0-0'));
-            $oStart->setMinute(0);
-            $oStart->setSecond(0);
         }
+        $oStart->setMinute(0);
+        $oStart->setSecond(0);
 
         $oEnd = new Date();
         $oEnd->setMinute(0);
