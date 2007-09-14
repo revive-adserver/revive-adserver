@@ -44,12 +44,12 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $clientid;                        // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null multiple_key
     var $clientname;                      // string(255)  not_null
-    var $contact;                         // string(255)
+    var $contact;                         // string(255)  
     var $email;                           // string(64)  not_null
     var $clientusername;                  // string(64)  not_null
     var $clientpassword;                  // string(64)  not_null
-    var $permissions;                     // int(9)
-    var $language;                        // string(64)
+    var $permissions;                     // int(9)  
+    var $language;                        // string(64)  
     var $report;                          // string(1)  not_null enum
     var $reportinterval;                  // int(9)  not_null
     var $reportlastdate;                  // date(10)  not_null binary
@@ -57,6 +57,7 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $lb_reporting;                    // int(1)  not_null
+    var $oac_adnetwork_id;                // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
