@@ -176,31 +176,27 @@ class Migration
         return false;
     }
 
-//    /**
-//     * not finished
-//     * copy all data from one table to another
-//     * incomplete
-//     * expand
-//     *
-//     * @param string $fromTable
-//     * @param string $toTable
-//     * @param array $aColumns
-//     * @return boolean
-//     */
-//    function copyTableData($fromTable, $toTable)
-//    {
-//        $statement  = $this->aSQLStatements['table_copy_all'];
-//        $query      = sprintf($statement, $toTable, $fromTable);
-//        $this->_log('select query prepared: '.$query);
-//        $result     = & $this->oDBH->exec($query);
-//        if (PEAR::isError($result))
-//        {
-//            $this->_logError('error executing query: '.$result->getUserInfo());
-//            return false;
-//        }
-//        $this->affectedRows = $result;
-//        return true;
-//    }
+    /**
+     * @param string $fromTable
+     * @param string $toTable
+     * @param array $aColumns
+     * @return boolean
+     */
+    function copyTableData($fromTable, $toTable)
+    {
+        $statement  = $this->aSQLStatements['table_copy_all'];
+        $prefix     = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $query      = sprintf($statement, $prefix.$toTable, $prefix.$fromTable);
+        $this->_log('select query prepared: '.$query);
+        $result     = & $this->oDBH->exec($query);
+        if (PEAR::isError($result))
+        {
+            $this->_logError('error executing query: '.$result->getUserInfo());
+            return false;
+        }
+        $this->affectedRows = $result;
+        return true;
+    }
 
     /**
      * this method is not finished yet
@@ -212,41 +208,39 @@ class Migration
      * @param string $toColumn
      * @return boolean
      */
-    function insertColumnData($fromTable, $fromColumn, $toTable, $toColumn)
-    {
-        $prefix = $this->getPrefix();
-        $statement  = $this->aSQLStatements['table_select'];
-        $query      = sprintf($statement, $fromColumn, $prefix.$fromTable);
-        //$query  = "SELECT {$fromColumn} FROM {$prefix}{$fromTable}";
-        $this->_log('select query prepared: '.$query);
-        $aData  = $this->oDBH->queryCol($query);
-
-        $statement  = $this->aSQLStatements['table_insert'];
-        $query      = sprintf($statement, $prefix.$fromTable, $toColumn, '(:data)');
-        //$query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
-        $stmt   = & $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
-        if (PEAR::isError($stmt))
-        {
-            $this->_logError('error preparing statement: '.$stmt->getUserInfo());
-            return false;
-        }
-        $this->_log('statement prepared '.$query);
-        foreach ($aData AS $k=>$v)
-        {
-            $result = $stmt->execute(array('data' => $v));
-            if (PEAR::isError($result)) {
-                $this->_logError('error executing statement: '.$stmt->getUserInfo());
-                return false;
-            }
-            $this->affectedRows++;
-        }
-        $stmt->free();
-        return true;
-    }
+//    function insertColumnData($fromTable, $fromColumn, $toTable, $toColumn)
+//    {
+//        $prefix = $this->getPrefix();
+//        $statement  = $this->aSQLStatements['table_select'];
+//        $query      = sprintf($statement, $fromColumn, $prefix.$fromTable);
+//        //$query  = "SELECT {$fromColumn} FROM {$prefix}{$fromTable}";
+//        $this->_log('select query prepared: '.$query);
+//        $aData  = $this->oDBH->queryCol($query);
+//
+//        $statement  = $this->aSQLStatements['table_insert'];
+//        $query      = sprintf($statement, $prefix.$fromTable, $toColumn, '(:data)');
+//        //$query  = "INSERT INTO {$prefix}{$toTable} ({$toColumn}) VALUES (:data)";
+//        $stmt   = & $this->oDBH->prepare($query, array(), MDB2_PREPARE_MANIP);
+//        if (PEAR::isError($stmt))
+//        {
+//            $this->_logError('error preparing statement: '.$stmt->getUserInfo());
+//            return false;
+//        }
+//        $this->_log('statement prepared '.$query);
+//        foreach ($aData AS $k=>$v)
+//        {
+//            $result = $stmt->execute(array('data' => $v));
+//            if (PEAR::isError($result)) {
+//                $this->_logError('error executing statement: '.$stmt->getUserInfo());
+//                return false;
+//            }
+//            $this->affectedRows++;
+//        }
+//        $stmt->free();
+//        return true;
+//    }
 
     /**
-     * * this method is not finished yet
-     *
      * @param string $fromTable
      * @param string $fromColumn
      * @param string $toTable
@@ -280,8 +274,8 @@ class Migration
     {
         if ($this->aObjectMap[$table])
         {
-//            $fromTable = $this->aObjectMap[$table]['fromTable'];
-//            return $this->copyTableData($fromTable, $table);
+            $fromTable = $this->aObjectMap[$table]['fromTable'];
+            return $this->copyTableData($fromTable, $table);
         }
         return true;
     }
