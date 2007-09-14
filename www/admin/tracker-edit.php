@@ -102,8 +102,8 @@ if (isset($submit)) {
     }
 
     $doTrackers = OA_Dal::factoryDO('trackers');
-    $doTrackers->trackername = $trackername;
-    $doTrackers->description = $description;
+    $doTrackers->trackername = MAX_commonGetValueUnslashed('trackername');
+    $doTrackers->description = MAX_commonGetValueUnslashed('description');
     $doTrackers->clickwindow = $clickwindow_seconds;
     $doTrackers->viewwindow = $viewwindow_seconds;
     $doTrackers->status = $status;
