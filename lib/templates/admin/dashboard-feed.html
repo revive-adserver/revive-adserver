@@ -26,12 +26,25 @@
 +---------------------------------------------------------------------------+
 $Id$
 
--->*}
+-->*}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Openads RSS Feed</title>
 
-<h3>{$title}</h3>
+{include file="dashboard-css.html"}
 
-<ul>
+</head>
+
+<body>
+
+<h3>{$title|escape}</h3>
+
+<ul id="feed">
 {foreach item=f from=$feed}
     <li><a href="{$f.link|escape}" target="_blank">{$f.title|escape}</a></li>
 {/foreach}
 </ul>
+
+</body>
+</html>

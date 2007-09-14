@@ -36,11 +36,13 @@ class OA_Dashboard_Widget_ForumFeed extends OA_Dashboard_Widget_Feed
     /**
      * The class constructor
      *
+     * @param array $aParams The parameters array, usually $_REQUEST
      * @return OA_Dashboard_Widget_BlogFeed
      */
-    function OA_Dashboard_Widget_ForumFeed()
+    function OA_Dashboard_Widget_ForumFeed($aParams)
     {
         parent::OA_Dashboard_Widget_Feed(
+            $aParams,
             'Last 5 forum posts',
             'http://feeds.feedburner.com/OpenadsForum?format=xml',
             5

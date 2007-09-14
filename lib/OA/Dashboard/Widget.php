@@ -38,13 +38,17 @@ class OA_Dashboard_Widget
      */
     var $accessList;
 
+    var $widgetName;
+
     /**
      * The class constructor
      *
+     * @param array $aParams The parameters array, usually $_REQUEST
      * @return OA_Dashboard_Widget
      */
-    function OA_Dashboard_Widget()
+    function OA_Dashboard_Widget($aParams)
     {
+        $this->widgetName = isset($aParams['widget']) ? stripslashes($aParams['widget']) : '';
         $this->checkAccess();
     }
 
@@ -66,7 +70,7 @@ class OA_Dashboard_Widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    function display($aParams)
+    function display()
     {
     }
 }

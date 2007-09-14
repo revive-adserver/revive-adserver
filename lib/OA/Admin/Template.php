@@ -29,13 +29,27 @@ define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
 
+require_once('Date.php');
+
+
 /**
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class OA_Admin_Template extends Smarty
 {
+    /**
+     * @var string
+     */
     var $templateName;
 
+    /**
+     * @var string
+     */
+    var $cacheId;
+
+    /**
+     * @var int
+     */
     var $_tabIndex = 0;
 
     function OA_Admin_Template($templateName)
@@ -44,7 +58,8 @@ class OA_Admin_Template extends Smarty
         $this->compile_dir  = MAX_PATH . '/var/templates_compiled';
         $this->cache_dir    = MAX_PATH . '/var/cache';
 
-        $this->caching = false;
+        $this->caching = 0;
+        $this->cache_lifetime = 3600;
 
         $this->register_function('t', array('OA_Admin_Template',  '_function_t'));
         $this->register_function('tabindex', array('OA_Admin_Template',  '_function_tabindex'));
@@ -64,9 +79,55 @@ class OA_Admin_Template extends Smarty
         $this->assign('phpAds_TextAlignRight', $GLOBALS['phpAds_TextAlignRight']);
     }
 
+    /**
+     * A method to set a cache id for the current page
+     *
+     * @param string $cacheId
+     */
+    function setCacheId($cacheId = null)
+    {
+        if (is_null($cacheId)) {
+            $this->cacheId = null;
+            $this->caching = 0;
+        } else {
+            $this->cacheId = md5($cacheId);
+            $this->caching = 1;
+        }
+    }
+
+    /**
+     * A method to set the cached version of the template to be used until
+     * a certain date/time
+     *
+     * @param Date $oDate
+     */
+    function setCacheExpireAt($oDate)
+    {
+        $timeStamp = strftime($oDate->format('%Y-%m-%d %H:%M:%S'));
+        $this->cache_lifetime = $timeStamp - time();
+        $this->caching = 2;
+    }
+
+    /**
+     * A method to set the cached vertsion of the template to expire after
+     * a time span
+     *
+     * @param Date_Span $oSpan
+     */
+    function setCacheLifetime($oSpan)
+    {
+        $this->cache_lifetime = $oSpan->toSeconds();
+        $this->caching = 2;
+    }
+
+    function is_cached()
+    {
+        return parent::is_cached($this->templateName, $this->cacheId);
+    }
+
     function display()
     {
-        parent::display($this->templateName);
+        parent::display($this->templateName, $this->cacheId);
     }
 
     function _function_t($aParams, &$smarty)

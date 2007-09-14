@@ -38,7 +38,7 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
      * A method to launch and display the widget
      *
      */
-    function display($aParams)
+    function display()
     {
         $oTpl = new OA_Admin_Template('dashboard-iframe.html');
 

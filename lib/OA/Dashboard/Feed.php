@@ -39,20 +39,31 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
     var $posts;
 
     /**
+     * @var OA_Admin_Template
+     */
+    var $oTpl;
+
+    /**
      * The class constructor
      *
+     * @param array $aParams The parameters array, usually $_REQUEST
      * @param string $title
      * @param string $url
      * @param int $posts
      * @return OA_Dashboard_Widget_Feed
      */
-    function OA_Dashboard_Widget_Feed($title, $url, $posts = 5)
+    function OA_Dashboard_Widget_Feed($aParams, $title, $url, $posts = 5)
     {
         parent::OA_Dashboard_Widget();
 
         $this->title = $title;
         $this->url   = $url;
         $this->posts = $posts;
+
+        $this->oTpl = new OA_Admin_Template('dashboard-feed.html');
+
+        $this->oTpl->setCacheId($this->title);
+        $this->oTpl->setCacheLifetime(new Date_Span('0-1-0-0'));
     }
 
     /**
@@ -60,17 +71,17 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      *
      * @param array $aParams The parameters array, usually $_REQUEST
      */
-    function display($aParams)
+    function display()
     {
-        $oRss =& new XML_RSS($this->url);
-        $oRss->parse();
+        if (!$this->oTpl->is_cached()) {
+            $oRss =& new XML_RSS($this->url);
+            $oRss->parse();
 
-        $oTpl = new OA_Admin_Template('dashboard-feed.html');
+            $this->oTpl->assign('title', $this->title);
+            $this->oTpl->assign('feed', array_slice($oRss->getItems(), 0, $this->posts));
+        }
 
-        $oTpl->assign('title', $this->title);
-        $oTpl->assign('feed', array_slice($oRss->getItems(), 0, $this->posts));
-
-        $oTpl->display();
+        $this->oTpl->display();
     }
 }
 

@@ -34,14 +34,16 @@ require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
  */
 class OA_Dashboard_Widget_GraphOAC extends OA_Dashboard_Widget_Graph
 {
-    function OA_Dashboard_Widget_GraphOAC()
+    function OA_Dashboard_Widget_GraphOAC($aParams)
     {
-        parent::OA_Dashboard_Widget_Graph('OAC Graph');
+        parent::OA_Dashboard_Widget_Graph($aParams, 'OAC Graph');
 
-        if (!$this->isCached()) {
+        $this->oTpl->setCacheLifetime(new Date_Span('0-8-0-0'));
+
+        if (!$this->oTpl->is_cached()) {
             $aData = array();
             for ($i = 0; $i < 7; $i++) {
-                $day = date('m-d', time() - 86400 * (7 - $i));
+                $day = date('D', time() - 86400 * (7 - $i));
                 $aData[0][$day] = mt_rand(1500000, 2000000) * 50;
                 $aData[1][$day] = mt_rand(15000, 20000) * 50;
             }

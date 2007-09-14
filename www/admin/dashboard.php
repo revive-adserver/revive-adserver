@@ -53,7 +53,7 @@ if (preg_match('/[a-z0-9]+/i', $widget) && file_exists(MAX_PATH.'/lib/OA/Dashboa
     $widget = 'OA_Dashboard_Widget';
 }
 
-$oDashboard = new $widget();
-$oDashboard->display($_REQUEST);
+$oDashboard = new $widget($_REQUEST);
+$oDashboard->display();
 
 ?>

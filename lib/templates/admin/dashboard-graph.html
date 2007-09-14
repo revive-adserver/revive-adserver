@@ -1,12 +1,14 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -23,34 +25,19 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
-require_once MAX_PATH . '/lib/OA/Dashboard/Graph.php';
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
+-->*}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Openads Dashboard</title>
 
-/**
- * A dashboard widget to diplay an RSS feed of the Openads Blog
- *
- */
-class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
-{
-    function OA_Dashboard_Widget_GraphOAP($aParams)
-    {
-        parent::OA_Dashboard_Widget_Graph($aParams, 'OAP Graph');
+{include file="dashboard-css.html"}
 
-        $this->oTpl->setCacheLifetime(new Date_Span('0-3-0-0'));
+</head>
 
-        if ($this->isDataRequired()) {
-            $aData = array();
-            for ($i = 0; $i < 7; $i++) {
-                $day = date('D', time() - 86400 * (7 - $i));
-                $aData[0][$day] = mt_rand(1500, 2000);
-                $aData[1][$day] = mt_rand(15, 20);
-            }
-
-            $this->setData($aData);
-        }
-    }
-}
-
-?>
+<body>
+<h3>{$title|escape}</h3>
+<img id="graph" src="{$imageSrc|escape}" />
+</body>
+</html>
