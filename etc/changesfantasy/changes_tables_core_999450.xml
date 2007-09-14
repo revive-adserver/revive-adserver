@@ -8,18 +8,21 @@
     <changeset>
       <name>openads</name>
       <version>999450</version>
-      <rename>
+      <add>
         <table>
         <name>klapaucius</name>
         <was>astro</was>
       </table>
-    </rename>
+    </add>
   </changeset>
 </constructive>
 <destructive>
   <changeset>
     <name>openads</name>
     <version>999450</version>
+      <remove>
+        <table>astro</table>
+    </remove>
   </changeset>
 </destructive>
 </instructionset>

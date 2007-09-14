@@ -38,7 +38,7 @@
    </field>
 
    <index>
-    <name>astro_pkey</name>
+    <name>klapaucius_pkey</name>
     <primary>true</primary>
     <field>
      <name>id_changed_field</name>

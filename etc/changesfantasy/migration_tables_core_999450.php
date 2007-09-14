@@ -9,22 +9,34 @@ class Migration_999450 extends Migration
     {
         //$this->__construct();
 
-		$this->aTaskList_destructive[] = 'beforeRenameTable__klapaucius';
-		$this->aTaskList_destructive[] = 'afterRenameTable__klapaucius';
+		$this->aTaskList_destructive[] = 'beforeAddTable__klapaucius';
+		$this->aTaskList_destructive[] = 'afterAddTable__klapaucius';
 
+		$this->aTaskList_destructive[] = 'beforeRemoveTable__astro';
+		$this->aTaskList_destructive[] = 'afterRemoveTable__astro';
 
+	   $this->aObjectMap['klapaucius'] = array('fromTable'=>'astro');
     }
 
-	function beforeRenameTable__klapaucius()
+	function beforeAddTable__klapaucius()
 	{
-		return $this->beforeRenameTable('klapaucius');
+		return $this->beforeAddTable('klapaucius');
 	}
 
-	function afterRenameTable__klapaucius()
+	function afterAddTable__klapaucius()
 	{
-		return $this->afterRenameTable('klapaucius');
+		return $this->afterAddTable('klapaucius');
 	}
 
+	function beforeRemoveTable__astro()
+	{
+		return $this->beforeRemoveTable('astro');
+	}
+
+	function afterRemoveTable__astro()
+	{
+		return $this->afterRemoveTable('astro');
+	}
 }
 
 ?>

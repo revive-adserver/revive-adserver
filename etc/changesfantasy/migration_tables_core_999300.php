@@ -19,12 +19,12 @@ class Migration_999300 extends Migration
 
 	function beforeRenameField__astro__auto_renamed_field()
 	{
-		return $this->beforeAddField('astro', 'auto_renamed_field');
+		return $this->beforeRenameField('astro', 'auto_renamed_field');
 	}
 
 	function afterRenameField__astro__auto_renamed_field()
 	{
-		return $this->afterAddField('astro', 'auto_renamed_field');
+		return $this->afterRenameField('astro', 'auto_renamed_field');
 	}
 
 }
