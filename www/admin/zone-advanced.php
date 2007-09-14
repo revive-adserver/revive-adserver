@@ -113,7 +113,6 @@ if (isset($submitbutton))
             if (!isset($append)) $append = '';
             if (!isset($appendtype)) $appendtype = phpAds_ZoneAppendZone;
             if (!isset($appenddelivery)) $appenddelivery = phpAds_ZonePopup;
-
             if ($appendtype == phpAds_ZoneAppendZone)
             {
                 $what = 'zone:'.(isset($appendid) ? $appendid : 0);
@@ -128,9 +127,11 @@ if (isset($submitbutton))
                 }
                 $maxInvocation = new MAX_Admin_Invocation();
                 $invocationCode = $maxInvocation->generateInvocationCode($invocationTag = null);
-                $append = addslashes($invocationCode);
+                $append = $invocationCode;
                 //Temporary fix - allow {source} for popup tags...
                 $append = str_replace('%7Bsource%7D', '{source}', $append);
+            } else {
+                $append = MAX_commonGetValueUnslashed('append');
             }
 
             $doZones->append = $append;
