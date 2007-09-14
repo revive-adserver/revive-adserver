@@ -193,13 +193,13 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     		$Plot =& $Plotarea->addNew('bar', array($Datasets));
     		$Plot->setLineColor('black@0.2');
 
-    		$FillArray =& Image_Graph::factory('fill_array');
+    		$FillArray =& Image_Graph::factory('Fill_Array');
 
 //    		$FillArray->addColor('#0066ff@0.5');
 //    		$FillArray->addColor('#66ccff@0.5');
 
-            $FillArray->add(Image_Graph::factory('fill_gradient', array(IMAGE_GRAPH_GRAD_VERTICAL, '#b5da3c', '#6a9a2a')));
-            $FillArray->add(Image_Graph::factory('fill_gradient', array(IMAGE_GRAPH_GRAD_VERTICAL, '#bb5c9e', '#8b4a9e')));
+            $FillArray->add(Image_Graph::factory('Fill_Gradient', array(IMAGE_GRAPH_GRAD_VERTICAL, '#b5da3c', '#6a9a2a')));
+            $FillArray->add(Image_Graph::factory('Fill_Gradient', array(IMAGE_GRAPH_GRAD_VERTICAL, '#bb5c9e', '#8b4a9e')));
 
     		$Plot->setFillStyle($FillArray);
 
