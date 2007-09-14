@@ -58,6 +58,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         $this->title = $title;
         $this->draw = !empty($aParams['draw']);
 
+        $this->setDummyData();
+
         $this->oTpl = new OA_Admin_Template($this->draw ? 'passthrough.html' : 'dashboard-graph.html');
         $this->oTpl->setCacheId($title);
     }
@@ -101,10 +103,11 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     function setData($aData)
     {
         if (isset($aData[0]) && is_array($aData[0]) && isset($aData[1]) && is_array($aData[1])) {
-            $this->aData = array(
-                array_slice($aData[0], -7),
-                array_slice($aData[1], -7)
-            );
+            for ($i = 0; $i < 2; $i++) {
+                foreach ($aData[$i] as $k => $v) {
+                    $this->aData[$i][$k] = $v;
+                }
+            }
         }
     }
 
@@ -128,10 +131,6 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     function display()
     {
         if ($this->draw) {
-            if (is_null($this->aData)) {
-                $this->setDummyData();
-            }
-
     		$Canvas =& Image_Canvas::factory('png',
     			array(
     				'width'		=> 230,
@@ -159,7 +158,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
                 $Datasets[0]->addPoint($k, $v);
             }
 
-            $scaleY2 = 1.8;
+            $scaleY2 = 1.75;
             $factor = max($this->aData[0]) / max($this->aData[1]) / $scaleY2;
 
             foreach ($this->aData[1] as $k => $v) {
@@ -204,9 +203,13 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     		$Plot->setFillStyle($FillArray);
 
     		$AxisY2 =& $Plotarea->addNew('axis', array(IMAGE_GRAPH_AXIS_Y_SECONDARY));
-    		$AxisY2->forceMaximum(max($this->aData[1]) * $scaleY2);
+    		$AxisY2->forceMaximum(max($this->aData[1]) * $scaleY2 + 1);
 
     		$AxisY =& $Plotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+
+    		if (!max($this->aData[0])) {
+    		    $AxisY->forceMaximum(1);
+    		}
 
     		$func = create_function('$value', 'return OA_Dashboard_Widget_Graph::_formatY($value);');
 
