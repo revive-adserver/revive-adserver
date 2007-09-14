@@ -121,8 +121,11 @@ class DB_DataObjectCommon extends DB_DataObject
     function getAll($filter = array(), $indexWithPrimaryKey = false, $flattenIfOneOnly = true)
     {
     	if (!is_array($filter)) {
-    	    if (empty($filter)) $filter = array();
-    	    $filter = array($filter);
+    	    if (empty($filter)) {
+    	        $filter = array();
+    	    } else {
+    	       $filter = array($filter);
+    	    }
     	}
 
     	$fields = $this->table();
