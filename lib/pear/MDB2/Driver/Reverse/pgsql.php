@@ -243,8 +243,13 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
 
         $row = array_change_key_case($row, CASE_LOWER);
 
-        $db->loadModule('Manager', null, true);
-        $columns = $db->manager->listTableFields($table);
+        $query = 'SELECT attnum, attname FROM pg_attribute, pg_class';
+        $query.= ' WHERE pg_class.oid = pg_attribute.attrelid';
+        $query.= ' AND pg_class.relname = '.$db->quote($table, 'text');
+        $columns = $db->GetAssoc($query);
+        if (PEAR::isError($columns)) {
+            return $columns;
+        }
 
         $definition = array();
         if ($row['indisprimary'] == 't') {
@@ -256,7 +261,7 @@ class MDB2_Driver_Reverse_pgsql extends MDB2_Driver_Reverse_Common
         $index_column_numbers = explode(' ', $row['indkey']);
 
         foreach ($index_column_numbers as $number) {
-            $definition['fields'][$columns[($number - 1)]] = array('sorting' => 'ascending');
+            $definition['fields'][$columns[$number]] = array('sorting' => 'ascending');
         }
         return $definition;
     }
