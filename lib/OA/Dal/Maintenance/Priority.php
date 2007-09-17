@@ -2290,12 +2290,12 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         // Check each operation interval ID has a forecast impression value,
         // and if not, set to the system default.
-        for ($i = 0; $i < OA_OperationInterval::operationIntervalsPerWeek(); $i++) {
-            if (!isset($aFinalResult[$i])) {
-                $aFinalResult[$i] = array(
+        for ($operationIntervalID = 0; $operationIntervalID < OA_OperationInterval::operationIntervalsPerWeek(); $operationIntervalID++) {
+            if (!isset($aFinalResult[$operationIntervalID])) {
+                $aFinalResult[$operationIntervalID] = array(
                     'zone_id'               => $zoneId,
                     'forecast_impressions'  => $aConf['priority']['defaultZoneForecastImpressions'],
-                    'operation_interval_id' => $i,
+                    'operation_interval_id' => $operationIntervalID,
                 );
             }
         }
