@@ -275,12 +275,25 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'text',
+                'type'    => 'select',
                 'name'    => 'maintenance_operationInterval',
                 'text'    => $strMaintenanceOI,
                 'size'    => 12,
                 'depends' => 'modules_AdServer==true || modules_Tracker==true',
-                'check'   => 'number+'
+                'items'   =>  array(
+                    60 => 60,
+                    30 => 30,
+                    20 => 20,
+                    15 => 15,
+                    12 => 12,
+                    10 => 10,
+                    6 => 6,
+                    5 => 5,
+                    4 => 4,
+                    3 => 3,
+                    2 => 2,
+                    1 => 1
+                )
             ),
             array (
                 'type'    => 'break'
