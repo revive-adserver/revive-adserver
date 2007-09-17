@@ -60,6 +60,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
         $this->setDummyData();
 
+        $this->oTpl->assign('extensionLoaded', extension_loaded('gd'));
+
         $this->oTpl = new OA_Admin_Template($this->draw ? 'passthrough.html' : 'dashboard-graph.html');
         $this->oTpl->setCacheId($title);
     }

@@ -38,6 +38,10 @@ $Id$
 
 <body>
 <h3>{$title|escape}</h3>
+{if $extensionLoaded}
 <img id="graph" src="{$imageSrc|escape}" />
+{else}
+The GD extension is not available, this widget cannot be drawn.
+{/if}
 </body>
 </html>
