@@ -154,25 +154,35 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         $ok = true;
         foreach ($aSubscriptions['adnetworks'] as $aAdvertiser) {
-            // Create advertiser
-            $advertiserName = $this->oDal->getUniqueAdvertiserName($aAdvertiser['name']);
-            $advertiser = array(
-                'clientname' => $advertiserName,
-                'contact'    => $aPref['admin_name'],
-                'email'      => $aPref['admin_email']
-            );
-
             $doAdvertisers = OA_Dal::factoryDO('clients');
-            $doAdvertisers->setFrom($advertiser);
-            $advertiserId = $doAdvertisers->insert();
+            $doAdvertisers->oac_network_id = $aAdvertiser['adnetwork_id'];
+            $doAdvertisers->find();
 
-            if (!empty($advertiserId)) {
-                $aCreated['advertisers'][] = $advertiserId;
-                $aAdNetworks[$aAdvertiser['adnetwork_id']] = $advertiser + array(
-                    'clientid' => $advertiserId
-                );
+            if ($doAdvertisers->fetch()) {
+                // Advertiser for this adnetwork already exists
+                $aAdNetworks[$aAdvertiser['adnetwork_id']] = $doAdvertisers->toArray();
             } else {
-                $ok = false;
+                // Create advertiser
+                $advertiserName = $this->oDal->getUniqueAdvertiserName($aAdvertiser['name']);
+                $advertiser = array(
+                    'clientname'       => $advertiserName,
+                    'contact'          => $aPref['admin_name'],
+                    'email'            => $aPref['admin_email'],
+                    'oac_adnetwork_id' => $aAdvertiser['adnetwork_id']
+                );
+
+                $doAdvertisers = OA_Dal::factoryDO('clients');
+                $doAdvertisers->setFrom($advertiser);
+                $advertiserId = $doAdvertisers->insert();
+
+                if (!empty($advertiserId)) {
+                    $aCreated['advertisers'][] = $advertiserId;
+                    $aAdNetworks[$aAdvertiser['adnetwork_id']] = $advertiser + array(
+                        'clientid' => $advertiserId
+                    );
+                } else {
+                    $ok = false;
+                }
             }
         }
 

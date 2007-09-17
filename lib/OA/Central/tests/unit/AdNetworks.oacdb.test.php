@@ -233,7 +233,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         // Check counts
         $oDo = OA_Dal::factoryDO('clients');
-        $this->assertEqual($oDo->count(), 2);
+        $this->assertEqual($oDo->count(), 1);
         $oDo = OA_Dal::factoryDO('campaigns');
         $this->assertEqual($oDo->count(), 4);
         $oDo = OA_Dal::factoryDO('banners');
@@ -246,12 +246,12 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertEqual($oDo->count(), 12);
 
         // Check name uniqueness
-        $oDo = OA_Dal::factoryDO('clients');
-        $oDo->clientid = 2;
+        $oDo = OA_Dal::factoryDO('campaigns');
+        $oDo->campaignid = 3;
         $oDo->find();
         $oDo->fetch();
         $row = $oDo->toArray();
-        $this->assertEqual($row['clientname'], 'Beccati.com (2)');
+        $this->assertEqual($row['campaignname'], 'Beccati.com - Campaign 1 (3)');
         DataGenerator::cleanUp($this->aCleanupTables);
     }
 
