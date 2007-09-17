@@ -251,7 +251,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $oDo->find();
         $oDo->fetch();
         $row = $oDo->toArray();
-        $this->assertEqual($row['campaignname'], 'Beccati.com - Campaign 1 (3)');
+        $this->assertEqual($row['campaignname'], 'Beccati.com - Campaign 1 - http://www.beccati.com (2)');
         DataGenerator::cleanUp($this->aCleanupTables);
     }
 

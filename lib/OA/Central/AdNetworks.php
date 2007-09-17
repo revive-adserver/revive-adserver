@@ -219,7 +219,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 $advertiserId   = $aAdNetworks[$aCampaign['adnetwork_id']]['clientid'];
                 $advertiserName = $aAdNetworks[$aCampaign['adnetwork_id']]['clientname'];
 
-                $campaignName = $this->oDal->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']}");
+                $campaignName = $this->oDal->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']} - {$publisherName}");
                 $campaign = array(
                     'campaignname'    => $campaignName,
                     'clientid'        => $advertiserId,
@@ -240,7 +240,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
                 for (reset($aCampaign['banners']); $ok && ($aBanner = current($aCampaign['banners'])); next($aCampaign['banners'])) {
                     // Create banner
-                    $bannerName = $this->oDal->getUniqueBannerName("{$campaignName} - {$aBanner['name']}");
+                    $bannerName = $this->oDal->getUniqueBannerName("{$advertiserName} - {$aBanner['name']}");
                     $banner = array(
                         'description'   => $bannerName,
                         'campaignid'    => $campaignId,
