@@ -25,21 +25,20 @@
 $Id$
 */
 
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * An abstract class that defines the interface and some common methods for the
  * classes that store and manipulate individual delivery limitations for ads,
  * with the goal of determining when (if at all) the deliver limitation "blocks"
- * (as oppsed to "filters") deliver of an advertisement.
+ * (as opposed to "filters") deliver of an advertisement.
  *
  * @abstract
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Maintenance_Priority_DeliveryLimitation_Common
+class OA_Maintenance_Priority_DeliveryLimitation_Common
 {
 
     /**
@@ -85,9 +84,9 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Common
      *                                       [data]              => 1,7,18,23
      *                                       [executionorder]    => 1
      *                                   )
-     * @return MAX_Maintenance_Priority_DeliveryLimitation_Common
+     * @return OA_Maintenance_Priority_DeliveryLimitation_Common
      */
-    function MAX_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation)
+    function OA_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation)
     {
         // Store the logical, type, comparison, data and execution order
         // items of the delivery limitation
@@ -110,7 +109,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Common
      */
     function calculateNonDeliveryDeliveryLimitation() {
         return MAX::raiseError(
-            'MAX_Maintenance_Priority_DeliveryLimitation::calculateNonDeliveryDeliveryLimitation() is abstract!',
+            'OA_Maintenance_Priority_DeliveryLimitation::calculateNonDeliveryDeliveryLimitation() is abstract!',
             MAX_ERROR_NOMETHOD
         );
     }
@@ -125,7 +124,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Common
     function minutesPerTimePeriod()
     {
         return MAX::raiseError(
-            'MAX_Maintenance_Priority_DeliveryLimitation::minutesPerTimePeriod() is abstract!',
+            'OA_Maintenance_Priority_DeliveryLimitation::minutesPerTimePeriod() is abstract!',
             MAX_ERROR_NOMETHOD
         );
     }
@@ -142,7 +141,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Common
      */
     function deliveryBlocked($oDate) {
         return MAX::raiseError(
-            'MAX_Maintenance_Priority_DeliveryLimitation::deliveryBlocked() is abstract!',
+            'OA_Maintenance_Priority_DeliveryLimitation::deliveryBlocked() is abstract!',
             MAX_ERROR_NOMETHOD
         );
     }

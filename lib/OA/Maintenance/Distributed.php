@@ -39,8 +39,7 @@ require_once 'Date.php';
  * A library class for providing automatic maintenance process methods.
  *
  * @static
- * @package    Openads
- * @subpackage Maintenance
+ * @package    OpenadsMaintenance
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class OA_Maintenance_Distributed
@@ -60,7 +59,7 @@ class OA_Maintenance_Distributed
         if ($oLock->get(OA_DB_ADVISORYLOCK_DISTIRBUTED))
         {
             OA::debug('Running Maintenance Distributed Engine', PEAR_LOG_INFO);
-            
+
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 

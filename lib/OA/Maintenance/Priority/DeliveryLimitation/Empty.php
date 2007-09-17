@@ -25,20 +25,19 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Common.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class that is used to store and manipulate individual delivery limitations
  * for ads, where the delivery limitation is NOT of the Time:Date, Time:Day or
  * Time:Hour type.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Maintenance_Priority_DeliveryLimitation_Empty extends MAX_Maintenance_Priority_DeliveryLimitation_Common
+class OA_Maintenance_Priority_DeliveryLimitation_Empty extends OA_Maintenance_Priority_DeliveryLimitation_Common
 {
 
     /**
@@ -54,11 +53,11 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Empty extends MAX_Maintenance_
      *                                       [data]              => 1,7,18,23
      *                                       [executionorder]    => 1
      *                                   )
-     * @return MAX_Maintenance_Priority_DeliveryLimitation_Empty
+     * @return OA_Maintenance_Priority_DeliveryLimitation_Empty
      */
-    function MAX_Maintenance_Priority_DeliveryLimitation_Empty($aDeliveryLimitation)
+    function OA_Maintenance_Priority_DeliveryLimitation_Empty($aDeliveryLimitation)
     {
-        parent::MAX_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation);
+        parent::OA_Maintenance_Priority_DeliveryLimitation_Common($aDeliveryLimitation);
     }
 
     /**
@@ -99,7 +98,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Empty extends MAX_Maintenance_
     function deliveryBlocked($oDate) {
         if (!is_a($oDate, 'Date')) {
             return MAX::raiseError(
-                'Parameter passed to MAX_Maintenance_Priority_DeliveryLimitation_Empty is not a PEAR::Date object',
+                'Parameter passed to OA_Maintenance_Priority_DeliveryLimitation_Empty is not a PEAR::Date object',
                 MAX_ERROR_INVALIDARGS
             );
         }

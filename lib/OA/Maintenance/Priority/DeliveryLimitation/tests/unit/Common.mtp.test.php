@@ -25,24 +25,23 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Common.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Common.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the Maintenance_Priority_DeliveryLimitation_Common class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Maintenance_TestOfPriorityDeliveryLimitation_Common extends UnitTestCase
+class Test_OA_Maintenance_Priority_DeliveryLimitation_Common extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfPriorityDeliveryLimitation_Common()
+    function Test_OA_Maintenance_Priority_DeliveryLimitation_Common()
     {
         $this->UnitTestCase();
     }
@@ -55,7 +54,7 @@ class Maintenance_TestOfPriorityDeliveryLimitation_Common extends UnitTestCase
     function testCalculateNonDeliveryDeliveryLimitation()
     {
         PEAR::pushErrorHandling(null);
-        $this->assertTrue(is_a(MAX_Maintenance_Priority_DeliveryLimitation_Common::calculateNonDeliveryDeliveryLimitation(), 'pear_error'));
+        $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::calculateNonDeliveryDeliveryLimitation(), 'pear_error'));
         PEAR::popErrorHandling();
     }
 
@@ -67,7 +66,7 @@ class Maintenance_TestOfPriorityDeliveryLimitation_Common extends UnitTestCase
     function testMinutesPerTimePeriod()
     {
         PEAR::pushErrorHandling(null);
-        $this->assertTrue(is_a(MAX_Maintenance_Priority_DeliveryLimitation_Common::minutesPerTimePeriod(), 'pear_error'));
+        $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::minutesPerTimePeriod(), 'pear_error'));
         PEAR::popErrorHandling();
     }
 
@@ -80,7 +79,7 @@ class Maintenance_TestOfPriorityDeliveryLimitation_Common extends UnitTestCase
     {
         $oDate = new Date();
         PEAR::pushErrorHandling(null);
-        $this->assertTrue(is_a(MAX_Maintenance_Priority_DeliveryLimitation_Common::deliveryBlocked($oDate), 'pear_error'));
+        $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::deliveryBlocked($oDate), 'pear_error'));
         PEAR::popErrorHandling();
     }
 
@@ -91,14 +90,14 @@ class Maintenance_TestOfPriorityDeliveryLimitation_Common extends UnitTestCase
      */
     function test_getNonDeliveryOperator()
     {
-        $this->assertTrue(MAX_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('==') == '!=');
-        $this->assertTrue(MAX_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('!=') == '==');
-        $this->assertTrue(MAX_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('<=') == '>');
-        $this->assertTrue(MAX_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('>=') == '<');
-        $this->assertTrue(MAX_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('<') == '>=');
-        $this->assertTrue(MAX_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('>') == '<=');
+        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('==') == '!=');
+        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('!=') == '==');
+        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('<=') == '>');
+        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('>=') == '<');
+        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('<') == '>=');
+        $this->assertTrue(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('>') == '<=');
         PEAR::pushErrorHandling(null);
-        $this->assertTrue(is_a(MAX_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('hello'), 'pear_error'));
+        $this->assertTrue(is_a(OA_Maintenance_Priority_DeliveryLimitation_Common::_getNonDeliveryOperator('hello'), 'pear_error'));
         PEAR::popErrorHandling();
     }
 

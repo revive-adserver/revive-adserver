@@ -25,21 +25,21 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Empty.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Empty.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Delivery_TestOfPriorityDeliveryLimitationEmpty extends UnitTestCase
+class Test_OA_Maintenance_Priority_DeliveryLimitation_Empty extends UnitTestCase
 {
     /**
      * The constructor method.
      */
-    function Delivery_TestOfPriorityDeliveryLimitationEmpty()
+    function Test_OA_Maintenance_Priority_DeliveryLimitation_Empty()
     {
         $this->UnitTestCase();
     }
@@ -49,7 +49,7 @@ class Delivery_TestOfPriorityDeliveryLimitationEmpty extends UnitTestCase
      */
     function testMinutesPerTimePeriod()
     {
-        $this->assertEqual(MAX_Maintenance_Priority_DeliveryLimitation_Empty::minutesPerTimePeriod(), 0);
+        $this->assertEqual(OA_Maintenance_Priority_DeliveryLimitation_Empty::minutesPerTimePeriod(), 0);
     }
 
     /**
@@ -65,7 +65,7 @@ class Delivery_TestOfPriorityDeliveryLimitationEmpty extends UnitTestCase
             'data'           => '192.168.0.1',
             'executionorder' => 1
         );
-        $oLimitationDay = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDay = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
 
         $oDate = new Date('2006-02-05');
         $this->assertFalse($oLimitationDay->deliveryBlocked($oDate));

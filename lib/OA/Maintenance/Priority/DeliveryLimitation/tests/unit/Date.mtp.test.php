@@ -25,23 +25,22 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Date.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
+class Test_OA_Maintenance_Priority_DeliveryLimitation_Date extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Delivery_TestOfPriorityDeliveryLimitationDate()
+    function Test_OA_Maintenance_Priority_DeliveryLimitation_Date()
     {
         $this->UnitTestCase();
     }
@@ -61,7 +60,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => '2005-05-05',
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual($oLimitationDate->comparison, '!=');
 
         $aDeliveryLimitation = array(
@@ -72,7 +71,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => '2005-05-05',
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual($oLimitationDate->comparison, '==');
 
         $aDeliveryLimitation = array(
@@ -83,7 +82,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => '2005-05-05',
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual($oLimitationDate->comparison, '>');
 
         $aDeliveryLimitation = array(
@@ -94,7 +93,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => '2005-05-05',
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual($oLimitationDate->comparison, '<');
 
         $aDeliveryLimitation = array(
@@ -105,7 +104,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => '2005-05-05',
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual($oLimitationDate->comparison, '>=');
 
         $aDeliveryLimitation = array(
@@ -116,7 +115,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => '2005-05-05',
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual($oLimitationDate->comparison, '<=');
 
         $aDeliveryLimitation = array(
@@ -128,7 +127,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'executionorder' => 1
         );
         PEAR::pushErrorHandling(null);
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         PEAR::popErrorHandling();
         $this->assertTrue(is_a($oLimitationDate->comparison, 'pear_error'));
     }
@@ -138,7 +137,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
      */
     function testMinutesPerTimePeriod()
     {
-        $this->assertEqual(MAX_Maintenance_Priority_DeliveryLimitation_Date::minutesPerTimePeriod(), 1440);
+        $this->assertEqual(OA_Maintenance_Priority_DeliveryLimitation_Date::minutesPerTimePeriod(), 1440);
     }
 
     /**
@@ -167,7 +166,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
         $this->assertFalse($oLimitationDate->deliveryBlocked($oDate));
         // Test with ealier date: true, ad is inactive
@@ -184,7 +183,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
         $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
         // Test with ealier date: false, ad is active
@@ -201,7 +200,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
         $this->assertFalse($oLimitationDate->deliveryBlocked($oDate));
         // Test with ealier date: false, ad is active
@@ -218,7 +217,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: false, ad is active
         $this->assertFalse($oLimitationDate->deliveryBlocked($oDate));
         // Test with ealier date: true, ad is inactive
@@ -235,7 +234,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
         $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
         // Test with ealier date: false, ad is active
@@ -252,7 +251,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         // Test with same date: true, ad is inactive
         $this->assertTrue($oLimitationDate->deliveryBlocked($oDate));
         // Test with ealier date: true, ad is inactive
@@ -269,7 +268,7 @@ class Delivery_TestOfPriorityDeliveryLimitationDate extends UnitTestCase
             'data'           => $oDate->format('%Y-%m-%d'),
             'executionorder' => 1
         );
-        $oLimitationDate = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationDate = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         PEAR::pushErrorHandling(null);
         $this->assertTrue(is_a($oLimitationDate->deliveryBlocked('not a date'), 'pear_error'));
         PEAR::popErrorHandling();

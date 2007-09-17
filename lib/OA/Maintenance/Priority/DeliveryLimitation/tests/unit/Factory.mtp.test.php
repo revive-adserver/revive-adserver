@@ -25,24 +25,23 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Factory.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Factory.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the Maintenance_Priority_DeliveryLimitation_Factory class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
+class Test_OA_Maintenance_Priority_DeliveryLimitation_Factory extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfPriorityDeliveryLimitationFactory()
+    function Test_OA_Maintenance_Priority_DeliveryLimitation_Factory()
     {
         $this->UnitTestCase();
     }
@@ -66,8 +65,8 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
             'data'           => '2005-05-05',
             'executionorder' => 1
         );
-        $obj = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertIsA($obj, 'MAX_Maintenance_Priority_DeliveryLimitation_Date');
+        $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Date');
         $this->assertEqual($obj->logical, 'or');
         $this->assertEqual($obj->type, 'Time:Date');
         $this->assertEqual($obj->comparison, '<=');
@@ -86,8 +85,8 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
             'data'           => '0,6',
             'executionorder' => 7
         );
-        $obj = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertIsA($obj, 'MAX_Maintenance_Priority_DeliveryLimitation_Day');
+        $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Day');
         $this->assertEqual($obj->logical, 'and');
         $this->assertEqual($obj->type, 'Time:Day');
         $this->assertEqual($obj->comparison, '!~');
@@ -108,8 +107,8 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
             'data'           => '192.168.0.1',
             'executionorder' => 0
         );
-        $obj = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertIsA($obj, 'MAX_Maintenance_Priority_DeliveryLimitation_Empty');
+        $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Empty');
         unset($obj);
 
         // Test 4
@@ -121,8 +120,8 @@ class Maintenance_TestOfPriorityDeliveryLimitationFactory extends UnitTestCase
             'data'           => '0,6,21',
             'executionorder' => 0
           );
-        $obj = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
-        $this->assertIsA($obj, 'MAX_Maintenance_Priority_DeliveryLimitation_Hour');
+        $obj = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $this->assertIsA($obj, 'OA_Maintenance_Priority_DeliveryLimitation_Hour');
         $this->assertEqual($obj->logical, 'and');
         $this->assertEqual($obj->type, 'Time:Hour');
         $this->assertEqual($obj->comparison, '!~');

@@ -25,22 +25,21 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Hour.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Hour.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
+class Test_OA_Maintenance_Priority_DeliveryLimitation_Hour extends UnitTestCase
 {
     /**
      * The constructor method.
      */
-    function Delivery_TestOfPriorityDeliveryLimitationHour()
+    function Test_OA_Maintenance_Priority_DeliveryLimitation_Hour()
     {
         $this->UnitTestCase();
     }
@@ -62,7 +61,7 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
             'data'           => '1,7,18,23',
             'executionorder' => 1,
         );
-        $oLimitationHour = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationHour = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual(count($oLimitationHour->data), 20);
         $this->assertTrue(isset($oLimitationHour->data[0]));
         $this->assertEqual($oLimitationHour->data[0], 0);
@@ -118,7 +117,7 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
             'data'           => '1,7,18,23',
             'executionorder' => 1,
         );
-        $oLimitationHour = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationHour = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $this->assertEqual(count($oLimitationHour->data), 4);
         $this->assertTrue(isset($oLimitationHour->data[0]));
         $this->assertEqual($oLimitationHour->data[0], 1);
@@ -135,7 +134,7 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
      */
     function testMinutesPerTimePeriod()
     {
-        $this->assertEqual(MAX_Maintenance_Priority_DeliveryLimitation_Hour::minutesPerTimePeriod(), 60);
+        $this->assertEqual(OA_Maintenance_Priority_DeliveryLimitation_Hour::minutesPerTimePeriod(), 60);
     }
 
     /**
@@ -151,7 +150,7 @@ class Delivery_TestOfPriorityDeliveryLimitationHour extends UnitTestCase
             'data'           => '1, 5, 7, 20',
             'executionorder' => 1
         );
-        $oLimitationHour = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+        $oLimitationHour = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
         $oDate = new Date('2006-02-07 23:15:45');
         for ($i = 0; $i < 24; $i++) {
             $oDate->addSeconds(SECONDS_PER_HOUR);

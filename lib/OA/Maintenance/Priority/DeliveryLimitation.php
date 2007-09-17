@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/Factory.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/Factory.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
 /**
@@ -33,12 +33,11 @@ require_once MAX_PATH . '/lib/OA/OperationInterval.php';
  * advertisement, with the goal of determining if (and if so, when) the
  * delivery limitation(s) "block" (as opposed to "filter") the advertisement.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Maintenance_Priority_DeliveryLimitation
+class OA_Maintenance_Priority_DeliveryLimitation
 {
 
     var $aRules           = array();
@@ -70,9 +69,9 @@ class MAX_Maintenance_Priority_DeliveryLimitation
      *                                          .
      *                                          .
      *                                    )
-     * @return MAX_Maintenance_Priority_DeliveryLimitation
+     * @return OA_Maintenance_Priority_DeliveryLimitation
      */
-    function MAX_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations)
+    function OA_Maintenance_Priority_DeliveryLimitation($aDeliveryLimitations)
     {
         // If there are delivery limitations...
         if (is_array($aDeliveryLimitations) && (!empty($aDeliveryLimitations))) {
@@ -86,7 +85,7 @@ class MAX_Maintenance_Priority_DeliveryLimitation
             $groupNumber = 0;
             foreach ($aDeliveryLimitations as $key => $aDeliveryLimitation) {
                 // Instantiate an appropriate delivery limitation class for the limitation type
-                $this->aRules[$key] = MAX_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
+                $this->aRules[$key] = OA_Maintenance_Priority_DeliveryLimitation_Factory::factory($aDeliveryLimitation);
                 // Is the logical grouping AND or OR?
                 if (!is_a($this->aRules[$key], 'pear_error') && strtolower($this->aRules[$key]->logical) == 'or') {
                     // Start a new grouping for the next (set of) rule(s)
@@ -94,9 +93,9 @@ class MAX_Maintenance_Priority_DeliveryLimitation
                 }
                 // Store possible "blocking" delivery limitations classes ONLY in
                 // the appropriately numbered operation group, for later testing
-                if (is_a($this->aRules[$key], 'MAX_Maintenance_Priority_DeliveryLimitation_Date') ||
-                    is_a($this->aRules[$key], 'MAX_Maintenance_Priority_DeliveryLimitation_Hour') ||
-                    is_a($this->aRules[$key], 'MAX_Maintenance_Priority_DeliveryLimitation_Day')) {
+                if (is_a($this->aRules[$key], 'OA_Maintenance_Priority_DeliveryLimitation_Date') ||
+                    is_a($this->aRules[$key], 'OA_Maintenance_Priority_DeliveryLimitation_Hour') ||
+                    is_a($this->aRules[$key], 'OA_Maintenance_Priority_DeliveryLimitation_Day')) {
                     $this->aOperationGroups[$groupNumber][] = $this->aRules[$key];
                 }
             }

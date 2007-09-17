@@ -36,8 +36,7 @@ require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
  * A library class for providing automatic maintenance process methods.
  *
  * @static
- * @package    Openads
- * @subpackage Maintenance
+ * @package    OpenadsMaintenance
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
 class OA_Maintenance_Auto

@@ -26,24 +26,24 @@ $Id$
 */
 
 /**
- * A class for creating {@link MAX_Maintenance_Priority_DeliveryLimitation_Common}
- * subclass objects, depending on
+ * A class for creating {@link OA_Maintenance_Priority_DeliveryLimitation_Common}
+ * subclass objects, depending on the delivery limitation passed in.
  *
  * @static
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Maintenance_Priority_DeliveryLimitation_Factory
+class OA_Maintenance_Priority_DeliveryLimitation_Factory
 {
 
     /**
      * A factory method to return the appropriate
-     * MAX_Maintenance_Priority_DeliveryLimitation_Common
-     * subclass object (one of MAX_Maintenance_Priority_DeliveryLimitation_Date,
-     * MAX_Maintenance_Priority_DeliveryLimitation_Day,
-     * MAX_Maintenance_Priority_DeliveryLimitation_Empty or
-     * MAX_Maintenance_Priority_DeliveryLimitation_Hour), depending on the data
+     * OA_Maintenance_Priority_DeliveryLimitation_Common
+     * subclass object (one of OA_Maintenance_Priority_DeliveryLimitation_Date,
+     * OA_Maintenance_Priority_DeliveryLimitation_Day,
+     * OA_Maintenance_Priority_DeliveryLimitation_Empty or
+     * OA_Maintenance_Priority_DeliveryLimitation_Hour), depending on the data
      * provided.
      *
      * @static
@@ -57,14 +57,14 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Factory
      *                                       [data]              => 1,7,18,23
      *                                       [executionorder]    => 1
      *                                   )
-     * @return object MAX_Maintenance_Priority_DeliveryLimitation_Common
+     * @return object OA_Maintenance_Priority_DeliveryLimitation_Common
      */
     function &factory($aDeliveryLimitation)
     {
         // Define an array naming the 3 date/time delivery limitations associated
-        // with the MAX_Maintenance_Priority_DeliveryLimitation_Date,
-        // MAX_Maintenance_Priority_DeliveryLimitation_Day
-        // and MAX_Maintenance_Priority_DeliveryLimitation_Hour classes
+        // with the OA_Maintenance_Priority_DeliveryLimitation_Date,
+        // OA_Maintenance_Priority_DeliveryLimitation_Day
+        // and OA_Maintenance_Priority_DeliveryLimitation_Hour classes
         $dateTimeClasses = array(
             'time:date',
             'time:day',
@@ -73,15 +73,15 @@ class MAX_Maintenance_Priority_DeliveryLimitation_Factory
         // If the delivery limitations properties passed in have a type that matches
         // one of the date/time delivery limitations, set the $class variable so that
         // the appropriate class can be instantiated, otherwise, set $class so that
-        // the MAX_Maintenance_Priority_DeliveryLimitation_Empty class can be
+        // the OA_Maintenance_Priority_DeliveryLimitation_Empty class can be
         // instantiated
         if (in_array(strtolower($aDeliveryLimitation['type']), $dateTimeClasses)) {
             $class = ucfirst(substr($aDeliveryLimitation['type'], 5));
         } else {
             $class = 'Empty';
         }
-        // Prepare the MAX_Maintenance_Priority_DeliveryLimitation subclass name
-        $className = 'MAX_Maintenance_Priority_DeliveryLimitation_' . $class;
+        // Prepare the OA_Maintenance_Priority_DeliveryLimitation subclass name
+        $className = 'OA_Maintenance_Priority_DeliveryLimitation_' . $class;
         // Instantiate the appropriate delivery limitation class
         $file = MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/' . $class . '.php';
         if (file_exists($file)) {

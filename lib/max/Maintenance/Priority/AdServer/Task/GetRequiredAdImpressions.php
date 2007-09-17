@@ -28,12 +28,12 @@ $Id$
 require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * An abstract class used to define common methods required to calculate the number
@@ -452,7 +452,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         }
         // Create a new delivery limitaion object for the advertisement's delivery limitaitons
         $oDeliveryLimitation =
-            new MAX_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
+            new OA_Maintenance_Priority_DeliveryLimitation($oAd->getDeliveryLimitations());
         if ($oDeliveryLimitation->deliveryBlocked($oDate) == true) {
             // The advertisement is not currently able to deliver, and so
             // no impressions should be allocated for this operation interval
