@@ -146,7 +146,7 @@ END;
 $$ LANGUAGE plpgsql STRICT IMMUTABLE;";
 
 $aCustomFunctions[] = "
-CREATE OR REPLACE FUNCTION concat(text, text) AS $$
+CREATE OR REPLACE FUNCTION concat(text, text) RETURNS text AS $$
 BEGIN
  RETURN $1 || $2;
 END;
