@@ -269,8 +269,8 @@ class OA_Sync
             FROM
                 $tableDsah
             WHERE
-                ((day = :start AND hour >= :starthour) OR day > :start) AND
-                ((day = :end AND hour < :endhour) OR day < :end)
+                ((day = :startday AND hour >= :starthour) OR day > :start) AND
+                ((day = :endday AND hour < :endhour) OR day < :end)
             GROUP BY
                 day,
                 hour
@@ -280,17 +280,21 @@ class OA_Sync
         ";
 
         $oSth = $this->oDbh->prepare($query, array(
-            'start'     => 'date',
-            'end'       => 'date',
+            'startday'  => 'date',
             'starthour' => 'integer',
-            'endhour'   => 'integer'
+            'start'     => 'date',
+            'endday'    => 'date',
+            'endhour'   => 'integer',
+            'end'       => 'date'
         ));
 
         $rsStats = $oSth->execute(array(
-            'start'     => $oStart->format('%Y-%m-%d'),
-            'end'       => $oEnd->format('%Y-%m-%d'),
+            'startday'  => $oStart->format('%Y-%m-%d'),
             'starthour' => $oStart->format('%H'),
-            'endhour'   => $oEnd->format('%H')
+            'start'     => $oStart->format('%Y-%m-%d'),
+            'endday'    => $oEnd->format('%Y-%m-%d'),
+            'endhour'   => $oEnd->format('%H'),
+            'end'       => $oEnd->format('%Y-%m-%d')
         ));
 
         $oSth->free();
