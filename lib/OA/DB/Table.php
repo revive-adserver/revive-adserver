@@ -353,6 +353,10 @@ class OA_DB_Table
             OA::debug('Unable to drop table ' . $table, PEAR_LOG_ERROR);
             return false;
         }
+        if (!$this->dropSequence($table))
+        {
+            return false;
+        }
         return true;
     }
 
@@ -455,6 +459,41 @@ class OA_DB_Table
             }
         }
         return $allTablesTruncated;
+    }
+
+    /**
+     * Drops a (postgresql) sequence for a given table
+     *
+     *
+     * @param string $table the name of the table that owns the sequence (must be prefixed)
+     * @return boolean true on success, false otherwise
+     */
+    function dropSequence($table)
+    {
+        if ($this->oDbh->dbsyntax == 'pgsql')
+        {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            OA_DB::setCaseSensitive();
+            $aSequences = $this->oDbh->manager->listSequences();
+            OA_DB::disableCaseSensitive();
+            foreach ($aSequences as $sequence)
+            {
+                if (strpos($sequence, $table.'_') === 0)
+                {
+                    $sequence.= '_seq';
+                    OA::debug('Dropping sequence ' . $sequence, PEAR_LOG_DEBUG);
+                    $result = $this->oDbh->exec("DROP SEQUENCE \"$sequence\"");
+                    OA::enableErrorHandling();
+                    if (PEAR::isError($result))
+                    {
+                        OA::debug('Unable to drop the sequence ' . $sequence, PEAR_LOG_ERROR);
+                        return false;
+                    }
+                    break;
+                }
+            }
+        }
+        return true;
     }
 
     /**
