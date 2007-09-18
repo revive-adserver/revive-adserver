@@ -78,7 +78,7 @@ class OA_Maintenance_Priority_AdServer_Task extends OA_Task
      * Method to create/register/return the Maintenance Priority table class.
      *
      * @access private
-     * @return Openads_Table_Priority
+     * @return OA_DB_Table_Priority
      */
     function &_getMaxTablePriorityObj()
     {

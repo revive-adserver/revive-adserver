@@ -688,7 +688,7 @@ class Test_OA_DB_Table extends UnitTestCase
      * A method to test the create required tables method.
      *
      * Requirements:
-     * Test 1: Test with the Openads_Table_Core class, using
+     * Test 1: Test with the OA_DB_Table_Core class, using
      *         the banners table.
      */
     function testCreateRequiredTables()
