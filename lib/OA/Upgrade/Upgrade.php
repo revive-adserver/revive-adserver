@@ -1613,6 +1613,12 @@ class OA_Upgrade
             $this->oLogger->logError('Failed to create test privileges temporary table - check your database permissions');
             return false;
         }
+        $result = $this->oDbh->exec("DROP TABLE {$tblTmp}");
+        if (PEAR::isError($result))
+        {
+            $this->oLogger->logError('Failed to drop test privileges temporary table - check your database permissions');
+            return false;
+        }
         $this->oLogger->log('Database settings and permissions are OK');
         return true;
     }
