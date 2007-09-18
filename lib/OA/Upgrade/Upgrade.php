@@ -1607,7 +1607,7 @@ class OA_Upgrade
             return false;
         }
         $tblTmp = $prefix.'tmp_tmp_dbpriviligecheck';
-        $result = $this->oDbh->exec("CREATE TEMPORARAY TABLE {$tblTmp} (tmp int)");
+        $result = $this->oDbh->exec("CREATE TEMPORARY TABLE {$tblTmp} (tmp int)");
         if (PEAR::isError($result))
         {
             $this->oLogger->logError('Failed to create test privileges temporary table - check your database permissions');
