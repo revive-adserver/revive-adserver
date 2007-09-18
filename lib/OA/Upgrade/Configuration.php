@@ -13,7 +13,7 @@ class OA_Upgrade_Config
     function OA_Upgrade_Config()
     {
         $this->oConfig = new OA_Admin_Config();
-        $this->aConfig = &$this->oConfig->conf;
+        $this->aConfig =& $this->oConfig->conf;
         if (!OA_Admin_Config::isConfigWritable())
         {
             return false;
@@ -264,7 +264,7 @@ class OA_Upgrade_Config
      * Check if there are items in the dist.conf.php file
      * which do not exist in the working conf array
      *
-     * @param array optional $aConfigWork - An array of "dist" config items 
+     * @param array optional $aConfigWork - An array of "dist" config items
      *                               or null to read the dist.conf.php file
      * @return boolean True for new config items
      */

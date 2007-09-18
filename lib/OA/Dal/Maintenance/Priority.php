@@ -389,7 +389,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         OA::debug('  - Getting all of the zones impression inventory data', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             return false;
         }
@@ -581,7 +581,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         OA::debug("  - Getting details of previous ad/zone delivery", PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             return false;
         }
@@ -1205,7 +1205,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         OA::debug('- Updating priorities', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             OA::debug('  - Date not found in service locator', PEAR_LOG_DEBUG);
             return false;
@@ -2074,7 +2074,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             return false;
         }
@@ -2245,7 +2245,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             return false;
         }

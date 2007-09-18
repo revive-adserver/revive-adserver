@@ -57,7 +57,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
     {
         // Mock the OA_DB class used in the constructor method
         Mock::generate('OA_DB');
-        $oDbh = &new MockOA_DB($this);
+        $oDbh =& new MockOA_DB($this);
 
         // Partially mock the OA_DB_Table_Core class, overriding the
         // inherited _getDbConnection() method
@@ -70,8 +70,8 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
-        $oTable1 = &$oTable->singleton();
-        $oTable2 = &$oTable->singleton();
+        $oTable1 =& $oTable->singleton();
+        $oTable2 =& $oTable->singleton();
         $this->assertIdentical($oTable1, $oTable2);
 
         // Ensure the singleton is destroyed
@@ -98,8 +98,8 @@ class Test_OA_DB_Table_Core extends UnitTestCase
      */
     function testConfvsSchemaTables()
     {
-        $oDbh = &OA_DB::singleton();
-        $oTable = &OA_DB_Table_Core::singleton();
+        $oDbh =& OA_DB::singleton();
+        $oTable =& OA_DB_Table_Core::singleton();
 
         $aConfWork = $GLOBALS['_MAX']['CONF'];
         $aConfDist = @parse_ini_file(MAX_PATH.'/etc/dist.conf.php',true);
@@ -153,11 +153,11 @@ class Test_OA_DB_Table_Core extends UnitTestCase
     function testAllCoreTables()
     {
         // Test 1
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
-        $oDbh = &OA_DB::singleton();
-        $oTable = &OA_DB_Table_Core::singleton();
+        $oDbh =& OA_DB::singleton();
+        $oTable =& OA_DB_Table_Core::singleton();
         $oTable->dropAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
@@ -165,7 +165,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             $this->assertTrue(false);
         }
         $this->assertEqual(count($aExistingTables), 0);
-        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable =& OA_DB_Table_Core::singleton();
         $oTable->createAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         foreach ($conf['table'] as $key => $tableName) {
@@ -187,11 +187,11 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $oTable->destroy();
 
         // Test 2
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = true;
         $conf['table']['prefix'] = '';
-        $oDbh = &OA_DB::singleton();
-        $oTable = &OA_DB_Table_Core::singleton();
+        $oDbh =& OA_DB::singleton();
+        $oTable =& OA_DB_Table_Core::singleton();
         $oTable->dropAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {

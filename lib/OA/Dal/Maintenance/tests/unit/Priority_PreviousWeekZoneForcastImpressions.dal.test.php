@@ -73,7 +73,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
     function testGetPreviousWeekZoneForcastImpressions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1

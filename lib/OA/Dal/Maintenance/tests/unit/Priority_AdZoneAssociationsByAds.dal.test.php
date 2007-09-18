@@ -70,7 +70,7 @@ class Test_OA_Dal_Maintenance_Priority_AdZoneAssociationsByAds extends UnitTestC
     function testGetAdZoneAssociationsByAds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
@@ -184,7 +184,7 @@ class Test_OA_Dal_Maintenance_Priority_AdZoneAssociationsByAds extends UnitTestC
     function OLD_testGetAdZoneAssociationsByAds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1

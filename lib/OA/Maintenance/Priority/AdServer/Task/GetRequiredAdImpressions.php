@@ -79,7 +79,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     {
         parent::OA_Maintenance_Priority_AdServer_Task();
         $this->aZoneForecasts = array();
-        $this->oTable = &$this->_getMaxTablePriorityObj();
+        $this->oTable =& $this->_getMaxTablePriorityObj();
     }
 
     /**
@@ -118,7 +118,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
             return new Date($date);
         }
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDateNow = &$oServiceLocator->get('now');
+        $oDateNow =& $oServiceLocator->get('now');
         if (!$oDateNow) {
             $oDateNow = new Date();
             $oServiceLocator->register('now', $oDateNow);
@@ -330,7 +330,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 // placement as if it expires at the end of "today", regardless
                 // of the existance of any activation or expiration dates that
                 // may (or may not) be set for the placement
-                $oDate = &$this->_getDate();
+                $oDate =& $this->_getDate();
                 // Get the end of the day from this date
                 $oPlacementExpiryDate = new Date($oDate->format('%Y-%m-%d') . ' 23:59:59');
             } else if (
@@ -347,7 +347,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
                 // The placement has an expiration date, and has some kind of
                 // (total) inventory requirement, so treat the placement as if
                 // it expires at the end of the expiration date
-                $oPlacementExpiryDate = &$this->_getDate($oPlacement->expire);
+                $oPlacementExpiryDate =& $this->_getDate($oPlacement->expire);
                 // Placement expires at end of expiry date, so add one day less one
                 // second, so we have a date with time portion 23:59:59
                 $oPlacementExpiryDate->addSeconds(SECONDS_PER_DAY - 1);

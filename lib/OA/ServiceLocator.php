@@ -61,7 +61,7 @@ class OA_ServiceLocator
      */
     function register($serviceName, &$oService)
     {
-        $this->aService[$serviceName] = &$oService;
+        $this->aService[$serviceName] =& $oService;
         return true;
     }
 

@@ -55,7 +55,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
     function Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConversions()
     {
         $this->UnitTestCase();
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh =& OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->tblDIAC = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad_connection'],true);
         $this->oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
@@ -2019,7 +2019,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_IntermediateDeduplicateConvers
     function OLD_test_saveIntermediateDeduplicateConversions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         // Test 0
         $oStartDate = new Date('2005-09-05 12:00:00');

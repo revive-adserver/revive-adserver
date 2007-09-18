@@ -55,8 +55,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
      */
     function testDeleteOldData()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -208,7 +208,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
     function _insertTestDeleteOldDataCampaignsTrackers()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
+        $oDbh =&  OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns_trackers'],true)."
@@ -243,7 +243,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
      */
     function _insertTestDeleteOldDataAdItems($table)
     {
-        $oDbh = & OA_DB::singleton();
+        $oDbh =&  OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($table,true)."

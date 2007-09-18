@@ -55,7 +55,7 @@ class OA_Dal_Maintenance_Test_ForecastZoneImpressions extends OA_Dal_Maintenance
         // Update the database, instead of inserting, as existing data already
         // exists
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_zone_impression_history'],true);
         foreach ($aForecasts as $zoneId => $aOperationIntervals) {
             foreach ($aOperationIntervals as $id => $aValues) {

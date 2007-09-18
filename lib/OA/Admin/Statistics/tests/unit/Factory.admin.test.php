@@ -100,7 +100,7 @@ class Test_OA_Admin_Statistics_Factory extends UnitTestCase
     function testGetController()
     {
         foreach ($this->testTypes as $controllerType => $expectedClassName) {
-            $oController = &OA_Admin_Statistics_Factory::getController($controllerType);
+            $oController =& OA_Admin_Statistics_Factory::getController($controllerType);
             $this->assertTrue(is_a($oController, $expectedClassName));
         }
     }

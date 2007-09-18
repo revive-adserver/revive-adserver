@@ -31,7 +31,7 @@ $Id$
     {
    		require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
 
-		$oDaySpan = &FieldFactory::newField('day-span');
+		$oDaySpan =& FieldFactory::newField('day-span');
 		$oDaySpan->_name = 'period';
     	$oDaySpan->setValueFromArray(array('period_preset' => $period, 'period_start' => $period_start, 'period_end' => $period_end));
 
@@ -50,17 +50,17 @@ $Id$
         $begin = $limit + $start-1;
         $end = $start;
         switch ($period) {
-            case 'daily':      $dayBegin = & new Date();
+            case 'daily':      $dayBegin =&  new Date();
                                $dayBegin->subtractSpan(new Date_Span("$begin, 0, 0, 0"));
-                               $dayEnd   = & new Date();
+                               $dayEnd   =&  new Date();
                                $dayBegin->subtractSpan(new Date_Span("$end, 0, 0, 0"));
                                break;
-            case 'weekly':     $dayBegin = & new Date(Date_Calc::prevDay());
-                               $dayEnd   = & new Date(Date_Calc::prevDay());
+            case 'weekly':     $dayBegin =&  new Date(Date_Calc::prevDay());
+                               $dayEnd   =&  new Date(Date_Calc::prevDay());
                                break;
-            case 'monthly' :    $dayBegin = & new Date();
+            case 'monthly' :    $dayBegin =&  new Date();
                                $dayBegin->subtractSpan(new Date_Span('6, 0, 0, 0'));
-                               $dayEnd   = & new Date();
+                               $dayEnd   =&  new Date();
                                break;
             case 'allstats':
             default:

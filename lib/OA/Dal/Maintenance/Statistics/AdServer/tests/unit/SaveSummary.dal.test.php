@@ -60,8 +60,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
      */
     function testSaveSummary()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -399,7 +399,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
     function _insertTestSaveSummaryPlacement()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
+        $oDbh =&  OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
@@ -439,7 +439,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
     function _insertTestSaveSummaryAd()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
+        $oDbh =&  OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['banners'],true)."
@@ -493,7 +493,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveSummary extends UnitTestCa
     function _insertTestSaveSummaryZone()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
+        $oDbh =&  OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['zones'],true)."

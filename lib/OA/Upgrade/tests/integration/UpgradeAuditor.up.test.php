@@ -351,7 +351,7 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	$aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
 	    if(!$this->_tableExists('z_test1', $aExistingTables))
     	{
-    		$conf = &$GLOBALS['_MAX']['CONF'];
+    		$conf =& $GLOBALS['_MAX']['CONF'];
 	        //$conf['table']['prefix'] = '';
 	        $conf['table']['split'] = false;
 	        $oTable = new OA_DB_Table();

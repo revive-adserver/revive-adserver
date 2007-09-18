@@ -177,7 +177,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAdsByPlacementId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -264,7 +264,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetLinkedActiveAdIdsByZoneIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -426,7 +426,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveAdsDeliveryLimitationsByPlacementIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -650,7 +650,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetDeliveryLimitationsByAdId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -743,7 +743,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveAgencyIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -827,7 +827,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveChannelIdsByAgencyId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -949,7 +949,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActiveChannelIdsByAgencyPublisherId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1071,7 +1071,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetDeliveryLimitationsByChannelId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1176,7 +1176,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllActivePlacementsByAdIdsPeriod()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1720,7 +1720,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllPublisherIdsByAgencyId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1787,7 +1787,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetZonesByZoneIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1882,7 +1882,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllZonesIdsByPublisherId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -1956,7 +1956,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetAllChannelForecastZonesIdsByPublisherId()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1
@@ -2043,7 +2043,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
     function testGetLinkedZonesIdsByAdIds()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new MAX_Dal_Entities();
 
         // Test 1

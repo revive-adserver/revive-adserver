@@ -58,7 +58,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
     function _insertTestDeleteImpressions()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression',true);
         $query = "
             INSERT INTO
@@ -123,7 +123,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
     function _insertTestDeleteClicks()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_click',true);
         $query = "
             INSERT INTO
@@ -180,7 +180,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
     function _insertTestDeleteVariableValues()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],TRUE);
         $query = "
             INSERT INTO
@@ -259,8 +259,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
      */
     function testGetMaintenanceStatisticsLastRunInfo()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 60;
         $aConf['table']['split'] = false;
         if ($this->dbms == 'mysql')
@@ -399,8 +399,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
      */
     function testDeleteOldData()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['compactStatsGrace'] = 0;
         if ($this->dbms == 'mysql')
         {

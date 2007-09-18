@@ -165,9 +165,9 @@ class OA_Dal_Maintenance_Statistics_Common
      */
     function OA_Dal_Maintenance_Statistics_Common()
     {
-        $this->oDbh = &OA_DB::singleton();
-        $this->tables = &OA_DB_Table_Core::singleton();
-        $this->tempTables = &OA_DB_Table_Statistics::singleton();
+        $this->oDbh =& OA_DB::singleton();
+        $this->tables =& OA_DB_Table_Core::singleton();
+        $this->tempTables =& OA_DB_Table_Statistics::singleton();
         $this->oDalMaintenanceStatistics = new OA_Dal_Maintenance_Statistics();
     }
 
@@ -2219,7 +2219,7 @@ class OA_Dal_Maintenance_Statistics_Common
         }
         $oServiceLocator =& OA_ServiceLocator::instance();
         // Prepare the revenue type to column name mapping array
-        $aAdFinanceMappings = &$oServiceLocator->get('aAdFinanceMappings');
+        $aAdFinanceMappings =& $oServiceLocator->get('aAdFinanceMappings');
         if (($aAdFinanceMappings === false) || (!array($aAdFinanceMappings)) || (empty($aAdFinanceMappings))) {
             $aAdFinanceMappings = array(
                 MAX_FINANCE_CPM => 'impressions',
@@ -2228,7 +2228,7 @@ class OA_Dal_Maintenance_Statistics_Common
             );
         }
         // Try to get the $aAdFinanceLimitTypes array
-        $aAdFinanceLimitTypes = &$oServiceLocator->get('aAdFinanceLimitTypes');
+        $aAdFinanceLimitTypes =& $oServiceLocator->get('aAdFinanceLimitTypes');
         foreach ($aAdFinanceInfo as $aInfo) {
             $query = '';
             $setInfo = true;
@@ -2388,7 +2388,7 @@ class OA_Dal_Maintenance_Statistics_Common
         }
         $oServiceLocator =& OA_ServiceLocator::instance();
         // Prepare the revenue type to column name mapping array
-        $aZoneFinanceMappings = &$oServiceLocator->get('aZoneFinanceMappings');
+        $aZoneFinanceMappings =& $oServiceLocator->get('aZoneFinanceMappings');
         if (($aZoneFinanceMappings === false) || (!array($aZoneFinanceMappings)) || (empty($aZoneFinanceMappings))) {
             $aZoneFinanceMappings = array(
                 MAX_FINANCE_CPM     => 'impressions',
@@ -2402,7 +2402,7 @@ class OA_Dal_Maintenance_Statistics_Common
             );
         }
         // Prepare the connection actions array to be tracked with MAX_FINANCE_ANYVAR
-        $aZoneFinanceConnectionActions = &$oServiceLocator->get('aZoneFinanceConnectionActions');
+        $aZoneFinanceConnectionActions =& $oServiceLocator->get('aZoneFinanceConnectionActions');
         if (($aZoneFinanceConnectionActions === false) || (!array($aZoneFinanceConnectionActions)) || (empty($aZoneFinanceConnectionActions))) {
             $aZoneFinanceConnectionActions = array(
                 MAX_CONNECTION_AD_IMPRESSION,
@@ -2411,7 +2411,7 @@ class OA_Dal_Maintenance_Statistics_Common
             );
         }
         // Try to get the $aZoneFinanceLimitTypes array
-        $aZoneFinanceLimitTypes = &$oServiceLocator->get('aZoneFinanceLimitTypes');
+        $aZoneFinanceLimitTypes =& $oServiceLocator->get('aZoneFinanceLimitTypes');
         foreach ($aZoneFinanceInfo as $aInfo) {
             $query = '';
             $setInfo = true;

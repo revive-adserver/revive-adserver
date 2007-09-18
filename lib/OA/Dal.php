@@ -189,7 +189,7 @@ class OA_Dal
 
         // Set DB_DataObject options
         $MAX_ENT_DIR = MAX_PATH . '/lib/max/Dal/DataObjects';
-        $options = &PEAR::getStaticProperty('DB_DataObject', 'options');
+        $options =& PEAR::getStaticProperty('DB_DataObject', 'options');
         $options = array(
             'database'              => OA_DB::getDsn(),
             'schema_location'       => $MAX_ENT_DIR,
@@ -214,7 +214,7 @@ class OA_Dal
     function createTemporaryTableFromSelect($table)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         if ($oDbh->dsn['phptype'] == 'pgsql') {
             $sql = "
                 CREATE TEMPORARY TABLE
@@ -247,7 +247,7 @@ class OA_Dal
      */
     function quoteInterval($interval, $type)
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         if ($oDbh->dsn['phptype'] == 'pgsql') {
             return "($interval || ' $type')::interval";
         }

@@ -160,7 +160,7 @@ class MAX_Admin_Invocation {
             }
             // also make this variable a class attribute
             // so plugins could have an access to these values (and modify them)
-            $this->$makeMeGlobal = &$$makeMeGlobal;
+            $this->$makeMeGlobal =& $$makeMeGlobal;
         }
 
         // pass global variables as object attributes
@@ -265,7 +265,7 @@ class MAX_Admin_Invocation {
             global $$makeMeGlobal;
             // also make this variable a class attribute
             // so plugins could have an access to these values and modify them
-            $this->$makeMeGlobal = &$$makeMeGlobal;
+            $this->$makeMeGlobal =& $$makeMeGlobal;
         }
 
         // Check if affiliate is on the same server as the delivery code
@@ -286,7 +286,7 @@ class MAX_Admin_Invocation {
         // Invocation type selection
         if (!is_array($extra) || (isset($extra['delivery']) && ($extra['delivery']!=phpAds_ZoneInterstitial) && ($extra['delivery']!=phpAds_ZonePopup)) && ($extra['delivery']!=MAX_ZoneEmail)) {
 
-            $invocationTags = &MAX_Plugin::getPlugins('invocationTags');
+            $invocationTags =& MAX_Plugin::getPlugins('invocationTags');
 
             foreach($invocationTags as $pluginKey => $invocationTag) {
                 $allowed[$pluginKey] = $invocationTag->isAllowed($extra, $server_same);
@@ -326,7 +326,7 @@ class MAX_Admin_Invocation {
             $buffer .= "</select>";
             $buffer .= "&nbsp;<input type='image' src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></td>";
         } else {
-            $invocationTags = &MAX_Plugin::getPlugins('invocationTags');
+            $invocationTags =& MAX_Plugin::getPlugins('invocationTags');
             foreach($invocationTags as $invocationCode => $invocationTag) {
                 if(isset($invocationTag->defaultZone) && $extra['delivery'] == $invocationTag->defaultZone) {
                     $codetype = $invocationCode;

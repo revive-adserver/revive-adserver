@@ -61,11 +61,11 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oNowDate = &$oServiceLocator->get('now');
+        $oNowDate =& $oServiceLocator->get('now');
         if (!$oNowDate) {
             $oNowDate = new Date();
         }
-        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_' . $this->oController->module);
+        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_' . $this->oController->module);
         $module = $this->oController->module . ' Module';
         $this->oController->report = 'Maintenance Statistics Report: ' . $module . "\n";
         OA::debug('Running Maintenance Statistics Engine: ' . $module, PEAR_LOG_INFO);
@@ -84,7 +84,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
         $this->oController->updateFinal        = false;
         // Test to see if a date for when the statistics were last updated
         // has been set in the service locator (for re-generation of stats)
-        $oLastUpdatedDate = &$oServiceLocator->get('lastUpdatedDate');
+        $oLastUpdatedDate =& $oServiceLocator->get('lastUpdatedDate');
         // Determine when the last intermediate table update happened
         if ($oLastUpdatedDate === false) {
             $this->oController->oLastDateIntermediate =

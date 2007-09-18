@@ -133,7 +133,7 @@ class Test_Migration extends UnitTestCase
     function _createTestTables()
     {
         $this->_dropTestTables();
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $this->assertTrue($this->oTable->createTable('table1'),'error creating test table1');
@@ -158,7 +158,7 @@ class Test_Migration extends UnitTestCase
 
     function _dropTestTables()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();

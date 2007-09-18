@@ -138,9 +138,9 @@ class Test_OA_DB extends UnitTestCase
      */
     function testSingletonDbConnection()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $firstConnection  = &OA_DB::singleton();
-        $secondConnection = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $firstConnection  =& OA_DB::singleton();
+        $secondConnection =& OA_DB::singleton();
         $this->assertIdentical($firstConnection, $secondConnection);
         $this->assertReference($firstConnection, $secondConnection);
         TestEnv::restoreConfig();
@@ -154,7 +154,7 @@ class Test_OA_DB extends UnitTestCase
 
         $dsn = "mysql://scott:tiger@non-existent-host:666/non-existent-database";
         OA::disableErrorHandling();
-        $oDbh = &OA_DB::singleton($dsn);
+        $oDbh =& OA_DB::singleton($dsn);
         OA::enableErrorHandling();
         $this->assertNotNull($oDbh);
         $this->assertTrue(PEAR::isError($oDbh));

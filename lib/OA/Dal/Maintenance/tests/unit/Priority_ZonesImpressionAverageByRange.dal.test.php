@@ -66,7 +66,7 @@ class Test_OA_Dal_Maintenance_Priority_ZonesImpressionAverageByRange extends Uni
      */
     function testGetZonesImpressionAverageByRange()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         // Set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
         // Write two record for same interval id one week apart
@@ -111,7 +111,7 @@ class Test_OA_Dal_Maintenance_Priority_ZonesImpressionAverageByRange extends Uni
         // Number of weeks to get average over
         $weeks = 2;
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
-        $result = &$oMaxDalMaintenance->getZonesImpressionAverageByRange($aZones, $oStartDate, $oEndDate, $weeks);
+        $result =& $oMaxDalMaintenance->getZonesImpressionAverageByRange($aZones, $oStartDate, $oEndDate, $weeks);
 
         $this->assertEqual(count($result), 1);
         $this->assertEqual(count($result[1]), 2);
@@ -133,7 +133,7 @@ class Test_OA_Dal_Maintenance_Priority_ZonesImpressionAverageByRange extends Uni
      */
     function OLD_testGetZonesImpressionAverageByRange()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         // Set up test test data
         $conf = $GLOBALS['_MAX']['CONF'];
         // Write two record for same interval id one week apart
@@ -217,7 +217,7 @@ class Test_OA_Dal_Maintenance_Priority_ZonesImpressionAverageByRange extends Uni
         // Number of weeks to get average over
         $weeks = 2;
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
-        $result = &$oMaxDalMaintenance->getZonesImpressionAverageByRange($aZones, $oStartDate, $oEndDate, $weeks);
+        $result =& $oMaxDalMaintenance->getZonesImpressionAverageByRange($aZones, $oStartDate, $oEndDate, $weeks);
 
         $this->assertEqual(count($result), 1);
         $this->assertEqual(count($result[1]), 2);

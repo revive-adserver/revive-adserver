@@ -70,7 +70,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
     function Maintenance_TestOfMaintenanceStatisticsAdServer()
     {
         $this->UnitTestCase();
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh =& OA_DB::singleton();
         $this->doBanners   = OA_Dal::factoryDO('banners');
         $this->doCampaigns = OA_Dal::factoryDO('campaigns');
         $this->doCampaignsTrackers = OA_Dal::factoryDO('campaigns_trackers');
@@ -80,7 +80,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $this->doChannel = OA_Dal::factoryDO('channel');
         $this->doZones = OA_Dal::factoryDO('zones');
         $this->doTrackers = OA_Dal::factoryDO('trackers');
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $this->tblDRT = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true);
         $this->tblDRAI = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true);
         $this->tblDRTI = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'],true);
@@ -356,7 +356,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
      */
     function testClass()
     {
-        $oTable = &OA_DB_Table_Core::singleton();
+        $oTable =& OA_DB_Table_Core::singleton();
         $oTable->createAllTables();
 
         //create the clients
@@ -878,7 +878,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
 
     function _countRows($table)
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $query = "
             SELECT
                 COUNT(*) AS number

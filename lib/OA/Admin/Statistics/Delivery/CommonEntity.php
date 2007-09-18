@@ -278,7 +278,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
                 if (isset($this->childrendata['ad_id'])) {
                     foreach ($this->childrendata['ad_id'] as $key => $item) {
                         $this->childrendata['ad_id'][$key]['advertiser_id'] = $this->childrendata['placement_id'][$item['placement_id']]['advertiser_id'];
-                        $this->childrendata['placement_id'][$item['placement_id']]['children'][$key] = &$this->childrendata['ad_id'][$key];
+                        $this->childrendata['placement_id'][$item['placement_id']]['children'][$key] =& $this->childrendata['ad_id'][$key];
                     }
                 }
             }
@@ -287,7 +287,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
                 if (isset($this->childrendata['placement_id'])) {
                     foreach ($this->childrendata['placement_id'] as $key => $item) {
-                        $this->childrendata['advertiser_id'][$item['advertiser_id']]['children'][$key] = &$this->childrendata['placement_id'][$key];
+                        $this->childrendata['advertiser_id'][$item['advertiser_id']]['children'][$key] =& $this->childrendata['placement_id'][$key];
                     }
                 }
             }
@@ -299,7 +299,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
                 if (isset($this->childrendata['zone_id'])) {
                     foreach ($this->childrendata['zone_id'] as $key => $item) {
-                        $this->childrendata['publisher_id'][$item['publisher_id']]['children'][$key] = &$this->childrendata['zone_id'][$key];
+                        $this->childrendata['publisher_id'][$item['publisher_id']]['children'][$key] =& $this->childrendata['zone_id'][$key];
                     }
                 }
             }

@@ -169,7 +169,7 @@ function MAX_AclSave($acls, $aEntities, $page = false)
 
     if (!empty($acls)) {
         foreach ($acls as $acl) {
-            $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($acl);
+            $deliveryLimitationPlugin =& OA_aclGetPluginFromRow($acl);
             $sql = OA_DB_Sql::sqlForInsert($aclsTable, array(
                 $fieldId => $aclsObjectId,
                 'logical' => $acl['logical'],
@@ -240,7 +240,7 @@ function MAX_AclGetCompiled($aAcls) {
     } else {
         ksort($aAcls);
         foreach ($aAcls as $acl) {
-            $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($acl);
+            $deliveryLimitationPlugin =& OA_aclGetPluginFromRow($acl);
             $compiled = $deliveryLimitationPlugin->compile();
             if (!empty($compiledAcls)) {
                 $compiledAcls[] = $acl['logical'];
@@ -280,7 +280,7 @@ function MAX_AclGetPlugins($acls) {
  */
 function MAX_AclValidate($page, $aParams) {
     $conf =& $GLOBALS['_MAX']['CONF'];
-    $oDbh = &OA_DB::singleton();
+    $oDbh =& OA_DB::singleton();
 
     if (PEAR::isError($oDbh)) {
         return false;
@@ -333,7 +333,7 @@ function MAX_AclValidate($page, $aParams) {
 }
 
 function MAX_AclCopy($page, $from, $to) {
-    $oDbh = &OA_DB::singleton();
+    $oDbh =& OA_DB::singleton();
     $conf =& $GLOBALS['_MAX']['CONF'];
     $table = OA_DB_Sql::modifyTableName($conf['table']['acls']);
     switch ($page) {
@@ -402,7 +402,7 @@ function &OA_aclGetPluginFromType($type)
  */
 function &OA_aclGetPluginFromRow($row)
 {
-    $plugin = &OA_aclGetPluginFromType($row['type']);
+    $plugin =& OA_aclGetPluginFromType($row['type']);
     $plugin->init($row);
     return $plugin;
 }
@@ -419,7 +419,7 @@ function &OA_aclGetPluginFromRow($row)
  */
 function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable, $upgrade = false)
 {
-    $dbh = &OA_DB::singleton();
+    $dbh =& OA_DB::singleton();
     $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
     $table = $dbh->quoteIdentifier($prefix.$objectTable, true);
     $result = $dbh->exec("UPDATE {$table} SET compiledlimitation = 'true', acl_plugins = ''");
@@ -427,7 +427,7 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
         return $result;
     }
 
-    $dalAcls = &OA_Dal::factoryDAL('acls');
+    $dalAcls =& OA_Dal::factoryDAL('acls');
     $rsAcls = $dalAcls->getRsAcls($aclsTable);
     if (PEAR::isError($rsAcls)) {
         return $rsAcls;
@@ -440,7 +440,7 @@ function OA_aclRecompileAclsForTable($aclsTable, $idColumn, $page, $objectTable,
     $aAcls = array();
     while ($rsAcls->fetch()) {
         $row = $rsAcls->toArray();
-        $deliveryLimitationPlugin = &OA_aclGetPluginFromRow($row);
+        $deliveryLimitationPlugin =& OA_aclGetPluginFromRow($row);
         if ($upgrade || $deliveryLimitationPlugin->isAllowed($page)) {
             $aAcls[$row[$idColumn]][$row['executionorder']] = $row;
         }

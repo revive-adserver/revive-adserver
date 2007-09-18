@@ -110,8 +110,8 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
      */
     function testGetPlacementFirstStatsDate()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $oDalStatistics = new MAX_Dal_Statistics();
 
         // Test 1
@@ -217,8 +217,8 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
      */
     function testGetRecentAverageZoneForecastByZoneIds()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $oDalStatistics = new MAX_Dal_Statistics();
 
         // Test 1
@@ -327,8 +327,8 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
      */
 /*    function testGetChannelDailyInventoryForecastByChannelZoneIds()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $oDalStatistics = new MAX_Dal_Statistics();
 
         // Test 1

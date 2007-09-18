@@ -189,7 +189,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
     function testGetPreviousAdDeliveryInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $aEmptyZoneAdArray = array();
@@ -208,13 +208,13 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertFalse($result);
 
         // Test 2
         $oDate = new Date();
         $oServiceLocator->register('now', $oDate);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
         // Test 3
@@ -235,10 +235,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -260,7 +260,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -270,7 +270,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -294,12 +294,12 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $idDia = $this->_insertDataIntermediateAd($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -322,10 +322,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -349,7 +349,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -359,7 +359,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -385,9 +385,9 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -397,7 +397,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -436,10 +436,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -479,7 +479,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -489,7 +489,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -531,9 +531,9 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -543,7 +543,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -585,10 +585,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -631,7 +631,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -641,7 +641,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -686,9 +686,9 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -698,7 +698,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -738,7 +738,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -748,7 +748,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -789,7 +789,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -799,7 +799,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -842,7 +842,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -851,7 +851,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -861,7 +861,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -1174,7 +1174,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 4);
         $this->assertEqual(count($result[1]), 2);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1223,7 +1223,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[9][9]['past_zone_traffic_fraction'], 0.995);
         $this->assertNull($result[9][9]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -1636,7 +1636,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $this->_insertDataSummaryAdZoneAssoc($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 5);
         $this->assertEqual(count($result[1]), 2);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -1779,7 +1779,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
     function OLD_testGetPreviousAdDeliveryInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $aEmptyZoneAdArray = array();
@@ -1798,13 +1798,13 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertFalse($result);
 
         // Test 2
         $oDate = new Date();
         $oServiceLocator->register('now', $oDate);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
         // Test 3
@@ -1857,10 +1857,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -1882,7 +1882,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -1892,7 +1892,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -1916,12 +1916,12 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oNow->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDia->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -1980,10 +1980,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2007,7 +2007,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2017,7 +2017,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2043,9 +2043,9 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2055,7 +2055,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2094,10 +2094,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2137,7 +2137,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2147,7 +2147,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2189,9 +2189,9 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2201,7 +2201,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2243,10 +2243,10 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2289,7 +2289,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2299,7 +2299,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertNull($result[1][1]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2344,9 +2344,9 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 0);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2356,7 +2356,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2396,7 +2396,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2406,7 +2406,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertNull($result[1][1]['past_zone_traffic_fraction']);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2447,7 +2447,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2457,7 +2457,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2500,7 +2500,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             0
         );
         $rows = $stDsaza->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2509,7 +2509,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['priority_factor'], 0.5);
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 1);
         $this->assertEqual($result[1][1]['ad_id'], 1);
         $this->assertEqual($result[1][1]['zone_id'], 1);
@@ -2519,7 +2519,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[1][1]['past_zone_traffic_fraction'], 0.99);
         $this->assertEqual($result[1][1]['impressions'], 1);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -2870,7 +2870,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDsazaExpired->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aEmptyZoneAdArray);
         $this->assertEqual(count($result), 4);
         $this->assertEqual(count($result[1]), 2);
         $this->assertEqual($result[1][1]['ad_id'], 1);
@@ -2919,7 +2919,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $this->assertEqual($result[9][9]['past_zone_traffic_fraction'], 0.995);
         $this->assertNull($result[9][9]['impressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv();
         $oServiceLocator->register('now', $oDate);
 
@@ -3332,7 +3332,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             $oSpecialDate->format('%Y-%m-%d %H:%M:%S')
         );
         $rows = $stDsazaExpired->execute($aData);
-        $result = &$oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
+        $result =& $oMaxDalMaintenance->getPreviousAdDeliveryInfo($aZoneAdArray);
         $this->assertEqual(count($result), 5);
         $this->assertEqual(count($result[1]), 2);
         $this->assertEqual($result[1][1]['ad_id'], 1);

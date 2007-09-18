@@ -65,7 +65,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
     function logCompletion($runTypeField, $oEndDate = null)
     {
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oNowDate = &$oServiceLocator->get('now');
+        $oNowDate =& $oServiceLocator->get('now');
         if (is_null($oEndDate)) {
             $oEndDate = new Date();
         }

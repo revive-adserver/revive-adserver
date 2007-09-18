@@ -102,7 +102,7 @@ class OA_Admin_Reports_Index
     {
         $aDisplayablePlugins = array();
         // Get all the report plugins.
-        $aPlugins = &MAX_Plugin::getPlugins('reports', null, false);
+        $aPlugins =& MAX_Plugin::getPlugins('reports', null, false);
         // Check the user's authorization level
         foreach ($aPlugins as $pluginType => $oPlugin) {
             if (!$oPlugin->isAllowedToExecute()) {

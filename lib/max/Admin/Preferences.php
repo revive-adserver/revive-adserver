@@ -72,7 +72,7 @@ class MAX_Admin_Preferences
                 $agencyId = (!empty($conf['max']['defaultAgency'])) ? $conf['max']['defaultAgency'] : 0;
             }
         }
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'],true);
         $query = "
             SELECT
@@ -136,7 +136,7 @@ class MAX_Admin_Preferences
             MAX::raiseError("The MAX_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
         }
 
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table_name = $oDbh->quoteIdentifier($table_name,true);
         $query = "
             SELECT
@@ -172,7 +172,7 @@ class MAX_Admin_Preferences
     {
         if (!is_null($this->prefSql)) {
             $conf = $GLOBALS['_MAX']['CONF'];
-            $oDbh = &OA_DB::singleton();
+            $oDbh =& OA_DB::singleton();
 
             if (empty($entityId)) {
                 $entityId = phpAds_getUserId();
@@ -264,7 +264,7 @@ class MAX_Admin_Preferences
     {
         if (!is_null($this->prefSql)) {
             $conf = $GLOBALS['_MAX']['CONF'];
-            $oDbh = &OA_DB::singleton();
+            $oDbh =& OA_DB::singleton();
 
             if (PEAR::isError($oDbh)) {
                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);

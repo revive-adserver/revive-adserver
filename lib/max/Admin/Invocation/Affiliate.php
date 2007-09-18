@@ -57,7 +57,7 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $globalVariables = array(
             'affiliateid', 'size', 'text', 'dest'
@@ -71,10 +71,10 @@ class MAX_Admin_Invocation_Affiliate extends MAX_Admin_Invocation {
             global $$makeMeGlobal;
             // also make this variable a class attribute
             // so plugins could have an access to these values and modify them
-            $this->$makeMeGlobal = &$$makeMeGlobal;
+            $this->$makeMeGlobal =& $$makeMeGlobal;
         }
 
-        $invocationTypes = &MAX_Plugin::getPlugins('invocationTags');
+        $invocationTypes =& MAX_Plugin::getPlugins('invocationTags');
         foreach($invocationTypes as $pluginKey => $invocationType) {
             if ($invocationType->affiliatePlugin == true) {
                 $available[$pluginKey] = $invocationType->affiliatePlugin;

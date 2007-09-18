@@ -710,8 +710,8 @@ class Test_OA_Dal_Maintenance_Priority_Placements extends UnitTestCase
      */
     function OLD__generateStatsOne()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
 
         $oDate = new Date();
         $oDate->addSeconds((SECONDS_PER_DAY * 4));
@@ -1011,7 +1011,7 @@ class Test_OA_Dal_Maintenance_Priority_Placements extends UnitTestCase
     function OLD__generateStatsTwo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         // Populate data_summary_ad_hourly
         $statsTable = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'],true);

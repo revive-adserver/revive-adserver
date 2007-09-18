@@ -50,7 +50,7 @@ class Test_OA_DB_CustomDatatypes_pgsql extends UnitTestCase
     function Test_OA_DB_CustomDatatypes_pgsql()
     {
         $this->UnitTestCase();
-        $this->db = &OA_DB::singleton();
+        $this->db =& OA_DB::singleton();
         $this->db->loadModule('Datatype', null, true);
     }
 

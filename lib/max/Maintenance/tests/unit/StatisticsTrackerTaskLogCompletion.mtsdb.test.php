@@ -63,9 +63,9 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker_Task_LogCompletion ex
      */
     function testRun()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oTable = &OA_DB_Table_Core::singleton();
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oTable =& OA_DB_Table_Core::singleton();
+        $oDbh =& OA_DB::singleton();
         $oServiceLocator =& OA_ServiceLocator::instance();
         // Create the required table
         $oTable->createTable('data_raw_tracker_impression');
@@ -75,7 +75,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker_Task_LogCompletion ex
         $oNow = new Date('2004-06-06 18:10:00');
         $oServiceLocator->register('now', $oNow);
         // Create and register a new MAX_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics =& new MAX_Maintenance_Statistics_AdServer();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
         // Create a new MAX_Maintenance_Statistics_Tracker_Task_LogCompletion object
         $oLogCompletion = new MAX_Maintenance_Statistics_Tracker_Task_LogCompletion();

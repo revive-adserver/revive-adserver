@@ -84,7 +84,7 @@ class OA_Maintenance_Priority
         }
         // Ensure the the current time is registered with the OA_ServiceLocator
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         if (!$oDate) {
             // Record the current time, and register with the OA_ServiceLocator
             $oDate = new Date();

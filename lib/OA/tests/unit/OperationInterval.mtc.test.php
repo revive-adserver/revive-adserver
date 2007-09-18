@@ -293,7 +293,7 @@ class Test_OA_OperationIntveral extends UnitTestCase
      */
     function testCheckIntervalDates()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         // Set the operation interval
         $conf['maintenance']['operationInterval'] = 30;
         // Test less than one operation interval

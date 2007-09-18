@@ -106,7 +106,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function test_getDate()
     {
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
 
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -143,7 +143,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function test_getAllPlacements()
     {
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
 
         // Test 1
         $oGetRequiredAdImpressionsLifetime->oDal->setReturnValueAt(0, 'getPlacements', array());
@@ -218,7 +218,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $table = $aConf['table']['prefix'] . $aConf['table']['campaigns'];
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
 
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
@@ -259,7 +259,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function test_getInventoryImpressionsRequired()
     {
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
 
         // Test 1
         $inventory = 0;
@@ -298,7 +298,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function test_getSmallestNonZeroInteger()
     {
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $this->assertEqual(0, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(0,0,0)));
         $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(1,0,0)));
         $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getSmallestNonZeroInteger(array(-1,1,1)));
@@ -340,7 +340,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oPlacement->conversionTargetTotal = 0;
 
         // Test the method
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $oGetRequiredAdImpressionsLifetime->getPlacementImpressionInventoryRequirement($oPlacement);
         $this->assertEqual(1000, $oPlacement->requiredImpressions);
     }
@@ -353,7 +353,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         // Create a test Placement object with no Ads
         $oPlacement = new MAX_Entity_Placement(array('placement_id' => 1));
         // Test the returned sum is unity
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getPlacementAdWeightTotal($oPlacement));
 
         // Create some test Ad objects
@@ -388,10 +388,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function testDistributePlacementImpressions()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $aPlacements = array();
 
         // Set the current date/time
@@ -518,7 +518,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function test_getAdImpressions()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         Mock::generatePartial(
@@ -537,7 +537,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $totalRequiredAdImpressions = 10;
         $oDate = new Date();
         $oPlacementExpiryDate = new Date();
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
             'foo',
             $totalRequiredAdImpressions,
@@ -587,7 +587,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $totalRequiredAdImpressions = 120;
         $oDate = new Date('2006-02-15 12:07:01');
         $oPlacementExpiryDate = new Date('2006-12-15 23:59:59');
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $result = $oGetRequiredAdImpressionsLifetime->_getAdImpressions(
             $oAd,
             $totalRequiredAdImpressions,
@@ -802,16 +802,16 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
      */
     function test_getCumulativeZoneForecast()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
         // Test 1
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $result = $oGetRequiredAdImpressionsLifetime->_getCumulativeZoneForecast('foo');
         $this->assertFalse($result);
 
         // Test 2
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $oGetRequiredAdImpressionsLifetime->oDal->expectOnce(
             'getAdZoneAssociationsByAds',
             array(
@@ -835,7 +835,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oGetRequiredAdImpressionsLifetime->oDal->tally();
 
         // Test 3
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $oGetRequiredAdImpressionsLifetime->oDal->expectOnce(
             'getAdZoneAssociationsByAds',
             array(
@@ -883,7 +883,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oGetRequiredAdImpressionsLifetime->oDal->tally();
 
         // Test 4
-        $oGetRequiredAdImpressionsLifetime = &$this->_getCurrentTask();
+        $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $oGetRequiredAdImpressionsLifetime->oDal->expectOnce(
             'getAdZoneAssociationsByAds',
             array(

@@ -54,7 +54,7 @@ class OA_DB_Table_Core extends OA_DB_Table
      */
     function &singleton()
     {
-        $static = &$GLOBALS['_OA']['TABLES'][__CLASS__];
+        $static =& $GLOBALS['_OA']['TABLES'][__CLASS__];
         if (!isset($static)) {
             $static = new OA_DB_Table_Core(); // Don't use a reference here!
             $static->init(MAX_PATH . '/etc/tables_core.xml');

@@ -73,7 +73,7 @@ class Test_OA_Dal_Maintenance_Priority_PlacementDeliveryToDate extends UnitTestC
     function testGetPlacementDeliveryToDate()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $oNow = new Date();
@@ -168,7 +168,7 @@ class Test_OA_Dal_Maintenance_Priority_PlacementDeliveryToDate extends UnitTestC
     function OLD_testGetPlacementDeliveryToDate()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         $oNow = new Date();

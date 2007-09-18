@@ -973,7 +973,7 @@ class SqlBuilder
     function _delete($aTables, $aLimitations, $aOtherTables = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         // Set the tables to delete from, using the table aliases
         if (!is_array($aTables) || empty($aTables)) {
             PEAR::raiseError('Invalid parameter $aTables');
@@ -1081,7 +1081,7 @@ class SqlBuilder
 
     function _getFieldIdName($table)
     {
-        $dbh = &OA_DB::singleton();
+        $dbh =& OA_DB::singleton();
         $schema = MDB2_Schema::factory($dbh);
         $definition = $schema->getDefinitionFromDatabase(array($table));
         foreach ($definition['tables'][$table]['fields'] as $fieldname => $dataField) {

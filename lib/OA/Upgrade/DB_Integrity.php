@@ -56,7 +56,7 @@ class OA_DB_Integrity
         {
             return false;
         }
-        $this->oDBUpgrader                  = & $this->oUpgrader->oDBUpgrader;
+        $this->oDBUpgrader                  =&  $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader();
         $this->oUpgrader->oLogger->logClear();
         if (!$this->oDBUpgrader->buildSchemaDefinition())
@@ -73,7 +73,7 @@ class OA_DB_Integrity
     {
         $this->_clearProperties();
         $this->version                      = $version;
-        $this->oDBUpgrader                  = & $this->oUpgrader->oDBUpgrader;
+        $this->oDBUpgrader                  =&  $this->oUpgrader->oDBUpgrader;
         $this->_initDBUpgrader();
         if (!$this->oDBUpgrader->buildSchemaDefinition())
         {

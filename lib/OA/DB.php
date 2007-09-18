@@ -45,7 +45,7 @@ class OA_DB
      * A method to return a singleton database connection resource.
      *
      * Example usage:
-     * $oDbh = &OA_DB::singleton();
+     * $oDbh =& OA_DB::singleton();
      *
      * Warning: In order to work correctly, the singleton method must
      * be instantiated statically and by reference, as in the above
@@ -118,7 +118,7 @@ class OA_DB
 
             // Create the new database connection
             OA::disableErrorHandling();
-            $oDbh = &MDB2::singleton($dsn, $aOptions);
+            $oDbh =& MDB2::singleton($dsn, $aOptions);
             OA::enableErrorHandling();
             if (PEAR::isError($oDbh)) {
                 return $oDbh;
@@ -141,7 +141,7 @@ class OA_DB
             $oDbh->loadModule('Datatype');
             $oDbh->loadModule('Manager');
             // Store the database connection
-            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] = &$oDbh;
+            $GLOBALS['_OA']['CONNECTIONS'][$dsnMd5] =& $oDbh;
             // Set MySQL 4 compatibility if needed
             if (strcasecmp($aConf['database']['type'], 'mysql') === 0 && !empty($aConf['database']['mysql4_compatibility'])) {
                 $oDbh->exec("SET SESSION sql_mode='MYSQL40'");
@@ -285,7 +285,7 @@ class OA_DB
     function createDatabase($name)
     {
         $dsn = OA_DB::_getDefaultDsn();
-        $oDbh = &OA_DB::singleton($dsn);
+        $oDbh =& OA_DB::singleton($dsn);
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }
@@ -305,7 +305,7 @@ class OA_DB
      */
     function createFunctions()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         if (PEAR::isError($oDbh)) {
             return $oDbh;
         }
@@ -319,7 +319,7 @@ class OA_DB
             }
             include $functionsFile;
             OA_DB::disconnectAll();
-            $oDbh = &OA_DB::singleton();
+            $oDbh =& OA_DB::singleton();
             foreach ($aCustomFunctions as $customFunction) {
                 $rows = $oDbh->exec($customFunction);
                 if (PEAR::isError($rows)) {
@@ -341,7 +341,7 @@ class OA_DB
      */
     function _createLanguage($lang = 'plpgsql')
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         // Check if the language has been loaded.
         $query = "SELECT COUNT(*) FROM pg_catalog.pg_language WHERE lanname = '$lang'";
@@ -383,7 +383,7 @@ class OA_DB
     function dropDatabase($name)
     {
         $dsn = OA_DB::_getDefaultDsn();
-        $oDbh = &OA_DB::singleton($dsn);
+        $oDbh =& OA_DB::singleton($dsn);
         OA::disableErrorHandling();
         $result = $oDbh->manager->dropDatabase($name);
         OA::enableErrorHandling();
@@ -425,7 +425,7 @@ class OA_DB
     function setCaseSensitive()
     {
         $newOptionsValue = OA_DB_MDB2_DEFAULT_OPTIONS ^ MDB2_PORTABILITY_FIX_CASE;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDbh->setOption('portability',  $newOptionsValue);
         $oDbh->setOption('quote_identifier',  true);
     }
@@ -440,7 +440,7 @@ class OA_DB
      */
     function disableCaseSensitive()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDbh->setOption('portability',  OA_DB_MDB2_DEFAULT_OPTIONS);
         OA_DB::setQuoteIdentifier();
     }
@@ -504,7 +504,7 @@ class OA_DB
      */
     function setQuoteIdentifier()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $quote = false;
         if ($oDbh->dsn['phptype'] == 'pgsql') {
             $quote = '"';
@@ -521,7 +521,7 @@ class OA_DB
      */
     function disabledQuoteIdentifier()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDbh->setOption('quote_identifier', false);
     }
 

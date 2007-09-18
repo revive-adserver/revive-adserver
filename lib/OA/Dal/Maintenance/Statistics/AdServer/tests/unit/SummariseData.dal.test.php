@@ -101,7 +101,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
      */
     function _insertTestSummariseData($table)
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($table,true)."
@@ -210,7 +210,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
      */
     function test_summariseData()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
 
         // Types to be tested
         $aType = array(
@@ -226,7 +226,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
             1 => 10
         );
 
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");

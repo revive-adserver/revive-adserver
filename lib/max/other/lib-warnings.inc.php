@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 
 function phpAds_warningMail($campaign)
 {
-    $oDbh = &OA_DB::singleton();
+    $oDbh =& OA_DB::singleton();
 	$conf = $GLOBALS['_MAX']['CONF'];
 	global $strImpressionsClicksConversionsLow, $strMailHeader, $strWarnClientTxt;
 	global $strMailNothingLeft, $strMailFooter;

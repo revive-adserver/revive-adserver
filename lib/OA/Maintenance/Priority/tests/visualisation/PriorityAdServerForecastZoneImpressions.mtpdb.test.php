@@ -83,7 +83,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
     function testNewZone()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Test_ForecastZoneImpressions($this);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
         // class, and set the mocked _getDal() method to return the partially mocked DAL,
@@ -187,11 +187,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 forecast_impressions = NULL";
         $oDbh->exec($query);
         // Prepare the graph data sets
-        $oDataSet_ForecastImpressions = &Image_Graph::factory('dataset');
+        $oDataSet_ForecastImpressions =& Image_Graph::factory('dataset');
         $oDataSet_ForecastImpressions->setName('Forecast Impressions');
-        $oDataSet_ActualImpressions = &Image_Graph::factory('dataset');
+        $oDataSet_ActualImpressions =& Image_Graph::factory('dataset');
         $oDataSet_ActualImpressions->setName('Actual Impressions');
-        $oDataSet_Error = &Image_Graph::factory('dataset');
+        $oDataSet_Error =& Image_Graph::factory('dataset');
         $oDataSet_Error->setName('Error');
         // Run the forecasting over the test period
         $oDate = new Date('2005-04-01 00:00:07');
@@ -271,10 +271,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         if (function_exists('imageantialias')) {
             $antialias = true;
         }
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -297,9 +297,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
         $counter = 0;
         $aAxisLabels = array();
@@ -308,14 +308,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $aAxisLabels[] = $counter;
         }
         $oAxis->setLabelInterval($aAxisLabels);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         // Ad the data sets to the graph
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_Error);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_Error);
         $oPlot->setLineColor('magenta');
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_ForecastImpressions);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_ForecastImpressions);
         $oPlot->setLineColor('red');
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_ActualImpressions);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_ActualImpressions);
         $oPlot->setLineColor('green');
         // Complete and display the graph
         $oPlotarea->setFillColor('white');
@@ -335,7 +335,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
     {
         $initialRun = 2 * 7 * 24;
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Test_ForecastZoneImpressions($this);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
         // class, and set the mocked _getDal() method to return the partially mocked DAL,
@@ -439,11 +439,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 forecast_impressions = NULL";
         $oDbh->exec($query);
         // Prepare the graph data sets
-        $oDataSet_ForecastImpressions = &Image_Graph::factory('dataset');
+        $oDataSet_ForecastImpressions =& Image_Graph::factory('dataset');
         $oDataSet_ForecastImpressions->setName('Forecast Impressions');
-        $oDataSet_ActualImpressions = &Image_Graph::factory('dataset');
+        $oDataSet_ActualImpressions =& Image_Graph::factory('dataset');
         $oDataSet_ActualImpressions->setName('Actual Impressions');
-        $oDataSet_Error = &Image_Graph::factory('dataset');
+        $oDataSet_Error =& Image_Graph::factory('dataset');
         $oDataSet_Error->setName('Error');
         // Run the forecasting over the test period
         $oDate = new Date('2005-04-01 00:00:07');
@@ -529,10 +529,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         if (function_exists('imageantialias')) {
             $antialias = true;
         }
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -555,9 +555,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
         $counter = 0;
         $aAxisLabels = array();
@@ -566,14 +566,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $aAxisLabels[] = $counter;
         }
         $oAxis->setLabelInterval($aAxisLabels);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         // Ad the data sets to the graph
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_Error);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_Error);
         $oPlot->setLineColor('magenta');
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_ForecastImpressions);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_ForecastImpressions);
         $oPlot->setLineColor('red');
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_ActualImpressions);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_ActualImpressions);
         $oPlot->setLineColor('green');
         // Complete and display the graph
         $oPlotarea->setFillColor('white');
@@ -592,7 +592,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
     function testExistingZoneAsNew()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Test_ForecastZoneImpressions($this);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
         // class, and set the mocked _getDal() method to return the partially mocked DAL,
@@ -696,11 +696,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                 forecast_impressions = NULL";
         $oDbh->exec($query);
         // Prepare the graph data sets
-        $oDataSet_ForecastImpressions = &Image_Graph::factory('dataset');
+        $oDataSet_ForecastImpressions =& Image_Graph::factory('dataset');
         $oDataSet_ForecastImpressions->setName('Forecast Impressions');
-        $oDataSet_ActualImpressions = &Image_Graph::factory('dataset');
+        $oDataSet_ActualImpressions =& Image_Graph::factory('dataset');
         $oDataSet_ActualImpressions->setName('Actual Impressions');
-        $oDataSet_Error = &Image_Graph::factory('dataset');
+        $oDataSet_Error =& Image_Graph::factory('dataset');
         $oDataSet_Error->setName('Error');
         // Run the forecasting over the test period
         $oDate = new Date('2005-04-01 00:00:07');
@@ -789,10 +789,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         if (function_exists('imageantialias')) {
             $antialias = true;
         }
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => $antialias));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -815,9 +815,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
         $counter = 0;
         $aAxisLabels = array();
@@ -826,14 +826,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             $aAxisLabels[] = $counter;
         }
         $oAxis->setLabelInterval($aAxisLabels);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         // Ad the data sets to the graph
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_Error);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_Error);
         $oPlot->setLineColor('magenta');
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_ForecastImpressions);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_ForecastImpressions);
         $oPlot->setLineColor('red');
-        $oPlot = &$oPlotarea->addNew('line', $oDataSet_ActualImpressions);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSet_ActualImpressions);
         $oPlot->setLineColor('green');
         // Complete and display the graph
         $oPlotarea->setFillColor('white');

@@ -215,7 +215,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
     function testUpdatePriorities()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Insert the data into the ad_zone_assoc table, as an ad is linked to a zone
@@ -522,7 +522,7 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
     function OLD_testUpdatePriorities()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
         // Insert the data into the ad_zone_assoc table, as an ad is linked to a zone
         $query = "

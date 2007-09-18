@@ -55,8 +55,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_LastRunInfo extends UnitTestCa
      */
     function testGetMaintenanceStatisticsLastRunInfo()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 60;
         $aConf['table']['split'] = false;
 

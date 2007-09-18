@@ -64,10 +64,10 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
     {
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $dbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $dbh =& OA_DB::singleton();
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $tables = &OA_DB_Table_Core::singleton();
+        $tables =& OA_DB_Table_Core::singleton();
         // Create the required tables
         $tables->createTable('data_raw_ad_impression');
         $tables->createTable('log_maintenance_statistics');

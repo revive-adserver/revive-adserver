@@ -79,13 +79,13 @@ class Test_Priority extends UnitTestCase
     {
         // Set up the configuration array to have an operation interval
         // of 60 minutes, and set the timezone to GMT
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInteval'] = 60;
         $aConf['timezone']['location'] = 'GMT';
         setTimeZoneLocation($aConf['timezone']['location']);
 
         // Set up the database handler object
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh =& OA_DB::singleton();
 
         // Set up the service locator object
         $this->oServiceLocator =& OA_ServiceLocator::instance();
@@ -893,8 +893,8 @@ class Test_Priority extends UnitTestCase
      */
     function _assertPriority($aParams)
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
 
         $tableAza   = $oDbh->quoteIdentifier($aConf['table']['prefix'].'ad_zone_assoc', true);
         $tableDsaza = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_summary_ad_zone_assoc', true);

@@ -183,7 +183,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
             $oStartDate->addSeconds(1);
             while (Date::compare($oStartDate, $this->oController->oUpdateIntermediateToDate) < 0) {
                 // Should bad operation interval dates be ignored?
-                $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
+                $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
                 $oDal->ignoreBadOperationIntervals = false;
                 if (($counter == 0) && (!$this->oController->sameOI)) {
                     $oDal->ignoreBadOperationIntervals = true;
@@ -315,7 +315,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
     function _summariseIntermediateRequests($oStartDate, $oEndDate)
     {
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
+        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising requests for the intermediate tables';
         $this->oController->report .= $message . "\n";
@@ -343,7 +343,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
     function _summariseIntermediateImpressions($oStartDate, $oEndDate)
     {
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
+        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising impressions for the intermediate tables';
         $this->oController->report .= $message . "\n";
@@ -371,7 +371,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
     function _summariseIntermediateClicks($oStartDate, $oEndDate)
     {
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
+        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising clicks for the intermediate tables';
         $this->oController->report .= $message . "\n";
@@ -399,7 +399,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
     function _summariseIntermediateConnections($oStartDate, $oEndDate)
     {
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
+        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising connections for the intermediate tables';
         $this->oController->report .= $message . "\n";
@@ -427,7 +427,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
     function _saveIntermediateSummaries($oStartDate, $oEndDate)
     {
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
+        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($aConf['modules']['Tracker']) {
             $message = 'Saving request, impression, click and connection data into the intermediate tables';

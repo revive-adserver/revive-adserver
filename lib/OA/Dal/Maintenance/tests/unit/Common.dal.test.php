@@ -62,7 +62,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
     function testSetProcessLastRunInfo()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $oStartDate    = new Date('2006-10-05 12:07:01');
         $oEndDate      = new Date('2006-10-05 12:15:00');
@@ -135,7 +135,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
 
         // Test 3
         OA::disableErrorHandling();
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
         $result = $oDalMaintenanceCommon->setProcessLastRunInfo(
             $oStartDate,
@@ -237,8 +237,8 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
      */
     function testGetProcessLastRunInfo()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
 
         $log_maintenance_priority = $aConf['table']['prefix'] . $aConf['table']['log_maintenance_priority'];
         $data_raw_ad_impression = $aConf['table']['prefix'] . $aConf['table']['data_raw_ad_impression'];
@@ -568,7 +568,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
     function testGetAllDeliveryLimitationsByTypeId()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
@@ -748,7 +748,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
     function testMaxConnectionWindow()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 
@@ -825,7 +825,7 @@ class Test_OA_Dal_Maintenance_Common extends UnitTestCase
     function testMaxConnectionWindows()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $oDalMaintenanceCommon = new OA_Dal_Maintenance_Common();
 

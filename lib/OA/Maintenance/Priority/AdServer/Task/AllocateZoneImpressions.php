@@ -60,7 +60,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
     function OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions()
     {
         parent::OA_Maintenance_Priority_AdServer_Task();
-        $this->table = &$this->_getMaxTablePriorityObj();
+        $this->table =& $this->_getMaxTablePriorityObj();
     }
 
     /**

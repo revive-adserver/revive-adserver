@@ -58,7 +58,7 @@ class OA_Sync
         $this->pref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
         $this->_openadsServer = $GLOBALS['_MAX']['CONF']['sync'];
 
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh =& OA_DB::singleton();
     }
 
 

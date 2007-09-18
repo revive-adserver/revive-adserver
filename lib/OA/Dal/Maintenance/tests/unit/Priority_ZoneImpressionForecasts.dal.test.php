@@ -104,7 +104,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
      */
     function testSaveZoneImpressionForecasts()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         // Test data
         $aForecasts = array(
             1 => array(
@@ -167,7 +167,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
     function testGetZoneImpressionForecasts()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
@@ -191,7 +191,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $this->assertEqual($result[$aZoneIds[0]], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[$aZoneIds[1]], $conf['priority']['defaultZoneForecastImpressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -207,7 +207,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $this->assertEqual($result[$aZoneIds[0]], $conf['priority']['defaultZoneForecastImpressions'] + 20);
         $this->assertEqual($result[$aZoneIds[1]], $conf['priority']['defaultZoneForecastImpressions'] + 40);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -223,7 +223,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $this->assertEqual($result[$aZoneIds[0]], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[$aZoneIds[1]], $conf['priority']['defaultZoneForecastImpressions'] + 40);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
@@ -250,7 +250,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
      */
     function OLD_testSaveZoneImpressionForecasts()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         // Test data
         $aForecasts = array(
             1 => array(
@@ -313,7 +313,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
     function OLD_testGetZoneImpressionForecasts()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
@@ -389,7 +389,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $this->assertEqual($result[1], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[2], $conf['priority']['defaultZoneForecastImpressions']);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv('dropTmpTables');
         $oServiceLocator->register('now', $oDate);
 
@@ -468,7 +468,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $this->assertEqual($result[1], $conf['priority']['defaultZoneForecastImpressions'] + 20);
         $this->assertEqual($result[2], $conf['priority']['defaultZoneForecastImpressions'] + 40);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv('dropTmpTables');
         $oServiceLocator->register('now', $oDate);
 
@@ -547,7 +547,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $this->assertEqual($result[1], $conf['priority']['defaultZoneForecastImpressions']);
         $this->assertEqual($result[2], $conf['priority']['defaultZoneForecastImpressions'] + 40);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         TestEnv::restoreEnv('dropTmpTables');
         $oServiceLocator->register('now', $oDate);
 

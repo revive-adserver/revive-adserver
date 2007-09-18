@@ -61,7 +61,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
         require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Statistics();
 
         // Test 1
@@ -127,7 +127,7 @@ class Test_OA_Dal_Maintenance_Statistics extends UnitTestCase
     function testSetMaintenanceStatisticsLastRunInfo()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Statistics();
 
         // Test 1

@@ -320,8 +320,8 @@ class Test_OA_DB_Table extends UnitTestCase
     function testCreateTable()
     {
         // Test 1
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
@@ -333,11 +333,11 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertTrue($oTable->dropTable('test_table'));
 
         // Test 2
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = true;
         $conf['splitTables']['test_table'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
@@ -349,10 +349,10 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertTrue($oTable->dropTable('test_table_' . $oDate->format('%Y%m%d')));
 
         // Test 3
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         if ($conf['database']['type'] == 'mysql') {
             // Ensure that MySQL version >= 4.1, as no character set support in earlier versions
-            $oDbh = &OA_DB::singleton();
+            $oDbh =& OA_DB::singleton();
             $aMysqlVersion = $oDbh->getServerVersion();
             if (($aMysqlVersion['major'] == 4 && $aMysqlVersion['minor'] >= 1) || ($aMysqlVersion['major'] > 4)) {
 
@@ -433,8 +433,8 @@ class Test_OA_DB_Table extends UnitTestCase
         }
 
         // Test 4
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = 'oatest_';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
@@ -446,8 +446,8 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->dropTable('oatest_test_table');
 
         // Test 5
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = 'OATEST_';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
@@ -471,8 +471,8 @@ class Test_OA_DB_Table extends UnitTestCase
     function testCreateAllTables()
     {
         // Test 1
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
@@ -484,8 +484,8 @@ class Test_OA_DB_Table extends UnitTestCase
         $oTable->dropTable('test_table');
 
         // Test 2
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = true;
         $conf['splitTables']['test_table'] = true;
@@ -506,7 +506,7 @@ class Test_OA_DB_Table extends UnitTestCase
 
     function test_resetSequence()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         if ($oDbh->dbsyntax == 'pgsql')
         {
             $sequence = 'test_table1_test_id1_seq';
@@ -515,7 +515,7 @@ class Test_OA_DB_Table extends UnitTestCase
         {
             $sequence = 'test_table1';
         }
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
@@ -578,7 +578,7 @@ class Test_OA_DB_Table extends UnitTestCase
      */
     function test_resetAllSequences()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 //        if ($oDbh->dbsyntax == 'pgsql')
 //        {
 //            $sequence = 'test_table1_test_id1_seq';
@@ -587,7 +587,7 @@ class Test_OA_DB_Table extends UnitTestCase
 //        {
 //            $sequence = 'test_table1';
 //        }
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
         $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
@@ -693,10 +693,10 @@ class Test_OA_DB_Table extends UnitTestCase
      */
     function testCreateRequiredTables()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
-        $oDbh = &OA_DB::singleton();
-        $oTable = &OA_DB_Table_Core::singleton();
+        $oDbh =& OA_DB::singleton();
+        $oTable =& OA_DB_Table_Core::singleton();
         $oTable->createRequiredTables('banners');
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         $this->assertEqual($aExistingTables[0], 'agency');
@@ -723,9 +723,9 @@ class Test_OA_DB_Table extends UnitTestCase
     function testDropTable()
     {
         // Test 1
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $prefix = $conf['table']['prefix'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($prefix.'foo',true);
         $oTable = new OA_DB_Table();
         $query = "CREATE TABLE {$table} ( a INTEGER )";
@@ -738,8 +738,8 @@ class Test_OA_DB_Table extends UnitTestCase
         //TestEnv::restoreEnv();
 
         // Test 2
-        $conf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $conf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $oTable = new OA_DB_Table();
         $table = $oDbh->quoteIdentifier($prefix.'foo',true);
         $query = "CREATE TEMPORARY TABLE {$table} ( a INTEGER )";
@@ -758,10 +758,10 @@ class Test_OA_DB_Table extends UnitTestCase
         //TestEnv::restoreEnv();
 
         // Test 3
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = 'OA_';
         $prefix = $conf['table']['prefix'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($prefix.'foo',true);
         $query = "CREATE TABLE {$table} ( a INTEGER )";
         $oDbh->query($query);
@@ -774,10 +774,10 @@ class Test_OA_DB_Table extends UnitTestCase
         //TestEnv::restoreEnv();
 
         // Test 4
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = 'oA_';
         $prefix = $conf['table']['prefix'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($prefix.'foo',true);
         $oTable = new OA_DB_Table();
         $query = "CREATE TABLE {$table} ( a INTEGER )";

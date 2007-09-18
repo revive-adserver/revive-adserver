@@ -105,22 +105,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Required Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Requested Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Available Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Delivered Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority Factor');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority');
         }
         // Prepare the zone/ads for the initial iterations
@@ -200,7 +200,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             $zoneTotalRequired += $aAdData['requiredImpressions'];
         }
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = &$oZone->aAdverts[$adKey];
+            $oAd =& $oZone->aAdverts[$adKey];
             $oAd->requiredImpressions = $aAdData['requiredImpressions'];
             if ($zoneTotalRequired > $oZone->availableImpressions) {
                 $oAd->requestedImpressions = floor(($oZone->availableImpressions - 1) / count($aAds));
@@ -263,10 +263,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         }
 
         // Prepare the main graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -282,39 +282,39 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oPlotareaSecondary = &Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
+        $oPlotareaSecondary =& Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
         $oGraph->add($oPlotareaSecondary);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
-        $oAxis = &Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oPlotarea->add($oAxis);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oAxis->setTitle('Priority Factor', 'vertical2');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
         }
         $oPlotarea->setFillColor('white');
@@ -323,10 +323,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the priority graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -342,17 +342,17 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Priority', 'vertical');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
         }
         $oPlotarea->setFillColor('white');
@@ -416,22 +416,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Required Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Requested Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Available Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Delivered Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority Factor');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority');
         }
         // Prepare the zone/ads for the initial iterations
@@ -511,7 +511,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             $zoneTotalRequired += $aAdData['requiredImpressions'];
         }
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = &$oZone->aAdverts[$adKey];
+            $oAd =& $oZone->aAdverts[$adKey];
             $oAd->requiredImpressions = $aAdData['requiredImpressions'];
             if ($zoneTotalRequired > $oZone->availableImpressions) {
                 $oAd->requestedImpressions = floor(($oZone->availableImpressions - 1) / count($aAds));
@@ -574,10 +574,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         }
 
         // Prepare the main graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -593,40 +593,40 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oPlotareaSecondary = &Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
+        $oPlotareaSecondary =& Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
         $oGraph->add($oPlotareaSecondary);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
-        $oAxis = &Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oPlotarea->add($oAxis);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oAxis->setTitle('Priority Factor', 'vertical2');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 1) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -636,10 +636,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the priority graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -655,18 +655,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Priority', 'vertical');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 1) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -676,10 +676,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the main graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -695,40 +695,40 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oPlotareaSecondary = &Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
+        $oPlotareaSecondary =& Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
         $oGraph->add($oPlotareaSecondary);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
-        $oAxis = &Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oPlotarea->add($oAxis);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oAxis->setTitle('Priority Factor', 'vertical2');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 2) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -738,10 +738,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the priority graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -757,18 +757,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Priority', 'vertical');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 2) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -844,22 +844,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         // Preapare the graph data sets, ready to accept test data
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Required Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Requested Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Available Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Delivered Impressions');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority Factor');
             $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey .': Priority');
         }
         // Prepare the zone/ads for the initial iterations
@@ -939,7 +939,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             $zoneTotalRequired += $aAdData['requiredImpressions'];
         }
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = &$oZone->aAdverts[$adKey];
+            $oAd =& $oZone->aAdverts[$adKey];
             $oAd->requiredImpressions = $aAdData['requiredImpressions'];
             if ($zoneTotalRequired > $oZone->availableImpressions) {
                 $oAd->requestedImpressions = floor(($oZone->availableImpressions - 1) / count($aAds));
@@ -1006,10 +1006,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         }
 
         // Prepare the main graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -1025,40 +1025,40 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oPlotareaSecondary = &Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
+        $oPlotareaSecondary =& Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
         $oGraph->add($oPlotareaSecondary);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
-        $oAxis = &Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oPlotarea->add($oAxis);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oAxis->setTitle('Priority Factor', 'vertical2');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 1) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -1068,10 +1068,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the priority graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -1087,18 +1087,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Priority', 'vertical');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 1) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -1108,10 +1108,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the main graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -1127,40 +1127,40 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oPlotareaSecondary = &Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
+        $oPlotareaSecondary =& Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
         $oGraph->add($oPlotareaSecondary);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
-        $oAxis = &Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oPlotarea->add($oAxis);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oAxis->setTitle('Priority Factor', 'vertical2');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 2) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -1170,10 +1170,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the priority graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -1189,18 +1189,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Priority', 'vertical');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 2) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -1210,10 +1210,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the main graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -1229,40 +1229,40 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oPlotareaSecondary = &Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
+        $oPlotareaSecondary =& Image_Graph::factory('plotarea', array('axis', 'axis', IMAGE_GRAPH_AXIS_Y_SECONDARY));
         $oGraph->add($oPlotareaSecondary);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
-        $oAxis = &Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& Image_Graph::factory('axis', IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oPlotarea->add($oAxis);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y_SECONDARY);
         $oAxis->setTitle('Priority Factor', 'vertical2');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 3) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_PriorityFactor';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName}, IMAGE_GRAPH_AXIS_Y_SECONDARY);
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_DeliveredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['deliveredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_AvailableImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['availableColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequiredImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['requiredColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_RequestedImpressions';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['requestedColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }
@@ -1272,10 +1272,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
         echo '<img src="' . $filename . '" alt=""/>' . "\n";
 
         // Prepare the priority graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 600, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -1291,18 +1291,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Priority', 'vertical');
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             if ($adKey == 3) {
                 $dataSetName = 'oDataSet_Ad_' . $adKey . '_Priority';
-                $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-                $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
+                $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+                $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Solid', array($aAdData['priorityFactorColour'], 'transparent'));
                 $oPlot->setLineStyle($oLineStyle);
             }
         }

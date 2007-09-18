@@ -72,17 +72,17 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesWithAllocInv extends UnitTestCase
     function testGetAllZonesWithAllocInv()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Create the required temporary table for the tests
-        $oTable = &OA_DB_Table_Priority::singleton();
+        $oTable =& OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
 
         $tableTmp = $oDbh->quoteIdentifier('tmp_ad_zone_impression',true);
 
         // Test 1
-        $result = &$oMaxDalMaintenance->getAllZonesWithAllocInv();
+        $result =& $oMaxDalMaintenance->getAllZonesWithAllocInv();
         $this->assertEqual(count($result), 0);
 
         // Test 2
@@ -137,7 +137,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesWithAllocInv extends UnitTestCase
                     7
                 )";
         $rows = $oDbh->exec($query);
-        $result = &$oMaxDalMaintenance->getAllZonesWithAllocInv();
+        $result =& $oMaxDalMaintenance->getAllZonesWithAllocInv();
         $this->assertEqual(count($result), 3);
         $this->assertEqual($result[0]['zone_id'], 1);
         $this->assertEqual($result[0]['ad_id'], 1);
@@ -164,17 +164,17 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesWithAllocInv extends UnitTestCase
     function OLD_testGetAllZonesWithAllocInv()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Create the required temporary table for the tests
-        $oTable = &OA_DB_Table_Priority::singleton();
+        $oTable =& OA_DB_Table_Priority::singleton();
         $oTable->createTable('tmp_ad_zone_impression');
 
         $tableTmp = $oDbh->quoteIdentifier('tmp_ad_zone_impression',true);
 
         // Test 1
-        $result = &$oMaxDalMaintenance->getAllZonesWithAllocInv();
+        $result =& $oMaxDalMaintenance->getAllZonesWithAllocInv();
         $this->assertEqual(count($result), 0);
 
         // Test 2
@@ -229,7 +229,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesWithAllocInv extends UnitTestCase
                     7
                 )";
         $rows = $oDbh->exec($query);
-        $result = &$oMaxDalMaintenance->getAllZonesWithAllocInv();
+        $result =& $oMaxDalMaintenance->getAllZonesWithAllocInv();
         $this->assertEqual(count($result), 3);
         $this->assertEqual($result[0]['zone_id'], 1);
         $this->assertEqual($result[0]['ad_id'], 1);

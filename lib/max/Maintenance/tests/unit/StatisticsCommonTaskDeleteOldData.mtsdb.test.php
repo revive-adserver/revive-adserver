@@ -64,7 +64,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
      */
     function _insertTestRunData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $aTables = array(
             'max_data_raw_ad_request',
             'max_data_raw_ad_impression',

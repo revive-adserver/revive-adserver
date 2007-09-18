@@ -70,10 +70,10 @@ class MAX_Admin_Invocation_Publisher extends MAX_Admin_Invocation {
             global $$makeMeGlobal;
             // also make this variable a class attribute
             // so plugins could have an access to these values and modify them
-            $this->$makeMeGlobal = &$$makeMeGlobal;
+            $this->$makeMeGlobal =& $$makeMeGlobal;
         }
 
-        $invocationTypes = &MAX_Plugin::getPlugins('invocationTags');
+        $invocationTypes =& MAX_Plugin::getPlugins('invocationTags');
         foreach($invocationTypes as $pluginKey => $invocationType) {
             if (!empty($invocationType->publisherPlugin)) {
                 $available[$pluginKey] = $invocationType->publisherPlugin;

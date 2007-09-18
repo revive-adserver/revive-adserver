@@ -58,7 +58,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
     function _insertTestDeleteImpressions($oDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_impression_'.$oDate->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
@@ -124,7 +124,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
     function _insertTestDeleteClicks($oDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_click_'.$oDate->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
@@ -182,7 +182,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
     function _insertTestDeleteVariableValues($oDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].'data_raw_tracker_variable_value_'.$oDate->format('%Y%m%d'),true);
         $query = "
             INSERT INTO
@@ -261,8 +261,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
      */
     function DEPRECATED_testGetMaintenanceStatisticsLastRunInfo()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['operationInterval'] = 60;
         if ($this->dbms == 'mysql')
@@ -428,8 +428,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
      */
     function DEPRECATED_testDeleteOldData()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
         if ($this->dbms == 'mysql')
@@ -482,8 +482,8 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
 
         TestEnv::restoreEnv();
 
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
@@ -547,7 +547,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTrackerSplit extends UnitTestCase
             $now = new Date($date);
             $table.='_'.$now->format('%Y%m%d');
         }
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($table,true);
         $query = "
             SELECT

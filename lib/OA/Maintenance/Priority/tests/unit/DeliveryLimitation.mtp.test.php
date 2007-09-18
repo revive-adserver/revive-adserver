@@ -576,7 +576,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      */
     function testGetBlockedOperationIntervalCount()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $oNowDate = new Date('2006-02-08 07:05:00');
         $oPlacementEndDate = new Date('2006-02-10');
@@ -622,7 +622,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      */
     function testGetActiveAdOperationIntervals()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $oNowDate = new Date('2006-02-08 07:05:00');
         $oPlacementEndDate = new Date('2006-02-10');
@@ -675,7 +675,7 @@ class Test_OA_Maintenance_Priority_DeliveryLimitation extends UnitTestCase
      */
     function testGetAdvertisementLifeData()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
 
         $aDeliveryLimitations = array();

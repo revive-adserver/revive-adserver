@@ -59,8 +59,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->doClients = OA_Dal::factoryDO('clients');
         $this->doBanners   = OA_Dal::factoryDO('banners');
         $this->doDIA = OA_Dal::factoryDO('data_intermediate_ad');
-        $this->oDbh = &OA_DB::singleton();
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $this->oDbh =& OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
         $this->tblCampaigns = $this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true);
     }

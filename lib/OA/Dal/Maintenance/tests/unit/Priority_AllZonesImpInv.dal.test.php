@@ -116,23 +116,23 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
     function testGetAllZonesImpInv()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertFalse($result);
 
         // Test 2
         $oDate = new Date();
         $oServiceLocator->register('now', $oDate);
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
@@ -147,15 +147,15 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 37, 0);
 
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 0);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
         // Test 4
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $this->_generateTestHistory(1, $aDates, 42, 0);
@@ -177,7 +177,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 10, 9);
 
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 2);
         $this->assertEqual($result[1]['zone_id'], 1);
         $this->assertEqual($result[1]['forecast_impressions'], 42);
@@ -186,12 +186,12 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $this->assertEqual($result[2]['forecast_impressions'], 1);
         $this->assertEqual($result[2]['actual_impressions'], 4);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         DataGenerator::cleanUp();
         $oServiceLocator->register('now', $oDate);
 
         // Test 5
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
@@ -217,7 +217,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oNewDate);
         $this->_generateTestHistory(1, $aDates, 10, 9);
 
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 3);
         $this->assertEqual($result[1]['zone_id'], 1);
         $this->assertEqual($result[1]['forecast_impressions'], 42);
@@ -247,23 +247,23 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
     function OLD_testGetAllZonesImpInv()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertFalse($result);
 
         // Test 2
         $oDate = new Date();
         $oServiceLocator->register('now', $oDate);
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 0);
 
         // Test 3
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         $oNewDate = new Date();
         $oNewDate->copy($oDate);
         $oNewDate->subtractSeconds(($conf['maintenance']['operationInterval'] * 60) + 1);
@@ -316,17 +316,17 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
                     37
                 )";
         $rows = $oDbh->exec($query);
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 0);
 
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         //DataGenerator::cleanUp($this->aCleanup);
         TestEnv::restoreEnv('dropTmpTables');
         $oServiceLocator->register('now', $oDate);
 
         // Test 4
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $query = "
@@ -477,7 +477,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
                     9
                 )";
         $rows = $oDbh->exec($query);
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 2);
         $this->assertEqual($result[1]['zone_id'], 1);
         $this->assertEqual($result[1]['forecast_impressions'], 42);
@@ -486,13 +486,13 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $this->assertEqual($result[2]['forecast_impressions'], 1);
         $this->assertEqual($result[2]['actual_impressions'], 4);
 
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         //DataGenerator::cleanUp($this->aCleanup);
         TestEnv::restoreEnv('dropTmpTables');
         $oServiceLocator->register('now', $oDate);
 
         // Test 5
-        $oDate = &$oServiceLocator->get('now');
+        $oDate =& $oServiceLocator->get('now');
         $currentOpIntID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oDate);
         $oNow = new Date();
@@ -698,7 +698,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
                     9
                 )";
         $rows = $oDbh->exec($query);
-        $result = &$oMaxDalMaintenance->getAllZonesImpInv();
+        $result =& $oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertEqual(count($result), 3);
         $this->assertEqual($result[1]['zone_id'], 1);
         $this->assertEqual($result[1]['forecast_impressions'], 42);

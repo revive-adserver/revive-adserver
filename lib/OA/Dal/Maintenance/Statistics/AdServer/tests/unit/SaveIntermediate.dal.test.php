@@ -80,12 +80,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function testSaveIntermediate()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
 
         // Test 1
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -136,7 +136,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 2
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -216,7 +216,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 3
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -296,7 +296,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 4
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -398,7 +398,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 5
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -502,7 +502,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 6
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -610,7 +610,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 7
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -719,7 +719,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 8
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -838,7 +838,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 9
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -947,7 +947,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 10
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -1066,7 +1066,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 11
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -2099,7 +2099,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function _insertTestSaveIntermediateRequestData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $tmpTable = $oDbh->quoteIdentifier('tmp_ad_request',true);
         $query = "
             INSERT INTO
@@ -2166,7 +2166,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function _insertTestSaveIntermediateImpressionData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_impression',true)."
@@ -2232,7 +2232,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function _insertTestSaveIntermediateClickData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_click',true)."
@@ -2313,7 +2313,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function _insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)."
@@ -2442,7 +2442,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function _insertTestSaveIntermediateVariableAsBasket()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
@@ -2468,7 +2468,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function _insertTestSaveIntermediateVariable()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
@@ -2493,7 +2493,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function _insertTestSaveIntermediateVariableValue()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)."
@@ -2565,12 +2565,12 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function OLD_testSaveIntermediate()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
 
         // Test 1
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -2621,7 +2621,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 2
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -2701,7 +2701,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 3
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -2781,7 +2781,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 4
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -2883,7 +2883,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 5
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -2987,7 +2987,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 6
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -3095,7 +3095,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 7
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -3204,7 +3204,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 8
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -3323,7 +3323,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 9
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -3432,7 +3432,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 10
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -3551,7 +3551,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
         // Test 11
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $dsa = $oMDMSF->factory("AdServer");
         $dsa->tempTables->createTable('tmp_ad_request');
         $dsa->tempTables->createTable('tmp_ad_impression');
@@ -4584,7 +4584,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function OLD__insertTestSaveIntermediateRequestData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $tmpTable = $oDbh->quoteIdentifier('tmp_ad_request',true);
         $query = "
             INSERT INTO
@@ -4651,7 +4651,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function OLD__insertTestSaveIntermediateImpressionData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_impression',true)."
@@ -4717,7 +4717,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
      */
     function OLD__insertTestSaveIntermediateClickData()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_click',true)."
@@ -4798,7 +4798,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function OLD__insertTestSaveIntermediateTrackerImpressionAndTmpAdConnection()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_impression'],true)."
@@ -4927,7 +4927,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function OLD__insertTestSaveIntermediateVariableAsBasket()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
@@ -4953,7 +4953,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function OLD__insertTestSaveIntermediateVariable()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['variables'],true)."
@@ -4978,7 +4978,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveIntermediate extends UnitT
     function OLD__insertTestSaveIntermediateVariableValue()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_raw_tracker_variable_value'],true)."

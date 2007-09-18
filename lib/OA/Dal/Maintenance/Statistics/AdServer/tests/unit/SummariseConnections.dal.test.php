@@ -55,8 +55,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
      */
     function testSummariseConnections()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['modules']['Tracker'] = true;
 

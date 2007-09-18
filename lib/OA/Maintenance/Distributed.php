@@ -68,7 +68,7 @@ class OA_Maintenance_Distributed
             if ($oStart) {
                 // Ensure the the current time is registered with the OA_ServiceLocator
                 $oServiceLocator =& OA_ServiceLocator::instance();
-                $oEnd = &$oServiceLocator->get('now');
+                $oEnd =& $oServiceLocator->get('now');
                 if (!$oEnd) {
                     // Record the current time, and register with the OA_ServiceLocator
                     $oEnd = new Date();

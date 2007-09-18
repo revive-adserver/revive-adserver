@@ -157,14 +157,14 @@ EOF;
             //  never send email if error occured in test
             if ($conf['debug']['sendErrorEmails'] && !defined('TEST_ENVIRONMENT_RUNNING') && $this->errorType[$errNo][1] <= constant($conf['debug']['emailAdminThreshold'])) {
                 //  get extra info
-                $oDbh = &OA_DB::singleton();
+                $oDbh =& OA_DB::singleton();
                 $lastQuery = $oDbh->last_query;
                 $aExtraInfo['callingURL'] = $_SERVER['SCRIPT_NAME'];
                 $aExtraInfo['lastSQL'] = isset($oDbh->last_query) ? $oDbh->last_query : null;
-                $aExtraInfo['clientData']['HTTP_REFERER'] = &$_SERVER['HTTP_REFERER'];
-                $aExtraInfo['clientData']['HTTP_USER_AGENT'] = &$_SERVER['HTTP_USER_AGENT'];
-                $aExtraInfo['clientData']['REMOTE_ADDR'] = &$_SERVER['REMOTE_ADDR'];
-                $aExtraInfo['clientData']['SERVER_PORT'] = &$_SERVER['SERVER_PORT'];
+                $aExtraInfo['clientData']['HTTP_REFERER'] =& $_SERVER['HTTP_REFERER'];
+                $aExtraInfo['clientData']['HTTP_USER_AGENT'] =& $_SERVER['HTTP_USER_AGENT'];
+                $aExtraInfo['clientData']['REMOTE_ADDR'] =& $_SERVER['REMOTE_ADDR'];
+                $aExtraInfo['clientData']['SERVER_PORT'] =& $_SERVER['SERVER_PORT'];
 
                 //  store formatted output
                 ob_start();

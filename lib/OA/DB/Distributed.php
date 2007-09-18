@@ -42,7 +42,7 @@ class OA_DB_Distributed extends OA_DB
      * A method to return a singleton database connection resource.
      *
      * Example usage:
-     * $oDbh = &OA_DB::singleton();
+     * $oDbh =& OA_DB::singleton();
      *
      * Warning: In order to work correctly, the singleton method must
      * be instantiated statically and by reference, as in the above
@@ -60,10 +60,10 @@ class OA_DB_Distributed extends OA_DB
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Get the DSN, if not set
         $dsn = is_null($dsn) ? OA_DB_Distributed::getDsn() : $dsn;
-        
+
         return parent::singleton($dsn);
     }
-    
+
     /**
      * A method to return the default DSN specified by the configuration file.
      *

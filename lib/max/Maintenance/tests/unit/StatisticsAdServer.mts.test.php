@@ -58,11 +58,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer extends UnitTestCase
      */
     function testCreate()
     {
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics =& new MAX_Maintenance_Statistics_AdServer();
         $this->assertTrue(is_a($oMaintenanceStatistics, 'MAX_Maintenance_Statistics_AdServer'));
         $this->assertEqual($oMaintenanceStatistics->module, 'AdServer');
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oTest = &$oServiceLocator->get('Maintenance_Statistics_Controller');
+        $oTest =& $oServiceLocator->get('Maintenance_Statistics_Controller');
         $this->assertReference($oMaintenanceStatistics, $oTest);
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner, 'OA_Task_Runner'));
         $this->assertEqual(count($oMaintenanceStatistics->oTaskRunner->aTasks), 6);

@@ -161,7 +161,7 @@ class LibAclTest extends DalUnitTestCase
     function test_OA_aclGetPluginFromRow()
     {
         $row = array('type' => 'Time:Hour', 'logical' => 'and', 'data' => 'AaAaA');
-        $plugin = &OA_aclGetPluginFromRow($row);
+        $plugin =& OA_aclGetPluginFromRow($row);
         $this->assertTrue(is_a($plugin, 'Plugins_DeliveryLimitations_Time_Hour'));
         $this->assertEqual('and', $plugin->logical);
         $this->assertEqual('AaAaA', $plugin->data);
@@ -187,7 +187,7 @@ class LibAclTest extends DalUnitTestCase
 
         $this->assertTrue(MAX_AclReCompileAll());
 
-        $doBanners = &OA_Dal::staticGetDO('banners', $bannerid);
+        $doBanners =& OA_Dal::staticGetDO('banners', $bannerid);
         $this->assertEqual(
             "MAX_checkClient_Domain('openads.org', '!~') and MAX_checkTime_Day('0,1', '=~')",
             $doBanners->compiledlimitation);

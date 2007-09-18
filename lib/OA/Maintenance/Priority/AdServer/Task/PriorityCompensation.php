@@ -94,10 +94,10 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
             $this->aLastRun['start_run'] = new Date($aDates['start_run']);
             // Set the details of the current date/time
             $oServiceLocator =& OA_ServiceLocator::instance();
-            $this->aLastRun['now'] = &$oServiceLocator->get('now');
+            $this->aLastRun['now'] =& $oServiceLocator->get('now');
         }
         // Get all zone/ad information
-        $aZones = &$this->_buildClasses();
+        $aZones =& $this->_buildClasses();
         // For every zone with ads linked to it...
         if (!empty($aZones)) {
             $this->globalMessage = '';
@@ -135,7 +135,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
     {
         OA::debug('- Building zone and advert objects', PEAR_LOG_DEBUG);
         // Obtain the forecast impression inventory for each zone for the current OI
-        $aZoneImpInvs = &$this->oDal->getAllZonesImpInv();
+        $aZoneImpInvs =& $this->oDal->getAllZonesImpInv();
         // Create an array of all of the zones, indexed by zone ID
         $aZones = array();
         if (is_array($aZoneImpInvs) && !empty($aZoneImpInvs)) {
@@ -150,9 +150,9 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         }
         // Obtain the ad/zone combinations where advertisements have had
         // impressions allocated to zones
-        $aZoneImpAllocs = &$this->oDal->getAllZonesWithAllocInv();
+        $aZoneImpAllocs =& $this->oDal->getAllZonesWithAllocInv();
         // Get a list of all ads where the delivery limitations have changed
-        $aDeliveryLimitationChangedAds = &$this->oDal->getAllDeliveryLimitationChangedAds($this->aLastRun);
+        $aDeliveryLimitationChangedAds =& $this->oDal->getAllDeliveryLimitationChangedAds($this->aLastRun);
         // Add Advert objects to the zones
         if (is_array($aZoneImpAllocs) && !empty($aZoneImpAllocs)) {
             foreach ($aZoneImpAllocs as $aZoneImpAlloc) {
@@ -182,7 +182,7 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         }
         // Get the details of the previous required/delivered ad impressions and
         // calculated priorities
-        $aPastDetails = &$this->oDal->getPreviousAdDeliveryInfo($aZones);
+        $aPastDetails =& $this->oDal->getPreviousAdDeliveryInfo($aZones);
         if (is_array($aPastDetails) && !empty($aPastDetails)) {
             foreach ($aPastDetails as $aAdPastDetails) {
                 foreach ($aAdPastDetails as $aPastDetail) {

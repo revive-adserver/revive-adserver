@@ -51,7 +51,7 @@ class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
     function Test_OA_Dal_Maintenance_Statistics_Factory()
     {
         $this->UnitTestCase();
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $this->dbType = $oDbh->dsn['phptype'];
     }
 
@@ -60,7 +60,7 @@ class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
      */
     function testCreateAdServer()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['table']['split'] = false;
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('AdServer');
@@ -73,7 +73,7 @@ class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
      */
     function testCreateAdServerSplit()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['table']['split'] = true;
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('AdServer');
@@ -86,7 +86,7 @@ class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
      */
     function testCreateTracker()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['table']['split'] = false;
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('Tracker');
@@ -99,7 +99,7 @@ class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
      */
     function testCreateTrackerSplit()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['table']['split'] = true;
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('Tracker');

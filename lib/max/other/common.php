@@ -776,7 +776,7 @@ function _removeFile($aAd)
 // +---------------------------------------+
 
 function MAX_duplicatePlacement($placementId, $advertiserId) {
-    $oDbh = &OA_DB::singleton();
+    $oDbh =& OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
     // Copy campaign details
     $query = "
@@ -883,7 +883,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
 }
 
 function MAX_duplicateAd($adId, $placementId) {
-    $oDbh = &OA_DB::singleton();
+    $oDbh =& OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Duplicate the banner

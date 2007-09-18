@@ -153,7 +153,7 @@ class OA_Admin_Config
             return false;
         }
         $c = new Config();
-        $cc = &$c->parseConfig($this->conf, 'phpArray');
+        $cc =& $c->parseConfig($this->conf, 'phpArray');
         $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
         $cc->createComment('<'.'?php exit; ?>', 'top');
         if (!$c->writeConfig($mainConfigFile, 'IniCommented')) {
@@ -168,7 +168,7 @@ class OA_Admin_Config
             }
             $config = array('realConfig' => $newDeliveryHost);
             $c = new Config();
-            $cc = &$c->parseConfig($config, 'phpArray');
+            $cc =& $c->parseConfig($config, 'phpArray');
             $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
             $cc->createComment('<'.'?php exit; ?>', 'top');
             if (!$c->writeConfig($file, 'IniCommented')) {
@@ -184,7 +184,7 @@ class OA_Admin_Config
             }
             $config = array('realConfig' => $newDeliveryHost);
             $c = new Config();
-            $cc = &$c->parseConfig($config, 'phpArray');
+            $cc =& $c->parseConfig($config, 'phpArray');
             $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
             $cc->createComment('<'.'?php exit; ?>', 'top');
             if (!$c->writeConfig($file, 'IniCommented')) {

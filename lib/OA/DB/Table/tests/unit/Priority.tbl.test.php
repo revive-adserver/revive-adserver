@@ -56,7 +56,7 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
     {
         // Mock the OA_DB class used in the constructor method
         Mock::generate('OA_DB');
-        $oDbh = &new MockOA_DB($this);
+        $oDbh =& new MockOA_DB($this);
 
         // Partially mock the OA_DB_Table_Priority class, overriding the
         // inherited _getDbConnection() method
@@ -69,8 +69,8 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
         $oTable->setReturnReference('_getDbConnection', $oDbh);
 
         // Test 1
-        $oTable1 = &$oTable->singleton();
-        $oTable2 = &$oTable->singleton();
+        $oTable1 =& $oTable->singleton();
+        $oTable2 =& $oTable->singleton();
         $this->assertIdentical($oTable1, $oTable2);
 
         // Ensure the singleton is destroyed
@@ -95,10 +95,10 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
         );
 
         // Test 1
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         foreach ($tmpTables as $tableName) {
             $query = "SELECT * FROM $tableName";
             OA::disableErrorHandling();
@@ -106,7 +106,7 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
             OA::enableErrorHandling();
             $this->assertEqual(strtolower(get_class($result)), 'mdb2_error');
         }
-        $oTable = &OA_DB_Table_Priority::singleton();
+        $oTable =& OA_DB_Table_Priority::singleton();
         foreach ($tmpTables as $tableName) {
             $oTable->createTable($tableName);
         }

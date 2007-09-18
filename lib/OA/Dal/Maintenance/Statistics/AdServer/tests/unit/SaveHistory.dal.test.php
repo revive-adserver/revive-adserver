@@ -55,8 +55,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
      */
     function testSaveHistory()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();

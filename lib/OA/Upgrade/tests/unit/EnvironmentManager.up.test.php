@@ -48,7 +48,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_checkCriticalPHP()
     {
-        $oEnvMgr = & $this->_getEnvMgrObj();
+        $oEnvMgr =&  $this->_getEnvMgrObj();
 
         $oEnvMgr->aInfo['PHP']['actual']['memory_limit'] = '';
         $oEnvMgr->aInfo['PHP']['actual']['safe_mode'] = '0';
@@ -96,7 +96,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_checkCriticalFilePermissions()
     {
-        $oEnvMgr = & $this->_getEnvMgrObj();
+        $oEnvMgr =&  $this->_getEnvMgrObj();
 
         $oEnvMgr->aInfo['PERMS']['actual'] = array('/var'=>'OK');
         $this->assertTrue($oEnvMgr->_checkCriticalFilePermissions(),'');
@@ -107,7 +107,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_checkCriticalFiles()
     {
-        $oEnvMgr = & $this->_getEnvMgrObj();
+        $oEnvMgr =&  $this->_getEnvMgrObj();
         $this->assertTrue($oEnvMgr->_checkCriticalFiles(),'');
     }
 

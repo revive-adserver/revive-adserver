@@ -90,7 +90,7 @@ class OA_Task_Runner
             return false;
         }
         if (is_a($oTask, 'OA_Task')) {
-            $this->aTasks[] = &$oTask;
+            $this->aTasks[] =& $oTask;
             return true;
         }
         return false;

@@ -73,7 +73,7 @@ class OA_Admin_ExcelWriter
         $formatKey = implode('.',$aFormat);
         if (empty($this->formats[$formatKey])) {
             $workbook =& $this->_getExcelWriter();
-            $oFormat = & $workbook->addFormat();
+            $oFormat =&  $workbook->addFormat();
             foreach ($aFormat as $format) {
                 switch ($format) {
                     case 'h1' :
@@ -153,7 +153,7 @@ class OA_Admin_ExcelWriter
         if (is_null($workbook)) {
             return;
         }
-        $worksheet = & $workbook->addWorksheet($name);
+        $worksheet =&  $workbook->addWorksheet($name);
 
         // Insert m3 bitmap
         // Note that a scale of (1, 0.8) is specified to work around an underlying scale bug
@@ -178,7 +178,7 @@ class OA_Admin_ExcelWriter
         $worksheet->setColumn(0,0,$firstColSize);
         $row += 2;
 
-        $this->_worksheet[$name] = &$worksheet;
+        $this->_worksheet[$name] =& $worksheet;
         $this->_currentRow[$name] = $row;
     }
 
@@ -187,7 +187,7 @@ class OA_Admin_ExcelWriter
         // Get the worksheet
         $aSearch = array('{row}','{column0}','{column1}','{column2}','{column3}','{column4}','{column5}','{column6}','{column7}','{column8}','{column9}','{column10}','{column11}','{column12}','{column13}','{column14}','{column15}','{column16}','{column17}','{column18}','{column19}','{column20}','{column21}','{column22}','{column23}','{column24}');
         $aReplace = array('','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
-        $worksheet = &$this->_worksheet[$name];
+        $worksheet =& $this->_worksheet[$name];
         $row = $this->_currentRow[$name];
 
         // Write Report Data Headers

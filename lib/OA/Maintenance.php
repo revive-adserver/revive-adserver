@@ -62,7 +62,7 @@ class OA_Maintenance
         $this->pref = $GLOBALS['_MAX']['PREF'];
 
         // Get a connection to the datbase
-        $this->oDbh = &OA_DB::singleton();
+        $this->oDbh =& OA_DB::singleton();
         if (PEAR::isError($this->oDbh)) {
             // Unable to continue!
             MAX::raiseError($this->oDbh, null, PEAR_ERROR_DIE);

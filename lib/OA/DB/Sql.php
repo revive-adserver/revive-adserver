@@ -66,7 +66,7 @@ class OA_DB_Sql
      */
     function deleteWhereOne($table, $idColumn, $id)
     {
-        $dbh = &OA_DB::singleton();
+        $dbh =& OA_DB::singleton();
         $table = OA_DB_Sql::modifyTableName($table);
         $sql = "DELETE FROM {$table} WHERE $idColumn = $id";
         return $dbh->exec($sql);
@@ -89,7 +89,7 @@ class OA_DB_Sql
         $sColumns = implode(' ', $aColumns);
         $table = OA_DB_Sql::modifyTableName($table);
         $sql = "SELECT $sColumns FROM {$table} WHERE $idColumn = $id";
-        $rs = &DBC::NewRecordSet($sql);
+        $rs =& DBC::NewRecordSet($sql);
         $result = $rs->find();
         if (PEAR::isError($result)) {
             return $result;
@@ -118,7 +118,7 @@ class OA_DB_Sql
         $sSet = implode(",", $aSet);
         $table = OA_DB_Sql::modifyTableName($table);
         $sql = "UPDATE {$table} SET $sSet WHERE $idColumn = $id";
-        $dbh = &OA_DB::singleton();
+        $dbh =& OA_DB::singleton();
         return $dbh->exec($sql);
     }
 

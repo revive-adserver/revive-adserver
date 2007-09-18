@@ -51,8 +51,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function DEPRECATED_testGetMaintenanceStatisticsLastRunInfo()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['operationInterval'] = 60;
 
@@ -226,8 +226,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function DEPRECATED_testSummariseRequests()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
 
@@ -374,8 +374,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function DEPRECATED_testSummariseImpressions()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
 
@@ -523,8 +523,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function DEPRECATED_testSummariseClicks()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
 
@@ -671,8 +671,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function DEPRECATED_testSummariseConnections()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
         $aConf['modules']['Tracker'] = true;
@@ -1427,7 +1427,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     function _insertTestSaveIntermedaiteVariable()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].'variables',true)."
@@ -1468,7 +1468,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function _insertTestSaveIntermedaiteAdImpression()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_impression',true)."
@@ -1509,7 +1509,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function _insertTestSaveIntermedaiteAdClick()
     {
-        $oDbh = &OA_DB::singleton();
+        $oDbh =& OA_DB::singleton();
         $query = "
             INSERT INTO
                 ".$oDbh->quoteIdentifier('tmp_ad_click',true)."
@@ -1547,8 +1547,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function DEPRECATED_testSaveIntermediate()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
         $aConf['modules']['Tracker'] = true;
@@ -2003,8 +2003,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['total_basket_value'], 3);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
         $aConf['modules']['Tracker'] = false;
@@ -2098,7 +2098,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
     function _insertTestDeleteOldDataAdItems()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oDbh = & OA_DB::singleton();
+        $oDbh =&  OA_DB::singleton();
         $aTables = array(
             'request',
             'impression',
@@ -2180,8 +2180,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
      */
     function DEPRECATED_testDeleteOldData()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
         // Enable the tracker
@@ -2286,8 +2286,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
         // Disable the tracker
@@ -2368,8 +2368,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
         // Disable the tracker
@@ -2456,8 +2456,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertTrue(PEAR::isError($aRow, DB_ERROR_NOSUCHTABLE));
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
@@ -2539,8 +2539,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
@@ -2622,8 +2622,8 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['number'], 6);
         // Restore the testing environment
         TestEnv::restoreEnv();
-        $aConf = &$GLOBALS['_MAX']['CONF'];
-        $oDbh = &OA_DB::singleton();
+        $aConf =& $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;

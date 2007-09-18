@@ -39,6 +39,9 @@ define("ZONE_FORECAST_BASELINE_WEEKS", 2);
 define("ZONE_FORECAST_TREND_OFFSET", 1);
 // Set the number of operation intervals to use for the trend calculation view
 define("ZONE_FORECAST_TREND_OPERATION_INTERVALS", 16);
+// Set the default number of impressions to use as a forecast value when there
+// is simply no other data to use for calculation of forecasts
+define("ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS", 1000);
 
 /**
  * A class used to forecast the expected number of impressions in each
@@ -65,7 +68,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         parent::OA_Maintenance_Priority_AdServer_Task();
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $this->oDateNow = &$oServiceLocator->get('now');
+        $this->oDateNow =& $oServiceLocator->get('now');
         if (!$this->oDateNow) {
             $this->oDateNow = new Date();
         }
@@ -646,7 +649,7 @@ class MtcePriorityLastRun
 
     function MtcePriorityLastRun()
     {
-        $oDal = &$this->_getDal();
+        $oDal =& $this->_getDal();
         $aData = $oDal->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
         $this->oUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
         $this->operationInt = $aData['operation_interval'];
@@ -681,7 +684,7 @@ class MtceStatsLastRun
 
     function MtceStatsLastRun()
     {
-        $oDal = &$this->_getDal();
+        $oDal =& $this->_getDal();
         $aData = $oDal->getMaintenanceStatisticsLastRunInfo();
         $this->oUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
         $this->runType = $aData['adserver_run_type'];

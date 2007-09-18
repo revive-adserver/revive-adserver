@@ -58,11 +58,11 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker extends UnitTestCase
      */
     function testCreate()
     {
-        $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_Tracker();
+        $oMaintenanceStatistics =& new MAX_Maintenance_Statistics_Tracker();
         $this->assertTrue(is_a($oMaintenanceStatistics, 'MAX_Maintenance_Statistics_Tracker'));
         $this->assertEqual($oMaintenanceStatistics->module, 'Tracker');
         $oServiceLocator =& OA_ServiceLocator::instance();
-        $oTest = &$oServiceLocator->get('Maintenance_Statistics_Controller');
+        $oTest =& $oServiceLocator->get('Maintenance_Statistics_Controller');
         $this->assertReference($oMaintenanceStatistics, $oTest);
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner, 'OA_Task_Runner'));
         $this->assertEqual(count($oMaintenanceStatistics->oTaskRunner->aTasks), 5);

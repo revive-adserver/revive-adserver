@@ -54,7 +54,7 @@ function phpAds_dbConnect()
 {
     _raise_deprecated_db_api_warning();
 
-    $GLOBALS['_MAX']['PAN']['DB'] = &OA_DB::singleton();
+    $GLOBALS['_MAX']['PAN']['DB'] =& OA_DB::singleton();
     return !PEAR::isError($GLOBALS['_MAX']['PAN']['DB']);
 }
 
@@ -76,14 +76,14 @@ function phpAds_dbQuery($query)
     $query = trim($query);
     $queryType = strtoupper(substr($query, 0, 6));
     if ("SELECT" == $queryType) {
-        $GLOBALS['_MAX']['PAN']['DB'] = &DBC::NewRecordSet($query);
+        $GLOBALS['_MAX']['PAN']['DB'] =& DBC::NewRecordSet($query);
         if (PEAR::isError($GLOBALS['_MAX']['PAN']['DB'])) {
             return false;
         }
         return $GLOBALS['_MAX']['PAN']['DB']->find();
     }
     else {
-        $dbh = &OA_DB::singleton();
+        $dbh =& OA_DB::singleton();
         if (PEAR::isError($dbh)) {
             $GLOBALS['_MAX']['PAN']['DB'] = $dbh;
             return false;
@@ -155,7 +155,7 @@ function phpAds_dbAffectedRows($db = phpAds_adminDb)
 function phpAds_dbInsertID($db = phpAds_adminDb)
 {
     _raise_deprecated_db_api_warning();
-    $dbh = &OA_DB::singleton();
+    $dbh =& OA_DB::singleton();
     $id = $dbh->lastInsertID();
     if (PEAR::isError($id)) {
         return false;

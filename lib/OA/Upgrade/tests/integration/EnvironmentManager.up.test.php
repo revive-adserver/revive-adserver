@@ -48,7 +48,7 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_getFilePermissionErrors()
     {
-        $oEnvMgr = & $this->_getEnvMgrObj();
+        $oEnvMgr =&  $this->_getEnvMgrObj();
         $file = '/root';
         $oEnvMgr->aFilePermissions = array(
                                             $file
@@ -59,20 +59,20 @@ class Test_OA_Environment_Manager extends UnitTestCase
 
     function test_getPHPInfo()
     {
-        $oEnvMgr = & $this->_getEnvMgrObj();
+        $oEnvMgr =&  $this->_getEnvMgrObj();
         $aResult = $oEnvMgr->getPHPInfo();
         $this->assertEqual($aResult['version'],phpversion(),'wrong PHP version');
     }
 
     function test_getFileIntegInfo()
     {
-        $oEnvMgr = & $this->_getEnvMgrObj();
+        $oEnvMgr =&  $this->_getEnvMgrObj();
         $result = $oEnvMgr->getFileIntegInfo();
     }
 
     function test_getInfo()
     {
-        $oEnvMgr = & $this->_getEnvMgrObj();
+        $oEnvMgr =&  $this->_getEnvMgrObj();
         $aResult = $oEnvMgr->getAllInfo();
         $this->assertIsA($aResult,'array','not an array');
     }

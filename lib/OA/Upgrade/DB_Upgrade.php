@@ -136,7 +136,7 @@ class OA_DB_Upgrade
      */
     function initMDB2Schema()
     {
-        $result  = & MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
+        $result  =&  MDB2_Schema::factory(OA_DB::singleton(OA_DB::getDsn()));
         if (!$this->_isPearError($result, 'failed to instantiate MDB2_Schema'))
         {
             $this->oSchema = $result;
@@ -213,7 +213,7 @@ class OA_DB_Upgrade
                 $this->_logOnly('migration file found: '.$this->file_migrate);
                 require_once($this->file_migrate);
                 $classname = 'Migration_'.$this->versionTo;
-                $this->oMigrator = & new $classname();
+                $this->oMigrator =&  new $classname();
                 if ($this->oMigrator)
                 {
                     $this->oMigrator->init($this->oSchema->db, $this->logFile);

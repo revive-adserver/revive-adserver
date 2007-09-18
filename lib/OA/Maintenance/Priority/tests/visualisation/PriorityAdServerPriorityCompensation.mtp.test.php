@@ -106,18 +106,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         foreach ($aAds as $adKey => $aAdData) {
             // Add the new data to the graph of the results
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Required Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Available Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Delivered Impressions');
         }
-        $oDataSetBestError = &Image_Graph::factory('dataset');
+        $oDataSetBestError =& Image_Graph::factory('dataset');
         $oDataSetBestError->setName('Least Possible Error In Delivery');
-        $oDataSetTotalError = &Image_Graph::factory('dataset');
+        $oDataSetTotalError =& Image_Graph::factory('dataset');
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
         $oZone = new Zone(array('zoneid' => 1));
@@ -175,10 +175,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $result = $oPriorityCompensation->learnedPriorities($oZone);
         }
         // Prepare the graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -194,11 +194,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         $counter = 1;
         $aAxisLabels = array();
@@ -210,21 +210,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
-        $oPlot = &$oPlotarea->addNew('line', $oDataSetBestError);
-        $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
+        $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
+        $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
         $oPlot->setLineStyle($oLineStyle);
-        $oPlot = &$oPlotarea->addNew('line', $oDataSetTotalError);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSetTotalError);
         $oPlot->setLineColor('magenta');
         $oPlotarea->setFillColor('white');
         $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ .  ".png";
@@ -284,18 +284,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         foreach ($aAds as $adKey => $aAdData) {
             // Add the new data to the graph of the results
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Required Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Available Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Delivered Impressions');
         }
-        $oDataSetBestError = &Image_Graph::factory('dataset');
+        $oDataSetBestError =& Image_Graph::factory('dataset');
         $oDataSetBestError->setName('Least Possible Error In Delivery');
-        $oDataSetTotalError = &Image_Graph::factory('dataset');
+        $oDataSetTotalError =& Image_Graph::factory('dataset');
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
         $thisZoneImpressions = $minZoneImpressions;
@@ -362,10 +362,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $result = $oPriorityCompensation->learnedPriorities($oZone);
         }
         // Prepare the graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -381,11 +381,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         $counter = 1;
         $aAxisLabels = array();
@@ -397,21 +397,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
-        $oPlot = &$oPlotarea->addNew('line', $oDataSetBestError);
-        $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
+        $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
+        $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
         $oPlot->setLineStyle($oLineStyle);
-        $oPlot = &$oPlotarea->addNew('line', $oDataSetTotalError);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSetTotalError);
         $oPlot->setLineColor('magenta');
         $oPlotarea->setFillColor('white');
         $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ .  ".png";
@@ -471,18 +471,18 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         foreach ($aAds as $adKey => $aAdData) {
             // Add the new data to the graph of the results
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Required Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Available Impressions');
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            ${$dataSetName} = &Image_Graph::factory('dataset');
+            ${$dataSetName} =& Image_Graph::factory('dataset');
             ${$dataSetName}->setName('Ad ' . $adKey . ': Delivered Impressions');
         }
-        $oDataSetBestError = &Image_Graph::factory('dataset');
+        $oDataSetBestError =& Image_Graph::factory('dataset');
         $oDataSetBestError->setName('Least Possible Error In Delivery');
-        $oDataSetTotalError = &Image_Graph::factory('dataset');
+        $oDataSetTotalError =& Image_Graph::factory('dataset');
         $oDataSetTotalError->setName('Total Error In Delivery');
         // Prepare the ads/zone for the initial iteration
         $thisZoneImpressions = $minZoneImpressions;
@@ -549,10 +549,10 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             $result = $oPriorityCompensation->learnedPriorities($oZone);
         }
         // Prepare the graph
-        $oCanvas = &Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
-        $oGraph  = &Image_Graph::factory('graph', &$oCanvas);
+        $oCanvas =& Image_Canvas::factory('png', array('width' => 600, 'height' => 480, 'antialias' => false));
+        $oGraph  =& Image_Graph::factory('graph', &$oCanvas);
         if (function_exists('imagettfbbox') && isset($conf['graphs']['ttfName'])) {
-            $oFont = &$oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
+            $oFont =& $oGraph->addNew('ttf_font', $conf['graphs']['ttfName']);
             $oFont->setSize(9);
             $oGraph->setFont($oFont);
         }
@@ -568,11 +568,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
             )
         );
         $oLegend->setPlotarea($oPlotarea);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
-        $oGridLines = &$oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_X);
+        $oGridLines =& $oPlotarea->addNew('line_grid', array(), IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_X);
         $oAxis->setTitle('Operation Intervals');
-        $oAxis = &$oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
+        $oAxis =& $oPlotarea->getAxis(IMAGE_GRAPH_AXIS_Y);
         $oAxis->setTitle('Impressions', 'vertical');
         $counter = 1;
         $aAxisLabels = array();
@@ -584,21 +584,21 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends Un
         // Ad the data sets to the graph
         foreach ($aAds as $adKey => $aAdData) {
             $dataSetName = 'oDataSet_Ad' . $adKey . '_RequiredImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dashed', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_AvailableImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
-            $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
+            $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array($aAdData['colour'], 'transparent'));
             $oPlot->setLineStyle($oLineStyle);
             $dataSetName = 'oDataSet_Ad' . $adKey . '_ActualImpressions';
-            $oPlot = &$oPlotarea->addNew('line', &${$dataSetName});
+            $oPlot =& $oPlotarea->addNew('line', &${$dataSetName});
             $oPlot->setLineColor($aAdData['colour']);
         }
-        $oPlot = &$oPlotarea->addNew('line', $oDataSetBestError);
-        $oLineStyle = &Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
+        $oPlot =& $oPlotarea->addNew('line', $oDataSetBestError);
+        $oLineStyle =& Image_Graph::factory('Image_Graph_Line_Dotted', array('magenta', 'transparent'));
         $oPlot->setLineStyle($oLineStyle);
-        $oPlot = &$oPlotarea->addNew('line', $oDataSetTotalError);
+        $oPlot =& $oPlotarea->addNew('line', $oDataSetTotalError);
         $oPlot->setLineColor('magenta');
         $oPlotarea->setFillColor('white');
         $filename = "results/" . __CLASS__ . '_' . __FUNCTION__ .  ".png";

@@ -175,7 +175,7 @@ class OA_Upgrade
         $this->oDBUpgrader->initMDB2Schema();
         $this->oVersioner->init($this->oDbh);
         $this->oAuditor->init($this->oDbh, $this->oLogger);
-        $this->oDBUpgrader->oAuditor = &$this->oAuditor->oDBAuditor;
+        $this->oDBUpgrader->oAuditor =& $this->oAuditor->oDBAuditor;
         $this->oDBUpgrader->doBackups = $this->_doBackups();
         $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
         $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
@@ -629,7 +629,7 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
                 return false;
             }
-            $this->oDbh = & $this->oPAN->oDbh;
+            $this->oDbh =&  $this->oPAN->oDbh;
             if (!$this->initDatabaseConnection())
             {
                 $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
@@ -707,7 +707,7 @@ class OA_Upgrade
                 $this->existing_installation_status = OA_STATUS_M01_DBCONNECT_FAILED;
                 return false;
             }
-            $this->oDbh = & $this->oPAN->oDbh;
+            $this->oDbh =&  $this->oPAN->oDbh;
             if (!$this->initDatabaseConnection())
             {
                 $this->existing_installation_status = OA_STATUS_M01_DBCONNECT_FAILED;
@@ -1087,7 +1087,7 @@ class OA_Upgrade
         $GLOBALS['_MAX']['CONF']['table']['prefix']   = $this->aDsn['table']['prefix'];
         $GLOBALS['_MAX']['CONF']['table']['type']     = $this->aDsn['table']['type'];
         // Try connecting to the database
-        $this->oDbh = &OA_DB::singleton(OA_DB::getDsn($this->aDsn));
+        $this->oDbh =& OA_DB::singleton(OA_DB::getDsn($this->aDsn));
         if (PEAR::isError($this->oDbh))
         {
             $GLOBALS['_OA']['CONNECTIONS']  = array();
