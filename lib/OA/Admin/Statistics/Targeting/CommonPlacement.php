@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Dal/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Dal/Statistics/Targeting.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/History.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Targeting/Common.php';
 
@@ -83,7 +83,7 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
 
         $oStartDate = new Date($this->aDates['day_begin']);
         $oEndDate   = new Date($this->aDates['day_end']);
-        $oDal = new OA_Dal_Statistics();
+        $oDal = new OA_Dal_Statistics_Targeting();
         $aStats = $oDal->$method($aParams['placement_id'], 'placement', $oStartDate, $oEndDate);
 
         if (count($aStats) == 0) {

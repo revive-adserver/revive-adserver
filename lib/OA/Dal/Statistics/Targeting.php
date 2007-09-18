@@ -38,9 +38,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * to be obtained via the appropriate DB_DataObject.
  *
  * @package    OpenadsDal
+ * @subpackage Statistics
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Dal_Statistics extends OA_Dal
+class OA_Dal_Statistics_Targeting extends OA_Dal
 {
 
     /**

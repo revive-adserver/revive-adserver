@@ -28,31 +28,32 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Dal/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Dal/Statistics/Targeting.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * A class for testing the non-DB specific OA_Dal_Statistics class.
+ * A class for testing the non-DB specific OA_Dal_Statistics_Targeting class.
  *
  * @package    OpenadsDal
+ * @subpackage Statistics
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Test_OA_Dal_Statistics extends UnitTestCase
+class Test_OA_Dal_Statistics_Targeting extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Statistics()
+    function Test_OA_Dal_Statistics_Targeting()
     {
         $this->UnitTestCase();
 
-        // Prepare a partial mock of the OA_Dal_Statistics class with
+        // Prepare a partial mock of the OA_Dal_Statistics_Targeting class with
         // the _getTargetingStatisticsSpan() method knocked out
         Mock::generatePartial(
-            'OA_Dal_Statistics',
-            'PartialMockOA_Dal_Statistics',
+            'OA_Dal_Statistics_Targeting',
+            'PartialMockOA_Dal_Statistics_Targeting',
             array('_getTargetingStatisticsSpan')
         );
 
@@ -84,7 +85,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      */
     function _testMockedClass($method, $id, $type, $oStartDate, $oEndDate, $aExpParam)
     {
-        $oDal = new PartialMockOA_Dal_Statistics($this);
+        $oDal = new PartialMockOA_Dal_Statistics_Targeting($this);
         $oDal->expectOnce('_getTargetingStatisticsSpan', $aExpParam);
         $oDal->$method($id, $type, $oStartDate, $oEndDate);
         $oDal->tally();
@@ -284,7 +285,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInterval'] = 60;
 
-        $oDal = new OA_Dal_Statistics();
+        $oDal = new OA_Dal_Statistics_Targeting();
 
         $dg = new DataGenerator();
 
@@ -501,7 +502,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
             )
         );
 
-        $oDal = new OA_Dal_Statistics();
+        $oDal = new OA_Dal_Statistics_Targeting();
 
         // Test with a bad result array
         $aFoo = null;
@@ -756,7 +757,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $oStartDate    = new Date('2007-05-05');
         $oEndDate      = new Date('2007-05-11');
 
-        $oDal = new OA_Dal_Statistics();
+        $oDal = new OA_Dal_Statistics_Targeting();
 
         // Test with a bad ID
         $result = $oDal->_testGetTargetingStatisticsSpanParameters(null, $adType, $oStartDate, $oEndDate);
@@ -802,7 +803,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      */
     function test_testGetTargetingStatisticsSpanPlacement()
     {
-        $oDal = new OA_Dal_Statistics();
+        $oDal = new OA_Dal_Statistics_Targeting();
 
         // Test with type "ad"
         $id   = 5;
@@ -827,7 +828,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
         $oStartDate    = new Date('2007-05-05 12:00:00');
         $oEndDate      = new Date('2007-05-05 12:59:59');
 
-        $oDal = new OA_Dal_Statistics();
+        $oDal = new OA_Dal_Statistics_Targeting();
 
         // Set the operation interval to 60
         $aConf =& $GLOBALS['_MAX']['CONF'];
@@ -877,7 +878,7 @@ class Test_OA_Dal_Statistics extends UnitTestCase
      */
     function test_calculateAverages()
     {
-        $oDal = new OA_Dal_Statistics();
+        $oDal = new OA_Dal_Statistics_Targeting();
 
         // Test with bad input
         $oDate = new Date();
