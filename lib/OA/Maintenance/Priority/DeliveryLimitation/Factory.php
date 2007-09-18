@@ -83,7 +83,7 @@ class OA_Maintenance_Priority_DeliveryLimitation_Factory
         // Prepare the OA_Maintenance_Priority_DeliveryLimitation subclass name
         $className = 'OA_Maintenance_Priority_DeliveryLimitation_' . $class;
         // Instantiate the appropriate delivery limitation class
-        $file = MAX_PATH . '/lib/max/Maintenance/Priority/DeliveryLimitation/' . $class . '.php';
+        $file = MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation/' . $class . '.php';
         if (file_exists($file)) {
             require_once $file;
             if (class_exists($className)) {
