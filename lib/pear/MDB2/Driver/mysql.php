@@ -117,6 +117,10 @@ class MDB2_Driver_mysql extends MDB2_Driver_Common
      */
     function errorInfo($error = null)
     {
+        if (!function_exists('mysql_errno'))
+        {
+            return array($error, 0, '');
+        }
         if ($this->connection) {
             $native_code = @mysql_errno($this->connection);
             $native_msg  = @mysql_error($this->connection);

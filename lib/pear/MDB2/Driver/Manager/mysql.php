@@ -706,6 +706,10 @@ class MDB2_Driver_Manager_mysql extends MDB2_Driver_Manager_Common
         } elseif (!empty($definition['unique'])) {
             $type = 'UNIQUE';
         }
+        if (empty($type)) {
+            return $db->raiseError(MDB2_ERROR_NEED_MORE_DATA, null, null,
+                'invalid definition, could not create constraint', __FUNCTION__);
+        }
 
         $table = $db->quoteIdentifier($table, true);
         $query = "ALTER TABLE $table ADD $type $name";
