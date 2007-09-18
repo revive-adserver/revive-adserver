@@ -58,6 +58,7 @@ if (!$link) {
                 <ul><li>The database server isn't functioning at the moment</li>
                 <li>The location of the database server has changed</li>
                 <li>The username or password used to contact the database server are not correct</li>
+                <li>PHP has not loaded the MySQL Extension</li>
                 </ul>");
 }
 
