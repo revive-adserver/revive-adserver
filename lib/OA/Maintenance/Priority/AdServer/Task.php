@@ -35,11 +35,11 @@ require_once MAX_PATH . '/lib/OA/Task.php';
  * objects, to be collected and run using the OA_Task_Runner class.
  *
  * @abstract
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
  * @author     Demian Turner <demian@m3.net>
  */
-class MAX_Maintenance_Priority_AdServer_Task extends OA_Task
+class OA_Maintenance_Priority_AdServer_Task extends OA_Task
 {
 
     /**
@@ -52,7 +52,7 @@ class MAX_Maintenance_Priority_AdServer_Task extends OA_Task
     /**
      * The class constructor, to be used by classes implementing this class.
      */
-    function MAX_Maintenance_Priority_AdServer_Task()
+    function OA_Maintenance_Priority_AdServer_Task()
     {
         $this->oDal = &$this->_getDal();
     }

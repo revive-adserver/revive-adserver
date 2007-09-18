@@ -30,23 +30,23 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
     define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '/usr/share/fonts/msttcorefonts/');
 }
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/tests/visualisation/MAX_Dal_Maintenance_Priority.php';
 
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once 'Image/Canvas.php';
-require_once 'Image/Graph.php';
+require_once MAX_PATH . '/lib/pear/Image/Canvas.php';
+require_once MAX_PATH . '/lib/pear/Image/Graph.php';
 
 
 /**
- * A class for testing the ForecastZoneImpressions class.
+ * A class for testing the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions class.
  *
  * @package    MaxMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
+class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends UnitTestCase
 {
     var $run;
     var $tblZones;
@@ -58,15 +58,15 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfForecastZoneImpressions()
+    function Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions()
     {
         $this->UnitTestCase();
         // Store the number of hours in defined weeks
         $this->run = WEEKS * 7 * 24;
         Mock::generate('MtceStatsLastRun');
         Mock::generate('MtcePriorityLastRun');
-        Mock::generatePartial('ForecastZoneImpressions',
-                              'PartialMockForecastZoneImpressions',
+        Mock::generatePartial('OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions',
+                              'PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions',
                               array('_getDal', '_init'));
         $this->tblZones = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true);
         $this->tblBanners = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true);
@@ -86,13 +86,13 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
-        // Partially mock the ForecastZoneImpressions class, and set
-        // the mocked _getDal() method to return the partially mocked DAL,
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
+        // class, and set the mocked _getDal() method to return the partially mocked DAL,
         // and the mocked _init() method (simply returns true)
-        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
-        $oForecastZoneImpressions->ForecastZoneImpressions();
+        $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
 
         // Prepare the test data required for the test
         $query = "
@@ -338,13 +338,13 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
-        // Partially mock the ForecastZoneImpressions class, and set
-        // the mocked _getDal() method to return the partially mocked DAL,
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
+        // class, and set the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
-        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
-        $oForecastZoneImpressions->ForecastZoneImpressions();
+        $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         // Prepare the test data required for the test
         $query = "
             INSERT INTO
@@ -595,13 +595,13 @@ class Maintenance_TestOfForecastZoneImpressions extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
-        // Partially mock the ForecastZoneImpressions class, and set
-        // the mocked _getDal() method to return the partially mocked DAL,
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
+        // class, and set the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
-        $oForecastZoneImpressions = new PartialMockForecastZoneImpressions($this);
+        $oForecastZoneImpressions = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
         $oForecastZoneImpressions->setReturnValue('_init', true);
-        $oForecastZoneImpressions->ForecastZoneImpressions();
+        $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         // Prepare the test data required for the test
         $query = "
             INSERT INTO

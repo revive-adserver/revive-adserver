@@ -26,10 +26,10 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 
 /**
@@ -42,12 +42,11 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
  * allocated to that zone will be scaled down to give the requested,
  * resulting in equal levels of under-delivery in that zone.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Demian Turner <demian@m3.net>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
+class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {
     var $aAvailableForecastZoneImpressions;
     var $aOverSubscribedZones;
@@ -58,9 +57,9 @@ class AllocateZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
     /**
      * The constructor method.
      */
-    function AllocateZoneImpressions()
+    function OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions()
     {
-        parent::MAX_Maintenance_Priority_AdServer_Task();
+        parent::OA_Maintenance_Priority_AdServer_Task();
         $this->table = &$this->_getMaxTablePriorityObj();
     }
 

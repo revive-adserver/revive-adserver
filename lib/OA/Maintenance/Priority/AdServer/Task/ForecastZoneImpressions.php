@@ -25,10 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
@@ -44,13 +44,11 @@ define("ZONE_FORECAST_TREND_OPERATION_INTERVALS", 16);
  * A class used to forecast the expected number of impressions in each
  * operation interval, for each zone.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Demain Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
+class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {
 
     var $conf;
@@ -62,9 +60,9 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
     /**
      * The constructor method.
      */
-    function ForecastZoneImpressions()
+    function OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions()
     {
-        parent::MAX_Maintenance_Priority_AdServer_Task();
+        parent::OA_Maintenance_Priority_AdServer_Task();
         $this->conf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
         $this->oDateNow = &$oServiceLocator->get('now');
@@ -173,7 +171,8 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
      * Returns the range of operation intervals to be updated.
      *
      * @param mixed $type The update type required. Possible values are the same as
-     *                    those returned from the {@link ForecastZoneImpressions::getUpdateTypeRequired()}
+     *                    those returned from the
+     *                    {@link OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions::getUpdateTypeRequired()}
      *                    method.
      * @return array An array of hashes where keys are operation interval IDs, and
      *               values are date strings. One element in the array indicates a

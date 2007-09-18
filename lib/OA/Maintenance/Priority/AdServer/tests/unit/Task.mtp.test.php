@@ -25,22 +25,22 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 
 /**
- * A class for testing the Maintenance_Priority_DeliveryLimitation class.
+ * A class for testing the OA_Maintenance_Priority_AdServer_Task class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Demian Turner
+ * @author     Demian Turner <demian@m3.net>
  */
-class TestOfPriorityTask extends UnitTestCase
+class Test_OA_Maintenance_Priority_AdServer_Task extends UnitTestCase
 {
 
    /**
     * The constructor method.
     */
-    function TestOfPriorityTask()
+    function Test_OA_Maintenance_Priority_AdServer_Task()
     {
         $this->UnitTestCase();
         Mock::generate('OA_Dal_Maintenance_Priority');
@@ -53,7 +53,7 @@ class TestOfPriorityTask extends UnitTestCase
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        $task = new MAX_Maintenance_Priority_Adserver_Task();
+        $task = new OA_Maintenance_Priority_AdServer_Task();
         $this->assertTrue(is_object($task->oDal));
         $this->assertTrue(is_a($task->oDal, 'MockOA_Dal_Maintenance_Priority'));
     }

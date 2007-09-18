@@ -26,10 +26,10 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
@@ -54,14 +54,14 @@ define('BASE_FACTOR', 10);
  * delivery is as accurate as it can be, and to calculate the priority values
  * to be used for each advertisement in each zone.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  *
  * @TODO Remove code that emails details about problems with delivery - only in
  * place at present to assist with debugging...
  */
-class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
+class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Maintenance_Priority_AdServer_Task
 {
     var $globalMessage;
 

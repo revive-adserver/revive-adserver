@@ -29,32 +29,31 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
     define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '/usr/share/fonts/msttcorefonts/');
 }
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
-
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Image/Canvas.php';
 require_once MAX_PATH . '/lib/pear/Image/Graph.php';
 
 /**
- * A class for testing the PriorityCompensation class.
+ * A class for testing the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class.
  *
  * @package    MaxMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */
-class Maintenance_TestOfPriorityCompensation extends UnitTestCase
+class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfPriorityCompensation()
+    function Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation()
     {
         $this->UnitTestCase();
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial(
-            'PriorityCompensation',
-            'PartialMockPriorityCompensation',
+            'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
+            'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             array('_getDal')
         );
     }
@@ -74,10 +73,10 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
-        // Partially mock the PriorityCompensation class
-        $oPriorityCompensation = new PartialMockPriorityCompensation($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
+        $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
-        $oPriorityCompensation->PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
         // Define the number of iterations to test over
         $iterations = 10;
         // Define how many impressions are in the zone each iteration
@@ -248,10 +247,10 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
-        // Partially mock the PriorityCompensation class
-        $oPriorityCompensation = new PartialMockPriorityCompensation($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
+        $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
-        $oPriorityCompensation->PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
         // Define the number of iterations to test over
         $iterations = 48;
         // Define the maximum number of impressions in the zone
@@ -435,10 +434,10 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
-        // Partially mock the PriorityCompensation class
-        $oPriorityCompensation = new PartialMockPriorityCompensation($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
+        $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
-        $oPriorityCompensation->PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
         // Define the number of iterations to test over
         $iterations = 48;
         // Define the maximum number of impressions in the zone

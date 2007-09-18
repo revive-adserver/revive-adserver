@@ -26,11 +26,11 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -40,11 +40,11 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * of required impressions for placements and their children ads.
  *
  * @abstract
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MAX_Maintenance_Priority_AdServer_Task
+class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_Maintenance_Priority_AdServer_Task
 {
 
     /**
@@ -77,7 +77,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      */
     function MAX_Maintenance_Priority_Common_Task_GetRequiredAdImpressions()
     {
-        parent::MAX_Maintenance_Priority_AdServer_Task();
+        parent::OA_Maintenance_Priority_AdServer_Task();
         $this->aZoneForecasts = array();
         $this->oTable = &$this->_getMaxTablePriorityObj();
     }
@@ -301,7 +301,8 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
      * the pattern of available impressions for the zone(s) the advertisements are linked to.
      *
      * The calculated ad impressions are written to the temporary table tmp_ad_required_impression
-     * for later analysis by the {@link AllocateZoneImpressions} class.
+     * for later analysis by the {@link OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions}
+     * class.
      *
      * @param array $aPlacements An array of {@link MAX_Entity_Placement} objects which require
      *                           that their total required impressions be distributed between the

@@ -25,12 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType1.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType2.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
 
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
 require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
 /**
@@ -56,7 +56,7 @@ class MAX_Maintenance_Priority_AdServer
         // Create the task runner object, for running the MPE tasks
         $this->oTaskRunner = new OA_Task_Runner();
         // Add a task to update the zone impression forecasts
-        $oForecastZoneImpressions = new ForecastZoneImpressions();
+        $oForecastZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $this->oTaskRunner->addTask($oForecastZoneImpressions);
         // Add tasks to get the required ad impressions
         $oGetRequiredAdImpressionsType1 = new GetRequiredAdImpressionsType1();
@@ -64,10 +64,10 @@ class MAX_Maintenance_Priority_AdServer
         $oGetRequiredAdImpressionsType2 = new GetRequiredAdImpressionsType2();
         $this->oTaskRunner->addTask($oGetRequiredAdImpressionsType2);
         // Add a task to allocate the ad impressions to zones
-        $oAllocateZoneImpressions = new AllocateZoneImpressions();
+        $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
         $this->oTaskRunner->addTask($oAllocateZoneImpressions);
         // Add a task to compensate & save the priority values
-        $oPriorityCompensation = new PriorityCompensation();
+        $oPriorityCompensation = new OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
         $this->oTaskRunner->addTask($oPriorityCompensation);
     }
 

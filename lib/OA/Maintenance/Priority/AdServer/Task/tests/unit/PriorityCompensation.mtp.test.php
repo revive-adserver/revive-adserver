@@ -25,22 +25,22 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
 
 /**
- * A class for testing the PriorityCompensation class.
+ * A class for testing the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Maintenance_TestOfPriorityCompensation extends UnitTestCase
+class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfPriorityCompensation()
+    function Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation()
     {
         $this->UnitTestCase();
         Mock::generate(
@@ -48,8 +48,8 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
             $this->mockDal = 'MockOA_Dal_Maintenance_Priority'.rand()
         );
         Mock::generatePartial(
-            'PriorityCompensation',
-            'PartialMockPriorityCompensation',
+            'OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
+            'PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation',
             array('_getDal', '_getOperationIntUtils')
         );
     }
@@ -68,11 +68,11 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Partially mock the PriorityCompensation class
-        $oPriorityCompensation = new PartialMockPriorityCompensation($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
+        $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
 
         // Test 1
         $returnGetAllZonesImpInv = array(
@@ -359,11 +359,11 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Partially mock the PriorityCompensation class
-        $oPriorityCompensation = new PartialMockPriorityCompensation($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
+        $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
 
         // Test 1
         $aData = array(
@@ -462,11 +462,11 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Partially mock the PriorityCompensation class
-        $oPriorityCompensation = new PartialMockPriorityCompensation($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
+        $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
 
         // Test 1
         $oZone = new Zone(array('zoneid' => 1));
@@ -807,11 +807,11 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Partially mock the PriorityCompensation class
-        $oPriorityCompensation = new PartialMockPriorityCompensation($this);
+        // Partially mock the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class
+        $oPriorityCompensation = new PartialMock_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation($this);
         $oPriorityCompensation->setReturnReference('_getDal', $oDal);
         $oPriorityCompensation->setReturnReference('_getOperationIntUtils', $oOperationInterval);
-        $oPriorityCompensation->PriorityCompensation();
+        $oPriorityCompensation->OA_Maintenance_Priority_AdServer_Task_PriorityCompensation();
 
         // Test 1
         $oZone = new Zone(array('zoneid' => 1));

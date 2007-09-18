@@ -35,10 +35,9 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 /**
  * A class for testing the GetRequiredAdImpressionsType1 class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
 {

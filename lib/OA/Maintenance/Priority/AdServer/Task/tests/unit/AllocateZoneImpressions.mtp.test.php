@@ -26,25 +26,25 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
 
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the Maintenance_Priority_AdServer_AdvertisementZoneImpressionAllocation class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Demian Turner <demian@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
+class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function TestOfPriorityAdserverAllocateZoneImpressions()
+    function Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions()
     {
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
@@ -100,42 +100,42 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $oDal->expectCallCount('getZoneImpressionForecasts', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Prepare the AllocateZoneImpressions object for testing
-        $allocateZoneImpressions = new AllocateZoneImpressions();
+        // Prepare the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object for testing
+        $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
-        $allocateZoneImpressions->_setZoneForecasts();
-        $this->assertTrue(is_array($allocateZoneImpressions->aAvailableForecastZoneImpressions));
-        $this->assertTrue(empty($allocateZoneImpressions->aAvailableForecastZoneImpressions));
-        $this->assertTrue(is_array($allocateZoneImpressions->aOverSubscribedZones));
-        $this->assertTrue(empty($allocateZoneImpressions->aOverSubscribedZones));
+        $oAllocateZoneImpressions->_setZoneForecasts();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAvailableForecastZoneImpressions));
+        $this->assertTrue(empty($oAllocateZoneImpressions->aAvailableForecastZoneImpressions));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones));
+        $this->assertTrue(empty($oAllocateZoneImpressions->aOverSubscribedZones));
 
         // Test 2
-        $allocateZoneImpressions->_setZoneForecasts();
-        $this->assertTrue(is_array($allocateZoneImpressions->aAvailableForecastZoneImpressions));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAvailableForecastZoneImpressions));
-        $this->assertEqual(count($allocateZoneImpressions->aAvailableForecastZoneImpressions), 3);
-        $this->assertEqual($allocateZoneImpressions->aAvailableForecastZoneImpressions[1], 4);
-        $this->assertEqual($allocateZoneImpressions->aAvailableForecastZoneImpressions[2], 6);
-        $this->assertEqual($allocateZoneImpressions->aAvailableForecastZoneImpressions[9], 8);
-        $this->assertTrue(is_array($allocateZoneImpressions->aOverSubscribedZones));
-        $this->assertTrue(!empty($allocateZoneImpressions->aOverSubscribedZones));
-        $this->assertEqual(count($allocateZoneImpressions->aOverSubscribedZones), 3);
-        $this->assertTrue(is_array($allocateZoneImpressions->aOverSubscribedZones[1]));
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[1]['zoneId'], 1);
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[1]['availableImpressions'], 4);
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[1]['desiredImpressions'], 0);
-        $this->assertTrue(!empty($allocateZoneImpressions->aOverSubscribedZones[1]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aOverSubscribedZones[2]));
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[2]['zoneId'], 2);
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[2]['availableImpressions'], 6);
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[2]['desiredImpressions'], 0);
-        $this->assertTrue(!empty($allocateZoneImpressions->aOverSubscribedZones[2]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aOverSubscribedZones[9]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aOverSubscribedZones[9]));
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[9]['zoneId'], 9);
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[9]['availableImpressions'], 8);
-        $this->assertEqual($allocateZoneImpressions->aOverSubscribedZones[9]['desiredImpressions'], 0);
+        $oAllocateZoneImpressions->_setZoneForecasts();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAvailableForecastZoneImpressions));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAvailableForecastZoneImpressions));
+        $this->assertEqual(count($oAllocateZoneImpressions->aAvailableForecastZoneImpressions), 3);
+        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[1], 4);
+        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[2], 6);
+        $this->assertEqual($oAllocateZoneImpressions->aAvailableForecastZoneImpressions[9], 8);
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones));
+        $this->assertEqual(count($oAllocateZoneImpressions->aOverSubscribedZones), 3);
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones[1]));
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[1]['zoneId'], 1);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[1]['availableImpressions'], 4);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[1]['desiredImpressions'], 0);
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones[1]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones[2]));
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[2]['zoneId'], 2);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[2]['availableImpressions'], 6);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[2]['desiredImpressions'], 0);
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones[2]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aOverSubscribedZones[9]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aOverSubscribedZones[9]));
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[9]['zoneId'], 9);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[9]['availableImpressions'], 8);
+        $this->assertEqual($oAllocateZoneImpressions->aOverSubscribedZones[9]['desiredImpressions'], 0);
     }
 
     /**
@@ -179,16 +179,16 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $oDal->expectCallCount('getPlacements', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Prepare the AllocateZoneImpressions object for testing
-        $allocateZoneImpressions = new AllocateZoneImpressions();
+        // Prepare the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object for testing
+        $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
-        $aPlacements = $allocateZoneImpressions->_getAllPlacements();
+        $aPlacements = $oAllocateZoneImpressions->_getAllPlacements();
         $this->assertTrue(is_array($aPlacements));
         $this->assertTrue(empty($aPlacements));
 
         // Test 2
-        $aPlacements = $allocateZoneImpressions->_getAllPlacements();
+        $aPlacements = $oAllocateZoneImpressions->_getAllPlacements();
         $this->assertTrue(is_array($aPlacements));
         $this->assertTrue(!empty($aPlacements));
         $this->assertEqual(count($aPlacements), 2);
@@ -231,12 +231,12 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $oDal->expectCallCount('getRequiredAdImpressions', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Prepare the AllocateZoneImpressions object for testing
-        $allocateZoneImpressions = new AllocateZoneImpressions();
+        // Prepare the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object for testing
+        $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
         $aAdverts = array();
-        $allocateZoneImpressions->_setRequiredImpressions($aAdverts);
+        $oAllocateZoneImpressions->_setRequiredImpressions($aAdverts);
         $this->assertTrue(is_array($aAdverts));
         $this->assertTrue(empty($aAdverts));
 
@@ -266,7 +266,7 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         );
         $oAd = new MAX_Entity_Ad($aAdParams);
         $aAdverts[] = $oAd;
-        $allocateZoneImpressions->_setRequiredImpressions($aAdverts);
+        $oAllocateZoneImpressions->_setRequiredImpressions($aAdverts);
         $this->assertTrue(is_array($aAdverts));
         $this->assertTrue(!empty($aAdverts));
         $this->assertEqual(count($aAdverts), 3);
@@ -284,7 +284,7 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $this->assertEqual($aAdverts[2]->requiredImpressions, 0);
 
         // Test 3
-        $allocateZoneImpressions->_setRequiredImpressions($aAdverts);
+        $oAllocateZoneImpressions->_setRequiredImpressions($aAdverts);
         $this->assertTrue(is_array($aAdverts));
         $this->assertTrue(!empty($aAdverts));
         $this->assertEqual(count($aAdverts), 3);
@@ -385,63 +385,63 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $oMaxDalEntities->expectCallCount('getAdsByPlacementId', 2);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
-        // Prepare the AllocateZoneImpressions object for testing
-        $allocateZoneImpressions = new AllocateZoneImpressions();
+        // Prepare the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object for testing
+        $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
-        $allocateZoneImpressions->_setPlacements();
-        $this->assertTrue(is_array($allocateZoneImpressions->aPlacements));
-        $this->assertTrue(!empty($allocateZoneImpressions->aPlacements));
-        $this->assertEqual(count($allocateZoneImpressions->aPlacements), 2);
-        $this->assertIsA($allocateZoneImpressions->aPlacements[0], 'MAX_Entity_Placement');
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->id, 1);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->impressionTargetTotal, 1000);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->clickTargetTotal, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->conversionTargetTotal, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->impressionTargetDaily, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->clickTargetDaily, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->conversionTargetDaily, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->priority, 5);
+        $oAllocateZoneImpressions->_setPlacements();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aPlacements));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements));
+        $this->assertEqual(count($oAllocateZoneImpressions->aPlacements), 2);
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0], 'MAX_Entity_Placement');
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->id, 1);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->impressionTargetTotal, 1000);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->clickTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->conversionTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->impressionTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->clickTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->conversionTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->priority, 5);
 
-        $this->assertTrue(is_array($allocateZoneImpressions->aPlacements[0]->aAds));
-        $this->assertTrue(!empty($allocateZoneImpressions->aPlacements[0]->aAds));
-        $this->assertEqual(count($allocateZoneImpressions->aPlacements[0]->aAds), 2);
-        $this->assertTrue(isset($allocateZoneImpressions->aPlacements[0]->aAds[0]));
-        $this->assertIsA($allocateZoneImpressions->aPlacements[0]->aAds[0], 'MAX_Entity_Ad');
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->aAds[0]->id, 1);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->aAds[0]->requiredImpressions, 1);
-        $this->assertTrue(isset($allocateZoneImpressions->aPlacements[0]->aAds[1]));
-        $this->assertIsA($allocateZoneImpressions->aPlacements[0]->aAds[1], 'MAX_Entity_Ad');
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->aAds[1]->id, 2);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[0]->aAds[1]->requiredImpressions, 9);
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aPlacements[0]->aAds));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements[0]->aAds));
+        $this->assertEqual(count($oAllocateZoneImpressions->aPlacements[0]->aAds), 2);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[0]->aAds[0]));
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[0], 'MAX_Entity_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[0]->id, 1);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[0]->requiredImpressions, 1);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[0]->aAds[1]));
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[1], 'MAX_Entity_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[1]->id, 2);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[1]->requiredImpressions, 9);
 
-        $this->assertIsA($allocateZoneImpressions->aPlacements[1], 'MAX_Entity_Placement');
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->id, 2);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->impressionTargetTotal, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->clickTargetTotal, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->conversionTargetTotal, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->impressionTargetDaily, 1000);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->clickTargetDaily, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->conversionTargetDaily, 0);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->priority, 4);
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1], 'MAX_Entity_Placement');
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->id, 2);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->impressionTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->clickTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->conversionTargetTotal, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->impressionTargetDaily, 1000);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->clickTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->conversionTargetDaily, 0);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->priority, 4);
 
-        $this->assertTrue(is_array($allocateZoneImpressions->aPlacements[1]->aAds));
-        $this->assertTrue(!empty($allocateZoneImpressions->aPlacements[1]->aAds));
-        $this->assertEqual(count($allocateZoneImpressions->aPlacements[1]->aAds), 2);
-        $this->assertTrue(isset($allocateZoneImpressions->aPlacements[1]->aAds[0]));
-        $this->assertIsA($allocateZoneImpressions->aPlacements[1]->aAds[0], 'MAX_Entity_Ad');
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->aAds[0]->id, 3);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->aAds[0]->requiredImpressions, 5);
-        $this->assertTrue(isset($allocateZoneImpressions->aPlacements[1]->aAds[1]));
-        $this->assertIsA($allocateZoneImpressions->aPlacements[1]->aAds[1], 'MAX_Entity_Ad');
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->aAds[1]->id, 4);
-        $this->assertEqual($allocateZoneImpressions->aPlacements[1]->aAds[1]->requiredImpressions, 0);
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aPlacements[1]->aAds));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements[1]->aAds));
+        $this->assertEqual(count($oAllocateZoneImpressions->aPlacements[1]->aAds), 2);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[1]->aAds[0]));
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[0], 'MAX_Entity_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[0]->id, 3);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[0]->requiredImpressions, 5);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[1]->aAds[1]));
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[1], 'MAX_Entity_Ad');
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[1]->id, 4);
+        $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[1]->requiredImpressions, 0);
     }
 
     /**
      * A method to test the _setAdZoneAssociations() method.
      *
-     * Test 1: Test with no Placements set in the AllocateZoneImpressions object.
+     * Test 1: Test with no Placements set in the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object.
      * Test 2: Test with a Placement, but no Advert objects.
      * Test 3: Test with a Placement and Advert objects, but no ad/zone associations.
      * Test 4: Test with a Placement and Advert objects, and ad/zone associations.
@@ -467,13 +467,13 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $oDal->expectCallCount('getAdZoneAssociationsByAds', 2);
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
-        // Prepare the AllocateZoneImpressions object for testing
-        $allocateZoneImpressions = new AllocateZoneImpressions();
+        // Prepare the OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions object for testing
+        $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
 
         // Test 1
-        $allocateZoneImpressions->_setAdZoneAssociations();
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations));
-        $this->assertTrue(empty($allocateZoneImpressions->aAdZoneAssociations));
+        $oAllocateZoneImpressions->_setAdZoneAssociations();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations));
+        $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));
 
         // Test 2
         $oPlacement = new MAX_Entity_Placement(
@@ -489,10 +489,10 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
                 'priority'          => 5
             )
         );
-        $allocateZoneImpressions->aPlacements[] = $oPlacement;
-        $allocateZoneImpressions->_setAdZoneAssociations();
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations));
-        $this->assertTrue(empty($allocateZoneImpressions->aAdZoneAssociations));
+        $oAllocateZoneImpressions->aPlacements[] = $oPlacement;
+        $oAllocateZoneImpressions->_setAdZoneAssociations();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations));
+        $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));
 
         // Test 3
         $aAdverts = array();
@@ -500,45 +500,45 @@ class TestOfPriorityAdserverAllocateZoneImpressions extends UnitTestCase
         $aAdverts[] = $oAd;
         $oAd = new MAX_Entity_Ad(array('ad_id' => 2));
         $aAdverts[] = $oAd;
-        $allocateZoneImpressions->aPlacements[0]->aAds = $aAdverts;
-        $allocateZoneImpressions->_setAdZoneAssociations();
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations));
-        $this->assertTrue(empty($allocateZoneImpressions->aAdZoneAssociations));
+        $oAllocateZoneImpressions->aPlacements[0]->aAds = $aAdverts;
+        $oAllocateZoneImpressions->_setAdZoneAssociations();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations));
+        $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));
 
         // Test 4
-        $allocateZoneImpressions->_setAdZoneAssociations();
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations));
-        $this->assertEqual(count($allocateZoneImpressions->aAdZoneAssociations), 1);
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations[1]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations[1]));
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][1]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations[1][1]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations[1][1]));
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][1][0]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations[1][1][0]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations[1][1][0]));
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][1][0]['zone_id']));
-        $this->assertEqual($allocateZoneImpressions->aAdZoneAssociations[1][1][0]['zone_id'], 5);
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][1][1]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations[1][1][1]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations[1][1][1]));
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][1][1]['zone_id']));
-        $this->assertEqual($allocateZoneImpressions->aAdZoneAssociations[1][1][1]['zone_id'], 6);
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][1][2]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations[1][1][2]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations[1][1][2]));
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][1][2]['zone_id']));
-        $this->assertEqual($allocateZoneImpressions->aAdZoneAssociations[1][1][2]['zone_id'], 7);
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][2]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations[1][2]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations[1][2]));
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][2][0]));
-        $this->assertTrue(is_array($allocateZoneImpressions->aAdZoneAssociations[1][2][0]));
-        $this->assertTrue(!empty($allocateZoneImpressions->aAdZoneAssociations[1][2][0]));
-        $this->assertTrue(isset($allocateZoneImpressions->aAdZoneAssociations[1][2][0]['zone_id']));
-        $this->assertEqual($allocateZoneImpressions->aAdZoneAssociations[1][2][0]['zone_id'], 5);
+        $oAllocateZoneImpressions->_setAdZoneAssociations();
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations));
+        $this->assertEqual(count($oAllocateZoneImpressions->aAdZoneAssociations), 1);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations[1]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations[1]));
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][1]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations[1][1]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations[1][1]));
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][1][0]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations[1][1][0]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations[1][1][0]));
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][1][0]['zone_id']));
+        $this->assertEqual($oAllocateZoneImpressions->aAdZoneAssociations[1][1][0]['zone_id'], 5);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][1][1]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations[1][1][1]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations[1][1][1]));
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][1][1]['zone_id']));
+        $this->assertEqual($oAllocateZoneImpressions->aAdZoneAssociations[1][1][1]['zone_id'], 6);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][1][2]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations[1][1][2]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations[1][1][2]));
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][1][2]['zone_id']));
+        $this->assertEqual($oAllocateZoneImpressions->aAdZoneAssociations[1][1][2]['zone_id'], 7);
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][2]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations[1][2]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations[1][2]));
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][2][0]));
+        $this->assertTrue(is_array($oAllocateZoneImpressions->aAdZoneAssociations[1][2][0]));
+        $this->assertTrue(!empty($oAllocateZoneImpressions->aAdZoneAssociations[1][2][0]));
+        $this->assertTrue(isset($oAllocateZoneImpressions->aAdZoneAssociations[1][2][0]['zone_id']));
+        $this->assertEqual($oAllocateZoneImpressions->aAdZoneAssociations[1][2][0]['zone_id'], 5);
     }
 
 }

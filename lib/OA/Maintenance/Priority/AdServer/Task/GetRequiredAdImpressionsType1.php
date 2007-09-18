@@ -25,60 +25,77 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressions.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressions.php';
 
 /**
  * A class used to calculate the number of required advertisements in the next
  * operation interval for each ad, such that the ad will meet its delivery
  * requirements.
  *
- * This class is for advertisements in campaigns with a Manual Daily Limit.
- * The required impressions are calculated using the following algorithm:
+ * This class is for advertisements in campaigns with Inventory Requirements and
+ * a Campaign Expiration Date. The required impressions are calculated using the
+ * following algorithm:
  *
- * - If the advertisement is in a campaign that has Manual Daily Click and/or Manual Daily
- *   Connection/Conversion Limit, then calculate the campaign's Click Through Ratio and/or
+ * - If the advertisement is in a campaign that has Click and/or Connection/Conversion
+ *   Inventory Requirements, then calculate the campaign's Click Through Ratio and/or
  *   Connection/Conversion Ratio as required, and convert the campaign's remaining
- *   Manual Daily Click and/or Connection/Conversion Limits into an equivalent Manual
- *   Daily Impression Inventory Limit.
- * - Using the smallest of the real or calculated Manual Daily Impression Limit values,
+ *   Click and/or Connection/Conversion Inventory Requirements into an equivalent
+ *   Impression Inventory Requirement.
+ * - Using the smallest of the real or calculated Impression Inventory Requirement values,
  *   distribute the required impressions between the campaign's advertisements, on the
  *   basis of the campaign's advertisement's weights.
  * - For each advertisement, divide the number of impressions allocated equally between
- *   the available operation intervals remaining in the day. Do not include any operation
- *   intervals where the advertisement has been blocked from delivering (ie. a Day, Time,
- *   or Date Delivery Limitation exists). The number of impressions for each remaining
- *   operation interval will be the number of impressions required for the next operation
- *   interval, unless the advertisement is blocked from delivering in the next operation
- *   interval, in which case the required impressions for the next operation interval will
- *   be zero.
+ *   the available operation intervals remaining in the day(s) before the end of the
+ *   campaign. Do not include any operation intervals where the advertisement has been
+ *   blocked from delivering (ie. a Day, Time, or Date Delivery Limitation exists). The
+ *   number of impressions for each remaining operation interval will be the number of
+ *   impressions required for the next operation interval, unless the advertisement is
+ *   blocked from delivering in the next operation interval, in which case the required
+ *   impressions for the next operation interval will be zero.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Demian Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class GetRequiredAdImpressionsType2 extends MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions
+class GetRequiredAdImpressionsType1 extends OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions
 {
+
+    /**
+     * A variable for storing a local instance of the
+     * Openads_Table_Priority class.
+     *
+     * @var Openads_Table_Priority
+     */
+    var $oTable;
+
+    /**
+     * For storing weekly zone impression forecasts, if zone patterning
+     * is used, to save on database queries.
+     *
+     * @var array
+     */
+    var $aZoneForecasts;
 
     /**
      * The class constructor method.
      *
-     * @return GetRequiredAdImpressionsType2
+     * @return GetRequiredAdImpressionsType1
      */
-    function GetRequiredAdImpressionsType2()
+    function GetRequiredAdImpressionsType1()
     {
         parent::MAX_Maintenance_Priority_Common_Task_GetRequiredAdImpressions();
-        $this->type = 'a daily target is set';
+        $this->type = 'campaign lifetime target(s) and end date are set';
     }
 
     /**
      * A method that uses the getAllPlacements() method to obtain all placements
      * that meet the requirements of this class. That is:
      *
+     * - The placement has an expiration date (that is not already passed); and
+     * - As a result of the above, the placement must have an activation date that has
+     *   passed, or has the default fake activation date; and
      * - The placement is active, and has a priority of at least 1; and
-     * - The placement has daily inventory requirements.
+     * - The placement has inventory requirements for the duration of its activation.
      *
      * @access private
      * @return array An array of {@link MAX_Entity_Placement} objects.
@@ -86,20 +103,26 @@ class GetRequiredAdImpressionsType2 extends MAX_Maintenance_Priority_AdServer_Ta
     function _getValidPlacements()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
+        // Get current date
+        $oDate = $this->_getDate();
+        $dateYMD = $oDate->format('%Y-%m-%d');
         $oDbh = OA_DB::singleton();
         $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['campaigns'],true);
+
         $aWheres = array(
-            array("($table.target_impression >= 0 OR $table.target_click >= 0 OR $table.target_conversion >= 0)", 'AND'),
+            array("($table.activate " . OA_Dal::equalNoDateString() . " OR $table.activate <= '$dateYMD')", 'AND'),
+            array("$table.expire >= '$dateYMD'", 'AND'),
             array("$table.priority >= 1", 'AND'),
-            array("$table.active = 't'", 'AND')
+            array("$table.active = 't'", 'AND'),
+            array("($table.views > 0 OR $table.clicks > 0 OR $table.conversions > 0)", 'AND')
         );
         return $this->_getAllPlacements(array(), $aWheres);
     }
 
     /**
      * Method to estimate the impressions required to fulfill a given
-     * placement daily impression, click, or conversion requirement. If more
-     * than one requirement exists the smallest calculated impression
+     * placement lifetime impression, click, or conversion requirement. If
+     * more than one requirement exists the smallest calculated impression
      * requirement will be returned.
      *
      * The $oPlacement parameter is passed by reference and will have
@@ -110,7 +133,7 @@ class GetRequiredAdImpressionsType2 extends MAX_Maintenance_Priority_AdServer_Ta
      */
     function getPlacementImpressionInventoryRequirement(&$oPlacement)
     {
-        parent::getPlacementImpressionInventoryRequirement($oPlacement, 'daily');
+        parent::getPlacementImpressionInventoryRequirement($oPlacement, 'total');
     }
 
 }

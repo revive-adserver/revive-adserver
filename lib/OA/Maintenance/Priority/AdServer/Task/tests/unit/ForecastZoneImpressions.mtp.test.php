@@ -25,20 +25,19 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for testing the Maintenance_Priority_DeliveryLimitation class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill   <andrew@m3.net>
- * @author     Demian Turner <demian@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
 {
@@ -97,7 +96,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
 
         // Test 1
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->mtceStatsLastRun->oUpdatedToDate    = null;
         $oTask->mtcePriorityLastRun->oUpdatedToDate = null;
         $result = $oTask->getUpdateTypeRequired();
@@ -105,7 +104,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         unset($oTask);
 
         // Test 2
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->mtceStatsLastRun->oUpdatedToDate    = new Date();
         $oTask->mtcePriorityLastRun->oUpdatedToDate = null;
         $result = $oTask->getUpdateTypeRequired();
@@ -113,7 +112,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         unset($oTask);
 
         // Test 3
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->mtceStatsLastRun->oUpdatedToDate    = null;
         $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
         $result = $oTask->getUpdateTypeRequired();
@@ -121,7 +120,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         unset($oTask);
 
         // Test 4
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->mtceStatsLastRun->oUpdatedToDate    = new Date();
         $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
         $testOperationInterval = $conf['maintenance']['operationInterval'] + 1;
@@ -131,7 +130,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         unset($oTask);
 
         // Test 5
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oDate = new Date();
         $oTask->oDateNow = new Date();$oDate;
         $oTask->oDateNow->copy($oDate);
@@ -146,7 +145,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         unset($oTask);
 
         // Test 6
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oDate = new Date();
         $oTask->oDateNow = new Date();$oDate;
         $oTask->oDateNow->copy($oDate);
@@ -160,7 +159,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $this->assertIdentical($result, true);
         unset($oTask);
 
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oDate = new Date();
         $oTask->oDateNow = new Date();$oDate;
         $oTask->oDateNow->copy($oDate);
@@ -175,7 +174,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         unset($oTask);
 
         // Test 7
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oDate = new Date('2006-10-10 12:59:59');
         $oTask->oDateNow = $oDate;
         $oTask->mtceStatsLastRun->oUpdatedToDate    = $oDate;
@@ -188,7 +187,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $this->assertEqual($result[1], 61);
         unset($oTask);
 
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oDate = new Date('2006-10-08 12:59:59');
         $oTask->oDateNow = $oDate;
         $oTask->mtceStatsLastRun->oUpdatedToDate    = $oDate;
@@ -220,7 +219,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         // Test 1
         $oDate = new Date('2006-10-07 23:07:01');
         $oServiceLocator->register('now', $oDate);
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $type = true;
         $result = $oTask->getOperationIntRangeByType($type);
         $this->assertTrue(is_array($result));
@@ -239,7 +238,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
 
         $oDate = new Date('2006-10-08 23:07:01');
         $oServiceLocator->register('now', $oDate);
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $type = true;
         $result = $oTask->getOperationIntRangeByType($type);
         $this->assertTrue(is_array($result));
@@ -266,7 +265,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         // Test 2
         $oDate = new Date('2006-10-07 23:07:01');
         $oServiceLocator->register('now', $oDate);
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date('2006-10-08 00:59:59');
         $oTask->mtcePriorityLastRun->oUpdatedToDate->addSeconds(23 * OA_OperationInterval::secondsPerOperationInterval());
         $type = array(23, 56);
@@ -288,7 +287,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         // Test 3
         $oDate = new Date('2006-10-08 23:07:01');
         $oServiceLocator->register('now', $oDate);
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date('2006-10-01 00:59:59');
         $oTask->mtcePriorityLastRun->oUpdatedToDate->addSeconds(112 * OA_OperationInterval::secondsPerOperationInterval());
         $type = array(112, 23);
@@ -333,7 +332,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
     function testCalculateForecast()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
 
         // Test 1
         $oZone = new Zone();
@@ -456,7 +455,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDalMaintenancePriority);
 
         // Get the task, and test
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $aResult = $oTask->getActiveZones();
         foreach ($aResult as $key => $oZone) {
             $this->assertIsA($oZone, 'Zone');
@@ -508,7 +507,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oEnd   = new Date('2005-01-01 02:00:00');
 
         // Get the task, and test
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oTask->setZonesImpressionAverage($aZone, $oStart, $oEnd);
         foreach ($aZone as $key => $oZone) {
             $this->assertEqual($oZone->aOperationIntId[0]['averageImpressions'], (($key + 1) * 100));
@@ -524,7 +523,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
      */
     function testGetTrendOperationIntervalStartOffset()
     {
-        $oTask = new ForecastZoneImpressions();
+        $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $offsetStart = (ZONE_FORECAST_TREND_OFFSET + ZONE_FORECAST_TREND_OPERATION_INTERVALS - 1);
         $result = $oTask->getTrendOperationIntervalStartOffset();
         $this->assertEqual($result, $offsetStart);
