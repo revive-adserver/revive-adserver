@@ -1550,9 +1550,8 @@ $affiliateCache = array();
 function MAX_limitationsCheckAcl($row, $source = '')
 {
 if (!empty($row['compiledlimitation'])) {
-static $aIncludedPlugins;
-if (!isset($aIncludedPlugins)) {
-$aIncludedPlugins = array();
+if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'])) {
+$GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = array();
 }
 // Set to true in case of error in eval
 $result = true;
@@ -1562,9 +1561,9 @@ $acl_plugins = explode(',', $row['acl_plugins']);
 foreach ($acl_plugins as $acl_plugin) {
 list($package, $name) = explode(':', $acl_plugin);
 $pluginName = MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php";
-if (!isset($aIncludedPlugins[$pluginName])) {
+if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
 require($pluginName);
-$aIncludedPlugins[$pluginName] = true;
+$GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
 }
 }
 }
