@@ -48,7 +48,9 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
 	if (empty($limitation)) {
 		return true;
 	}
-
+    if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'])) {
+        $GLOBALS['_MAX']['FILES']['aIncludedPlugins'] = array();
+    }
 	$aLimitations = MAX_cacheGetChannelLimitations($limitation);
 
     // Include required deliveryLimitation files...
@@ -56,7 +58,11 @@ function MAX_checkSite_Channel($limitation, $op, $aParams = array())
         $acl_plugins = explode(',', $aLimitations['acl_plugins']);
         foreach ($acl_plugins as $acl_plugin) {
             list($package, $name) = explode(':', $acl_plugin);
-            require_once(MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php");
+            $pluginName = MAX_PATH . "/plugins/deliveryLimitations/{$package}/{$name}.delivery.php";
+            if (!isset($GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName])) {
+                require($pluginName);
+                $GLOBALS['_MAX']['FILES']['aIncludedPlugins'][$pluginName] = true;
+            }
         }
     }
     $result = true; // Set to true in case of error in eval
