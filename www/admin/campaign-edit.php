@@ -34,7 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
@@ -262,7 +262,7 @@ if (isset($submit)) {
             switch(true) {
             case ($active != $active_old):
                 // Run the Maintenance Priority Engine process
-                MAX_Maintenance_Priority::scheduleRun();
+                OA_Maintenance_Priority::scheduleRun();
                 break;
             case ($active == 't'):
                 if ((!empty($target_type_variable) && ${$target_type_variable} != $target_old)
@@ -272,7 +272,7 @@ if (isset($submit)) {
                     || $conversions != $previousconversions
                     || $impressions != $previousimpressions) {
                     // Run the Maintenance Priority Engine process
-                    MAX_Maintenance_Priority::scheduleRun();
+                    OA_Maintenance_Priority::scheduleRun();
                 }
                 break;
             }

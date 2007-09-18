@@ -34,11 +34,11 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * A wrapper class for running the Maintenance Priority Engine process.
  *
  * @static
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Maintenance_Priority
+class OA_Maintenance_Priority
 {
 
     /**
@@ -93,10 +93,10 @@ class MAX_Maintenance_Priority
         // Run the MPE process for the AdServer module ONLY (at this stage :-)
         foreach ($conf['modules'] as $module => $installed) {
             if (($module == 'AdServer') && $installed) {
-                // Create the MAX_Maintenance_Priority_AdServer class,
+                // Create the OA_Maintenance_Priority_AdServer class,
                 // and run the prioritisation process
-                require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
-                $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
+                require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
+                $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
                 $result = $oMaintenancePriority->updatePriorities();
                 if ($result === false) {
                     return false;

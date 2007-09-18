@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Register input variables
 phpAds_registerGlobal ('value');
@@ -92,7 +92,7 @@ if (phpAds_isUser(phpAds_Client))
             $doBanners->update();
 
 			// Run the Maintenance Priority Engine process
-            MAX_Maintenance_Priority::run();
+            OA_Maintenance_Priority::run();
 
 			// Rebuild cache
 			// require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
@@ -127,7 +127,7 @@ elseif (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 	}
 
 	// Run the Maintenance Priority Engine process
-    MAX_Maintenance_Priority::scheduleRun();
+    OA_Maintenance_Priority::scheduleRun();
 
 	// Rebuild cache
 	// require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';

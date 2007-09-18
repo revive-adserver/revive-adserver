@@ -35,7 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -45,7 +45,7 @@ phpAds_checkAccess(phpAds_Admin);
 /*-------------------------------------------------------*/
 
 // Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::run();
+OA_Maintenance_Priority::run();
 
 // Rebuild cache
 // include_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';

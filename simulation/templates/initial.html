@@ -39,7 +39,7 @@
         <li>Delivery engine output, including cookies and headers, are stopped during simulation. Cookies are 'faked' by manipulating the global cookie array.</li>
         <li>Each request is mimicked by calling the MAX_adSelect() function with user-defined parameters which have been stored in a .php file.  Currently, only a single type of request is used throughout the simulation.</li>
         <li>After each request the result is recorded, success or fail, and if a beacon is present in the delivered ad a call to the logging script, lg.php, is made.  Cookies are packed / flushed and the time is incremented by an hour.</li>
-        <li>At the end of each iteration (hour), the data_summary_ad_hourly is updated withe delivery results and the values are reported.  Then an instance of MAX_Maintenance_Priority_AdServer invokes method updatePriorities.  When the priority engine has finished the simulation reports the new priorities from ad_zone_assoc</li>
+        <li>At the end of each iteration (hour), the data_summary_ad_hourly is updated withe delivery results and the values are reported.  Then an instance of OA_Maintenance_Priority_AdServer invokes method updatePriorities.  When the priority engine has finished the simulation reports the new priorities from ad_zone_assoc</li>
         </ul>
     <h2>Wish List</h2>
     <ul>

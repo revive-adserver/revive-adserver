@@ -26,9 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/variables.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/pear/Date/Span.php';
@@ -136,7 +136,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
         $oDate = new Date('2005-06-15 13:01:01');
         $this->oServiceLocator->register('now', $oDate);
         // Test 1: Prepare the MPE object
-        $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
+        $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
         // Test 1: Store the date before the MPE runs
         $oTest1BeforeUpdateDate = new Date();
         sleep(1); // Ensure that next date is at least 1 second after above...
@@ -323,7 +323,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
         $oDate = new Date('2005-06-15 14:01:01');
         $this->oServiceLocator->register('now', $oDate);
         // Test 2: Prepare the MPE object
-        $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
+        $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
         // Test 2: Store the date before the MPE runs
         $oTest2BeforeUpdateDate = new Date();
         sleep(1); // Ensure that next date is at least 1 second after above...
@@ -510,7 +510,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
         $oDate = new Date('2005-06-19 00:01:01');
         $this->oServiceLocator->register('now', $oDate);
         // Test 3: Prepare the MPE object
-        $oMaintenancePriority = new MAX_Maintenance_Priority_AdServer();
+        $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
         // Test 3: Store the date before the MPE runs
         $oTest3BeforeUpdateDate = new Date();
         sleep(1); // Ensure that next date is at least 1 second after above...

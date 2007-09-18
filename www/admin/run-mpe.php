@@ -46,9 +46,9 @@ if (!ini_get('safe_mode')) {
     @ignore_user_abort(true);
 }
 
-require_once MAX_PATH .'/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
-MAX_Maintenance_Priority::run();
+OA_Maintenance_Priority::run();
 
 // Get and clean output buffer
 $buffer = ob_get_clean();

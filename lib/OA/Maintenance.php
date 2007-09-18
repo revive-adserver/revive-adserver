@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
@@ -39,6 +38,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -156,7 +156,7 @@ class OA_Maintenance
      */
     function runMPE()
     {
-        MAX_Maintenance_Priority::run(true);
+        OA_Maintenance_Priority::run(true);
     }
 
     /**

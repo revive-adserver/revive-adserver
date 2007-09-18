@@ -31,15 +31,15 @@ class Test_ForkOf_MAX_Maintenanace_Priority
 {
     function testForkRun()
     {
-        require_once MAX_PATH .'/lib/max/Maintenance/Priority.php';
+        require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
         $pid = pcntl_fork();
         if ($pid == -1) {
             // something bad happened
         } else if ($pid == 0) {
-            $resultChild = MAX_Maintenance_Priority::run();
+            $resultChild = OA_Maintenance_Priority::run();
         } else {
-            $resultParent = MAX_Maintenance_Priority::run();
+            $resultParent = OA_Maintenance_Priority::run();
         }
 
         (isset($resultParent) && $resultParent === true) ? exit : exit(1);

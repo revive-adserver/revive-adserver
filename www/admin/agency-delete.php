@@ -39,7 +39,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once 'DB/DataObject.php';
 
 // Register input variables
@@ -59,7 +59,7 @@ if (!empty($agencyid)) {
 }
 
 // Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::scheduleRun();
+OA_Maintenance_Priority::scheduleRun();
 
 // Rebuild cache
 // phpAds_cacheDelete();

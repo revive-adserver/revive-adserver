@@ -33,11 +33,11 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityComp
 require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
 /**
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Maintenance_Priority_AdServer
+class OA_Maintenance_Priority_AdServer
 {
 
     /**
@@ -50,7 +50,7 @@ class MAX_Maintenance_Priority_AdServer
     /**
      * The constructor method.
      */
-    function MAX_Maintenance_Priority_AdServer()
+    function OA_Maintenance_Priority_AdServer()
     {
         // Create the task runner object, for running the MPE tasks
         $this->oTaskRunner = new OA_Task_Runner();

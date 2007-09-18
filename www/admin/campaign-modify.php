@@ -37,7 +37,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 include_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 
 // Register input variables

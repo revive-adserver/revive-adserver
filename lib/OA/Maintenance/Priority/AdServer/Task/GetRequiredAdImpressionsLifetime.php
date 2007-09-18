@@ -67,7 +67,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime ext
      */
     function OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime()
     {
-        parent::MAX_Maintenance_Priority_Common_Task_GetRequiredAdImpressions();
+        parent::OA_Maintenance_Priority_Common_Task_GetRequiredAdImpressions();
         $this->type = 'campaign lifetime target(s) and end date are set';
     }
 

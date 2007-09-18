@@ -32,9 +32,9 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
@@ -68,7 +68,7 @@ if (!empty($clientid)) {
 }
 
 // Run the Maintenance Priority Engine process
-MAX_Maintenance_Priority::scheduleRun();
+OA_Maintenance_Priority::scheduleRun();
 
 // Rebuild cache
 // require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';

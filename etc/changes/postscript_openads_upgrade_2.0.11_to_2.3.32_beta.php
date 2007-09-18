@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 class OA_UpgradePostscript
 {
@@ -43,7 +43,7 @@ class OA_UpgradePostscript
         {
             return false;
         }
-        if (!MAX_Maintenance_Priority::run())
+        if (!OA_Maintenance_Priority::run())
         {
             return false;
         }

@@ -24,7 +24,7 @@
 $Id$
 */
 
-require_once MAX_PATH .'/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 /**
  * @package    MaxMaintenance
@@ -32,13 +32,13 @@ require_once MAX_PATH .'/lib/max/Maintenance/Priority.php';
  * @author     Alexander J. Tarachanowicz <aj.tarachanowicz@openads.org>
  */
 
-class Test_MAX_Maintenance_Priority extends UnitTestCase
+class Test_OA_Maintenance_Priority extends UnitTestCase
 {
     function xtestRun()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $result = MAX_Maintenance_Priority::run();
+        $result = OA_Maintenance_Priority::run();
         $this->assertTrue($result);
 
         $phpPath    = $aConf['test']['phpPath'] .' -f';

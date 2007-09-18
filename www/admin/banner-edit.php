@@ -47,7 +47,7 @@ require_once MAX_PATH . '/www/admin/lib-swf.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 // Load plugins
 $invPlugins = &MAX_Plugin::getPlugins('inventoryProperties');
@@ -248,7 +248,7 @@ if (isset($submit)) {
     } else {
         $bannerid = $doBanners->insert();
         // Run the Maintenance Priority Engine process
-        MAX_Maintenance_Priority::scheduleRun();
+        OA_Maintenance_Priority::scheduleRun();
     }
 
     // Determine what the next page is

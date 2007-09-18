@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
     // Security check
     phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
@@ -106,7 +106,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 
         if ($prioritise) {
             // Run the Maintenance Priority Engine process
-            MAX_Maintenance_Priority::scheduleRun();
+            OA_Maintenance_Priority::scheduleRun();
         }
 
         // Move on to the next page
