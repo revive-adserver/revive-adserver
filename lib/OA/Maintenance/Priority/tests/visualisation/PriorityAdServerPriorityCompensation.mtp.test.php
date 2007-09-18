@@ -37,9 +37,9 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
 /**
  * A class for testing the OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends UnitTestCase
 {

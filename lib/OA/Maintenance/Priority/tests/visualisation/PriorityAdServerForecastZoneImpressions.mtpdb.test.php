@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
 /**
  * A class for testing the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
  */

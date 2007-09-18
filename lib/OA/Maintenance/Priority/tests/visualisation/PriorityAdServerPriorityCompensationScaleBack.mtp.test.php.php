@@ -39,9 +39,9 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
  * OA_Maintenance_Priority_AdServer_Task_PriorityCompensation class happens
  * quickly enough to prevent over-delivery.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack extends UnitTestCase
 {

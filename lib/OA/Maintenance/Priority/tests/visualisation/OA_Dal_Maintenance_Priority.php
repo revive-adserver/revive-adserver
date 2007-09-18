@@ -32,9 +32,9 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  * saveZoneImpressionForecasts() method, so that the results of zone
  * forecasts can be inspected without accessing the database.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Dal_Maintenance_Test_ForecastZoneImpressions extends OA_Dal_Maintenance_Priority
 {

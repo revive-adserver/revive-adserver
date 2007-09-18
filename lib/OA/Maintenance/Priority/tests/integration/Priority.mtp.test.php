@@ -34,14 +34,14 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/pear/Date/Span.php';
 
 /**
- * A class for performing an integration test of the Prioritisation Engine
- * via a test of the AdServer class.
+ * A class for performing an integration test of the Maintenance
+ * Prioritisation Engine via a test of the AdServer class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
+class Test_Priority extends UnitTestCase
 {
     /**
      * A local instance of the database handler object.
@@ -67,7 +67,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfMaintenancePriorityAdServer()
+    function Test_Priority()
     {
         $this->UnitTestCase();
     }
