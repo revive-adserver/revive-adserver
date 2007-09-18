@@ -25,12 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for testing the Maintenance_Priority_DeliveryLimitation class.
@@ -58,8 +58,8 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
      */
     function setUp()
     {
-        $oServiceLocator = &ServiceLocator::instance();
-        $oDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!is_a($oDalMaintenancePriority, 'MockOA_Dal_Maintenance_Priority')) {
             $oDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
             $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDalMaintenancePriority);
@@ -72,8 +72,8 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
      */
     function tearDown()
     {
-        $oServiceLocator = &ServiceLocator::instance();
-        $oDalMaintenancePriority = &$oServiceLocator->remove('OA_Dal_Maintenance_Priority');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDalMaintenancePriority =& $oServiceLocator->remove('OA_Dal_Maintenance_Priority');
     }
 
     /**
@@ -212,9 +212,9 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
      */
     function testGetOperationIntRangeByType()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $intervals = OA_OperationInterval::operationIntervalsPerWeek();
 
         // Test 1
@@ -452,7 +452,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oDalMaintenancePriority->setReturnValue('getActiveZones', $aTestZones);
 
         // Register the mocked OA_Dal_Maintenance_Priority in the service locator
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDalMaintenancePriority);
 
         // Get the task, and test
@@ -500,7 +500,7 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         );
 
         // Register the mocked OA_Dal_Maintenance_Priority in the service locator
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDalMaintenancePriority);
 
         // Prepare start and end dates

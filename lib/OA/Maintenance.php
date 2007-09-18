@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
@@ -41,7 +40,8 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A library class for providing common maintenance process methods.
@@ -93,9 +93,9 @@ class OA_Maintenance
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
 
-            // Record the current time, and register with the ServiceLocator
+            // Record the current time, and register with the OA_ServiceLocator
             $oDate = new Date();
-            $oServiceLocator = &ServiceLocator::instance();
+            $oServiceLocator =& OA_ServiceLocator::instance();
             $oServiceLocator->register('now', $oDate);
 
             // Check the operation interval is valid

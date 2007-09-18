@@ -65,7 +65,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
@@ -356,7 +356,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
@@ -459,7 +459,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class
@@ -804,7 +804,7 @@ class Maintenance_TestOfPriorityCompensation extends UnitTestCase
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new $this->mockDal($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         // Partially mock the PriorityCompensation class

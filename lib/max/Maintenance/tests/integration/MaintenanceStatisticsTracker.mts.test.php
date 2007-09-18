@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker.php';
 
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 // pgsql execution time before refactor: s
 // pgsql execution time after refactor: 3.9714s
@@ -321,7 +321,7 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
 
         // Set the "current" time
         $oDateNow = new Date('2004-11-28 12:00:00');
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oDateNow);
         // Create and run the class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_Tracker();

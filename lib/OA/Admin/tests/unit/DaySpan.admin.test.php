@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the OA_Admin_DaySpan class.

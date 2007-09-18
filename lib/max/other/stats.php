@@ -25,12 +25,12 @@
 $Id$
 */
 
-    require_once 'Date.php';
+    require_once MAX_PATH . '/lib/pear/Date.php';
 
     function MAX_getDatesByPeriod($period, $period_start = 0, $period_end = 0)
     {
    		require_once MAX_PATH . '/lib/max/Admin/UI/FieldFactory.php';
-   
+
 		$oDaySpan = &FieldFactory::newField('day-span');
 		$oDaySpan->_name = 'period';
     	$oDaySpan->setValueFromArray(array('period_preset' => $period, 'period_start' => $period_start, 'period_end' => $period_end));

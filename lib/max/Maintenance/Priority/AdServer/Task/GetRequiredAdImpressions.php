@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
@@ -33,6 +32,7 @@ require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
@@ -117,7 +117,7 @@ class MAX_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends MA
         if (!empty($date)) {
             return new Date($date);
         }
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDateNow = &$oServiceLocator->get('now');
         if (!$oDateNow) {
             $oDateNow = new Date();

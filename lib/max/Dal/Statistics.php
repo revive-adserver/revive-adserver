@@ -28,7 +28,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * The non-DB specific Common Data Access Layer (DAL) class for obtaining

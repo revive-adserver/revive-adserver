@@ -25,16 +25,16 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
-require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 require_once 'DB/QueryTool.php';
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 // pgsql execution time before refactor: 119.06s
 // pgsql execution time after refactor: 29.233s
@@ -120,7 +120,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $result = &$oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertFalse($result);
@@ -251,7 +251,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
 
         // Test 1
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $result = &$oMaxDalMaintenance->getAllZonesImpInv();
         $this->assertFalse($result);

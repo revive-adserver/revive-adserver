@@ -25,9 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
 require_once MAX_PATH . '/lib/max/Plugin/DeliveryLimitations/MatchOverlap.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/plugins/deliveryLimitations/Time/Hour.plugin.php';
 
 /**
@@ -103,7 +104,7 @@ class Maintenance_TestOfMAX_Plugin_DeliveryLimitations_MatchOverlap extends Unit
         $oMaxDalEntities->expectArgumentsAt(0, 'getDeliveryLimitationsByAdId', array(1));
         $oMaxDalEntities->expectCallCount('getDeliveryLimitationsByAdId', 1);
 
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
         $oMaxPluginDeliveryLimitationsMatchOverlap = new MAX_Plugin_DeliveryLimitations_MatchOverlap();
@@ -449,7 +450,7 @@ class Maintenance_TestOfMAX_Plugin_DeliveryLimitations_MatchOverlap extends Unit
         $oMaxDalEntities->expectArgumentsAt(0, 'getDeliveryLimitationsByChannelId', array(1));
         $oMaxDalEntities->expectCallCount('getDeliveryLimitationsByChannelId', 1);
 
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
 
         $oMaxPluginDeliveryLimitationsMatchOverlap = new MAX_Plugin_DeliveryLimitations_MatchOverlap();

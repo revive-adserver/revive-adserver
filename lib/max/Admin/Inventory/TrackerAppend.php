@@ -27,8 +27,9 @@ $Id$
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/Inventory/Trackers.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-require_once 'HTML/Template/Flexy.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/HTML/Template/Flexy.php';
 
 
 
@@ -71,7 +72,7 @@ class MAX_Admin_Inventory_TrackerAppend
 
     function _useDefaultDal()
     {
-        $oServiceLocator = ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $dal =& $oServiceLocator->get('MAX_Dal_Inventory_Trackers');
         if (!$dal) {
             $dal = new MAX_Dal_Inventory_Trackers();

@@ -27,11 +27,11 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Entity.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * An entity class used to represent placements (used to be campaigns).
@@ -262,8 +262,8 @@ class MAX_Entity_Placement extends MAX_Entity
      */
     function &_getMAX_Dal_Entities()
     {
-        $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('MAX_Dal_Entities');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDal =& $oServiceLocator->get('MAX_Dal_Entities');
         if (!$oDal) {
             $oDal = new MAX_Dal_Entities();
             $oServiceLocator->register('MAX_Dal_Entities', $oDal);
@@ -279,8 +279,8 @@ class MAX_Entity_Placement extends MAX_Entity
      */
     function &_getOA_Dal_Maintenance_Priority()
     {
-        $oServiceLocator = &ServiceLocator::instance();
-        $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
             $oDal = new OA_Dal_Maintenance_Priority();
             $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);

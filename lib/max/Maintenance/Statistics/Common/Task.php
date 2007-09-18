@@ -25,10 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-
-require_once MAX_PATH . '/lib/OA/Task.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/OA/Task.php';
 
 /**
  * A abstract class, defining an interface for Maintenance Statistics Common
@@ -70,7 +69,7 @@ class MAX_Maintenance_Statistics_Common_Task extends OA_Task
      */
     function MAX_Maintenance_Statistics_Common_Task()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $this->oController = &$oServiceLocator->get('Maintenance_Statistics_Controller');
         if (!empty($this->oController->module)) {
             // Ensure that the required data access layer class is

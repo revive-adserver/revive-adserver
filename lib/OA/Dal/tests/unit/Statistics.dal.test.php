@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the non-DB specific OA_Dal_Statistics class.

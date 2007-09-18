@@ -25,16 +25,16 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
-require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 require_once 'DB/QueryTool.php';
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 // pgsql execution time before refactor: 162.20s
 // pgsql execution time after refactor: 29.425s
@@ -150,9 +150,9 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
     /**
      * A method to test the getZoneImpressionForecasts() method.
      *
-     * Test 1: Test with no date registered in the ServiceLocator, and ensure that
+     * Test 1: Test with no date registered in the OA_ServiceLocator, and ensure that
      *         false is returned.
-     * Test 2: Test with a date registered in the ServiceLocator, but no data in
+     * Test 2: Test with a date registered in the OA_ServiceLocator, but no data in
      *         the database, and ensure that an empty array is returned.
      * Test 3: Test with zones in the system, but no forecasts, and ensure that
      *         the default forecast value is returned for all the zones.
@@ -171,7 +171,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertFalse($result);
@@ -296,9 +296,9 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
     /**
      * A method to test the getZoneImpressionForecasts() method.
      *
-     * Test 1: Test with no date registered in the ServiceLocator, and ensure that
+     * Test 1: Test with no date registered in the OA_ServiceLocator, and ensure that
      *         false is returned.
-     * Test 2: Test with a date registered in the ServiceLocator, but no data in
+     * Test 2: Test with a date registered in the OA_ServiceLocator, but no data in
      *         the database, and ensure that an empty array is returned.
      * Test 3: Test with zones in the system, but no forecasts, and ensure that
      *         the default forecast value is returned for all the zones.
@@ -317,7 +317,7 @@ class Test_OA_Dal_Maintenance_Priority_ZoneImpressionForecasts extends UnitTestC
         $oDal = new OA_Dal_Maintenance_Priority();
 
         // Test 1
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $result = $oDal->getZoneImpressionForecasts();
         $this->assertFalse($result);

@@ -25,12 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer/Task/SummariseIntermediate.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate class.
@@ -78,7 +78,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
      */
     function testRun()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
 
         // Create a reference to the config, so that config options can be
         $conf = &$GLOBALS['_MAX']['CONF'];
@@ -418,7 +418,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseRequests', array($oStartDate, $oEndDate));
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
@@ -438,7 +438,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseImpressions', array($oStartDate, $oEndDate));
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
@@ -458,7 +458,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseClicks', array($oStartDate, $oEndDate));
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
@@ -478,7 +478,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
         Mock::generate('OA_Dal_Maintenance_Statistics_AdServer_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_AdServer_mysql($this);
         $oDal->expectOnce('summariseConnections', array($oStartDate, $oEndDate));
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();
@@ -509,7 +509,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_SummariseInterm
             )
         );
         $oDal->expectOnce('saveIntermediate', array($oStartDate, $oEndDate, $aTypes));
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_AdServer', $oDal);
         // Test
         $oSummariseIntermediate = new MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate();

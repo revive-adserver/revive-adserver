@@ -29,10 +29,11 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
     define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '/usr/share/fonts/msttcorefonts/');
 }
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
-require_once 'Image/Canvas.php';
-require_once 'Image/Graph.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Image/Canvas.php';
+require_once MAX_PATH . '/lib/pear/Image/Graph.php';
 
 /**
  * A class for testing that scaling back of the compensation factor in the
@@ -72,7 +73,7 @@ class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensationScaleBack($this);
@@ -372,7 +373,7 @@ class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensationScaleBack($this);
@@ -790,7 +791,7 @@ class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         // Mock the OA_Dal_Maintenance_Priority class
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
         // Partially mock the PriorityCompensation class
         $oPriorityCompensation = new PartialMockPriorityCompensationScaleBack($this);

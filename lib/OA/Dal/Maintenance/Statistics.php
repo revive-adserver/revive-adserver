@@ -25,12 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * The non-DB specific Data Abstraction Layer (DAL) class for the

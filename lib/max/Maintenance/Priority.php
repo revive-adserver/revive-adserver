@@ -25,11 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A wrapper class for running the Maintenance Priority Engine process.
@@ -83,11 +82,11 @@ class MAX_Maintenance_Priority
             OA::debug('Unable to obtain database-level lock, not running MPE', PEAR_LOG_ERR);
             return false;
         }
-        // Ensure the the current time is registered with the ServiceLocator
-        $oServiceLocator = &ServiceLocator::instance();
+        // Ensure the the current time is registered with the OA_ServiceLocator
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
-            // Record the current time, and register with the ServiceLocator
+            // Record the current time, and register with the OA_ServiceLocator
             $oDate = new Date();
             $oServiceLocator->register('now', $oDate);
         }

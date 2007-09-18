@@ -30,11 +30,10 @@ $Id$
  * can be accessed by any class that needs them. Also allows Mock Objects
  * to be easily used as replacements for classes during testing.
  *
- * @package    Max
- * @author     Luis Correa d'Almeida <luis@m3.net>
- * @author     Andrew Hill <andrew@m3.net>
+ * @package    Openads
+ * @author     Andrew Hill <andrew.hill@openads.org>
   */
-class ServiceLocator
+class OA_ServiceLocator
 {
 
     var $aService = array();
@@ -42,13 +41,13 @@ class ServiceLocator
     /**
      * A method to return a singleton handle to the service locator class.
      *
-     * @return ServiceLocator
+     * @return OA_ServiceLocator
      */
     function &instance()
     {
         static $oInstance;
         if (!$oInstance) {
-            $oInstance = new ServiceLocator();
+            $oInstance = new OA_ServiceLocator();
         }
         return $oInstance;
     }
@@ -102,7 +101,7 @@ class ServiceLocator
      */
     function &staticGet($serviceName)
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         return $oServiceLocator->get($serviceName);
     }
 

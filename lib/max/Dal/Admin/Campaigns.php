@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 {

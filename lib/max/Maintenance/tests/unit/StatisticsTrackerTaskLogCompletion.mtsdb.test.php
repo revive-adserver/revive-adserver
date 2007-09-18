@@ -25,10 +25,11 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker/Task/LogCompletion.php';
-require_once 'Date.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_Tracker_Task_LogCompletion class.
@@ -65,7 +66,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker_Task_LogCompletion ex
         $conf = &$GLOBALS['_MAX']['CONF'];
         $oTable = &OA_DB_Table_Core::singleton();
         $oDbh = &OA_DB::singleton();
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         // Create the required table
         $oTable->createTable('data_raw_tracker_impression');
         $oTable->createTable('log_maintenance_statistics');

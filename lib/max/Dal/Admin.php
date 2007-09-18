@@ -25,8 +25,8 @@
 $Id$
 */
 
-require_once MAX_PATH.'/lib/max/Dal/Common.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/max/Dal/Common.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * The non-DB specific Data Access Layer (DAL) class for the User Interface (Admin).

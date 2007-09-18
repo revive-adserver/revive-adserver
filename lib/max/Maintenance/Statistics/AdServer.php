@@ -53,7 +53,7 @@ class MAX_Maintenance_Statistics_AdServer extends MAX_Maintenance_Statistics_Com
         // This is the AdServer module
         $this->module = 'AdServer';
         // Register this object as the controlling class for the process
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $this);
         // Add a task to set the update requirements
         $oSetUpdateRequirements = new MAX_Maintenance_Statistics_AdServer_Task_SetUpdateRequirements();

@@ -30,9 +30,10 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
     define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '/usr/share/fonts/msttcorefonts/');
 }
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
 require_once MAX_PATH . '/lib/max/Maintenance/tests/visualisation/MAX_Dal_Maintenance_Priority.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once 'Image/Canvas.php';
 require_once 'Image/Graph.php';

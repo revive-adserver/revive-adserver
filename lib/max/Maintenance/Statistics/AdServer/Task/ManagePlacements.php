@@ -25,9 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
+
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for managing (enabling/disabling) placements, for the AdServer module.
@@ -56,7 +57,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_ManagePlacements extends MAX_Main
     function run()
     {
         if ($this->oController->updateIntermediate) {
-            $oServiceLocator = &ServiceLocator::instance();
+            $oServiceLocator =& OA_ServiceLocator::instance();
             $oDate = &$oServiceLocator->get('now');
             $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
             $message = 'Managing (activating/deactivating) placements';

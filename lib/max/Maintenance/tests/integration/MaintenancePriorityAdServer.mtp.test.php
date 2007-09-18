@@ -26,11 +26,12 @@ $Id$
 */
 
 require_once MAX_PATH . '/variables.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
-require_once 'Date.php';
-require_once 'Date/Span.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/pear/Date/Span.php';
 
 /**
  * A class for performing an integration test of the Prioritisation Engine
@@ -52,7 +53,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
     /**
      * A local instance of the service locator.
      *
-     * @var ServiceLocator
+     * @var OA_ServiceLocator
      */
     var $oServiceLocator;
 
@@ -87,7 +88,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
         $this->oDbh = &OA_DB::singleton();
 
         // Set up the service locator object
-        $this->oServiceLocator = &ServiceLocator::instance();
+        $this->oServiceLocator =& OA_ServiceLocator::instance();
 
         // Discover the number of operation intervals per week
         $this->intervalsPerWeek = OA_OperationInterval::operationIntervalsPerWeek();
@@ -302,7 +303,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
         // Insert data that indicates that the Maintenance Statistics Engine
         // has recently updated the available stats, but don't insert any
         // stats into the tables
-        $this->oServiceLocator = &ServiceLocator::instance();
+        $this->oServiceLocator =& OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-15 14:00:01');
         $this->oServiceLocator->register('now', $startDate);
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
@@ -492,7 +493,7 @@ class Maintenance_TestOfMaintenancePriorityAdServerBasic extends UnitTestCase
         // Insert data that indicates that the Maintenance Statistics Engine
         // has recently updated the available stats, but don't insert any
         // stats into the tables
-        $this->oServiceLocator = &ServiceLocator::instance();
+        $this->oServiceLocator =& OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-19 00:00:01');
         $this->oServiceLocator->register('now', $startDate);
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();

@@ -25,9 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task/DeleteOldData.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_Common_Task_DeleteOldData class.
@@ -139,13 +140,13 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_DeleteOldData ext
      */
     function testRun()
     {
-        $conf = &$GLOBALS['_MAX']['CONF'];
+        $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['prefix'] = 'max_';
         $conf['table']['split'] = false;
-        $tables = &OA_DB_Table_Core::singleton();
-        $oDbh = &OA_DB::singleton();
-        $oServiceLocator = &ServiceLocator::instance();
+        $tables =& OA_DB_Table_Core::singleton();
+        $oDbh =& OA_DB::singleton();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         // Create the required tables
         $tables->createTable('campaigns_trackers');
         $tables->createTable('data_raw_ad_click');

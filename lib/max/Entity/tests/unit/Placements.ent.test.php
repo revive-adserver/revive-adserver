@@ -59,7 +59,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
      */
     function setUp()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oMaxDalEntities = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oMaxDalEntities);
         $oMaxDalMaintenancePriority = new MockOA_Dal_Maintenance_Priority($this);
@@ -73,7 +73,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
      */
     function tearDown()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('MAX_Dal_Entities');
         $oServiceLocator->remove('OA_Dal_Maintenance_Priority');
     }
@@ -185,8 +185,8 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
             3 => array('ad_id' => 3, 'type' => 'sql', 'weight' => 2, 'active' => 't',),
             5 => array('ad_id' => 5, 'type' => 'gif', 'weight' => 3, 'active' => 'f',),
         );
-        $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalEntities = &$oServiceLocator->get('MAX_Dal_Entities');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oMaxDalEntities =& $oServiceLocator->get('MAX_Dal_Entities');
         $oMaxDalEntities->setReturnValueAt(0, 'getAdsByPlacementId', $oError);
         $oMaxDalEntities->setReturnValueAt(1, 'getAdsByPlacementId', null);
         $oMaxDalEntities->setReturnValueAt(2, 'getAdsByPlacementId', $aAds);
@@ -249,8 +249,8 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
             'sum_clicks'      => 5,
             'sum_conversions' => 1,
         );
-        $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
         $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aPlacementStats);
         $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, false));
@@ -302,8 +302,8 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
             'sum_clicks'      => 5,
             'sum_conversions' => 1,
         );
-        $oServiceLocator = &ServiceLocator::instance();
-        $oMaxDalMaintenancePriority = &$oServiceLocator->get('OA_Dal_Maintenance_Priority');
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oMaxDalMaintenancePriority =& $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         $oMaxDalMaintenancePriority->setReturnValueAt(0, 'getPlacementStats', null);
         $oMaxDalMaintenancePriority->setReturnValueAt(1, 'getPlacementStats', $aPlacementStats);
         $oMaxDalMaintenancePriority->expectArgumentsAt(0, 'getPlacementStats', array(1, true, '2006-11-10'));

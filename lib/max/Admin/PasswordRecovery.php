@@ -32,8 +32,9 @@ $Id$
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Dal/PasswordRecovery.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
+
 require_once MAX_PATH . '/lib/OA/Email.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 class MAX_Admin_PasswordRecovery
 {
@@ -58,7 +59,7 @@ class MAX_Admin_PasswordRecovery
 
     function _useDefaultDal()
     {
-        $oServiceLocator = ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $dal =& $oServiceLocator->get('MAX_Dal_PasswordRecovery');
         if (!$dal) {
             $dal = new MAX_Dal_PasswordRecovery();

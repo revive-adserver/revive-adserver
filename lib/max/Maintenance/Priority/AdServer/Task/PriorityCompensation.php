@@ -25,13 +25,13 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * The minimum difference in the fraction of a zone's actual impressions that
@@ -93,7 +93,7 @@ class PriorityCompensation extends MAX_Maintenance_Priority_AdServer_Task
             // Set the details of the last time Priority Compensation started running
             $this->aLastRun['start_run'] = new Date($aDates['start_run']);
             // Set the details of the current date/time
-            $oServiceLocator = &ServiceLocator::instance();
+            $oServiceLocator =& OA_ServiceLocator::instance();
             $this->aLastRun['now'] = &$oServiceLocator->get('now');
         }
         // Get all zone/ad information

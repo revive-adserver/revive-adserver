@@ -25,12 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Number of weeks to average actual impressions
 // for in order to obtain the baseline impression forecast
@@ -66,7 +66,7 @@ class ForecastZoneImpressions extends MAX_Maintenance_Priority_AdServer_Task
     {
         parent::MAX_Maintenance_Priority_AdServer_Task();
         $this->conf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $this->oDateNow = &$oServiceLocator->get('now');
         if (!$this->oDateNow) {
             $this->oDateNow = new Date();
@@ -655,7 +655,7 @@ class MtcePriorityLastRun
 
     function &_getDal()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
             $oDal = new OA_Dal_Maintenance_Priority();
@@ -690,7 +690,7 @@ class MtceStatsLastRun
 
     function &_getDal()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
         if (!$oDal) {
             $oDal = new OA_Dal_Maintenance_Priority();

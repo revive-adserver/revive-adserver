@@ -25,10 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
-
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 require_once 'DB/QueryTool.php';
 
 /**

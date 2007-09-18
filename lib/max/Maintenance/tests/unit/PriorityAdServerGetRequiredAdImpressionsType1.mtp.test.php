@@ -25,12 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType1.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the GetRequiredAdImpressionsType1 class.
@@ -76,7 +76,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      * A private method for the test class that creates an instance
      * of the mocked DAL class (MAX_Dal_Maintenance), the mocked
      * table creation class (Openads_Table_Priority), registers the
-     * mocked classes in the ServiceLocator, and then returns an
+     * mocked classes in the OA_ServiceLocator, and then returns an
      * instance of the GetRequiredAdImpressionsType1 class to use
      * in testing.
      *
@@ -85,7 +85,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
      */
     function &_getCurrentTask()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal   = new MockMAX_Dal_Entities($this);
         $oServiceLocator->register('MAX_Dal_Entities', $oDal);
         $oDal   = new MockOA_Dal_Maintenance_Priority($this);
@@ -98,9 +98,9 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
     /**
      * A method to test the _getDate() method.
      *
-     * Test 1: Test with no date in the ServiceLocator, and ensure that the
+     * Test 1: Test with no date in the OA_ServiceLocator, and ensure that the
      *         current date/time is returned.
-     * Test 2: Test with a date in the ServiceLocator, and ensure that the
+     * Test 2: Test with a date in the OA_ServiceLocator, and ensure that the
      *         correct date/time is returned.
      * Test 3: Test with a date passed in as a parameter, and ensure that the
      *         correct date/time is returned.
@@ -110,7 +110,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
 
         // Test 1
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $oDate1 = $oGetRequiredAdImpressionsType1->_getDate();
         $oDate2 = $oServiceLocator->get('now');
@@ -209,7 +209,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
     /**
      * A method to test the _getValidPlacements() method.
      *
-     * Test 1: Sets the "current" time in the ServiceLocator, and then
+     * Test 1: Sets the "current" time in the OA_ServiceLocator, and then
      *         uses a the mocked DAL class to ensure that the
      *         _getValidPlacements() method forms the correct "where"
      *         statements, and that these are passed in via the
@@ -222,7 +222,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $oGetRequiredAdImpressionsType1 = &$this->_getCurrentTask();
 
         // Test 1
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = new Date('2005-12-08 13:55:00');
         $oServiceLocator->register('now', $oDate);
         $oGetRequiredAdImpressionsType1->oDal->setReturnValue('getPlacements', array());
@@ -396,7 +396,7 @@ class TestOfPriorityAdserverGetRequiredAdImpressionsType1 extends UnitTestCase
         $aPlacements = array();
 
         // Set the current date/time
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->remove('now');
         $oDate = new Date('2006-02-12 12:00:01');
         $oServiceLocator->register('now', $oDate);

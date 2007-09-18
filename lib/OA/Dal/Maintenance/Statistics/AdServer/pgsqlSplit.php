@@ -27,7 +27,7 @@ $Id: mysqlSplit.php 5411 2007-03-27 16:00:31Z andrew.hill@openads.org $
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/pgsql.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * The data access layer code for summarising raw data into statistics, for

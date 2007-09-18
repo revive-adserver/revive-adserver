@@ -451,7 +451,7 @@ class Date_Span {
      *
      * Set the span from the elapsed time between two dates. The time span
      * is allways positive, so the date's order is not important.
-     * 
+     *
      * @param  object Date $date1 First Date.
      * @param  object Date $date2 Second Date.
      *

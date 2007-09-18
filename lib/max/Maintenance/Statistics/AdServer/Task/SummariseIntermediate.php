@@ -175,7 +175,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
                 $oStartDate->addSeconds(3600);
             }
         } elseif (($this->oController->updateIntermediate) && ($this->oController->updateUsingOI)) {
-            $oServiceLocator = &ServiceLocator::instance();
+            $oServiceLocator =& OA_ServiceLocator::instance();
             $counter = 0;
             // Summarise the intermediate stats by the operation interval
             $oStartDate = new Date();
@@ -314,7 +314,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
      */
     function _summariseIntermediateRequests($oStartDate, $oEndDate)
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising requests for the intermediate tables';
@@ -342,7 +342,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
      */
     function _summariseIntermediateImpressions($oStartDate, $oEndDate)
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising impressions for the intermediate tables';
@@ -370,7 +370,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
      */
     function _summariseIntermediateClicks($oStartDate, $oEndDate)
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising clicks for the intermediate tables';
@@ -398,7 +398,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
      */
     function _summariseIntermediateConnections($oStartDate, $oEndDate)
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $startTime = time();
         $message = 'Summarising connections for the intermediate tables';
@@ -426,7 +426,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends MAX
      */
     function _saveIntermediateSummaries($oStartDate, $oEndDate)
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($aConf['modules']['Tracker']) {

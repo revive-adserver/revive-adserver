@@ -25,10 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA.php';
-
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
+
+require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A abstract class, definine a common method for setting the update
@@ -60,7 +60,7 @@ class MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements extends MAX_M
     function run()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oNowDate = &$oServiceLocator->get('now');
         if (!$oNowDate) {
             $oNowDate = new Date();

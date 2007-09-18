@@ -25,10 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Tracker.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Tracker/mysql.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_Tracker class.
@@ -49,7 +49,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker extends UnitTestCase
         // Register a mocked DAL in the service locator
         Mock::generate('OA_Dal_Maintenance_Statistics_Tracker_mysql');
         $oDal = new MockOA_Dal_Maintenance_Statistics_Tracker_mysql($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Statistics_Tracker', $oDal);
     }
 
@@ -61,7 +61,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Tracker extends UnitTestCase
         $oMaintenanceStatistics = &new MAX_Maintenance_Statistics_Tracker();
         $this->assertTrue(is_a($oMaintenanceStatistics, 'MAX_Maintenance_Statistics_Tracker'));
         $this->assertEqual($oMaintenanceStatistics->module, 'Tracker');
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oTest = &$oServiceLocator->get('Maintenance_Statistics_Controller');
         $this->assertReference($oMaintenanceStatistics, $oTest);
         $this->assertTrue(is_a($oMaintenanceStatistics->oTaskRunner, 'OA_Task_Runner'));

@@ -25,9 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A abstract class, definine a common method for logging the completion
@@ -63,7 +64,7 @@ class MAX_Maintenance_Statistics_Common_Task_LogCompletion extends MAX_Maintenan
      */
     function logCompletion($runTypeField, $oEndDate = null)
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oNowDate = &$oServiceLocator->get('now');
         if (is_null($oEndDate)) {
             $oEndDate = new Date();

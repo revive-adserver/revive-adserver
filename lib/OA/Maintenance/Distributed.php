@@ -26,14 +26,12 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
-
-require_once 'Date.php';
-
+require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A library class for providing automatic maintenance process methods.
@@ -68,11 +66,11 @@ class OA_Maintenance_Distributed
             $oStart = $oDal->getMaintenanceDistributedLastRunInfo();
 
             if ($oStart) {
-                // Ensure the the current time is registered with the ServiceLocator
-                $oServiceLocator = &ServiceLocator::instance();
+                // Ensure the the current time is registered with the OA_ServiceLocator
+                $oServiceLocator =& OA_ServiceLocator::instance();
                 $oEnd = &$oServiceLocator->get('now');
                 if (!$oEnd) {
-                    // Record the current time, and register with the ServiceLocator
+                    // Record the current time, and register with the OA_ServiceLocator
                     $oEnd = new Date();
                     $oServiceLocator->register('now', $oEnd);
                 }

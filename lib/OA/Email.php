@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class to provide support for sending of email-based reports and

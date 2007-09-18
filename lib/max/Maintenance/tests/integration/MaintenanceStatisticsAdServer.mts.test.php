@@ -25,18 +25,13 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
-
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once 'Date.php';
-
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
-// pgsql execution time before refactor: 209.89s
-// pgsql execution time after refactor: 63.105s
-
+require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for performing integration testing the MAX_Maintenance_Statistics_AdServer class.
@@ -851,7 +846,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
         $conf['table']['split'] = false;
         // Set the "current" time
         $oDateNow = new Date('2004-11-28 12:00:00');
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('now', $oDateNow);
         // Create and run the class
         $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();

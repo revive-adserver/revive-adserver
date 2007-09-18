@@ -50,7 +50,7 @@ class TestOfPriorityTask extends UnitTestCase
     {
         // Mock the OA_Dal_Maintenance_Priority class used in the constructor method
         $oDal = new MockOA_Dal_Maintenance_Priority($this);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
 
         $task = new MAX_Maintenance_Priority_Adserver_Task();

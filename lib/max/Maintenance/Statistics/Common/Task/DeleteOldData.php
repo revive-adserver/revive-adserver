@@ -115,7 +115,7 @@ class MAX_Maintenance_Statistics_Common_Task_DeleteOldData extends MAX_Maintenan
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $time = time();
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_' . $this->oController->module);
         $rows = $oDal->deleteOldData($oSummarisedToDate);
         $time = time() - $time;

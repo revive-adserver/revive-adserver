@@ -25,8 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for determining if a set of delivery limitations matches, or
@@ -87,7 +88,7 @@ class MAX_Plugin_DeliveryLimitations_MatchOverlap
      */
     function &_getDal()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('MAX_Dal_Entities');
         if (!$oDal) {
             $oDal = new MAX_Dal_Entities();

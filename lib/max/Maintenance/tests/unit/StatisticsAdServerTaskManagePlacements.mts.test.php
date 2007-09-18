@@ -25,12 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer/Task/ManagePlacements.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_AdServer_Task_ManagePlacements class.
@@ -64,7 +64,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_AdServer_Task_ManagePlacement
      */
     function testRun()
     {
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
 
         // Register the current date/time
         $oDateNow = new Date();

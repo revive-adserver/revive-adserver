@@ -52,7 +52,7 @@ class MAX_Maintenance_Statistics_Tracker extends MAX_Maintenance_Statistics_Comm
         // This is the Tracker module
         $this->module = 'Tracker';
         // Register this object as the controlling class for the process
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oServiceLocator->register('Maintenance_Statistics_Controller', $this);
         // Add a task to set the update requirements
         $oSetUpdateRequirements = new MAX_Maintenance_Statistics_Tracker_Task_SetUpdateRequirements();

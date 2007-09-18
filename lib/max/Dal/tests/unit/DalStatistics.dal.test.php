@@ -26,8 +26,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Dal/Statistics.php';
-require_once 'Date.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
+
 
 /**
  * A class for testing the non-DB specific MAX_Dal_Statistics DAL class.

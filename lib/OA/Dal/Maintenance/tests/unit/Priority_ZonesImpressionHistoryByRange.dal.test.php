@@ -25,16 +25,16 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
-require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 require_once 'DB/QueryTool.php';
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 // pgsql execution time before refactor: 49.252s
 // pgsql execution time after refactor: 22.355s

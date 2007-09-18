@@ -135,7 +135,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
                    $oStartDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . ".\n";
         OA::debug($message, PEAR_LOG_DEBUG);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $oDal->saveHistory($oStartDate, $oEndDate);
     }
@@ -154,7 +154,7 @@ class MAX_Maintenance_Statistics_AdServer_Task_SummariseFinal extends MAX_Mainte
                    $oStartDate->format('%Y-%m-%d %H:%M:%S');
         $this->oController->report .= $message . ".\n";
         OA::debug($message, PEAR_LOG_DEBUG);
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $aTypes = array(
             'types' => array(

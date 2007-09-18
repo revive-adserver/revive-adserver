@@ -25,9 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task/SetUpdateRequirements.php';
+
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for testing the MAX_Maintenance_Statistics_Common_Task_SetUpdateRequirements class.
@@ -65,7 +66,7 @@ class Maintenance_TestOfMAX_Maintenance_Statistics_Common_Task_SetUpdateRequirem
         // options can be changed while the test is running
         $conf = &$GLOBALS['_MAX']['CONF'];
         $dbh = &OA_DB::singleton();
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $tables = &OA_DB_Table_Core::singleton();
         // Create the required tables
         $tables->createTable('data_raw_ad_impression');

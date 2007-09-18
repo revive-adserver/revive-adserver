@@ -25,11 +25,11 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * Definition of how far back in time the DAL will look for
@@ -377,18 +377,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * for the previous operation interval.
      *
      * Requires that a current day/time (as a Date object) be registered
-     * with the ServiceLocator (as "now").
+     * with the OA_ServiceLocator (as "now").
      *
      * @access public
      * @return mixed An array of arrays, each one representing a zone found,
      *               in zone ID order, or false if no Date object registered
-     *               with the ServiceLocator.
+     *               with the OA_ServiceLocator.
      */
     function &getAllZonesImpInv()
     {
         OA::debug('  - Getting all of the zones impression inventory data', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
             return false;
@@ -535,7 +535,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * of MAX_PREVIOUS_AD_DELIVERY_INFO_LIMIT minutes. (The default is one week.)
      *
      * Requires that a current day/time (as a Date object) be registered
-     * with the ServiceLocator (as "now").
+     * with the OA_ServiceLocator (as "now").
      *
      * Note: The logic of this method seems a little convoluted, and it is.
      * However, it needs to be. The reason being:
@@ -574,13 +574,13 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *                  'impressions'                   => integer
      *               )
      *               Returns false when the current date/time is not set in the
-     *               ServiceLocator.
+     *               OA_ServiceLocator.
      */
     function &getPreviousAdDeliveryInfo($aCurrentZones)
     {
         OA::debug("  - Getting details of previous ad/zone delivery", PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
             return false;
@@ -1070,7 +1070,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      *                       these values for a complete (single) operation interval.
      *                       May optionally contain the operation_interval,
      *                       operation_interval_id, interval_start and interval_end details.
-     * @param Date $oDate The current Date object, taken from the ServiceLocator.
+     * @param Date $oDate The current Date object, taken from the OA_ServiceLocator.
      * @param array $aPastDeliveryResult Optional array of arrays indexed by ad ID, and then
      *                                   zone ID, containing details on which ad/zone
      *                                   combinations already have had their average past
@@ -1174,7 +1174,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * A method to update the priority values stored in the database.
      *
      * Requires that a current day/time (as a Date object) be registered
-     * with the ServiceLocator (as "now").
+     * with the OA_ServiceLocator (as "now").
      *
      * @access public
      * @param array $aData An array of zones, indexed by zone ID, each containing an array
@@ -1204,7 +1204,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     {
         OA::debug('- Updating priorities', PEAR_LOG_DEBUG);
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
             OA::debug('  - Date not found in service locator', PEAR_LOG_DEBUG);
@@ -2064,16 +2064,16 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * used.
      *
      * Requires that a current day/time (as a Date object) be registered
-     * with the ServiceLocator (as "now").
+     * with the OA_ServiceLocator (as "now").
      *
      * @return mixed An array, indexed by zone ID, of the current impression
      *               forecasts, or false if the current datetime not registered
-     *               with the ServiceLocator.
+     *               with the OA_ServiceLocator.
      */
     function getZoneImpressionForecasts()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator =& ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
             return false;
@@ -2244,7 +2244,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return false;
         }
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         $oDate = &$oServiceLocator->get('now');
         if (!$oDate) {
             return false;

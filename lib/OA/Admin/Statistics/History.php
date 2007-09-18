@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A class of helper methods that can be called from the statistics

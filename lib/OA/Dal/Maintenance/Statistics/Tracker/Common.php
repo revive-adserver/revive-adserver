@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * The data access layer code for summarising raw data into statistics, for
