@@ -36,10 +36,10 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */
-class MAX_Dal_Maintenance_TestOfForecastZoneImpressions extends OA_Dal_Maintenance_Priority
+class OA_Dal_Maintenance_Test_ForecastZoneImpressions extends OA_Dal_Maintenance_Priority
 {
 
-    function MAX_Dal_Maintenance_TestOfForecastZoneImpressions()
+    function OA_Dal_Maintenance_Test_ForecastZoneImpressions()
     {
         parent::OA_Dal_Maintenance_Priority();
     }

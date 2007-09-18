@@ -43,13 +43,13 @@ require_once MAX_PATH . '/lib/pear/Image/Graph.php';
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */
-class Maintenance_TestOfPriorityCompensationScaleBack extends UnitTestCase
+class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfPriorityCompensationScaleBack()
+    function Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack()
     {
         $this->UnitTestCase();
         Mock::generate('OA_Dal_Maintenance_Priority');

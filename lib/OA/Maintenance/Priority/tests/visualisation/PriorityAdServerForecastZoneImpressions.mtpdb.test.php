@@ -30,9 +30,8 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
     define('IMAGE_CANVAS_SYSTEM_FONT_PATH', '/usr/share/fonts/msttcorefonts/');
 }
 
-require_once MAX_PATH . '/lib/max/Maintenance/tests/visualisation/MAX_Dal_Maintenance_Priority.php';
-
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/tests/visualisation/OA_Dal_Maintenance_Priority.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/pear/Image/Canvas.php';
@@ -85,7 +84,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
+        $oDal = new OA_Dal_Maintenance_Test_ForecastZoneImpressions($this);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
         // class, and set the mocked _getDal() method to return the partially mocked DAL,
         // and the mocked _init() method (simply returns true)
@@ -337,7 +336,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $initialRun = 2 * 7 * 24;
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
+        $oDal = new OA_Dal_Maintenance_Test_ForecastZoneImpressions($this);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
         // class, and set the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
@@ -594,7 +593,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
-        $oDal = new MAX_Dal_Maintenance_TestOfForecastZoneImpressions($this);
+        $oDal = new OA_Dal_Maintenance_Test_ForecastZoneImpressions($this);
         // Partially mock the OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions
         // class, and set the mocked _getDal() method to return the partially mocked DAL,
         // and the mociked _init() method to always return true
