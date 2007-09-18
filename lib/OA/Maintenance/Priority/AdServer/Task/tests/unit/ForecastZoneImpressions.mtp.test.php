@@ -97,34 +97,34 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
 
         // Test 1
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = null;
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = null;
+        $oTask->oStatisticsUpdatedToDate    = null;
+        $oTask->oPriorityUpdatedToDate = null;
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
         unset($oTask);
 
         // Test 2
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = new Date();
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = null;
+        $oTask->oStatisticsUpdatedToDate    = new Date();
+        $oTask->oPriorityUpdatedToDate = null;
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
         unset($oTask);
 
         // Test 3
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = null;
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
+        $oTask->oStatisticsUpdatedToDate    = null;
+        $oTask->oPriorityUpdatedToDate = new Date();
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
         unset($oTask);
 
         // Test 4
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = new Date();
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
+        $oTask->oStatisticsUpdatedToDate    = new Date();
+        $oTask->oPriorityUpdatedToDate = new Date();
         $testOperationInterval = $conf['maintenance']['operationInterval'] + 1;
-        $oTask->mtcePriorityLastRun->operationInt = $testOperationInterval;
+        $oTask->priorityOperationInterval = $testOperationInterval;
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
         unset($oTask);
@@ -134,12 +134,12 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oDate = new Date();
         $oTask->oDateNow = new Date();$oDate;
         $oTask->oDateNow->copy($oDate);
-        $oTask->mtceStatsLastRun->oUpdatedToDate = new Date();
-        $oTask->mtceStatsLastRun->oUpdatedToDate->copy($oDate);
+        $oTask->oStatisticsUpdatedToDate = new Date();
+        $oTask->oStatisticsUpdatedToDate->copy($oDate);
         $oDate->addSeconds(1);
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
-        $oTask->mtcePriorityLastRun->oUpdatedToDate->copy($oDate);
-        $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
+        $oTask->oPriorityUpdatedToDate = new Date();
+        $oTask->oPriorityUpdatedToDate->copy($oDate);
+        $oTask->priorityOperationInterval = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, false);
         unset($oTask);
@@ -149,12 +149,12 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oDate = new Date();
         $oTask->oDateNow = new Date();$oDate;
         $oTask->oDateNow->copy($oDate);
-        $oTask->mtceStatsLastRun->oUpdatedToDate = new Date();
-        $oTask->mtceStatsLastRun->oUpdatedToDate->copy($oDate);
+        $oTask->oStatisticsUpdatedToDate = new Date();
+        $oTask->oStatisticsUpdatedToDate->copy($oDate);
         $oDate->subtractSeconds(SECONDS_PER_WEEK);
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
-        $oTask->mtcePriorityLastRun->oUpdatedToDate->copy($oDate);
-        $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
+        $oTask->oPriorityUpdatedToDate = new Date();
+        $oTask->oPriorityUpdatedToDate->copy($oDate);
+        $oTask->priorityOperationInterval = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
         unset($oTask);
@@ -163,12 +163,12 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oDate = new Date();
         $oTask->oDateNow = new Date();$oDate;
         $oTask->oDateNow->copy($oDate);
-        $oTask->mtceStatsLastRun->oUpdatedToDate = new Date();
-        $oTask->mtceStatsLastRun->oUpdatedToDate->copy($oDate);
+        $oTask->oStatisticsUpdatedToDate = new Date();
+        $oTask->oStatisticsUpdatedToDate->copy($oDate);
         $oDate->subtractSeconds(SECONDS_PER_WEEK + 1);
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date();
-        $oTask->mtcePriorityLastRun->oUpdatedToDate->copy($oDate);
-        $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
+        $oTask->oPriorityUpdatedToDate = new Date();
+        $oTask->oPriorityUpdatedToDate->copy($oDate);
+        $oTask->priorityOperationInterval = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertIdentical($result, true);
         unset($oTask);
@@ -177,10 +177,10 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oDate = new Date('2006-10-10 12:59:59');
         $oTask->oDateNow = $oDate;
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = $oDate;
+        $oTask->oStatisticsUpdatedToDate    = $oDate;
         $oDate = new Date('2006-10-09 12:59:59');
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = $oDate;
-        $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
+        $oTask->oPriorityUpdatedToDate = $oDate;
+        $oTask->priorityOperationInterval = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertTrue(is_array($result));
         $this->assertEqual($result[0], 36);
@@ -190,10 +190,10 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $oDate = new Date('2006-10-08 12:59:59');
         $oTask->oDateNow = $oDate;
-        $oTask->mtceStatsLastRun->oUpdatedToDate    = $oDate;
+        $oTask->oStatisticsUpdatedToDate    = $oDate;
         $oDate = new Date('2006-10-07 12:59:59');
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = $oDate;
-        $oTask->mtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
+        $oTask->oPriorityUpdatedToDate = $oDate;
+        $oTask->priorityOperationInterval = $conf['maintenance']['operationInterval'];
         $result = $oTask->getUpdateTypeRequired();
         $this->assertTrue(is_array($result));
         $this->assertEqual($result[0], 156);
@@ -266,8 +266,8 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oDate = new Date('2006-10-07 23:07:01');
         $oServiceLocator->register('now', $oDate);
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date('2006-10-08 00:59:59');
-        $oTask->mtcePriorityLastRun->oUpdatedToDate->addSeconds(23 * OA_OperationInterval::secondsPerOperationInterval());
+        $oTask->oPriorityUpdatedToDate = new Date('2006-10-08 00:59:59');
+        $oTask->oPriorityUpdatedToDate->addSeconds(23 * OA_OperationInterval::secondsPerOperationInterval());
         $type = array(23, 56);
         $result = $oTask->getOperationIntRangeByType($type);
         $this->assertTrue(is_array($result));
@@ -288,8 +288,8 @@ class TestOfPriorityAdserverForecastZoneImpressions extends UnitTestCase
         $oDate = new Date('2006-10-08 23:07:01');
         $oServiceLocator->register('now', $oDate);
         $oTask = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
-        $oTask->mtcePriorityLastRun->oUpdatedToDate = new Date('2006-10-01 00:59:59');
-        $oTask->mtcePriorityLastRun->oUpdatedToDate->addSeconds(112 * OA_OperationInterval::secondsPerOperationInterval());
+        $oTask->oPriorityUpdatedToDate = new Date('2006-10-01 00:59:59');
+        $oTask->oPriorityUpdatedToDate->addSeconds(112 * OA_OperationInterval::secondsPerOperationInterval());
         $type = array(112, 23);
         $result = $oTask->getOperationIntRangeByType($type);
         $this->assertTrue(is_array($result));

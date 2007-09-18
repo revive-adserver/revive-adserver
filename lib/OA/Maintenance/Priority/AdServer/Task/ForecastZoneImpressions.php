@@ -54,11 +54,47 @@ define("ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS", 1000);
 class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_Maintenance_Priority_AdServer_Task
 {
 
-    var $conf;
+    /**
+     * Local copy of the Openads configuration array.
+     *
+     * @var array
+     */
+    var $aConf;
+
+    /**
+     * A date representing "now", ie. the current date/time.
+     *
+     * @var PEAR::Date
+     */
     var $oDateNow;
+
+    /**
+     * A date representing the date to which the Maintenance Statistics Engine
+     * has most recently updated statistics to; when null, the MSE has never run.
+     *
+     * @var PEAR::Date
+     */
+    var $oStatisticsUpdatedToDate;
+
+    /**
+     * A date representing the date to which the Maintenance Priority Engine
+     * has most recently updated zone impression forecast values to; when null,
+     * the MPE has never run.
+     *
+     * @var PEAR::Date
+     */
+    var $oPriorityUpdatedToDate;
+
+    /**
+     * The Operation Interval value that was in use the last time that the
+     * MPE ran.
+     *
+     * @var integer
+     */
+    var $priorityOperationInterval;
+
+
     var $oUpdateToDate;
-    var $mtceStatsLastRun;
-    var $mtcePriorityLastRun;
 
     /**
      * The constructor method.
@@ -66,16 +102,30 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
     function OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions()
     {
         parent::OA_Maintenance_Priority_AdServer_Task();
-        $this->conf = $GLOBALS['_MAX']['CONF'];
         $oServiceLocator =& OA_ServiceLocator::instance();
+        $oDal =& $this->_getDal();
+        // Store the configuration array
+        $this->aConf = $GLOBALS['_MAX']['CONF'];
+        // Get the current "now" time from the OA_ServiceLocator,
+        // or set it if required
         $this->oDateNow =& $oServiceLocator->get('now');
         if (!$this->oDateNow) {
             $this->oDateNow = new Date();
+            $oServiceLocator->register('now', $this->oDateNow);
         }
+
+
+
+
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
         $this->oUpdateToDate = $aDates['end'];
-        $this->mtceStatsLastRun    = new MtceStatsLastRun();
-        $this->mtcePriorityLastRun = new MtcePriorityLastRun();
+        // Obtain the information about the last MSE run
+        $aData = $oDal->getMaintenanceStatisticsLastRunInfo();
+        $this->oStatisticsUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
+        // Obtain the information about the last MPE run
+        $aData = $oDal->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
+        $this->oPriorityUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
+        $this->priorityOperationInterval = $aData['operation_interval'];
     }
 
     /**
@@ -120,16 +170,18 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         OA::debug('- Calculating range of operation intervals which require ZIF update', PEAR_LOG_DEBUG);
         // Set default return value
         $ret = false;
-        if (is_null($this->mtceStatsLastRun->oUpdatedToDate)) {
-            // mtceStatsLastRun date is null, there are no stats, update all so new install can run: return true
+        if (is_null($this->oStatisticsUpdatedToDate)) {
+            // The MSE has never been run; there are no stats. Update all operation intervals (with the
+            // default zone forecast value) so that this new installation of Openads can ran: return true
             OA::debug('- No previous maintenance statisitcs run, so update all required', PEAR_LOG_DEBUG);
             // Not safe to simply insert data, otherwise multiple rows may result
             $ret = true;
-        } elseif (is_null($this->mtcePriorityLastRun->oUpdatedToDate)) {
-            // mtcePriorityLastRun date is null, priority has never been run before, update all: return true
+        } elseif (is_null($this->oPriorityUpdatedToDate)) {
+            // The MPE has never updated zone forecasts before. Update all operation intervals (with the
+            // default zone forecast value) so that this new installation of Openads can ran: return true
             OA::debug('- No previous maintenance priority run, so update all required', PEAR_LOG_DEBUG);
             $ret = true;
-        } elseif (OA_OperationInterval::getOperationInterval() != $this->mtcePriorityLastRun->operationInt) {
+        } elseif (OA_OperationInterval::getOperationInterval() != $this->priorityOperationInterval) {
             // The operation interval has changed since the last run, force an update all: return true
             OA::debug('- OPERATION INTERVAL LENGTH CHANGE SINCE LAST RUN', PEAR_LOG_DEBUG);
             OA::debug('- Updating all forecasts', PEAR_LOG_DEBUG);
@@ -138,12 +190,12 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             // If stats was run after priority, then the maintenance stats updated to date will be equal to,
             // or after, the maintenance priority updated to date (as the maintenance priority updated to
             // date is one operation interval ahead of where statistics is)
-            if ($this->mtceStatsLastRun->oUpdatedToDate->equals($this->mtcePriorityLastRun->oUpdatedToDate) ||
-                $this->mtceStatsLastRun->oUpdatedToDate->after($this->mtcePriorityLastRun->oUpdatedToDate)) {
+            if ($this->oStatisticsUpdatedToDate->equals($this->oPriorityUpdatedToDate) ||
+                $this->oStatisticsUpdatedToDate->after($this->oPriorityUpdatedToDate)) {
                 // If a week or more has passed since the last priority update, update all: return true
                 $oSpan = new Date_Span();
                 $oUpdatedToDateCopy = new Date();
-                $oUpdatedToDateCopy->copy($this->mtcePriorityLastRun->oUpdatedToDate);
+                $oUpdatedToDateCopy->copy($this->oPriorityUpdatedToDate);
                 $oDateNowCopy = new Date();
                 $oDateNowCopy->copy($this->oDateNow);
                 $oSpan->setFromDateDiff($oUpdatedToDateCopy, $oDateNowCopy);
@@ -152,8 +204,8 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                     $ret = true;
                 } else {
                     // Get the operation intervals for each run
-                    $statsOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->mtceStatsLastRun->oUpdatedToDate);
-                    $priorityOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->mtcePriorityLastRun->oUpdatedToDate);
+                    $statsOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->oStatisticsUpdatedToDate);
+                    $priorityOpIntId = OA_OperationInterval::convertDateToOperationIntervalID($this->oPriorityUpdatedToDate);
                     // Always predict one interval ahead of the statistics engine
                     $statsOpIntId = OA_OperationInterval::nextOperationIntervalID($statsOpIntId, 1);
                     // As long as the operation intervals are not in the same interval, priority should be run
@@ -203,7 +255,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                 // ID is the lower bound, and the second operation interval ID is the upper
                 // The start operation interval ID is the operation interval ID right after
                 // the operation interval ID that priority was updated to (ie. $type[0])
-                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->mtcePriorityLastRun->oUpdatedToDate);
+                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oPriorityUpdatedToDate);
                 $oStartDate = $aDates['start'];
                 $startId = OA_OperationInterval::nextOperationIntervalID($type[0], 1);
                 $totalIntervals = $type[1] - $type[0];
@@ -215,7 +267,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
                 // lower bound in the proceeding week
                 // The start operation interval ID is the operation interval ID right after
                 // the operation interval ID that priority was updated to (ie. $type[0])
-                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->mtcePriorityLastRun->oUpdatedToDate);
+                $aDates = OA_OperationInterval::convertDateToNextOperationIntervalStartAndEndDates($this->oPriorityUpdatedToDate);
                 $oStartDate = $aDates['start'];
                 $startId = OA_OperationInterval::nextOperationIntervalID($type[0], 1);
                 $totalIntervals = (OA_OperationInterval::operationIntervalsPerWeek() - $type[0]) +  $type[1];
@@ -469,7 +521,7 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             } else {
                 // NO
                 // Set the forecast value to $conf[priority][defaultZoneForecastImpressions]
-                $ret = $this->conf['priority']['defaultZoneForecastImpressions'];
+                $ret = $this->aConf['priority']['defaultZoneForecastImpressions'];
             }
         }
         return round($ret);
@@ -630,76 +682,6 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         return $oEndDate;
     }
 
-}
-
-/**
- * A class used to represent the last time the MPE process ran.
- *
- * @package    MaxMaintenance
- * @subpackage Priority
- * @author     Demain Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
- *
- * @TODO Get rid of this class, and find a cleaner way to get the data.
- */
-class MtcePriorityLastRun
-{
-    var $oUpdatedToDate;
-    var $operationInt;
-
-    function MtcePriorityLastRun()
-    {
-        $oDal =& $this->_getDal();
-        $aData = $oDal->getMaintenancePriorityLastRunInfo(DAL_PRIORITY_UPDATE_ZIF);
-        $this->oUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
-        $this->operationInt = $aData['operation_interval'];
-    }
-
-    function &_getDal()
-    {
-        $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        if (!$oDal) {
-            $oDal = new OA_Dal_Maintenance_Priority();
-            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
-        }
-        return $oDal;
-    }
-}
-
-/**
- * A class used to represent the last time the MSE process ran.
- *
- * @package    MaxMaintenance
- * @subpackage Priority
- * @author     Demain Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
- *
- * @TODO Get rid of this class, and find a cleaner way to get the data.
- */
-class MtceStatsLastRun
-{
-    var $oUpdatedToDate;
-    var $runType;
-
-    function MtceStatsLastRun()
-    {
-        $oDal =& $this->_getDal();
-        $aData = $oDal->getMaintenanceStatisticsLastRunInfo();
-        $this->oUpdatedToDate = (is_null($aData['updated_to'])) ? null : new Date($aData['updated_to']);
-        $this->runType = $aData['adserver_run_type'];
-    }
-
-    function &_getDal()
-    {
-        $oServiceLocator =& OA_ServiceLocator::instance();
-        $oDal = $oServiceLocator->get('OA_Dal_Maintenance_Priority');
-        if (!$oDal) {
-            $oDal = new OA_Dal_Maintenance_Priority();
-            $oServiceLocator->register('OA_Dal_Maintenance_Priority', $oDal);
-        }
-        return $oDal;
-    }
 }
 
 ?>
