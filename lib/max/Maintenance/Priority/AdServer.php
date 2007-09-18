@@ -25,11 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType1.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsType2.php';
-
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsDaily.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsLifetime.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/PriorityCompensation.php';
 require_once MAX_PATH . '/lib/OA/Task/Runner.php';
 
@@ -59,10 +58,10 @@ class MAX_Maintenance_Priority_AdServer
         $oForecastZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
         $this->oTaskRunner->addTask($oForecastZoneImpressions);
         // Add tasks to get the required ad impressions
-        $oGetRequiredAdImpressionsType1 = new GetRequiredAdImpressionsType1();
-        $this->oTaskRunner->addTask($oGetRequiredAdImpressionsType1);
-        $oGetRequiredAdImpressionsType2 = new GetRequiredAdImpressionsType2();
-        $this->oTaskRunner->addTask($oGetRequiredAdImpressionsType2);
+        $oGetRequiredAdImpressionsLifetime = new OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime();
+        $this->oTaskRunner->addTask($oGetRequiredAdImpressionsLifetime);
+        $oGetRequiredAdImpressionsDaily = new OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily();
+        $this->oTaskRunner->addTask($oGetRequiredAdImpressionsDaily);
         // Add a task to allocate the ad impressions to zones
         $oAllocateZoneImpressions = new OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions();
         $this->oTaskRunner->addTask($oAllocateZoneImpressions);

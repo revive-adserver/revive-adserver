@@ -138,8 +138,10 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
             foreach ($this->aPlacements as $placementKey => $oPlacement) {
                 // Set the advertisements in the placement
                 $this->aPlacements[$placementKey]->setAdverts();
-                // Populate the ads with data from the GetRequiredAdImpressionsType1
-                // and GetRequiredAdImpressionsType2 task jobs previously run
+                // Populate the ads with data from the
+                // OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetime
+                // and OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily
+                // task jobs previously run
                 $this->_setRequiredImpressions($this->aPlacements[$placementKey]->aAds);
             }
         }

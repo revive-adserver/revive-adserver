@@ -64,9 +64,9 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
 
     /**
      * A variable for storing a local instance of the
-     * Openads_Table_Priority class.
+     * OA_DB_Table_Priority class.
      *
-     * @var Openads_Table_Priority
+     * @var OA_DB_Table_Priority
      */
     var $oTable;
 
