@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(

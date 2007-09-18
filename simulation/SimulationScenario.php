@@ -26,16 +26,16 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/SqlBuilder.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Priority/AdServer.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
  * A class for simulating maintenance/delivery scenarios
@@ -106,7 +106,7 @@ class SimulationScenario
         $_COOKIE = $HTTP_COOKIE_VARS = array();
 
 		// get service locator instance
-		$this->oServiceLocator = &ServiceLocator::instance();
+		$this->oServiceLocator =& OA_ServiceLocator::instance();
 
         // start with a clean set of tables
         OA_DB_Table_Core::destroy();

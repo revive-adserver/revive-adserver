@@ -25,7 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 
 require_once MAX_PATH . '/lib/OA.php';
@@ -33,6 +32,7 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/wact/db/db.inc.php';
 
 require_once MAX_PATH . '/tests/data/DefaultData.php';
@@ -267,7 +267,7 @@ class TestEnv
         // Reset all database sequences
         $oTable->resetAllSequences();
         // Destroy the service locator
-        $oServiceLocator = &ServiceLocator::instance();
+        $oServiceLocator =& OA_ServiceLocator::instance();
         unset($oServiceLocator->aService);
         // Re-set up the test environment
         TestRunner::setupEnv($GLOBALS['_MAX']['TEST']['layerEnv'], true);

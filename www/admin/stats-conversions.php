@@ -39,7 +39,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once 'Pager/Pager.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate + phpAds_Client);

@@ -37,7 +37,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 
 require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 // No cache
 MAX_commonSetNoCacheHeaders();

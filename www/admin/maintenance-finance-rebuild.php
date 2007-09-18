@@ -59,7 +59,7 @@ phpAds_registerGlobal('zoneid', 'cost', 'cost_type', 'cost_variable_id', 'cost_v
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$oServiceLocator = &ServiceLocator::instance();
+$oServiceLocator =& OA_ServiceLocator::instance();
 $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer_mysql');
 if (!$oDal) {
     $oDal = & new OA_Dal_Maintenance_Statistics_AdServer_mysql;

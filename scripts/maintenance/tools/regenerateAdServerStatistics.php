@@ -58,12 +58,12 @@ $path = dirname(__FILE__);
 require_once $path . '/../../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 // Create Date objects of the start and end dates, set the "current time"
 // to be 5 seconds after the end of the operation interval
@@ -71,7 +71,7 @@ $oStartDate = new Date(INTERVAL_START);
 $oEndDate   = new Date(INTERVAL_END);
 $oNowDate   = new Date(INTERVAL_END);
 $oNowDate->addSeconds(5);
-$oServiceLocator = &ServiceLocator::instance();
+$oServiceLocator =& OA_ServiceLocator::instance();
 $oServiceLocator->register('now', $oNowDate);
 
 // Check start/end dates - note that check is the reverse of normal check:

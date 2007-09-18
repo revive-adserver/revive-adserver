@@ -34,16 +34,16 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
-require_once MAX_PATH . '/lib/max/core/ServiceLocator.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 $clientId      = MAX_getValue('clientid');
 $campaignId    = MAX_getValue('campaignid');
@@ -214,7 +214,7 @@ if (!empty($aConversions))
                     $creative_id, $zone_id, $day, $hour, $data_summary_table);
 
                 // Update finance info
-                $oServiceLocator = &ServiceLocator::instance();
+                $oServiceLocator =& OA_ServiceLocator::instance();
                 $oDal = &$oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer_mysql');
                 if (!$oDal) {
                     $oDal = new OA_Dal_Maintenance_Statistics_AdServer_mysql;

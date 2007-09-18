@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/plugins/deliveryLimitations/DeliveryLimitations.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-require_once 'Date.php';
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * A Time delivery limitation plugin, for blocking delivery of ads on the basis
