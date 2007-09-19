@@ -379,6 +379,7 @@ class OA_DB_Upgrade
     function runPostScript($aParams='')
     {
         $method = 'execute_'.$this->timingStr;
+        $aParams = array($this);
         return call_user_func(array($this->oPostScript, $method), $aParams);
     }
 
@@ -1290,9 +1291,7 @@ class OA_DB_Upgrade
                 }
                 else
                 {
-                    $tableName = $this->oSchema->db->quoteIdentifier($this->prefix.$table,true);
-                    $query  = "DROP TABLE {$tableName}";
-                    $result = $this->oSchema->db->exec($query);
+                    $this->oTable->dropTable($this->prefix.$table);
                     if (!$this->_isPearError($result, 'error removing table '.$this->prefix.$table))
                     {
                         if (!$this->_executeMigrationMethodTable($table, 'afterRemoveTable'))
