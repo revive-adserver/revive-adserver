@@ -318,6 +318,11 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
                     $query.= ', ';
                 }
                 $query.= 'ADD ' . $db->getDeclaration($field['type'], $field_name, $field);
+                // OPENADS enhancement
+                if (array_key_exists('autoincrement', $field) && $field['autoincrement'])
+                {
+                    $query.= ' PRIMARY KEY';
+                }
             }
         }
 
@@ -492,7 +497,7 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
      * @return mixed array of table names on success, a MDB2 error on failure
      * @access public
      */
-    function listTables($database = null)
+    function listTables($database = null, $prefix='')
     {
         $db =& $this->getDBInstance();
         if (PEAR::isError($db)) {
@@ -504,6 +509,15 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
             $query .= " FROM $database";
         }
         $query.= "/*!50002  WHERE Table_type = 'BASE TABLE'*/";
+
+        /**
+         * OPENADS
+         */
+        if ($prefix)
+        {
+            $prefix = str_replace('_','\_',$prefix);
+            $query = "SHOW TABLES LIKE '{$prefix}%'";
+        }
 
         $table_names = $db->queryAll($query, null, MDB2_FETCHMODE_ORDERED);
         if (PEAR::isError($table_names)) {
@@ -818,13 +832,16 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
 
         $key_name = 'Key_name';
         $non_unique = 'Non_unique';
+        $table_name = 'Table';
         if ($db->options['portability'] & MDB2_PORTABILITY_FIX_CASE) {
             if ($db->options['field_case'] == CASE_LOWER) {
                 $key_name = strtolower($key_name);
                 $non_unique = strtolower($non_unique);
+                $table_name = strtolower($table_name);
             } else {
                 $key_name = strtoupper($key_name);
                 $non_unique = strtoupper($non_unique);
+                $table_name = strtoupper($table_name);
             }
         }
 
@@ -841,7 +858,7 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
                 if ($index_data[$key_name] !== 'PRIMARY') {
                     $index = $this->_fixIndexName($index_data[$key_name]);
                 } else {
-                    $index = 'PRIMARY';
+                    $index = $index_data[$table_name] . '_pkey';
                 }
                 if (!empty($index)) {
                     $result[$index] = true;
@@ -882,7 +899,7 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
 
         $sequence_name = $db->quoteIdentifier($db->getSequenceName($seq_name), true);
         $seqcol_name = $db->quoteIdentifier($db->options['seqcol_name'], true);
-        
+
         $options_strings = array();
 
         if (!empty($options['comment'])) {
@@ -1000,5 +1017,28 @@ class MDB2_Driver_Manager_mysqli extends MDB2_Driver_Manager_Common
     }
 
     // }}}
+
+    /**
+     * New OPENADS method
+     *
+     * @param string $table
+     * @return array
+     */
+    function getTableStatus($table)
+    {
+        $db =& $this->getDBInstance();
+        if (PEAR::isError($db)) {
+            return $db;
+        }
+
+        $query      = "SHOW TABLE STATUS LIKE '{$table}'";
+        $result     = $db->queryAll($query, null, MDB2_FETCHMODE_ASSOC);
+        if (PEAR::isError($result))
+        {
+            return array();
+        }
+        return $result;
+    }
+
 }
 ?>

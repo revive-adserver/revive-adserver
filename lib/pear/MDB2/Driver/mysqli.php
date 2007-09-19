@@ -387,6 +387,126 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
      */
     function connect()
     {
+        if (is_resource($this->connection)) {
+            if (count(array_diff($this->connected_dsn, $this->dsn)) == 0
+                && $this->opened_persistent == $this->options['persistent']
+                && $this->connected_database_name == $this->database_name
+            ) {
+                return MDB2_OK;
+            }
+            $this->disconnect(false);
+        }
+
+        if (!PEAR::loadExtension($this->phptype)) {
+            return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+                'extension '.$this->phptype.' is not compiled into PHP', __FUNCTION__);
+        }
+
+        $params = array();
+        if ($this->dsn['protocol'] && $this->dsn['protocol'] == 'unix') {
+            $params[0] = ':' . $this->dsn['socket'];
+        } else {
+            $params[0] = $this->dsn['hostspec'] ? $this->dsn['hostspec']
+                         : 'localhost';
+            if ($this->dsn['port']) {
+                $params[0].= ':' . $this->dsn['port'];
+            }
+        }
+        $params[] = $this->dsn['username'] ? $this->dsn['username'] : null;
+        $params[] = $this->dsn['password'] ? $this->dsn['password'] : null;
+
+        if (version_compare(phpversion(), '4.3.0', '>=')) {
+            $params[] = isset($this->dsn['client_flags'])
+                ? $this->dsn['client_flags'] : null;
+        }
+
+        if ($this->options['ssl']) {
+            $init = @mysqli_init();
+            @mysqli_ssl_set(
+                $init,
+                empty($this->dsn['key'])    ? null : $this->dsn['key'],
+                empty($this->dsn['cert'])   ? null : $this->dsn['cert'],
+                empty($this->dsn['ca'])     ? null : $this->dsn['ca'],
+                empty($this->dsn['capath']) ? null : $this->dsn['capath'],
+                empty($this->dsn['cipher']) ? null : $this->dsn['cipher']
+            );
+            if ($connection = @mysqli_real_connect(
+                    $init,
+                    $this->dsn['hostspec'],
+                    $this->dsn['username'],
+                    $this->dsn['password'],
+                    $this->database_name,
+                    $this->dsn['port'],
+                    $this->dsn['socket']))
+            {
+                $connection = $init;
+            }
+        } else {
+            $connection = @mysqli_connect(
+                $this->dsn['hostspec'],
+                $this->dsn['username'],
+                $this->dsn['password'],
+                $this->database_name,
+                $this->dsn['port'],
+                $this->dsn['socket']
+            );
+        }
+
+        if (!$connection) {
+            if (($err = @mysqli_connect_error()) != '') {
+                return $this->raiseError(null,
+                    null, null, $err, __FUNCTION__);
+            } else {
+                return $this->raiseError(MDB2_ERROR_CONNECT_FAILED, null, null,
+                    'unable to establish a connection', __FUNCTION__);
+            }
+        }
+
+        if (!empty($this->dsn['charset'])) {
+            $result = $this->setCharset($this->dsn['charset'], $connection);
+            if (PEAR::isError($result)) {
+                return $result;
+            }
+        }
+
+        $this->connection = $connection;
+        $this->connected_dsn = $this->dsn;
+        $this->connected_database_name = $this->database_name;
+        $this->dbsyntax = $this->dsn['dbsyntax'] ? $this->dsn['dbsyntax'] : $this->phptype;
+
+        $this->supported['transactions'] = $this->options['use_transactions'];
+        if ($this->options['default_table_type']) {
+            switch (strtoupper($this->options['default_table_type'])) {
+            case 'BLACKHOLE':
+            case 'MEMORY':
+            case 'ARCHIVE':
+            case 'CSV':
+            case 'HEAP':
+            case 'ISAM':
+            case 'MERGE':
+            case 'MRG_ISAM':
+            case 'ISAM':
+            case 'MRG_MYISAM':
+            case 'MYISAM':
+                $this->supported['transactions'] = false;
+                $this->warnings[] = $this->options['default_table_type'] .
+                    ' is not a supported default table type';
+                break;
+            }
+        }
+
+        $this->_getServerCapabilities();
+
+        return MDB2_OK;
+    }
+
+    /**
+     * Connect to the database
+     *
+     * @return true on success, MDB2 Error Object on failure
+     */
+    function connecti()
+    {
         if (is_object($this->connection)) {
             if (count(array_diff($this->connected_dsn, $this->dsn)) == 0) {
                 return MDB2_OK;
@@ -473,10 +593,28 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
                 break;
             }
         }
-        
+
         $this->_getServerCapabilities();
 
         return MDB2_OK;
+    }
+
+    // }}}
+    // {{{ isDBCaseSensitive()
+
+    /**
+     *
+     * @return boolean
+     */
+    function isDBCaseSensitive()
+    {
+        $aVar = $this->queryAll('SHOW VARIABLES LIKE "lower_case_table_names"');
+        if (!$aVar) {
+            return $this->raiseError(null, null, null,
+                'Unable to get mysql variable info');
+        }
+        $result = ( $aVar[0]['value'] == 0 ? MDB2_OK : false );
+        return $result;
     }
 
     // }}}
@@ -875,7 +1013,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
             if (is_null($placeholder_type)) {
                 $placeholder_type_guess = $query[$p_position];
             }
-            
+
             $new_pos = $this->_skipDelimitedStrings($query, $position, $p_position);
             if (PEAR::isError($new_pos)) {
                 return $new_pos;
@@ -884,7 +1022,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
                 $position = $new_pos;
                 continue; //evaluate again starting from the new position
             }
-            
+
             if ($query[$position] == $placeholder_type_guess) {
                 if (is_null($placeholder_type)) {
                     $placeholder_type = $query[$p_position];
