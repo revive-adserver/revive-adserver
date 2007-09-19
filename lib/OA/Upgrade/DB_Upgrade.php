@@ -364,10 +364,10 @@ class OA_DB_Upgrade
         return $this->_prepScript($file, 'prescript', 'oPreScript');
     }
 
-    function runPreScript($aParams='')
+    function runPreScript($aParams=array())
     {
         $method = 'execute_'.$this->timingStr;
-        $aParams = array($this);
+        array_unshift($aParams, $this);
         return call_user_func(array($this->oPreScript, $method), $aParams);
     }
 
@@ -376,10 +376,10 @@ class OA_DB_Upgrade
         return $this->_prepScript($file, 'postscript', 'oPostScript');
     }
 
-    function runPostScript($aParams='')
+    function runPostScript($aParams=array())
     {
         $method = 'execute_'.$this->timingStr;
-        $aParams = array($this);
+        array_unshift($aParams, $this);
         return call_user_func(array($this->oPostScript, $method), $aParams);
     }
 

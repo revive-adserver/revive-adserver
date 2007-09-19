@@ -60,7 +60,12 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $this->assertTrue($oDB_Upgrade->prepPreScript(MAX_PATH.'/lib/OA/Upgrade/tests/data/prescript_tables_core_2.php'));
-        $this->assertTrue($oDB_Upgrade->runPreScript(),'prescript execution error');
+        $oDB_Upgrade->_setTiming('', DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT);
+        $this->assertEqual($oDB_Upgrade->timingStr, 'constructive');
+        $this->assertEqual($oDB_Upgrade->runPreScript(array('sent prescript_tables_core_2')),'returned constructive prescript_tables_core_2','prescript execution error');
+        $oDB_Upgrade->_setTiming('', DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT);
+        $this->assertEqual($oDB_Upgrade->timingStr, 'destructive');
+        $this->assertEqual($oDB_Upgrade->runPreScript(array('sent prescript_tables_core_2')),'returned destructive prescript_tables_core_2','prescript execution error');
     }
 
     function test_prepPostScript()
@@ -74,8 +79,12 @@ class Test_DB_Upgrade extends UnitTestCase
     {
         $oDB_Upgrade = $this->_newDBUpgradeObject();
         $this->assertTrue($oDB_Upgrade->prepPostScript(MAX_PATH.'/lib/OA/Upgrade/tests/data/postscript_tables_core_2.php'));
-        $this->assertTrue($oDB_Upgrade->runPostScript(true),'postscript execution error');
-        $this->assertFalse($oDB_Upgrade->runPostScript(false),'postscript execution error');
+        $oDB_Upgrade->_setTiming('', DB_UPGRADE_TIMING_CONSTRUCTIVE_DEFAULT);
+        $this->assertEqual($oDB_Upgrade->timingStr, 'constructive');
+        $this->assertEqual($oDB_Upgrade->runPostScript(array('sent postscript_tables_core_2')),'returned constructive postscript_tables_core_2','postscript execution error');
+        $oDB_Upgrade->_setTiming('', DB_UPGRADE_TIMING_DESTRUCTIVE_DEFAULT);
+        $this->assertEqual($oDB_Upgrade->timingStr, 'destructive');
+        $this->assertEqual($oDB_Upgrade->runPostScript(array('sent postscript_tables_core_2')),'returned destructive postscript_tables_core_2','ppstscript execution error');
     }
 
     /**
