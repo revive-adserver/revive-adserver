@@ -25,12 +25,11 @@
 $Id$
 */
 
-class postscript_tables_core_999100
+class prescript_tables_core_999200
 {
     var $oDBUpgrade;
-    var $oDbh;
 
-    function postscript_tables_core_999100()
+    function prescript_tables_core_999200()
     {
 
     }
@@ -38,15 +37,16 @@ class postscript_tables_core_999100
     function execute_constructive($aParams)
     {
         $this->oDBUpgrade = $aParams[0];
-        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
-        $this->_log('**********postscript_tables_core_999100**********');
-        $result = $this->insertData();
-        $this->_logActual();
-        return $result;
+        $this->_log('**********prescript_tables_core_999200::execute_constructive**********');
+        $this->_logExpectedConstructive();
+        return true;
     }
 
     function execute_destructive($aParams)
     {
+        $this->oDBUpgrade = $aParams[0];
+        $this->_log('**********prescript_tables_core_999200::execute_destructive**********');
+        $this->_logExpectedDestructive();
         return true;
     }
 
@@ -59,66 +59,49 @@ class postscript_tables_core_999100
         return true;
     }
 
-    function _logActual()
+    function _logExpectedConstructive()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
-        if (!in_array($prefix.'bender', $aExistingTables))
-        {
-            $this->_log('changes_tables_core_999100:: TEST A : failed to create table '.$prefix.'bender');
-        }
-        else
-        {
-            $this->_log('changes_tables_core_999100::TEST A : created table '.$prefix.'bender defined as:');
-            $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('bender');
-            $this->_log(print_r($aDef['tables'],true));
-        }
         if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $this->_log('changes_tables_core_999100:: TEST B : failed to create table '.$prefix.'astro defined as:');
+            $this->_log('Table '.$prefix.'astro does not exist in database therefore changes_tables_core_999200 will not be able to alter fields for table '.$prefix.'astro');
         }
         else
         {
-            $this->_log('changes_tables_core_999100::TEST B : created table '.$prefix.'astro defined as:');
-            $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('astro');
-            $this->_log(print_r($aDef['tables'],true));
-            $query = 'SELECT COUNT(*) FROM '.$prefix.'astro';
-            $result = $this->oDbh->queryOne($query);
-            if (PEAR::isError($result))
-            {
-                $this->_log('postscript_tables_core_999100:: TEST C : failed to insert records in table astro');
-            }
-            $this->_log('postscript_tables_core_999100:: TEST C : inserted '.$result.' records in table astro');
+            $this->_log('changes_tables_core_999200::TEST A : add (as part of rename) field to table '.$prefix.'astro defined as:');
+            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['id_changed_field'];
+            $this->_log(print_r($aDef,true));
+
+            $this->_log('changes_tables_core_999200::TEST B : alter field in table '.$prefix.'astro defined as:');
+            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['varchar_field'];
+            $this->_log(print_r($aDef,true));
+
+            $this->_log('changes_tables_core_999200::TEST C : add field to table '.$prefix.'astro defined as:');
+            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['text_field'];
+            $this->_log(print_r($aDef,true));
         }
     }
 
-    function insertData()
+    function _logExpectedDestructive()
     {
-        $table = $this->oDbh->quoteIdentifier($this->oDBUpgrade->prefix.'astro',true);
-        for ($i=1;$i<11;$i++)
+        $aExistingTables = $this->oDBUpgrade->_listTables();
+        $prefix = $this->oDBUpgrade->prefix;
+        if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $query = "INSERT INTO
-                      {$table}
-                      (
-                        id_field,
-                        desc_field
-                      )
-                       VALUES
-                      (
-                        {$i},
-                        'desc {$i}'
-                      )";
-            $result = $this->oDbh->exec($query);
-            if (PEAR::isError($result))
-            {
-                $this->_log('postscript_tables_core_999100::insertData failed: '.$result->getUserInfo());
-                return false;
-            }
+            $this->_log('Table '.$prefix.'astro does not exist in database therefore changes_tables_core_999200 will not be able to remove a field from table '.$prefix.'astro');
         }
-        $this->_log('postscript_tables_core_999100::insertData complete');
-        return true;
-    }
+        else
+        {
+            $this->_log('changes_tables_core_999200::TEST D : remove (as part of rename) field from table '.$prefix.'astro defined as:');
+            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['id_field'];
+            $this->_log(print_r($aDef,true));
 
+            $this->_log('changes_tables_core_999200::TEST E : remove (as part of rename) field from table '.$prefix.'astro defined as:');
+            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['desc_field'];
+            $this->_log(print_r($aDef,true));
+        }
+    }
 }
 
 ?>

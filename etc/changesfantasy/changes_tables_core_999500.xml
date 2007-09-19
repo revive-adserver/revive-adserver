@@ -3,16 +3,11 @@
 <instructionset>
   <name>openads</name>
   <version>999500</version>
-  <comments>fantasy upgrade: remove primary key constraint, remove field, remove table</comments>
+  <comments>fantasy upgrade: remove primary key constraint, remove field</comments>
   <constructive>
     <changeset>
       <name>openads</name>
       <version>999500</version>
-      <change>
-        <table>
-          <name>klapaucius</name>
-      </table>
-    </change>
   </changeset>
 </constructive>
 <destructive>

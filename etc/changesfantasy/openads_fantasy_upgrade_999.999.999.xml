@@ -21,6 +21,7 @@
             <file>schema_tables_core_999100.xml</file>
             <file>changes_tables_core_999100.xml</file>
             <file>migration_tables_core_999100.php</file>
+            <prescript>prescript_tables_core_999100.php</prescript>
             <postscript>postscript_tables_core_999100.php</postscript>
         </package>
         <package>
@@ -30,6 +31,8 @@
             <file>schema_tables_core_999150.xml</file>
             <file>changes_tables_core_999150.xml</file>
             <file>migration_tables_core_999150.php</file>
+            <prescript>prescript_tables_core_999150.php</prescript>
+            <postscript>postscript_tables_core_999150.php</postscript>
         </package>
         <package>
             <comments>add field, alter field, rename field</comments>
@@ -38,6 +41,8 @@
             <file>schema_tables_core_999200.xml</file>
             <file>changes_tables_core_999200.xml</file>
             <file>migration_tables_core_999200.php</file>
+            <prescript>prescript_tables_core_999200.php</prescript>
+            <postscript>postscript_tables_core_999200.php</postscript>
         </package>
         <package>
             <comments>add autoincrement field</comments>
@@ -46,6 +51,8 @@
             <file>schema_tables_core_999250.xml</file>
             <file>changes_tables_core_999250.xml</file>
             <file>migration_tables_core_999250.php</file>
+            <prescript>prescript_tables_core_999250.php</prescript>
+            <postscript>postscript_tables_core_999250.php</postscript>
         </package>
         <package>
             <comments>rename autoincrement field</comments>
@@ -54,6 +61,8 @@
             <file>schema_tables_core_999300.xml</file>
             <file>changes_tables_core_999300.xml</file>
             <file>migration_tables_core_999300.php</file>
+            <prescript>prescript_tables_core_999300.php</prescript>
+            <postscript>postscript_tables_core_999300.php</postscript>
         </package>
         <package>
             <comments>remove autoincrement field</comments>
@@ -62,6 +71,8 @@
             <file>schema_tables_core_999350.xml</file>
             <file>changes_tables_core_999350.xml</file>
             <file>migration_tables_core_999350.php</file>
+            <prescript>prescript_tables_core_999350.php</prescript>
+            <postscript>postscript_tables_core_999350.php</postscript>
         </package>
         <package>
             <comments>remove index, add primary key constraint</comments>
@@ -70,6 +81,8 @@
             <file>schema_tables_core_999400.xml</file>
             <file>changes_tables_core_999400.xml</file>
             <file>migration_tables_core_999400.php</file>
+            <prescript>prescript_tables_core_999400.php</prescript>
+            <postscript>postscript_tables_core_999400.php</postscript>
         </package>
         <package>
             <comments>rename table</comments>
@@ -78,14 +91,18 @@
             <file>schema_tables_core_999450.xml</file>
             <file>changes_tables_core_999450.xml</file>
             <file>migration_tables_core_999450.php</file>
+            <prescript>prescript_tables_core_999450.php</prescript>
+            <postscript>postscript_tables_core_999450.php</postscript>
         </package>
         <package>
-            <comments>remove primary key constraint, remove field, remove table</comments>
+            <comments>remove primary key constraint, remove field</comments>
             <version>999500</version>
             <schema>tables_core</schema>
             <file>schema_tables_core_999500.xml</file>
             <file>changes_tables_core_999500.xml</file>
             <file>migration_tables_core_999500.php</file>
+            <prescript>prescript_tables_core_999500.php</prescript>
+            <postscript>postscript_tables_core_999500.php</postscript>
         </package>
     </database>
 

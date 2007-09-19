@@ -5,7 +5,7 @@
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
+| Copyright (c) 3003-3007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
@@ -22,31 +22,60 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id $
+$Id$
 */
 
-class OA_UpgradePrescript
+class postscript_tables_core_999300
 {
-    var $oUpgrade;
+    var $oDBUpgrade;
+    var $oDbh;
 
-    function OA_UpgradePrescript()
+    function postscript_tables_core_999300()
     {
+
     }
 
-    function execute($aParams)
+    function execute_constructive($aParams)
     {
-        $this->oUpgrade = & $aParams[0];
-        $this->_log('OA_UpgradePrescript: Start Fantasy Upgrade');
+        $this->oDBUpgrade = $aParams[0];
+        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
+        $this->_log('**********postscript_tables_core_999300**********');
+        $this->_logActual();
+        return true;
+    }
+
+    function execute_destructive($aParams)
+    {
         return true;
     }
 
     function _log($msg)
     {
-        $logOld = $this->oUpgrade->oLogger->logFile;
-        $this->oUpgrade->oLogger->setLogFile('fantasy.log');
-        $this->oUpgrade->oLogger->logOnly($msg);
-        $this->oUpgrade->oLogger->logFile = $logOld;
+        $logOld = $this->oDBUpgrade->oLogger->logFile;
+        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
+        $this->oDBUpgrade->oLogger->logOnly($msg);
+        $this->oDBUpgrade->oLogger->logFile = $logOld;
         return true;
     }
 
+    function _logActual()
+    {
+        $aExistingTables = $this->oDBUpgrade->_listTables();
+        $prefix = $this->oDBUpgrade->prefix;
+        if (in_array($prefix.'astro', $aExistingTables))
+        {
+            $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('astro');
+            if (isset($aDef['tables']['astro']['fields']['auto_renamed_field']))
+            {
+                $this->_log('changes_tables_core_999300::TEST A : renamed autoincrement field for table '.$prefix.'astro defined as:');
+                $this->_log(print_r($aDef['tables']['astro']['fields']['auto_renamed_field'],true));
+            }
+            else
+            {
+                $this->_log('changes_tables_core_999300::TEST A : failed to rename autoincrement field for table '.$prefix.'astro');
+            }
+        }
+    }
 }
+
+?>
