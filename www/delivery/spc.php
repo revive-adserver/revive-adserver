@@ -2650,8 +2650,9 @@ $context[] = $contextArray;
 }
 }
 MAX_cookieFlush();
-// Show the banner
+// Setup the banners for this page
 header("Content-type: application/x-javascript");
+header("Content-Size: ".strlen($spc_output));
 echo $spc_output;
 
 
