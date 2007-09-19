@@ -17,12 +17,12 @@ body, table, td, select, textarea, input  {
     font-size: 11px;
 }
 
-a {
+a, span.link {
     color: #003399;
     text-decoration: none;
 }
 
-a:hover {
+a:hover, span.link:hover {
     text-decoration: underline;
 }
 
@@ -477,7 +477,7 @@ a.time:before
 /* CSS-styled sections */
 
 .section {
-    margin-bottom: 2em;
+      margin-bottom: 3em;
 }
 .section img {
     border: none;
@@ -542,3 +542,175 @@ a.time:before
 .section .link-buttons span {
     color: #999999;
 }
+
+/** Extra CSS adde for AdNetworks integration */
+table.data-grid tr.data:hover {
+  background-color: #fffccd;
+}
+
+table.data-grid tr.data.edit, table.data-grid tr.data.edit:hover {
+  background-color: #dce9f5;
+}
+
+table.data-grid tr.data td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+table.data-grid tr.edit span.view {
+  display: none;
+}
+
+table.data-grid tr.view span.edit {
+  display: none;
+}
+
+table.data-grid td.cntr {
+  text-align: center;
+}
+
+.hide {
+  display: none;
+}
+
+span.link {
+  cursor: pointer;
+}
+/*
+span.start-edit:before {
+  content:url('../icon-generatecode.gif');
+  vertical-align: -30%;
+  padding-right: 0.3em;
+}
+*/
+span.start-edit {
+  background-image: url('../icon-edit.gif');
+  background-repeat: no-repeat;
+  background-position: 0 -1px;
+  padding-left: 20px;
+}
+
+span.start-edit-disabled {
+  background-image: url('../icon-edit-disabled.gif');
+  background-repeat: no-repeat;
+  background-position: 0 -1px;
+  padding-left: 20px;
+  color: #a0a0a0;
+}
+
+span.save-edit {
+  background-image: url('../icon-checkmark.gif');
+  background-repeat: no-repeat;
+  background-position: 1px 2px;
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+span.cancel-edit {
+  background-image: url('../icon-x.gif');
+  background-repeat: no-repeat;
+  background-position: 1px 2px;
+  padding-left: 20px;
+}
+
+div.error-box {
+  background-image: url('../errormessage.gif');
+  background-repeat: no-repeat;
+  background-position: 5px 5px;
+  background-color: #ffcccc;
+  padding: 5px;
+  padding-left: 25px;
+  width: 70%; 
+  border: 1px solid red; 
+  margin: 0 auto 0 auto;
+  -moz-border-radius: 5px;
+  text-align: left;
+}
+
+select.error, input.error {
+  background-color: #ffcccc;
+  border: default;
+}
+
+select.inline {
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+
+.section div.content {
+  padding-left: 15px;
+}
+
+form.new-form div.line:after, .clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+form.new-form div.line {
+  margin-bottom: 5px;
+}
+
+form.new-form div.line-nolabel {
+  margin-bottom: 3px;
+  padding-left: 100px;
+}
+
+form.new-form label.left {
+  width: 100px;
+  float: left;
+  font-weight: bold;
+}
+
+form.new-form input[type='checkbox'] {
+  margin: 3px 5px 3px 0;
+}
+
+form.new-form label.cb {
+  position: relative;
+  top: -2px;
+}
+
+form.new-form label.inline {
+  position: relative;
+  top: -1px;
+  font-weight: bold;
+  padding-left: 20px;
+  padding-right: 5px;
+}
+
+form.new-form input[type='text'], form.new-form select {
+  width: 18em; 
+}
+
+form.new-form input.main {
+  font-weight: bold;
+}
+
+form.new-form {
+  margin: 10px 0 0 0;
+}
+
+.main-submit {
+  font-weight: bold;
+}
+
+a.adv-list-entry {
+  width: 150px;
+  float: left;
+}
+
+
+/** window **/
+.jqm-window-title {
+  width: 100%;
+  color: white;
+  background-color: #0066cc;
+  font-weight: bold;
+  font-size: 120%;
+  text-align: left;
+  margin-bottom: 10px;
+}
+

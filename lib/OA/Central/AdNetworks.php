@@ -61,7 +61,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
     function getCategories()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oMapper->getCategories($aPref['language']);
+        $result = $this->oCache->call(array(&$this->oMapper, 'getCategories'), $aPref['language']);
 
         if (PEAR::isError($result)) {
             return false;
@@ -83,7 +83,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
     function getCountries()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oMapper->getCountries($aPref['language']);
+        $result = $this->oCache->call(array(&$this->oMapper, 'getCountries'), $aPref['language']);
 
         if (PEAR::isError($result)) {
             return false;
@@ -105,7 +105,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
     function getLanguages()
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
-        $result = $this->oMapper->getLanguages($aPref['language']);
+        $result = $this->oCache->call(array(&$this->oMapper, 'getLanguages'), $aPref['language']);
 
         if (PEAR::isError($result)) {
             return false;
@@ -124,7 +124,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
      * @todo Implement rollback
      *
      * @param array $aWebsites
-     * @return boolean True on success
+     * @return mixed True on success, PEAR_Error otherwise
      */
     function subscribeWebsites($aWebsites)
     {
@@ -133,12 +133,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         $aSubscriptions = $this->oMapper->subscribeWebsites($aWebsites);
 
-        if (PEAR::isError($result)) {
-            return false;
+        if (PEAR::isError($aSubscriptions)) {
+            return $aSubscriptions;
         }
 
         if (!$this->oDal->beginTransaction()) {
-            return false;
+            return new PEAR_Error('Cannot start transaction');
         }
 
         // Simulate transactions
@@ -188,14 +188,24 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         for (reset($aSubscriptions['websites']); $ok && ($aWebsite = current($aSubscriptions['websites'])); next($aSubscriptions['websites'])) {
             // Create publisher
+            $websiteIdx = key($aWebsites);
+            foreach ($aWebsites as $key => $value) {
+                if ($value['url'] == $aWebsite['url']) {
+                    $websiteIdx = $key;
+                }
+            }
+
             $publisherName = $this->oDal->getUniquePublisherName($aWebsite['url']);
             $publisher = array(
-                'name'           => $publisherName,
-                'mnemonic'       => '',
-                'contact'        => $aPref['admin_name'],
-                'email'          => $aPref['admin_email'],
-                'website'        => $aWebsite['url'],
-                'oac_website_id' => $aWebsite['website_id']
+                'name'             => $publisherName,
+                'mnemonic'         => '',
+                'contact'          => $aPref['admin_name'],
+                'email'            => $aPref['admin_email'],
+                'website'          => 'http://'.$aWebsite['url'],
+                'oac_website_id'   => $aWebsite['website_id'],
+                'oac_country_code' => $aWebsites[$websiteIdx]['country'],
+                'oac_language_id'  => $aWebsites[$websiteIdx]['language'],
+                'oac_category_id'  => $aWebsites[$websiteIdx]['category']
             );
 
             $doPublishers = OA_Dal::factoryDO('affiliates');
@@ -304,7 +314,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 $this->oDal->undoEntities($aCreated);
             }
 
-            return false;
+            return new PEAR_Error('There was an error storing the data on the database');
         }
 
         return $this->oDal->commit();

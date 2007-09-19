@@ -36,6 +36,7 @@ require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 function _isBannerAssignedToCampaign($aBannerData)
 {
@@ -48,6 +49,9 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+
+// Initialise Ad  Networks
+$oAdNetworks = new OA_Central_AdNetworks();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -110,27 +114,16 @@ if (phpAds_isUser(phpAds_Admin)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
     $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
-
-    $oTpl->assign('number_of_active_campaigns', $dalCampaigns->countActiveCampaigns());
-    $oTpl->assign('number_of_active_banners', $dalBanners->countActiveBanners());
 } elseif (phpAds_isUser(phpAds_Agency)) {
     $agency_id = phpAds_getUserID();
     $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
     $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);
-
-    $oTpl->assign('number_of_active_campaigns', $dalCampaigns->countActiveCampaignsUnderAgency($agency_id));
-    $oTpl->assign('number_of_active_banners', $dalBanners->countActiveBannersUnderAgency($agency_id));
 }
 
-$oTpl->assign('number_of_clients', count($clients));
-$oTpl->assign('number_of_campaigns', count($campaigns));
-$oTpl->assign('number_of_banners', count($banners));
 
 // Build Tree
 $clientshidden = 0;
-
-$aOacAdvertisers = array();
 
 if (!empty($banners)) {
     // Add banner to campaigns
@@ -158,10 +151,6 @@ if (!empty($campaigns)) {
         }
         if ($hideinactive == false || ($campaign['active'] == 't' &&  !empty($campaign['banners']))) {
             $clients[$campaign['clientid']]['campaigns'][$ckey] = $campaign;
-
-            if (!empty($campaign['oac_campaign_id'])) {
-                $aOacAdvertisers[$campaign['clientid']] = true;
-            }
         }
     }
     unset ($campaigns);
@@ -238,17 +227,52 @@ if (isset($node_array['clients'])) {
     }
 }
 
-foreach (array_keys($aOacAdvertisers) as $advertiserId) {
-    if (isset($clients[$advertiserId])) {
-        $aOacAdvertisers[$advertiserId] = $clients[$advertiserId];
-        unset($clients[$advertiserId]);
-    } else {
-        unset($aOacAdvertisers[$advertiserId]);
+$aOacAdvertisers = array();
+$aCounts = array();
+for ($i = 0; $i < 3; $i++) {
+    foreach (array('advertisers', 'campaigns', 'banners', 'campaigns-active', 'banners-active') as $v) {
+        $aCount[$i][$v] = 0;
+    }
+}
+foreach ($clients as $clientid => $client) {
+    $isOac = empty($client['oac_adnetwork_id']) ? 0 : 1;
+
+    $aCount[$isOac]['advertisers']++;
+
+    if ($isOac) {
+        unset($clients[$clientid]);
+        $aOacAdvertisers[$clientid] = $client;
+    }
+
+    foreach ($client['campaigns'] as $campaignid => $campaign) {
+        $aCount[$isOac]['campaigns']++;
+        $aCount[$isOac]['campaigns-active'] += $campaign['active'] == 't' ? 1 : 0;
+        foreach ($campaign['banners'] as $bannerid => $banner) {
+            $aCount[$isOac]['banners']++;
+            $aCount[$isOac]['banners-active'] += $campaign['active'] == 't' && $banner['active'] == 't' ? 1 : 0;
+        }
     }
 }
 
+foreach (array_keys($aCount[2]) as $k) {
+    $aCount[2][$k] = $aCount[0][$k] + $aCount[1][$k];
+}
+
+$aCount = array(
+    'Openads' => $aCount[1],
+    'Local'   => $aCount[0],
+    'Total'   => $aCount[2]
+);
+
+$aCountries = array('' => '- pick a country -') + $oAdNetworks->getCountries();
+$aLanguages = array('' => '- pick a language -') + $oAdNetworks->getLanguages();
+
 $oTpl->assign('aOacAdvertisers', $aOacAdvertisers);
-$oTpl->assign('clients', $clients);
+$oTpl->assign('aOapAdvertisers', $clients);
+$oTpl->assign('aCount', $aCount);
+
+$oTpl->assign('aCountries',  $aCountries);
+$oTpl->assign('aLanguages',  $aLanguages);
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);

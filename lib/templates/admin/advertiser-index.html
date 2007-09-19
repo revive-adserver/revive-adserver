@@ -28,12 +28,6 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 
 -->*}
 
-{if $aOacAdvertisers|@count}
-    {include file=advertiser-index-list.html from=$aOacAdvertisers hide_controls=1}
-
-    <br /><br /><br /><br />
-{/if}
-
 
 
 <img src="images/icon-advertiser-new.gif" border="0" align="absmiddle">&nbsp;
@@ -41,38 +35,106 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 
 {phpAds_ShowBreak}
 
-<br /><br />
-{include file=advertiser-index-list.html from=$clients hide_controls=0}
+<br>
+<br>
 
-<br /><br /><br /><br />
+<div class="section">
+<div>
+<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
+        <b>Openads advertisers</b>
+<br>
+<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+<div class="content">
 
-<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
+{include file=advertiser-index-list.html from=$aOacAdvertisers listEmptyStr=""}
+
+</div>
+</div>
+
+<div class="section">
+<div>
+<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
+        <b>Find other ad networks</b>
+<br>
+<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+<div class="content">
+<table>
 <tr>
-<td height='25' colspan='3'>&nbsp;&nbsp;<b>{t str=Overall}</b></td>
-</tr>
-<tr height='1'>
-<td colspan='4' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
-</tr>
+<td style="vertical-align: top">
+<form style="width: 230px" id="findnetworksform" class="new-form">
 
-<tr>
-<td height='25'>&nbsp;&nbsp;{t str=TotalBanners}: <b>{$number_of_banners}</b></td>
-<td height='25'>{t str=TotalCampaigns}: <b>{$number_of_campaigns}</b></td>
-<td height='25'>{t str=TotalClients}: <b>{$number_of_clients}</b></td>
-</tr>
+<div class="line">
+<label for="country" class="left" style="width: 70px; line-height: 20px">Country</label><select style="width: 11em;margin-left: 5px;" name="country" id="country" class="inline flat">
+    {html_options options=$aCountries}
+</select>
+<br>
+</div>
+<div class="line">
+<label for="language" class="left" style="width: 70px; line-height: 20px">Language</label><select style="width: 11em;margin-left: 5px;" name="language" id="language" class="inline flat">
+    {html_options options=$aLanguages}
+</select>
 
-<tr height='1'>
-<td colspan='4' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td>
-</tr>
+</div>
+</form>
+</td><td style="vertical-align: top; padding-top: 14px"><span id="other-networks-table"><a href="" target="_blank" class="adv-list-entry">Google AdSense</a><a href="" target="_blank" class="adv-list-entry">Valueclick</a><a href="" target="_blank" class="adv-list-entry">Text Link Ads</a>
+<div style="clear: both">&nbsp;</div>
+<a href="" target="_blank" class="adv-list-entry">Kontera</a><a href="" target="_blank" class="adv-list-entry">CPX</a><a href="" target="_blank" class="adv-list-entry">Google AdSense</a>
+<div style="clear: both">&nbsp;</div>
+<a href="" target="_blank" class="adv-list-entry">Valueclick</a><a href="" target="_blank" class="adv-list-entry">Text Link Ads</a><a href="" target="_blank" class="adv-list-entry">Kontera</a>
+<div style="clear: both">&nbsp;</div>
 
-<tr>
-<td height='25'>&nbsp;&nbsp;{t str=ActiveBanners}: <b>{$number_of_active_banners}</b></td>
-<td height='25'>{t str=ActiveCampaigns}: <b>{$number_of_active_campaigns}</b></td>
-<td height='25'>&nbsp;</td>
-</tr>
-
-<tr height='1'>
-<td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
-
+<a href="" target="_blank" class="adv-list-entry">CPX</a></span></td>
 </tr>
 </table>
-<br /><br />
+<script>
+
+      initFindOtherNetworks();
+    </script>
+</div>
+</div>
+<div class="section">
+<div>
+<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
+        <b>Local advertisers</b>
+<br>
+<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+<div class="content">
+
+{include file=advertiser-index-list.html from=$aOapAdvertisers hide_controls=0}
+
+</div>
+</div>
+
+<div class="section">
+<div>
+<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
+        <b>Overall</b>
+<br>
+<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+<div class="content">
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+<tr height="1">
+<td colspan="5" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
+</tr>
+{cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
+{foreach key=overallTitle item=overall from=$aCount}
+    {cycle name=bgcolor assign=bgColor}
+<tr bgcolor="{$bgColor}">
+<td height="25" rowspan="3" style="width:15%"><b>{$overallTitle}</b></td><td height="25"><b>{$overall.advertisers}</b> advertiser(s)</td>
+
+</tr>
+<tr bgcolor="{$bgColor}">
+<td height="25"><b>{$overall.campaigns}</b> campaign(s) (<i>{$overall.campaigns-active} active</i>)</td>
+</tr>
+<tr bgcolor="{$bgColor}">
+<td height="25"><b>{$overall.banners}</b> banner(s) (<i>{$overall.banners-active} active</i>)
+        </td>
+</tr>
+
+<tr height="1">
+<td colspan="5" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
+</tr>
+{/foreach}
+</table>
+</div>
+</div>

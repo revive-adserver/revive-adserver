@@ -465,6 +465,14 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         echo MAX_flashGetFlashObjectExternal();
     }
 
+    // Add jQuery css/scripts
+    echo '<link rel="stylesheet" type="text/css" media="all" href="css/jqModal.css" />';
+    echo '<script language="JavaScript" type="text/javascript" src="js/jquery-1.2.min.js"></script>';
+    echo '<script language="JavaScript" type="text/javascript" src="js/jqModal.js"></script>';
+    echo '<script language="JavaScript" type="text/javascript" src="js/jquery.dimensions.js"></script>';
+    echo '<script language="JavaScript" type="text/javascript" src="js/jquery.tooltip.js"></script>';
+    echo '<script language="JavaScript" type="text/javascript" src="js/jquery-adnetworks.js"></script>';
+
     // Show Moz site bar
     echo $mozbar;
     echo "\t</head>\n\n\n";

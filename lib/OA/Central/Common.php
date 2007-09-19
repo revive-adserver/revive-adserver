@@ -31,6 +31,8 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/Common.php';
 require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
 
+require_once 'Cache/Lite/Function.php';
+
 
 /**
  * OAP binding to the common OAC API
@@ -49,6 +51,11 @@ class OA_Central_Common
     var $oDal;
 
     /**
+     * @var Cache_Lite
+     */
+    var $oCache;
+
+    /**
      * Class constructor
      *
      * @return OA_Central_AdNetworks
@@ -57,6 +64,11 @@ class OA_Central_Common
     {
         $this->oMapper = new OA_Central_RpcMapper();
         $this->oDal = new OA_Dal_Central_Common();
+        $this->oCache = new Cache_Lite_Function(array(
+            'cacheDir '    => MAX_PATH . '/var/cache',
+            'lifeTime'     => 86400,
+            'defaultGroup' => get_class($this)
+        ));
     }
 
     /**

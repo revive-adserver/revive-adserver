@@ -111,6 +111,24 @@ class OA_Central_RpcMapper
      */
     function getCategories($language = '')
     {
+        return array(
+            1 => array(
+                'name' => 'Hobby',
+                'subcategories' => array(
+                    3 => 'Cars',
+                    4 => 'Fishing',
+                )
+            ),
+            2 => array(
+                'name' => 'Hobby',
+                'subcategories' => array(
+                    5 => 'Cricket',
+                    6 => 'Football',
+                    7 => 'Snooker'
+                )
+            )
+        );
+
         return $this->oRpc->callNoAuth('getCategories', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
@@ -129,6 +147,13 @@ class OA_Central_RpcMapper
      */
     function getCountries($language = '')
     {
+        return array(
+            'DE' => 'Germany',
+            'IT' => 'Italy',
+            'PL' => 'Poland',
+            'UK' => 'United Kingdom',
+        );
+
         return $this->oRpc->callNoAuth('getCountries', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
@@ -147,6 +172,13 @@ class OA_Central_RpcMapper
      */
     function getLanguages($language = '')
     {
+        return array(
+            1 => 'English',
+            2 => 'German',
+            3 => 'Italian',
+            4 => 'Polish',
+        );
+
         return $this->oRpc->callNoAuth('getLanguages', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
