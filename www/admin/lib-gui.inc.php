@@ -462,16 +462,18 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 
     if (!defined('phpAds_installing')) {
         // Include the flashObject resource file
+        echo "\t\t";
         echo MAX_flashGetFlashObjectExternal();
     }
 
     // Add jQuery css/scripts
-    echo '<link rel="stylesheet" type="text/css" media="all" href="css/jqModal.css" />';
-    echo '<script language="JavaScript" type="text/javascript" src="js/jquery-1.2.min.js"></script>';
-    echo '<script language="JavaScript" type="text/javascript" src="js/jqModal.js"></script>';
-    echo '<script language="JavaScript" type="text/javascript" src="js/jquery.dimensions.js"></script>';
-    echo '<script language="JavaScript" type="text/javascript" src="js/jquery.tooltip.js"></script>';
-    echo '<script language="JavaScript" type="text/javascript" src="js/jquery-adnetworks.js"></script>';
+    echo "\n\t\t".'<link rel="stylesheet" type="text/css" media="all" href="css/jqModal.css" />';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-1.2.1.min.js"></script>';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jqModal.js"></script>';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery.dimensions.js"></script>';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery.tooltip.js"></script>';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-adnetworks.js"></script>';
+    echo "\n";
 
     // Show Moz site bar
     echo $mozbar;

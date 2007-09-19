@@ -194,3 +194,61 @@ div.sysinfoerror li {
 .graph .bar span {
     position: absolute; left: 1em;
 }
+
+/** Ad networks screen */
+
+div.site-head {
+  height: 35px;
+  background-image: url('../images/table-bg.gif');
+  background-repeat: repeat-x;
+  border: 1px solid #cdcdcd;
+}
+
+div.site-main {
+  border: 1px solid #cdcdcd;
+  border-top: none;
+  background-color: #f6f6f6;
+  padding-left: 5px;
+  padding-top: 7px;
+  padding-right: 5px;
+}
+
+div.site-head-content {
+  padding-top: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+form.new-form label.left {
+  line-height: 18px;
+  text-align: right;
+  padding-right: 15px;
+}
+
+form.new-form div.line-nolabel {
+  padding-left: 115px !important;
+}
+
+input.remove-site {
+  float: right;
+}
+
+input.add-new-site {
+}
+
+#add-new-site-info {
+  padding-left: 5px;
+  color: #a0a0a0;
+}
+
+div.one-site .remove-site-cont {
+  display: none;
+}
+
+div.site {
+  margin-bottom: 15px;
+}
+
+div.url-error input.remove-site {
+  display: none;
+}
