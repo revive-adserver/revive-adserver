@@ -65,7 +65,7 @@ class OA_Central_Common
         $this->oMapper = new OA_Central_RpcMapper();
         $this->oDal = new OA_Dal_Central_Common();
         $this->oCache = new Cache_Lite_Function(array(
-            'cacheDir'    => MAX_PATH . '/var/cache',
+            'cacheDir'    => MAX_PATH . '/var/cache/',
             'lifeTime'     => 86400,
             'defaultGroup' => get_class($this)
         ));
