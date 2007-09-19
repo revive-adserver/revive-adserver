@@ -44,6 +44,7 @@ class DataObjects_Data_summary_zone_impression_history extends DB_DataObjectComm
     var $zone_id;                         // int(10)  not_null multiple_key unsigned
     var $forecast_impressions;            // int(10)  unsigned
     var $actual_impressions;              // int(10)  unsigned
+    var $est;                             // int(6)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
