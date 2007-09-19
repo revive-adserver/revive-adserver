@@ -96,12 +96,16 @@ class OA_DB
             // Set the portability options
             $aOptions['portability'] = OA_DB_MDB2_DEFAULT_OPTIONS;
             // Set the default table type for MySQL, if appropriate
-            if (strcasecmp($aConf['database']['type'], 'mysql') === 0 && !empty($aConf['table']['type'])) {
-                $aOptions['default_table_type'] = $aConf['table']['type'];
-                // Enable transaction support when using InnoDB tables
-                if (strcasecmp($aOptions['default_table_type'], 'innodb') === 0) {
-                    // Enable transaction support
-                    $aOptions['use_transactions'] = true;
+            if (strcasecmp($aConf['database']['type'], 'mysql') === 0)
+            {
+                if (!empty($aConf['table']['type']))
+                {
+                    $aOptions['default_table_type'] = $aConf['table']['type'];
+                    // Enable transaction support when using InnoDB tables
+                    if (strcasecmp($aOptions['default_table_type'], 'innodb') === 0) {
+                        // Enable transaction support
+                        $aOptions['use_transactions'] = true;
+                    }
                 }
             } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
                 $aOptions['quote_identifier'] = '"';
@@ -223,6 +227,14 @@ class OA_DB
         if (is_null($aConf)) {
             $aConf = $GLOBALS['_MAX']['CONF'];
         }
+// this will ensure mysqli driver is used if no mysql extension loaded
+//        if (strcasecmp($aConf['database']['type'], 'mysql') === 0)
+//        {
+//            if (extension_loaded('mysqli') && (!extension_loaded('mysql')))
+//            {
+//                $aConf['database']['type'] = 'mysqli';
+//            }
+//        }
         $dbType = $aConf['database']['type'];
         // only pan or mmmv0.1 will have a protocol set to unix
         // otherwise no protocol is set and therefore defaults to tcp
