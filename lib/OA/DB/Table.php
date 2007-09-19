@@ -482,6 +482,7 @@ class OA_DB_Table
                 {
                     $sequence.= '_seq';
                     OA::debug('Dropping sequence ' . $sequence, PEAR_LOG_DEBUG);
+                    OA::disableErrorHandling();
                     $result = $this->oDbh->exec("DROP SEQUENCE \"$sequence\"");
                     OA::enableErrorHandling();
                     if (PEAR::isError($result))
