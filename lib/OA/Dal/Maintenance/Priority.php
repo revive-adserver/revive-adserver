@@ -2032,6 +2032,63 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
+     * A method to get all zones that have, within the last week, Zone Impression
+     * Forecast data in the data_summary_zone_impression_history table that is
+     * based on the default forecast, from a given list of zone IDs.
+     *
+     * @param array $aZoneIDs An array of zone IDs.
+     * @param PEAR::Date $oNowDate The current date/time.
+     * @return mixed Either:
+     *      - An array of zone IDs, or
+     *      - A PEAR::Error.
+     */
+    function getRecentZones($aZoneIDs, $oNowDate)
+    {
+        $aResult = array();
+        // Check parameter
+        if (!is_array($aZoneIDs) || (is_array($aZoneIDs) && (count($aZoneIDs) == 0))) {
+            return $aResult;
+        }
+        foreach ($aZoneIDs as $zoneId) {
+            if (!is_integer($zoneId) || ($zoneId < 0)) {
+                return $aResult;
+            }
+        }
+        if (!is_a($oNowDate, 'Date')) {
+            return $aResult;
+        }
+        // Convert the "now" date into a date range of the last week
+        $aUpperDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oNowDate);
+        $oLowerDate = new Date();
+        $oLowerDate->copy($aUpperDates['start']);
+        $oLowerDate->subtractSeconds(SECONDS_PER_WEEK - OA_OperationInterval::secondsPerOperationInterval());
+        // Select those zone IDs where data does exist
+        $table = $this->_getTablename('data_summary_zone_impression_history');
+        $query = "
+            SELECT DISTINCT
+                zone_id
+            FROM
+                $table
+            WHERE
+                zone_id IN (" . implode(', ', $aZoneIDs) . ")
+                AND
+                est = 1
+                AND
+                interval_start > " . $this->oDbh->quote($oLowerDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
+                AND
+                interval_end <= " . $this->oDbh->quote($aUpperDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return $rc;
+        }
+        // Add zones found to the result array
+        while ($aRow = $rc->fetchRow()) {
+            $aResult[] = $aRow['zone_id'];
+        }
+        return $aResult;
+    }
+
+    /**
      * A method to save the total impressions required for each advert
      * into the temporary tmp_ad_required_impression table.
      *

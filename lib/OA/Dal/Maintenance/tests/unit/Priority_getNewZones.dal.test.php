@@ -69,6 +69,7 @@ class Test_OA_Dal_Maintenance_Priority_getNewZones extends UnitTestCase
         $aZoneIds[] = 1;
         $aZoneIds[] = 2;
         $aZoneIds[] = 3;
+
         $aResult = $oDal->getNewZones($aZoneIds);
         $this->assertTrue(is_array($aResult));
         $this->assertEqual(count($aResult), 3);
