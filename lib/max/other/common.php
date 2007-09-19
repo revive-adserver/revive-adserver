@@ -779,9 +779,10 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
     $oDbh =& OA_DB::singleton();
     $conf = $GLOBALS['_MAX']['CONF'];
     // Copy campaign details
+    $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns'],true);
     $query = "
         INSERT INTO
-            {$conf['table']['prefix']}{$conf['table']['campaigns']}
+            {$table}
             (
                 campaignname,
                 clientid,
@@ -824,7 +825,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
             revenue_type,
             '". OA::getNow() ."'
         FROM
-            {$conf['table']['prefix']}{$conf['table']['campaigns']}
+            {$table}
         WHERE
             campaignid = ". $oDbh->quote($placementId, 'integer');
     $res = $oDbh->exec($query);
@@ -832,15 +833,16 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
         return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
     }
 
-    $newPlacementId = $oDbh->lastInsertID();
+    $newPlacementId = $oDbh->lastInsertID($conf['table']['prefix'].$conf['table']['campaigns'],'campaignid');
 
     // Duplicate placement-zone-associations (Do this before duplicating banners to ensure an exact copy of ad-zone-assocs
     MAX_duplicatePlacementZones($placementId, $newPlacementId);
 
     // Duplicate placement-tracker-associations
+    $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['campaigns_trackers'],true);
     $query = "
         INSERT INTO
-            {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
+            {$table}
             (
                 campaignid,
                 trackerid,
@@ -855,7 +857,7 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
                 viewwindow,
                 clickwindow
             FROM
-                {$conf['table']['prefix']}{$conf['table']['campaigns_trackers']}
+                {$table}
             WHERE
                 campaignid = ". $oDbh->quote($placementId, 'integer');
     $res = $oDbh->exec($query);
@@ -864,11 +866,12 @@ function MAX_duplicatePlacement($placementId, $advertiserId) {
     }
 
     // Duplicate banners
+    $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true);
     $query = "
         SELECT
             bannerid
         FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']}
+            {$table}
         WHERE
             campaignid = ". $oDbh->quote($placementId, 'integer');
     $res = $oDbh->QUERY($query);
@@ -887,11 +890,12 @@ function MAX_duplicateAd($adId, $placementId) {
     $conf = $GLOBALS['_MAX']['CONF'];
 
     // Duplicate the banner
+    $table = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true);
     $query = "
         SELECT
             *
         FROM
-            {$conf['table']['prefix']}{$conf['table']['banners']}
+            {$table}
         WHERE
             bannerid = ". $oDbh->quote($adId, 'integer');
     $res = $oDbh->query($query);
@@ -920,7 +924,7 @@ function MAX_duplicateAd($adId, $placementId) {
         $row['updated'] = OA::getNow();
         $row['campaignid'] = $placementId;
 
-        while (list($name, $value) = each($row)) {
+        foreach ($row AS $name => $value) {
             $values_fields .= "$name, ";
             $values .= $oDbh->quote($value) .", ";
         }
@@ -930,7 +934,7 @@ function MAX_duplicateAd($adId, $placementId) {
 
         $query = "
             INSERT INTO
-                {$conf['table']['prefix']}{$conf['table']['banners']}
+                {$table}
                 ($values_fields)
             VALUES
                 ($values)
@@ -940,7 +944,7 @@ function MAX_duplicateAd($adId, $placementId) {
             return MAX::raiseError($res, MAX_ERROR_DBFAILURE);
         }
 
-        $new_adId = $oDbh->lastInsertID();
+        $new_adId = $oDbh->lastInsertID($conf['table']['prefix'].$conf['table']['banners'],'bannerid');
 
         // Copy ACLs and capping
         MAX_AclCopy(basename($_SERVER['PHP_SELF']), $adId, $new_adId);
