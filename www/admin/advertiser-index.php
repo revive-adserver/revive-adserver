@@ -137,7 +137,7 @@ if (!empty($banners)) {
         }
         $banner['name'] = phpAds_breakString ($name, '30');
 
-        if (($hideinactive == false || $banner['active'] == 't') && _isBannerAssignedToCampaign($banner)) {
+        if (_isBannerAssignedToCampaign($banner)) {
             $campaigns[$banner['campaignid']]['banners'][$bkey] = $banner;
         }
     }
@@ -149,9 +149,7 @@ if (!empty($campaigns)) {
         if (!isset($campaign['banners'])) {
             $campaign['banners'] = array();
         }
-        if ($hideinactive == false || ($campaign['active'] == 't' &&  !empty($campaign['banners']))) {
-            $clients[$campaign['clientid']]['campaigns'][$ckey] = $campaign;
-        }
+        $clients[$campaign['clientid']]['campaigns'][$ckey] = $campaign;
     }
     unset ($campaigns);
 }
@@ -160,10 +158,6 @@ if (!empty($clients)) {
     foreach ($clients as $key => $client) {
         if (!isset($client['campaigns'])) {
             $client['campaigns'] = array();
-        }
-        if ($hideinactive && empty($client['campaigns'])) {
-            $clientshidden++;
-            unset($clients[$key]);
         }
     }
 }
@@ -230,28 +224,47 @@ if (isset($node_array['clients'])) {
 $aOacAdvertisers = array();
 $aCounts = array();
 for ($i = 0; $i < 3; $i++) {
-    foreach (array('advertisers', 'campaigns', 'banners', 'campaigns-active', 'banners-active') as $v) {
+    foreach (array('advertisers', 'advertisers_hidden', 'campaigns', 'banners', 'campaigns_active', 'banners_active') as $v) {
         $aCount[$i][$v] = 0;
     }
 }
-foreach ($clients as $clientid => $client) {
+foreach (array_keys($clients) as $clientid) {
+    $client = &$clients[$clientid];
+
     $isOac = empty($client['oac_adnetwork_id']) ? 0 : 1;
 
     $aCount[$isOac]['advertisers']++;
+    foreach (array_keys($client['campaigns']) as $campaignid) {
+        $campaign = &$client['campaigns'][$campaignid];
 
-    if ($isOac) {
+        $aCount[$isOac]['campaigns']++;
+        foreach (array_keys($campaign['banners']) as $bannerid) {
+            $banner = &$campaign['banners'][$bannerid];
+
+            $aCount[$isOac]['banners']++;
+            if ($hideinactive && $banner['active'] != 't') {
+                unset($campaign['banners'][$bannerid]);
+            } else {
+                $aCount[$isOac]['banners_active']++;
+            }
+        }
+
+        if ($hideinactive && ($campaign['active'] != 't' || !count($campaign['banners']))) {
+            $aCount[$isOac]['banners_active'] -= count($campaign['banners']);
+            unset($client['campaigns'][$campaignid]);
+        } else {
+            $aCount[$isOac]['campaigns_active']++;
+        }
+    }
+
+    if ($hideinactive && !count($client['campaigns'])) {
+        unset($clients[$clientid]);
+        $aCount[$isOac]['advertisers_hidden']++;
+    } elseif ($isOac) {
         unset($clients[$clientid]);
         $aOacAdvertisers[$clientid] = $client;
     }
 
-    foreach ($client['campaigns'] as $campaignid => $campaign) {
-        $aCount[$isOac]['campaigns']++;
-        $aCount[$isOac]['campaigns-active'] += $campaign['active'] == 't' ? 1 : 0;
-        foreach ($campaign['banners'] as $bannerid => $banner) {
-            $aCount[$isOac]['banners']++;
-            $aCount[$isOac]['banners-active'] += $campaign['active'] == 't' && $banner['active'] == 't' ? 1 : 0;
-        }
-    }
 }
 
 foreach (array_keys($aCount[2]) as $k) {

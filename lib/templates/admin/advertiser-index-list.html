@@ -182,7 +182,7 @@ $Id$
     {if $hideinactive}
             &nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>
             &nbsp;<a href='advertiser-index.php?hideinactive=0'>{t str=ShowAll}</a>
-            &nbsp;&nbsp;|&nbsp;&nbsp;{$clientshidden} {t str=InactiveAdvertisersHidden};
+            &nbsp;&nbsp;|&nbsp;&nbsp;{$aCount.advertisers_hidden} {t str=InactiveAdvertisersHidden}
     {else}
             &nbsp;&nbsp;<img src='images/icon-hideinactivate.gif' align='absmiddle' border='0'>
             &nbsp;<a href='advertiser-index.php?hideinactive=1'>{t str=HideInactiveAdvertisers}</a>

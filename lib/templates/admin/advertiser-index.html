@@ -46,7 +46,7 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
 <div class="content">
 
-{include file=advertiser-index-list.html from=$aOacAdvertisers listEmptyStr=""}
+{include file=advertiser-index-list.html from=$aOacAdvertisers aCount=$aCount.Openads}
 
 </div>
 </div>
@@ -100,7 +100,7 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
 <div class="content">
 
-{include file=advertiser-index-list.html from=$aOapAdvertisers hide_controls=0}
+{include file=advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local}
 
 </div>
 </div>
@@ -124,10 +124,10 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 
 </tr>
 <tr bgcolor="{$bgColor}">
-<td height="25"><b>{$overall.campaigns}</b> campaign(s) (<i>{$overall.campaigns-active} active</i>)</td>
+<td height="25"><b>{$overall.campaigns}</b> campaign(s) (<i>{$overall.campaigns_active} active</i>)</td>
 </tr>
 <tr bgcolor="{$bgColor}">
-<td height="25"><b>{$overall.banners}</b> banner(s) (<i>{$overall.banners-active} active</i>)
+<td height="25"><b>{$overall.banners}</b> banner(s) (<i>{$overall.banners_active} active</i>)
         </td>
 </tr>
 
