@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.3                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -107,55 +107,6 @@ class Test_OA_Dal_Maintenance_Priority_Placements extends UnitTestCase
         $this->assertTrue(array_key_exists('sum_views', $ret));
         $this->assertTrue(array_key_exists('sum_clicks', $ret));
         $this->assertTrue(array_key_exists('sum_conversions', $ret));
-
-        DataGenerator::cleanUp();
-    }
-
-    /**
-     * A method to test the getActiveZones method.
-     */
-    function testGetActiveZones()
-    {
-        $da = new OA_Dal_Maintenance_Priority();
-        $oNow = new Date();
-
-        // Add zone record
-        $doZones = OA_Dal::factoryDO('zones');
-        $doZones->zonename = 'Default Zone';
-        $doZones->zonetype = 3;
-        $doZones->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idZone = DataGenerator::generateOne($doZones);
-
-        // Add a banner
-        $doBanners   = OA_Dal::factoryDO('banners');
-        $doBanners->active = 't';
-        $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $idBanner = DataGenerator::generateOne($doBanners);
-
-        // Add ad_zone_assoc record
-        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZone->ad_id = $idBanner;
-        $doAdZone->zone_id = $idZone;
-        $doAdZone->priority = 0;
-        $doAdZone->link_type = 1;
-        $doAdZone->priority_factor = 1;
-        $doAdZone->to_be_delivered = 1;
-        $idAdZone = DataGenerator::generateOne($doAdZone);
-
-        $ret = $da->getActiveZones();
-
-        $this->assertTrue(is_array($ret));
-        $this->assertTrue(count($ret) == 1);
-        $zone = $ret[0];
-
-        $this->assertTrue(array_key_exists('zoneid'  , $zone));
-        $this->assertTrue(array_key_exists('zonename', $zone));
-        $this->assertTrue(array_key_exists('zonetype', $zone));
-
-        $this->assertEqual($zone['zoneid'],$idZone);
-        $this->assertEqual($zone['zonename'],'Default Zone');
-        $this->assertEqual($zone['zonetype'],3);
 
         DataGenerator::cleanUp();
     }

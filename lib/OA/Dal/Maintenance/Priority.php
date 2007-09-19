@@ -1653,7 +1653,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
     }
 
     /**
-     * A method to save zone impression forecasts to the stats_zone_impression_history table.
+     * A method to save zone impression forecasts to the data_summary_zone_impression_history table.
      *
      * @param array $aForecasts A reference to an array that contains the zone impression
      *                         forecasts, indexed by zone ID, and then operation interval
@@ -1946,6 +1946,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
      * An active zone is a zone that is linked to at least one advertisement
      * (via the ad_zone_assoc table), where the advertisement has its "active"
      * field set to true.
+     *
+     * @return mixed Either:
+     *      - An array of zone IDs, or
+     *      - A PEAR::Error.
      */
     function getActiveZones()
     {
@@ -1971,12 +1975,60 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             GROUP BY
                 zoneid,
                 zonename,
-                zonetype";
+                zonetype
+            ORDER BY
+                zoneid";
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return $rc;
         }
         return $rc->fetchAll();
+    }
+
+    /**
+     * A method to get all zones that have no Zone Impression Forecast data
+     * in the data_summary_zone_impression_history table, from a given list
+     * of zone IDs.
+     *
+     * @param array $aZoneIDs An array of zone IDs.
+     * @return mixed Either:
+     *      - An array of zone IDs, or
+     *      - A PEAR::Error.
+     */
+    function getNewZones($aZoneIDs)
+    {
+        $aResult = array();
+        // Check parameter
+        if (!is_array($aZoneIDs) || (is_array($aZoneIDs) && (count($aZoneIDs) == 0))) {
+            return $aResult;
+        }
+        foreach ($aZoneIDs as $zoneId) {
+            if (!is_integer($zoneId) || ($zoneId < 0)) {
+                return $aResult;
+            }
+        }
+        // Select those zone IDs where data does exist
+        $table = $this->_getTablename('data_summary_zone_impression_history');
+        $query = "
+            SELECT DISTINCT
+                zone_id
+            FROM
+                $table
+            WHERE
+                zone_id IN (" . implode(', ', $aZoneIDs) . ")";
+        $rc = $this->oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return $rc;
+        }
+        // Copy the array of zone IDs, and remove any with data
+        $aResult = $aZoneIDs;
+        while ($aRow = $rc->fetchRow()) {
+            $aKeys = array_keys($aResult, $aRow['zone_id']);
+            foreach ($aKeys as $key) {
+                unset($aResult[$key]);
+            }
+        }
+        return $aResult;
     }
 
     /**
