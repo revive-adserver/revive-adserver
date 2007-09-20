@@ -59,6 +59,7 @@ class OA_phpAdsNew
             $this->aDsn['table']    = $this->aConfig['table'];
             $this->prefix   = $this->aConfig['table']['prefix'];
             $this->engine   = $this->aConfig['table']['type'];
+            $GLOBALS['_MAX']['CONF']['database'] =  $this->aDsn['database'];
             $GLOBALS['_MAX']['CONF']['table']['prefix'] = $this->prefix;
             $GLOBALS['_MAX']['CONF']['table']['type'] = $this->engine;
             $this->oDbh     = OA_DB::singleton(OA_DB::getDsn($this->aConfig));
