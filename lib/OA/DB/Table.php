@@ -355,7 +355,13 @@ class OA_DB_Table
         }
         if (!$this->dropSequence($table))
         {
-            return false;
+            // some sequences need to be dropped
+            // e.g. if they were created independently of a table
+            // if there is a dependency we don't necessarily want to
+            // cascade the drop
+            // therefore, not being able to drop a sequence might not
+            // be an error
+            //return false;
         }
         return true;
     }
