@@ -113,8 +113,16 @@ class OA_Admin_Statistics_Targeting_CommonPlacement extends OA_Admin_Statistics_
             $this->oHistory->prepareWeekBreakdown($aStats, $this);
         }
 
-        // Summarise the values into a the totals array, & format
+        // Summarise the values into a the totals array & format
         $this->_summariseTotalsAndFormat($aStats, true);
+
+        // Re-generate the target ratio for the total row, as it should not be a sum
+        if ($this->aTotal['placement_required_impressions'] > 0) {
+            // Hack alert!
+            $actual = preg_replace('/[^0-9]/', '', $this->aTotal['placement_actual_impressions']);
+            $required = preg_replace('/[^0-9]/', '', $this->aTotal['placement_required_impressions']);
+            $this->aTotal['target_ratio'] = phpAds_formatPercentage($actual / $required);
+        }
 
         MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
 

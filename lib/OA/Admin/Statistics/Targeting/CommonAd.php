@@ -113,8 +113,15 @@ class OA_Admin_Statistics_Targeting_CommonAd extends OA_Admin_Statistics_Targeti
             $this->oHistory->prepareWeekBreakdown($aStats, $this);
         }
 
-        // Summarise the values into a the totals array, & format
+        // Summarise the values into a the totals array & format
         $this->_summariseTotalsAndFormat($aStats, true);
+
+        // Re-generate the target ratio for the total row, as it should not be a sum
+        if ($this->aTotal['ad_required_impressions'] > 0) {
+            $actual = preg_replace('/[^0-9]/', '', $this->aTotal['ad_actual_impressions']);
+            $required = preg_replace('/[^0-9]/', '', $this->aTotal['ad_required_impressions']);
+            $this->aTotal['target_ratio'] = phpAds_formatPercentage($actual / $required);
+        }
 
         MAX_sortArray($aStats, $this->listOrderField, $this->listOrderDirection == 'up');
 
