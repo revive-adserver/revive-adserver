@@ -1355,7 +1355,8 @@ class OA_DB_Upgrade
             foreach ($this->aTaskList['indexes']['remove'] as $k => $aTask)
             {
                 $table = $this->prefix.$aTask['table'];
-                $index = $aTask['name'];
+                $indexOrig = $aTask['name'];
+                $index = $this->oTable->_generateIndexName($table, $indexOrig);
 
                 $aDBIndexes = $this->_listIndexes($table);
                 $aDBConstraints = $this->_listConstraints($table);
@@ -1374,8 +1375,6 @@ class OA_DB_Upgrade
                 }
                 else
                 {
-                    $indexOrig = $index;
-                    $index = $this->oTable->_generateIndexName($table, $index);
                     if (in_array($index, $aDBIndexes))
                     {
                         $result = $this->oSchema->db->manager->dropIndex($table, $index);
@@ -1950,7 +1949,7 @@ class OA_DB_Upgrade
                 $result =   array(
                                     'table'=>$table,
                                     'name'=>$index_name,
-                                    'primary'=>$aTableDef['indexes'][$index_name]['primary']
+                                    'primary'=>(strpos($index_name,'_pkey')>0 ? true : false)  //$aTableDef['indexes'][$index_name]['primary']
                                   );
                 break;
         }

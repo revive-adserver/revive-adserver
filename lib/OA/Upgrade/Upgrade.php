@@ -908,6 +908,7 @@ class OA_Upgrade
                     $this->aPackageList[0]  = 'openads_fantasy_upgrade_999.999.999.xml';
                     $this->aDsn['database'] = $GLOBALS['_MAX']['CONF']['database'];
                     $this->aDsn['table']    = $GLOBALS['_MAX']['CONF']['table'];
+                    $this->oLogger->log('Fantasy Upgrade Requested');
                     return true;
                 }
                 $this->existing_installation_status = OA_STATUS_CURRENT_VERSION;
