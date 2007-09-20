@@ -25,16 +25,8 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
-
-require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
-require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
-require_once 'DB/QueryTool.php';
 
 // pgsql execution time before refactor: 119.06s
 // pgsql execution time after refactor: 29.233s
@@ -226,7 +218,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $this->assertEqual($result[2]['forecast_impressions'], 1);
         $this->assertEqual($result[2]['actual_impressions'], 4);
         $this->assertEqual($result[3]['zone_id'], 3);
-        $this->assertEqual($result[3]['forecast_impressions'], $conf['priority']['defaultZoneForecastImpressions']);
+        $this->assertEqual($result[3]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
         $this->assertEqual($result[3]['actual_impressions'], 0);
         DataGenerator::cleanUp();
     }
@@ -707,7 +699,7 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesImpInv extends UnitTestCase
         $this->assertEqual($result[2]['forecast_impressions'], 1);
         $this->assertEqual($result[2]['actual_impressions'], 4);
         $this->assertEqual($result[3]['zone_id'], 3);
-        $this->assertEqual($result[3]['forecast_impressions'], $conf['priority']['defaultZoneForecastImpressions']);
+        $this->assertEqual($result[3]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
         $this->assertEqual($result[3]['actual_impressions'], 0);
         TestEnv::restoreEnv('dropTmpTables');
     }

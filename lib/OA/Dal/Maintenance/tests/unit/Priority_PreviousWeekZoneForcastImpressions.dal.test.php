@@ -25,16 +25,8 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
-require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
-
-require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
-require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
-require_once 'DB/QueryTool.php';
 
 // pgsql execution time before refactor: 55.922s
 // pgsql execution time after refactor: 23.373s
@@ -96,7 +88,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
             $this->assertTrue(is_array($aResult[$operationIntervalID]));
             $this->assertEqual(count($aResult[$operationIntervalID]), 3);
             $this->assertEqual($aResult[$operationIntervalID]['zone_id'], 1);
-            $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+            $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
             $this->assertEqual($aResult[$operationIntervalID]['operation_interval_id'], $operationIntervalID);
         }
 
@@ -155,7 +147,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extend
             } elseif ($operationIntervalID == $secondIntervalID) {
                 $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], 5000);
             } else {
-                $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], $aConf['priority']['defaultZoneForecastImpressions']);
+                $this->assertEqual($aResult[$operationIntervalID]['forecast_impressions'], ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS);
             }
             $this->assertEqual($aResult[$operationIntervalID]['operation_interval_id'], $operationIntervalID);
         }

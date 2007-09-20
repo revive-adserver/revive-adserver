@@ -25,24 +25,18 @@
 $Id$
 */
 
-/**
- * A file that contains a number of entity classes used in the Maintenance Priority
- * process: Advert, Placement and Zone.
- */
-
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
- * An entity class used to represent zones.
+ * An entity class used to represent zones for the MPE.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
  * @author     Demain Turner <demian@m3.net>
  * @author     James Floyd <james@m3.net>
  */
-class Zone
+class OA_Maintenance_Priority_Zone
 {
 
     var $id;
@@ -58,7 +52,7 @@ class Zone
      * @param array $aZone associative array of values to be assigned to
      *              object, array keys reflect database field names
      */
-    function Zone($aZone = array())
+    function OA_Maintenance_Priority_Zone($aZone = array())
     {
         $this->id = (int)$aZone['zoneid'];
     }
@@ -72,51 +66,6 @@ class Zone
     function addAdvert($oAdvert)
     {
         $this->aAdverts[$oAdvert->id] = $oAdvert;
-    }
-
-    /**
-     * Method to set the average impressions for a given
-     * operation interval ID
-     *
-     * @param integer $intervalId
-     * @param integer $impressions
-     * @return void
-     */
-    function setIntervalIdImpressionAverage($intervalId, $impressions = 0)
-    {
-        if (isset($intervalId)) {
-            $this->aOperationIntId[$intervalId]['averageImpressions'] = $impressions;
-        }
-    }
-
-    /**
-     * Method to set the forecast impressions for a given
-     * operation interval ID
-     *
-     * @param integer $intervalId
-     * @param integer $impressions
-     * @return void
-     */
-    function setIntervalIdImpressionForecast($intervalId, $impressions = 0)
-    {
-        if (isset($intervalId)) {
-            $this->aOperationIntId[$intervalId]['forecastImpressions'] = $impressions;
-        }
-    }
-
-    /**
-     * Method to set the actual impressions value for a given
-     * operation interval ID
-     *
-     * @param integer $intervalId
-     * @param integer $impressions
-     * @return void
-     */
-    function setIntervalIdImpressionActual($intervalId, $impressions = 0)
-    {
-        if (isset($intervalId)) {
-            $this->aOperationIntId[$intervalId]['actualImpressions'] = $impressions;
-        }
     }
 
 }

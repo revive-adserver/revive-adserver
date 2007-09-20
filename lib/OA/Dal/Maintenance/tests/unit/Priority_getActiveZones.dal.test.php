@@ -41,6 +41,14 @@ class Test_OA_Dal_Maintenance_Priority_getActiveZones extends UnitTestCase
 {
 
     /**
+     * The constructor method.
+     */
+    function Test_OA_Dal_Maintenance_Priority_getActiveZones()
+    {
+        $this->UnitTestCase();
+    }
+
+    /**
      * The method to test the getActiveZones() method.
      */
     function testGetActiveZones()

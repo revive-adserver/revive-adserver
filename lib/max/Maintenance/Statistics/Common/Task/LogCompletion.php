@@ -29,6 +29,7 @@ require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Maintenance/Statistics/Common/Task.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Common.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**

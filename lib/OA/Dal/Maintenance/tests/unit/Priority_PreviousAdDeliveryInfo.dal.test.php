@@ -26,15 +26,10 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
-require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
-require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
-require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
-require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
-require_once 'DB/QueryTool.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
 
 // pgsql execution time before refactor: 500.06s
 // pgsql execution time after refactor: 59.321s
@@ -201,7 +196,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             'weight' => 1
         );
         $oAd = new MAX_Entity_Ad($aAdParams);
-        $oZone = new Zone(array('zoneid' => 1));
+        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->addAdvert($oAd);
         $aZoneAdArray = array($oZone->id => $oZone);
 
@@ -1228,7 +1223,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $oServiceLocator->register('now', $oDate);
 
         // Test 18a
-        $oZone = new Zone(array('zoneid' => 4));
+        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 4));
         $aAdParams = array(
             'ad_id'  => 10,
             'active' => 't',
@@ -1791,7 +1786,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
             'weight' => 1
         );
         $oAd = new MAX_Entity_Ad($aAdParams);
-        $oZone = new Zone(array('zoneid' => 1));
+        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->addAdvert($oAd);
         $aZoneAdArray = array($oZone->id => $oZone);
 
@@ -2924,7 +2919,7 @@ class Test_OA_Dal_Maintenance_Priority_PreviousAdDeliveryInfo extends UnitTestCa
         $oServiceLocator->register('now', $oDate);
 
         // Test 18a
-        $oZone = new Zone(array('zoneid' => 4));
+        $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 4));
         $aAdParams = array(
             'ad_id'  => 10,
             'active' => 't',

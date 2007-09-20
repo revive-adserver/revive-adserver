@@ -26,7 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/max/Entity/Placement.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Priority/Entities.php';
+require_once MAX_PATH . '//lib/OA/Maintenance/Priority/Zone.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';

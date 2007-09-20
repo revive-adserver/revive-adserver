@@ -40,6 +40,14 @@ class Test_OA_Dal_Maintenance_Priority_getRecentZones extends UnitTestCase
 {
 
     /**
+     * The constructor method.
+     */
+    function Test_OA_Dal_Maintenance_Priority_getRecentZones()
+    {
+        $this->UnitTestCase();
+    }
+
+    /**
      * The method to test the getRecentZones() method.
      */
     function testGetRecentZones()

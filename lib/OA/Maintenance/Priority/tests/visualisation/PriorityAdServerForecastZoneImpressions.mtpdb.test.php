@@ -31,7 +31,7 @@ if (!defined('IMAGE_CANVAS_SYSTEM_FONT_PATH')) {
 }
 
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/ForecastZoneImpressions.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/tests/visualisation/OA_Dal_Maintenance_Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/tests/visualisation/OA_Dal_Maintenance_Priority.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/pear/Image/Canvas.php';
@@ -67,6 +67,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         Mock::generatePartial('OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions',
                               'PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions',
                               array('_getDal', '_init'));
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $oDbh =& OA_DB::singleton();
         $this->tblZones = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['zones'],true);
         $this->tblBanners = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['banners'],true);
         $this->tblAdZoneAssoc = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['ad_zone_assoc'],true);
@@ -90,8 +92,6 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         // and the mocked _init() method (simply returns true)
         $oForecastZoneImpressions = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
-        $oForecastZoneImpressions->setReturnValue('_init', true);
-        $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
 
         // Prepare the test data required for the test
         $query = "
@@ -200,25 +200,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $totalAbsError = 0;
         $totalCounter = 0;
         for ($counter = 0; $counter < $this->run; $counter++) {
-            // Do the work normally done by _init()
-            $oForecastZoneImpressions->conf = $GLOBALS['_MAX']['CONF'];;
+            $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
             $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
-            $oMtceStatsLastRun->oUpdatedToDate = new Date();
-            $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
-            $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
-            $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
-            $oMtcePriorityLastRun->oUpdatedToDate = new Date();
-            $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
-            $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
-            $oMtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
-            $oForecastZoneImpressions->mtcePriorityLastRun = $oMtcePriorityLastRun;
+            $oUpdatedToDate = new Date();
+            $oUpdatedToDate->copy($oDate);
+            $oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
+            $oForecastZoneImpressions->oStatisticsUpdatedToDate = $oUpdatedToDate;
+            $oUpdatedToDate = new Date();
+            $oUpdatedToDate->copy($oDate);
+            $oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
+            $oForecastZoneImpressions->priorityOperationInterval = $conf['maintenance']['operationInterval'];
+            $oForecastZoneImpressions->oPriorityUpdatedToDate = $oMtcePriorityLastRun;
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
@@ -342,8 +339,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         // and the mociked _init() method to always return true
         $oForecastZoneImpressions = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
-        $oForecastZoneImpressions->setReturnValue('_init', true);
-        $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
+
         // Prepare the test data required for the test
         $query = "
             INSERT INTO
@@ -452,25 +448,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $totalAbsError = 0;
         $totalCounter = 0;
         for ($counter = 0; $counter < ($initialRun + $this->run); $counter++) {
-            // Do the work normally done by _init()
-            $oForecastZoneImpressions->conf = $GLOBALS['_MAX']['CONF'];;
+            $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
             $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
-            $oMtceStatsLastRun->oUpdatedToDate = new Date();
-            $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
-            $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
-            $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
-            $oMtcePriorityLastRun->oUpdatedToDate = new Date();
-            $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
-            $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
-            $oMtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
-            $oForecastZoneImpressions->mtcePriorityLastRun = $oMtcePriorityLastRun;
+            $oUpdatedToDate = new Date();
+            $oUpdatedToDate->copy($oDate);
+            $oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
+            $oForecastZoneImpressions->oStatisticsUpdatedToDate = $oUpdatedToDate;
+            $oUpdatedToDate = new Date();
+            $oUpdatedToDate->copy($oDate);
+            $oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
+            $oForecastZoneImpressions->priorityOperationInterval = $conf['maintenance']['operationInterval'];
+            $oForecastZoneImpressions->oPriorityUpdatedToDate = $oMtcePriorityLastRun;
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
@@ -599,8 +592,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         // and the mociked _init() method to always return true
         $oForecastZoneImpressions = new PartialMock_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions($this);
         $oForecastZoneImpressions->setReturnReference('_getDal', $oDal);
-        $oForecastZoneImpressions->setReturnValue('_init', true);
-        $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
+
         // Prepare the test data required for the test
         $query = "
             INSERT INTO
@@ -718,25 +710,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $totalAbsError = 0;
         $totalCounter = 0;
         for ($counter = 0; $counter < $this->run; $counter++) {
-            // Do the work normally done by _init()
-            $oForecastZoneImpressions->conf = $GLOBALS['_MAX']['CONF'];;
+            $oForecastZoneImpressions->OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions();
             $oForecastZoneImpressions->oDateNow = new Date();
             $oForecastZoneImpressions->oDateNow->copy($oDate);
             $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates(
                 $oForecastZoneImpressions->oDateNow
             );
             $oForecastZoneImpressions->oUpdateToDate = $aDates['end'];
-            $oMtceStatsLastRun = new MockMtceStatsLastRun($this);
-            $oMtceStatsLastRun->oUpdatedToDate = new Date();
-            $oMtceStatsLastRun->oUpdatedToDate->copy($oDate);
-            $oMtceStatsLastRun->oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
-            $oForecastZoneImpressions->mtceStatsLastRun = $oMtceStatsLastRun;
-            $oMtcePriorityLastRun = new MockMtcePriorityLastRun($this);
-            $oMtcePriorityLastRun->oUpdatedToDate = new Date();
-            $oMtcePriorityLastRun->oUpdatedToDate->copy($oDate);
-            $oMtcePriorityLastRun->oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
-            $oMtcePriorityLastRun->operationInt = $conf['maintenance']['operationInterval'];
-            $oForecastZoneImpressions->mtcePriorityLastRun = $oMtcePriorityLastRun;
+            $oUpdatedToDate = new Date();
+            $oUpdatedToDate->copy($oDate);
+            $oUpdatedToDate->subtractSeconds(8); // Take back to end of previous hour
+            $oForecastZoneImpressions->oStatisticsUpdatedToDate = $oUpdatedToDate;
+            $oUpdatedToDate = new Date();
+            $oUpdatedToDate->copy($oDate);
+            $oUpdatedToDate->subtractSeconds(3608); // Take back to end of previous hour - 1 hour
+            $oForecastZoneImpressions->priorityOperationInterval = $conf['maintenance']['operationInterval'];
+            $oForecastZoneImpressions->oPriorityUpdatedToDate = $oMtcePriorityLastRun;
             // Forecast the impressions
             $oForecastZoneImpressions->run();
             // Add the forecast impressions to the data set
