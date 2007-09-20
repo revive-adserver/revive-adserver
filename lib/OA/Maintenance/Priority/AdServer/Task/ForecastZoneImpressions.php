@@ -317,10 +317,10 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
         if (!empty($this->aPastForecastResults)) {
             // Calcuate the date from which to update the "past" ZIF values
             $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($this->oDateNow);
-            $oStartDate = new Date();
-            $oStartDate->copy($aDates['start']);
-            $oStartDate->subtractSeconds(SECONDS_PER_WEEK - OA_OperationInterval::secondsPerOperationInterval());
-            $this->oDal->updatePastZoneImpressionForecasts($this->aPastForecastResults, $oStartDate);
+            $oPastStartDate = new Date();
+            $oPastStartDate->copy($aDates['start']);
+            $oPastStartDate->subtractSeconds(SECONDS_PER_WEEK - OA_OperationInterval::secondsPerOperationInterval());
+            $this->oDal->updatePastZoneImpressionForecasts($this->aPastForecastResults, $oPastStartDate);
         }
         // Record the completion of the task in the database
         OA::debug('- Recording completion of the Forecast Zone Impressions task', PEAR_LOG_DEBUG);
