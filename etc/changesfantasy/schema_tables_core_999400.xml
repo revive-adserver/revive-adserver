@@ -23,7 +23,7 @@
    </field>
 
    <field>
-    <name>varchar_field</name>
+    <name>desc_field</name>
     <type>openads_varchar</type>
     <length>255</length>
     <notnull>true</notnull>

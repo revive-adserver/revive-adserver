@@ -11,8 +11,6 @@ class Migration_999200 extends Migration
 
 		$this->aTaskList_constructive[] = 'beforeAddField__astro__id_changed_field';
 		$this->aTaskList_constructive[] = 'afterAddField__astro__id_changed_field';
-		$this->aTaskList_constructive[] = 'beforeAddField__astro__varchar_field';
-		$this->aTaskList_constructive[] = 'afterAddField__astro__varchar_field';
 		$this->aTaskList_constructive[] = 'beforeAddField__astro__text_field';
 		$this->aTaskList_constructive[] = 'afterAddField__astro__text_field';
 		$this->aTaskList_constructive[] = 'beforeAddIndex__astro__id_field';
@@ -21,12 +19,9 @@ class Migration_999200 extends Migration
 		$this->aTaskList_constructive[] = 'afterRemoveIndex__astro__id_field';
 		$this->aTaskList_destructive[] = 'beforeRemoveField__astro__id_field';
 		$this->aTaskList_destructive[] = 'afterRemoveField__astro__id_field';
-		$this->aTaskList_destructive[] = 'beforeRemoveField__astro__desc_field';
-		$this->aTaskList_destructive[] = 'afterRemoveField__astro__desc_field';
 
 
 		$this->aObjectMap['astro']['id_changed_field'] = array('fromTable'=>'astro', 'fromField'=>'id_field');
-		$this->aObjectMap['astro']['varchar_field'] = array('fromTable'=>'astro', 'fromField'=>'desc_field');
 		$this->aObjectMap['astro']['text_field'] = array('fromTable'=>'astro', 'fromField'=>'text_field');
     }
 
@@ -40,16 +35,6 @@ class Migration_999200 extends Migration
 	function afterAddField__astro__id_changed_field()
 	{
 		return $this->afterAddField('astro', 'id_changed_field');
-	}
-
-	function beforeAddField__astro__varchar_field()
-	{
-		return $this->beforeAddField('astro', 'varchar_field');
-	}
-
-	function afterAddField__astro__varchar_field()
-	{
-		return $this->afterAddField('astro', 'varchar_field');
 	}
 
 	function beforeAddField__astro__text_field()
@@ -90,16 +75,6 @@ class Migration_999200 extends Migration
 	function afterRemoveField__astro__id_field()
 	{
 		return $this->afterRemoveField('astro', 'id_field');
-	}
-
-	function beforeRemoveField__astro__desc_field()
-	{
-		return $this->beforeRemoveField('astro', 'desc_field');
-	}
-
-	function afterRemoveField__astro__desc_field()
-	{
-		return $this->afterRemoveField('astro', 'desc_field');
 	}
 
 }

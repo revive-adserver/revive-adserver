@@ -24,60 +24,64 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class prescript_tables_core_999200
+class prescript_tables_core_999200 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-
     function prescript_tables_core_999200()
     {
-
     }
 
     function execute_constructive($aParams)
     {
-        $this->oDBUpgrade = $aParams[0];
-        $this->_log('**********prescript_tables_core_999200::execute_constructive**********');
+        $this->init($aParams);
+        $this->_log('*********** constructive ****************');
         $this->_logExpectedConstructive();
         return true;
     }
 
     function execute_destructive($aParams)
     {
-        $this->oDBUpgrade = $aParams[0];
-        $this->_log('**********prescript_tables_core_999200::execute_destructive**********');
+        $this->init($aParams);
+        $this->_log('*********** destructive ****************');
         $this->_logExpectedDestructive();
-        return true;
-    }
-
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
         return true;
     }
 
     function _logExpectedConstructive()
     {
+        $oDbh = OA_DB::singleton();
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('A');
         if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $this->_log('Table '.$prefix.'astro does not exist in database therefore changes_tables_core_999200 will not be able to alter fields for table '.$prefix.'astro');
+            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999200 will not be able to alter fields for table '.$prefix.'astro');
         }
         else
         {
-            $this->_log('changes_tables_core_999200::TEST A : add (as part of rename) field to table '.$prefix.'astro defined as:');
+            $this->_log($msg.' add (as part of rename) field id_changed_field to table '.$prefix.'astro defined as:');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['id_changed_field'];
             $this->_log(print_r($aDef,true));
 
-            $this->_log('changes_tables_core_999200::TEST B : alter field in table '.$prefix.'astro defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['varchar_field'];
-            $this->_log(print_r($aDef,true));
-
-            $this->_log('changes_tables_core_999200::TEST C : add field to table '.$prefix.'astro defined as:');
+            $msg = $this->_testName('B');
+            $query = 'SELECT * FROM '.$prefix.'astro';
+            $result = $oDbh->queryAll($query);
+            if (PEAR::isError($result))
+            {
+                $this->_log($msg.' failed to locate data to migrate from id_field to id_changed_field');
+            }
+            else
+            {
+                $this->_log($msg.' migrate data from id_field to id_changed_field :');
+                $this->_log('row =  id_field , desc_field');
+                foreach ($result AS $k => $v)
+                {
+                    $this->_log('row '.$k .' = '. $v['id_field'] .' , '. $v['desc_field']);
+                }
+            }
+            $msg = $this->_testName('C');
+            $this->_log($msg.' add field text_field to table '.$prefix.'astro defined as:');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['text_field'];
             $this->_log(print_r($aDef,true));
         }
@@ -87,18 +91,15 @@ class prescript_tables_core_999200
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('D');
         if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $this->_log('Table '.$prefix.'astro does not exist in database therefore changes_tables_core_999200 will not be able to remove a field from table '.$prefix.'astro');
+            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999200 will not be able to remove a field from table '.$prefix.'astro');
         }
         else
         {
-            $this->_log('changes_tables_core_999200::TEST D : remove (as part of rename) field from table '.$prefix.'astro defined as:');
+            $this->_log($msg.' remove (as part of rename) field id_field from table '.$prefix.'astro defined as:');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['id_field'];
-            $this->_log(print_r($aDef,true));
-
-            $this->_log('changes_tables_core_999200::TEST E : remove (as part of rename) field from table '.$prefix.'astro defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['desc_field'];
             $this->_log(print_r($aDef,true));
         }
     }

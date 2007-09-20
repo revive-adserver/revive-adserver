@@ -24,71 +24,57 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class postscript_tables_core_999100
+class postscript_tables_core_999100 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-    var $oDbh;
-
     function postscript_tables_core_999100()
     {
-
     }
 
     function execute_constructive($aParams)
     {
-        $this->oDBUpgrade = $aParams[0];
-        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
-        $this->_log('**********postscript_tables_core_999100**********');
+        $this->init($aParams);
+        $this->_log('*********** constructive ****************');
         $result = $this->insertData();
         $this->_logActual();
         return $result;
-    }
-
-    function execute_destructive($aParams)
-    {
-        return true;
-    }
-
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
-        return true;
     }
 
     function _logActual()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('A');
         if (!in_array($prefix.'bender', $aExistingTables))
         {
-            $this->_log('changes_tables_core_999100:: TEST A : failed to create table '.$prefix.'bender');
+            $this->_log($msg.' failed to create table '.$prefix.'bender');
         }
         else
         {
-            $this->_log('changes_tables_core_999100::TEST A : created table '.$prefix.'bender defined as:');
+            $this->_log($msg.' created table '.$prefix.'bender defined as:');
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('bender');
             $this->_log(print_r($aDef['tables'],true));
         }
+        $msg = $this->_testName('B');
         if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $this->_log('changes_tables_core_999100:: TEST B : failed to create table '.$prefix.'astro defined as:');
+            $this->_log($msg.' failed to create table '.$prefix.'astro defined as:');
         }
         else
         {
-            $this->_log('changes_tables_core_999100::TEST B : created table '.$prefix.'astro defined as:');
+            $this->_log($msg.' created table '.$prefix.'astro defined as:');
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('astro');
-            $this->_log(print_r($aDef['tables'],true));
+            $this->_log(print_r($aDef['tables']['astro'],true));
+
+            $msg = $this->_testName('C');
             $query = 'SELECT COUNT(*) FROM '.$prefix.'astro';
             $result = $this->oDbh->queryOne($query);
             if (PEAR::isError($result))
             {
-                $this->_log('postscript_tables_core_999100:: TEST C : failed to insert records in table astro');
+                $this->_log($msg.' : failed to insert records in table astro');
             }
-            $this->_log('postscript_tables_core_999100:: TEST C : inserted '.$result.' records in table astro');
+            $this->_log($msg.' inserted '.$result.' records in table astro');
         }
     }
 
@@ -111,11 +97,11 @@ class postscript_tables_core_999100
             $result = $this->oDbh->exec($query);
             if (PEAR::isError($result))
             {
-                $this->_log('postscript_tables_core_999100::insertData failed: '.$result->getUserInfo());
+                $this->_log($this->script.'::insertData failed: '.$result->getUserInfo());
                 return false;
             }
         }
-        $this->_log('postscript_tables_core_999100::insertData complete');
+        $this->_log($this->script.'::insertData complete');
         return true;
     }
 

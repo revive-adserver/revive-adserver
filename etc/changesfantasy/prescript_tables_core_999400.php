@@ -24,56 +24,61 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class prescript_tables_core_999400
+class prescript_tables_core_999400 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-
     function prescript_tables_core_999400()
     {
-
     }
 
     function execute_constructive($aParams)
     {
-        $this->oDBUpgrade = $aParams[0];
-        $this->_log('**********prescript_tables_core_999400**********');
-        $this->_logExpected();
+        $this->init($aParams);
+        $this->_log('*********** constructive ****************');
+        $this->_logExpectedConstructive();
         return true;
     }
 
     function execute_destructive($aParams)
     {
+        $this->init($aParams);
+        $this->_log('*********** destructive ****************');
+        $this->_logExpectedDestructive();
         return true;
     }
 
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
-        return true;
-    }
-
-    function _logExpected()
+    function _logExpectedConstructive()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('A');
         if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $this->_log('Table '.$prefix.'astro does not exist in database therefore changes_tables_core_999400 will not be able to alter indexes or constraints for table '.$prefix.'astro');
+            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999400 will not be able to add constraint to table '.$prefix.'astro');
         }
         else
         {
-            $this->_log('changes_tables_core_999400::TEST A : remove index id_field from table '.$prefix.'astro defined as:');
-
-            $this->_log('changes_tables_core_999400::TEST B : add primary key constraint to table '.$prefix.'astro defined as:');
+            $this->_log($msg.' add primary key constraint astro_pkey to table '.$prefix.'astro defined as:');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['indexes']['astro_pkey'];
             $this->_log(print_r($aDef,true));
         }
     }
 
+    function _logExpectedDestructive()
+    {
+        $aExistingTables = $this->oDBUpgrade->_listTables();
+        $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('B');
+        if (!in_array($prefix.'astro', $aExistingTables))
+        {
+            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999400 will not be able to remove indexe from table '.$prefix.'astro');
+        }
+        else
+        {
+            $this->_log($msg.' remove index id_field from table '.$prefix.'astro');
+        }
+    }
 }
 
 ?>

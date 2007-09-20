@@ -8,6 +8,16 @@
     <changeset>
       <name>openads</name>
       <version>999500</version>
+      <change>
+        <table>
+          <name>klapaucius</name>
+        <index>
+          <remove>
+            <name>klapaucius_pkey</name>
+        </remove>
+      </index>
+    </table>
+  </change>
   </changeset>
 </constructive>
 <destructive>
@@ -20,16 +30,13 @@
     <change>
       <table>
         <name>klapaucius</name>
-      <remove>
-        <field>
-          <name>text_field</name>
-        </field>
-        <index>
-          <name>klapaucius_pkey</name>
-        </index>
-      </remove>
-    </table>
-  </change>
-</changeset>
+        <remove>
+          <field>
+            <name>text_field</name>
+          </field>
+        </remove>
+      </table>
+    </change>
+  </changeset>
 </destructive>
 </instructionset>

@@ -24,37 +24,19 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class postscript_tables_core_999300
+class postscript_tables_core_999300 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-    var $oDbh;
-
     function postscript_tables_core_999300()
     {
-
     }
 
     function execute_constructive($aParams)
     {
-        $this->oDBUpgrade = $aParams[0];
-        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
-        $this->_log('**********postscript_tables_core_999300**********');
+        $this->init($aParams);
+        $this->_log('*********** constructive ****************');
         $this->_logActual();
-        return true;
-    }
-
-    function execute_destructive($aParams)
-    {
-        return true;
-    }
-
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
         return true;
     }
 
@@ -64,15 +46,16 @@ class postscript_tables_core_999300
         $prefix = $this->oDBUpgrade->prefix;
         if (in_array($prefix.'astro', $aExistingTables))
         {
+            $msg = $this->_testName('A');
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('astro');
             if (isset($aDef['tables']['astro']['fields']['auto_renamed_field']))
             {
-                $this->_log('changes_tables_core_999300::TEST A : renamed autoincrement field for table '.$prefix.'astro defined as:');
+                $this->_log($msg.' renamed autoincrement field auto_field for table '.$prefix.'astro defined as:[auto_renamed_field]');
                 $this->_log(print_r($aDef['tables']['astro']['fields']['auto_renamed_field'],true));
             }
             else
             {
-                $this->_log('changes_tables_core_999300::TEST A : failed to rename autoincrement field for table '.$prefix.'astro');
+                $this->_log($msg.' failed to rename autoincrement field auto_field to auto_renamed_field for table '.$prefix.'astro');
             }
         }
     }

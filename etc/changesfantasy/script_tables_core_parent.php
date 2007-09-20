@@ -25,38 +25,53 @@
 $Id$
 */
 
-require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
-
-class prescript_tables_core_999150 extends script_tables_core_parent
+class script_tables_core_parent
 {
-    function prescript_tables_core_999150()
+    var $oDBUpgrade;
+    var $oDbh;
+    var $className;
+
+    function script_tables_core_parent()
     {
+    }
+
+    function init($aParams)
+    {
+        $this->className = get_class($this);
+        $this->oDBUpgrade = $aParams[0];
+        $this->_log('****************************************');
+        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
+        return true;
     }
 
     function execute_constructive($aParams)
     {
         $this->init($aParams);
         $this->_log('*********** constructive ****************');
-        $this->_logExpected();
         return true;
     }
 
-    function _logExpected()
+    function execute_destructive($aParams)
     {
-        $aExistingTables = $this->oDBUpgrade->_listTables();
-        $prefix = $this->oDBUpgrade->prefix;
-        $msg = $this->_testName('A');
-        if (!in_array($prefix.'astro', $aExistingTables))
-        {
-            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999150 will not be able to create an index for table '.$prefix.'astro');
-        }
-        else
-        {
-            $this->_log($msg.' create index on table '.$prefix.'astro defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['indexes'];
-            $this->_log(print_r($aDef,true));
-        }
+        $this->init($aParams);
+        $this->_log('*********** destructive ****************');
+        return true;
     }
+
+    function _log($msg)
+    {
+        $logOld = $this->oDBUpgrade->oLogger->logFile;
+        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
+        $this->oDBUpgrade->oLogger->logOnly($msg);
+        $this->oDBUpgrade->oLogger->logFile = $logOld;
+        return true;
+    }
+
+    function _testName($id)
+    {
+        return "[$this->className::TEST *{$id}*] ";
+    }
+
 
 }
 

@@ -24,37 +24,19 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class postscript_tables_core_999500
+class postscript_tables_core_999500 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-    var $oDbh;
-
     function postscript_tables_core_999500()
     {
-
-    }
-
-    function execute_constructive($aParams)
-    {
-        $this->oDBUpgrade = $aParams[0];
-        $this->oDbh = OA_DB::singleton(OA_DB::getDsn());
-        $this->_log('**********postscript_tables_core_999500**********');
-        $this->_logActual();
-        return true;
     }
 
     function execute_destructive($aParams)
     {
-        return true;
-    }
-
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
+        $this->init($aParams);
+        $this->_log('*********** destructive ****************');
+        $this->_logActual();
         return true;
     }
 
@@ -65,23 +47,23 @@ class postscript_tables_core_999500
         if (in_array($prefix.'klapaucius', $aExistingTables))
         {
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('klapaucius');
-            if (isset($aDef['tables']['klapaucius']['fields']))
+            $msg = $this->_testName('A');
+            if (!isset($aDef['tables']['klapaucius']['fields']['text_field']))
             {
-                $this->_log('changes_tables_core_999500::TEST A : removed field from table '.$prefix.'klapaucius defined as:');
-                $this->_log(print_r($aDef['tables']['klapaucius']['fields'],true));
+                $this->_log($msg.' removed field text_field from table '.$prefix.'klapaucius');
             }
             else
             {
-                $this->_log('changes_tables_core_999500::TEST A : failed to remove field from table'.$prefix.'klapaucius');
+                $this->_log($msg.' failed to remove field text_field from table'.$prefix.'klapaucius');
             }
-            if (isset($aDef['tables']['klapaucius']['indexes']))
+            $msg = $this->_testName('B');
+            if (!isset($aDef['tables']['klapaucius']['indexes']['klapaucius_pkey']))
             {
-                $this->_log('changes_tables_core_999500::TEST A : removed primary key constraint from table '.$prefix.'klapaucius defined as:');
-                $this->_log(print_r($aDef['tables']['klapaucius']['indexes'],true));
+                $this->_log($msg.' removed primary key constraint klapaucius_pkey from table '.$prefix.'klapaucius');
             }
             else
             {
-                $this->_log('changes_tables_core_999500::TEST A : failed to remove primary key constraint from table'.$prefix.'klapaucius');
+                $this->_log($msg.' failed to remove primary key constraint klapaucius_pkey from table'.$prefix.'klapaucius');
             }
         }
     }

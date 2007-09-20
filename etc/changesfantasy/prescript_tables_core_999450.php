@@ -24,54 +24,61 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class prescript_tables_core_999450
+class prescript_tables_core_999450 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-
     function prescript_tables_core_999450()
     {
-
     }
 
     function execute_constructive($aParams)
     {
-        $this->oDBUpgrade = $aParams[0];
-        $this->_log('**********prescript_tables_core_999450**********');
-        $this->_logExpected();
+        $this->init($aParams);
+        $this->_log('*********** constructive ****************');
+        $this->_logExpectedConstructive();
         return true;
     }
 
     function execute_destructive($aParams)
     {
+        $this->init($aParams);
+        $this->_log('*********** destructive ****************');
+        $this->_logExpectedDestructive();
         return true;
     }
 
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
-        return true;
-    }
-
-    function _logExpected()
+    function _logExpectedConstructive()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
-        if (!in_array($prefix.'astro', $aExistingTables))
+        $msg = $this->_testName('A');
+        if (in_array($prefix.'klapaucius', $aExistingTables))
         {
-            $this->_log('Table '.$prefix.'astro does not exist in database therefore changes_tables_core_999450 will not be able to rename table '.$prefix.'astro');
+            $this->_log($msg.' table '.$prefix.'klapaucius already exists in database therefore changes_tables_core_999450 will not be able to add table '.$prefix.'klapaucius');
         }
         else
         {
-            $this->_log('changes_tables_core_999450::TEST A : rename table '.$prefix.'astro defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro'];
+            $this->_log($msg.' add (as part of rename) table '.$prefix.'klapaucius defined as:');
+            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['klapaucius'];
             $this->_log(print_r($aDef,true));
         }
     }
 
+    function _logExpectedDestructive()
+    {
+        $aExistingTables = $this->oDBUpgrade->_listTables();
+        $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('A');
+        if (!in_array($prefix.'astro', $aExistingTables))
+        {
+            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999450 will not be able to remove table '.$prefix.'astro');
+        }
+        else
+        {
+            $this->_log($msg.' remove (as part of rename) table '.$prefix.'astro');
+        }
+    }
 }
 
 ?>

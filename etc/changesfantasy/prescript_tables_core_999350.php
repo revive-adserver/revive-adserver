@@ -24,54 +24,36 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class prescript_tables_core_999350
+class prescript_tables_core_999350 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-
     function prescript_tables_core_999350()
     {
-
-    }
-
-    function execute_constructive($aParams)
-    {
-        $this->oDBUpgrade = $aParams[0];
-        $this->_log('**********prescript_tables_core_999350**********');
-        $this->_logExpected();
-        return true;
     }
 
     function execute_destructive($aParams)
     {
+        $this->init($aParams);
+        $this->_log('*********** destructive ****************');
+        $this->_logExpectedDestructive();
         return true;
     }
 
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
-        return true;
-    }
-
-    function _logExpected()
+    function _logExpectedDestructive()
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('A');
         if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $this->_log('Table '.$prefix.'astro does not exist in database therefore changes_tables_core_999350 will not be able to remove the autoincrement field for table '.$prefix.'astro');
+            $this->_log($msg.' table '.$prefix.'astro does not exist in database therefore changes_tables_core_999350 will not be able to remove the autoincrement field for table '.$prefix.'astro');
         }
         else
         {
-            $this->_log('changes_tables_core_999350::TEST A : remove autoincrement field in table '.$prefix.'astro defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields'];
-            $this->_log(print_r($aDef,true));
+            $this->_log($msg.' remove autoincrement field auto_renamed_field in table '.$prefix.'astro');
         }
     }
-
 }
 
 ?>

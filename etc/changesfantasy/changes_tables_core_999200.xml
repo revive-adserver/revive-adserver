@@ -20,14 +20,6 @@
               <default></default>
               <was>id_field</was>
             </field>
-              <field>
-                <name>varchar_field</name>
-                <type>openads_varchar</type>
-                <length>255</length>
-                <notnull>1</notnull>
-                <default></default>
-                <was>varchar_field</was>
-              </field>
                 <field>
                   <name>text_field</name>
                   <type>openads_text</type>
@@ -66,9 +58,6 @@
             <field>
               <name>id_field</name>
             </field>
-              <field>
-                <name>desc_field</name>
-              </field>
             </remove>
           </table>
         </change>

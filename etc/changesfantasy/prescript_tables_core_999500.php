@@ -24,35 +24,19 @@
 +---------------------------------------------------------------------------+
 $Id$
 */
+require_once MAX_PATH.'/etc/changesfantasy/script_tables_core_parent.php';
 
-class prescript_tables_core_999500
+class prescript_tables_core_999500 extends script_tables_core_parent
 {
-    var $oDBUpgrade;
-
     function prescript_tables_core_999500()
     {
-
-    }
-
-    function execute_constructive($aParams)
-    {
-        $this->oDBUpgrade = $aParams[0];
-        $this->_log('**********prescript_tables_core_999500**********');
-        $this->_logExpected();
-        return true;
     }
 
     function execute_destructive($aParams)
     {
-        return true;
-    }
-
-    function _log($msg)
-    {
-        $logOld = $this->oDBUpgrade->oLogger->logFile;
-        $this->oDBUpgrade->oLogger->logFile = MAX_PATH.'/var/fantasy.log';
-        $this->oDBUpgrade->oLogger->logOnly($msg);
-        $this->oDBUpgrade->oLogger->logFile = $logOld;
+        $this->init($aParams);
+        $this->_log('*********** constructive ****************');
+        $this->_logExpected();
         return true;
     }
 
@@ -60,19 +44,17 @@ class prescript_tables_core_999500
     {
         $aExistingTables = $this->oDBUpgrade->_listTables();
         $prefix = $this->oDBUpgrade->prefix;
+        $msg = $this->_testName('A');
         if (!in_array($prefix.'klapaucius', $aExistingTables))
         {
-            $this->_log('Table '.$prefix.'klapaucius does not exist in database therefore changes_tables_core_999500 will not be able to alter table '.$prefix.'klapaucius');
+            $this->_log($msg.' table '.$prefix.'klapaucius does not exist in database therefore changes_tables_core_999500 will not be able to alter table '.$prefix.'klapaucius');
         }
         else
         {
-            $this->_log('changes_tables_core_999500::TEST A : remove field from '.$prefix.'klapaucius defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['klapaucius']['fields'];
-            $this->_log(print_r($aDef,true));
+            $this->_log($msg.' remove field text_field from '.$prefix.'klapaucius');
 
-            $this->_log('changes_tables_core_999500::TEST B : remove primary key constraint '.$prefix.'klapaucius defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['klapaucius']['indexes'];
-            $this->_log(print_r($aDef,true));
+            $msg = $this->_testName('B');
+            $this->_log($msg.' remove primary key constraint klapaucius_pkey '.$prefix.'klapaucius');
         }
     }
 
