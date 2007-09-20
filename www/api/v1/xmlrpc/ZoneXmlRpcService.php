@@ -1,0 +1,373 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id:$
+*/
+
+/**
+ * @package    Openads
+ * @author     Ivan Klishch <iklishch@lohika.com>
+ *
+ * Zone XMLRPC Service.
+ *
+ */
+
+// Require the initialisation file
+require_once '../../../../init.php';
+
+// Require the XMLRPC classes
+require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
+
+// Base class BaseZoneService
+require_once MAX_PATH . '/www/api/v1/common/BaseZoneService.php';
+
+// XmlRpc utils
+require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
+
+// Require ZoneInfo class
+require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
+
+class ZoneXmlRpcService extends BaseZoneService
+{
+    function ZoneXmlRpcService()
+    {
+        $this->BaseZoneService();
+    }
+
+    /**
+     *  Add new zone.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function addZone(&$oParams)
+    {
+        $sessionId          = null;
+        $oZoneInfo          = new OA_Dll_ZoneInfo();
+        $oResponseWithError = null;
+        
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
+                $oResponseWithError) || 
+            !XmlRpcUtils::getStructureScalarFields($oZoneInfo, $oParams, 
+                1, array('publisherId', 'zoneName', 'type', 'width', 'height'), 
+                $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->addZone($sessionId, $oZoneInfo)) {
+            return XmlRpcUtils::integerTypeResponse($oZoneInfo->zoneId);
+        } else {
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+
+    }
+
+    /**
+     * Modifies an existing.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function modifyZone(&$oParams)
+    {
+        $sessionId          = null;
+        $oZoneInfo          = new OA_Dll_ZoneInfo();
+        $oResponseWithError = null;
+        
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
+                $oResponseWithError) || 
+            !XmlRpcUtils::getStructureScalarFields($oZoneInfo, $oParams, 
+                1, array('zoneId', 'publisherId', 'zoneName', 'type', 'width',
+                  'height'), $oResponseWithError)) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->modifyZone($sessionId, $oZoneInfo)) {
+            return XmlRpcUtils::booleanTypeResponse(true);
+        } else {
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * Delete existing Zone.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function deleteZone(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$zoneId), 
+            array(true, true), $oParams, $oResponseWithError )) {
+
+            return $oResponseWithError;
+        }
+
+        if ($this->_oZoneServiceImp->deleteZone($sessionId, $zoneId)) {
+
+            return XmlRpcUtils::booleanTypeResponse(true);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * Statistics broken down by day.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function zoneDailyStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$oStartDate, &$oEndDate),
+                array(true, true, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $rsStatisticsData = null;
+        if ($this->_oZoneServiceImp->getZoneDailyStatistics($sessionId,
+                $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(array('day' => 'date',
+                                                                'requests' => 'integer',
+                                                                'impressions' => 'integer',
+                                                                'clicks' => 'integer',
+                                                                'revenue' => 'float',
+                                                                ), $rsStatisticsData);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * Statistics broken down by Advetiser.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function zoneAdvertiserStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$oStartDate, &$oEndDate),
+                array(true, true, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $rsStatisticsData = null;
+        if ($this->_oZoneServiceImp->getZoneAdvertiserStatistics($sessionId,
+                $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+                                                                'advertiserName' => 'string',
+                                                                'requests' => 'integer',
+                                                                'impressions' => 'integer',
+                                                                'clicks' => 'integer',
+                                                                'revenue' => 'float',
+                                                                ), $rsStatisticsData);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * Statistics broken down by Campaign.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function zoneCampaignStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$oStartDate, &$oEndDate),
+                array(true, true, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $rsStatisticsData = null;
+        if ($this->_oZoneServiceImp->getZoneCampaignStatistics($sessionId,
+                $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+                                                                'advertiserName' => 'string',
+                                                                'campaignId' => 'integer',
+                                                                'campaignName' => 'string',
+                                                                'requests' => 'integer',
+                                                                'impressions' => 'integer',
+                                                                'clicks' => 'integer',
+                                                                'revenue' => 'float',
+                                                                ), $rsStatisticsData);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+    /**
+     * Statistics broken down by Banner.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function zoneBannerStatistics(&$oParams)
+    {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId, &$oStartDate, &$oEndDate),
+                array(true, true, false, false), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $rsStatisticsData = null;
+        if ($this->_oZoneServiceImp->getZoneBannerStatistics($sessionId,
+                $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
+
+            return XmlRpcUtils::arrayOfStructuresResponse(array('advertiserId' => 'integer',
+                                                                'advertiserName' => 'string',
+                                                                'campaignId' => 'integer',
+                                                                'campaignName' => 'string',
+                                                                'bannerId' => 'integer',
+                                                                'bannerName' => 'string',
+                                                                'requests' => 'integer',
+                                                                'impressions' => 'integer',
+                                                                'clicks' => 'integer',
+                                                                'revenue' => 'float',
+                                                                ), $rsStatisticsData);
+
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
+}
+
+$oZoneXmlRpcService = new ZoneXmlRpcService();
+
+$server = new XML_RPC_Server(
+    array(
+        'addZone' => array(
+            'function'  => array($oZoneXmlRpcService, 'addZone'),
+            'signature' => array(
+                array('int', 'string', 'struct')
+            ),
+            'docstring' => 'Add zone'
+        ),
+
+        'modifyZone' => array(
+            'function'  => array($oZoneXmlRpcService, 'modifyZone'),
+            'signature' => array(
+                array('int', 'string', 'struct')
+            ),
+            'docstring' => 'Modify zone information'
+        ),
+
+        'deleteZone' => array(
+            'function'  => array($oZoneXmlRpcService, 'deleteZone'),
+            'signature' => array(
+                array('int', 'string', 'int')
+            ),
+            'docstring' => 'Delete zone'
+        ),
+
+        'zoneDailyStatistics' => array(
+            'function'  => array($oZoneXmlRpcService, 'zoneDailyStatistics'),
+            'signature' => array(
+                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+                array('array', 'string', 'int', 'dateTime.iso8601'),
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Generate Zone Daily Statistics'
+        ),
+
+        'zoneAdvertiserStatistics' => array(
+            'function'  => array($oZoneXmlRpcService, 'zoneAdvertiserStatistics'),
+            'signature' => array(
+                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+                array('array', 'string', 'int', 'dateTime.iso8601'),
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Generate Zone Advertiser Statistics'
+        ),
+
+        'zoneCampaignStatistics' => array(
+            'function'  => array($oZoneXmlRpcService, 'zoneCampaignStatistics'),
+            'signature' => array(
+                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+                array('array', 'string', 'int', 'dateTime.iso8601'),
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Generate Zone Campaign Statistics'
+        ),
+
+        'zoneBannerStatistics' => array(
+            'function'  => array($oZoneXmlRpcService, 'zoneBannerStatistics'),
+            'signature' => array(
+                array('array', 'string', 'int', 'dateTime.iso8601', 'dateTime.iso8601'),
+                array('array', 'string', 'int', 'dateTime.iso8601'),
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Generate Zone Banner Statistics'
+        ),
+
+    ),
+    1  // serviceNow
+);
+
+
+?>

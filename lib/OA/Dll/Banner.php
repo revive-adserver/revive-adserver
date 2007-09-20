@@ -1,0 +1,356 @@
+<?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id:$
+*/
+
+/**
+ * @package    OpenadsDll
+ * @author     Ivan Klishch <iklishch@lohika.com>
+ *
+ * A file to description Dll Banner class.
+ *
+ */
+
+// Required classes
+require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/OA/Dll/BannerInfo.php';
+require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
+
+
+/**
+ * Banner Dll class
+ *
+ */
+
+class OA_Dll_Banner extends OA_Dll
+{
+    /**
+     * Method would perform data validation (e.g. email is an email)
+     * and where necessary would connect to the DAL to obtain information
+     * required to perform other business validations (e.g. username
+     * must be unique across all relevant tables).
+     *
+     * @access private
+     *
+     * @param OA_Dll_BannerInfo &$oBanner  Banner object.
+     *
+     * @return boolean  Returns false if fields is not valid and true in other case.
+     *
+     */
+    function _validate(&$oBanner)
+    {
+        if (isset($oBanner->bannerId)) {
+            // Modify Banner
+            if (!$this->checkStructureNotRequiredIntegerField($oBanner, 'campaignId') ||
+                !$this->checkStructureRequiredIntegerField($oBanner, 'bannerId') ||
+                !$this->checkIdExistence('banners', $oBanner->bannerId)) {
+                return false;
+            }
+        } else {
+            // Add Banner
+            if (!$this->checkStructureRequiredIntegerField($oBanner, 'campaignId')) {
+                return false;
+            }
+        }
+
+        if (isset($oBanner->campaignId) && 
+            !$this->checkIdExistence('campaigns', $oBanner->campaignId)) {
+            return false;
+        }
+
+        $storageTypes = array('sql', 'web', 'url', 'html', 'network', 'txt');
+
+        if (isset($oBanner->storageType) and !in_array($oBanner->storageType, $storageTypes)) {
+            $this->raiseError('Field \'storageType\' must be one of the enum: \'sql\', \'web\', \'url\', \'html\', \'network\', \'txt\'');
+            return false;
+        }
+
+        if (!$this->checkStructureNotRequiredStringField($oBanner, 'bannerName', 255) ||
+            !$this->checkStructureNotRequiredStringField($oBanner, 'fileName', 255) ||
+            !$this->checkStructureNotRequiredStringField($oBanner, 'imageURL', 255) ||
+            !$this->checkStructureNotRequiredStringField($oBanner, 'htmlTemplate') ||
+            !$this->checkStructureNotRequiredIntegerField($oBanner, 'width') ||
+            !$this->checkStructureNotRequiredIntegerField($oBanner, 'height') ||
+            !$this->checkStructureNotRequiredIntegerField($oBanner, 'weight') ||
+            !$this->checkStructureNotRequiredStringField($oBanner, 'url')
+            ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Method would perform data validation for statistics methods(bannerId, date).
+     *
+     * @access private
+     *
+     * @param integer  $bannerId
+     * @param date     $oStartDate
+     * @param date     $oEndDate
+     *
+     * @return boolean
+     *
+     */
+    function _validateForStatistics($bannerId, $oStartDate, $oEndDate)
+    {
+        if (!$this->checkIdExistence('banners', $bannerId) ||
+            !$this->checkDateOrder($oStartDate, $oEndDate)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Calls method for checking permissions from Dll class.
+     *
+     * @param integer $advertiserId  Banner ID
+     *
+     * @return boolean  False in access forbidden and true in other case.
+     */
+    function checkStatisticsPermissions($bannerId)
+    {
+       if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
+            phpAds_Client, 'banners', $bannerId)) {
+
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * This method modifies an existing banner.
+     * All fields which are undefined (e.g. permissions) are not changed from
+     * the state they were before modification. Any fields defined below that
+     * are NULL are unchanged.
+     *
+     * @access public
+     *
+     * @param OA_Dll_BannerInfo &$oBanner
+     *
+     * @return boolean  True if the operation was successful
+     *
+     */
+    function modify(&$oBanner)
+    {
+
+        if (!isset($oBanner->bannerId)) {
+            // Add
+            $oBanner->setDefaultForAdd();
+            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
+                 phpAds_Client, 'campaigns', $oBanner->campaignId,
+                 phpAds_ModifyBanner)) {
+
+                return false;
+            }
+        } else {
+            // Edit
+            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
+                 phpAds_Client, 'banners', $oBanner->bannerId,
+                 phpAds_ModifyBanner)) {
+
+                return false;
+            }
+        }
+
+        $bannerData =  (array) $oBanner;
+
+        // Name
+        $bannerData['bannerid']     = $oBanner->bannerId;
+        $bannerData['campaignid']   = $oBanner->campaignId;
+        $bannerData['description']  = $oBanner->bannerName;
+        $bannerData['storagetype']  = $oBanner->storageType;
+        $bannerData['filename'] 	= $oBanner->fileName;
+        $bannerData['imageurl'] 	= $oBanner->imageURL;
+        $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
+
+        if ($this->_validate($oBanner)) {
+            $doBanner = OA_Dal::factoryDO('banners');
+            if (!isset($bannerData['bannerId'])) {
+                $doBanner->setFrom($bannerData);
+                $oBanner->bannerId = $doBanner->insert();
+            } else {
+                $doBanner->get($bannerData['bannerId']);
+                $doBanner->setFrom($bannerData);
+                $doBanner->update();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * This method deletes an existing banner.
+     *
+     * @access public
+     *
+     * @param integer $bannerId  The ID of the banner to delete.
+     *
+     * @return boolean  True if the operation was successful
+     *
+     */
+    function delete($bannerId)
+    {
+        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency,
+             'banners', $bannerId)) {
+
+            return false;
+        }
+
+       if (isset($bannerId)) {
+            $doBanner = OA_Dal::factoryDO('banners');
+            $doBanner->bannerid = $bannerId;
+            $result = $doBanner->delete();
+        } else {
+            $result = false;
+        }
+
+        if ($result) {
+            return true;
+        } else {
+        	$this->raiseError('Unknown bannerId Error');
+            return false;
+        }
+    }
+
+   /**
+    * This method returns statistics for a given banner, broken down by day.
+    *
+    * @access public
+    *
+    * @param integer $bannerId The ID of the banner to view statistics
+    * @param date $oStartDate The date from which to get statistics (inclusive)
+    * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param array &$rsStatisticsData Parameter for returned data from function
+    *   <ul>
+    *   <li><b>day date</b> The day
+    *   <li><b>requests integer</b> The number of requests for the day
+    *   <li><b>impressions integer</b> The number of impressions for the day
+    *   <li><b>clicks integer</b> The number of clicks for the day
+    *   <li><b>revenue decimal</b> The revenue earned for the day
+    *   </ul>
+    *
+    * @return boolean  True if the operation was successful and false on error.
+    *
+    */
+    function getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    {
+        if (!$this->checkStatisticsPermissions($bannerId)) {
+            return false;
+        }
+
+        if ($this->_validateForStatistics($bannerId, $oStartDate, $oEndDate)) {
+            $dalBanner = new OA_Dal_Statistics_Banner();
+            $rsStatisticsData = $dalBanner->getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+   /**
+    * This method returns statistics for a given banner, broken down by publisher.
+    *
+    * @access public
+    *
+    * @param integer $bannerId The ID of the banner to view statistics
+    * @param date $oStartDate The date from which to get statistics (inclusive)
+    * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param array &$rsStatisticsData Parameter for returned data from function
+    *   <ul>
+    *   <li><b>publisherID integer</b> The ID of the publisher
+    *   <li><b>publisherName string (255)</b> The name of the publisher
+    *   <li><b>requests integer</b> The number of requests for the day
+    *   <li><b>impressions integer</b> The number of impressions for the day
+    *   <li><b>clicks integer</b> The number of clicks for the day
+    *   <li><b>revenue decimal</b> The revenue earned for the day
+    *   </ul>
+    *
+    * @return boolean  True if the operation was successful and false on error.
+    *
+    */
+    function getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    {
+        if (!$this->checkStatisticsPermissions($bannerId)) {
+            return false;
+        }
+
+        if ($this->_validateForStatistics($bannerId, $oStartDate, $oEndDate)) {
+            $dalBanner = new OA_Dal_Statistics_Banner();
+            $rsStatisticsData = $dalBanner->getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+   /**
+    * This method returns statistics for a given banner, broken down by zone.
+    *
+    * @access public
+    *
+    * @param integer $bannerId The ID of the banner to view statistics
+    * @param date $oStartDate The date from which to get statistics (inclusive)
+    * @param date $oEndDate The date to which to get statistics (inclusive)
+    * @param array &$rsStatisticsData Parameter for returned data from function
+    *   <ul>
+    *   <li><b>publisherID integer</b> The ID of the publisher
+    *   <li><b>publisherName string (255)</b> The name of the publisher
+    *   <li><b>zoneID integer</b> The ID of the zone
+    *   <li><b>zoneName string (255)</b> The name of the zone
+    *   <li><b>requests integer</b> The number of requests for the day
+    *   <li><b>impressions integer</b> The number of impressions for the day
+    *   <li><b>clicks integer</b> The number of clicks for the day
+    *   <li><b>revenue decimal</b> The revenue earned for the day
+    *   </ul>
+    *
+    * @return boolean  True if the operation was successful and false on error.
+    *
+    */
+    function getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
+    {
+        if (!$this->checkStatisticsPermissions($bannerId)) {
+            return false;
+        }
+
+        if ($this->_validateForStatistics($bannerId, $oStartDate, $oEndDate)) {
+            $dalBanner = new OA_Dal_Statistics_Banner();
+            $rsStatisticsData = $dalBanner->getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate);
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+}
+
+?>

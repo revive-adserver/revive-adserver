@@ -1,0 +1,145 @@
+/*
++---------------------------------------------------------------------------+
+| Openads v2.5                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+|  Copyright 2003-2007 Openads Limited                                      |
+|                                                                           |
+|  Licensed under the Apache License, Version 2.0 (the "License");          |
+|  you may not use this file except in compliance with the License.         |
+|  You may obtain a copy of the License at                                  |
+|                                                                           |
+|    http://www.apache.org/licenses/LICENSE-2.0                             |
+|                                                                           |
+|  Unless required by applicable law or agreed to in writing, software      |
+|  distributed under the License is distributed on an "AS IS" BASIS,        |
+|  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. |
+|  See the License for the specific language governing permissions and      |
+|  limitations under the License.                                           |
++---------------------------------------------------------------------------+
+$Id:$
+*/
+
+package org.openads.banner;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+import org.openads.campaign.CampaignTestCase;
+import org.openads.config.GlobalSettings;
+
+/**
+ * Base class for all banner web service tests
+ * 
+ * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
+ */
+public class BannerTestCase extends CampaignTestCase {
+
+	protected static final String HEIGHT = "height";
+	protected static final String ADD_BANNER_METHOD = "addBanner";
+	protected static final String DELETE_BANNER_METHOD = "deleteBanner";
+	protected static final String MODIFY_BANNER_METHOD = "modifyBanner";
+	protected static final String BANNER_DAILY_STATISTICS_METHOD = "bannerDailyStatistics";
+	protected static final String BANNER_PUBLISHER_STATISTICS_METHOD = "bannerPublisherStatistics";
+	protected static final String BANNER_ZONE_STATISTICS_METHOD = "bannerZoneStatistics";
+
+	protected static final String BANNER_ID = "bannerId";
+	protected static final String URL = "url";
+	protected static final String WEIGHT = "weight";
+	protected static final String WIDTH = "width";
+	protected static final String HTML_TEMPLATE = "htmlTemplate";
+	protected static final String STORAGE_TYPE = "storageType";
+	protected static final String BANNER_NAME = "bannerName";
+	protected static final String CAMPAIGN_ID = "campaignId";
+	protected static final String IMAGE_URL = "imageURL";
+	protected static final String FILENAME = "filename";
+
+	protected Integer campaignId = null;
+
+	protected void setUp() throws Exception {
+		super.setUp();
+
+		campaignId = createCampaign();
+	}
+
+	protected void tearDown() throws Exception {
+
+		deleteCampaign(campaignId);
+
+		super.tearDown();
+	}
+
+	/**
+	 * @return banner id
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public Integer createBanner() throws XmlRpcException, MalformedURLException {
+		Map<String, Object> struct = new HashMap<String, Object>();
+		struct.put(CAMPAIGN_ID, campaignId);
+		struct.put(BANNER_NAME, "test Banner");
+		struct.put(STORAGE_TYPE, "sql");
+		struct.put(FILENAME, "testFile.bmp");
+		struct.put(IMAGE_URL, "http://www.ttt.net.au/testFile.bmp");
+		struct.put(HTML_TEMPLATE, "<p>I am banner</p>");
+		struct.put(WIDTH, 100);
+		struct.put(HEIGHT, 100);
+		struct.put(WEIGHT, 100);
+		struct.put(URL, "http://www.ttt.net.au");
+		Object[] params = new Object[] { sessionId, struct };
+		// set URL
+		((XmlRpcClientConfigImpl) client.getClientConfig())
+				.setServerURL(new URL(GlobalSettings.getBannerServiceUrl()));
+
+		final Integer result = (Integer) client.execute(ADD_BANNER_METHOD,
+				params);
+		return result;
+	}
+
+	/**
+	 * @param id -
+	 *            id of banner you want to remove
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public boolean deleteBanner(Integer id) throws XmlRpcException,
+			MalformedURLException {
+		// set URL
+		((XmlRpcClientConfigImpl) client.getClientConfig())
+				.setServerURL(new URL(GlobalSettings.getBannerServiceUrl()));
+
+		return (Boolean) client.execute(DELETE_BANNER_METHOD, new Object[] {
+				sessionId, id });
+	}
+
+	public Object execute(String method, Object[] params)
+			throws XmlRpcException, MalformedURLException {
+		// set URL
+		((XmlRpcClientConfigImpl) client.getClientConfig())
+				.setServerURL(new URL(GlobalSettings.getBannerServiceUrl()));
+
+		return client.execute(method, params);
+	}
+
+}
