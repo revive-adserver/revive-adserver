@@ -1833,6 +1833,31 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             OA::debug('  - Saving zone impression forecasts WITHOUT transaction support', PEAR_LOG_DEBUG);
             // Prepare SQL statement for use later
             $table = $this->_getTablename('data_summary_zone_impression_history');
+            $sLocateQuery = "
+                SELECT
+                    data_summary_zone_impression_history_id
+                FROM
+                    {$table}
+                WHERE
+                    zone_id = ?
+                    AND
+                    operation_interval = ?
+                    AND
+                    operation_interval_id = ?
+                    AND
+                    interval_start = ?
+                    AND
+                    interval_end = ?";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'integer',
+                'timestamp',
+                'timestamp'
+            );
+            $stLocate = $this->oDbh->prepare($sLocateQuery, $aTypes, MDB2_PREPARE_RESULT);
+            // Prepare SQL statement for use later
+            $table = $this->_getTablename('data_summary_zone_impression_history');
             $sUpdateQuery = "
                 UPDATE
                     {$table}
@@ -1846,9 +1871,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     AND
                     operation_interval_id = ?
                     AND
-                    interval_start = '?'
+                    interval_start = ?
                     AND
-                    interval_end = '?'";
+                    interval_end = ?";
             $aTypes = array(
                 'integer',
                 'integer',
@@ -1866,19 +1891,17 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             while (list($zoneId, $aOperationIntervals) = each($aForecasts)) {
                 reset($aOperationIntervals);
                 while (list($id, $aValues) = each($aOperationIntervals)) {
-                    // Insert the forecast
+                    // Does the row already exist?
                     $aData = array(
                 		$zoneId,
                 		$aConf['maintenance']['operationInterval'],
                 		$id,
                 		$aValues['interval_start'],
-                		$aValues['interval_end'],
-                		$aValues['forecast_impressions'],
-                		$aValues['est']
+                		$aValues['interval_end']
             		);
-            		$rows = $stInsert->execute($aData);
-                    if (PEAR::isError($rows)) {
-                        // Cannot insert! Try update
+            		$rc = $stLocate->execute($aData);
+                    if ($rc->numRows() > 0) {
+                        // Try to update the data
                         $aData = array(
                     		$aValues['forecast_impressions'],
                     		$aValues['est'],
@@ -1890,7 +1913,23 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 		);
                 		$rows = $stUpdate->execute($aData);
                         if (PEAR::isError($rows)) {
-                            OA::debug('   - Error trying to update existing forecast', PEAR_LOG_DEBUG);
+                            OA::debug('   - Error trying to update forecast', PEAR_LOG_DEBUG);
+                            return;
+                        }
+                    } else {
+                        // Try to insert the data
+                        $aData = array(
+                    		$zoneId,
+                    		$aConf['maintenance']['operationInterval'],
+                    		$id,
+                    		$aValues['interval_start'],
+                    		$aValues['interval_end'],
+                    		$aValues['forecast_impressions'],
+                    		$aValues['est']
+                		);
+                		$rows = $stInsert->execute($aData);
+                        if (PEAR::isError($rows)) {
+                            OA::debug('   - Error trying to insert new forecast', PEAR_LOG_DEBUG);
                             return;
                         }
                     }
