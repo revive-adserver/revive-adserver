@@ -187,7 +187,7 @@ function initFindOtherNetworks()
   $("#findnetworksform select").change(function() {
     var country = $("select#country").attr("value");
     var language = $("select#language").attr("value");
-    $.get("./ajax-response-find-other-networks.php",
+    $.get("./ajax/ajax-response-find-other-networks.php",
       { country: country, language: language },
       function(html) {
         $("#other-networks-table").empty().append(html);

@@ -29,7 +29,7 @@ $Id$
 */
 
 // Require the initialisation file
-require_once '../../init.php';
+require_once '../../../init.php';
 
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
