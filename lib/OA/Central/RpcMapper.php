@@ -382,6 +382,31 @@ class OA_Central_RpcMapper
      */
     function getOtherNetworks()
     {
+        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
+            return array (
+                'Google Adsense' => array (
+                    'rank' => 1,
+                    'url' => 'http://adsense.google.com',
+                    'is_global' => 0,
+                    'countries' => array (
+                        'us' => 'http://adsense.google.com',
+                        'uk' => 'http://adsense.google.co.uk',
+                    ),
+                    'languages' => array(
+                        0 => 1,
+                        1 => 2,
+                    )
+                ),
+                'Advertising.com' => array (
+                      'rank' => 2,
+                      'url' => 'http://www.advertising.com',
+                      'is_global' => 1,
+                      'countries' => array(),
+                      'languages' => array()
+                )
+            );
+        }
+
         return $this->oRpc->callNoAuth('getOtherNetworks');
     }
 

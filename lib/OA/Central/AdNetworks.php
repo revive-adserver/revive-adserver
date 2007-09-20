@@ -330,7 +330,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
      */
     function getOtherNetworks()
     {
-        $result = $this->oMapper->getOtherNetworks();
+        $result = $this->oCache->call(array(&$this->oMapper, 'getOtherNetworks'));
 
         if (PEAR::isError($result)) {
             return false;

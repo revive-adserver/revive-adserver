@@ -34,16 +34,51 @@ require_once '../../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+
+// Register input variables
+phpAds_registerGlobal ('country', 'language');
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin);
 
-
 $oAdNetworks = new OA_Central_AdNetworks();
 $aOtherNetworks = $oAdNetworks->getOtherNetworks();
 
-// Sample output
-echo '<a href="" target="_blank" class="adv-list-entry">Valueclick</a><a href="" target="_blank" class="adv-list-entry">Text Link Ads</a><a href="" target="_blank" class="adv-list-entry">Kontera</a><div style="clear: both">&nbsp;</div><a href="" target="_blank" class="adv-list-entry">CPX</a><a href="" target="_blank" class="adv-list-entry">Google AdSense</a><a href="" target="_blank" class="adv-list-entry">Valueclick</a><div style="clear: both">&nbsp;</div><a href="" target="_blank" class="adv-list-entry">Text Link Ads</a><a href="" target="_blank" class="adv-list-entry">Kontera</a>
-';
+// If a country was selected, filter on country
+if (!empty($country) && ($country != 'undefined')) {
+    foreach ($aOtherNetworks as $networkName => $networkDetails) {
+        // If this network is not global
+        if (!$networkDetails['is_global']) {
+            if (!isset($networkDetails['countries'][strtolower($country)])) {
+                // No country specific URL for this non-global network so remove it from the list
+                unset($aOtherNetworks[$networkName]);
+            } else {
+                // There is a specific URL for this country, so set this for use in the templated
+                $aOtherNetworks[$networkName]['url'] = $networkDetails['countries'][strtolower($country)];
+            }
+        }
+    }
+}
+
+// If a language was selected, filter on language
+if (!empty($language) && ($language != 'undefined')) {
+    foreach ($aOtherNetworks as $networkName => $networkDetails) {
+        // If this network is not global
+        if (!$networkDetails['is_global']) {
+            if (!isset($networkDetails['languages'][$language])) {
+                // No language entry for the selected non-global network
+                unset($aOtherNetworks[$networkName]);
+            }
+        }
+    }
+}
+
+// Create the output template
+$oTpl = new OA_Admin_Template('ajax/find-other-networks.html');
+
+$oTpl->assign('aOtherNetworks', $aOtherNetworks);
+
+$oTpl->display();
 
 ?>
