@@ -198,7 +198,7 @@ class StatMigration extends Migration
         $prefix = $this->getPrefix();
 
         $tblBanners = $this->_modifyTableName('banners');
-        $tblCampaigns = $this->_modifyTableName('campgaigns');
+        $tblCampaigns = $this->_modifyTableName('campaigns');
         $tblSummary = $this->_modifyTableName('data_summary_ad_hourly');
 
 	    // We need to add delivered stats to the "Booked" amount to correctly port campaign targets from 2.0
