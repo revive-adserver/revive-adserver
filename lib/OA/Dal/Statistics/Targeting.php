@@ -781,6 +781,8 @@ class OA_Dal_Statistics_Targeting extends OA_Dal
                 AND
                 dsaza.ad_id = $adId
                 AND
+                dsaza.zone_id != 0
+                AND
                 dsaza.required_impressions > 0";
         $message = "Getting the MPE-based targeting statistcs for ad ID $adId for OI starting " .
                    $oStartDate->format('%Y-%m-%d %H:%M:%S');
