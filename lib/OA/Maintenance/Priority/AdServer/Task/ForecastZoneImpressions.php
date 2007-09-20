@@ -242,6 +242,10 @@ class OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends OA_M
             OA::debug('- Error retrieving active zone list, exiting', PEAR_LOG_CRIT);
             exit();
         }
+        if (empty($aResult)) {
+            // Return only Zone ID 0
+            return $aZonesIDs;
+        }
         foreach ($aResult as $aRow) {
             $aZonesIDs[] = (int) $aRow['zoneid'];
         }
