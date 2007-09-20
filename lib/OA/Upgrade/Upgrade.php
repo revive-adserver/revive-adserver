@@ -654,11 +654,6 @@ class OA_Upgrade
                     // Openads 2.0
                     $this->versionInitialSchema['tables_core'] = '099';
                 }
-                if (!$this->initDatabaseConnection())
-                {
-                    $this->existing_installation_status = OA_STATUS_PAN_DBCONNECT_FAILED;
-                    return false;
-                }
                 if (!$skipIntegrityCheck && !$this->_checkDBIntegrity($this->versionInitialSchema['tables_core']))
                 {
                     $this->existing_installation_status = OA_STATUS_PAN_DBINTEG_FAILED;
