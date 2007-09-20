@@ -55,6 +55,7 @@ class OA_phpAdsNew
         $this->aConfig      = $this->_migratePANConfig($this->_getPANConfig());
         if ($this->detected)
         {
+            $GLOBALS['_MAX']['CONF']['database']['type'] = $this->aConfig['database']['type'];
             $this->aDsn['database'] = $this->aConfig['database'];
             $this->aDsn['table']    = $this->aConfig['table'];
             $this->prefix   = $this->aConfig['table']['prefix'];
@@ -114,13 +115,19 @@ class OA_phpAdsNew
             $aResult['delivery']['acls'] = $phpAds_config['acl'];
             $aResult['delivery']['execPhp'] = $phpAds_config['type_html_php'];
 
-            $aResult['database']['type']        = 'mysql';
+            if (!empty($phpAds_config['table_type'])) {
+                $aResult['database']['type']    = 'mysql';
+                $aResult['table']['type']       = $phpAds_config['table_type'];
+            } else {
+                $aResult['database']['type']    = 'pgsql';
+                $aResult['table']['type']       = '';
+            }
+
             $aResult['database']['username']    = $phpAds_config['dbuser'];
             $aResult['database']['password']    = $phpAds_config['dbpassword'];
             $aResult['database']['name']        = $phpAds_config['dbname'];
             $aResult['database']['persistent']  = $phpAds_config['persistent_connections'];
 
-            $aResult['table']['type']           = $phpAds_config['table_type'];
             $aResult['table']['prefix']         = $phpAds_config['table_prefix'];
 
             // Required for ACLs upgrade recompile mechanism
@@ -131,8 +138,13 @@ class OA_phpAdsNew
             // max v0.1 doesn't, just have to detect if the port is a port number or socket path
             if (isset($phpAds_config['dblocal']) && $phpAds_config['dblocal'])
             {
-                $aResult['database']['host']        = '';
-                $aResult['database']['port']        = preg_replace('/^:/', '', $phpAds_config['dbhost']);
+                if ($aResult['database']['type'] == 'mysql') {
+                    $aResult['database']['host']        = '';
+                    $aResult['database']['port']        = preg_replace('/^:/', '', $phpAds_config['dbhost']);
+                } else {
+                    $aResult['database']['host']        = '';
+                    $aResult['database']['port']        = '';
+                }
                 $aResult['database']['protocol']    = 'unix';
             }
             else
@@ -368,6 +380,16 @@ class OA_phpAdsNew
     			'netspeed'		=> $databaseType == $GEOIP_NETSPEED_EDITION
     		)
     	);
+    }
+
+    function phpPgAdsIndexToOpenads($index, $table, $prefix)
+    {
+        return substr($index, 0, 30 - strlen($table) - strlen($prefix));
+    }
+
+    function phpPgAdsPrefixedIndex($index, $prefix)
+    {
+        return substr($prefix.$index, 0, 31);
     }
 }
 

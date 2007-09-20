@@ -254,7 +254,7 @@ class Test_OA_Upgrade extends UnitTestCase
         );
         $oUpgrade = new OA_Upgrade_for_detectPAN($this);
         $oUpgrade->setReturnValue('initDatabaseConnection', true);
-        $oUpgrade->expectCallCount('initDatabaseConnection', 3);
+        $oUpgrade->expectCallCount('initDatabaseConnection', 2);
         $oUpgrade->OA_Upgrade();
 
         Mock::generatePartial(

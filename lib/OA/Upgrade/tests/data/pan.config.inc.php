@@ -43,14 +43,14 @@ $phpAds_config['table_prefix'] = 'panprefix_';
 
 // Database table type
 // below is a hack to allow tests to pass on pgsql
-//if ($GLOBAL['_MAX']['CONF']['database']['type']=='mysql')
-//{
+if ($GLOBAL['_MAX']['CONF']['database']['type']=='mysql')
+{
     $phpAds_config['table_type'] = 'PANENGINE';
-//}
-//else
-//{
-//    $phpAds_config['table_type'] = '';
-//}
+}
+else
+{
+    $phpAds_config['table_type'] = '';
+}
 
 // Use persistent connections to the database
 $phpAds_config['persistent_connections'] = false;
