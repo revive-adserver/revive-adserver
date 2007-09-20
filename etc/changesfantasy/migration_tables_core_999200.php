@@ -22,7 +22,7 @@ class Migration_999200 extends Migration
 
 
 		$this->aObjectMap['astro']['id_changed_field'] = array('fromTable'=>'astro', 'fromField'=>'id_field');
-		$this->aObjectMap['astro']['text_field'] = array('fromTable'=>'astro', 'fromField'=>'text_field');
+		$this->aObjectMap['astro']['text_field'] = array('fromTable'=>'astro', 'fromField'=>'desc_field');
     }
 
 

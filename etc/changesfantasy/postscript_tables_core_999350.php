@@ -54,7 +54,7 @@ class postscript_tables_core_999350 extends script_tables_core_parent
             }
             else
             {
-                $this->_log($msg.' failed to remove autoincrement field from table '.$prefix.'astro');
+                $this->_log($msg.' failed to remove autoincrement field from table '.$prefix.'astro defined as: [auto_renamed_field]');
             }
         }
     }

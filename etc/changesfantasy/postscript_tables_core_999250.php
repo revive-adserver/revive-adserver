@@ -52,6 +52,23 @@ class postscript_tables_core_999250 extends script_tables_core_parent
             {
                 $this->_log($msg.' added autoincrement field for table '.$prefix.'astro defined as:[auto_field]');
                 $this->_log(print_r($aDef['tables']['astro']['fields']['auto_field'],true));
+
+                $query = 'SELECT * FROM '.$prefix.'astro';
+                $result = $this->oDbh->queryAll($query);
+                if (PEAR::isError($result))
+                {
+                    $this->_log($msg.'failed to retrieve data from '.$prefix.'astro');
+                }
+                else
+                {
+                    $this->_log($msg.' auto-increment field auto_field data:');
+                    $this->_log('row =  auto_field, id_changed_field , desc_field');
+                    foreach ($result AS $k => $v)
+                    {
+                        $this->_log('row '.$k .' = '.$v['auto_field'] .', '. $v['id_changed_field'] .' , '. $v['desc_field']);
+                    }
+
+                }
             }
             else
             {

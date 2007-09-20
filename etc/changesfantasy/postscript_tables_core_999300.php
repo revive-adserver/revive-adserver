@@ -50,12 +50,12 @@ class postscript_tables_core_999300 extends script_tables_core_parent
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('astro');
             if (isset($aDef['tables']['astro']['fields']['auto_renamed_field']))
             {
-                $this->_log($msg.' renamed autoincrement field auto_field for table '.$prefix.'astro defined as:[auto_renamed_field]');
+                $this->_log($msg.' renamed autoincrement field [auto_field] for table '.$prefix.'astro defined as:[auto_renamed_field]');
                 $this->_log(print_r($aDef['tables']['astro']['fields']['auto_renamed_field'],true));
             }
             else
             {
-                $this->_log($msg.' failed to rename autoincrement field auto_field to auto_renamed_field for table '.$prefix.'astro');
+                $this->_log($msg.' failed to rename autoincrement field [auto_field] to [auto_renamed_field] for table '.$prefix.'astro');
             }
         }
     }

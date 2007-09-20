@@ -52,18 +52,18 @@ class postscript_tables_core_999100 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' created table '.$prefix.'bender defined as:');
+            $this->_log($msg.' created table '.$prefix.'bender defined as: [bender]');
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('bender');
-            $this->_log(print_r($aDef['tables'],true));
+            $this->_log(print_r($aDef['tables']['bender'],true));
         }
         $msg = $this->_testName('B');
         if (!in_array($prefix.'astro', $aExistingTables))
         {
-            $this->_log($msg.' failed to create table '.$prefix.'astro defined as:');
+            $this->_log($msg.' failed to create table '.$prefix.'astro defined as: [astro]');
         }
         else
         {
-            $this->_log($msg.' created table '.$prefix.'astro defined as:');
+            $this->_log($msg.' created table '.$prefix.'astro defined as: [astro]');
             $aDef = $this->oDBUpgrade->_getDefinitionFromDatabase('astro');
             $this->_log(print_r($aDef['tables']['astro'],true));
 
@@ -72,9 +72,9 @@ class postscript_tables_core_999100 extends script_tables_core_parent
             $result = $this->oDbh->queryOne($query);
             if (PEAR::isError($result))
             {
-                $this->_log($msg.' : failed to insert records in table astro');
+                $this->_log($msg.' : failed to insert records in table [astro]');
             }
-            $this->_log($msg.' inserted '.$result.' records in table astro');
+            $this->_log($msg.' inserted '.$result.' records in table [astro]');
         }
     }
 

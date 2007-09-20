@@ -51,7 +51,7 @@ class prescript_tables_core_999100 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' create table '.$prefix.'bender defined as:');
+            $this->_log($msg.' create table '.$prefix.'bender defined as: [bender]');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['bender'];
             $this->_log(print_r($aDef,true));
 
@@ -63,7 +63,7 @@ class prescript_tables_core_999100 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' create table '.$prefix.'astro defined as:');
+            $this->_log($msg.' create table '.$prefix.'astro defined as: [astro]');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro'];
             $this->_log(print_r($aDef,true));
 

@@ -51,7 +51,7 @@ class prescript_tables_core_999300 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' rename autoincrement field in table '.$prefix.'astro defined as:');
+            $this->_log($msg.' rename autoincrement field [auto_field] in table '.$prefix.'astro defined as: [auto_renamed_field]');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['fields']['auto_renamed_field'];
             $this->_log(print_r($aDef,true));
         }

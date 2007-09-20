@@ -52,8 +52,8 @@ class prescript_tables_core_999150 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' create index on table '.$prefix.'astro defined as:');
-            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['indexes'];
+            $this->_log($msg.' create index on table '.$prefix.'astro defined as: [id_field]');
+            $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['indexes']['id_field'];
             $this->_log(print_r($aDef,true));
         }
     }

@@ -59,7 +59,7 @@ class prescript_tables_core_999400 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' add primary key constraint astro_pkey to table '.$prefix.'astro defined as:');
+            $this->_log($msg.' add primary key constraint to table '.$prefix.'astro defined as: [astro_pkey]');
             $aDef = $this->oDBUpgrade->aDefinitionNew['tables']['astro']['indexes']['astro_pkey'];
             $this->_log(print_r($aDef,true));
         }
@@ -76,7 +76,7 @@ class prescript_tables_core_999400 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' remove index id_field from table '.$prefix.'astro');
+            $this->_log($msg.' remove index from table '.$prefix.'astro defined as: [id_field]');
         }
     }
 }

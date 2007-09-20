@@ -51,7 +51,7 @@ class prescript_tables_core_999350 extends script_tables_core_parent
         }
         else
         {
-            $this->_log($msg.' remove autoincrement field auto_renamed_field in table '.$prefix.'astro');
+            $this->_log($msg.' remove autoincrement field in table '.$prefix.'astro defined as: [auto_renamed_field]');
         }
     }
 }
