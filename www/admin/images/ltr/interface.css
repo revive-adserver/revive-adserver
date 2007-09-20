@@ -544,6 +544,39 @@ a.time:before
 }
 
 /** Extra CSS adde for AdNetworks integration */
+.section .title {
+    font-weight: bold;	
+    margin-bottom: 5px;	
+    padding: 5px 0px;
+    border-bottom: 1px solid #CFCFCF;  
+}
+
+.section .content {
+  padding-left: 15px;
+}
+
+.adnetworks-section {
+   /*background-color: #F1F7E2;*/
+   border: 1px solid #CFCFCF;  
+   padding-bottom: 10px;
+}
+
+.adnetworks-section .title {
+  
+   /*background-color: #F1F7E2;*/
+   background-color: #545496;
+   /*background-color: #A9C94F;*/ 
+   color: white;
+}
+
+.adnetworks-section .content {
+   padding-right: 15px;
+}
+
+.adnetworks-filled-section {
+   background-color: #F6F6E6; /*#F1F7E2;*/
+}
+
 table.data-grid tr.data:hover {
   background-color: #fffccd;
 }
@@ -627,18 +660,13 @@ div.error-box {
   text-align: left;
 }
 
-select.error, input.error {
+select.inerror, input.inerror {
   background-color: #ffcccc;
-  border: default;
 }
 
 select.inline {
   margin-bottom: 2px;
   margin-top: 2px;
-}
-
-.section div.content {
-  padding-left: 15px;
 }
 
 form.new-form div.line:after, .clearfix:after {

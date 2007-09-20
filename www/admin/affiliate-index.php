@@ -31,8 +31,6 @@ $Id$
 // Require the initialisation file
 require_once '../../init.php';
 
-error_reporting('E_ALL');
-
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
@@ -40,16 +38,92 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 // Register input variables
-phpAds_registerGlobal ('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
+phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection',
+                               'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'formId');
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 
+// Initialise Ad  Networks
+$oAdNetworks = new OA_Central_AdNetworks();
+
+
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
+
+$captchaErrorFormId = false;
+$aError = false;
+
+if (!empty($url)) {
+    $doAffiliate = OA_Dal::factoryDO('affiliates');
+
+    if (!empty($pubid)) {
+        MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+        $doAffiliate->get($pubid);
+    }
+
+    if (!empty($adnetworks)) {
+        // Insert or update publisher using OAC methods
+        $aWebsites = array(
+            array(
+                'id'       => empty($pubid) ? null : $pubid,
+                'url'      => $url,
+                'country'  => $country,
+                'language' => $language,
+                'category' => $category
+            )
+        );
+
+        $result = $oAdNetworks->subscribeWebsites($aWebsites);
+
+        if (PEAR::isError($result)) {
+            $aError = array(
+               'id' => isset($pubid) ? $pubid : 0,
+               'message' => $result->getMessage()
+            );
+            if ($result->getCode() == 802) {
+                $captchaErrorFormId = $formId;
+                $aError['message'] = '';
+            }
+        }
+    } else {
+        // Insert or update publisher
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
+        $publisher = array(
+            'name'             => $url,
+            'mnemonic'         => '',
+            'contact'          => $aPref['admin_name'],
+            'email'            => $aPref['admin_email'],
+            'website'          => 'http://'.$url,
+            'oac_country_code' => $country,
+            'oac_language_id'  => $language,
+            'oac_category_id'  => $category
+        );
+
+        $doAffiliate->setFrom($publisher);
+
+        if (!empty($pubid)) {
+            $ok = $doAffiliate->update();
+        } else {
+            $pubid = $ok = $doAffiliate->insert();
+        }
+
+        if ($ok) {
+            MAX_Admin_Redirect::redirect('affiliate-zones.php?affiliateid='.$pubid);
+        } else {
+            $aError = array(
+                'id' => $pubid,
+                'message' => 'There was an error creating/updating the publisher'
+            );
+        }
+   }
+}
 
 phpAds_PageHeader("4.2");
 phpAds_ShowSections(array("4.1", "4.2", "4.3"));
@@ -91,6 +165,25 @@ $oTpl = new OA_Admin_Template('affiliate-index.html');
 
 $loosezones = false;
 
+$aCategories = $oAdNetworks->getCategories();
+
+$aFlatCategories = array();
+$aSelectCategories = array('' => '- pick a category -');
+foreach ($aCategories as $k => $v) {
+    $aFlatCategories[$k] = $v['name'];
+    $aSelectCategories[$k] = $v['name'];
+    foreach ($v['subcategories'] as $kk => $vv) {
+        $aFlatCategories[$kk] = $vv;
+        $aSelectCategories[$kk] = "&nbsp;&nbsp;&nbsp;".$vv;
+    }
+}
+
+$aCountries = $oAdNetworks->getCountries();
+$aSelectCountries = array('' => '- pick a country -') + $aCountries;
+
+$aLanguages = $oAdNetworks->getLanguages();
+$aSelectLanguages = array('' => '- pick a language -') + $aLanguages;
+
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doAffiliates->addListOrderBy($listorder, $orderdirection);
 
@@ -112,119 +205,67 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
 	$affiliates[$row_affiliates['affiliateid']]['count'] = 0;
     $affiliates[$row_affiliates['affiliateid']]['channels'] = Admin_DA::getChannels(array('publisher_id' => $row_affiliates['affiliateid']));
 
-}
+    $affiliates[$row_affiliates['affiliateid']]['website'] = preg_replace('#^https?://#', '', $row_affiliates['website']);
+    $affiliates[$row_affiliates['affiliateid']]['oac_adnetworks'] = !empty($row_affiliates['oac_website_id']) ? 'yes' : 'no';
 
-$doZones = OA_Dal::factoryDO('zones');
-$doZones->addListOrderBy($listorder, $orderdirection);
-
-$doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
-$doAdZoneAssoc->selectAdd();
-$doAdZoneAssoc->selectAdd('zone_id');
-$doAdZoneAssoc->selectAdd('COUNT(*) AS num_ads');
-$doAdZoneAssoc->groupBy('zone_id');
-
-// Get the zones for each affiliate
-if (phpAds_isUser(phpAds_Admin))
-{
-    $doAdZoneAssoc->whereAdd('zone_id > 0');
-}
-elseif (phpAds_isUser(phpAds_Agency))
-{
-    $agencyId = phpAds_getAgencyID();
-
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->agencyid = $agencyId;
-    $doZones->joinAdd($doAffiliates);
-
-    $doAdZoneAssoc->joinAdd($doZones);
-}
-
-$doZones->find();
-
-while ($doZones->fetch() && $row_zones = $doZones->toArray())
-{
-	if (isset($affiliates[$row_zones['affiliateid']]))
-	{
-		$zones[$row_zones['zoneid']] = $row_zones;
-		$affiliates[$row_zones['affiliateid']]['count']++;
-	}
-	else
-		$loosezones = true;
-}
-
-$doAdZoneAssoc->find();
-while ($doAdZoneAssoc->fetch() && $row_ad_zones = $doAdZoneAssoc->toArray()) {
-    // set warning flag if zone has no low-priority ads linked
-    $aZoneAds = MAX_cacheGetZoneLinkedAds($row_ad_zones['zone_id'], false);
-    $lpc_flag = false;
-    if ($aZoneAds['count_active'] > 0) {
-        if (count($aZoneAds['lAds']) == 0) {
-            $lpc_flag = true;
-        }
+    if (!empty($row_affiliates['oac_country_code']) && isset($aCountries[$row_affiliates['oac_country_code']])) {
+        $affiliates[$row_affiliates['affiliateid']]['oac_country'] = $aCountries[$row_affiliates['oac_country_code']];
     }
-    $zones[$row_ad_zones['zone_id']]['lpc_flag'] = $lpc_flag;
+    if (!empty($row_affiliates['oac_language_id']) && isset($aLanguages[$row_affiliates['oac_language_id']])) {
+        $affiliates[$row_affiliates['affiliateid']]['oac_language'] = $aLanguages[$row_affiliates['oac_language_id']];
+    }
+    if (!empty($row_affiliates['oac_category_id']) && isset($aFlatCategories[$row_affiliates['oac_category_id']])) {
+        $affiliates[$row_affiliates['affiliateid']]['oac_category'] = $aFlatCategories[$row_affiliates['oac_category_id']];
+    }
 
-    $zones[$row_ad_zones['zone_id']]['num_ads'] = $row_ad_zones['num_ads'];
+    if (isset($aError['id']) && $aError['id'] == $row_affiliates['affiliateid']) {
+        $row_affiliates['edit']['website']          = $url;
+        $row_affiliates['edit']['oac_country_code'] = $country;
+        $row_affiliates['edit']['oac_language_id']  = $language;
+        $row_affiliates['edit']['oac_category_id']  = $category;
+        $row_affiliates['edit']['oac_adnetworks']   = isset($adnetworks) ? 'yes' : 'no';
+    }
 }
 
-// Add ID found in expand to expanded nodes
-if (isset($expand) && $expand != '')
-{
-	switch ($expand)
-	{
-		case 'all' :	$node_array   = array();
-						if (isset($affiliates)) foreach (array_keys($affiliates) as $key)	$node_array[] = $key;
-						break;
+$newAffiliate = array();
 
-		case 'none':	$node_array   = array();
-						break;
-
-		default:		$node_array[] = $expand;
-						break;
-	}
-}
-
-$node_array_size = sizeof($node_array);
-for ($i=0; $i < $node_array_size;$i++)
-{
-	if (isset($collapse) && $collapse == $node_array[$i])
-		unset ($node_array[$i]);
-	else
-	{
-		if (isset($affiliates[$node_array[$i]]))
-			$affiliates[$node_array[$i]]['expand'] = 1;
-	}
-}
-
-// Build Tree
-if (isset($zones) && is_array($zones) && count($zones) > 0)
-{
-	// Add banner to campaigns
-	foreach (array_keys($zones) as $zkey)
-	{
-		$affiliates[$zones[$zkey]['affiliateid']]['zones'][$zkey] = $zones[$zkey];
-	}
-
-	unset ($zones);
+if (isset($aError['id'])) {
+    if (!$aError['id']) {
+        $errorAffiliate = &$newAffiliate;
+    } else {
+        $affiliates[$aError['id']]['edit'] = array();
+        $errorAffiliate = &$affiliates[$aError['id']]['edit'];
+    }
+    $errorAffiliate = array(
+        'website' => $url,
+        'oac_country_code' => $country,
+        'oac_language_id'  => $language,
+        'oac_category_id'  => $category,
+        'oac_adnetworks'   => isset($adnetworks) ? 'yes' : 'no'
+    );
 }
 
 $doAffiliates = OA_Dal::factoryDO('affiliates');
-$doZones = OA_Dal::factoryDO('zones');
 
 if (phpAds_isUser(phpAds_Agency)) {
     $doAffiliates->agencyid = phpAds_getAgencyID();
-    $doZones->joinAdd($doAffiliates);
 }
 
-$countZone = $doZones->count();
 $countAffiliate = $doAffiliates->count();
 
 $oTpl->assign('affiliates',     $affiliates);
-$oTpl->assign('countZone',      $countZone);
 $oTpl->assign('countAffiliate', $countAffiliate);
-$oTpl->assign('loosezones',     $loosezones);
 $oTpl->assign('listorder',      $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
+
+$oTpl->assign('categories', $aSelectCategories);
+$oTpl->assign('countries',  $aSelectCountries);
+$oTpl->assign('languages',  $aSelectLanguages);
+
+$oTpl->assign('formError', $aError);
+$oTpl->assign('captchaErrorFormId', $captchaErrorFormId);
+$oTpl->assign('newAffiliate', $newAffiliate);
+
 $oTpl->assign('phpAds_ZoneBanner',          phpAds_ZoneBanner);
 $oTpl->assign('phpAds_ZoneInterstitial',    phpAds_ZoneInterstitial);
 $oTpl->assign('phpAds_ZonePopup',           phpAds_ZonePopup);

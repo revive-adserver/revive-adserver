@@ -43,36 +43,15 @@ phpAds_registerGlobal ('country', 'language');
 MAX_Permission::checkAccess(phpAds_Admin);
 
 $oAdNetworks = new OA_Central_AdNetworks();
-$aOtherNetworks = $oAdNetworks->getOtherNetworks();
 
-// If a country was selected, filter on country
-if (!empty($country) && ($country != 'undefined')) {
-    foreach ($aOtherNetworks as $networkName => $networkDetails) {
-        // If this network is not global
-        if (!$networkDetails['is_global']) {
-            if (!isset($networkDetails['countries'][strtolower($country)])) {
-                // No country specific URL for this non-global network so remove it from the list
-                unset($aOtherNetworks[$networkName]);
-            } else {
-                // There is a specific URL for this country, so set this for use in the templated
-                $aOtherNetworks[$networkName]['url'] = $networkDetails['countries'][strtolower($country)];
-            }
-        }
-    }
+if (!isset($country)) {
+    $country = '';
+}
+if (!isset($language)) {
+    $language = '';
 }
 
-// If a language was selected, filter on language
-if (!empty($language) && ($language != 'undefined')) {
-    foreach ($aOtherNetworks as $networkName => $networkDetails) {
-        // If this network is not global
-        if (!$networkDetails['is_global']) {
-            if (!isset($networkDetails['languages'][$language])) {
-                // No language entry for the selected non-global network
-                unset($aOtherNetworks[$networkName]);
-            }
-        }
-    }
-}
+$aOtherNetworks = $oAdNetworks->getOtherNetworksForDisplay($country, $language);
 
 // Create the output template
 $oTpl = new OA_Admin_Template('ajax/find-other-networks.html');

@@ -155,7 +155,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $ok = true;
         foreach ($aSubscriptions['adnetworks'] as $aAdvertiser) {
             $doAdvertisers = OA_Dal::factoryDO('clients');
-            $doAdvertisers->oac_network_id = $aAdvertiser['adnetwork_id'];
+            $doAdvertisers->oac_adnetwork_id = $aAdvertiser['adnetwork_id'];
             $doAdvertisers->find();
 
             if ($doAdvertisers->fetch()) {
@@ -187,7 +187,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         }
 
         for (reset($aSubscriptions['websites']); $ok && ($aWebsite = current($aSubscriptions['websites'])); next($aSubscriptions['websites'])) {
-            // Create publisher
+            // Create new or use existing publisher
             $websiteIdx = key($aWebsites);
             foreach ($aWebsites as $key => $value) {
                 if ($value['url'] == $aWebsite['url']) {
@@ -195,12 +195,24 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 }
             }
 
+            $existingPublisher = !empty($aWebsites[$websiteIdx]['id']);
+
+            $doPublishers = OA_Dal::factoryDO('affiliates');
+
+            if ($existingPublisher) {
+                $doPublishers->get($aWebsites[$websiteIdx]['id']);
+                $publisher = array();
+            } else {
+                $publisher = array(
+                    'mnemonic'         => '',
+                    'contact'          => $aPref['admin_name'],
+                    'email'            => $aPref['admin_email'],
+                );
+            }
+
             $publisherName = $this->oDal->getUniquePublisherName($aWebsite['url']);
-            $publisher = array(
+            $publisher += array(
                 'name'             => $publisherName,
-                'mnemonic'         => '',
-                'contact'          => $aPref['admin_name'],
-                'email'            => $aPref['admin_email'],
                 'website'          => 'http://'.$aWebsite['url'],
                 'oac_website_id'   => $aWebsite['website_id'],
                 'oac_country_code' => $aWebsites[$websiteIdx]['country'],
@@ -208,12 +220,18 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 'oac_category_id'  => $aWebsites[$websiteIdx]['category']
             );
 
-            $doPublishers = OA_Dal::factoryDO('affiliates');
             $doPublishers->setFrom($publisher);
-            $publisherId = $doPublishers->insert();
+
+            if ($existingPublisher) {
+                $publisherId = $doPublishers->update() ? $aWebsites[$websiteIdx]['id'] : '';
+            } else {
+                $publisherId = $doPublishers->insert();
+            }
 
             if (!empty($publisherId)) {
-                $aCreated['publishers'][] = $publisherId;
+                if (!$existingPublisher) {
+                    $aCreated['publishers'][] = $publisherId;
+                }
                 $aZones = array();
             } else {
                 $ok = false;
@@ -337,6 +355,51 @@ class OA_Central_AdNetworks extends OA_Central_Common
         }
 
         return $result;
+    }
+
+    /**
+     * A method to get the list of matching other networks
+     *
+     * @param string $country
+     * @param string $language
+     * @return mixed The other networs array on success, PEAR_Error otherwise
+     */
+    function getOtherNetworksForDisplay($country = '', $language = '')
+    {
+        $aOtherNetworks = $this->getOtherNetworks();
+
+        if (!PEAR::isError($aOtherNetworks)) {
+            // If a country was selected, filter on country
+            if (!empty($country) && ($country != 'undefined')) {
+                foreach ($aOtherNetworks as $networkName => $networkDetails) {
+                    // If this network is not global
+                    if (!$networkDetails['is_global']) {
+                        if (!isset($networkDetails['countries'][strtolower($country)])) {
+                            // No country specific URL for this non-global network so remove it from the list
+                            unset($aOtherNetworks[$networkName]);
+                        } else {
+                            // There is a specific URL for this country, so set this for use in the templated
+                            $aOtherNetworks[$networkName]['url'] = $networkDetails['countries'][strtolower($country)];
+                        }
+                    }
+                }
+            }
+
+            // If a language was selected, filter on language
+            if (!empty($language) && ($language != 'undefined')) {
+                foreach ($aOtherNetworks as $networkName => $networkDetails) {
+                    // If this network is not global
+                    if (!$networkDetails['is_global']) {
+                        if (!isset($networkDetails['languages'][$language])) {
+                            // No language entry for the selected non-global network
+                            unset($aOtherNetworks[$networkName]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $aOtherNetworks;
     }
 
     /**

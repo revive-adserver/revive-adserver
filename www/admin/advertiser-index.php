@@ -291,6 +291,7 @@ $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 
+$oTpl->assign('aOtherNetworks', $oAdNetworks->getOtherNetworksForDisplay());
 
 /*-------------------------------------------------------*/
 /* Store preferences                                     */

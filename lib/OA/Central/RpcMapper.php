@@ -326,6 +326,45 @@ class OA_Central_RpcMapper
      */
     function subscribeWebsites($aWebsites)
     {
+        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
+            if ($_REQUEST['captcha-value'] != 'following') {
+                return new PEAR_Error('Captcha wrong', 802);
+            }
+            return array(
+                'adnetworks' => array(
+                    array(
+                        'adnetwork_id' => 1,
+                        'name' => 'CPX'
+                    )
+                ),
+                'websites' => array(
+                    array(
+                        'website_id' => mt_rand(1, 10000),
+                        'url' => $aWebsites[0]['url'],
+                        'campaigns' => array(
+                            array(
+                                'campaign_id' => mt_rand(1, 10000),
+                                'adnetwork_id' => 1,
+                                'name' => 'Campaign 1',
+                                'weight' => 1,
+                                'capping' => 0,
+                                'banners' => array(
+                                    array(
+                                        'banner_id' => mt_rand(1, 10000),
+                                        'name' => 'Banner 1',
+                                        'width' => 125,
+                                        'height' => 125,
+                                        'capping' => 0,
+                                        'html' => 'Foo',
+                                        'adserver' => ''
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
         return $this->oRpc->callCaptchaSso('subscribeWebsites', array(
             XML_RPC_encode($aWebsites)
         ));

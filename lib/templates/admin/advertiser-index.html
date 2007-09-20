@@ -38,12 +38,10 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <br>
 <br>
 
-<div class="section">
-<div>
+<div class="section adnetworks-section">
+<div class="title">
 <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        <b>Openads advertisers</b>
-<br>
-<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+        Openads advertisers</div>
 <div class="content">
 
 {include file=advertiser-index-list.html from=$aOacAdvertisers aCount=$aCount.Openads}
@@ -51,12 +49,10 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 </div>
 </div>
 
-<div class="section">
-<div>
+<div class="section adnetworks-section adnetworks-filled-section">
+<div class="title">
 <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        <b>Find other ad networks</b>
-<br>
-<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+        Find other ad networks</div>
 <div class="content">
 <table>
 <tr>
@@ -76,14 +72,11 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 
 </div>
 </form>
-</td><td style="vertical-align: top; padding-top: 14px"><span id="other-networks-table"><a href="" target="_blank" class="adv-list-entry">Google AdSense</a><a href="" target="_blank" class="adv-list-entry">Valueclick</a><a href="" target="_blank" class="adv-list-entry">Text Link Ads</a>
-<div style="clear: both">&nbsp;</div>
-<a href="" target="_blank" class="adv-list-entry">Kontera</a><a href="" target="_blank" class="adv-list-entry">CPX</a><a href="" target="_blank" class="adv-list-entry">Google AdSense</a>
-<div style="clear: both">&nbsp;</div>
-<a href="" target="_blank" class="adv-list-entry">Valueclick</a><a href="" target="_blank" class="adv-list-entry">Text Link Ads</a><a href="" target="_blank" class="adv-list-entry">Kontera</a>
-<div style="clear: both">&nbsp;</div>
+</td><td style="vertical-align: top; padding-top: 14px"><span id="other-networks-table">
 
-<a href="" target="_blank" class="adv-list-entry">CPX</a></span></td>
+{include file=ajax/find-other-networks.html}
+
+</span></td>
 </tr>
 </table>
 <script>
@@ -93,11 +86,9 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 </div>
 </div>
 <div class="section">
-<div>
+<div class="title">
 <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        <b>Local advertisers</b>
-<br>
-<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+        Local advertisers</div>
 <div class="content">
 
 {include file=advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local}
@@ -106,11 +97,9 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 </div>
 
 <div class="section">
-<div>
+<div class="title">
 <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        <b>Overall</b>
-<br>
-<img src="images/break-el.gif" height="1" width="100%" vspace="5"></div>
+        Overall</div>
 <div class="content">
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
 <tr height="1">

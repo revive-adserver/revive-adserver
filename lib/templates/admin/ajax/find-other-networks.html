@@ -1,26 +1,4 @@
-{foreach item=v key=k from=$aOtherNetworks}
+{foreach item=v key=k from=$aOtherNetworks name=othernetworks}
+    {if $smarty.foreach.iteration && !($smarty.foreach.iteration % 3)}<div style="clear: both">&nbsp;</div>{/if}
     <a href="{$v.url}" target="_blank" class="adv-list-entry">{$k}</a>
 {/foreach}
-<!--
-'Google Adsense' => array (
-                'rank' => 1,
-                'url' => 'http://adsense.google.com',
-                'is_global' => 0,
-                'countries' => array (
-                    'us' => 'http://adsense.google.com',
-                    'uk' => 'http://adsense.google.co.uk',
-                ),
-                'languages' => array(
-                    0 => 1,
-                    1 => 2,
-                )
-            ),
-            'Advertising.com' => array (
-                  'rank' => 2,
-                  'url' => 'http://www.advertising.com',
-                  'is_global' => 1,
-                  'countries' => array(),
-                  'languages' => array()
-            )
-        );
--->
