@@ -35,6 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -52,6 +53,9 @@ phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', '
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
 MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+
+// Initialise Ad  Networks
+$oAdNetworks = new OA_Central_AdNetworks();
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
@@ -415,12 +419,23 @@ $oTpl = new OA_Admin_Template('affiliate-edit.html');
 $oTpl->assign('affiliateid', $affiliateid);
 $oTpl->assign('move', $move);
 
-$aLanguages = array('' => $strDefault) + MAX_Admin_Languages::AvailableLanguages();
-
-$oTpl->assign('fields', array(
+$oTpl->assign('fieldsTop', array(
     array(
         'title'     => $strBasicInformation,
         'fields'    => array(
+            array(
+                'name'      => 'website',
+                'label'     => $strWebsite,
+                'value'     => $affiliate['website']
+            ),
+            array(
+                'type'      => 'custom',
+                'template'  => 'adnetworks',
+                'label'     => 'Ad Networks',
+                'vars'      => array(
+                                'checked' => !empty($affiliate['oac_website_id'])
+                               )
+            ),
             array(
                 'name'      => 'name',
                 'label'     => $strName,
@@ -428,15 +443,22 @@ $oTpl->assign('fields', array(
                 'freezed'   => phpAds_isUser(phpAds_Affiliate)
             ),
             array(
-                'name'      => 'mnemonic',
-                'label'     => $strMnemonic,
-                'value'     => $affiliate['mnemonic'],
-                'freezed'   => phpAds_isUser(phpAds_Affiliate)
+                'name'      => 'category',
+                'label'     => 'Category',
+                'type'      => 'select',
+                'options'   => $oAdNetworks->getCategoriesSelect(),
+                'value'     => $affiliate['oac_category_id'],
+                'style'     => 'width: 15em'
             ),
             array(
-                'name'      => 'website',
-                'label'     => $strWebsite,
-                'value'     => $affiliate['website']
+                'type'      => 'custom',
+                'template'  => 'country-language',
+                'vars'      => array(
+                                'aCountries'  => $oAdNetworks->getCountriesSelect(),
+                                'aLanguages' => $oAdNetworks->getLanguagesSelect(),
+                                'country'  => $affiliate['oac_country_code'],
+                                'language' => $affiliate['oac_language_id']
+                               )
             ),
             array(
                 'name'      => 'contact',
@@ -447,26 +469,12 @@ $oTpl->assign('fields', array(
                 'name'      => 'email',
                 'label'     => $strEMail,
                 'value'     => $affiliate['email']
-            ),
-            array(
-                'name'      => 'language',
-                'label'     => $strLanguage,
-                'type'      => 'select',
-                'options'   => $aLanguages,
-                'selected'  => $affiliate['language'],
-                'hidden'    => MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)
-            ),
-            array(
-                'name'      => 'publiczones',
-                'label'     => $strMakePublisherPublic,
-                'type'      => 'checkbox',
-                'value'     => 't',
-                'checked'   => $affiliate['publiczones'] == 't',
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'old'       => $affiliate['publiczones']
             )
         )
-    ),
+    )
+));
+
+$oTpl->assign('fieldsBottom', array(
     array(
         'title'     => $strLoginInformation,
         'errors'    => count($errormessage) ? $error_message : false,
@@ -506,15 +514,6 @@ $oTpl->assign('fields', array(
                 'label'     => $strRepeatPassword,
                 'type'      => 'password',
                 'hidden'    => !phpAds_isUser(phpAds_Affiliate)
-            ),
-            array(
-                'name'      => 'account_type',
-                'label'     => 'Account type',
-                'type'      => 'select',
-                'options'   => array('publisher' => 'Publisher', 'affiliate' => 'Affiliate'),
-                'selected'  => ($affiliate['permissions'] & MAX_AffiliateIsReallyAffiliate) ? 'affiliate' : 'publisher',
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                'onchange'  => 'MMM_accountTypeChange()'
             ),
             array(
                 'name'      => 'affiliatepermissions[]',
@@ -597,124 +596,6 @@ $oTpl->assign('fields', array(
                 'id'        => 'affiliatepermissions_'.MAX_AffiliateViewOnlyApprPendConv
             )
         )
-    ),
-    array(
-        'title'     => $strPaymentInformation,
-        'fields'    => array(
-            array(
-                'name'      => 'address',
-                'label'     => $strAddress,
-                'value'     => $affiliate_extra['address']
-            ),
-            array(
-                'name'      => 'city',
-                'label'     => $strCity,
-                'value'     => $affiliate_extra['city']
-            ),
-            array(
-                'name'      => 'postcode',
-                'label'     => $strPostcode,
-                'value'     => $affiliate_extra['postcode']
-            ),
-            array(
-                'name'      => 'country',
-                'label'     => $strCountry,
-                'value'     => $affiliate_extra['country']
-            ),
-            array(
-                'name'      => 'phone',
-                'label'     => $strPhone,
-                'value'     => $affiliate_extra['phone']
-            ),
-            array(
-                'name'      => 'fax',
-                'label'     => $strFax,
-                'value'     => $affiliate_extra['fax']
-            ),
-            array(
-                'name'      => 'account_contact',
-                'label'     => $strAccountContact,
-                'value'     => $affiliate_extra['account_contact']
-            ),
-            array(
-                'name'      => 'payee_name',
-                'label'     => $strPayeeName,
-                'value'     => $affiliate_extra['payee_name']
-            ),
-            array(
-                'type'      => 'custom',
-                'template'  => 'taxid',
-                'label'     => $strTaxID,
-                'vars'      => $affiliate_extra
-            ),
-            array(
-                'name'      => 'mode_of_payment',
-                'label'     => $strModeOfPayment,
-                'type'      => 'select',
-                'options'   => empty($pref['publisher_payment_modes']) ?
-                                    array($strPaymentChequeByPost) :
-                                    explode(',', $pref['publisher_payment_modes']),
-                'selected'  => $affiliate_extra['mode_of_payment']
-            ),
-            array(
-                'name'      => 'currency',
-                'label'     => $strCurrency,
-                'type'      => 'select',
-                'options'   => empty($pref['publisher_currencies']) ?
-                                    array($strCurrencyGBP) :
-                                    explode(',', $pref['publisher_currencies']),
-                'selected'  => $affiliate_extra['currency']
-            )
-        )
-    ),
-    array(
-        'title'     => $strOtherInformation,
-        'fields'    => array(
-            array(
-                'name'      => 'unique_users',
-                'style'     => 'small',
-                'label'     => $strUniqueUsersMonth,
-                'value'     => $affiliate_extra['unique_users'] ? $affiliate_extra['unique_users'] : ''
-            ),
-            array(
-                'name'      => 'unique_views',
-                'style'     => 'small',
-                'label'     => $strUniqueViewsMonth,
-                'value'     => $affiliate_extra['unique_views'] ? $affiliate_extra['unique_views'] : ''
-            ),
-            array(
-                'name'      => 'page_rank',
-                'style'     => 'small',
-                'label'     => $strPageRank,
-                'value'     => $affiliate_extra['page_rank'] ? $affiliate_extra['page_rank'] : ''
-            ),
-            array(
-                'name'      => 'category',
-                'label'     => $strCategory,
-                'type'      => 'select',
-                'style'     => 'big',
-                'options'   => empty($pref['publisher_categories']) ?
-                                    array() :
-                                    explode(',', $pref['publisher_categories']),
-                'selected'  => $affiliate_extra['category']
-            ),
-            array(
-                'name'      => 'comments',
-                'label'     => $strComments,
-                'type'      => 'textarea',
-                'value'     => $affiliate['comments']
-            ),
-            array(
-                'name'      => 'help_file',
-                'label'     => $strHelpFile,
-                'type'      => 'select',
-                'style'     => 'big',
-                'options'   => empty($pref['publisher_help_files']) ?
-                                    array() :
-                                    explode(',', $pref['publisher_help_files']),
-                'selected'  => $affiliate_extra['help_file']
-            ),
-        )
     )
 ));
 
@@ -728,11 +609,6 @@ $oTpl->assign('fields', array(
     max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
     max_formSetRequirements('website', '<?php echo addslashes($strWebsite); ?>', true, 'url');
     max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
-
-    max_formSetRequirements('tax_id', '<?php echo addslashes('Tax ID'); ?>', true);
-    max_formSetRequirements('unique_users', '<?php echo addslashes('Unique users/month'); ?>', false, 'number*');
-    max_formSetRequirements('unique_views', '<?php echo addslashes('Unique views/month'); ?>', false, 'number*');
-    max_formSetRequirements('page_rank', '<?php echo addslashes('Page rank'); ?>', false, 'number*');
 
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
@@ -754,31 +630,6 @@ $oTpl->assign('fields', array(
     }
 
     MMM_cascadePermissionsChange();
-
-    function MMM_accountTypeChange()
-    {
-        var o;
-        var e = document.getElementsByTagName('INPUT');
-        var i;
-
-        if (!(o = findObj('account_type'))) {
-            return;
-        }
-
-        for (i = 0; i < e.length; i++) {
-            if (e[i].name.match(/^affiliatepermissions/)) {
-                if (e[i].value != <?php echo MAX_AffiliateViewOnlyApprPendConv; ?>) {
-                    e[i].disabled = o.selectedIndex;
-                }
-            }
-        }
-
-        if (!o.selectedIndex) {
-            MMM_cascadePermissionsChange();
-        }
-    }
-
-    MMM_accountTypeChange();
 
 <?php } ?>
 

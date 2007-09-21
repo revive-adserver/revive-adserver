@@ -277,21 +277,17 @@ $aCount = array(
     'Total'   => $aCount[2]
 );
 
-$aCountries = array('' => '- pick a country -') + $oAdNetworks->getCountries();
-$aLanguages = array('' => '- pick a language -') + $oAdNetworks->getLanguages();
-
 $oTpl->assign('aOacAdvertisers', $aOacAdvertisers);
 $oTpl->assign('aOapAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
 
-$oTpl->assign('aCountries',  $aCountries);
-$oTpl->assign('aLanguages',  $aLanguages);
+$oTpl->assign('aCountries',     $oAdNetworks->getCountriesSelect());
+$oTpl->assign('aLanguages',     $oAdNetworks->getLanguagesSelect());
+$oTpl->assign('aOtherNetworks', $oAdNetworks->getOtherNetworksForDisplay());
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
-
-$oTpl->assign('aOtherNetworks', $oAdNetworks->getOtherNetworksForDisplay());
 
 /*-------------------------------------------------------*/
 /* Store preferences                                     */

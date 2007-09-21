@@ -71,6 +71,46 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
 
     /**
+     * A method to retrieve the list of categories as for HTML select options
+     *
+     * @return array
+     */
+    function getCategoriesSelect()
+    {
+        $aCategories = $this->getCategories();
+
+        $aSelectCategories = array('' => '- pick a category -');
+        foreach ($aCategories as $k => $v) {
+            $aSelectCategories[$k] = $v['name'];
+            foreach ($v['subcategories'] as $kk => $vv) {
+                $aSelectCategories[$kk] = "&nbsp;&nbsp;&nbsp;".$vv;
+            }
+        }
+
+        return $aSelectCategories;
+    }
+
+    /**
+     * A method to retrieve a list of categories in a flattened array
+     *
+     * @return array
+     */
+    function getCategoriesFlat()
+    {
+        $aCategories = $this->getCategories();
+
+        $aFlatCategories = array();
+        foreach ($aCategories as $k => $v) {
+            $aFlatCategories[$k] = $v['name'];
+            foreach ($v['subcategories'] as $kk => $vv) {
+                $aFlatCategories[$kk] = $vv;
+            }
+        }
+
+        return $aFlatCategories;
+    }
+
+    /**
      * A method to retrieve the localised list of countries
      *
      * @see R-AN-3: Gathering the data of Websites during Installation
@@ -93,6 +133,18 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
 
     /**
+     * A method to retrieve the list of countries as for HTML select options
+     *
+     * @return array
+     */
+    function getCountriesSelect()
+    {
+        $aCountries = $this->getCountries();
+
+        return array('' => '- pick a country -') + $aCountries;
+    }
+
+    /**
      * A method to retrieve the localised list of languages
      *
      * @see R-AN-3: Gathering the data of Websites during Installation
@@ -112,6 +164,18 @@ class OA_Central_AdNetworks extends OA_Central_Common
         }
 
         return $result;
+    }
+
+    /**
+     * A method to retrieve the list of languages as for HTML select options
+     *
+     * @return array
+     */
+    function getLanguagesSelect()
+    {
+        $aLanguages = $this->getLanguages();
+
+        return array('' => '- pick a language -') + $aLanguages;
     }
 
     /**

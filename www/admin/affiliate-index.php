@@ -165,24 +165,12 @@ $oTpl = new OA_Admin_Template('affiliate-index.html');
 
 $loosezones = false;
 
-$aCategories = $oAdNetworks->getCategories();
-
-$aFlatCategories = array();
-$aSelectCategories = array('' => '- pick a category -');
-foreach ($aCategories as $k => $v) {
-    $aFlatCategories[$k] = $v['name'];
-    $aSelectCategories[$k] = $v['name'];
-    foreach ($v['subcategories'] as $kk => $vv) {
-        $aFlatCategories[$kk] = $vv;
-        $aSelectCategories[$kk] = "&nbsp;&nbsp;&nbsp;".$vv;
-    }
-}
-
-$aCountries = $oAdNetworks->getCountries();
-$aSelectCountries = array('' => '- pick a country -') + $aCountries;
-
-$aLanguages = $oAdNetworks->getLanguages();
-$aSelectLanguages = array('' => '- pick a language -') + $aLanguages;
+$aCategories       = $oAdNetworks->getCategoriesFlat();
+$aSelectCategories = $oAdNetworks->getCategoriesSelect();
+$aCountries        = $oAdNetworks->getCountries();
+$aSelectCountries  = $oAdNetworks->getCountriesSelect();
+$aLanguages        = $oAdNetworks->getLanguages();
+$aSelectLanguages  = $oAdNetworks->getLanguagesSelect();
 
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doAffiliates->addListOrderBy($listorder, $orderdirection);
@@ -214,8 +202,8 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
     if (!empty($row_affiliates['oac_language_id']) && isset($aLanguages[$row_affiliates['oac_language_id']])) {
         $affiliates[$row_affiliates['affiliateid']]['oac_language'] = $aLanguages[$row_affiliates['oac_language_id']];
     }
-    if (!empty($row_affiliates['oac_category_id']) && isset($aFlatCategories[$row_affiliates['oac_category_id']])) {
-        $affiliates[$row_affiliates['affiliateid']]['oac_category'] = $aFlatCategories[$row_affiliates['oac_category_id']];
+    if (!empty($row_affiliates['oac_category_id']) && isset($aCategories[$row_affiliates['oac_category_id']])) {
+        $affiliates[$row_affiliates['affiliateid']]['oac_category'] = $aCategories[$row_affiliates['oac_category_id']];
     }
 
     if (isset($aError['id']) && $aError['id'] == $row_affiliates['affiliateid']) {

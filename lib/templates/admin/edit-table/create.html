@@ -28,40 +28,13 @@ $Id$
 
 -->
 
-<table border='0' width='100%' cellpadding='0' cellspacing='0'>
-*}
-<tr>
-    <td width='30'>&nbsp;</td>
-    <td width='200'>{$_e.label}</td>
-    <td>
-        <input onClick='MMM_taxIdChange(this)' class='flat' type='radio' name='tax_id_present' id='tax_id_present_f'
-            value='f'{tabindex}{if !$_e.vars.tax_id && $_e.vars.tax_id_present != 't'} checked="checked"{/if}>{t str=No}<br />
-        <input onClick='MMM_taxIdChange(this)' class='flat' type='radio' name='tax_id_present' id='tax_id_present_t'
-            value='t'{tabindex}{if $_e.vars.tax_id || $_e.vars.tax_id_present == 't'} checked="checked"{/if}>{t str=Yes}&nbsp;&nbsp;
-        <input onBlur='max_formValidateElement(this);' class='flat' type='text' name='tax_id' size='25' dir='ltr'
-            value="{$_e.vars.tax_id|escape}"'{tabindex}>
-
-<script type="text/javascript">
-<!--{literal}
-function MMM_taxIdChange(o)
-{
-    var t = findObj('tax_id');
-
-    if (t) {
-        t.disabled = o.form.tax_id_present[0].checked;
-
-        if (t.disabled) {
-            max_formValidateElement(t);
-        }
-    }
-}
-
-MMM_taxIdChange(findObj('tax_id_present_f'));
-//-->{/literal}
-</script>
-
-    </td>
-</tr>
-{*
-</table>
-*}
+*}{foreach item=t from=$from name=_e_outer}
+{if !$smarty.foreach._e_outer.first}
+<br /><br />
+{/if}
+{oa_edit type=section params=$t}
+{foreach item=v from=$t.fields}
+{oa_edit params=$v}{$v.label}{/oa_edit}
+{/foreach}
+{/oa_edit}
+{/foreach}
