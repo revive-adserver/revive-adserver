@@ -1,4 +1,4 @@
-/** 
+/**
  * Javascript required for Ad Networks screens
  *
  * Important: this code depends on jQuery.
@@ -36,10 +36,10 @@ function saveInlineEdit()
 {
   var form = $(this).parents("tr.inline-edit").children().get(0);
   var pubId = form.pubid.value;
-  if (validatePublisher(form, "", pubId, "")) 
+  if (validatePublisher(form, "", pubId, ""))
   {
     $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
- 
+
     if(form.adnetworks.checked) {
       $("#adnetworks-signup-dialog_" + $(form).attr("id")).jqmShow();
     }
@@ -55,7 +55,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
   $("#url-empty" + suffix + errorSuffix).hide();
   $("#required-missing" + suffix + errorSuffix).hide();
 
-  if ($("#url" + fieldSuffix).get(0).value.length == 0) 
+  if ($("#url" + fieldSuffix).get(0).value.length == 0)
   {
     $("#url" + fieldSuffix).addClass("inerror");
     $("#url-empty" + suffix + errorSuffix).show();
@@ -65,9 +65,9 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     $("#url" + fieldSuffix).removeClass("inerror");
   }
 
-  if ($("#adnetworks" + fieldSuffix).get(0).checked) 
+  if ($("#adnetworks" + fieldSuffix).get(0).checked)
   {
-    if ($("#category" + fieldSuffix).get(0).selectedIndex == 0) 
+    if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
     {
       $("#category" + fieldSuffix).addClass("inerror");
       $("#required-missing" + suffix + errorSuffix).show();
@@ -77,7 +77,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
       $("#category" + fieldSuffix).removeClass("inerror");
     }
 
-    if ($("#language" + fieldSuffix).get(0).selectedIndex == 0) 
+    if ($("#language" + fieldSuffix).get(0).selectedIndex == 0)
     {
       $("#language" + fieldSuffix).addClass("inerror");
       $("#required-missing" + suffix + errorSuffix).show();
@@ -87,7 +87,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
       $("#language" + fieldSuffix).removeClass("inerror");
     }
 
-    if ($("#country" + fieldSuffix).get(0).selectedIndex == 0) 
+    if ($("#country" + fieldSuffix).get(0).selectedIndex == 0)
     {
       $("#country" + fieldSuffix).addClass("inerror");
       $("#required-missing" + suffix + errorSuffix).show();
@@ -110,7 +110,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     customAction(form, suffix, fieldSuffix);
   }
 
-  return ($("#url" + fieldSuffix).get(0).value.length > 0) && 
+  return ($("#url" + fieldSuffix).get(0).value.length > 0) &&
          (!$("#adnetworks" + fieldSuffix).get(0).checked || (
          $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
@@ -125,7 +125,7 @@ function initPublisherAdd()
 
 function validateNewPublisher()
 {
-  if (validatePublisher(this.form, "-form", "n", "")) 
+  if (validatePublisher(this.form, "-form", "n", ""))
   {
     if(this.form.adnetworks.checked) {
       $("#adnetworks-signup-dialog_" + $(this.form).attr("id")).jqmShow();
@@ -140,9 +140,9 @@ function validateNewPublisher()
 function initAdNetworksSignup(formId)
 {
   var form = $(formId);
-  
+
   var signupDialog = $("#adnetworks-signup-dialog_" + formId);
-    signupDialog
+  signupDialog
     .jqm({modal: true})
     .jqmAddClose($("#dg-cancel", signupDialog));
 
@@ -155,30 +155,10 @@ function initAdNetworksSignup(formId)
     signupDialog.hide();
   }
 
-  //Note to dev: remove the code below, when the captcha is in error 
-  //provide hidden 'captcha' field in the form in the rendered response
-  //We will look for that hidden in the form instead of the URL 
   $("#dg-submit", signupDialog).click(function() {
     var value = this.form['captcha-value'].value;
-      if ("following" != value) { 
-        var separator = "?";
-        if (document.URL.indexOf("?") != -1) {
-          separator = "&";
-        }
-        
-        var  action = document.URL;
-        if (action.indexOf("captcha=0") != -1) {
-          action = action.substring(0, action.indexOf("captcha=0"));
-        }
-        action = action + separator + 'captcha=0';
-        $(this.form).attr("action", action);
-      }
-      else {
-        var action = document.URL;
-        action = action.substring(0, action.indexOf("captcha=0"));
-        $(this.form).attr("action", action);
-      }
-      return true;
+
+    this.form.submit();
   });
 }
 
@@ -186,11 +166,11 @@ function initAdNetworksSignup(formId)
 //that the provided captcha was wrong.
 //For the sake of the prototype it also checks the URL, which should be removed in
 //the production code
-function badCaptcha(myFormId) 
+function badCaptcha(myFormId)
 {
-  return (window.captchaFormId && window.captchaFormId == myFormId 
+  return (window.captchaFormId && window.captchaFormId == myFormId
     && window.captchaInError == true)
-    || (document.URL.indexOf("captcha=0") != -1); 
+    || (document.URL.indexOf("captcha=0") != -1);
 }
 
 
@@ -214,7 +194,9 @@ function initInstallerSites()
 {
   $("#add-new-site").click(installerAddNewSite);
   $(".remove-site").click(installerRemoveSite);
-  $(".url").keyup(checkAddSiteEnabled);
+  $(".site-url").keyup(checkAddSiteEnabled);
+  $(".adnetworks-help").click(showAdNetworksHelp);
+  $(".popup-help").click(hideAdNetworksHelp);
   checkAddSiteEnabled();
 }
 
@@ -230,17 +212,17 @@ function installerAddNewSite()
   $("#url-empty", clone).get(0).id += maxId.value;
   $("#required-missing", clone).get(0).id += maxId.value;
   $(":input", clone).each(function () {
-    if ($.trim(this.name).length > 0) 
+    if ($.trim(this.name).length > 0)
     {
-      this.name = this.name + maxId.value;
+      this.name = this.name + '[]';
     }
-    if ($.trim(this.id).length > 0) 
+    if ($.trim(this.id).length > 0)
     {
       this.id = this.id + maxId.value;
     }
   });
   $("label", clone).each(function () {
-    if ($.trim(this.htmlFor).length > 0) 
+    if ($.trim(this.htmlFor).length > 0)
     {
       this.htmlFor += maxId.value;
     }
@@ -261,7 +243,7 @@ function installerRemoveSite()
 function checkAddSiteEnabled()
 {
   var enabled = true;
-  $("#sites .url").each(function(i) {
+  $("#sites .site-url").each(function(i) {
     if ($.trim(this.value).length == 0)
     {
       enabled = false;
@@ -283,13 +265,14 @@ function installerValidateSites()
 {
   var maxId = $("#max-id").get(0).value;
   var form = $("#frmOpenads").get(0);
+  var valid = true;
 
   for (var i = 1; i <= maxId; i++)
   {
     if ($("#url" + i).get(0))
     {
-      validatePublisher(form, "", i + "", i + "", function(form, suffix, fieldSuffix) {
-        if ($("#url" + fieldSuffix).get(0).value.length == 0) 
+      valid = valid && validatePublisher(form, "", i + "", i + "", function(form, suffix, fieldSuffix) {
+        if ($("#url" + fieldSuffix).get(0).value.length == 0)
         {
           $("#site-cont" + fieldSuffix).addClass("url-error");
         }
@@ -299,5 +282,103 @@ function installerValidateSites()
         }
       });
     }
+  }
+
+  return valid;
+}
+
+function adNetworksSingupsRequested()
+{
+  var form = $("#frmOpenads").get(0);
+  var signupRequested = false;
+
+  $(":checkbox[id^=adnetworks]", form).each(function() {
+    if (this.checked) {
+      signupRequested = true;
+      return false;
+    }
+  });
+
+  return signupRequested;
+}
+
+function initInstallerTags()
+{
+  $("#tag-type").change(tagTypeChanged);
+  $("#ad-size").change(adSizeChanged);
+  $("#site").change(siteChanged);
+  $('pre').bind('mouseover', selectElement);
+}
+
+function tagTypeChanged()
+{
+  if (this.value == "js")
+  {
+    $("#header-script").show();
+  }
+  else
+  {
+    $("#header-script").hide();
+  }
+
+  $("pre.invocation-codes:not(." + this.value + ")").hide();
+  $("pre.invocation-codes").filter("." + this.value).show();
+}
+
+function adSizeChanged()
+{
+  if (this.value == "*")
+  {
+    $(".zone-cont").show();
+  }
+  else
+  {
+    $(".zone-cont:not(." + this.value + ")").hide();
+    $("." + this.value).show();
+  }
+}
+
+function siteChanged()
+{
+  if (this.value == "*")
+  {
+    $(".publisher-cont").show();
+  }
+  else
+  {
+    $(".publisher-cont").hide();
+    $("#" + this.value).show();
+  }
+}
+
+function showAdNetworksHelp()
+{
+  $(this).prev().fadeIn("fast").css("display", "inline");
+}
+
+function hideAdNetworksHelp()
+{
+  $(this).fadeOut("fast");
+}
+
+function selectElement()
+{
+  if (window.getSelection)
+  {
+    var r = document.createRange();
+    r.selectNodeContents($(this)[0]);
+    var s = window.getSelection();
+    if (s.rangeCount)
+    {
+      s.collapseToStart();
+      s.removeAllRanges();
+    }
+    s.addRange(r);
+  }
+  else if (document.body.createTextRange)
+  {
+    var r = document.body.createTextRange();
+    r.moveToElementText($(this)[0]);
+    r.select();
   }
 }

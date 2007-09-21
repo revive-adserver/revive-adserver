@@ -600,7 +600,7 @@ $oTpl->assign('fieldsBottom', array(
 ));
 
 
-
+$oTpl->display();
 
 ?>
 
@@ -637,8 +637,6 @@ $oTpl->assign('fieldsBottom', array(
 </script>
 
 <?php
-
-$oTpl->display();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
