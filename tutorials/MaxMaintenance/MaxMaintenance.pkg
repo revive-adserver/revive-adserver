@@ -12,8 +12,6 @@
    Statistics Engine process for the Tracker module}.</listitem>
    <listitem>A number of undocumented once-per-day processes that are left over
    from PAN (e.g. reports, campaign optimisation).</listitem>
-   <listitem>{@tutorial MaxMaintenance/PriorityAdServer.pkg The Maintenance
-   Priority Engine process for the AdServer module}.</listitem>
   </orderedlist>
  </para>
 </refentry>
