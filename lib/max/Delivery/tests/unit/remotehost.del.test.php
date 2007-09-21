@@ -58,8 +58,58 @@ class test_DeliveryRemotehost extends UnitTestCase
      */
     function test_MAX_remotehostProxyLookup()
     {
+        $serverSave = $_SERVER;
+
+        // This $_SERVER dump was provided by a user running HAProxy
+        $_SERVER = array (
+            'HTTP_HOST' => 'max.i12.de',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; U; Linux i686; en-GB; rv:1.8.1.5) Gecko/20070718 Fedora/2.0.0.5-1.fc7 Firefox/2.0.0.5',
+            'HTTP_ACCEPT' => 'text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5',
+            'HTTP_ACCEPT_LANGUAGE' => 'en-gb,en;q=0.5',
+            'HTTP_ACCEPT_ENCODING' => 'gzip,deflate',
+            'HTTP_ACCEPT_CHARSET' => 'ISO-8859-1,utf-8;q=0.7,*;q=0.7',
+            'HTTP_KEEP_ALIVE' => '300',
+            'HTTP_COOKIE' => 'phpAds_id=abcdef1234567890acdef1234567890a',
+            'HTTP_CONNECTION' => 'close',
+            'HTTP_X_FORWARDED_FOR' => '123.123.123.123',
+            'PATH' => '/usr/bin:/bin:/usr/sbin:/sbin',
+            'SERVER_SIGNATURE' => '<address>Apache/2.0.59 (Unix) Server at max.i12.de Port 80</address>',
+            'SERVER_SOFTWARE' => 'Apache/2.0.59 (Unix)',
+            'SERVER_NAME' => 'dev.openads.org',
+            'SERVER_ADDR' => '10.0.0.1',
+            'SERVER_PORT' => '80',
+            'REMOTE_ADDR' => '10.0.0.2',
+            'DOCUMENT_ROOT' => '/var/www/html/live-openads',
+            'SERVER_ADMIN' => 'bugs@openads.org',
+            'SCRIPT_FILENAME' => '/var/www/html/live-openads/lib/max/Delivery/tests/unit/remotehost.del.test.php',
+            'REMOTE_PORT' => '49083',
+            'GEOIP_CONTINENT_CODE' => '--',
+            'GEOIP_COUNTRY_CODE' => '--',
+            'GEOIP_COUNTRY_NAME' => 'N/A',
+            'GEOIP_DMA_CODE' => '0',
+            'GEOIP_AREA_CODE' => '0',
+            'GEOIP_LATITUDE' => '0.000000',
+            'GEOIP_LONGITUDE' => '0.000000',
+            'GEOIP_ISP' => 'Nildram',
+            'GATEWAY_INTERFACE' => 'CGI/1.1',
+            'SERVER_PROTOCOL' => 'HTTP/1.1',
+            'REQUEST_METHOD' => 'GET',
+            'QUERY_STRING' => '',
+            'REQUEST_URI' => '/lib/max/Delivery/tests/unit/remotehost.del.test.php',
+            'SCRIPT_NAME' => '/lib/max/Delivery/tests/unit/remotehost.del.test.php',
+            'PHP_SELF' => '/lib/max/Delivery/tests/unit/remotehost.del.test.php',
+            'REQUEST_TIME' => time(),
+        );
+        // I am unsure if this is a bug in Openads or HAProxy, but the above dump does not contain
+        // either an HTTP_VIA/REMOTE_HOST header, therefore Openads assumes this is not proxied
+        // I am adding it to "fix" the test
+        $_SERVER['HTTP_VIA'] = '194.85.1.1 (Squid/2.4.STABLE7)';
+
+        $GLOBALS['_MAX']['CONF']['logging']['proxyLookup'] = true;
         $return = MAX_remotehostProxyLookup();
-        $this->assertTrue(true);
+        $this->assertTrue($_SERVER['REMOTE_ADDR'] == $_SERVER['HTTP_X_FORWARDED_FOR']);
+
+        $_SERVER = $serverSave;
     }
 
     /**
