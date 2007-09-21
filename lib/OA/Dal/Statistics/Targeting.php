@@ -468,6 +468,14 @@ class OA_Dal_Statistics_Targeting extends OA_Dal
         $oSpan = new Date_Span();
         $oSpan->setFromDateDiff($oStartDateCopy, $oEndDateCopy);
         $days = $oSpan->toDays();
+        // Re-set the start date from the original date,
+        // as PHP5 may cause $oStartDateCopy to change if
+        // the time zone is not correctly set
+        $oStartDateCopy = new Date();
+        $oStartDateCopy->copy($oStartDate);
+        $oStartDateCopy->setHour(0);
+        $oStartDateCopy->setMinute(0);
+        $oStartDateCopy->setSecond(0);
         for ($counter = 0; $counter <= $days; $counter++) {
             // Get this day's data
             $aTemp = $this->getDailyTargetingStatistics($id, $type, $oStartDateCopy);
