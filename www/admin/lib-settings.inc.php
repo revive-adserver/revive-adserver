@@ -348,8 +348,8 @@ function phpAds_ShowSettings_CheckDependancies($data, $item)
 
 function phpAds_ShowSettings_GetType ($data, $name)
 {
-    while (list(,$section) = each ($data)) {
-        while (list(,$item) = each ($section['items'])) {
+    foreach ($data as $section) {
+        foreach ($section['items'] as $item) {
             if (isset($item['name']) && $item['name'] == $name) {
                 return ($item['type']);
             }
