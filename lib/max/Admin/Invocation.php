@@ -152,9 +152,9 @@ class MAX_Admin_Invocation {
             // If values are unset, populate them from the Plugin/Parent object if present
             if (is_null($$makeMeGlobal)) {
                 // Check the plugin first, fall-back to the parent
-                if (!empty($invocationTag->defaultOptionValues[$makeMeGlobal])) {
+                if (isset($invocationTag->defaultOptionValues[$makeMeGlobal])) {
                     $$makeMeGlobal = $invocationTag->defaultOptionValues[$makeMeGlobal];
-                } else if (!empty($this->defaultOptionValues[$makeMeGlobal])) {
+                } else if (isset($this->defaultOptionValues[$makeMeGlobal])) {
                     $$makeMeGlobal = $this->defaultOptionValues[$makeMeGlobal];
                 }
             }
