@@ -227,7 +227,7 @@ class OA_Admin_Template extends Smarty
             }
 
             $smarty->assign('_e', $aParams);
-            $result = $smarty->fetch('_edit.html');
+            $result = $smarty->fetch('edit-table/main.html');
             $smarty->clear_assign('_e');
 
             $break = $aParams['type'] != 'section';
