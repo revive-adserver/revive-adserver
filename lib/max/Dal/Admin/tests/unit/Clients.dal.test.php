@@ -229,7 +229,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 1);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 1);
+        $this->assertEqual(count($aClients[1]), 2);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
 
         // Insert a second advertiser
@@ -244,20 +244,20 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 2);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 1);
+        $this->assertEqual(count($aClients[1]), 2);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertTrue(is_array($aClients[2]));
-        $this->assertEqual(count($aClients[2]), 1);
+        $this->assertEqual(count($aClients[2]), 2);
         $this->assertEqual($aClients[2]['clientname'], 'Advertiser 2');
         // Test ordering in REVERSE of the order, as popping elements off end of array!
         reset($aClients);
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 1);
+        $this->assertEqual(count($aValue), 2);
         $this->assertEqual($aValue['clientname'], 'Advertiser 2');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 1);
+        $this->assertEqual(count($aValue), 2);
         $this->assertEqual($aValue['clientname'], 'Advertiser 1');
 
         // Test 4
@@ -265,20 +265,20 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 2);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 1);
+        $this->assertEqual(count($aClients[1]), 2);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
         $this->assertTrue(is_array($aClients[2]));
-        $this->assertEqual(count($aClients[2]), 1);
+        $this->assertEqual(count($aClients[2]), 2);
         $this->assertEqual($aClients[2]['clientname'], 'Advertiser 2');
         // Test ordering in REVERSE of the order, as popping elements off end of array!
         reset($aClients);
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 1);
+        $this->assertEqual(count($aValue), 2);
         $this->assertEqual($aValue['clientname'], 'Advertiser 1');
         $aValue = array_pop($aClients);
         $this->assertTrue(is_array($aValue));
-        $this->assertEqual(count($aValue), 1);
+        $this->assertEqual(count($aValue), 2);
         $this->assertEqual($aValue['clientname'], 'Advertiser 2');
 
         // Test 5
@@ -286,7 +286,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 1);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 1);
+        $this->assertEqual(count($aClients[1]), 2);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
 
         TestEnv::truncateAllTables();
@@ -312,7 +312,7 @@ class MAX_Dal_Admin_ClientsTest extends DalUnitTestCase
         $this->assertTrue(is_array($aClients));
         $this->assertEqual(count($aClients), 1);
         $this->assertTrue(is_array($aClients[1]));
-        $this->assertEqual(count($aClients[1]), 1);
+        $this->assertEqual(count($aClients[1]), 2);
         $this->assertEqual($aClients[1]['clientname'], 'Advertiser 1');
 
         TestEnv::truncateAllTables();
