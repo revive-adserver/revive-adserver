@@ -33,12 +33,15 @@ $Id:$
  *
  */
 
+// Include base info class.
+require_once MAX_PATH . '/lib/OA/Info.php';
+
 /**
  *  Class with information about zone
  *
  */
 
-class OA_Dll_ZoneInfo
+class OA_Dll_ZoneInfo extends OA_Info
 {
 
 
@@ -102,6 +105,18 @@ class OA_Dll_ZoneInfo
 	        $this->height = 0;
 	    }
 	}
+    
+    function getFieldsTypes()
+    {
+        return array(
+                    'zoneId' => 'integer',
+                    'publisherId' => 'integer',
+                    'zoneName' => 'string',
+                    'type' => 'integer',
+                    'width' => 'integer',
+                    'height' => 'integer'
+                );
+    }
 }
 
 ?>

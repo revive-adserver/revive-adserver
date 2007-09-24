@@ -132,11 +132,11 @@ public class TestBannerPublisherStatistics extends BannerTestCase {
 	public void testBannerPublisherStatisticsWithoutSomeRequiredFields()
 			throws MalformedURLException {
 
-		Object[] params = new Object[] { sessionId, null,
-				DateUtils.MIN_DATE_VALUE, DateUtils.MAX_DATE_VALUE };
+		Object[] params = new Object[] { sessionId };
 
-		executeBannerPublisherStatisticsWithError(params,
-				ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED);
+		executeBannerPublisherStatisticsWithError(params, ErrorMessage
+				.getMessage(ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+						"4, 3, or 2", "1"));
 
 	}
 

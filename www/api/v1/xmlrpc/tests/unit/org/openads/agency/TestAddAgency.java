@@ -219,7 +219,6 @@ public class TestAddAgency extends AgencyTestCase {
 	 */
 	public void testAddAgencyLessThanMinFieldValueError()
 			throws MalformedURLException {
-		Integer result = null;
 		Map<String, Object> struct = new HashMap<String, Object>();
 		Object[] params = new Object[] { sessionId, struct };
 

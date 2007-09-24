@@ -35,7 +35,7 @@
 |  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
 $Id:$
-*/
+ */
 
 package org.openads.agency;
 
@@ -56,7 +56,8 @@ import org.openads.utils.TextUtils;
  * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
  */
 public class AgencyTestCase extends WebServiceTestCase {
-
+	protected static final String GET_AGENCY_LIST_METHOD = "getAgencyList";
+	protected static final String GET_AGENCY_METHOD = "getAgency";
 	protected static final String ADD_AGENCY_METHOD = "addAgency";
 	protected static final String DELETE_AGENCY_METHOD = "deleteAgency";
 	protected final static String MODIFY_AGENCY_METHOD = "modifyAgency";
@@ -89,19 +90,22 @@ public class AgencyTestCase extends WebServiceTestCase {
 	 * @throws MalformedURLException
 	 */
 	public Integer createAgency() throws XmlRpcException, MalformedURLException {
+		return createAgency(getAgencyParams("test"));
+	}
+
+	/**
+	 * @return agency id
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public Integer createAgency(Map<String, Object> params)
+			throws XmlRpcException, MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getAgencyServiceUrl()));
 
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put("agencyId", 0);
-		struct.put("agencyName", "testAgancy");
-		struct.put("contactName", "Vasya");
-		struct.put("emailAddress", "Vasya@mail.com");
-		struct.put("username", TextUtils.generateUniqueName("testUser"));
-		struct.put("password", "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
+		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_AGENCY_METHOD,
-				params);
+				paramsWithId);
 		return result;
 	}
 
@@ -131,5 +135,20 @@ public class AgencyTestCase extends WebServiceTestCase {
 				.setServerURL(new URL(GlobalSettings.getAgencyServiceUrl()));
 
 		return client.execute(method, params);
+	}
+
+	/**
+	 * @param prefix
+	 * @return
+	 */
+	public Map<String, Object> getAgencyParams(String prefix) {
+		Map<String, Object> params = new HashMap<String, Object>();
+
+		params.put(AGENCY_NAME, prefix + AGENCY_NAME);
+		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
+		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
+		params.put(USERNAME, TextUtils.generateUniqueName(prefix));
+		params.put(PASSWORD, prefix + PASSWORD);
+		return params;
 	}
 }

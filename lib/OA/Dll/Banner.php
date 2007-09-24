@@ -47,6 +47,30 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
 class OA_Dll_Banner extends OA_Dll
 {
     /**
+     * Init banner info from data array
+     *
+     * @access private
+     *
+     * @param OA_Dll_BannerInfo &$oBanner
+     * @param array $bannerData
+     *
+     * @return boolean
+     */
+    function _setBannerDataFromArray(&$oBanner, $bannerData)
+    {
+        $bannerData['htmlTemplate'] = $bannerData['htmltemplate'];
+        $bannerData['imageURL']     = $bannerData['imageurl'];
+        $bannerData['fileName']     = $bannerData['filename'];
+        $bannerData['storageType']  = $bannerData['storagetype'];
+        $bannerData['bannerName']   = $bannerData['description'];
+        $bannerData['campaignId']   = $bannerData['campaignid'];
+        $bannerData['bannerId']     = $bannerData['bannerid'];
+
+        $oBanner->readDataFromArray($bannerData);
+        return  true;
+    }
+
+    /**
      * Method would perform data validation (e.g. email is an email)
      * and where necessary would connect to the DAL to obtain information
      * required to perform other business validations (e.g. username
@@ -75,7 +99,7 @@ class OA_Dll_Banner extends OA_Dll
             }
         }
 
-        if (isset($oBanner->campaignId) && 
+        if (isset($oBanner->campaignId) &&
             !$this->checkIdExistence('campaigns', $oBanner->campaignId)) {
             return false;
         }
@@ -236,6 +260,75 @@ class OA_Dll_Banner extends OA_Dll
         	$this->raiseError('Unknown bannerId Error');
             return false;
         }
+    }
+
+    /**
+     * Returns banner information by banner id
+     *
+     * @access public
+     *
+     * @param int $bannerId
+     * @param OA_Dll_BannerInfo &$oBanner
+     *
+     * @return boolean
+     */
+    function getBanner($bannerId, &$oBanner)
+    {
+        if ($this->checkIdExistence('banners', $bannerId)) {
+            if (!$this->checkPermissions(null, 'banners', $bannerId)) {
+                return false;
+            }
+            $doBanner = OA_Dal::factoryDO('banners');
+            $doBanner->get($bannerId);
+            $bannerData = $doBanner->toArray();
+
+            $oBanner = new OA_Dll_BannerInfo();
+
+            $this->_setBannerDataFromArray($oBanner, $bannerData);
+            return true;
+
+        } else {
+
+            $this->raiseError('Unknown bannerId Error');
+            return false;
+        }
+    }
+
+    /**
+     * Returns list of banners by campaign id
+     *
+     * @access public
+     *
+     * @param int $campaignId
+     * @param array &$aBannerList
+     *
+     * @return boolean
+     */
+    function getBannerListByCampaignId($campaignId, &$aBannerList)
+    {
+        $aBannerList = array();
+
+        if (!$this->checkIdExistence('campaigns', $campaignId)) {
+                return false;
+        }
+
+        if (!$this->checkPermissions(null, 'campaigns', $campaignId)) {
+            return false;
+        }
+
+        $doBanner = OA_Dal::factoryDO('banners');
+        $doBanner->campaignid = $campaignId;
+        $doBanner->find();
+
+        while ($doBanner->fetch()) {
+            $bannerData = $doBanner->toArray();
+
+            $oBanner = new OA_Dll_BannerInfo();
+            $this->_setBannerDataFromArray($oBanner, $bannerData);
+
+            $aBannerList[] = $oBanner;
+        }
+        return true;
     }
 
    /**

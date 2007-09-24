@@ -290,6 +290,63 @@ class CampaignXmlRpcService extends BaseCampaignService
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
     }
+    
+    /**
+     * Get existing Campaign by ID.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getCampaign(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$campaignId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $oCampaign = null;
+        if ($this->_oCampaignServiceImp->getCampaign($sessionId,
+                $campaignId, $oCampaign)) {
+
+            return XmlRpcUtils::getEntityResponse($oCampaign);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
+        }
+    }
+    
+    /**
+     * Get array of campaigns by advertiser id
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getCampaignListByAdvertiserId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$advertiserId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $aCampaignList = null;
+        if ($this->_oCampaignServiceImp->getCampaignListByAdvertiserId($sessionId,
+                                            $advertiserId, $aCampaignList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aCampaignList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
+        }
+    }
+
 }
 
 $oCampaignXmlRpcService = new CampaignXmlRpcService();
@@ -358,6 +415,22 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int')
             ),
             'docstring' => 'Generate campaign Zone Statistics'
+        ),
+
+        'getCampaign' => array(
+            'function'  => array($oCampaignXmlRpcService, 'getCampaign'),
+            'signature' => array(
+                array('struct', 'string', 'int')
+            ),
+            'docstring' => 'Get Campaign Information'
+        ),
+
+        'getCampaignListByAdvertiserId' => array(
+            'function'  => array($oCampaignXmlRpcService, 'getCampaignListByAdvertiserId'),
+            'signature' => array(
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Get Campaign List By Advertiser Id'
         ),
 
     ),

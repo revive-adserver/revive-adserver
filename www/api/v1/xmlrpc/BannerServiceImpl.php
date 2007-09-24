@@ -218,6 +218,49 @@ class BannerServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
+    
+    /**
+     * Call method to get banner by id
+     *
+     * @param string $sessionId
+     * @param integer $bannerId
+     * @param OA_Dll_BannerInfo &$oBanner
+     * 
+     * @return boolean
+     */
+    function getBanner($sessionId, $bannerId, &$oBanner)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllBanner->getBanner($bannerId, $oBanner));
+		} else {
+
+			return false;
+		}
+    }
+    
+    /**
+     * Call method to get banners by campaign id
+     *
+     * @param string $sessionId
+     * @param integer $campaignId
+     * @param array &$aBannerList  Array of OA_Dll_BannerInfo classes
+     * 
+     * @return boolean
+     */
+    function getBannerListByCampaignId($sessionId, $campaignId, &$aBannerList)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllBanner->getBannerListByCampaignId($campaignId,
+                                                    $aBannerList));
+		} else {
+
+			return false;
+		}
+    }
 }
 
 

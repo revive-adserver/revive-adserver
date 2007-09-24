@@ -56,7 +56,8 @@ import org.openads.utils.TextUtils;
  * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
  */
 public class AdvertiserTestCase extends AgencyTestCase {
-
+	protected static final String GET_ADVERTISER_LIST_BY_AGENCY_ID_METHOD = "getAdvertiserListByAgencyId";
+	protected static final String GET_ADVERTISER_METHOD = "getAdvertiser";
 	protected static final String ADD_ADVERTISER_METHOD = "addAdvertiser";
 	protected static final String DELETE_ADVERTISER_METHOD = "deleteAdvertiser";
 	protected static final String MODIFY_ADVERTISER_METHOD = "modifyAdvertiser";
@@ -98,19 +99,23 @@ public class AdvertiserTestCase extends AgencyTestCase {
 	 */
 	public Integer createAdvertiser() throws XmlRpcException,
 			MalformedURLException {
+		
+		return createAdvertiser(getAdvertiserParams("test"));
+	}
+	
+	/**
+	 * @return advertiser id
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public Integer createAdvertiser(Map<String, Object> params)
+			throws XmlRpcException, MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getAdvertiserServiceUrl()));
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put("agencyId", agencyId);
-		struct.put("advertiserName", "testAdvertiser");
-		struct.put("contactName", "Vasya");
-		struct.put("emailAddress", "Vasya@mail.com");
-		struct.put("username", TextUtils.generateUniqueName("userName"));
-		struct.put("password", "qwerty");
-		Object[] params = new Object[] { sessionId, struct };
+
+		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_ADVERTISER_METHOD,
-				params);
-		assertNotNull(result);
+				paramsWithId);
 		return result;
 	}
 
@@ -137,6 +142,17 @@ public class AdvertiserTestCase extends AgencyTestCase {
 				.setServerURL(new URL(GlobalSettings.getAdvertiserServiceUrl()));
 
 		return client.execute(method, params);
+	}
+	
+	public Map<String, Object> getAdvertiserParams(String prefix) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(AGENCY_ID, agencyId);
+		params.put(ADVERTISER_NAME, prefix + ADVERTISER_NAME);
+		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
+		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
+		params.put(USERNAME, TextUtils.generateUniqueName(prefix));
+		params.put(PASSWORD, prefix + PASSWORD);
+		return params;
 	}
 
 }

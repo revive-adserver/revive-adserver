@@ -327,6 +327,63 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
             return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
     }
+    
+    /**
+     * Get existing Advertiser by ID.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getAdvertiser(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$advertiserId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $oAdvertiser = null;
+        if ($this->_oAdvertiserServiceImp->getAdvertiser($sessionId,
+                $advertiserId, $oAdvertiser)) {
+
+            return XmlRpcUtils::getEntityResponse($oAdvertiser);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
+        }
+    }
+    
+    /**
+     * Get array of advertisers by agency id
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getAdvertiserListByAgencyId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$agencyId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $aAdvertiserList = null;
+        if ($this->_oAdvertiserServiceImp->getAdvertiserListByAgencyId($sessionId,
+                                            $agencyId, $aAdvertiserList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aAdvertiserList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
+        }
+    }
+
 }
 
 $oAdvertiserXmlRpcService = new AdvertiserXmlRpcService();
@@ -405,6 +462,22 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int')
             ),
             'docstring' => 'Generate Advertiser Zone Statistics'
+        ),
+
+        'getAdvertiser' => array(
+            'function'  => array($oAdvertiserXmlRpcService, 'getAdvertiser'),
+            'signature' => array(
+                array('struct', 'string', 'int')
+            ),
+            'docstring' => 'Get Advertiser Information'
+        ),
+
+        'getAdvertiserListByAgencyId' => array(
+            'function'  => array($oAdvertiserXmlRpcService, 'getAdvertiserListByAgencyId'),
+            'signature' => array(
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Get Advertiser List By Agency Id'
         ),
 
     ),

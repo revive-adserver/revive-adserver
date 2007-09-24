@@ -134,7 +134,6 @@ public class TestModifyCampaign extends CampaignTestCase {
 	 */
 	public void testModifyCampaignGreaterThanMaxFieldValueError()
 			throws MalformedURLException, XmlRpcException {
-		Integer result = null;
 		final String strGreaterThan255 = TextUtils.getString(256);
 
 		assertNotNull(campaignId);

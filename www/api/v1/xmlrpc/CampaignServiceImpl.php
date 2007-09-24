@@ -240,6 +240,50 @@ class CampaignServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
+
+    /**
+     * Call method to get campaign by id
+     *
+     * @param string $sessionId
+     * @param integer $campaignId
+     * @param OA_Dll_CampaignInfo &$oCampaign
+     * 
+     * @return boolean
+     */
+    function getCampaign($sessionId, $campaignId, &$oCampaign)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllCampaign->getCampaign($campaignId, $oCampaign));
+		} else {
+
+			return false;
+		}
+    }
+    
+    /**
+     * Call method to get campaigns by advertiser id
+     *
+     * @param string $sessionId
+     * @param integer $advertiserId
+     * @param array &$aCampaignList  Array of OA_Dll_CampaignInfo classes
+     * 
+     * @return boolean
+     */
+    function getCampaignListByAdvertiserId($sessionId, $advertiserId, &$aCampaignList)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllCampaign->getCampaignListByAdvertiserId($advertiserId,
+                                                    $aCampaignList));
+		} else {
+
+			return false;
+		}
+    }
+    
 }
 
 

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| Openads v2.5                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -80,6 +80,7 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
         $oAgencyInfo->agencyName = 'testAgency';
         $oAgencyInfo->contactName = 'Mike';
+        $oAgencyInfo->username = 'Mike';
 
         // Add
         $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
@@ -107,10 +108,82 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
 
         $dllAgencyPartialMock->tally();
     }
-    
+
+    /**
+     * A method to test get and getList method.
+     */
+    function testGetAndGetList()
+    {
+        $dllAgencyPartialMock = new PartialMockOA_Dll_Agency($this);
+
+        $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 6);
+
+        $oAgencyInfo1               = new OA_Dll_AgencyInfo();
+        $oAgencyInfo1->agencyName   = 'test name 1';
+        $oAgencyInfo1->contactName  = 'contact';
+        $oAgencyInfo1->emailAddress = 'name@domain.com';
+        $oAgencyInfo1->username     = 'username';
+        $oAgencyInfo1->password     = 'password';
+
+        $oAgencyInfo2               = new OA_Dll_AgencyInfo();
+        $oAgencyInfo2->agencyName   = 'test name 2';
+        // Add
+        $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo1),
+                          $dllAgencyPartialMock->getLastError());
+
+        $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo2),
+                          $dllAgencyPartialMock->getLastError());
+
+        $oAgencyInfo1Get = null;
+        $oAgencyInfo2Get = null;
+        // Get
+        $this->assertTrue($dllAgencyPartialMock->getAgency($oAgencyInfo1->agencyId, $oAgencyInfo1Get),
+                          $dllAgencyPartialMock->getLastError());
+        $this->assertTrue($dllAgencyPartialMock->getAgency($oAgencyInfo2->agencyId, $oAgencyInfo2Get),
+                          $dllAgencyPartialMock->getLastError());
+
+        // Check field value
+        $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'agencyName');
+        $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'contactName');
+        $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'emailAddress');
+        $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'username');
+        $this->assertNull($oAgencyInfo1Get->password,
+                          'Field \'password\' must be null');
+        $this->assertFieldEqual($oAgencyInfo2, $oAgencyInfo2Get, 'agencyName');
+
+        // Get List
+        $aAgencyList = array();
+        $this->assertTrue($dllAgencyPartialMock->getAgencyList($aAgencyList),
+                          $dllAgencyPartialMock->getLastError());
+        $this->assertEqual(count($aAgencyList) == 2,
+                           '2 records should be returned');
+        $oAgencyInfo1Get = $aAgencyList[0];
+        $oAgencyInfo2Get = $aAgencyList[1];
+        if ($oAgencyInfo1->agencyId == $oAgencyInfo2Get->agencyId) {
+            $oAgencyInfo1Get = $aAgencyList[1];
+            $oAgencyInfo2Get = $aAgencyList[0];
+        }
+        // Check field value from list
+        $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'agencyName');
+        $this->assertFieldEqual($oAgencyInfo2, $oAgencyInfo2Get, 'agencyName');
+
+
+        // Delete
+        $this->assertTrue($dllAgencyPartialMock->delete($oAgencyInfo1->agencyId),
+            $dllAgencyPartialMock->getLastError());
+
+        // Get not existing id
+        $this->assertTrue((!$dllAgencyPartialMock->getAgency($oAgencyInfo1->agencyId, $oAgencyInfo1Get) &&
+                          $dllAgencyPartialMock->getLastError() == $this->unknownIdError),
+            $this->_getMethodShouldReturnError($this->unknownIdError));
+
+        $dllAgencyPartialMock->tally();
+    }
+
     /**
      * Method to run all tests for agency statistics
-     * 
+     *
      * @access private
      *
      * @param string $methodName  Method name in Dll

@@ -40,13 +40,10 @@ $Id:$
 package org.openads.campaign;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.openads.config.GlobalSettings;
 import org.openads.utils.DateUtils;
 import org.openads.utils.ErrorMessage;
 import org.openads.utils.TextUtils;

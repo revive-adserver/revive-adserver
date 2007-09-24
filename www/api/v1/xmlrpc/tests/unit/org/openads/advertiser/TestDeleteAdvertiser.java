@@ -35,8 +35,7 @@
 |  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
 $Id:$
-*/
-
+ */
 package org.openads.advertiser;
 
 import java.net.MalformedURLException;
@@ -63,7 +62,7 @@ public class TestDeleteAdvertiser extends AdvertiserTestCase {
 	private void executeDeleteAdvertiserWithError(Object[] params,
 			String errorMsg) throws MalformedURLException {
 		try {
-			Boolean result = (Boolean) execute(DELETE_ADVERTISER_METHOD, params);
+			execute(DELETE_ADVERTISER_METHOD, params);
 			fail(DELETE_ADVERTISER_METHOD
 					+ " executed successfully, but it shouldn't.");
 		} catch (XmlRpcException e) {
@@ -93,17 +92,14 @@ public class TestDeleteAdvertiser extends AdvertiserTestCase {
 
 	/**
 	 * Test method without some required fields.
+	 * @throws MalformedURLException 
 	 */
-	public void testDeleteAdvertiserWithoutSomeRequiredFields() {
-		Object[] params = new Object[] { sessionId, null };
+	public void testDeleteAdvertiserWithoutSomeRequiredFields()
+			throws MalformedURLException {
+		Object[] params = new Object[] { sessionId };
 
-		try {
-			client.execute(DELETE_ADVERTISER_METHOD, params);
-			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE,
-					ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED, e.getMessage());
-		}
+		executeDeleteAdvertiserWithError(params, ErrorMessage.getMessage(
+				ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD, "2", "1"));
 
 	}
 

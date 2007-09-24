@@ -89,25 +89,13 @@ public class TestDeleteZone extends ZoneTestCase {
 	/**
 	 * Test method without some required fields.
 	 * 
-	 * @throws MalformedURLException
-	 * @throws XmlRpcException
+	 * @throws MalformedURLException 
 	 */
-	public void testDeleteZoneWithoutSomeRequiredFields()
-			throws MalformedURLException, XmlRpcException {
-		int zoneId = createZone();
+	public void testDeleteZoneWithoutSomeRequiredFields() throws MalformedURLException {
 
-		try {
-			client
-					.execute(DELETE_ZONE_METHOD,
-							new Object[] { sessionId, null });
-			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE,
-					ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED, e.getMessage());
-		} finally {
-			client.execute(DELETE_ZONE_METHOD,
-					new Object[] { sessionId, zoneId });
-		}
+		executeDeleteZoneWithError(new Object[] { sessionId }, ErrorMessage
+				.getMessage(ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+						"2", "1"));
 	}
 
 	/**

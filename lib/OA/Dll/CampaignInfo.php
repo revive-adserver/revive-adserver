@@ -33,12 +33,15 @@ $Id:$
  *
  */
 
+// Include base info class.
+require_once MAX_PATH . '/lib/OA/Info.php';
+
 /**
  *  Class with information about campaign
  *
  */
 
-class OA_Dll_CampaignInfo
+class OA_Dll_CampaignInfo extends OA_Info
 {
     /**
      * The ID of the campaign.
@@ -132,6 +135,21 @@ class OA_Dll_CampaignInfo
 	        $this->weight = 1;
 	    }
 	}
+    
+    function getFieldsTypes()
+    {
+        return array(
+                    'campaignId' => 'integer',
+                    'advertiserId' => 'integer',
+                    'campaignName' => 'string',
+                    'startDate' => 'date',
+                    'endDate' => 'date',
+                    'impressions' => 'integer',
+                    'clicks' => 'integer',
+                    'priority' => 'integer',
+                    'weight' => 'integer'
+                );
+    }
 }
 
 ?>

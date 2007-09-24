@@ -35,8 +35,7 @@
 |  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
 $Id:$
-*/
-
+ */
 package org.openads.advertiser;
 
 import java.net.MalformedURLException;
@@ -123,21 +122,15 @@ public class TestAdvertiserPublisherStatistics extends AdvertiserTestCase {
 
 	/**
 	 * Test method without some required fields.
-	 * 
-	 * @throws Exception
+	 * @throws MalformedURLException 
 	 */
 	public void testAdvertiserPublisherStatisticsWithoutSomeRequiredFields()
-			throws Exception {
-		Object[] params = new Object[] { sessionId, null,
-				DateUtils.MIN_DATE_VALUE, DateUtils.MAX_DATE_VALUE };
+			throws MalformedURLException {
+		Object[] params = new Object[] { sessionId };
 
-		try {
-			client.execute(ADVERTISER_PUBLISHER_STATISTICS_METHOD, params);
-			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE,
-					ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED, e.getMessage());
-		}
+		executeAdvertiserPublisherStatisticsWithError(params, ErrorMessage
+				.getMessage(ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+						"4, 3, or 2", "1"));
 	}
 
 	/**

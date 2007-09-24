@@ -95,10 +95,10 @@ public class TestDeleteCampaign extends CampaignTestCase {
 	 */
 	public void testDeleteCampaignWithoutSomeRequiredFields()
 			throws MalformedURLException {
-		Object[] params = new Object[] { sessionId, null };
+		Object[] params = new Object[] { sessionId };
 
-		executeDeleteCampaignWithError(params,
-				ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED);
+		executeDeleteCampaignWithError(params, ErrorMessage.getMessage(
+				ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD, "2", "1"));
 	}
 
 	/**

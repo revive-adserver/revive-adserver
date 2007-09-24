@@ -174,6 +174,8 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics->fetch();
         $aRow2 = $rsPublisherStatistics->toArray();
 
+        $this->ensureRowSequence($aRow1, $aRow2, 'zoneid', $doZone1->zoneid);
+
         // 2. Check return fields names
         $this->assertFieldExists($aRow2, 'zoneid');
         $this->assertFieldExists($aRow2, 'zonename');
@@ -348,6 +350,8 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
         $rsPublisherStatistics->fetch();
         $aRow2 = $rsPublisherStatistics->toArray();
 
+        $this->ensureRowSequence($aRow1, $aRow2, 'campaignid', $doCampaign1->campaignid);
+
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'advertiserid');
         $this->assertFieldExists($aRow1, 'advertisername');
@@ -441,6 +445,8 @@ class OA_Dal_Statistics_PublisherTest extends DalStatisticsUnitTestCase
 
         $rsPublisherStatistics->fetch();
         $aRow2 = $rsPublisherStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'bannerid', $doBanner1->bannerid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'advertiserid');

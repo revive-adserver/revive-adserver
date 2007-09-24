@@ -79,7 +79,7 @@ public class TestModifyAdvertiser extends AdvertiserTestCase {
 			String errorMsg) throws MalformedURLException {
 
 		try {
-			Boolean result = (Boolean) execute(MODIFY_ADVERTISER_METHOD, params);
+			execute(MODIFY_ADVERTISER_METHOD, params);
 			fail(MODIFY_ADVERTISER_METHOD
 					+ " executed successfully, but it shouldn't.");
 		} catch (XmlRpcException e) {

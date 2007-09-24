@@ -95,9 +95,9 @@ public class TestDeletePublisher extends PublisherTestCase {
 	 */
 	public void testDeletePublisherWithoutSomeRequiredFields()
 			throws MalformedURLException, XmlRpcException {
-		Object[] params = new Object[] { sessionId, null };
-		executeDeletePublisherWithError(params,
-				ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED);
+		Object[] params = new Object[] { sessionId };
+		executeDeletePublisherWithError(params, ErrorMessage.getMessage(
+				ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD, "2", "1"));
 	}
 
 	/**

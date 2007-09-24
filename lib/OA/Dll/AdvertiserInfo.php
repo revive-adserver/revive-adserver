@@ -33,12 +33,15 @@ $Id:$
  *
  */
 
+// Include base info class.
+require_once MAX_PATH . '/lib/OA/Info.php';
+
 /**
  *  Class with information about advertiser
  *
  */
 
-class OA_Dll_AdvertiserInfo
+class OA_Dll_AdvertiserInfo extends OA_Info
 {
 
     /**
@@ -99,6 +102,19 @@ class OA_Dll_AdvertiserInfo
 	        $this->agencyId = 0;
 	    }
 	}
+    
+    function getFieldsTypes()
+    {
+        return array(
+                    'advertiserId' => 'integer',
+                    'agencyId' => 'integer',
+                    'advertiserName' => 'string',
+                    'contactName' => 'string',
+                    'emailAddress' => 'string',
+                    'username' => 'string', 
+                    'password' => 'string'
+                );
+    }
 }
 
 ?>

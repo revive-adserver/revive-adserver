@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v2.5                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -32,6 +32,9 @@ $Id:$
  * A file to description Base class for all Domain Logical Layer classes.
  *
  */
+
+// Required permission class
+require_once MAX_PATH . '/lib/max/Permission.php';
 
 // Required parent class
 require_once MAX_PATH . '/lib/OA/BaseObjectWithErrors.php';
@@ -288,7 +291,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
     function checkPermissions($permissions, $table = '', $id = null, $allowed = null) {
         $is_error = false;
 
-        if (!MAX_Permission::hasAccess($permissions)) {
+        if (isset($permissions) && !MAX_Permission::hasAccess($permissions)) {
             $is_error = true;
         }
 

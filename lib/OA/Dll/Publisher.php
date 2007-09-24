@@ -47,6 +47,33 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Publisher.php';
 class OA_Dll_Publisher extends OA_Dll
 {
     /**
+     * Init publisher info from data array
+     *
+     * @access private
+     *
+     * @param OA_Dll_PublisherInfo &$oPublisher
+     * @param array $publisherData
+     *
+     * @return boolean
+     */
+    function _setPublisherDataFromArray(&$oPublisher, $publisherData)
+    {
+        $publisherData['publisherName']  = $publisherData['name'];
+        $publisherData['contactName']    = $publisherData['contact'];
+        $publisherData['emailAddress']   = $publisherData['email'];
+        $publisherData['username']       = $publisherData['username'];
+        $publisherData['password']       = $publisherData['password'];
+        $publisherData['agencyId']       = $publisherData['agencyid'];
+        $publisherData['publisherId']    = $publisherData['affiliateid'];
+
+        // Do not return password from Dll
+        unset($publisherData['password']);
+
+        $oPublisher->readDataFromArray($publisherData);
+        return  true;
+    }
+
+    /**
      * method would perform data validation (e.g. email is an email)
      * and where necessary would connect to the DAL to obtain information
      * required to perform other business validations (e.g.
@@ -204,6 +231,76 @@ class OA_Dll_Publisher extends OA_Dll
         	$this->raiseError('Unknown publisherId Error');
             return false;
         }
+    }
+
+    /**
+     * Returns publisher information by id
+     *
+     * @access public
+     *
+     * @param int $publisherId
+     * @param OA_Dll_PublisherInfo &$oPublisher
+     *
+     * @return boolean
+     */
+    function getPublisher($publisherId, &$oPublisher)
+    {
+        if ($this->checkIdExistence('affiliates', $publisherId)) {
+            if (!$this->checkPermissions(null, 'affiliates', $publisherId)) {
+                return false;
+            }
+            $doPublisher = OA_Dal::factoryDO('affiliates');
+            $doPublisher->get($publisherId);
+            $publisherData = $doPublisher->toArray();
+
+            $oPublisher = new OA_Dll_PublisherInfo();
+
+            $this->_setPublisherDataFromArray($oPublisher, $publisherData);
+
+            return true;
+
+        } else {
+
+            $this->raiseError('Unknown publisherId Error');
+            return false;
+        }
+    }
+
+    /**
+     * Returns list of publisher by agency id
+     *
+     * @access public
+     *
+     * @param int $agencyId
+     * @param array &$aPublisherList
+     *
+     * @return boolean
+     */
+    function getPublisherListByAgencyId($agencyId, &$aPublisherList)
+    {
+        $aPublisherList = array();
+
+        if (!$this->checkIdExistence('agency', $agencyId)) {
+                return false;
+        }
+
+        if (!$this->checkPermissions(null, 'agency', $agencyId)) {
+            return false;
+        }
+
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doPublisher->agencyid = $agencyId;
+        $doPublisher->find();
+
+        while ($doPublisher->fetch()) {
+            $publisherData = $doPublisher->toArray();
+
+            $oPublisher = new OA_Dll_PublisherInfo();
+            $this->_setPublisherDataFromArray($oPublisher, $publisherData);
+
+            $aPublisherList[] = $oPublisher;
+        }
+        return true;
     }
 
     /**

@@ -56,7 +56,8 @@ import org.openads.utils.TextUtils;
  * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
  */
 public class PublisherTestCase extends AgencyTestCase {
-
+	protected static final String GET_PUBLISHER_LIST_BY_AGENCY_ID_METHOD = "getPublisherListByAgencyId";
+	protected static final String GET_PUBLISHER_METHOD = "getPublisher";
 	protected static final String ADD_PUBLISHER_METHOD = "addPublisher";
 	protected static final String DELETE_PUBLISHER_METHOD = "deletePublisher";
 	protected static final String MODIFY_PUBLISHER_METHOD = "modifyPublisher";
@@ -97,18 +98,22 @@ public class PublisherTestCase extends AgencyTestCase {
 	 */
 	public Integer createPublisher() throws XmlRpcException,
 			MalformedURLException {
+		return createPublisher(getPublisherParams("test"));
+	}
+	
+	/**
+	 * @return publisher id
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public Integer createPublisher(Map<String, Object> params)
+			throws XmlRpcException, MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put("agencyId", agencyId);
-		struct.put("publisherName", "test Publisher");
-		struct.put("contactName", "Oleh 2");
-		struct.put("emailAddress", "test@url.com");
-		struct.put("username", TextUtils.generateUniqueName("Publisher"));
-		struct.put("password", "paskjrfgkl");
-		Object[] params = new Object[] { sessionId, struct };
-		final Integer result = (Integer) client.execute(ADD_PUBLISHER_METHOD,
-				params);
+
+		Object[] paramsWithId = new Object[] { sessionId, params };
+		final Integer result = (Integer) client.execute(ADD_PUBLISHER_METHOD, paramsWithId);
+		
 		return result;
 	}
 
@@ -133,5 +138,22 @@ public class PublisherTestCase extends AgencyTestCase {
 				.setServerURL(new URL(GlobalSettings.getPublisherServiceUrl()));
 
 		return client.execute(method, params);
+	}
+	
+	/**
+	 * @param prefix
+	 * @return
+	 */
+	public Map<String, Object> getPublisherParams(String prefix) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		
+		params.put(AGENCY_ID, agencyId);
+		params.put(PUBLISHER_NAME, prefix + PUBLISHER_NAME);
+		params.put(CONTACT_NAME, prefix + CONTACT_NAME);
+		params.put(EMAIL_ADDRESS, prefix + "@mail.com");
+		params.put(USERNAME, TextUtils.generateUniqueName(prefix));
+		params.put(PASSWORD, prefix + PASSWORD);
+		
+		return params;
 	}
 }

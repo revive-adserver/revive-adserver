@@ -145,7 +145,6 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
         $doZone3       = OA_Dal::factoryDO('zones');
         $this->generateZoneWithParents($doAgency, $doPublisher2, $doZone3);
 
-
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->impressions   = 1;
         $doDataSummaryAdHourly->requests      = 2;
@@ -183,6 +182,8 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
 
         $rsBannerStatistics->fetch();
         $aRow2 = $rsBannerStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'publisherid', $doPublisher1->affiliateid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'publisherid');
@@ -278,6 +279,8 @@ class OA_Dal_Statistics_BannerTest extends DalStatisticsUnitTestCase
 
         $rsBannerStatistics->fetch();
         $aRow2 = $rsBannerStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'zoneid', $doZone1->zoneid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'publisherid');

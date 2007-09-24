@@ -112,11 +112,11 @@ public class TestPublisherAdvertiserStatistics extends PublisherTestCase {
 	 */
 	public void testPublisherAdvertiserStatisticsWithoutSomeRequiredFields()
 			throws MalformedURLException {
-		Object[] params = new Object[] { sessionId, null,
-				DateUtils.MIN_DATE_VALUE, DateUtils.MAX_DATE_VALUE };
+		Object[] params = new Object[] { sessionId };
 
-		executePublisherAdvertiserStatisticsWithError(params,
-				ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED);
+		executePublisherAdvertiserStatisticsWithError(params, ErrorMessage
+				.getMessage(ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+						"4, 3, or 2", "1"));
 	}
 
 	/**

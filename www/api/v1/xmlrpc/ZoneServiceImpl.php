@@ -241,6 +241,49 @@ class ZoneServiceImpl extends BaseServiceImpl
 		}
     }
 
+    /**
+     * Call method to get zone by id
+     *
+     * @param string $sessionId
+     * @param integer $zoneId
+     * @param OA_Dll_ZoneInfo &$oZone
+     * 
+     * @return boolean
+     */
+    function getZone($sessionId, $zoneId, &$oZone)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllZone->getZone($zoneId, $oZone));
+		} else {
+
+			return false;
+		}
+    }
+    
+    /**
+     * Call method to get zone by publisher id
+     *
+     * @param string $sessionId
+     * @param integer $publisherId
+     * @param array &$oZone  Array of OA_Dll_ZoneInfo classes
+     * 
+     * @return boolean
+     */
+    function getZoneListByPublisherId($sessionId, $publisherId, &$aZoneList)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllZone->getZoneListByPublisherId($publisherId,
+                                                    $aZoneList));
+		} else {
+
+			return false;
+		}
+    }
+
 }
 
 

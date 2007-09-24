@@ -170,6 +170,8 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserDailyStatistics->fetch();
         $aRow2 = $rsAdvertiserDailyStatistics->toArray();
 
+        $this->ensureRowSequence($aRow1, $aRow2, 'campaignid', $doCampaign1->campaignid);
+
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'campaignid');
         $this->assertFieldExists($aRow1, 'campaignname');
@@ -253,9 +255,9 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $rsAdvertiserDailyStatistics->fetch();
         $aRow2 = $rsAdvertiserDailyStatistics->toArray();
 
+        $this->ensureRowSequence($aRow1, $aRow2, 'bannerid', $doBanner1->bannerid);
+
         // 2. Check return fields names
-        $this->assertFieldExists($aRow1, 'advertiserid');
-        $this->assertFieldExists($aRow1, 'advertisername');
         $this->assertFieldExists($aRow1, 'campaignid');
         $this->assertFieldExists($aRow1, 'campaignname');
         $this->assertFieldExists($aRow1, 'bannerid');
@@ -265,8 +267,6 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $this->assertFieldExists($aRow1, 'clicks');
         $this->assertFieldExists($aRow1, 'revenue');
 
-        $this->assertFieldExists($aRow2, 'advertiserid');
-        $this->assertFieldExists($aRow2, 'advertisername');
         $this->assertFieldExists($aRow2, 'campaignid');
         $this->assertFieldExists($aRow2, 'campaignname');
         $this->assertFieldExists($aRow2, 'bannerid');
@@ -281,7 +281,6 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow1, 'requests', 0);
         $this->assertFieldEqual($aRow1, 'revenue', 0.0000);
         $this->assertFieldEqual($aRow1, 'clicks', 0);
-        $this->assertFieldEqual($aRow1, 'advertisername', $doAdvertiser->clientname);
         $this->assertFieldEqual($aRow1, 'campaignname', $doCampaign->campaignname);
         $this->assertFieldEqual($aRow1, 'bannername', $doBanner1->description);
 
@@ -289,7 +288,6 @@ class OA_Dal_Statistics_AdvertiserTest extends DalStatisticsUnitTestCase
         $this->assertFieldEqual($aRow2, 'requests', 20);
         $this->assertFieldEqual($aRow2, 'revenue', 10.0000);
         $this->assertFieldEqual($aRow2, 'clicks', 40);
-        $this->assertFieldEqual($aRow2, 'advertisername', $doAdvertiser->clientname);
         $this->assertFieldEqual($aRow2, 'campaignname', $doCampaign->campaignname);
         $this->assertFieldEqual($aRow2, 'bannername', $doBanner2->description);
 

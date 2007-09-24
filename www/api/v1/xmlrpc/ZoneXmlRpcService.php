@@ -295,6 +295,62 @@ class ZoneXmlRpcService extends BaseZoneService
         }
     }
 
+    /**
+     * Get existing Zone by ID.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oZone
+     *
+     * @return generated result (data or error)
+     */
+    function getZone(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$zoneId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $oZone = null;
+        if ($this->_oZoneServiceImp->getZone($sessionId,
+                $zoneId, $oZone)) {
+
+            return XmlRpcUtils::getEntityResponse($oZone);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+    
+    /**
+     * Get array of zones by publisher id
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getZoneListByPublisherId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$publisherId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $aZoneList = null;
+        if ($this->_oZoneServiceImp->getZoneListByPublisherId($sessionId,
+                                            $publisherId, $aZoneList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aZoneList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
+        }
+    }
+
 }
 
 $oZoneXmlRpcService = new ZoneXmlRpcService();
@@ -363,6 +419,22 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int')
             ),
             'docstring' => 'Generate Zone Banner Statistics'
+        ),
+
+        'getZone' => array(
+            'function'  => array($oZoneXmlRpcService, 'getZone'),
+            'signature' => array(
+                array('struct', 'string', 'int')
+            ),
+            'docstring' => 'Get Zone Information'
+        ),
+
+        'getZoneListByPublisherId' => array(
+            'function'  => array($oZoneXmlRpcService, 'getZoneListByPublisherId'),
+            'signature' => array(
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Get Zone List By Publisher Id'
         ),
 
     ),

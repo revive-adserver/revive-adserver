@@ -59,6 +59,8 @@ public class TestZone {
 		suite.addTestSuite(TestZoneAdvertiserStatistics.class);
 		suite.addTestSuite(TestModifyZone.class);
 		suite.addTestSuite(TestZoneCampaignStatistics.class);
+		suite.addTestSuite(TestGetZone.class);
+		suite.addTestSuite(TestGetZoneListByPublisherId.class);
 		// $JUnit-END$
 		return suite;
 	}

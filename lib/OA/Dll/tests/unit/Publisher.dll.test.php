@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| Openads v2.5                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -25,6 +25,8 @@
 $Id:$
 */
 
+require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
+require_once MAX_PATH . '/lib/OA/Dll/AgencyInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 require_once MAX_PATH . '/lib/OA/Dll/PublisherInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
@@ -53,6 +55,12 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
      */
     function OA_Dll_PublisherTest()
     {
+        $this->UnitTestCase();
+        Mock::generatePartial(
+            'OA_Dll_Agency',
+            'PartialMockOA_Dll_Agency',
+            array('checkPermissions')
+        );
         $this->UnitTestCase();
         Mock::generatePartial(
             'OA_Dll_Publisher',
@@ -108,6 +116,93 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
             $this->_getMethodShouldReturnError($this->unknownIdError));
 
         $dllPublisherPartialMock   ->tally();
+    }
+
+    /**
+     * A method to test get and getList method.
+     */
+    function testGetAndGetList()
+    {
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
+        $dllAgencyPartialMock    = new PartialMockOA_Dll_Agency($this);
+
+        $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 6);
+
+        $dllAgencyPartialMock->setReturnValue('checkPermissions', true);
+        $dllAgencyPartialMock->expectCallCount('checkPermissions', 1);
+
+        $oAgencyInfo             = new OA_Dll_AgencyInfo();
+        $oAgencyInfo->agencyName = 'agency name';
+        $this->assertTrue($dllAgencyPartialMock->modify($oAgencyInfo),
+                          $dllAgencyPartialMock->getLastError());
+
+        $oPublisherInfo1                 = new OA_Dll_PublisherInfo();
+        $oPublisherInfo1->agencyId     = $oAgencyInfo->agencyId;
+        $oPublisherInfo1->publisherName  = 'test name 1';
+        $oPublisherInfo1->contactName    = 'contact';
+        $oPublisherInfo1->emailAddress   = 'name@domain.com';
+        $oPublisherInfo1->username       = 'publisher   user';
+        $oPublisherInfo1->password       = 'password';
+
+        $oPublisherInfo2                 = new OA_Dll_PublisherInfo();
+        $oPublisherInfo2->agencyId       = $oAgencyInfo->agencyId;
+        $oPublisherInfo2->publisherName = 'test name 2';
+        // Add
+        $this->assertTrue($dllPublisherPartialMock->modify($oPublisherInfo1),
+                          $dllPublisherPartialMock->getLastError());
+
+        $this->assertTrue($dllPublisherPartialMock->modify($oPublisherInfo2),
+                          $dllPublisherPartialMock->getLastError());
+
+        $oPublisherInfo1Get = null;
+        $oPublisherInfo2Get = null;
+        // Get
+        $this->assertTrue($dllPublisherPartialMock->getPublisher($oPublisherInfo1->publisherId,
+                                                                   $oPublisherInfo1Get),
+                          $dllPublisherPartialMock->getLastError());
+        $this->assertTrue($dllPublisherPartialMock->getPublisher($oPublisherInfo2->publisherId,
+                                                                   $oPublisherInfo2Get),
+                          $dllPublisherPartialMock->getLastError());
+
+        // Check field value
+        $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'publisherName');
+        $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'contactName');
+        $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'emailAddress');
+        $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'username');
+        $this->assertNull($oPublisherInfo1Get->password,
+                          'Field \'password\' must be null');
+        $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');
+
+        // Get List
+        $aPublisherList = array();
+        $this->assertTrue($dllPublisherPartialMock->getPublisherListByAgencyId($oAgencyInfo->agencyId,
+                                                                     $aPublisherList),
+                          $dllPublisherPartialMock->getLastError());
+        $this->assertEqual(count($aPublisherList) == 2,
+                           '2 records should be returned');
+        $oPublisherInfo1Get = $aPublisherList[0];
+        $oPublisherInfo2Get = $aPublisherList[1];
+        if ($oPublisherInfo1->publisherId == $oPublisherInfo2Get->publisherId) {
+            $oPublisherInfo1Get = $aPublisherList[1];
+            $oPublisherInfo2Get = $aPublisherList[0];
+        }
+        // Check field value from list
+        $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'publisherName');
+        $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');
+
+
+        // Delete
+        $this->assertTrue($dllPublisherPartialMock->delete($oPublisherInfo1->publisherId),
+            $dllPublisherPartialMock->getLastError());
+
+        // Get not existing id
+        $this->assertTrue((!$dllPublisherPartialMock->getPublisher($oPublisherInfo1->publisherId,
+                                                                     $oPublisherInfo1Get) &&
+                          $dllPublisherPartialMock->getLastError() == $this->unknownIdError),
+            $this->_getMethodShouldReturnError($this->unknownIdError));
+
+        $dllPublisherPartialMock->tally();
     }
 
     /**

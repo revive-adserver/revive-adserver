@@ -104,7 +104,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 1. Get data existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
-            $doCampaign->campaignId, new Date('2007-08-01'),  new Date('2007-08-20'));
+            $doCampaign->campaignid, new Date('2007-08-01'),  new Date('2007-08-20'));
 
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 2,
@@ -115,6 +115,8 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         $rsCampaignStatistics->fetch();
         $aRow2 = $rsCampaignStatistics->toArray();
+
+        $this->ensureRowSequence($aRow2, $aRow1, 'day', $dayForRecord2);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'day');
@@ -133,7 +135,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignDailyStatistics(
-            $doCampaign->campaignId, new Date('2007-01-01'),  new Date('2007-01-20'));
+            $doCampaign->campaignid, new Date('2007-01-01'),  new Date('2007-01-20'));
 
         $rsCampaignStatistics->find();
 
@@ -186,7 +188,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 1. Get data existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignBannerStatistics(
-            $doCampaign->campaignId, new Date('2006-07-07'),  new Date('2007-09-12'));
+            $doCampaign->campaignid, new Date('2006-07-07'),  new Date('2007-09-12'));
 
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 2,
@@ -197,6 +199,8 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         $rsCampaignStatistics->fetch();
         $aRow2 = $rsCampaignStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'bannerid', $doBanner1->bannerid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'campaignid');
@@ -224,7 +228,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignBannerStatistics(
-            $doCampaign->campaignId, new Date('2001-07-07'),  new Date('2001-09-12'));
+            $doCampaign->campaignid, new Date('2001-07-07'),  new Date('2001-09-12'));
 
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 0,
@@ -284,7 +288,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 1. Get data existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignPublisherStatistics(
-            $doCampaign->campaignId, new Date('1984-01-01'),  new Date('2007-09-18'));
+            $doCampaign->campaignid, new Date('1984-01-01'),  new Date('2007-09-18'));
 
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 2,
@@ -294,6 +298,8 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $aRow1 = $rsCampaignStatistics->toArray();
         $rsCampaignStatistics->fetch();
         $aRow2 = $rsCampaignStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'publisherid', $doPublisher1->affiliateid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'publisherid');
@@ -316,7 +322,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignPublisherStatistics(
-            $doCampaign->campaignId, new Date('2007-09-21'),  new Date('2007-09-21'));
+            $doCampaign->campaignid, new Date('2007-09-21'),  new Date('2007-09-21'));
 
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 0,
@@ -324,7 +330,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 5. Get 1 row
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignPublisherStatistics(
-            $doCampaign->campaignId, new Date('1986-01-01'),  new Date('1986-04-09'));
+            $doCampaign->campaignid, new Date('1986-01-01'),  new Date('1986-04-09'));
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 1,
             '1 records should be returned');
@@ -379,7 +385,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 1. Get data existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignZoneStatistics(
-            $doCampaign->campaignId, new Date('1984-01-01'),  new Date('2007-09-18'));
+            $doCampaign->campaignid, new Date('1984-01-01'),  new Date('2007-09-18'));
 
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 2,
@@ -389,6 +395,8 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
         $aRow1 = $rsCampaignStatistics->toArray();
         $rsCampaignStatistics->fetch();
         $aRow2 = $rsCampaignStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'zoneid', $doZone1->zoneid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'publisherid');
@@ -414,7 +422,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 4. Get data in not existing range
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignZoneStatistics(
-            $doCampaign->campaignId, new Date('2007-09-21'),  new Date('2007-09-21'));
+            $doCampaign->campaignid, new Date('2007-09-21'),  new Date('2007-09-21'));
 
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 0,
@@ -422,7 +430,7 @@ class OA_Dal_Statistics_CampaignTest extends DalStatisticsUnitTestCase
 
         // 5. Get 1 row
         $rsCampaignStatistics = $this->_dalCampaignStatistics->getCampaignZoneStatistics(
-            $doCampaign->campaignId, new Date('1986-01-01'),  new Date('1986-04-09'));
+            $doCampaign->campaignid, new Date('1986-01-01'),  new Date('1986-04-09'));
         $rsCampaignStatistics->find();
         $this->assertTrue($rsCampaignStatistics->getRowCount() == 1,
             '1 records should be returned');

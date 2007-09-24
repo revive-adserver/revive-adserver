@@ -264,6 +264,49 @@ class PublisherServiceImpl extends BaseServiceImpl
 		}
     }
 
+    /**
+     * Call method to get publisher by id
+     *
+     * @param string $sessionId
+     * @param integer $publisherId
+     * @param OA_Dll_PublisherInfo &$oPublisher
+     * 
+     * @return boolean
+     */
+    function getPublisher($sessionId, $publisherId, &$oPublisher)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllPublisher->getPublisher($publisherId, $oPublisher));
+		} else {
+
+			return false;
+		}
+    }
+    
+    /**
+     * Call method to get publisher by agency id
+     *
+     * @param string $sessionId
+     * @param integer $agencyId
+     * @param array &$aPublisherList  Array of OA_Dll_PublisherInfo classes
+     * 
+     * @return boolean
+     */
+    function getPublisherListByAgencyId($sessionId, $agencyId, &$aPublisherList)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllPublisher->getPublisherListByAgencyId($agencyId,
+                                                    $aPublisherList));
+		} else {
+
+			return false;
+		}
+    }
+
 }
 
 

@@ -123,6 +123,89 @@ class OA_Dll_ZoneTest extends DllUnitTestCase
     }
 
     /**
+     * A method to test get and getList method.
+     */
+    function testGetAndGetList()
+    {
+        $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
+        $dllZonePartialMock      = new PartialMockOA_Dll_Zone($this);
+
+        $dllPublisherPartialMock->setReturnValue('checkPermissions', true);
+        $dllPublisherPartialMock->expectCallCount('checkPermissions', 1);
+
+        $dllZonePartialMock->setReturnValue('checkPermissions', true);
+        $dllZonePartialMock->expectCallCount('checkPermissions', 6);
+
+        $oPublisherInfo = new OA_DLL_PublisherInfo();
+        $dllPublisherPartialMock->modify($oPublisherInfo);
+
+        $oZoneInfo1              = new OA_Dll_ZoneInfo();
+        $oZoneInfo1->publisherId = $oPublisherInfo->publisherId;
+        $oZoneInfo1->zoneName    = 'test name 1';
+        $oZoneInfo1->type        = 2;
+        $oZoneInfo1->width       = 4;
+        $oZoneInfo1->height      = 5;
+
+        $oZoneInfo2                 = new OA_Dll_ZoneInfo();
+        $oZoneInfo2->publisherId    = $oPublisherInfo->publisherId;
+        $oZoneInfo2->zoneName       = 'test name 2';
+        // Add
+        $this->assertTrue($dllZonePartialMock->modify($oZoneInfo1),
+                          $dllZonePartialMock->getLastError());
+
+        $this->assertTrue($dllZonePartialMock->modify($oZoneInfo2),
+                          $dllZonePartialMock->getLastError());
+
+        $oZoneInfo1Get = null;
+        $oZoneInfo2Get = null;
+        // Get
+        $this->assertTrue($dllZonePartialMock->getZone($oZoneInfo1->zoneId,
+                                                                   $oZoneInfo1Get),
+                          $dllZonePartialMock->getLastError());
+        $this->assertTrue($dllZonePartialMock->getZone($oZoneInfo2->zoneId,
+                                                                   $oZoneInfo2Get),
+                          $dllZonePartialMock->getLastError());
+
+        // Check field value
+        $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'zoneName');
+        $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'publisherId');
+        $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'type');
+        $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'width');
+        $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'height');
+        $this->assertFieldEqual($oZoneInfo2, $oZoneInfo2Get, 'zoneName');
+
+        // Get List
+        $aZoneList = array();
+        $this->assertTrue($dllZonePartialMock->getZoneListByPublisherId($oPublisherInfo->publisherId,
+                                                                        $aZoneList),
+                          $dllZonePartialMock->getLastError());
+        $this->assertEqual(count($aZoneList) == 2,
+                           '2 records should be returned');
+        $oZoneInfo1Get = $aZoneList[0];
+        $oZoneInfo2Get = $aZoneList[1];
+        if ($oZoneInfo1->zoneId == $oZoneInfo2Get->zoneId) {
+            $oZoneInfo1Get = $aZoneList[1];
+            $oZoneInfo2Get = $aZoneList[0];
+        }
+        // Check field value from list
+        $this->assertFieldEqual($oZoneInfo1, $oZoneInfo1Get, 'zoneName');
+        $this->assertFieldEqual($oZoneInfo2, $oZoneInfo2Get, 'zoneName');
+
+
+        // Delete
+        $this->assertTrue($dllZonePartialMock->delete($oZoneInfo1->zoneId),
+            $dllZonePartialMock->getLastError());
+
+        // Get not existing id
+        $this->assertTrue((!$dllZonePartialMock->getZone($oZoneInfo1->zoneId,
+                                                                     $oZoneInfo1Get) &&
+                          $dllZonePartialMock->getLastError() == $this->unknownIdError),
+            $this->_getMethodShouldReturnError($this->unknownIdError));
+
+        $dllZonePartialMock->tally();
+    }
+
+    /**
      * Method to run all tests for zone statistics
      *
      * @access private

@@ -97,10 +97,10 @@ public class TestDeleteBanner extends BannerTestCase {
 	 */
 	public void testDeleteBannerWithoutSomeRequiredFields()
 			throws MalformedURLException {
-		Object[] params = new Object[] { sessionId, null };
+		Object[] params = new Object[] { sessionId };
 
-		executeDeleteBannerWithError(params,
-				ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED);
+		executeDeleteBannerWithError(params, ErrorMessage.getMessage(
+				ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD, "2", "1"));
 	}
 
 	/**

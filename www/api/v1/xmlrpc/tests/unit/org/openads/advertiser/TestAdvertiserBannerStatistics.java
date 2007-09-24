@@ -35,8 +35,7 @@
 |  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
 $Id:$
-*/
-
+ */
 package org.openads.advertiser;
 
 import java.net.MalformedURLException;
@@ -93,6 +92,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 	 * 
 	 * @throws XmlRpcException
 	 */
+	@SuppressWarnings("unchecked")
 	public void testAdvertiserBannerStatisticsAllReqAndSomeOptionalFields()
 			throws XmlRpcException {
 		assertNotNull("Can't get advertiserId by setUp method.", advertiserId);
@@ -134,16 +134,11 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 	 */
 	public void testAdvertiserBannerStatisticsWithoutSomeRequiredFields()
 			throws Exception {
-		Object[] params = new Object[] { sessionId, null,
-				DateUtils.MIN_DATE_VALUE, DateUtils.MIN_DATE_VALUE };
+		Object[] params = new Object[] { sessionId, };
 
-		try {
-			client.execute(ADVERTISER_BANNER_STATISTICS_METHOD, params);
-			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE,
-					ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED, e.getMessage());
-		}
+		executeAdvertiserBannerStatisticsWithError(params, ErrorMessage
+					.getMessage(ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+							"4, 3, or 2", "1"));
 	}
 
 	/**
@@ -156,7 +151,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 			throws MalformedURLException, XmlRpcException {
 		Object[] params = new Object[] { sessionId, advertiserId,
 				DateUtils.MIN_DATE_VALUE, DateUtils.DATE_GREATER_THAN_MAX };
-		
+
 		try {
 			client.execute(ADVERTISER_BANNER_STATISTICS_METHOD, params);
 			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
@@ -175,7 +170,7 @@ public class TestAdvertiserBannerStatistics extends AdvertiserTestCase {
 			throws MalformedURLException {
 		Object[] params = new Object[] { sessionId, advertiserId,
 				DateUtils.DATE_LESS_THAN_MIN, DateUtils.MAX_DATE_VALUE };
-		
+
 		try {
 			client.execute(ADVERTISER_BANNER_STATISTICS_METHOD, params);
 			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);

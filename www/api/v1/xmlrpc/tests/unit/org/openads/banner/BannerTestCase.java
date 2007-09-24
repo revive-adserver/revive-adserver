@@ -55,8 +55,9 @@ import org.openads.config.GlobalSettings;
  * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
  */
 public class BannerTestCase extends CampaignTestCase {
-
 	protected static final String HEIGHT = "height";
+	protected static final String GET_BANNER_LIST_BY_CAMPAIGN_ID_METHOD = "getBannerListByCampaignId";
+	protected static final String GET_BANNER_METHOD = "getBanner";
 	protected static final String ADD_BANNER_METHOD = "addBanner";
 	protected static final String DELETE_BANNER_METHOD = "deleteBanner";
 	protected static final String MODIFY_BANNER_METHOD = "modifyBanner";
@@ -73,7 +74,7 @@ public class BannerTestCase extends CampaignTestCase {
 	protected static final String BANNER_NAME = "bannerName";
 	protected static final String CAMPAIGN_ID = "campaignId";
 	protected static final String IMAGE_URL = "imageURL";
-	protected static final String FILENAME = "filename";
+	protected static final String FILENAME = "fileName";
 
 	protected Integer campaignId = null;
 
@@ -96,24 +97,22 @@ public class BannerTestCase extends CampaignTestCase {
 	 * @throws MalformedURLException
 	 */
 	public Integer createBanner() throws XmlRpcException, MalformedURLException {
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(CAMPAIGN_ID, campaignId);
-		struct.put(BANNER_NAME, "test Banner");
-		struct.put(STORAGE_TYPE, "sql");
-		struct.put(FILENAME, "testFile.bmp");
-		struct.put(IMAGE_URL, "http://www.ttt.net.au/testFile.bmp");
-		struct.put(HTML_TEMPLATE, "<p>I am banner</p>");
-		struct.put(WIDTH, 100);
-		struct.put(HEIGHT, 100);
-		struct.put(WEIGHT, 100);
-		struct.put(URL, "http://www.ttt.net.au");
-		Object[] params = new Object[] { sessionId, struct };
-		// set URL
+		return createBanner(getBannerParams("test"));
+	}
+	
+	/**
+	 * @return banner id
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public Integer createBanner(Map<String, Object> params)
+			throws XmlRpcException, MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getBannerServiceUrl()));
 
+		Object[] paramsWithId = new Object[] { sessionId, params };
 		final Integer result = (Integer) client.execute(ADD_BANNER_METHOD,
-				params);
+				paramsWithId);
 		return result;
 	}
 
@@ -142,4 +141,18 @@ public class BannerTestCase extends CampaignTestCase {
 		return client.execute(method, params);
 	}
 
+	public Map<String, Object> getBannerParams(String prefix) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(CAMPAIGN_ID, campaignId);
+		params.put(BANNER_NAME, prefix + BANNER_NAME);
+		params.put(STORAGE_TYPE, "sql");
+		params.put(FILENAME, prefix + ".bmp");
+		params.put(IMAGE_URL, "http://www." + prefix + ".com/images/testFile.bmp");
+		params.put(HTML_TEMPLATE, "<p>" + prefix + "</p>");
+		params.put(WIDTH, 100);
+		params.put(HEIGHT, 100);
+		params.put(WEIGHT, 100);
+		params.put(URL, "http://www." + prefix + ".com");
+		return params;
+	}
 }

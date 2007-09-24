@@ -263,6 +263,50 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
+
+    /**
+     * Call method to get advertiser by id
+     *
+     * @param string $sessionId
+     * @param integer $advertiserId
+     * @param OA_Dll_AdvertiserInfo &$oAdvertiser
+     * 
+     * @return boolean
+     */
+    function getAdvertiser($sessionId, $advertiserId, &$oAdvertiser)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllAdvertiser->getAdvertiser($advertiserId, $oAdvertiser));
+		} else {
+
+			return false;
+		}
+    }
+    
+    /**
+     * Call method to get advertisers by agency id
+     *
+     * @param string $sessionId
+     * @param integer $agencyId
+     * @param array &$aAdvertiserList  Array of OA_Dll_AdvertiserInfo classes
+     * 
+     * @return boolean
+     */
+    function getAdvertiserListByAgencyId($sessionId, $agencyId, &$aAdvertiserList)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllAdvertiser->getAdvertiserListByAgencyId($agencyId,
+                                                    $aAdvertiserList));
+		} else {
+
+			return false;
+		}
+    }
+
 }
 
 

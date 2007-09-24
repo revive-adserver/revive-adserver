@@ -47,6 +47,34 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Advertiser.php';
 class OA_Dll_Advertiser extends OA_Dll
 {
     /**
+     * Init advertiser info from data array
+     *
+     * @access private
+     *
+     * @param OA_Dll_AdvertiserInfo &$oAdvertiser
+     * @param array $advertiserData
+     *
+     * @return boolean
+     */
+    function _setAdvertiserDataFromArray(&$oAdvertiser, $advertiserData)
+    {
+        $advertiserData['advertiserName'] = $advertiserData['clientname'];
+        $advertiserData['agencyName']     = $advertiserData['name'];
+        $advertiserData['contactName']    = $advertiserData['contact'];
+        $advertiserData['emailAddress']   = $advertiserData['email'];
+        $advertiserData['username']       = $advertiserData['clientusername'];
+        $advertiserData['password']       = $advertiserData['clientpassword'];
+        $advertiserData['agencyId']       = $advertiserData['agencyid'];
+        $advertiserData['advertiserId']   = $advertiserData['clientid'];
+
+        // Do not return password from Dll
+        unset($advertiserData['password']);
+
+        $oAdvertiser->readDataFromArray($advertiserData);
+        return  true;
+    }
+
+    /**
      * Method would perform data validation (e.g. email is an email)
      * and where necessary would connect to the DAL to obtain information
      * required to perform other business validations (e.g. username must be
@@ -166,7 +194,7 @@ class OA_Dll_Advertiser extends OA_Dll
 
             return false;
         }
-        
+
         if (!isset($oAdvertiser->advertiserId)) {
             $oAdvertiser->setDefaultForAdd();
         }
@@ -235,6 +263,75 @@ class OA_Dll_Advertiser extends OA_Dll
         	$this->raiseError('Unknown advertiserId Error');
             return false;
         }
+    }
+
+    /**
+     * Returns advertiser information by advertiser id
+     *
+     * @access public
+     *
+     * @param int $advertiserId
+     * @param OA_Dll_AdvertiserInfo &$oAdvertiser
+     *
+     * @return boolean
+     */
+    function getAdvertiser($advertiserId, &$oAdvertiser)
+    {
+        if ($this->checkIdExistence('clients', $advertiserId)) {
+            if (!$this->checkPermissions(null, 'clients', $advertiserId)) {
+                return false;
+            }
+            $doAdvertiser = OA_Dal::factoryDO('clients');
+            $doAdvertiser->get($advertiserId);
+            $advertiserData = $doAdvertiser->toArray();
+
+            $oAdvertiser = new OA_Dll_AdvertiserInfo();
+
+            $this->_setAdvertiserDataFromArray($oAdvertiser, $advertiserData);
+            return true;
+
+        } else {
+
+            $this->raiseError('Unknown advertiserId Error');
+            return false;
+        }
+    }
+
+    /**
+     * Returns list of advertisers by agency id
+     *
+     * @access public
+     *
+     * @param int $agencyId
+     * @param array &$aAdvertiserList
+     *
+     * @return boolean
+     */
+    function getAdvertiserListByAgencyId($agencyId, &$aAdvertiserList)
+    {
+        $aAdvertiserList = array();
+
+        if (!$this->checkIdExistence('agency', $agencyId)) {
+                return false;
+        }
+
+        if (!$this->checkPermissions(null, 'agency', $agencyId)) {
+            return false;
+        }
+
+        $doAdvertiser = OA_Dal::factoryDO('clients');
+        $doAdvertiser->agencyid = $agencyId;
+        $doAdvertiser->find();
+
+        while ($doAdvertiser->fetch()) {
+            $advertiserData = $doAdvertiser->toArray();
+
+            $oAdvertiser = new OA_Dll_AdvertiserInfo();
+            $this->_setAdvertiserDataFromArray($oAdvertiser, $advertiserData);
+
+            $aAdvertiserList[] = $oAdvertiser;
+        }
+        return true;
     }
 
    /**

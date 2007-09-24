@@ -288,6 +288,47 @@ class AgencyServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
+    
+    /**
+     * Call method to get agency by id
+     *
+     * @param string $sessionId
+     * @param integer $agencyId
+     * @param OA_Dll_AgencyInfo &$oAgency
+     * 
+     * @return boolean
+     */
+    function getAgency($sessionId, $agencyId, &$oAgency)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllAgency->getAgency($agencyId, $oAgency));
+		} else {
+
+			return false;
+		}
+    }
+    
+    /**
+     * Call method to get all agencies list
+     *
+     * @param string $sessionId
+     * @param array &$aAgencyList  Array of OA_Dll_AgencyInfo classes
+     * 
+     * @return boolean
+     */
+    function getAgencyList($sessionId, &$aAgencyList)
+    {
+		if ($this->verifySession($sessionId)) {
+
+            return $this->_validateResult(
+                $this->_dllAgency->getAgencyList($aAgencyList));
+		} else {
+
+			return false;
+		}
+    }
 }
 
 

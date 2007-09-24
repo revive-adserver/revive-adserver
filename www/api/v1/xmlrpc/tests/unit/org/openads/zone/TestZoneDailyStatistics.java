@@ -106,18 +106,16 @@ public class TestZoneDailyStatistics extends ZoneTestCase {
 
 	/**
 	 * Test method without some required fields.
+	 * @throws MalformedURLException 
 	 */
-	public void testZoneDailyStatisticsWithoutSomeRequiredFields() {
-		Object[] params = new Object[] { sessionId, null,
-				DateUtils.MIN_DATE_VALUE, DateUtils.MAX_DATE_VALUE };
+	public void testZoneDailyStatisticsWithoutSomeRequiredFields()
+			throws MalformedURLException {
+		
+		Object[] params = new Object[] { sessionId };
 
-		try {
-			client.execute(ZONE_DAILY_STATISTICS_METHOD, params);
-			fail(ErrorMessage.METHOD_EXECUTED_SUCCESSFULLY_BUT_SHOULD_NOT_HAVE);
-		} catch (XmlRpcException e) {
-			assertEquals(ErrorMessage.WRONG_ERROR_MESSAGE,
-					ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED, e.getMessage());
-		}
+		executeZoneDailyStatisticsWithError(params, ErrorMessage.getMessage(
+				ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+				"4, 3, or 2", "1"));
 	}
 
 	/**

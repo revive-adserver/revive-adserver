@@ -333,6 +333,62 @@ class PublisherXmlRpcService extends BasePublisherService
         }
     }
 
+    /**
+     * Get existing Publisher by ID.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getPublisher(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$publisherId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $oPublisher = null;
+        if ($this->_oPublisherServiceImp->getPublisher($sessionId,
+                $publisherId, $oPublisher)) {
+
+            return XmlRpcUtils::getEntityResponse($oPublisher);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
+        }
+    }
+    
+    /**
+     * Get array of publishers by agency id
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getPublisherListByAgencyId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$agencyId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $aPublisherList = null;
+        if ($this->_oPublisherServiceImp->getPublisherListByAgencyId($sessionId,
+                                            $agencyId, $aPublisherList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aPublisherList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
+        }
+    }
+
 }
 
 $oPublisherXmlRpcService = new PublisherXmlRpcService();
@@ -411,6 +467,22 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int')
             ),
             'docstring' => 'Generate Publisher Banner Statistics'
+        ),
+
+        'getPublisher' => array(
+            'function'  => array($oPublisherXmlRpcService, 'getPublisher'),
+            'signature' => array(
+                array('struct', 'string', 'int')
+            ),
+            'docstring' => 'Get Publisher Information'
+        ),
+
+        'getPublisherListByAgencyId' => array(
+            'function'  => array($oPublisherXmlRpcService, 'getPublisherListByAgencyId'),
+            'signature' => array(
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Get Publishers List By Agency Id'
         ),
 
     ),

@@ -120,7 +120,7 @@ public class TestModifyAgency extends AgencyTestCase {
 			throws MalformedURLException {
 
 		try {
-			Boolean result = (Boolean) execute(MODIFY_AGENCY_METHOD, params);
+			execute(MODIFY_AGENCY_METHOD, params);
 			fail(MODIFY_AGENCY_METHOD
 					+ " executed successfully, but it shouldn't.");
 		} catch (XmlRpcException e) {

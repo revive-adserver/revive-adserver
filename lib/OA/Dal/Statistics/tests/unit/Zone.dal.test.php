@@ -130,6 +130,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doBanner1    = OA_Dal::factoryDO('banners');
         $this->generateBannerWithParents($doAgency, $doAdvertiser, $doCampaign, $doBanner1);
 
+        $advertiserId1 = $doAdvertiser->clientid;
+
         $doAgency     = OA_Dal::factoryDO('agency');
         $doAdvertiser = OA_Dal::factoryDO('clients');
         $doCampaign   = OA_Dal::factoryDO('campaigns');
@@ -178,6 +180,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         $rsZoneStatistics->fetch();
         $aRow2 = $rsZoneStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'advertiserid', $advertiserId1);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'advertiserid');
@@ -278,6 +282,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $rsZoneStatistics->fetch();
         $aRow2 = $rsZoneStatistics->toArray();
 
+        $this->ensureRowSequence($aRow1, $aRow2, 'campaignid', $doCampaign1->campaignid);
+
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'advertiserid');
         $this->assertFieldExists($aRow1, 'advertisername');
@@ -371,6 +377,8 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
 
         $rsZoneStatistics->fetch();
         $aRow2 = $rsZoneStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'bannerid', $doBanner1->bannerid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'advertiserid');

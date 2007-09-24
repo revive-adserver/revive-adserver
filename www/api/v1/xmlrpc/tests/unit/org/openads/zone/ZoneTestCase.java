@@ -55,6 +55,8 @@ import org.openads.publisher.PublisherTestCase;
  * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
  */
 public class ZoneTestCase extends PublisherTestCase {
+	protected static final String GET_ZONE_LIST_BY_PUBLISHER_ID_METHOD = "getZoneListByPublisherId";
+	protected static final String GET_ZONE_METHOD = "getZone";
 	protected static final String ADD_ZONE_METHOD = "addZone";
 	protected static final String MODIFY_ZONE_METHOD = "modifyZone";
 	protected static final String DELETE_ZONE_METHOD = "deleteZone";
@@ -95,17 +97,22 @@ public class ZoneTestCase extends PublisherTestCase {
 	 * @throws MalformedURLException
 	 */
 	public Integer createZone() throws XmlRpcException, MalformedURLException {
+		return createZone(getZoneParams("test"));
+	}
+	
+	/**
+	 * @return zone id
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public Integer createZone(Map<String, Object> params)
+			throws XmlRpcException, MalformedURLException {
 		((XmlRpcClientConfigImpl) client.getClientConfig())
 				.setServerURL(new URL(GlobalSettings.getZoneServiceUrl()));
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(PUBLISHER_ID, publisherId);
-		struct.put(ZONE_NAME, "test Zone");
-		struct.put(TYPE, 0);
-		struct.put(WIDTH, 200);
-		struct.put(HEIGHT, 200);
-		Object[] params = new Object[] { sessionId, struct };
-		final Integer result = (Integer) client
-				.execute(ADD_ZONE_METHOD, params);
+
+		Object[] paramsWithId = new Object[] { sessionId, params };
+		final Integer result = (Integer) client.execute(ADD_ZONE_METHOD, paramsWithId);
+		
 		return result;
 	}
 
@@ -130,5 +137,20 @@ public class ZoneTestCase extends PublisherTestCase {
 				.setServerURL(new URL(GlobalSettings.getZoneServiceUrl()));
 
 		return client.execute(method, params);
+	}
+	
+	/**
+	 * @param prefix
+	 * @return
+	 */
+	public Map<String, Object> getZoneParams(String prefix) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(PUBLISHER_ID, publisherId);
+		params.put(ZONE_NAME, prefix + ZONE_NAME);
+		params.put(TYPE, 0);
+		params.put(WIDTH, 200);
+		params.put(HEIGHT, 200);
+		
+		return params;
 	}
 }

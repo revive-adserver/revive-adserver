@@ -64,7 +64,7 @@ public class TestDeleteAgency extends AgencyTestCase {
 	private void executeDeleteAgencyWithError(Object[] params, String errorMsg)
 			throws MalformedURLException {
 		try {
-			Boolean result = (Boolean) execute(DELETE_AGENCY_METHOD, params);
+			execute(DELETE_AGENCY_METHOD, params);
 			fail(DELETE_AGENCY_METHOD
 					+ " executed successfully, but it shouldn't.");
 		} catch (XmlRpcException e) {
@@ -103,9 +103,9 @@ public class TestDeleteAgency extends AgencyTestCase {
 			throws XmlRpcException, MalformedURLException {
 		int agencyId = createAgency();
 
-		executeDeleteAgencyWithError(new Object[] { sessionId, null },
-				ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED);
-
+		executeDeleteAgencyWithError(new Object[] { sessionId }, ErrorMessage
+				.getMessage(ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+						"2", "1"));
 		deleteAgency(agencyId);
 	}
 

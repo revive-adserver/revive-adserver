@@ -35,11 +35,13 @@
 |  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
 $Id:$
-*/
+ */
 
 package org.openads.base;
 
 import java.net.URL;
+import java.util.Date;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -83,7 +85,23 @@ public class WebServiceTestCase extends TestCase {
 		super.tearDown();
 	}
 
-	public void testNoWarn() {
+	public void checkParameter(Map<String, Object> params, String param,
+			Object correctValue) {
 
+		if (correctValue instanceof Integer) {
+			Integer value = (Integer) correctValue;
+			assertEquals(param + " fields should be equal", (Integer) params
+					.get(param), value);
+		} else if (correctValue instanceof String) {
+			String value = (String) correctValue;
+			assertEquals(param + " fields should be equal", (String) params
+					.get(param), value);
+		} else if (correctValue instanceof Date) {
+			String value = ((Date) correctValue).toString();
+			assertEquals(param + " fields should be equal", ((Date) params
+					.get(param)).toString(), value);
+		} else {
+			fail(param + " fields should be equal");
+		}
 	}
 }

@@ -60,6 +60,8 @@ public class TestPublisher {
 		suite.addTestSuite(TestModifyPublisher.class);
 		suite.addTestSuite(TestDeletePublisher.class);
 		suite.addTestSuite(TestPublisherDailyStatistics.class);
+		suite.addTestSuite(TestGetPublisher.class);
+		suite.addTestSuite(TestGetPublisherListByAgencyId.class);
 		// $JUnit-END$
 		return suite;
 	}

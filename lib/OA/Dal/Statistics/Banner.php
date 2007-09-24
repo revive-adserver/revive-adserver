@@ -62,7 +62,9 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
     */
     function getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate)
     {
-        $bannerId  = $this->oDbh->quote($bannerId, 'integer');
+        $bannerId     = $this->oDbh->quote($bannerId, 'integer');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
         $aConf = $GLOBALS['_MAX']['CONF'];
 
@@ -74,8 +76,8 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
                 SUM(s.total_revenue) AS revenue,
                 s.day AS day
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS s
+                $tableBanners AS b,
+                $tableSummary AS s
             WHERE
                 b.bannerid = $bannerId
                 AND
@@ -108,9 +110,11 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
     */
     function getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate)
     {
-        $bannerId  = $this->oDbh->quote($bannerId, 'integer');
-
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $bannerId     = $this->oDbh->quote($bannerId, 'integer');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableZones      = $this->quoteTableName('zones');
+        $tableAffiliates = $this->quoteTableName('affiliates');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
 		$query = "
             SELECT
@@ -121,12 +125,12 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
                 p.affiliateid AS publisherID,
                 p.name AS publisherName
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                $tableBanners AS b,
 
-                {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z,
-                {$aConf['table']['prefix']}{$aConf['table']['affiliates']} AS p,
+                $tableZones AS z,
+                $tableAffiliates AS p,
 
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS s
+                $tableSummary AS s
             WHERE
                 b.bannerid = $bannerId
                 AND
@@ -138,7 +142,7 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
                 z.zoneid = s.zone_id
                 " . $this->getWhereDate($oStartDate, $oEndDate) . "
             GROUP BY
-                publisherID
+                p.affiliateid, p.name
         ";
 
         return DBC::NewRecordSet($query);
@@ -166,9 +170,11 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
     */
     function getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate)
     {
-        $bannerId  = $this->oDbh->quote($bannerId, 'integer');
-
-        $aConf = $GLOBALS['_MAX']['CONF'];
+        $bannerId     = $this->oDbh->quote($bannerId, 'integer');
+        $tableBanners = $this->quoteTableName('banners');
+        $tableZones      = $this->quoteTableName('zones');
+        $tableAffiliates = $this->quoteTableName('affiliates');
+        $tableSummary = $this->quoteTableName('data_summary_ad_hourly');
 
 		$query = "
             SELECT
@@ -181,12 +187,12 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
                 z.zoneid AS zoneID,
                 z.zonename AS zoneName
             FROM
-                {$aConf['table']['prefix']}{$aConf['table']['banners']} AS b,
+                $tableBanners AS b,
 
-                {$aConf['table']['prefix']}{$aConf['table']['zones']} AS z,
-                {$aConf['table']['prefix']}{$aConf['table']['affiliates']} AS p,
+                $tableZones AS z,
+                $tableAffiliates AS p,
 
-                {$aConf['table']['prefix']}{$aConf['table']['data_summary_ad_hourly']} AS s
+                $tableSummary AS s
             WHERE
                 b.bannerid = $bannerId
                 AND
@@ -198,7 +204,8 @@ class OA_Dal_Statistics_Banner extends OA_Dal_Statistics
                 z.zoneid = s.zone_id
                 " . $this->getWhereDate($oStartDate, $oEndDate) . "
             GROUP BY
-                zoneID
+                p.affiliateid, p.name,
+                z.zoneid, z.zonename
         ";
 
         return DBC::NewRecordSet($query);

@@ -33,12 +33,15 @@ $Id:$
  *
  */
 
+// Include base info class.
+require_once MAX_PATH . '/lib/OA/Info.php';
+
 /**
  *  Class with information about banner
  *
  */
 
-class OA_Dll_BannerInfo
+class OA_Dll_BannerInfo extends OA_Info
 {
 
     /**
@@ -133,6 +136,23 @@ class OA_Dll_BannerInfo
 	    }
 
 	}
+
+    function getFieldsTypes()
+    {
+        return array(
+                    'bannerId' => 'integer',
+                    'campaignId' => 'integer',
+                    'bannerName' => 'string',
+                    'storageType' => 'string',
+                    'fileName' => 'string',
+                    'imageURL' => 'string', 
+                    'htmlTemplate' => 'string',
+                    'width' => 'integer',
+                    'height' => 'integer',
+                    'weight' => 'integer',
+                    'url' => 'string'
+                );
+    }
 }
 
 ?>

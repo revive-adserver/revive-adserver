@@ -56,9 +56,9 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
         $doAdvertiser->clientid = DataGenerator::generateOne($doAdvertiser);
 
         $doCampaign->clientid   = $doAdvertiser->clientid;
-        $doCampaign->campaignId = DataGenerator::generateOne($doCampaign);
+        $doCampaign->campaignid = DataGenerator::generateOne($doCampaign);
 
-        $doBanner->campaignid = $doCampaign->campaignId;
+        $doBanner->campaignid = $doCampaign->campaignid;
         $doBanner->bannerid   = DataGenerator::generateOne($doBanner);
     }
 
@@ -70,7 +70,7 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
      */
     function generateBannerForCampaign(&$doCampaign, &$doBanner)
     {
-        $doBanner->campaignid = $doCampaign->campaignId;
+        $doBanner->campaignid = $doCampaign->campaignid;
         $doBanner->bannerid   = DataGenerator::generateOne($doBanner);
     }
 
@@ -84,9 +84,9 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
     function generateBannerAndCampaignForAdvertiser(&$doAdvertiser, &$doCampaign, &$doBanner)
     {
         $doCampaign->clientid   = $doAdvertiser->clientid;
-        $doCampaign->campaignId = DataGenerator::generateOne($doCampaign);
+        $doCampaign->campaignid = DataGenerator::generateOne($doCampaign);
 
-        $doBanner->campaignid = $doCampaign->campaignId;
+        $doBanner->campaignid = $doCampaign->campaignid;
         $doBanner->bannerid   = DataGenerator::generateOne($doBanner);
     }
 
@@ -195,6 +195,23 @@ class DalStatisticsUnitTestCase extends DalUnitTestCase
     function assertFieldEqual($aRow, $fieldName, $fieldValue)
     {
         $this->assertEqual($aRow[$fieldName], $fieldValue, 'Field \''.$fieldName.'\' value is incorrect');
+    }
+
+    /**
+     * Ensure row sequence.
+     *
+     * @param array $aRow1
+     * @param array $aRow2
+     * @param string $fieldName  field name
+     * @param string $fieldValue  field value for 1 argument
+     */
+    function ensureRowSequence(&$aRow1, &$aRow2, $fieldName, $fieldValue)
+    {
+        if ($aRow1[$fieldName] != $fieldValue) {
+            $aRowD = $aRow1;
+            $aRow1 = $aRow2;
+            $aRow2 = $aRowD;
+        }
     }
 
 }

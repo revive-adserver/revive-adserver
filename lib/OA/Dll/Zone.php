@@ -47,6 +47,27 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Zone.php';
 class OA_Dll_Zone extends OA_Dll
 {
     /**
+     * Init zone info from data array
+     *
+     * @access private
+     *
+     * @param OA_Dll_ZoneInfo &$oZone
+     * @param array $zoneData
+     *
+     * @return boolean
+     */
+    function _setZoneDataFromArray(&$oZone, $zoneData)
+    {
+        $zoneData['publisherId'] = $zoneData['affiliateid'];
+        $zoneData['zoneId']      = $zoneData['zoneid'];
+        $zoneData['type']        = $zoneData['delivery'];
+        $zoneData['zoneName']    = $zoneData['zonename'];
+
+        $oZone->readDataFromArray($zoneData);
+        return  true;
+    }
+
+    /**
      * Method would zone type validation.
      * Types: banner=0, interstitial=1, popup=2, text=3, email=4)
      *
@@ -238,6 +259,75 @@ class OA_Dll_Zone extends OA_Dll
         	$this->raiseError('Unknown zoneId Error');
             return false;
         }
+    }
+
+    /**
+     * Returns zone information by id
+     *
+     * @access public
+     *
+     * @param int $zoneId
+     * @param OA_Dll_ZoneInfo &$oZone
+     *
+     * @return boolean
+     */
+    function getZone($zoneId, &$oZone)
+    {
+        if ($this->checkIdExistence('zones', $zoneId)) {
+            if (!$this->checkPermissions(null, 'zones', $zoneId)) {
+                return false;
+            }
+            $doZone = OA_Dal::factoryDO('zones');
+            $doZone->get($zoneId);
+            $zoneData = $doZone->toArray();
+
+            $oZone = new OA_Dll_ZoneInfo();
+
+            $this->_setZoneDataFromArray($oZone, $zoneData);
+            return true;
+
+        } else {
+
+            $this->raiseError('Unknown zoneId Error');
+            return false;
+        }
+    }
+
+    /**
+     * Returns list of zones by publisher id
+     *
+     * @access public
+     *
+     * @param int $publisherId
+     * @param array &$aZoneList
+     *
+     * @return boolean
+     */
+    function getZoneListByPublisherId($publisherId, &$aZoneList)
+    {
+        $aZoneList = array();
+
+        if (!$this->checkIdExistence('affiliates', $publisherId)) {
+                return false;
+        }
+
+        if (!$this->checkPermissions(null, 'affiliates', $publisherId)) {
+            return false;
+        }
+
+        $doZone = OA_Dal::factoryDO('zones');
+        $doZone->affiliateid = $publisherId;
+        $doZone->find();
+
+        while ($doZone->fetch()) {
+            $zoneData = $doZone->toArray();
+
+            $oZone = new OA_Dll_ZoneInfo();
+            $this->_setZoneDataFromArray($oZone, $zoneData);
+
+            $aZoneList[] = $oZone;
+        }
+        return true;
     }
 
     /**

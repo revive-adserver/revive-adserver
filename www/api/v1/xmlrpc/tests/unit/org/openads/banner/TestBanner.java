@@ -58,6 +58,8 @@ public class TestBanner {
 		suite.addTestSuite(TestBannerPublisherStatistics.class);
 		suite.addTestSuite(TestBannerZoneStatistics.class);
 		suite.addTestSuite(TestAddBanner.class);
+		suite.addTestSuite(TestGetBanner.class);
+		suite.addTestSuite(TestGetBannerListByCampaignId.class);
 		// $JUnit-END$
 		return suite;
 	}

@@ -107,11 +107,17 @@ class XmlRpcUtils
     {
         $rsAllData->find();
         $cRecords = 0;
+
    		while($rsAllData->fetch()) {
    		    $aRowData = $rsAllData->toArray();
-            foreach ($aRowData as $fieldName => $fieldValue) {
-                $aReturnData[$cRecords][$fieldName] = XmlRpcUtils::_setRPCType(
-                                                        $aFieldTypes[$fieldName], $fieldValue);
+            foreach ($aRowData as $databaseFieldName => $fieldValue) {
+                foreach ($aFieldTypes as $fieldName => $fieldType) {
+                	if (strtolower($fieldName) == strtolower($databaseFieldName)) {
+                        $aReturnData[$cRecords][$fieldName] = XmlRpcUtils::_setRPCTypeWithDefaultValues(
+                                                                $fieldType, $fieldValue);
+                	}
+                }
+                
             }
 
             $aReturnData[$cRecords] = new XML_RPC_Value($aReturnData[$cRecords],
@@ -125,13 +131,85 @@ class XmlRpcUtils
     }
 
     /**
-     * Set RPC type for variable.
+     * Converts Info Object into XML_RPC_Value
+     *
+     * @param object &$oInfoObject
+     * @return XML_RPC_Value
+     */
+    function getEntity(&$oInfoObject)
+    {
+        $aInfoData = (array) $oInfoObject;
+        $aReturnData = array();
+
+        foreach ($aInfoData as $fieldName => $fieldValue) {
+        	$aReturnData[$fieldName] = XmlRpcUtils::_setRPCTypeForField(
+        	            $oInfoObject->getFieldType($fieldName), $fieldValue);
+        }
+        return new XML_RPC_Value($aReturnData,
+                                            $GLOBALS['XML_RPC_Struct']);
+    }
+
+    /**
+     * Converts Info Object into XML_RPC_Value and delete null fields
+     *
+     * @param object &$oInfoObject
+     * @return XML_RPC_Value
+     */
+    function getEntityWithNotNullFields(&$oInfoObject)
+    {
+        $aInfoData = (array) $oInfoObject;
+        $aReturnData = array();
+
+        foreach ($aInfoData as $fieldName => $fieldValue) {
+            if (!is_null($fieldValue)) {
+                $aReturnData[$fieldName] = XmlRpcUtils::_setRPCTypeForField(
+            	            $oInfoObject->getFieldType($fieldName), $fieldValue);
+            }
+        }
+        return new XML_RPC_Value($aReturnData,
+                                            $GLOBALS['XML_RPC_Struct']);
+    }
+
+    /**
+     * Converts Info Object into structure XML_RPC_Response
+     *
+     * @param object &$oInfoObject
+     * @return XML_RPC_Response
+     */
+    function getEntityResponse(&$oInfoObject)
+    {
+        return new XML_RPC_Response(XmlRpcUtils::getEntity($oInfoObject));
+    }
+
+    /**
+     * Converts Info Object into array of structures XML_RPC_Response
+     *
+     * @param object $aInfoObjects
+     * @return XML_RPC_Response
+     */
+    function getArrayOfEntityResponse($aInfoObjects)
+    {
+        $cRecords = 0;
+
+        foreach ($aInfoObjects as $oInfoObject) {
+        	$xmlValue[$cRecords] = XmlRpcUtils::getEntity($oInfoObject);
+        	$cRecords++;
+        }
+
+        $value = new XML_RPC_Value($xmlValue,
+                                      $GLOBALS['XML_RPC_Array']);
+
+        return new XML_RPC_Response($value);
+    }
+
+    /**
+     * Set RPC type for variable with default values.
      *
      * @param string $type
      * @param mixed $variable
      * @return XML_RPC_Value or false
      */
-    function _setRPCType($type, $variable)
+    function _setRPCTypeWithDefaultValues($type, $variable)
     {
         switch ($type) {
             case 'string':
@@ -153,11 +231,61 @@ class XmlRpcUtils
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Double']);
 
             case 'date':
-                $dateArr = explode('-', $variable);
-                $variable = $dateArr[0] . $dateArr[1] . $dateArr[2] . 'T00:00:00';
-                return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_DateTime']);
+                $dateVariable = null;
+                if (isset($variable)) {
+
+                    if (!is_string($variable)) {
+                        die('Date for statistics should be represented as string');
+                    }
+
+                    if ($variable != OA_Dal::noDateValue()) {
+                        $dateArr = explode('-', $variable);
+                        $dateVariable = $dateArr[0] . $dateArr[1] . $dateArr[2] . 'T00:00:00';
+                    }
+                }
+
+                return new XML_RPC_Value($dateVariable, $GLOBALS['XML_RPC_DateTime']);
         }
-        die('Unsupported Xml Rpc type');
+        die('Unsupported Xml Rpc type \'' . $type . '\'');
+    }
+
+    /**
+     * Set RPC type for variable.
+     *
+     * @param string $type
+     * @param mixed $variable
+     * @return XML_RPC_Value or false
+     */
+    function _setRPCTypeForField($type, $variable)
+    {
+        switch ($type) {
+            case 'string':
+                return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_String']);
+
+            case 'integer':
+                return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Int']);
+
+            case 'float':
+                return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Double']);
+
+            case 'date':
+
+                if (!is_object($variable) || !is_a($variable, 'Date')) {
+                    die('Value should be PEAR::Date type');
+                }
+
+                if ($variable->format('%Y-%m-%d') == OA_DAL::noDateValue()) {
+
+                    return new XML_RPC_Value(null, $GLOBALS['XML_RPC_DateTime']);
+
+                } else {
+
+                    $value = $variable->format('%Y%m%d') . 'T00:00:00';
+                    return new XML_RPC_Value($value, $GLOBALS['XML_RPC_DateTime']);
+
+                }
+        }
+        die('Unsupported Xml Rpc type \'' . $type . '\'');
     }
 
     /**
@@ -168,39 +296,39 @@ class XmlRpcUtils
      * @param XML_RPC_Response &$oResponseWithError response with error message
      * @return boolean shows if method was executed successfully
      */
-    function _convertDateFromIso8601Format($date, &$oResult, &$oResponseWithError) 
+    function _convertDateFromIso8601Format($date, &$oResult, &$oResponseWithError)
     {
         $datetime = explode('T', $date);
         $year     = substr($datetime[0], 0, (strlen($datetime[0]) - 4));
         $month    = substr($datetime[0], -4, 2);
         $day      = substr($datetime[0], -2, 2);
-        
+
         if (($year < 1970) || ($year > 2038)) {
-            
+
             $oResponseWithError = XmlRpcUtils::generateError('Year should be in range 1970-2038');
             return false;
-            
+
         } elseif (($month < 1) || ($month > 12)) {
 
             $oResponseWithError = XmlRpcUtils::generateError('Month should be in range 1-12');
             return false;
-            
+
         } elseif (($day < 1) || ($day > 31)) {
 
             $oResponseWithError = XmlRpcUtils::generateError('Day should be in range 1-31');
             return false;
-            
+
         } else {
-            
+
             $oResult = new Date();
             $oResult->setYear($year);
             $oResult->setMonth($month);
             $oResult->setDay($day);
-            
+
             return true;
         }
     }
-    
+
     /**
      * Get scalar value from parameter
      *
@@ -209,14 +337,14 @@ class XmlRpcUtils
      * @param XML_RPC_Response &$oResponseWithError
      * @return boolean shows if method was executed successfully
      */
-    function _getScalarValue(&$result, &$oParam, &$oResponseWithError) 
+    function _getScalarValue(&$result, &$oParam, &$oResponseWithError)
     {
         if ($oParam->scalartyp() == $GLOBALS['XML_RPC_Int']) {
             $result = (int) $oParam->scalarval();
             return true;
         } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_DateTime']) {
-            
-            return XmlRpcUtils::_convertDateFromIso8601Format($oParam->scalarval(), 
+
+            return XmlRpcUtils::_convertDateFromIso8601Format($oParam->scalarval(),
                 $result, $oResponseWithError);
         } elseif ($oParam->scalartyp() == $GLOBALS['XML_RPC_Boolean']) {
             $result = (bool) $oParam->scalarval();
@@ -226,7 +354,7 @@ class XmlRpcUtils
             return true;
         }
     }
-    
+
     /**
      * Get required scalar value
      *
@@ -237,7 +365,7 @@ class XmlRpcUtils
      * @return boolean shows if method was executed successfully
      */
     function getRequiredScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
-    { 
+    {
         $oParam = $oParams->getParam($idxParam);
         return XmlRpcUtils::_getScalarValue($result, $oParam, $oResponseWithError);
     }
@@ -256,16 +384,16 @@ class XmlRpcUtils
         $cParams = $oParams->getNumParams();
         if ($cParams > $idxParam) {
             $oParam = $oParams->getParam($idxParam);
-            
+
             return XmlRpcUtils::_getScalarValue($result, $oParam, $oResponseWithError);
         } else {
-            
+
             $result = null;
             return true;
         }
 
     }
-    
+
     /**
      * Get scalar values from parameters
      *
@@ -282,18 +410,18 @@ class XmlRpcUtils
         if (count($aReferencesOnVariables) != count($aRequired)) {
             die('$aReferencesOnVariables & $aRequired arrays should have the same length');
         }
-        
+
         $cVariables = count($aReferencesOnVariables);
         for ($i = 0; $i < $cVariables; $i++) {
             if ($aRequired[$i]) {
-                if (!XmlRpcUtils::getRequiredScalarValue($aReferencesOnVariables[$i], 
+                if (!XmlRpcUtils::getRequiredScalarValue($aReferencesOnVariables[$i],
                     $oParams, $i + $idxStart, $oResponseWithError)) {
-                    return false;   
+                    return false;
                 }
             } else {
-                if (!XmlRpcUtils::_getNotRequiredScalarValue($aReferencesOnVariables[$i], 
+                if (!XmlRpcUtils::_getNotRequiredScalarValue($aReferencesOnVariables[$i],
                     $oParams, $i + $idxStart, $oResponseWithError)) {
-                    return false;   
+                    return false;
                 }
             }
         }
@@ -309,7 +437,7 @@ class XmlRpcUtils
      * @param XML_RPC_Response &$responseWithError
      * @return boolean shows if method was executed successfully
      */
-    function _getStructureScalarField(&$oStructure, &$oStructParam, $fieldName, 
+    function _getStructureScalarField(&$oStructure, &$oStructParam, $fieldName,
         &$oResponseWithError)
     {
         $oParam = $oStructParam->structmem($fieldName);
@@ -347,7 +475,7 @@ class XmlRpcUtils
         $aFieldNames, &$oResponseWithError)
     {
         $oStructParam = $oParams->getParam($idxParam);
-        
+
         foreach ($aFieldNames as $fieldName) {
 
             if (!XmlRpcUtils::_getStructureScalarField($oStructure, $oStructParam,

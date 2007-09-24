@@ -65,6 +65,8 @@ public class TestAgency {
 		suite.addTestSuite(TestAgencyPublisherStatistics.class);
 		suite.addTestSuite(TestAgencyAdvertiserStatistics.class);
 		suite.addTestSuite(TestDeleteAgency.class);
+		suite.addTestSuite(TestGetAgency.class);
+		suite.addTestSuite(TestGetAgencyList.class);
 		// $JUnit-END$
 		return suite;
 	}

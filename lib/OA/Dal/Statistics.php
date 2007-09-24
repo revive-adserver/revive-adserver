@@ -45,7 +45,7 @@ class OA_Dal_Statistics extends OA_Dal
      *
      * @param date &$oStartDate
      * @param date &$oEndDate
-     * 
+     *
      * @return string
      */
     function getWhereDate(&$oStartDate, &$oEndDate)
@@ -65,6 +65,21 @@ class OA_Dal_Statistics extends OA_Dal
                 s.day <= ' . $endDate;
         }
         return $where;
+    }
+
+    /**
+     * Add quote for table name.
+     *
+     * @param string $tableName
+     * @return string  quotes table name
+     */
+    function quoteTableName($tableName)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        return $this->oDbh->quoteIdentifier(
+                            $aConf['table']['prefix'].$aConf['table'][$tableName],
+                            true);
     }
 }
 

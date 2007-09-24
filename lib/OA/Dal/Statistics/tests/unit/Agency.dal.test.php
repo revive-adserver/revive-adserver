@@ -224,6 +224,8 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics->fetch();
         $aRow2 = $rsAgencyStatistics->toArray();
 
+        $this->ensureRowSequence($aRow1, $aRow2, 'campaignid', $doCampaign1->campaignid);
+
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'advertiserid');
         $this->assertFieldExists($aRow1, 'advertisername');
@@ -298,6 +300,8 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
 
         $rsAgencyStatistics->fetch();
         $aRow2 = $rsAgencyStatistics->toArray();
+
+        $this->ensureRowSequence($aRow1, $aRow2, 'bannerid', $doBanner1->bannerid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow1, 'advertiserid');
@@ -383,6 +387,8 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics->fetch();
         $aRow2 = $rsAgencyStatistics->toArray();
 
+        $this->ensureRowSequence($aRow1, $aRow2, 'publisherid', $doPublisher1->affiliateid);
+
         // 2. Check return fields names
         $this->assertFieldExists($aRow2, 'publisherid');
         $this->assertFieldExists($aRow2, 'publishername');
@@ -464,8 +470,7 @@ class OA_Dal_Statistics_AgencyTest extends DalStatisticsUnitTestCase
         $rsAgencyStatistics->fetch();
         $aRow2 = $rsAgencyStatistics->toArray();
 
-        $rsAgencyStatistics->fetch();
-        $aRow3 = $rsAgencyStatistics->toArray();
+        $this->ensureRowSequence($aRow1, $aRow2, 'zoneid', $doZone1->zoneid);
 
         // 2. Check return fields names
         $this->assertFieldExists($aRow2, 'publisherid');

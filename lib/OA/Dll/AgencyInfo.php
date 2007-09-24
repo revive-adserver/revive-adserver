@@ -33,12 +33,15 @@ $Id:$
  *
  */
 
+// Include base info class.
+require_once MAX_PATH . '/lib/OA/Info.php';
+
 /**
  *  Class with information about agency
  *
  */
 
-class OA_Dll_AgencyInfo
+class OA_Dll_AgencyInfo extends OA_Info
 {
     /**
      * The ID of the agency.
@@ -81,6 +84,18 @@ class OA_Dll_AgencyInfo
      * @var string $password
      */
     var $password;
+    
+    function getFieldsTypes()
+    {
+        return array(
+                    'agencyId' => 'integer',
+                    'agencyName' => 'string',
+                    'contactName' => 'string',
+                    'emailAddress' => 'string',
+                    'username' => 'string', 
+                    'password' => 'string'
+                );
+    }
 }
 
 ?>

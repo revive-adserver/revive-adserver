@@ -134,11 +134,11 @@ public class TestCampaignZoneStatistics extends CampaignTestCase {
 	public void testCampaignZoneStatisticsWithoutSomeRequiredFields()
 			throws MalformedURLException {
 
-		Object[] params = new Object[] { sessionId, null,
-				DateUtils.MIN_DATE_VALUE, DateUtils.MAX_DATE_VALUE };
+		Object[] params = new Object[] { sessionId };
 
-		executeCampaignZoneStatisticsWithError(params,
-				ErrorMessage.NULL_VALUES_ARE_NOT_SUPPORTED);
+		executeCampaignZoneStatisticsWithError(params, ErrorMessage.getMessage(
+				ErrorMessage.INCORRECT_PARAMETERS_PASSED_TO_METHOD,
+				"4, 3, or 2", "1"));
 	}
 
 	/**

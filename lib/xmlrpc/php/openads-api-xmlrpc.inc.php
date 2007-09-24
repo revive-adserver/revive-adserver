@@ -29,8 +29,10 @@ $Id: openads-xmlrpc.inc.php 8911 2007-08-10 09:47:46Z andrew.hill@openads.org $
 */
 
 if (!@include('XML/RPC.php')) {
-    die("Error: cannot load the PEAR XML_RPC class");
+    die('Error: cannot load the PEAR XML_RPC class');
 }
+
+require_once 'XmlRpcUtils.php';
 
 /**
  * A library class to provide XML-RPC routines on the client-side - that is, on
@@ -39,17 +41,6 @@ if (!@include('XML/RPC.php')) {
  * @package    Openads
  * @subpackage ExternalLibrary
  * @author     Chris Nutting <Chris.Nutting@openads.org>
- *
- * @todo       This is a very initial draft built mainly for testing but will be useful
- *             to developers who want to access the WebService
- *
- * @example The following code will include and make use of one of these helper methods
- *
- * <?php
- *     require_once('lib/xmlrpc/php/openads-api-xmlrpc.inc.php');
- *     $client = new OA_Api_Xmlrpc('host', '/api/v1/xmlrpc', 'username', 'password');
- *     $return = $client->addCampaign(16, 'Campaign name');
- * ?>
  */
 
 class OA_Api_Xmlrpc
@@ -112,6 +103,20 @@ class OA_Api_Xmlrpc
     }
 
     /**
+     * A private function to call private method send add add to parameter
+     * data sessionId
+     *
+     * @param string $service The name of the remote service file
+     * @param string $method  The name of the remote method to be called
+     * @param mixed  $data    The data to be sent to the WebService
+     * @return mixed Response from server or false on failure
+     */
+    function _sendWithSession($service, $method, $data = array())
+    {
+        return $this->_send($service, $method, array_merge(array($this->sessionId), $data));
+    }
+
+    /**
      * A private function to send a method call to a specified service
      *
      * @param string $service The name of the remote service file
@@ -119,12 +124,17 @@ class OA_Api_Xmlrpc
      * @param mixed  $data    The data to be sent to the WebService
      * @return mixed Response from server or false on failure
      */
-    function _send($service, $method, $data = array())
+    function _send($service, $method, $data)
     {
-        $message = new XML_RPC_Message($method, array(
-            XML_RPC_encode($this->sessionId),
-            XML_RPC_encode($data)
-        ));
+        $dataMessage = array();
+        foreach ($data as $element) {
+            if (is_object($element) && is_subclass_of($element, 'OA_Info')) {
+                $dataMessage[] = XmlRpcUtils::getEntityWithNotNullFields($element);
+            } else {
+                $dataMessage[] = XML_RPC_encode($element);
+            }
+        }
+        $message = new XML_RPC_Message($method, $dataMessage);
 
         $client = new XML_RPC_Client($this->basepath . '/' . $service . $this->debug, $this->host);
 
@@ -133,12 +143,12 @@ class OA_Api_Xmlrpc
 
         // Check for error response
         if ($response && $response->faultCode() == 0) {
-            $response = XML_RPC_decode($response->value());
+            $result = XML_RPC_decode($response->value());
         } else {
-            echo "XML-RPC error (" . $response->faultCode() . ") -> " . $response->faultString();
-            return false;
+            die('XML-RPC error (' . $response->faultCode() . ') -> ' . $response->faultString() .
+                '. In Method ' . $method . '().');
         }
-        return $response;
+        return $result;
     }
 
     /**
@@ -148,132 +158,937 @@ class OA_Api_Xmlrpc
      */
     function _logon()
     {
-        $message = new XML_RPC_Message('logon', array(XML_RPC_encode($this->username), XML_RPC_encode($this->password)));
-        $client = new XML_RPC_Client($this->basepath . '/LogonXmlRpcService.php' . $this->debug, $this->host);
-        $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
-
-        if ($response && $response->faultCode() == 0) {
-            $response = XML_RPC_decode($response->value());
-        } else {
-            return false;
-        }
-        $this->sessionId = $response;
+        $this->sessionId = $this->_send('LogonXmlRpcService.php', 'logon',
+                                         array($this->username, $this->password));
         return true;
     }
 
-    function addAdvertiser($agencyId, $advertiserName, $contactName = null, $emailAddress = null, $username = null, $password = null)
+    /**
+     * A private method to logoff to the WebService
+     *
+     * @return boolean Was the remote logoff() call successful
+     */
+    function logoff()
     {
-        // Setup data with required fields
-        $data = array(
-            'agencyId' => 0,
-            'advertiserName' => $advertiserName,
-        );
-
-        // Add optional parameters to the data array
-        if (!is_null($contactName))  { $data['contactName']   = $contactName; }
-        if (!is_null($emailAddress)) { $data['emailAddress'] = $emailAddress; }
-        if (!is_null($username))     { $data['username']     = $username; }
-        if (!is_null($password))     { $data['password']     = $password; }
-
-        $message = new XML_RPC_Message('addAdvertiser', array(
-            XML_RPC_encode()
-            )
-        );
-        // Send the request
-        return $this->_send('AdvertiserXmlRpcService.php', 'addAdvertiser', $data);
+        return (bool) $this->_sendWithSession('LogonXmlRpcService.php', 'logoff');;
     }
 
-    function modifyAdvertiser($advertiserId, $agencyId = null, $advertiserName = null, $contactName = null, $emailAddress = null, $username = null, $password = null)
+    /**
+     * Call Statistics Method for Entity.
+     *
+     * @param string $serviceFileName
+     * @param string $methodName
+     * @param int $entityId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function _callStatisticsMethod($serviceFileName, $methodName, $entityId, $oStartDate = null, $oEndDate = null)
     {
-        // Setup data with required fields
-        $data = array(
-            'advertiserId' => $advertiserId,
-        );
+        $dataArray = array((int) $entityId);
+        if (is_object($oStartDate)) {
+            $dataArray[] = XML_RPC_iso8601_encode($oStartDate->getDate(DATE_FORMAT_UNIXTIME));
 
-        // Add optional parameters to the data array
-        if (!is_null($agencyId))       { $data['agencyId']       = $agencyId; }
-        if (!is_null($advertiserName)) { $data['advertiserName'] = $advertiserName; }
-        if (!is_null($contactName))    { $data['contactName']    = $contactName; }
-        if (!is_null($emailAddress))   { $data['emailAddress']   = $emailAddress; }
-        if (!is_null($username))       { $data['username']       = $username; }
-        if (!is_null($password))       { $data['password']       = $password; }
+            if (is_object($oEndDate)) {
+                $dataArray[] = XML_RPC_iso8601_encode($oEndDate->getDate(DATE_FORMAT_UNIXTIME));
+            }
+        }
 
-        return $this->_send('AdvertiserXmlRpcService.php', 'modifyAdvertiser', $data);
+        $statisticsData = $this->_sendWithSession($serviceFileName,
+                                                  $methodName, $dataArray);
+
+        return $statisticsData;
     }
 
-    function deleteAdvertiser($advertiserId)
+    /**
+     * Add Agency.
+     *
+     * @param OA_Dll_AgencyInfo $oAgencyInfo
+     * @return  method result
+     */
+    function addAgency(&$oAgencyInfo)
     {
-        return $this->_send('AdvertiserXmlRpcService.php', 'deleteAdvertiser', $advertiserId);
+        return (int) $this->_sendWithSession('AgencyXmlRpcService.php',
+                                             'addAgency', array(&$oAgencyInfo));
     }
 
-    function addAgency($agencyName, $contactName = null, $emailAddress = null, $username = null, $password = null)
+    /**
+     * Modify Agency.
+     *
+     * @param OA_Dll_AgencyInfo $oAgencyInfo
+     * @return  method result
+     */
+    function modifyAgency(&$oAgencyInfo)
     {
-        $data = array(
-            'agencyName' => $agencyName,
-        );
-        if (!is_null($contactName))  { $data['contactName']  = $contactName; }
-        if (!is_null($emailAddress)) { $data['emailAddress'] = $emailAddress; }
-        if (!is_null($username))     { $data['username']     = $username; }
-        if (!is_null($password))     { $data['password']     = $password; }
-
-        return $this->_send('AgencyXmlRpcService.php', 'addAgency', $data);
+        return (bool) $this->_sendWithSession('AgencyXmlRpcService.php', 'modifyAgency',
+                                              array(&$oAgencyInfo));
     }
 
-    function modifyAgency($agencyId, $agencyName = null, $contactName = null, $emailAddress = null, $username = null, $password = null)
+    /**
+     * Get Agency by id.
+     *
+     * @param int $agencyId
+     * @return OA_Dll_AgencyInfo
+     */
+    function getAgency($agencyId)
     {
-        $data = array(
-            'agencyId' => $agencyId,
-        );
+        $dataAgency = $this->_sendWithSession('AgencyXmlRpcService.php',
+                                              'getAgency', array((int) $agencyId));
+        $oAgencyInfo = new OA_Dll_AgencyInfo();
+        $oAgencyInfo->readDataFromArray($dataAgency);
 
-        if (!is_null($agencyName))   { $data['agencyName']   = $agencyName; }
-        if (!is_null($contactName))  { $data['contactName']  = $contactName; }
-        if (!is_null($emailAddress)) { $data['emailAddress'] = $emailAddress; }
-        if (!is_null($username))     { $data['username']     = $username; }
-        if (!is_null($password))     { $data['password']     = $password; }
-
-        return $this->_send('AgencyXmlRpcService.php', 'modifyAgency', $data);
+        return $oAgencyInfo;
     }
 
+    /**
+     * Get Agency List.
+     *
+     * @param int $agencyId
+     * @return array  array OA_Dll_AgencyInfo objects
+     */
+    function getAgencyList()
+    {
+        $dataAgencyList = $this->_sendWithSession('AgencyXmlRpcService.php',
+                                                  'getAgencyList');
+        $returnData = array();
+        foreach ($dataAgencyList as $dataAgency) {
+            $oAgencyInfo = new OA_Dll_AgencyInfo();
+            $oAgencyInfo->readDataFromArray($dataAgency);
+            $returnData[] = $oAgencyInfo;
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * Delete Agency.
+     *
+     * @param int $agencyId
+     * @return  method result
+     */
     function deleteAgency($agencyId)
     {
-        return $this->_send('AgencyXmlRpcService.php', 'deleteAgency', $agencyId);
+        return (bool) $this->_sendWithSession('AgencyXmlRpcService.php',
+                                              'deleteAgency', array((int) $agencyId));
     }
 
-    function addCampaign($advertiserId, $campaignName = null, $startDate = null, $endDate = null, $impressions = null, $clicks = null, $weight = null)
+    /**
+     * Agency daily statistics.
+     *
+     * @param int $agencyId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function agencyDailyStatistics($agencyId, $oStartDate = null, $oEndDate = null)
     {
-        $data = array(
-            'advertiserId' => $advertiserId
-        );
-        if (!is_null($campaignName)){ $data['campaignName'] = $campaignName; }
-        if (!is_null($startDate))   { $data['startDate'] = $startDate; }
-        if (!is_null($endDate))     { $data['endDate'] = $endDate; }
-        if (!is_null($impressions)) { $data['impressions'] = $impressions; }
-        if (!is_null($clicks))      { $data['clicks'] = $clicks; }
-        if (!is_null($weight))      { $data['weight'] = $weight; }
+        $statisticsData = $this->_callStatisticsMethod('AgencyXmlRpcService.php',
+                                                       'agencyDailyStatistics',
+                                                       $agencyId, $oStartDate, $oEndDate);
 
-        return $this->_send('CampaignXmlRpcService.php', 'addCampaign', $data);
+        foreach ($statisticsData as $key => $data) {
+            $statisticsData[$key]['day'] = date('Y-m-d',XML_RPC_iso8601_decode(
+                                            $data['day']));
+        }
+
+        return $statisticsData;
     }
 
-    function modifyCampaign($campaignId, $advertiserId = null, $campaignName = null, $startDate = null, $endDate = null, $impressions = null, $clicks = null, $weight = null)
+    /**
+     * Agency Advertiser statistics.
+     *
+     * @param int $agencyId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function agencyAdvertiserStatistics($agencyId, $oStartDate = null, $oEndDate = null)
     {
-        $data = array(
-            'campaignId' => $campaignId,
-        );
-        if (!is_null($advertiserId)){ $data['advertiserId'] = $advertiserId; }
-        if (!is_null($campaignName)){ $data['campaignName'] = $campaignName; }
-        if (!is_null($startDate))   { $data['startDate'] = $startDate; }
-        if (!is_null($endDate))     { $data['endDate'] = $endDate; }
-        if (!is_null($impressions)) { $data['impressions'] = $impressions; }
-        if (!is_null($clicks))      { $data['clicks'] = $clicks; }
-        if (!is_null($weight))      { $data['weight'] = $weight; }
-
-        return $this->_send('CampaignXmlRpcService.php', 'addCampaign', $data);
+        return $this->_callStatisticsMethod('AgencyXmlRpcService.php', 'agencyAdvertiserStatistics',
+                                            $agencyId, $oStartDate, $oEndDate);
     }
 
-    function deleteCampaign()
+    /**
+     * Agency Campaign statistics.
+     *
+     * @param int $agencyId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function agencyCampaignStatistics($agencyId, $oStartDate = null, $oEndDate = null)
     {
+        return $this->_callStatisticsMethod('AgencyXmlRpcService.php', 'agencyCampaignStatistics',
+                                            $agencyId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Agency Banner statistics.
+     *
+     * @param int $agencyId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function agencyBannerStatistics($agencyId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('AgencyXmlRpcService.php', 'agencyBannerStatistics',
+                                            $agencyId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Agency Publisher statistics.
+     *
+     * @param int $agencyId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function agencyPublisherStatistics($agencyId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('AgencyXmlRpcService.php', 'agencyPublisherStatistics',
+                                            $agencyId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Agency Zone statistics.
+     *
+     * @param int $agencyId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function agencyZoneStatistics($agencyId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('AgencyXmlRpcService.php', 'agencyZoneStatistics',
+                                            $agencyId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Add Advertiser.
+     *
+     * @param OA_Dll_AdvertiserInfo $oAdvertiserInfo
+     *
+     * @return  method result
+     */
+    function addAdvertiser(&$oAdvertiserInfo)
+    {
+        return (int) $this->_sendWithSession('AdvertiserXmlRpcService.php',
+                                             'addAdvertiser', array(&$oAdvertiserInfo));
+    }
+
+    /**
+     * Modify Advertiser.
+     *
+     * @param OA_Dll_AdvertiserInfo $oAdvertiserInfo
+     *
+     * @return  method result
+     */
+    function modifyAdvertiser(&$oAdvertiserInfo)
+    {
+        return (bool) $this->_sendWithSession('AdvertiserXmlRpcService.php',
+                                              'modifyAdvertiser', array(&$oAdvertiserInfo));
+    }
+
+    /**
+     * Get Advertiser by id.
+     *
+     * @param int $advertiserId
+     *
+     * @return OA_Dll_AdvertiserInfo
+     */
+    function getAdvertiser($advertiserId)
+    {
+        $dataAdvertiser = $this->_sendWithSession('AdvertiserXmlRpcService.php',
+                                                  'getAdvertiser', array((int) $advertiserId));
+        $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
+        $oAdvertiserInfo->readDataFromArray($dataAdvertiser);
+
+        return $oAdvertiserInfo;
+    }
+
+    /**
+     * Get Advertiser List By Agency Id.
+     *
+     * @param int $agencyId
+     *
+     * @return array  array OA_Dll_AgencyInfo objects
+     */
+    function getAdvertiserListByAgencyId($agencyId)
+    {
+        $dataAdvertiserList = $this->_sendWithSession('AdvertiserXmlRpcService.php',
+                                                      'getAdvertiserListByAgencyId', array((int) $agencyId));
+        $returnData = array();
+        foreach ($dataAdvertiserList as $dataAdvertiser) {
+            $oAdvertiserInfo = new OA_Dll_AdvertiserInfo();
+            $oAdvertiserInfo->readDataFromArray($dataAdvertiser);
+            $returnData[] = $oAdvertiserInfo;
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * Delete Advertiser.
+     *
+     * @param int $advertiserId
+     * @return  method result
+     */
+    function deleteAdvertiser($advertiserId)
+    {
+        return (bool) $this->_sendWithSession('AdvertiserXmlRpcService.php',
+                                              'deleteAdvertiser', array((int) $advertiserId));
+    }
+
+    /**
+     * Advertiser daily statistics.
+     *
+     * @param int $advertiserId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function advertiserDailyStatistics($advertiserId, $oStartDate = null, $oEndDate = null)
+    {
+        $statisticsData = $this->_callStatisticsMethod('AdvertiserXmlRpcService.php',
+                                                       'advertiserDailyStatistics',
+                                                       $advertiserId, $oStartDate, $oEndDate);
+
+        foreach ($statisticsData as $key => $data) {
+            $statisticsData[$key]['day'] = date('Y-m-d',XML_RPC_iso8601_decode(
+                                            $data['day']));
+        }
+
+        return $statisticsData;
+    }
+
+    /**
+     * Advertiser Campaign statistics.
+     *
+     * @param int $advertiserId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function advertiserCampaignStatistics($advertiserId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('AdvertiserXmlRpcService.php',
+                                            'advertiserCampaignStatistics',
+                                            $advertiserId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Advertiser Banner statistics.
+     *
+     * @param int $advertiserId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function advertiserBannerStatistics($advertiserId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('AdvertiserXmlRpcService.php',
+                                            'advertiserBannerStatistics',
+                                            $advertiserId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Advertiser Publisher statistics.
+     *
+     * @param int $advertiserId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function advertiserPublisherStatistics($advertiserId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('AdvertiserXmlRpcService.php',
+                                            'advertiserPublisherStatistics',
+                                            $advertiserId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Advertiser Zone statistics.
+     *
+     * @param int $advertiserId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function advertiserZoneStatistics($advertiserId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('AdvertiserXmlRpcService.php',
+                                            'advertiserZoneStatistics',
+                                            $advertiserId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Add Campaign.
+     *
+     * @param OA_Dll_CampaignInfo $oCampaignInfo
+     *
+     * @return  method result
+     */
+    function addCampaign(&$oCampaignInfo)
+    {
+        return (int) $this->_sendWithSession('CampaignXmlRpcService.php',
+                                             'addCampaign', array(&$oCampaignInfo));
+    }
+
+    /**
+     * Modify Campaign.
+     *
+     * @param OA_Dll_CampaignInfo $oCampaignInfo
+     *
+     * @return  method result
+     */
+    function modifyCampaign(&$oCampaignInfo)
+    {
+        return (bool) $this->_sendWithSession('CampaignXmlRpcService.php',
+                                              'modifyCampaign', array(&$oCampaignInfo));
+    }
+
+    /**
+     * Get Campaign by id.
+     *
+     * @param int $campaignId
+     *
+     * @return OA_Dll_CampaignInfo
+     */
+    function getCampaign($campaignId)
+    {
+        $dataCampaign = $this->_sendWithSession('CampaignXmlRpcService.php',
+                                                'getCampaign', array((int) $campaignId));
+        $oCampaignInfo = new OA_Dll_CampaignInfo();
+        $oCampaignInfo->readDataFromArray($dataCampaign);
+
+        return $oCampaignInfo;
+    }
+
+    /**
+     * Get Campaign List By Advertiser Id.
+     *
+     * @param int $campaignId
+     * 
+     * @return array  array OA_Dll_CampaignInfo objects
+     */
+    function getCampaignListByAdvertiserId($advertiserId)
+    {
+        $dataCampaignList = $this->_sendWithSession('CampaignXmlRpcService.php',
+                                                    'getCampaignListByAdvertiserId', array((int) $advertiserId));
+        $returnData = array();
+        foreach ($dataCampaignList as $dataCampaign) {
+            $oCampaignInfo = new OA_Dll_CampaignInfo();
+            $oCampaignInfo->readDataFromArray($dataCampaign);
+            $returnData[] = $oCampaignInfo;
+        }
+    }
+
+    /**
+     * Delete Campaign.
+     *
+     * @param int $campaignId
+     * @return  method result
+     */
+    function deleteCampaign($campaignId)
+    {
+        return (bool) $this->_sendWithSession('CampaignXmlRpcService.php',
+                                              'deleteCampaign', array((int) $campaignId));
+    }
+
+    /**
+     * Campaign daily statistics.
+     *
+     * @param int $campaignId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function campaignDailyStatistics($campaignId, $oStartDate = null, $oEndDate = null)
+    {
+        $statisticsData = $this->_callStatisticsMethod('CampaignXmlRpcService.php',
+                                                       'campaignDailyStatistics',
+                                                       $campaignId, $oStartDate, $oEndDate);
+
+        foreach ($statisticsData as $key => $data) {
+            $statisticsData[$key]['day'] = date('Y-m-d',XML_RPC_iso8601_decode(
+                                            $data['day']));
+        }
+
+        return $statisticsData;
+    }
+
+    /**
+     * Campaign Banner statistics.
+     *
+     * @param int $campaignId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function campaignBannerStatistics($campaignId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('CampaignXmlRpcService.php',
+                                            'campaignBannerStatistics',
+                                            $campaignId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Campaign Publisher statistics.
+     *
+     * @param int $campaignId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function campaignPublisherStatistics($campaignId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('CampaignXmlRpcService.php',
+                                            'campaignPublisherStatistics',
+                                            $campaignId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Campaign Zone statistics.
+     *
+     * @param int $campaignId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function campaignZoneStatistics($campaignId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('CampaignXmlRpcService.php',
+                                            'campaignZoneStatistics',
+                                            $campaignId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Add Banner.
+     *
+     * @param OA_Dll_BannerInfo $oBannerInfo
+     * 
+     * @return  method result
+     */
+    function addBanner(&$oBannerInfo)
+    {
+        return (int) $this->_sendWithSession('BannerXmlRpcService.php',
+                                             'addBanner', array(&$oBannerInfo));
+    }
+
+    /**
+     * Modify Banner.
+     *
+     * @param OA_Dll_BannerInfo $oBannerInfo
+     * 
+     * @return  method result
+     */
+    function modifyBanner(&$oBannerInfo)
+    {
+        return (bool) $this->_sendWithSession('BannerXmlRpcService.php',
+                                              'modifyBanner', array(&$oBannerInfo));
+    }
+
+    /**
+     * Get Banner by id.
+     *
+     * @param int $bannerId
+     * 
+     * @return OA_Dll_BannerInfo
+     */
+    function getBanner($bannerId)
+    {
+        $dataBanner = $this->_sendWithSession('BannerXmlRpcService.php',
+                                                'getBanner', array((int) $bannerId));
+        $oBannerInfo = new OA_Dll_BannerInfo();
+        $oBannerInfo->readDataFromArray($dataBanner);
+
+        return $oBannerInfo;
+    }
+    
+    /**
+     * Get Banner List By Campaign Id.
+     *
+     * @param int $banenrId
+     * 
+     * @return array  array OA_Dll_CampaignInfo objects
+     */
+    function getBannerListByCampaignId($campaignId)
+    {
+        $dataBannerList = $this->_sendWithSession('BannerXmlRpcService.php',
+                                                  'getBannerListByCampaignId', array((int) $campaignId));
+        $returnData = array();
+        foreach ($dataBannerList as $dataBanner) {
+            $oBannerInfo = new OA_Dll_BannerInfo();
+            $oBannerInfo->readDataFromArray($dataBanner);
+            $returnData[] = $oBannerInfo;
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * Delete Banner.
+     *
+     * @param int $bannerId
+     * @return  method result
+     */
+    function deleteBanner($bannerId)
+    {
+        return (bool) $this->_sendWithSession('BannerXmlRpcService.php',
+                                              'deleteBanner', array((int) $bannerId));
+    }
+
+    /**
+     * Banner daily statistics.
+     *
+     * @param int $bannerId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function bannerDailyStatistics($bannerId, $oStartDate = null, $oEndDate = null)
+    {
+        $statisticsData = $this->_callStatisticsMethod('BannerXmlRpcService.php',
+                                                       'bannerDailyStatistics',
+                                                       $bannerId, $oStartDate, $oEndDate);
+
+        foreach ($statisticsData as $key => $data) {
+            $statisticsData[$key]['day'] = date('Y-m-d',XML_RPC_iso8601_decode(
+                                            $data['day']));
+        }
+
+        return $statisticsData;
+    }
+
+    /**
+     * Banner Publisher statistics.
+     *
+     * @param int $bannerId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function bannerPublisherStatistics($bannerId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('BannerXmlRpcService.php',
+                                            'bannerPublisherStatistics',
+                                            $bannerId, $oStartDate, $oEndDate);
 
     }
+
+    /**
+     * Banner Zone statistics.
+     *
+     * @param int $bannerId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function bannerZoneStatistics($bannerId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('BannerXmlRpcService.php',
+                                            'bannerZoneStatistics',
+                                            $bannerId, $oStartDate, $oEndDate);
+
+    }
+
+    /**
+     * Add Publisher.
+     *
+     * @param OA_Dll_PublisherInfo $oPublisherInfo
+     * @return  method result
+     */
+    function addPublisher(&$oPublisherInfo)
+    {
+        return (int) $this->_sendWithSession('PublisherXmlRpcService.php',
+                                             'addPublisher', array(&$oPublisherInfo));
+
+        return $returnData;
+    }
+
+    /**
+     * Modify Publisher.
+     *
+     * @param OA_Dll_PublisherInfo $oPublisherInfo
+     * @return  method result
+     */
+    function modifyPublisher(&$oPublisherInfo)
+    {
+        return (bool) $this->_sendWithSession('PublisherXmlRpcService.php', 'modifyPublisher',
+                                              array(&$oPublisherInfo));
+    }
+
+    /**
+     * Get Publisher by id.
+     *
+     * @param int $publisherId
+     * @return OA_Dll_PublisherInfo
+     */
+    function getPublisher($publisherId)
+    {
+        $dataPublisher = $this->_sendWithSession('PublisherXmlRpcService.php',
+                                                 'getPublisher', array((int) $publisherid));
+        $oPublisherInfo = new OA_Dll_PublisherInfo();
+        $oPublisherInfo->readDataFromArray($dataPublisher);
+
+        return $oPublisherInfo;
+    }
+
+    /**
+     * Get Publisher List by Agency Id.
+     *
+     * @param int $agencyId
+     * @return array  array OA_Dll_PublisherInfo objects
+     */
+    function getPublisherListByAgencyId($agencyId)
+    {
+        $dataPublisherList = $this->_sendWithSession('PublisherXmlRpcService.php',
+                                                     'getPublisherListByAgencyId', array((int) $agencyId));
+        $returnData = array();
+        foreach ($dataPublisherList as $dataPublisher) {
+            $oPublisherInfo = new OA_Dll_PublisherInfo();
+            $oPublisherInfo->readDataFromArray($dataPublisher);
+            $returnData[] = $oPublisherInfo;
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * Delete Publisher.
+     *
+     * @param int $publisherId
+     * @return  method result
+     */
+    function deletePublisher($publisherId)
+    {
+        return (bool) $this->_sendWithSession('PublisherXmlRpcService.php',
+                                              'deletePublisher', array((int) $publisherId));
+    }
+
+    /**
+     * Publisher daily statistics.
+     *
+     * @param int $publisherId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function publisherDailyStatistics($publisherId, $oStartDate = null, $oEndDate = null)
+    {
+        $statisticsData = $this->_callStatisticsMethod('PublisherXmlRpcService.php',
+                                                       'publisherDailyStatistics',
+                                                       $publisherId, $oStartDate, $oEndDate);
+
+        foreach ($statisticsData as $key => $data) {
+            $statisticsData[$key]['day'] = date('Y-m-d',XML_RPC_iso8601_decode(
+                                            $data['day']));
+        }
+
+        return $statisticsData;
+    }
+
+    /**
+     * Publisher Zone statistics.
+     *
+     * @param int $publisherId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function publisherZoneStatistics($publisherId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('PublisherXmlRpcService.php',
+                                            'publisherZoneStatistics',
+                                            $publisherId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Publisher Advertiser statistics.
+     *
+     * @param int $publisherId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function publisherAdvertiserStatistics($publisherId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('PublisherXmlRpcService.php',
+                                            'publisherAdvertiserStatistics',
+                                            $publisherId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Publisher Campaign statistics.
+     *
+     * @param int $publisherId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function publisherCampaignStatistics($publisherId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('PublisherXmlRpcService.php',
+                                            'publisherCampaignStatistics',
+                                            $publisherId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Publisher Banner statistics.
+     *
+     * @param int $publisherId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function publisherBannerStatistics($publisherId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('PublisherXmlRpcService.php',
+                                            'publisherBannerStatistics',
+                                            $publisherId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Add Zone.
+     *
+     * @param OA_Dll_ZoneInfo $oZoneInfo
+     * @return  method result
+     */
+    function addZone(&$oZoneInfo)
+    {
+        return (int) $this->_sendWithSession('ZoneXmlRpcService.php',
+                                             'addZone', array(&$oZoneInfo));
+    }
+
+    /**
+     * Modify Zone.
+     *
+     * @param OA_Dll_ZoneInfo $oZoneInfo
+     * @return  method result
+     */
+    function modifyZone(&$oZoneInfo)
+    {
+        return (bool) $this->_sendWithSession('ZoneXmlRpcService.php', 'modifyZone',
+                                              array(&$oZoneInfo));
+    }
+
+    /**
+     * Get Zone by id.
+     *
+     * @param int $zoneId
+     * @return OA_Dll_ZoneInfo
+     */
+    function getZone($zoneId)
+    {
+        $dataZone = $this->_sendWithSession('ZoneXmlRpcService.php',
+                                                 'getZone', array((int) $zoneid));
+        $oZoneInfo = new OA_Dll_ZoneInfo();
+        $oZoneInfo->readDataFromArray($dataZone);
+
+        return $oZoneInfo;
+    }
+
+    /**
+     * Get Zone List by Publisher Id.
+     *
+     * @param int $publisherId
+     * @return array  array OA_Dll_ZoneInfo objects
+     */
+    function getZoneListByPublisherId($publisherId)
+    {
+        $dataZoneList = $this->_sendWithSession('ZoneXmlRpcService.php',
+                                                'getZoneListByPublisherId', array((int) $publisherId));
+        $returnData = array();
+        foreach ($dataZoneList as $dataZone) {
+            $oZoneInfo = new OA_Dll_ZoneInfo();
+            $oZoneInfo->readDataFromArray($dataZone);
+            $returnData[] = $oZoneInfo;
+        }
+
+        return $returnData;
+    }
+
+    /**
+     * Delete Zone.
+     *
+     * @param int $zoneId
+     * @return  method result
+     */
+    function deleteZone($zoneId)
+    {
+        return (bool) $this->_sendWithSession('ZoneXmlRpcService.php',
+                                              'deleteZone', array((int) $zoneId));
+    }
+
+    /**
+     * Zone daily statistics.
+     *
+     * @param int $zoneId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function zoneDailyStatistics($zoneId, $oStartDate = null, $oEndDate = null)
+    {
+        $statisticsData = $this->_callStatisticsMethod('ZoneXmlRpcService.php',
+                                                       'zoneDailyStatistics',
+                                                       $zoneId, $oStartDate, $oEndDate);
+
+        foreach ($statisticsData as $key => $data) {
+            $statisticsData[$key]['day'] = date('Y-m-d',XML_RPC_iso8601_decode(
+                                            $data['day']));
+        }
+
+        return $statisticsData;
+    }
+
+    /**
+     * Zone Advertiser statistics.
+     *
+     * @param int $zoneId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function zoneAdvertiserStatistics($zoneId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('ZoneXmlRpcService.php',
+                                            'zoneAdvertiserStatistics',
+                                            $zoneId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Zone Campaign statistics.
+     *
+     * @param int $zoneId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function zoneCampaignStatistics($zoneId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('ZoneXmlRpcService.php',
+                                            'zoneCampaignStatistics',
+                                            $zoneId, $oStartDate, $oEndDate);
+    }
+
+    /**
+     * Zone Publisher statistics.
+     *
+     * @param int $zoneId
+     * @param Pear::Date $oStartDate
+     * @param Pear::Date $oEndDate
+     * @return array  result data
+     */
+    function zoneBannerStatistics($zoneId, $oStartDate = null, $oEndDate = null)
+    {
+        return $this->_callStatisticsMethod('ZoneXmlRpcService.php',
+                                            'zoneBannerStatistics',
+                                            $zoneId, $oStartDate, $oEndDate);
+    }
+
+
 }
 
 ?>

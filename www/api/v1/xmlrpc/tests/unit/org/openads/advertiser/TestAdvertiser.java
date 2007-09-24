@@ -60,6 +60,8 @@ public class TestAdvertiser {
 		suite.addTestSuite(TestAdvertiserDailyStatistics.class);
 		suite.addTestSuite(TestAddAdvertiser.class);
 		suite.addTestSuite(TestAdvertiserBannerStatistics.class);
+		suite.addTestSuite(TestGetAdvertiser.class);
+		suite.addTestSuite(TestGetAdvertiserListByAgencyId.class);
 		// $JUnit-END$
 		return suite;
 	}

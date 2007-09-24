@@ -57,7 +57,8 @@ import org.openads.utils.DateUtils;
  * @author <a href="mailto:apetlyovanyy@lohika.com">Andriy Petlyovanyy</a>
  */
 public class CampaignTestCase extends AdvertiserTestCase {
-
+	protected static final String GET_CAMPAIGN_LIST_BY_ADVERTISER_ID_METHOD = "getCampaignListByAdvertiserId";
+	protected static final String GET_CAMPAIGN_METHOD = "getCampaign";
 	protected static final String ADD_CAMPAIGN_METHOD = "addCampaign";
 	protected static final String DELETE_CAMPAIGN_METHOD = "deleteCampaign";
 	protected static final String MODIFY_CAMPAIGN_METHOD = "modifyCampaign";
@@ -100,21 +101,22 @@ public class CampaignTestCase extends AdvertiserTestCase {
 	public Integer createCampaign() throws XmlRpcException,
 			MalformedURLException {
 
-		Map<String, Object> struct = new HashMap<String, Object>();
-		struct.put(ADVERTISER_ID, advertiserId);
-		struct.put(CAMPAIGN_NAME, "testCampaign");
-		struct.put(START_DATE, DateUtils.getDate(1998, Calendar.JANUARY, 1));
-		struct.put(END_DATE, DateUtils.getDate(2007, Calendar.SEPTEMBER, 19));
-		struct.put(IMPRESSIONS, -1);
-		struct.put(CLICKS, -1);
-		struct.put(PRIORITY, 0);
-		struct.put(WEIGHT, 100);
-		Object[] params = new Object[] { sessionId, struct };
-		
-		((XmlRpcClientConfigImpl) client.getClientConfig())
-		.setServerURL(new URL(GlobalSettings.getCampaignServiceUrl()));
+		return createCampaign(getCampaignParams("test"));
+	}
 	
-		final Integer result = (Integer) client.execute(ADD_CAMPAIGN_METHOD, params);
+	/**
+	 * @return advertiser id
+	 * @throws XmlRpcException
+	 * @throws MalformedURLException
+	 */
+	public Integer createCampaign(Map<String, Object> params)
+			throws XmlRpcException, MalformedURLException {
+		((XmlRpcClientConfigImpl) client.getClientConfig())
+				.setServerURL(new URL(GlobalSettings.getCampaignServiceUrl()));
+
+		Object[] paramsWithId = new Object[] { sessionId, params };
+		final Integer result = (Integer) client.execute(ADD_CAMPAIGN_METHOD, paramsWithId);
+		
 		return result;
 	}
 
@@ -142,4 +144,20 @@ public class CampaignTestCase extends AdvertiserTestCase {
 		return client.execute(method, params);
 	}
 
+	/**
+	 * @param prefix
+	 * @return
+	 */
+	public Map<String, Object> getCampaignParams(String prefix) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(ADVERTISER_ID, advertiserId);
+		params.put(CAMPAIGN_NAME, prefix + CAMPAIGN_NAME);
+		params.put(START_DATE, DateUtils.getDate(1998, Calendar.JANUARY, 1));
+		params.put(END_DATE, DateUtils.getDate(2007, Calendar.SEPTEMBER, 19));
+		params.put(IMPRESSIONS, -1);
+		params.put(CLICKS, -1);
+		params.put(PRIORITY, 0);
+		params.put(WEIGHT, 100);
+		return params;
+	}
 }

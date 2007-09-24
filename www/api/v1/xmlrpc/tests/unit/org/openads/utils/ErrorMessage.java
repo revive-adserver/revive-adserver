@@ -35,8 +35,7 @@
 |  limitations under the License.                                           |
 +---------------------------------------------------------------------------+
 $Id:$
-*/
-
+ */
 package org.openads.utils;
 
 import java.text.MessageFormat;
@@ -60,7 +59,7 @@ public class ErrorMessage {
 	public static final String INCORRECT_PARAMETERS_WANTED_INT_GOT_STRING = "Incorrect parameters passed to method: Wanted int, got string at param {0}";
 	public static final String INCORRECT_PARAMETERS_WANTED_DATE_GOT_STRING = "Incorrect parameters passed to method: Wanted dateTime.iso8601, got string at param {0}";
 
-	public static final String NULL_VALUES_ARE_NOT_SUPPORTED = "Null values aren't supported, if isEnabledForExtensions() == false";
+//	public static final String NULL_VALUES_ARE_NOT_SUPPORTED = "Null values aren''t supported, if isEnabledForExtensions() == false";
 	public static final String START_DATE_IS_AFTER_END_DATE = "The start date is after the end date";
 	public static final String YEAR_SHOULD_BE_IN_RANGE_1970_2038 = "Year should be in range 1970-2038";
 	public static final String UNKNOWN_ID_ERROR = "Unknown {0} Error";

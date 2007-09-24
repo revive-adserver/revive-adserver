@@ -47,6 +47,29 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Campaign.php';
 class OA_Dll_Campaign extends OA_Dll
 {
     /**
+     * Init campaign info from data array
+     *
+     * @access private
+     *
+     * @param OA_Dll_CampaignInfo &$oCampaign
+     * @param array $campaignData
+     *
+     * @return boolean
+     */
+    function _setCampaignDataFromArray(&$oCampaign, $campaignData)
+    {
+        $campaignData['campaignId']   = $campaignData['campaignid'];
+        $campaignData['campaignName'] = $campaignData['campaignname'];
+        $campaignData['advertiserId'] = $campaignData['clientid'];
+        $campaignData['startDate']    = $campaignData['activate'];
+        $campaignData['endDate']      = $campaignData['expire'];
+        $campaignData['impressions']  = $campaignData['views'];
+
+        $oCampaign->readDataFromArray($campaignData);
+        return  true;
+    }
+
+    /**
      * Method would perform data validation (e.g. email is an email)
      * and where necessary would connect to the DAL to obtain information
      * required to perform other business validations (e.g. username
@@ -254,6 +277,75 @@ class OA_Dll_Campaign extends OA_Dll
         	$this->raiseError('Unknown campaignId Error');
             return false;
         }
+    }
+
+    /**
+     * Returns campaign information by campaign id
+     *
+     * @access public
+     *
+     * @param int $campaignId
+     * @param OA_Dll_CampaignInfo &$oCampaign
+     *
+     * @return boolean
+     */
+    function getCampaign($campaignId, &$oCampaign)
+    {
+        if ($this->checkIdExistence('campaigns', $campaignId)) {
+            if (!$this->checkPermissions(null, 'campaigns', $campaignId)) {
+                return false;
+            }
+            $doCampaign = OA_Dal::factoryDO('campaigns');
+            $doCampaign->get($campaignId);
+            $campaignData = $doCampaign->toArray();
+
+            $oCampaign = new OA_Dll_CampaignInfo();
+
+            $this->_setCampaignDataFromArray($oCampaign, $campaignData);
+            return true;
+
+        } else {
+
+            $this->raiseError('Unknown campaignId Error');
+            return false;
+        }
+    }
+
+    /**
+     * Returns list of campaigns by campaign id
+     *
+     * @access public
+     *
+     * @param int $advertiserId
+     * @param array &$aCampaignList
+     *
+     * @return boolean
+     */
+    function getCampaignListByAdvertiserId($advertiserId, &$aCampaignList)
+    {
+        $aCampaignList = array();
+
+        if (!$this->checkIdExistence('clients', $advertiserId)) {
+                return false;
+        }
+
+        if (!$this->checkPermissions(null, 'clients', $advertiserId)) {
+            return false;
+        }
+
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->clientid = $advertiserId;
+        $doCampaign->find();
+
+        while ($doCampaign->fetch()) {
+            $campaignData = $doCampaign->toArray();
+
+            $oCampaign = new OA_Dll_CampaignInfo();
+            $this->_setCampaignDataFromArray($oCampaign, $campaignData);
+
+            $aCampaignList[] = $oCampaign;
+        }
+        return true;
     }
 
     /**

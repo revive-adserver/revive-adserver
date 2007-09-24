@@ -46,6 +46,31 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Agency.php';
 
 class OA_Dll_Agency extends OA_Dll
 {
+
+    /**
+     * Init agency info from data array
+     *
+     * @access private
+     *
+     * @param OA_Dll_AgencyInfo &$oAgency
+     * @param array $agencyData
+     *
+     * @return boolean
+     */
+    function _setAgencyDataFromArray(&$oAgency, $agencyData)
+    {
+        $agencyData['agencyId']     = $agencyData['agencyid'];
+        $agencyData['agencyName']   = $agencyData['name'];
+        $agencyData['contactName']  = $agencyData['contact'];
+        $agencyData['emailAddress'] = $agencyData['email'];
+
+        // Do not return password from Dll
+        unset($agencyData['password']);
+
+        $oAgency->readDataFromArray($agencyData);
+        return  true;
+    }
+
     /**
      * Method would perform data validation (e.g. email is an email)
      * and where necessary would connect to the DAL to obtain information
@@ -195,6 +220,69 @@ class OA_Dll_Agency extends OA_Dll
         	$this->raiseError('Unknown agencyId Error');
             return false;
         }
+    }
+
+    /**
+     * Returns agency information by agency id
+     *
+     * @access public
+     *
+     * @param int $agencyId
+     * @param OA_Dll_AgencyInfo &$oAgency
+     *
+     * @return boolean
+     */
+    function getAgency($agencyId, &$oAgency)
+    {
+        if ($this->checkIdExistence('agency', $agencyId)) {
+            if (!$this->checkPermissions(null, 'agency', $agencyId)) {
+                return false;
+            }
+            $doAgency = OA_Dal::factoryDO('agency');
+            $doAgency->get($agencyId);
+            $agencyData = $doAgency->toArray();
+
+            $oAgency = new OA_Dll_AgencyInfo;
+
+            $this->_setAgencyDataFromArray($oAgency, $agencyData);
+            return true;
+
+        } else {
+
+            $this->raiseError('Unknown agencyId Error');
+            return false;
+        }
+    }
+
+    /**
+     * Returns list of agencies
+     *
+     * @access public
+     *
+     * @param array &$aAgencyList
+     *
+     * @return boolean
+     */
+    function getAgencyList(&$aAgencyList)
+    {
+        if (!$this->checkPermissions(phpAds_Admin)) {
+            return false;
+        }
+
+        $aAgencyList = array();
+
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->find();
+
+        while ($doAgency->fetch()) {
+            $agencyData = $doAgency->toArray();
+
+            $oAgency = new OA_Dll_AgencyInfo;
+            $this->_setAgencyDataFromArray($oAgency, $agencyData);
+
+            $aAgencyList[] = $oAgency;
+        }
+        return true;
     }
 
     /**

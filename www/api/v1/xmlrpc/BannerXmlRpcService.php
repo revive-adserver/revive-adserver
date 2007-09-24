@@ -256,6 +256,63 @@ class BannerXmlRpcService extends BaseBannerService
             return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
         }
     }
+    
+    /**
+     * Get existing Banner by ID.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getBanner(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$bannerId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $oBanner = null;
+        if ($this->_oBannerServiceImp->getBanner($sessionId,
+                $bannerId, $oBanner)) {
+
+            return XmlRpcUtils::getEntityResponse($oBanner);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
+        }
+    }
+    
+    /**
+     * Get array of banners by campaign id
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getBannerListByCampaignId(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$campaignId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $aBannerList = null;
+        if ($this->_oBannerServiceImp->getBannerListByCampaignId($sessionId,
+                                            $campaignId, $aBannerList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aBannerList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oBannerServiceImp->getLastError());
+        }
+    }
+
 }
 
 $oBannerInfoXmlRpcService = new BannerXmlRpcService();
@@ -314,6 +371,23 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int')
             ),
             'docstring' => 'Generate Banner Zone Statistics'
+        ),
+
+
+        'getBanner' => array(
+            'function'  => array($oBannerInfoXmlRpcService, 'getBanner'),
+            'signature' => array(
+                array('struct', 'string', 'int')
+            ),
+            'docstring' => 'Get Banner Information'
+        ),
+
+        'getBannerListByCampaignId' => array(
+            'function'  => array($oBannerInfoXmlRpcService, 'getBannerListByCampaignId'),
+            'signature' => array(
+                array('array', 'string', 'int')
+            ),
+            'docstring' => 'Get Banner List By Campaign Id'
         ),
 
     ),

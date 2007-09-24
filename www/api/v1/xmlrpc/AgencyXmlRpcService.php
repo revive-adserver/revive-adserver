@@ -368,6 +368,63 @@ class AgencyXmlRpcService extends BaseAgencyService
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
+    
+    /**
+     * Get existing Agency by ID.
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getAgency(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId, &$agencyId),
+                array(true, true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $oAgency = null;
+        if ($this->_oAgencyServiceImp->getAgency($sessionId,
+                $agencyId, $oAgency)) {
+
+            return XmlRpcUtils::getEntityResponse($oAgency);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
+        }
+    }
+    
+    /**
+     * Get array of agencies
+     *
+     * @access public
+     *
+     * @param XML_RPC_Message &$oParams
+     *
+     * @return generated result (data or error)
+     */
+    function getAgencyList(&$oParams) {
+        $oResponseWithError = null;
+        if (!XmlRpcUtils::getScalarValues(
+                array(&$sessionId),
+                array(true), $oParams, $oResponseWithError)) {
+           return $oResponseWithError;
+        }
+        
+        $aAgencyList = null;
+        if ($this->_oAgencyServiceImp->getAgencyList($sessionId, $aAgencyList)) {
+
+            return XmlRpcUtils::getArrayOfEntityResponse($aAgencyList);
+        } else {
+
+            return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
+        }
+    }
+    
+    
 }
 
 
@@ -457,6 +514,22 @@ $server = new XML_RPC_Server(
                 array('array', 'string', 'int')
             ),
             'docstring' => 'Generate Agency Zone Statistics'
+        ),
+
+        'getAgency' => array(
+            'function'  => array($oAgencyXmlRpcService, 'getAgency'),
+            'signature' => array(
+                array('struct', 'string', 'int')
+            ),
+            'docstring' => 'Get Agency Information'
+        ),
+
+        'getAgencyList' => array(
+            'function'  => array($oAgencyXmlRpcService, 'getAgencyList'),
+            'signature' => array(
+                array('array', 'string')
+            ),
+            'docstring' => 'Get Agency List'
         ),
 
     ),
