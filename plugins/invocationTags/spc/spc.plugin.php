@@ -463,4 +463,3 @@ class Plugins_InvocationTags_Spc_Spc extends Plugins_InvocationTags
 }
 
 ?>
-
