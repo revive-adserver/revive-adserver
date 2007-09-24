@@ -90,7 +90,7 @@ class OA_Central_RpcMapper
      * @see R-AN-16: Gathering the Websites after the Installation
      *
      * @param string $language The language name, or an empty string to use OAC default
-     * @return mixed The array of categories and subcategories or PEAR_Error on failure
+     * @return mixed The array of categories and subcategories or false on failure
      *               The returned array will have a structure like this:
      *
      * Array
@@ -131,9 +131,15 @@ class OA_Central_RpcMapper
             );
         }
 
-        return $this->oRpc->callNoAuth('getCategories', array(
+        $result = $this->oRpc->callNoAuth('getCategories', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return result;
     }
 
     /**
@@ -145,7 +151,7 @@ class OA_Central_RpcMapper
      *
      * @param string $language The language name, or an empty string to use OAC default
      * @return mixed The array of countries, with country identifiers as keys, or
-     *               PEAR_Error on failure
+     *               false on failure
      */
     function getCountries($language = '')
     {
@@ -158,9 +164,15 @@ class OA_Central_RpcMapper
             );
         }
 
-        return $this->oRpc->callNoAuth('getCountries', array(
+        $result = $this->oRpc->callNoAuth('getCountries', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return result;
     }
 
     /**
@@ -172,7 +184,7 @@ class OA_Central_RpcMapper
      *
      * @param string $language The language name, or an empty string to use OAC default
      * @return mixed The array of languages, with language identifiers as keys, or
-     *               PEAR_Error on failure
+     *               false on failure
      */
     function getLanguages($language = '')
     {
@@ -185,9 +197,15 @@ class OA_Central_RpcMapper
             );
         }
 
-        return $this->oRpc->callNoAuth('getLanguages', array(
+        $result = $this->oRpc->callNoAuth('getLanguages', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return result;
     }
 
     /**
@@ -365,7 +383,7 @@ class OA_Central_RpcMapper
                 )
             );
         }
-        return $this->oRpc->callCaptchaSso('subscribeWebsites', array(
+        return $this->oRpc->callCaptcha('subscribeWebsites', array(
             XML_RPC_encode($aWebsites)
         ));
     }
@@ -417,7 +435,7 @@ class OA_Central_RpcMapper
      *
      * )
      *
-     * @return mixed The other networs array on success, PEAR_Error otherwise
+     * @return mixed The other networs array on success, false otherwise
      */
     function getOtherNetworks()
     {
@@ -446,7 +464,13 @@ class OA_Central_RpcMapper
             );
         }
 
-        return $this->oRpc->callNoAuth('getOtherNetworks');
+        $result = $this->oRpc->callNoAuth('getOtherNetworks');
+
+        if (PEAR::isError($result)) {
+            return false;
+        }
+
+        return $result;
     }
 
     /**

@@ -63,10 +63,6 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aPref = $GLOBALS['_MAX']['PREF'];
         $result = $this->oCache->call(array(&$this->oMapper, 'getCategories'), $aPref['language']);
 
-        if (PEAR::isError($result)) {
-            return false;
-        }
-
         return $result;
     }
 
@@ -80,10 +76,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aCategories = $this->getCategories();
 
         $aSelectCategories = array('' => '- pick a category -');
-        foreach ($aCategories as $k => $v) {
-            $aSelectCategories[$k] = $v['name'];
-            foreach ($v['subcategories'] as $kk => $vv) {
-                $aSelectCategories[$kk] = "&nbsp;&nbsp;&nbsp;".$vv;
+        if ($aCategories) {
+            foreach ($aCategories as $k => $v) {
+                $aSelectCategories[$k] = $v['name'];
+                foreach ($v['subcategories'] as $kk => $vv) {
+                    $aSelectCategories[$kk] = "&nbsp;&nbsp;&nbsp;".$vv;
+                }
             }
         }
 
@@ -100,10 +98,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aCategories = $this->getCategories();
 
         $aFlatCategories = array();
-        foreach ($aCategories as $k => $v) {
-            $aFlatCategories[$k] = $v['name'];
-            foreach ($v['subcategories'] as $kk => $vv) {
-                $aFlatCategories[$kk] = $vv;
+        if ($aCategories) {
+            foreach ($aCategories as $k => $v) {
+                $aFlatCategories[$k] = $v['name'];
+                foreach ($v['subcategories'] as $kk => $vv) {
+                    $aFlatCategories[$kk] = $vv;
+                }
             }
         }
 
@@ -125,10 +125,6 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aPref = $GLOBALS['_MAX']['PREF'];
         $result = $this->oCache->call(array(&$this->oMapper, 'getCountries'), $aPref['language']);
 
-        if (PEAR::isError($result)) {
-            return false;
-        }
-
         return $result;
     }
 
@@ -141,7 +137,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         $aCountries = $this->getCountries();
 
-        return array('' => '- pick a country -') + $aCountries;
+        $aSelectCountries = array('' => '- pick a country -');
+        if ($aCountries) {
+            $aSelectCountries += $aCountries;
+        }
+
+        return $aSelectCountries;
     }
 
     /**
@@ -159,10 +160,6 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aPref = $GLOBALS['_MAX']['PREF'];
         $result = $this->oCache->call(array(&$this->oMapper, 'getLanguages'), $aPref['language']);
 
-        if (PEAR::isError($result)) {
-            return false;
-        }
-
         return $result;
     }
 
@@ -175,7 +172,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         $aLanguages = $this->getLanguages();
 
-        return array('' => '- pick a language -') + $aLanguages;
+        $aSelectLanguages = array('' => '- pick a language -');
+        if ($aLanguages) {
+            $aSelectLanguages += $aLanguages;
+        }
+
+        return $aSelectLanguages;
     }
 
     /**
@@ -414,10 +416,6 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         $result = $this->oCache->call(array(&$this->oMapper, 'getOtherNetworks'));
 
-        if (PEAR::isError($result)) {
-            return false;
-        }
-
         return $result;
     }
 
@@ -426,13 +424,13 @@ class OA_Central_AdNetworks extends OA_Central_Common
      *
      * @param string $country
      * @param string $language
-     * @return mixed The other networs array on success, PEAR_Error otherwise
+     * @return mixed The other networs array on success, false otherwise
      */
     function getOtherNetworksForDisplay($country = '', $language = '')
     {
         $aOtherNetworks = $this->getOtherNetworks();
 
-        if (!PEAR::isError($aOtherNetworks)) {
+        if ($aOtherNetworks) {
             // If a country was selected, filter on country
             if (!empty($country) && ($country != 'undefined')) {
                 foreach ($aOtherNetworks as $networkName => $networkDetails) {

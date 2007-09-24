@@ -38,8 +38,8 @@ define('OA_UPGRADE_UPGRADE',                   35);
 define('OA_UPGRADE_INSTALL',                   36);
 define('OA_UPGRADE_CONFIGSETUP',               37);
 define('OA_UPGRADE_ADMINSETUP',                40);
-define('OA_UPGRADE_IDSETUP',                   50);
-define('OA_UPGRADE_DATASETUP',                 60);
+define('OA_UPGRADE_SITESSETUP',                50);
+define('OA_UPGRADE_TAGSSETUP',                 60);
 define('OA_UPGRADE_FINISH',                    70);
 
 global $installing, $tabindex;
@@ -74,6 +74,7 @@ require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 // clear the $session variable to prevent users pretending to be logged in.
 unset($session);
@@ -389,7 +390,7 @@ else if (array_key_exists('btn_adminsetup', $_POST))
                 else
                 {
                     //Hide the IDsetup, instead display the finish page
-                    //$action = OA_UPGRADE_IDSETUP;
+                    //$action = OA_UPGRADE_SITESSETUP;
                     $message = 'Congratulations you have finished upgrading Openads';
                     //$oUpgrader->setOpenadsInstalledOn();
                     $action = OA_UPGRADE_FINISH;
@@ -420,7 +421,7 @@ else if (array_key_exists('btn_adminsetup_back', $_POST))
         $action = OA_UPGRADE_ADMINSETUP;
     }
 }
-else if (array_key_exists('btn_oaidsetup', $_POST))
+else if (array_key_exists('btn_tagssetup', $_POST))
 {
     if (!checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
@@ -428,10 +429,141 @@ else if (array_key_exists('btn_oaidsetup', $_POST))
     }
     else
     {
-        $action = OA_UPGRADE_IDSETUP;
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
+        $action = OA_UPGRADE_FINISH;
+
+        $aWebsites    = array(
+            0 => array(),
+            1 => array()
+        );
+
+        if (isset($_POST['aUrls']) && is_array($_POST['aUrls'])) {
+            phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks');
+
+            $aTplSites = array();
+            foreach ($aUrls as $key => $url) {
+                $isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
+
+                $aWebsites[$isOac][] = $aTplSites[count($aTplSites)+1] = array(
+                    'url'        => $url,
+                    'country'    => $aCountries[$key],
+                    'language'   => $aLanguages[$key],
+                    'category'   => $aCategories[$key],
+                    'adnetworks' => $isOac
+                );
+            }
+
+            foreach ($aWebsites[0] as $v) {
+                $doAffiliate = OA_Dal::factoryDO('affiliates');
+                $publisher = array(
+                    'name'             => $v['url'],
+                    'mnemonic'         => '',
+                    'contact'          => $aPref['admin_name'],
+                    'email'            => $aPref['admin_email'],
+                    'website'          => 'http://'.$v['url'],
+                    'oac_country_code' => $v['country'],
+                    'oac_language_id'  => $v['language'],
+                    'oac_category_id'  => $v['category']
+                );
+
+                $doAffiliate->setFrom($publisher);
+                $doAffiliate->insert();
+            }
+
+            if (count($aWebsites[1])) {
+                require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+                $oAdNetworks = new OA_Central_AdNetworks();
+                $result = $oAdNetworks->subscribeWebsites($aWebsites[1]);
+
+                if (PEAR::isError($result)) {
+                    // Initialise template
+                    $oTpl = new OA_Admin_Template('install/sites.html');
+
+                    $oTpl->assign('aSelectCategories', $oAdNetworks->getCategoriesSelect());
+                    $oTpl->assign('aSelectCountries',  $oAdNetworks->getCountriesSelect());
+                    $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
+
+                    // We need to pass back the submitted values to the form
+                    $oTpl->assign('aSites', $aTplSites);
+
+                    if ($result->getCode() == 802) {
+                        // Captcha error
+                        $oTpl->assign('captchaErrorFormId', 'frmOpenads');
+                    } else {
+                        // Other error
+                    }
+
+                    $action = OA_UPGRADE_SITESSETUP;
+                } else {
+                    require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
+
+                    // Initialise template
+                    $oTpl = new OA_Admin_Template('install/tags.html');
+
+                    $doAffiliates = OA_Dal::factoryDO('affiliates');
+                    $doAffiliates->selectAdd();
+                    $doAffiliates->selectAdd('affiliateid');
+                    $doAffiliates->selectAdd('name');
+                    $doAffiliates->selectAdd('mnemonic'); // Needed for SPC
+                    $doAffiliates->whereAdd('oac_website_id IS NOT NULL');
+                    $doAffiliates->orderBy('name');
+
+                    $aAffiliates = $doAffiliates->getAll(array(), true, false);
+
+                    $doZones = OA_Dal::factoryDO('zones');
+                    $doZones->orderBy('width = -1, height = 1, width, height');
+
+                    $aSizes = array();
+                    $spcHeader = '';
+                    $doZones->find();
+                    while ($doZones->fetch()) {
+                        $row = $doZones->toArray();
+                        if (!isset($aAffiliates[$row['affiliateid']])) {
+                            continue;
+                        }
+                        $width = $row['width'] == -1 ? '*' : $row['width'];
+                        $height = $row['height'] == -1 ? '*' : $row['height'];
+                        $aAffiliates[$row['affiliateid']]['zones'][$row['zoneid']] = array(
+                            'name' => $row['zonename'],
+                            'width' => $width,
+                            'height' => $height
+                        );
+
+                        $affiliateid = $row['affiliateid'];
+                        $zoneid = $row['zoneid'];
+
+                        $codetype = 'spc';
+                        $invocationTag = MAX_Plugin::factory('invocationTags', $codetype);
+                        $maxInvocation = new MAX_Admin_Invocation();
+                        $maxInvocation->generateInvocationCode($invocationTag);
+                        if (!$spcHeader) {
+                            $spcHeader = $invocationTag->getHeaderCode();
+                        }
+                        $aAffiliates[$row['affiliateid']]['zones'][$row['zoneid']][$codetype] =
+                            $invocationTag->getZoneCode($row, $aAffiliates[$row['affiliateid']]);
+
+                        foreach (array('local', 'adframe') as $v){
+                            $codetype = $v;
+                            $maxInvocation = new MAX_Admin_Invocation();
+                            $aAffiliates[$row['affiliateid']]['zones'][$row['zoneid']][$codetype] =
+                                $maxInvocation->generateInvocationCode($invocationTag = null);
+                        }
+
+                        $aSizes[$width.'x'.$height] = array('width' => $width, 'height' => $height);
+                    }
+
+                    $oTpl->assign('aAffiliates', $aAffiliates);
+                    $oTpl->assign('aSizes', $aSizes);
+                    $oTpl->assign('spcHeader', $spcHeader);
+
+                    $action = OA_UPGRADE_TAGSSETUP;
+                }
+            }
+        }
     }
 }
-else if (array_key_exists('btn_datasetup', $_POST))
+else if (array_key_exists('btn_sitessetup', $_POST))
 {
     if (!checkLogin()) {
         $message = $strUsernameOrPasswordWrong;
@@ -441,9 +573,21 @@ else if (array_key_exists('btn_datasetup', $_POST))
     {
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
-            $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
-            $oUpgrader->putAdmin($_POST['aAdmin']);
-            $action = OA_UPGRADE_DATASETUP;
+            // Initialise template
+            $oTpl = new OA_Admin_Template('install/sites.html');
+
+            require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+            $oAdNetworks = new OA_Central_AdNetworks();
+
+            $oTpl->assign('aSelectCategories', $oAdNetworks->getCategoriesSelect());
+            $oTpl->assign('aSelectCountries',  $oAdNetworks->getCountriesSelect());
+            $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
+
+            $oTpl->assign('aSites', array(
+                1 => array('url' => '')
+            ));
+
+            $action = OA_UPGRADE_SITESSETUP;
         }
         else
         {
@@ -473,10 +617,6 @@ else if (array_key_exists('btn_finish', $_POST))
         phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
         phpAds_SessionDataStore();
 
-        if (array_key_exists('chk_dummydata', $_POST) && $_POST['chk_dummydata'])
-        {
-            $oUpgrader->insertDummyData();
-        }
         $message = 'Congratulations you have finished installing Openads';
     }
     else
@@ -542,8 +682,8 @@ $activeNav = array (
                   );
 if (!empty($_COOKIE['oat']) && $_COOKIE['oat'] != OA_UPGRADE_UPGRADE) {
     $activeNav[OA_UPGRADE_ADMINSETUP]     =      '70';
-    $activeNav[OA_UPGRADE_IDSETUP]        =      '70';
-    $activeNav[OA_UPGRADE_DATASETUP]      =      '90';
+    $activeNav[OA_UPGRADE_SITESSETUP]     =      '80';
+    $activeNav[OA_UPGRADE_TAGSSETUP]      =      '90';
 } else {
     $activeNav[OA_UPGRADE_LOGIN]          =      '45';
 }
@@ -568,11 +708,11 @@ $phpAds_nav = array (
     '30'     =>  array($navLinks[OA_UPGRADE_SYSCHECK]    => 'System Check'),
     '40'     =>  array($navLinks[OA_UPGRADE_APPCHECK]    => 'Application Check'),
     '45'     =>  array($navLinks[OA_UPGRADE_LOGIN]       => 'Login'),
-    '50'     =>  array($navLinks[OA_UPGRADE_DBSETUP]     => 'Database Setup'),
-    '60'     =>  array($navLinks[OA_UPGRADE_CONFIGSETUP] => 'Configuration Setup'),
-    '70'     =>  array($navLinks[OA_UPGRADE_ADMINSETUP]  => 'Admin Setup'),
-    '80'     =>  array($navLinks[OA_UPGRADE_IDSETUP]     => 'Openads ID'),
-    '90'     =>  array($navLinks[OA_UPGRADE_DATASETUP]   => 'Data Setup'),
+    '50'     =>  array($navLinks[OA_UPGRADE_DBSETUP]     => 'Database'),
+    '60'     =>  array($navLinks[OA_UPGRADE_CONFIGSETUP] => 'Configuration'),
+    '70'     =>  array($navLinks[OA_UPGRADE_ADMINSETUP]  => 'Admin'),
+    '80'     =>  array($navLinks[OA_UPGRADE_SITESSETUP]  => 'Sites'),
+    '90'     =>  array($navLinks[OA_UPGRADE_TAGSSETUP]   => 'Tags'),
     '100'    =>  array('' => 'Finished')
 );
 

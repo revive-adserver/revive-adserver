@@ -1,5 +1,6 @@
 <?php if (!defined('MAX_PATH')) { exit; } ?>
 <link rel="stylesheet" type="text/css" href="css/install.css"/>
+<!--[if IE]><link rel="stylesheet" href="css/install-ie.css"><![endif]-->
 
 <script language='JavaScript' src='<?php echo $imgPath; ?>js-help.js'></script>
 <script src="js/openads.js" type="text/javascript"></script>
@@ -40,8 +41,15 @@ function changePage(page) {
             case OA_UPGRADE_INSTALL             : include 'templates/install-success.html';     break;
             case OA_UPGRADE_CONFIGSETUP         : include 'templates/install-configsetup.html'; break;
             case OA_UPGRADE_ADMINSETUP          : include 'templates/install-adminsetup.html';  break;
-            case OA_UPGRADE_IDSETUP             : include 'templates/install-oaidsetup.html';   break;
-            case OA_UPGRADE_DATASETUP           : include 'templates/install-datasetup.html';   break;
+
+            case OA_UPGRADE_SITESSETUP          :
+            case OA_UPGRADE_TAGSSETUP           :
+                if (!is_a($oTpl, 'OA_Admin_Template')) {
+                    die('Missing template');
+                }
+                $oTpl->display();
+                break;
+
             case OA_UPGRADE_FINISH              : include 'templates/install-finish.html';      break;
             default                             : include 'templates/install-welcome.html';     break;
         }

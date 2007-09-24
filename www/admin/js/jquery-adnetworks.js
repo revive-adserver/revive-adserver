@@ -212,14 +212,11 @@ function installerAddNewSite()
   $("#url-empty", clone).get(0).id += maxId.value;
   $("#required-missing", clone).get(0).id += maxId.value;
   $(":input", clone).each(function () {
-    if ($.trim(this.name).length > 0)
-    {
-      this.name = this.name + '[]';
-    }
     if ($.trim(this.id).length > 0)
     {
       this.id = this.id + maxId.value;
     }
+
   });
   $("label", clone).each(function () {
     if ($.trim(this.htmlFor).length > 0)
