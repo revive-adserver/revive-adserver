@@ -139,7 +139,7 @@ class OA_Central_RpcMapper
             return false;
         }
 
-        return result;
+        return $result;
     }
 
     /**
@@ -172,7 +172,7 @@ class OA_Central_RpcMapper
             return false;
         }
 
-        return result;
+        return $result;
     }
 
     /**
@@ -205,7 +205,7 @@ class OA_Central_RpcMapper
             return false;
         }
 
-        return result;
+        return $result;
     }
 
     /**
