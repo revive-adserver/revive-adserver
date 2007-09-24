@@ -96,9 +96,9 @@ class OA_Dal_Central_Rpc
             }
         }
 
-        PEAR::pushErrorHandling();
+        OA::disableErrorHandling();
         $oResponse = $this->oXml->send($oMsg);
-        PEAR::popErrorHandling();
+        OA::enableErrorHandling();
 
         if (!$oResponse) {
             return new PEAR_Error('XML-RPC connection error', 800);
