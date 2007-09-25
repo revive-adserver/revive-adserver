@@ -208,13 +208,14 @@ class OA_Dll_Publisher extends OA_Dll
             $publisherData['permissions'] = $permissions;
         }
 
-        // Remap the publisher name
+        // Remap fields where the PublisherInfo Object do not map directly to the DataObject
         $publisherData['name']      = $oPublisher->publisherName;
-
-        // Default fields
         $publisherData['contact']   = $oPublisher->contactName;
         $publisherData['email'] 	= $oPublisher->emailAddress;
         $publisherData['agencyid']  = $oPublisher->agencyId;
+        $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
+        $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
+        $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
 
         if (isset($publisherData['password']) && ($publisherData['password'] != '********')) {
             $publisherData['password'] = md5($oPublisher->password);
@@ -246,9 +247,9 @@ class OA_Dll_Publisher extends OA_Dll
                 array(
                         'id'       => $oPublisher->publisherId,
                         'url'      => $oPublisher->website,
-                        'country'  => $oPublisher->oac_country_code,
-                        'language' => $oPublisher->oac_language_id,
-                        'category' => $oPublisher->oac_category_id,
+                        'country'  => $oPublisher->oacCountryCode,
+                        'language' => $oPublisher->oacLanguageId,
+                        'category' => $oPublisher->oacCategoryId,
                     )
                 );
 
