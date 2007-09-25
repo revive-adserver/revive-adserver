@@ -342,6 +342,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                         'width'         => $aBanner['width'],
                         'height'        => $aBanner['height'],
                         'capping'       => $aBanner['capping'],
+                        'storagetype'   => 'html',
+                        'contenttype'   => 'html',
                         'htmltemplate'  => $aBanner['html'],
                         'adserver'      => $aBanner['adserver'],
                         'oac_banner_id' => $aBanner['banner_id']
