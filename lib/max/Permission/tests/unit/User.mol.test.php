@@ -44,6 +44,11 @@ class MAX_Permission_UserTest extends DalUnitTestCase
     }
 
 
+    /**
+     * We are phasing out the affiliates_extra table, getDoAffiliates
+     * should now return a simple dataObject
+     *
+     */
     function testGetDoAffiliates()
     {
         $username = 'scott';
@@ -68,14 +73,13 @@ class MAX_Permission_UserTest extends DalUnitTestCase
         $doAffiliates->last_accepted_agency_agreement = '2006-10-10';
         $affiliateId = $doAffiliates->insert();
         $aExpectedData['userid'] = $affiliateId;
-        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
-        $doAffiliatesExtra->affiliateid = $affiliateId;
-        $doAffiliatesExtra->help_file = 'help';
-        $doAffiliatesExtra->insert();
+
+        $doNewAffiliate = OA_Dal::factoryDO('affiliates');
+        $doNewAffiliate->get($affiliateId);
+        //$doNewAffiliate = $doNewAffiliate->toArray();
 
         $doAffiliates = MAX_Permission_User::findAndGetDoUser($username, $md5);
-        $aAffiliateData = MAX_Permission_User::getAAffiliateData($doAffiliates);
-        $this->assertEqual($aExpectedData, $aAffiliateData);
+        $this->assertEqual($doNewAffiliate->toArray(), $doAffiliates->toArray());
     }
 }
 ?>
