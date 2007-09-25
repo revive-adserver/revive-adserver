@@ -363,18 +363,84 @@ class OA_Central_RpcMapper
                             array(
                                 'campaign_id' => mt_rand(1, 10000),
                                 'adnetwork_id' => 1,
-                                'name' => 'Campaign 1',
+                                'name' => 'Top Tier',
+                                'weight' => 1,
+                                'capping' => 3,
+                                'banners' => array(
+                                    array(
+                                        'banner_id' => mt_rand(1, 10000),
+                                        'name' => 'Leaderboard',
+                                        'width' => 728,
+                                        'height' => 90,
+                                        'capping' => 0,
+                                        'html' => '<!-- BEGIN STANDARD TAG - 728 x 90 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
+<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=728 HEIGHT=90 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=728x90&entity=33841&site_code=4567345&section_code=0001P&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
+<!-- END TAG -->',
+                                        'adserver' => 'cpx'
+                                    ),
+                                    array(
+                                        'banner_id' => mt_rand(1, 10000),
+                                        'name' => 'Full Banner',
+                                        'width' => 468,
+                                        'height' => 60,
+                                        'capping' => 0,
+                                        'html' => '<!-- BEGIN STANDARD TAG - 468 x 60 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
+<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=468 HEIGHT=60 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=468x60&entity=33841&site_code=4567345&section_code=0001P&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
+<!-- END TAG -->',
+                                        'adserver' => 'cpx'
+                                    ),
+                                    array(
+                                        'banner_id' => mt_rand(1, 10000),
+                                        'name' => 'Square Button',
+                                        'width' => 125,
+                                        'height' => 125,
+                                        'capping' => 0,
+                                        'html' => '<!-- BEGIN STANDARD TAG - 125 x 125 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
+<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=125 HEIGHT=125 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=125x125&entity=33841&site_code=4567345&section_code=0001P&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
+<!-- END TAG -->',
+                                        'adserver' => 'cpx'
+                                    )
+                                )
+                            ),
+                            array(
+                                'campaign_id' => mt_rand(1, 10000),
+                                'adnetwork_id' => 1,
+                                'name' => 'Remnant',
                                 'weight' => 1,
                                 'capping' => 0,
                                 'banners' => array(
                                     array(
                                         'banner_id' => mt_rand(1, 10000),
-                                        'name' => 'Banner 1',
+                                        'name' => 'Leaderboard',
+                                        'width' => 728,
+                                        'height' => 90,
+                                        'capping' => 0,
+                                        'html' => '<!-- BEGIN STANDARD TAG - 728 x 90 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
+<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=728 HEIGHT=90 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=728x90&entity=33841&site_code=4567345&section_code=0001D&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
+<!-- END TAG -->',
+                                        'adserver' => 'cpx'
+                                    ),
+                                    array(
+                                        'banner_id' => mt_rand(1, 10000),
+                                        'name' => 'Full Banner',
+                                        'width' => 468,
+                                        'height' => 60,
+                                        'capping' => 0,
+                                        'html' => '<!-- BEGIN STANDARD TAG - 468 x 60 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
+<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=468 HEIGHT=60 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=468x60&entity=33841&site_code=4567345&section_code=0001D&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
+<!-- END TAG -->',
+                                        'adserver' => 'cpx'
+                                    ),
+                                    array(
+                                        'banner_id' => mt_rand(1, 10000),
+                                        'name' => 'Square Button',
                                         'width' => 125,
                                         'height' => 125,
                                         'capping' => 0,
-                                        'html' => 'Foo',
-                                        'adserver' => ''
+                                        'html' => '<!-- BEGIN STANDARD TAG - 125 x 125 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
+<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=125 HEIGHT=125 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=125x125&entity=33841&site_code=4567345&section_code=0001D&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
+<!-- END TAG -->',
+                                        'adserver' => 'cpx'
                                     )
                                 )
                             )
