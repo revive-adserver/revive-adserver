@@ -432,6 +432,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
         $aPref = $GLOBALS['_MAX']['PREF'];
 
         $action = OA_UPGRADE_FINISH;
+        $message = 'Congratulations you have finished installing Openads';
 
         $aWebsites    = array(
             0 => array(),
@@ -468,7 +469,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                 );
 
                 $doAffiliate->setFrom($publisher);
-                $doAffiliate->insert();
+                $result = $doAffiliate->insert();
             }
 
             if (count($aWebsites[1])) {
@@ -614,13 +615,6 @@ else if (array_key_exists('btn_finish', $_POST))
 {
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
-        // Log the user in
-        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-        MAX_Admin_Preferences::loadPrefs();
-        phpAds_SessionStart();
-        phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
-        phpAds_SessionDataStore();
-
         $message = 'Congratulations you have finished installing Openads';
     }
     else
@@ -649,6 +643,16 @@ else
 
 if ($action == OA_UPGRADE_FINISH)
 {
+    if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
+    {
+        // Log the user in
+        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+        MAX_Admin_Preferences::loadPrefs();
+        phpAds_SessionStart();
+        phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
+        phpAds_SessionDataStore();
+    }
+
     // Delete the cookie
     setcookie('oat', '');
     $oUpgrader->setOpenadsInstalledOn();
