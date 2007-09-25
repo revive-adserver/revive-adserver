@@ -49,7 +49,7 @@ $Id$
 //-->{/literal}
 </script>
 
-<form name='affiliateform' id='affiliateform' method='post' action='affiliate-edit.php' onSubmit='return max_formValidate(this);'>
+<form name='affiliateform' id='affiliateform' method='post' action='affiliate-edit.php'>
 <input type="hidden" name="formId" value="affiliateform">
 <input type='hidden' name='affiliateid' value='{$affiliateid}'>
 <input type='hidden' name='move' value='{$move}'>
@@ -58,16 +58,19 @@ $Id$
 
 <script language="javascript">
 <!--{literal}
-        $(document).ready(function() {
-          $("#adnetworks-submit").click(function() {
-            if(this.form.adnetworks.checked) {
-              $("#adnetworks-signup-dialog_" + $(this.form).attr("id")).jqmShow();
-            }
-            else {
-              this.form.submit();
-            }
-          });
-        });
+    $(document).ready(function() {
+    $("#affiliateform").submit(function() {
+        if (max_formValidate(this)) {
+          if(this.adnetworks.checked) {
+            $("#adnetworks-signup-dialog_" + this.id).jqmShow();
+          }
+          else {
+            return true;
+          }
+        }
+        return false;
+      });
+    });
 //-->{/literal}
 </script>
 
@@ -80,6 +83,6 @@ $Id$
 {include file=edit-table/create.html from=$fieldsBottom}
 
 <div style="width:100%;text-align:left;padding-top: 7px;">
-<input value="Save Changes" type="button" id="adnetworks-submit"{tabindex}>
+<input value="Save Changes" type="submit" {tabindex}>
 </div>
 </form>

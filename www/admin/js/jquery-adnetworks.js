@@ -119,23 +119,23 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
 
 function initPublisherAdd()
 {
-  $("#add-publisher").click(validateNewPublisher);
+  $("#add_new_publisher_form").submit(validateNewPublisher);
 }
 
 
 function validateNewPublisher()
 {
-  if (validatePublisher(this.form, "-form", "n", ""))
+  if (validatePublisher(this, "-form", "n", ""))
   {
-    if(this.form.adnetworks.checked) {
-      $("#adnetworks-signup-dialog_" + $(this.form).attr("id")).jqmShow();
+    if(this.adnetworks.checked) {
+      $("#adnetworks-signup-dialog_" + this.id).jqmShow();
     }
     else {
-      this.form.submit();
+      return true;
     }
   }
+  return false;
 }
-
 
 function initAdNetworksSignup(formId)
 {
