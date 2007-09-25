@@ -1419,6 +1419,8 @@ class OA_Upgrade
     function putCommunityPreferences($aCommunity)
     {
         require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+        require_once MAX_PATH . '/lib/OA/Sync.php';
+
         // Insert basic preferences into database
         $oPrefs = new MAX_Admin_Preferences();
 
@@ -1442,6 +1444,9 @@ class OA_Upgrade
             $this->oLogger->logError('Error inserting Platform Hash into database');
             return false;
         }
+
+        $oSync = new OA_Sync();
+        $oSync->checkForUpdates();
 
         return true;
     }
