@@ -372,6 +372,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                             $doZones = OA_Dal::factoryDO('zones');
                             $doZones->setFrom($zone);
                             $zoneId = $doZones->insert();
+
+                            $aZones[$zoneSize] = $zoneId;
                         }
 
                         if (!empty($zoneId)) {
