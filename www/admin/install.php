@@ -573,6 +573,10 @@ else if (array_key_exists('btn_sitessetup', $_POST))
     {
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
+            // Save admin credentials
+            $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
+            $oUpgrader->putAdmin($_POST['aAdmin']);
+
             // Initialise template
             $oTpl = new OA_Admin_Template('install/sites.html');
 
