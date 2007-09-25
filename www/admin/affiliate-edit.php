@@ -226,7 +226,8 @@ $oTpl->assign('fieldsTop', array(
                 'type'      => 'select',
                 'options'   => $oAdNetworks->getCategoriesSelect(),
                 'value'     => $affiliate['oac_category_id'],
-                'style'     => 'width: 15em'
+                'style'     => 'width: 15em',
+                'disabled'  => !empty($affiliate['oac_website_id'])
             ),
             array(
                 'type'      => 'custom',
@@ -236,7 +237,8 @@ $oTpl->assign('fieldsTop', array(
                                 'aLanguages' => $oAdNetworks->getLanguagesSelect(),
                                 'country'  => $affiliate['oac_country_code'],
                                 'language' => $affiliate['oac_language_id']
-                               )
+                               ),
+                'disabled'  => !empty($affiliate['oac_website_id'])
             ),
             array(
                 'name'      => 'contact',
