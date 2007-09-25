@@ -171,22 +171,60 @@ class OA_Dll_Publisher extends OA_Dll
 
             return false;
         }
-        if (!isset($oPublisher->publisherId)) {
+
+        if (empty($oPublisher->publisherId)) {
+            unset($oPublisher->publisherId);
             $oPublisher->setDefaultForAdd();
+        } else {
+            $oPublisher->publisherId = (int) $oPublisher->publisherId;
+            // Capture the existing data
+            /**
+             * @todo This needs to be updated to use the getPublisher method, however right now
+             *       I need access to properties not referenced by the DLL
+             */
+            $doPrevPublisher = OA_Dal::factoryDO('affiliates');
+            $doPrevPublisher->get($oPublisher->publisherId);
+            $publisherPrevData = $doPrevPublisher->toArray();
         }
 
         $publisherData =  (array) $oPublisher;
 
-        // Name
-        $publisherData['name']     = $oPublisher->publisherName;
-        // Default fields
-        $publisherData['contact']  = $oPublisher->contactName;
-        $publisherData['email'] 	= $oPublisher->emailAddress;
-        $publisherData['agencyid'] = $oPublisher->agencyId;
+        // Trim input variables
+        foreach ($publisherData as $key => $value) {
+            $publisherData[$key] = trim($publisherData[$key]);
+        }
 
-        // Password
-        if (isset($publisherData['password'])) {
+        // Clear the website if only the pre-filled "http://" is passed
+        if (isset($publisherData['website']) && $publisherData['website'] == 'http://') {
+            $publisherData['website'] = '';
+        }
+
+        // Sum the permissions values into a bitwise value
+        if (isset($oPublisher->permissions) && is_array($oPublisher->permissions)) {
+            $permissions = 0;
+            for ($i=0;$i<sizeof($oPublisher->permissions);$i++) {
+                $permissions += $oPublisher->permissions[$i];
+            }
+            $publisherData['permissions'] = $permissions;
+        }
+
+        // Remap the publisher name
+        $publisherData['name']      = $oPublisher->publisherName;
+
+        // Default fields
+        $publisherData['contact']   = $oPublisher->contactName;
+        $publisherData['email'] 	= $oPublisher->emailAddress;
+        $publisherData['agencyid']  = $oPublisher->agencyId;
+
+        if (isset($publisherData['password']) && ($publisherData['password'] != '********')) {
             $publisherData['password'] = md5($oPublisher->password);
+        } else {
+            // Starred password passed in, leave as-is
+            unset($publisherData['password']);
+        }
+        if (empty($publisherData['username'])) {
+            $publisherData['username'] = $oPublisher->username = null;
+            $publisherData['password'] = $oPublisher->password = null;
         }
 
         if ($this->_validate($oPublisher)) {
@@ -199,10 +237,37 @@ class OA_Dll_Publisher extends OA_Dll
                 $doPublisher->setFrom($publisherData);
                 $doPublisher->update();
             }
+            // Trigger OAC call if adnetworks was enabled or OAC values were changed
+            if ($oPublisher->adNetworks) {
+                // Initialise Ad  Networks
+                $oAdNetworks = new OA_Central_AdNetworks();
+
+                $aRpcPublisher = array(
+                array(
+                        'id'       => $oPublisher->publisherId,
+                        'url'      => $oPublisher->website,
+                        'country'  => $oPublisher->oac_country_code,
+                        'language' => $oPublisher->oac_language_id,
+                        'category' => $oPublisher->oac_category_id,
+                    )
+                );
+
+                $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
+
+                if (PEAR::isError($result)) {
+                    $aError = array(
+                       'id' => isset($pubid) ? $pubid : 0,
+                       'message' => $result->getMessage()
+                    );
+                    if ($result->getCode() == 802) {
+                        $captchaErrorFormId = $formId;
+                        $aError['message'] = '';
+                    }
+                }
+            }
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**

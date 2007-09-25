@@ -27,6 +27,13 @@
 $Id$
 
 -->*}
+{if $error!=''}
+    <div class='errormessage' id='errors'>
+        <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
+        <span class='tab-r'>The following errors were found:</span><br />
+        {$error}
+    </div>
+{/if}
 
 <br /><br />
 
@@ -49,10 +56,6 @@ $Id$
 
 {include file=edit-table/create.html from=$fieldsTop}
 
-<div style="width:100%;text-align:left;padding-top: 7px;">
-<input value="Save Changes" type="button" id="adnetworks-submit"{tabindex}>
-</div>
-
 <script language="javascript">
 <!--{literal}
         $(document).ready(function() {
@@ -70,16 +73,13 @@ $Id$
 
 {include file=adnetworks-signup-dialog.html formId=affiliateform}
 
-</form>
-
 <br /><br />
 
-<form name='affiliateform2' method='post' action='affiliate-edit.php' onSubmit='return max_formValidate(this);'>
 <input type='hidden' name='affiliateid' value='{$affiliateid}'>
 
 {include file=edit-table/create.html from=$fieldsBottom}
 
 <div style="width:100%;text-align:left;padding-top: 7px;">
-<input type='submit' name='submit' value="{t str=SaveChanges}"{tabindex}>
+<input value="Save Changes" type="button" id="adnetworks-submit"{tabindex}>
 </div>
 </form>

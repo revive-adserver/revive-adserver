@@ -39,15 +39,12 @@ require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
+require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'publiczones',
+phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks',
                                'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
-                               'publiczones_old', 'pwold', 'pw', 'pw2', 'mnemonic', 'comments',
-                               'address', 'city', 'postcode', 'country', 'phone', 'fax', 'account_contact',
-                               'payee_name', 'tax_id_present', 'tax_id', 'mode_of_payment', 'currency',
-                               'unique_users', 'unique_views', 'page_rank', 'category', 'help_file',
-                               'terms_and_conditions', 'account_type');
+                               'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
@@ -76,218 +73,34 @@ if (phpAds_isUser(phpAds_Affiliate)) {
 /* Process submitted form                                */
 /*-------------------------------------------------------*/
 
-if (isset($submit)) {
-    $errormessage = array();
-    $affiliate = array();
-    $affiliate_extra = array();
+if (isset($formId)) {
+    // Setup a new publisher object and set the fields passed in from the form:
+    $oPublisher = new OA_Dll_PublisherInfo();
+    $oPublisher->agencyId       = $agencyid;
+    $oPublisher->contactName    = $contact;
+    $oPublisher->emailAddress   = $email;
+    $oPublisher->password       = $affiliatepassword;
+    $oPublisher->publisherId    = $affiliateid;
+    $oPublisher->publisherName  = $name;
+    $oPublisher->username       = $affiliateusername;
+    $oPublisher->oacCategoryId  = $category;
+    $oPublisher->oacCountryCode = $country;
+    $oPublisher->oacLanguageId  = $language;
+    $oPublisher->website        = $website;
+    $oPublisher->permissions    = $affiliatepermissions;
 
-    // Get previous values
-    if (isset($affiliateid)) {
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        if ($doAffiliates->get($affiliateid)) {
-            $affiliate = $doAffiliates->toArray();
-        }
+    // Do I need to handle this?
+    $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
 
-        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
-        if ($doAffiliatesExtra->get($affiliateid)) {
-            $affiliate_extra = $doAffiliatesExtra->toArray();
-        }
-
-    }
-    // Name
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-        $affiliate['name'] = trim($name);
-    }
-
-    // Website
-    if (isset($website) && $website == 'http://') {
-        $affiliate['website'] = '';
-    } else {
-        $affiliate['website'] = trim($website);
-    }
-    // Default fields
-    $affiliate['agencyid']    = $agencyid;
-    $affiliate['contact']     = trim($contact);
-    $affiliate['email']       = trim($email);
-
-    // Non-affiliate fields
-    if (!MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-        $affiliate['language']    = trim($language);
-    }
-
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-        // Mnemonic
-        $affiliate['mnemonic'] = trim($mnemonic);
-
-        // Public
-        $affiliate['publiczones'] = isset($publiczones) ? 't' : 'f';
-
-        // Password
-        if (isset($affiliatepassword)) {
-            if ($affiliatepassword == '') {
-                $affiliate['password'] = '';
-            } elseif ($affiliatepassword != '********') {
-                $affiliate['password'] = md5($affiliatepassword);
-            }
-        }
-        // Username
-        if (!empty($affiliateusername)) {
-            $oldUserName = (isset($affiliate['username'])) ? $affiliate['username'] : '';
-            if (!MAX_Permission::isUsernameAllowed($oldUserName, $affiliateusername)) {
-                $errormessage[] = $strDuplicateAgencyName;
-            }
-            $affiliate['username'] = $affiliateusername;
-    	}
-        // Permissions
-        $affiliate['permissions'] = 0;
-        if (isset($account_type) && $account_type == 'affiliate') {
-            $affiliate['permissions'] = MAX_AffiliateIsReallyAffiliate +
-                                        MAX_AffiliateGenerateCode +
-                                        phpAds_ModifyInfo;
-        }
-        if (isset($affiliatepermissions) && is_array($affiliatepermissions)) {
-            for ($i=0;$i<sizeof($affiliatepermissions);$i++) {
-                $affiliate['permissions'] += $affiliatepermissions[$i];
-            }
-        }
-    } else {
-        // Password
-        if (isset($pwold) && strlen($pwold) ||
-            isset($pw) && strlen($pw) ||
-            isset($pw2) && strlen($pw2)) {
-            if (md5($pwold) != $affiliate['password']) {
-                $errormessage[] = $strPasswordWrong;
-            } elseif (!strlen($pw) || strstr("\\", $pw)) {
-                $errormessage[] = $strInvalidPassword;
-            } elseif (strcmp($pw, $pw2)) {
-                $errormessage[] = $strNotSamePasswords;
-            } else {
-                $affiliate['password'] = md5($pw);
-            }
-        }
-    }
-
-    // Extra fields
-    $affiliate_extra['address']         = trim($address);
-    $affiliate_extra['city']            = trim($city);
-    $affiliate_extra['postcode']        = trim($postcode);
-    $affiliate_extra['country']         = trim($country);
-    $affiliate_extra['phone']           = trim($phone);
-    $affiliate_extra['fax']             = trim($fax);
-    $affiliate_extra['account_contact'] = trim($account_contact);
-    $affiliate_extra['payee_name']      = trim($payee_name);
-    $affiliate_extra['tax_id']          = isset($tax_id_present) && $tax_id_present == 't' && isset($tax_id) ? trim($tax_id) : '';
-    $affiliate_extra['mode_of_payment'] = trim($mode_of_payment);
-    $affiliate_extra['currency']        = trim($currency);
-    $affiliate_extra['unique_users']    = trim($unique_users);
-    $affiliate_extra['unique_views']    = trim($unique_views);
-    $affiliate_extra['page_rank']       = trim($page_rank);
-    if (!empty($category)) {
-        $affiliate_extra['category']    = trim($category);
-    }
-
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-        // Extra fields
-        $affiliate['comments']    = trim($comments);
-        if (!empty($help_file)) {
-            $affiliate_extra['help_file'] = trim($help_file);
-        }
-    }
-
-    if (count($errormessage) == 0) {
-        if ($affiliateid && $publiczones != 't' && $publiczones_old == 't') {
-            // Reset append codes which called this affiliate's zones
-            $doZones = OA_Dal::factoryDO('zones');
-            $doZones->affiliateid = $affiliateid;
-            $zones = $doZones->getAll(array('zoneid'));
-
-            if (count($zones)) {
-                $doZones = OA_Dal::factoryDO('zones');
-                $doZones->appendtype = phpAds_ZoneAppendZone;
-                $doZones->whereAdd("affiliateid <> '$affiliateid'");
-                $doZones->find();
-                while ($doZones->fetch() && $currentrow = $doZones->toArray()) {
-                    $append = phpAds_ZoneParseAppendCode($currentrow['append']);
-                    if (in_array($append[0]['zoneid'], $zones)) {
-                        $doZones->appendtype = phpAds_ZoneAppendRaw;
-                        $doZones->append = '';
-                        $doZones->update();
-                    }
-                }
-            }
-        }
-        if (empty($affiliateid)) {
-            $doAffiliates = OA_Dal::factoryDO('affiliates');
-            $doAffiliates->setFrom($affiliate);
-            $doAffiliates->updated = OA::getNow();
-            $affiliateid = $doAffiliates->insert();
-
-            // Go to next page
-            if (isset($move) && $move == 't') {
-                // Move loose zones to this affiliate
-                $doZones = OA_Dal::factoryDO('zones');
-                $doZones->affiliateid = $affiliateid;
-                $doZones->whereAdd('affiliateid = NULL');
-                $doZones->whereAdd('affiliateid = 0', 'OR');
-                $doZones->update();
-
-                $redirect_url = "affiliate-zones.php?affiliateid=$affiliateid";
-            } else {
-                $redirect_url = "zone-edit.php?affiliateid=$affiliateid";
-            }
+    $oPublisherDll = new OA_Dll_Publisher();
+    if ($oPublisherDll->modify($oPublisher)) {
+        if (phpAds_isUser(phpAds_Affiliate)) {
+            $redirect_url = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
         } else {
-            $doAffiliates = OA_Dal::factoryDO('affiliates');
-            $doAffiliates->get($affiliateid);
-            $doAffiliates->setFrom($affiliate);
-
-            // Update
-            $doAffiliates->update();
-
-            // Go to next page
-            if (phpAds_isUser(phpAds_Affiliate)) {
-                // Set current session to new language
-                $session['language'] = $language;
-                phpAds_SessionDataStore();
-            }
-            if (phpAds_isUser(phpAds_Affiliate)) {
-                $redirect_url = "affiliate-edit.php?affiliateid=$affiliateid";
-            } else {
-                $redirect_url = "affiliate-zones.php?affiliateid=$affiliateid";
-            }
+            $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
         }
-
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-
-            // Delete publisher preferences when switching to affiliate
-            if (isset($account_type) && $account_type == 'affiliate') {
-                $doPreference_publisher = OA_Dal::factoryDO('preference_publisher');
-                $doPreference_publisher->publisher_id = $affiliateid;
-                $doPreference_publisher->delete();
-            }
-        }
-
-        // Update extra fields
-        if (isset($affiliate_extra['affiliateid'])) {
-            $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
-            $doAffiliatesExtra->get($affiliateid);
-            $doAffiliatesExtra->setFrom($affiliate_extra);
-
-            // Update
-            $doAffiliatesExtra->update();
-        } else {
-            $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
-            $doAffiliatesExtra->setFrom($affiliate_extra);
-            $doAffiliatesExtra->affiliateid = $affiliateid;
-
-            // Insert
-            $doAffiliatesExtra->insert();
-        }
-
         MAX_Admin_Redirect::redirect($redirect_url);
         exit;
-    } else {
-        // If an error occured set the password back to its previous value
-        $affiliate['password'] = $affiliatepassword;
     }
 }
 
@@ -353,48 +166,11 @@ if ($affiliateid != "") {
         if ($affiliate['password'] != '') {
             $affiliate['password'] = '********';
         }
-        $doAffiliatesExtra = OA_Dal::factoryDO('affiliates_extra');
-        if ($doAffiliatesExtra->get($affiliateid)) {
-            $affiliate_extra = $doAffiliatesExtra->toArray();
-        }
     }
 } else {
     phpAds_PageHeader("4.2.1");
     echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
     phpAds_ShowSections(array("4.2.1"));
-    // Do not set this information if the page
-    // is the result of an error message
-    if (!isset($affiliate)) {
-        $affiliate['name']        = $strUntitled;
-        $affiliate['mnemonic']    = '';
-        $affiliate['website']     = 'http://';
-        $affiliate['contact']     = '';
-        $affiliate['email']       = '';
-        $affiliate['publiczones'] = 'f';
-        $affiliate['username']    = '';
-        $affiliate['password']    = '';
-        $affiliate['permissions'] = 0;
-        $affiliate['comments']    = '';
-
-        $affiliate['tax_id_present']                 = $pref['publisher_default_tax_id'];
-        $affiliate['last_accepted_agency_agreement'] = $pref['publisher_default_approved'];
-
-        $affiliate_extra = array();
-        $affiliate_extra['address'] = '';
-        $affiliate_extra['city'] = '';
-        $affiliate_extra['postcode'] = '';
-        $affiliate_extra['country'] = '';
-        $affiliate_extra['phone'] = '';
-        $affiliate_extra['fax'] = '';
-        $affiliate_extra['account_contact'] = '';
-        $affiliate_extra['payee_name'] = '';
-        $affiliate_extra['tax_id'] = '';
-        $affiliate_extra['mode_of_payment'] = '';
-        $affiliate_extra['currency'] = '';
-        $affiliate_extra['unique_users'] = '';
-        $affiliate_extra['unique_views'] = '';
-        $affiliate_extra['page_rank'] = '';
-    }
 }
 
 /*-------------------------------------------------------*/
@@ -415,6 +191,8 @@ $aUniqueUsers = MAX_Permission::getUniqueUserNames($affiliate['username']);
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-edit.html');
+
+$oTpl->assign('error', $oPublisherDll->_errorMessage);
 
 $oTpl->assign('affiliateid', $affiliateid);
 $oTpl->assign('move', $move);
@@ -614,8 +392,8 @@ $oTpl->display();
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetRequirements('affiliateusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 
-    max_formSetUnique('name', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-    max_formSetUnique('affiliateusername', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
+    max_formSetUnique('name', '|<?php echo addslashes(implode('|', $aUniqueNames)); ?>|');
+    max_formSetUnique('affiliateusername', '|<?php echo addslashes(implode('|', $aUniqueUsers)); ?>|');
 
     function MMM_cascadePermissionsChange()
     {
@@ -628,11 +406,8 @@ $oTpl->display();
             a.checked = d.checked = false;
         }
     }
-
     MMM_cascadePermissionsChange();
-
 <?php } ?>
-
 //-->
 </script>
 

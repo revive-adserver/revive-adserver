@@ -172,20 +172,7 @@ class MAX_Permission_User
      */
     function getDoAffiliates($username, $md5digest)
     {
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        $doAffiliates->username = $username;
-        $doAffiliates->password = $md5digest;
-        $doAffiliates_extra = OA_Dal::factoryDO('affiliates_extra');
-        $doAffiliates->joinAdd($doAffiliates_extra);
-        $doAffiliates->selectAdd();
-        $doAffiliates->selectAs($doAffiliates);
-        $doAffiliates->selectAs($doAffiliates_extra, 'e_%s');
-        $doAffiliates->find();
-        if ($doAffiliates->fetch()) {
-            return $doAffiliates;
-        }
-
-        return false;
+        return MAX_Permission_User::getDoUser('affiliates', $username, $md5digest);
     }
 
 

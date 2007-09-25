@@ -268,22 +268,23 @@ class OA_Central_AdNetworks extends OA_Central_Common
             if ($existingPublisher) {
                 $doPublishers->get($aWebsites[$websiteIdx]['id']);
                 $publisher = array();
+                $publisherName = $doPublishers->name;
             } else {
+                $publisherName = $this->oDal->getUniquePublisherName($aWebsite['url']);
                 $publisher = array(
+                    'name'             => $publisherName,
+                    'website'          => 'http://'.$aWebsite['url'],
                     'mnemonic'         => '',
                     'contact'          => $aPref['admin_name'],
                     'email'            => $aPref['admin_email'],
+                    'oac_country_code' => $aWebsites[$websiteIdx]['country'],
+                    'oac_language_id'  => $aWebsites[$websiteIdx]['language'],
+                    'oac_category_id'  => $aWebsites[$websiteIdx]['category']
                 );
             }
 
-            $publisherName = $this->oDal->getUniquePublisherName($aWebsite['url']);
             $publisher += array(
-                'name'             => $publisherName,
-                'website'          => 'http://'.$aWebsite['url'],
                 'oac_website_id'   => $aWebsite['website_id'],
-                'oac_country_code' => $aWebsites[$websiteIdx]['country'],
-                'oac_language_id'  => $aWebsites[$websiteIdx]['language'],
-                'oac_category_id'  => $aWebsites[$websiteIdx]['category']
             );
 
             $doPublishers->setFrom($publisher);
