@@ -122,7 +122,7 @@ $Id$
             <span class="dialog-placeholder" />
         </td>
         <td height="25">
-            <span class="view"><a href="affiliate-delete.php?affiliateid={$affiliate.affiliateid|escape}&amp;returnurl=affiliate-index.php'{phpAds_DelConfirm str=ConfirmDeleteAffiliate}><img src="images/icon-recycle.gif" border="0" align="absmiddle" alt="{t str=Delete}" title="{t str=Delete}">&nbsp;{t str=Delete}</a></span>
+            <span class="view"><a href="affiliate-delete.php?affiliateid={$affiliate.affiliateid|escape}&amp;returnurl=affiliate-index.php"{phpAds_DelConfirm str=ConfirmDeleteAffiliate}><img src="images/icon-recycle.gif" border="0" align="absmiddle" alt="{t str=Delete}" title="{t str=Delete}">&nbsp;{t str=Delete}</a></span>
             <span class="edit"><span class="link cancel-edit" id="{$affiliate.affiliateid|escape}">Cancel</span></span>
 
             {include file=adnetworks-signup-dialog.html formId='pub_form_'|cat:$affiliate.affiliateid}
