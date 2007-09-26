@@ -45,6 +45,8 @@ define('OA_UPGRADE_FINISH',                    70);
 global $installing, $tabindex;
 $installing = true;
 
+error_reporting(E_ERROR);
+
 require_once '../../init.php';
 
 if (array_key_exists('btn_openads', $_POST) || (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED))
