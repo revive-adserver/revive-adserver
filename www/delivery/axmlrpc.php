@@ -1475,7 +1475,6 @@ return $output;
 }
 function raiseError($message, $type = null, $behaviour = null)
 {
-$conf = $GLOBALS['_MAX']['CONF'];
 // If fatal
 if ($behaviour == PEAR_ERROR_DIE) {
 // Log fatal message here as execution will stop
