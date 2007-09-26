@@ -413,6 +413,53 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
 
     /**
+     * A method to "unsubscribe" one or more websites from the Ad Networks program
+     * The method currently just unlinks any ad network banners from this publisher's zones
+     *
+     * @param array $aWebsites
+     * @return mixed true on success, PEAR_Error otherwise
+     */
+    function unsubscribeWebsites($aWebsites)
+    {
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        $oDbh = OA_DB::singleton();
+        if (!$this->oDal->beginTransaction()) {
+            return new PEAR_Error('Cannot start transaction');
+        }
+
+        $error = false;
+        foreach ($aWebsites as $idx => $aWebsite) {
+            $publisherId = $aWebsite['id'];
+            if (empty($publisherId)) {
+                // No publisher ID found, skip
+                continue;
+            }
+            // Unlink any Ad Network banners linked to this publisher's zones
+            $doZones = OA_Dal::factoryDO('zones');
+            $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+            $doBanner = OA_Dal::factoryDO('banners');
+
+            $doZones->affiliateid = $publisherId;
+            $doBanner->whereAdd('oac_banner_id IS NOT NULL');
+            $doAdZoneAssoc->joinAdd($doBanner);
+            $doAdZoneAssoc->joinAdd($doZones);
+            $doAdZoneAssoc->find();
+            while ($doAdZoneAssoc->fetch()) {
+                if (!$doAdZoneAssoc->delete()) {
+                    $error = true;
+                    break;
+                }
+            }
+        }
+        if ($error) {
+            $this->oDal->rollback();
+            return new PEAR_Error('Unable to unlink all ad network banners');
+        } else {
+            return $this->oDal->commit();
+        }
+    }
+
+    /**
      * A method to get the list of other networks currently available
      *
      * @see C-AN-1: Displaying Ad Networks on Advertisers & Campaigns Screen
