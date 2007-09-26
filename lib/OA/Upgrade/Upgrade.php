@@ -861,7 +861,9 @@ class OA_Upgrade
             }
             // hark the special case of 2.3.34-beta - the borked schema
             // treat this as a milestone upgrade for repair purposes
-            if (version_compare($this->versionInitialApplication,'2.3.34-beta')==0)
+            //if (version_compare($this->versionInitialApplication,'2.3.34-beta')==0)
+            // actually, better check for any version < .38 in case of upgrades from .34 prior to the repair pkg
+            if (version_compare($this->versionInitialApplication,'2.3.38-beta','<')==-1)
             {
                 $this->versionInitialSchema['tables_core'] = $this->oVersioner->getSchemaVersion('tables_core');
                 if ($this->versionInitialSchema['tables_core']=='129')
