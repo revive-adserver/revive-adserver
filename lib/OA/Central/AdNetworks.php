@@ -192,7 +192,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
      * @param array $aWebsites
      * @return mixed True on success, PEAR_Error otherwise
      */
-    function subscribeWebsites($aWebsites)
+    function subscribeWebsites(&$aWebsites)
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
         $oDbh = OA_DB::singleton();
@@ -293,6 +293,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 $publisherId = $doPublishers->update() ? $aWebsites[$websiteIdx]['id'] : '';
             } else {
                 $publisherId = $doPublishers->insert();
+                $aWebsites[$websiteIdx]['id'] = $publisherId;
             }
 
             if (!empty($publisherId)) {

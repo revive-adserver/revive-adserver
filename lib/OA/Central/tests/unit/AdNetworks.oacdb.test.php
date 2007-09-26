@@ -210,7 +210,9 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $oAdNetworks = $this->_newInstance();
         $this->_mockSendReference($oAdNetworks, $oResponse);
 
-        $result = $oAdNetworks->subscribeWebsites($aWebsites);
+        // Note since subscribeWebsites now passes-by-reference, and we want to re-create, pass in a copy
+        $aWebsitesCopy = $aWebsites;
+        $result = $oAdNetworks->subscribeWebsites($aWebsitesCopy);
         $this->assertTrue($result);
 
         // Check counts
@@ -228,7 +230,8 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->assertEqual($oDo->count(), 6);
 
         // Subscribe again
-        $result = $oAdNetworks->subscribeWebsites($aWebsites);
+        $aWebsitesCopy = $aWebsites;
+        $result = $oAdNetworks->subscribeWebsites($aWebsitesCopy);
         $this->assertTrue($result);
 
         // Check counts
@@ -252,7 +255,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $oDo->fetch();
         $row = $oDo->toArray();
         $this->assertEqual($row['campaignname'], 'Beccati.com - Campaign 1 - http://www.beccati.com (2)');
-        //DataGenerator::cleanUp($this->aCleanupTables);
+        DataGenerator::cleanUp($this->aCleanupTables);
     }
 
     /**
@@ -261,33 +264,49 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
      */
     function testUnsubscribeWebsites()
     {
+        $this->_setUpAppVars();
+
         $aWebsites = array(
             array(
-                'id'       => 1,
                 'url'      => 'http://www.beccati.com',
                 'category' => 1,
                 'country'  => 'it',
                 'language' => 2
             ),
             array(
-                'id'       => 2,
                 'url'      => 'http://www.openads.org',
                 'category' => 2,
                 'country'  => 'uk',
                 'language' => 1
             )
         );
+
+        // The sites above will generate different numbers of zones
+        // So set the expected number of zones to be created here
+        $aExpectedZoneCount = array(
+            array('zoneCount' => 2),
+            array('zoneCount' => 1),
+        );
+
+        $aResponse = $this->_subscribeArray();
+
+        $oResponse = new XML_RPC_Response(XML_RPC_encode($aResponse));
+
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, $oResponse);
+
+        $result = $oAdNetworks->subscribeWebsites($aWebsites);
+
         // First assert that the correct number of ad_zone_assoc links are present
         foreach ($aWebsites as $idx => $aWebsite) {
             $doAza = OA_Dal::factoryDO('ad_zone_assoc');
             $doZones = OA_Dal::factoryDO('zones');
             $doZones->affiliateid = $aWebsite['id'];
             $doAza->joinAdd($doZones);
-            $this->assertEqual($doAza->count(), 2, 'initial data not present before calling unsubscribe');
+            $this->assertEqual($doAza->count(), $aExpectedZoneCount[$idx]['zoneCount'], 'subscribe call did not setup expected data');
         }
 
         // No need to mock since this call is currently local-only
-        $oAdNetworks = new OA_Central_AdNetworks();
         $aResponse = $oAdNetworks->unsubscribeWebsites($aWebsites);
         $this->assertTrue($aResponse, 'unsubscribe websites did not return true');
 
