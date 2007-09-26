@@ -88,6 +88,8 @@
             $sysinfoarray['actual']['magic_quotes_runtime'] = ($sysinfoarray['actual']['magic_quotes_runtime']==0 ? 'OFF '.$passImage : 'ON '.$errorImage);
             $sysinfoarray['actual']['file_uploads'] = $sysinfoarray['actual']['file_uploads'] == 0 ? 'OFF ' . $errorImage : 'ON ' . $passImage;
 
+            $sysinfoarray['actual']['timeout'] = (!$sysinfoarray['actual']['timeout'] ? 'OK '.$passImage : $sysinfoarray['actual']['timeout'].' '.$errorImage);
+
             // Only warn if register_argc_argv is off
             if ($sysinfoarray['actual']['register_argc_argv'] == 0) {
                 $sysinfoarray['actual']['register_argc_argv'] = 'OFF ' . $warnImage;
@@ -99,6 +101,7 @@
             $sysinfoarray['actual']['pcre'] = ($sysinfoarray['actual']['pcre'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['xml']  = ($sysinfoarray['actual']['xml']  == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $sysinfoarray['actual']['zlib'] = ($sysinfoarray['actual']['zlib'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
+            $sysinfoarray['actual']['mysql'] = ($sysinfoarray['actual']['mysql'] == false ? 'NOT LOADED ' . $errorImage : 'LOADED ' .$passImage);
             $halt = (($halt) || ($sysinfoarray['error']));
 
             $sysinfoheading = (!$sysinfoarray['error']? $passImage . ' PHP - no errors' : $errorImage . ' <span class="red">PHP - errors detected</span>');
