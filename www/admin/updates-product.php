@@ -67,7 +67,8 @@ $connectionId = $connection->getConnectionId();
 $aVersion = $connectionId->getServerVersion();
 $current .= '&nbsp;' . $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
 
-$current .= '.';
+echo "<br />".$current."<br /><br />";
+phpAds_ShowBreak();
 
 if (!isset($session['maint_update'])) {
     if (function_exists('xml_parser_create')) {
@@ -93,8 +94,6 @@ if (!isset($session['maint_update'])) {
         exit();
     } else {
         echo "<br />".$strNotAbleToCheck."<br /><br />";
-        phpAds_ShowBreak();
-        echo $current;
         echo "<br /><br />".$strForUpdatesLookOnWebsite."<br /><br />";
         echo "<b><img src='images/caret-r.gif'>&nbsp;<a href='http://".$phpAds_producturl."' target='_blank'>".$strClickToVisitWebsite."</a></b>";
     }
@@ -111,7 +110,6 @@ if (!isset($session['maint_update'])) {
         echo "<table border='0' cellspacing='0' cellpadding='0'><tr><td width='24' valign='top'>";
         echo "<img src='images/info.gif'>&nbsp;&nbsp;";
         echo "</td><td valign='top'><b>".$strNoNewVersionAvailable."</b>";
-        echo '<br /><br />'.$current;
         echo "</td></tr></table><br />";
         phpAds_ShowBreak();
     } elseif (is_array($maint_update[1])) {
@@ -123,7 +121,6 @@ if (!isset($session['maint_update'])) {
             echo "<img src='images/info.gif'>&nbsp;&nbsp;";
             echo "</td><td valign='top'>".$strNewVersionAvailable;
         }
-        echo '<br /><br />'.$current;
         echo "</td></tr></table>";
         echo "<br />";
         phpAds_ShowBreak();
