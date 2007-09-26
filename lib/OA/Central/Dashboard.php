@@ -25,29 +25,35 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Dashboard/Graph.php';
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
-require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
+require_once MAX_PATH . '/lib/OA/Central/Common.php';
+
 
 /**
- * A dashboard widget to diplay an RSS feed of the Openads Blog
+ * OAP binding to the dashboard OAC API
  *
  */
-class OA_Dashboard_Widget_GraphOAC extends OA_Dashboard_Widget_Graph
+class OA_Central_Dashboard extends OA_Central_Common
 {
-    function OA_Dashboard_Widget_GraphOAC($aParams)
+    /**
+     * A method to retrieve the data needed to draw the Community Statistics
+     * graph widget
+     *
+     * @return mixed
+     */
+    function getCommunityStats()
     {
-        parent::OA_Dashboard_Widget_Graph($aParams, 'OAC Graph');
+        $aResult = $this->oMapper->getCommunityStats();
 
-        $this->oTpl->setCacheLifetime(new Date_Span('0-8-0-0'));
-
-        if (!$this->oTpl->is_cached()) {
-            $oDashboard = new OA_Central_Dashboard();
-
-            if ($aData = $oDashboard->getCommunityStats()) {
-                $this->setData($aData);
-            }
+        if (PEAR::isError($aResult)) {
+            return false;
         }
+
+        $aStats = array(
+            0 => array_slice($aResult['impressions'], 0, 7),
+            1 => array_slice($aResult['clicks'], 0, 7)
+        );
+
+        return $aStats;
     }
 }
 

@@ -626,6 +626,55 @@ class OA_Central_RpcMapper
 
         return $aResult;
     }
+
+    /**
+     * A method to retrieve the data needed to draw the Community Statistics
+     * graph widget
+     *
+     *  Array
+     *  (
+     *      [impressions] => Array
+     *          (
+     *              [Mon] => 1000
+     *              [Sun] => 1000
+     *              [Sat] => 1000
+     *              [Fri] => 1000
+     *              [Thu] => 1000
+     *              [Wed] => 1000
+     *              [Tue] => 1000
+     *          )
+     *
+     *      [clicks] => Array
+     *          (
+     *              [Mon] => 10
+     *              [Sun] => 10
+     *              [Sat] => 10
+     *              [Fri] => 10
+     *              [Thu] => 10
+     *              [Wed] => 10
+     *              [Tue] => 10
+     *          )
+     *
+     *  )
+     *
+     * @return array An array with statistics details, PEAR_Error otherwise
+     */
+    function getCommunityStats()
+    {
+        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
+            $aData = array();
+            for ($i = 0; $i < 7; $i++) {
+                $day = date('D', time() - 86400 * (7 - $i));
+                $aData['impressions'][$day] = mt_rand(1500000, 2000000) * 50;
+                $aData['clicks'][$day] = mt_rand(15000, 20000) * 50;
+            }
+            return $aData;
+        }
+
+        $aResult = $this->oRpc->callSso('getCommunityStats');
+
+        return $aResult;
+    }
 }
 
 ?>
