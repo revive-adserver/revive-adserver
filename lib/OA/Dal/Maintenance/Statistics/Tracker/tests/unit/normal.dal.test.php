@@ -257,7 +257,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
     /**
      * Tests the getMaintenanceStatisticsLastRunInfo() method.
      */
-    function testGetMaintenanceStatisticsLastRunInfo()
+    function DEPRECATED_testGetMaintenanceStatisticsLastRunInfo()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
@@ -397,7 +397,7 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
     /**
      * Tests the deleteOldData() method.
      */
-    function testDeleteOldData()
+    function DEPRECATED_testDeleteOldData()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
