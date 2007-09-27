@@ -207,7 +207,7 @@ class OA_Upgrade
      */
     function isRecoveryRequired()
     {
-        return $this->seekRecoveryFile();
+        return (is_array($this->seekRecoveryFile()) ? true : false);
     }
 
     /**
@@ -226,124 +226,134 @@ class OA_Upgrade
         $aRecover = $this->seekRecoveryFile();
         if (is_array($aRecover))
         {
-            // hmm, use canUpgrade() instead?
-            $this->detectPAN();
-            $this->detectMAX01();
-            $this->detectMAX();
-            if (!$this->initDatabaseConnection())
+            if (!empty($aRecover))
             {
-                return false;
+                // hmm, use canUpgrade() instead?
+                $this->detectPAN();
+                $this->detectMAX01();
+                $this->detectMAX();
+                if (!$this->initDatabaseConnection())
+                {
+                    return false;
+                }
+                $this->oDBUpgrader->prefix   = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+                $n = count($aRecover);
+                for ($i = $n-1;$i>-1;$i--)
+                {
+                    $aRec = $aRecover[$i];
+
+                    $this->oLogger->logOnly('attempting to roll back upgrade action id '.$aRec['auditId']);
+                    $this->oLogger->logOnly('retrieving upgrade actions');
+
+                    $aResult = $this->oAuditor->queryAuditByUpgradeId($aRec['auditId']);
+
+                    if ($aResult[0]['upgrade_name'] != $aRec['package'])
+                    {
+                        $this->oLogger->logError('cannot recover using this recovery file: package name mismatch');
+                        return false;
+                    }
+
+                    $this->package_file = $aRec['package'];
+                    $this->oLogger->setLogFile($aResult[0]['logfile'].'.rollback');
+                    $this->oDBUpgrader->logFile = $this->oLogger->logFile;
+                    $this->oConfiguration->clearConfigBackupName();
+
+                    $this->oLogger->logOnly('retrieved upgrade actions ok');
+
+                    $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
+                                                        'version_to'=>$aResult[0]['version_from'],
+                                                        'version_from'=>$aResult[0]['version_to'],
+                                                        'logfile'=>basename($this->oLogger->logFile)
+                                                       )
+                                                 );
+                    $this->oAuditor->setUpgradeActionId();
+
+                    $this->oLogger->log('Preparing to rollback package '.$this->package_file);
+                    if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId'], $versionInitialSchema, $schemaName))
+                    {
+                        $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
+                                                              'action'=>UPGRADE_ACTION_ROLLBACK_FAILED,
+                                                              'confbackup'=>''
+                                                             )
+                                                       );
+                        return false;
+                    }
+                    $this->oLogger->log('Starting to rollback package '.$this->package_file);
+                    if (!$this->oDBUpgrader->rollback())
+                    {
+                        $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
+                                                              'action'=>UPGRADE_ACTION_ROLLBACK_FAILED,
+                                                              'confbackup'=>''
+                                                             )
+                                                       );
+                        return false;
+                    }
+
+                    if (!file_exists(MAX_PATH.'/var/UPGRADE'))
+                    {
+                        if (! $this->_createEmptyVarFile('UPGRADE'))
+                        {
+                            $this->oLogger->log('failed to replace the UPGRADE trigger file');
+                        }
+                    }
+                    if ($this->upgrading_from_milestone_version)
+                    {
+                        if ( ! $this->_removeInstalledFlagFile())
+                        {
+                            $this->oLogger->log('failed to remove the INSTALLED flag file');
+                        }
+                    }
+                    if (! $this->_restoreConfigBackup($aResult[0]['confbackup'], $aRec['auditId']))
+                    {
+                        //return false;
+                        // do we really want to halt rollback because of a conf file?
+                    }
+                    if ($this->oVersioner->tableAppVarsExists($this->oDBUpgrader->_listTables()))
+                    {
+                        $product = 'oa';
+                        if ($aResult[0]['version_from'] == '2.3.31-alpha-pr3')
+                        {
+                            $product = 'max';
+                            $this->oVersioner->removeOpenadsVersion();
+                            $this->oVersioner->putApplicationVersion('v0.3.31-alpha', $product);
+                        }
+                        else if ($aResult[0]['version_from'] == '2.1.29-rc')
+                        {
+                            $product = 'max';
+                            $this->oVersioner->removeOpenadsVersion();
+                            $this->oVersioner->putApplicationVersion('v0.1.29-rc', $product);
+                        }
+                        else
+                        {
+                            $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
+                        }
+                        $this->oVersioner->putSchemaVersion($schemaName, $versionInitialSchema);
+                    }
+                    $this->oLogger->log('Finished rolling back package '.$this->package_file);
+                    $this->oLogger->log('Information regarding the problems encountered during the upgrade can be found in');
+                    $this->oLogger->log($aResult[0]['logfile']);
+                    $this->oLogger->log('Information regarding steps taken during rollback can be found in');
+                    $this->oLogger->log($this->oLogger->logFile);
+                    $this->oLogger->log('Database and configuration files have been rolled back to version '.$aResult[0]['version_from']);
+                    $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
+                                                          'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
+                                                          'confbackup'=>''
+                                                         )
+                                                   );
+                }
             }
-            $this->oDBUpgrader->prefix   = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-            $n = count($aRecover);
-            for ($i = $n-1;$i>-1;$i--)
+            else
             {
-                $aRec = $aRecover[$i];
-
-                $this->oLogger->logOnly('attempting to roll back upgrade action id '.$aRec['auditId']);
-                $this->oLogger->logOnly('retrieving upgrade actions');
-
-                $aResult = $this->oAuditor->queryAuditByUpgradeId($aRec['auditId']);
-
-                if ($aResult[0]['upgrade_name'] != $aRec['package'])
-                {
-                    $this->oLogger->logError('cannot recover using this recovery file: package name mismatch');
-                    return false;
-                }
-
-                $this->package_file = $aRec['package'];
-                $this->oLogger->setLogFile($aResult[0]['logfile'].'.rollback');
-                $this->oDBUpgrader->logFile = $this->oLogger->logFile;
-                $this->oConfiguration->clearConfigBackupName();
-
-                $this->oLogger->logOnly('retrieved upgrade actions ok');
-
-                $this->oAuditor->setKeyParams(array('upgrade_name'=>$this->package_file,
-                                                    'version_to'=>$aResult[0]['version_from'],
-                                                    'version_from'=>$aResult[0]['version_to'],
-                                                    'logfile'=>basename($this->oLogger->logFile)
-                                                   )
-                                             );
-                $this->oAuditor->setUpgradeActionId();
-
-                $this->oLogger->log('Preparing to rollback package '.$this->package_file);
-                if (!$this->oDBUpgrader->prepRollbackByAuditId($aRec['auditId'], $versionInitialSchema, $schemaName))
-                {
-                    $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
-                                                          'action'=>UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                          'confbackup'=>''
-                                                         )
-                                                   );
-                    return false;
-                }
-                $this->oLogger->log('Starting to rollback package '.$this->package_file);
-                if (!$this->oDBUpgrader->rollback())
-                {
-                    $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK FAILED',
-                                                          'action'=>UPGRADE_ACTION_ROLLBACK_FAILED,
-                                                          'confbackup'=>''
-                                                         )
-                                                   );
-                    return false;
-                }
-
-                if (!file_exists(MAX_PATH.'/var/UPGRADE'))
-                {
-                    if (! $this->_createEmptyVarFile('UPGRADE'))
-                    {
-                        $this->oLogger->log('failed to replace the UPGRADE trigger file');
-                    }
-                }
-                if ($this->upgrading_from_milestone_version)
-                {
-                    if ( ! $this->_removeInstalledFlagFile())
-                    {
-                        $this->oLogger->log('failed to remove the INSTALLED flag file');
-                    }
-                }
-                if (! $this->_restoreConfigBackup($aResult[0]['confbackup'], $aRec['auditId']))
-                {
-                    //return false;
-                    // do we really want to halt rollback because of a conf file?
-                }
-                if ($this->oVersioner->tableAppVarsExists($this->oDBUpgrader->_listTables()))
-                {
-                    $product = 'oa';
-                    if ($aResult[0]['version_from'] == '2.3.31-alpha-pr3')
-                    {
-                        $product = 'max';
-                        $this->oVersioner->removeOpenadsVersion();
-                        $this->oVersioner->putApplicationVersion('v0.3.31-alpha', $product);
-                    }
-                    else if ($aResult[0]['version_from'] == '2.1.29-rc')
-                    {
-                        $product = 'max';
-                        $this->oVersioner->removeOpenadsVersion();
-                        $this->oVersioner->putApplicationVersion('v0.1.29-rc', $product);
-                    }
-                    else
-                    {
-                        $this->oVersioner->putApplicationVersion($aResult[0]['version_from'], $product);
-                    }
-                    $this->oVersioner->putSchemaVersion($schemaName, $versionInitialSchema);
-                }
-                $this->oLogger->log('Finished rolling back package '.$this->package_file);
-                $this->oLogger->log('Information regarding the problems encountered during the upgrade can be found in');
-                $this->oLogger->log($aResult[0]['logfile']);
-                $this->oLogger->log('Information regarding steps taken during rollback can be found in');
-                $this->oLogger->log($this->oLogger->logFile);
-                $this->oLogger->log('Database and configuration files have been rolled back to version '.$aResult[0]['version_from']);
-                $this->oAuditor->logAuditAction(array('description'=>'ROLLBACK COMPLETE',
-                                                      'action'=>UPGRADE_ACTION_ROLLBACK_SUCCEEDED,
-                                                      'confbackup'=>''
-                                                     )
-                                               );
+                $this->oLogger->log('No valid recovery information found in var/RECOVER');
+                $this->oLogger->log('It is not possible to rollback the previous upgrade');
+                return false;
             }
             $this->oLogger->log('Recovery complete');
         }
         else
         {
-            $this->oLogger->log('No recovery information found');
+            $this->oLogger->log('No valid recovery information found in var/RECOVER');
+            return false;
         }
         $this->_pickupRecoveryFile();
         return true;
@@ -1964,11 +1974,18 @@ class OA_Upgrade
                 if (trim($v))
                 {
                     $aLine = explode('/', trim($v));
-                    $aResult[] = array(
-                                        'auditId'   =>$aLine[0],
-                                        'package'   =>$aLine[1],
-                                        'updated'   =>$aLine[2],
-                                        );
+                    if (is_array($aLine) && (count($aLine)==3) && (is_numeric($aLine[0])))
+                    {
+                        $aResult[] = array(
+                                            'auditId'   =>$aLine[0],
+                                            'package'   =>$aLine[1],
+                                            'updated'   =>$aLine[2],
+                                            );
+                    }
+                    else
+                    {
+                        return array();
+                    }
                 }
             }
             return $aResult;
