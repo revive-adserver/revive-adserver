@@ -62,7 +62,7 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
         $this->siteTitle = $siteTitle;
         $this->siteUrl   = $siteUrl;
 
-        $this->oTpl = new OA_Admin_Template('dashboard-feed.html');
+        $this->oTpl = new OA_Admin_Template('dashboard/feed.html');
 
         $this->oTpl->setCacheId($this->title);
         $this->oTpl->setCacheLifetime(new Date_Span('0-1-0-0'));

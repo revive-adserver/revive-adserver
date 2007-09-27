@@ -1,14 +1,12 @@
-{*<!--
+<?php
 
+/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -25,22 +23,27 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
+*/
 
--->*}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Openads Dashboard</title>
+require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
-{include file="dashboard-css.html"}
+/**
+ * A class to display the dashboard iframe content
+ *
+ */
+class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
+{
+    /**
+     * A method to launch and display the widget
+     *
+     */
+    function display()
+    {
+        $oTpl = new OA_Admin_Template('dashboard/login.html');
 
-</head>
+        $oTpl->display();
+    }
+}
 
-<body>
-{if $extensionLoaded}
-<img id="graph" src="{$imageSrc|escape}" />
-{else}
-The GD extension is not available, this widget cannot be drawn.
-{/if}
-</body>
-</html>
+?>

@@ -42,13 +42,13 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $oTpl = new OA_Admin_Template('dashboard-iframe.html');
+        $oTpl = new OA_Admin_Template('dashboard/iframe.html');
 
         $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
         $ssoPasswd = OA_Dal_ApplicationVariables::get('sso_password');
 
         $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=IFrame'));
-        $oTpl->assign('errorURL',     MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=SsoDetails&error='));
+        $oTpl->assign('errorURL',     MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Login&error='));
         $oTpl->assign('ssoAdmin',     $ssoAdmin ? $ssoAdmin : 'foo');
         // md5 doesn't work yet - we will have to either reconfigure cas-server or create different url for
         // logging in using hashed password

@@ -26,44 +26,21 @@
 +---------------------------------------------------------------------------+
 $Id$
 
--->*}
-<style type="text/css">
-<!--{literal}
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Verdana, Arial, helvetica, sans-serif;
-}
-ul#feed {
-    color: #77797C;
-    width: 215px;
-    padding-left: 15px;
-    margin: 0 0 15px 0;
-    
-}
-ul#feed li {
-    font-size: 7pt;
-    list-style-image: url('./images/listIcon.gif');
-    margin-bottom: 5px;
-}
-ul#feed li:first-child {
-    list-style-image: url('./images/listIconFirst.gif');
-}
-div#siteLink a {
-    font-size: 7pt;
-    color: #00B0D8;
-    text-decoration: none;
-}
-div#siteLink a:hover{
-    text-decoration: underline;
-}
-a {
-    color: black;
-    text-decoration: none;
-}
-img#graph {
-    width: 239px;
-    height: 132px;
-}
--->{/literal}
-</style>
+-->*}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Openads Dashboard</title>
+
+{include file="dashboard/css.html"}
+
+</head>
+
+<body>
+{if $extensionLoaded}
+<img id="graph" src="{$imageSrc|escape}" />
+{else}
+The GD extension is not available, this widget cannot be drawn.
+{/if}
+</body>
+</html>
