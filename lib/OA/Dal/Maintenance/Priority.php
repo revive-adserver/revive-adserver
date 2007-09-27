@@ -1773,30 +1773,30 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             return $rc;
         }
         if ($rc->numRows() > 0) {
-            while ($row = $rc->fetchRow()) {
+            while ($aRow = $rc->fetchRow()) {
                 // Skip row if there's no data for it in the array
                 if (
-                    !empty($aForecasts[$row['zone_id']]) &&
-                    !empty($aForecasts[$row['zone_id']][$row['operation_interval_id']]) &&
-                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['interval_start'] == $row['interval_start']  &&
-                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['interval_end'] == $row['interval_end']
+                    !empty($aForecasts[$aRow['zone_id']]) &&
+                    !empty($aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]) &&
+                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['interval_start'] == $aRow['interval_start']  &&
+                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['interval_end'] == $aRow['interval_end']
                 )
                 {
 	                // Merge impresions
-	                if (!empty($row['actual_impressions']))
+	                if (!empty($aRow['actual_impressions']))
 	                {
-	                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['actual_impressions'] = $row['actual_impressions'];
+	                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['actual_impressions'] = $aRow['actual_impressions'];
 	                }
 	                // Save forecast_impressions from the database only if there is no newer value in the parameter array already
-	                if (empty($aForecasts[$row['zone_id']][$row['operation_interval_id']]['forecast_impressions']))
+	                if (empty($aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['forecast_impressions']))
 	                {
-	                    $aForecasts[$row['zone_id']][$row['operation_interval_id']]['forecast_impressions'] = $row['forecast_impressions'];
+	                    $aForecasts[$aRow['zone_id']][$aRow['operation_interval_id']]['forecast_impressions'] = $aRow['forecast_impressions'];
 	                }
                 }
             }
         }
         $rc->free();
-        // Prepare SQL statement for use later
+        // Prepare SQL statements for use later
         $table = $this->_getTablename('data_summary_zone_impression_history');
         $sInsertQuery = "
             INSERT INTO
@@ -1822,6 +1822,32 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             'integer'
         );
         $stInsert = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
+        $sInsertWithActualQuery = "
+            INSERT INTO
+                {$table}
+                (
+                    zone_id,
+                    operation_interval,
+                    operation_interval_id,
+                    interval_start,
+                    interval_end,
+                    forecast_impressions,
+                    actual_impressions,
+                    est
+                )
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer',
+            'integer',
+            'timestamp',
+            'timestamp',
+            'integer',
+            'integer',
+            'integer'
+        );
+        $stInsertWithActual = $this->oDbh->prepare($sInsertWithActualQuery, $aTypes, MDB2_PREPARE_MANIP);
         // Does the database in use support transactions?
         if (
                strcasecmp($aConf['database']['type'], 'mysql') === 0
@@ -1975,16 +2001,30 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 reset($aOperationIntervals);
                 while (list($id, $aValues) = each($aOperationIntervals)) {
                     // Insert the forecast
-                    $aData = array(
-                		$zoneId,
-                		$aConf['maintenance']['operationInterval'],
-                		$id,
-                		$aValues['interval_start'],
-                		$aValues['interval_end'],
-                		$aValues['forecast_impressions'],
-                		$aValues['est']
-            		);
-            		$rows = $stInsert->execute($aData);
+                    if (!is_null($aValues['actual_impressions'])) {
+                        $aData = array(
+                    		$zoneId,
+                    		$aConf['maintenance']['operationInterval'],
+                    		$id,
+                    		$aValues['interval_start'],
+                    		$aValues['interval_end'],
+                    		$aValues['forecast_impressions'],
+                    		$aValues['actual_impressions'],
+                    		$aValues['est']
+                		);
+            		  $rows = $stInsertWithActual->execute($aData);
+                    } else {
+                        $aData = array(
+                    		$zoneId,
+                    		$aConf['maintenance']['operationInterval'],
+                    		$id,
+                    		$aValues['interval_start'],
+                    		$aValues['interval_end'],
+                    		$aValues['forecast_impressions'],
+                    		$aValues['est']
+                		);
+            		  $rows = $stInsert->execute($aData);
+                    }
                     if (PEAR::isError($rows)) {
                         OA::debug('    - Error: Rolling back transaction', PEAR_LOG_DEBUG);
                         $this->oDbh->rollback();
