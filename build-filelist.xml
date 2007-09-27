@@ -26,6 +26,7 @@
     <include name="etc/**"/>
     <exclude name="etc/*.properties*"/>
     <exclude name="etc/test.conf.php"/>
+    <exclude name="etc/changesfantasy/**"/>
     <include name="lib/**"/>
     <exclude name="lib/simpletest/**"/>
     <include name="maintenance/**"/>
@@ -66,6 +67,7 @@
     <include name="docs/developer/**"/>
     <include name="etc/*.properties*"/>
     <include name="etc/test.conf.php"/>
+    <include name="etc/changesfantasy/**"/>
     <include name="lib/simpletest/**"/>
     <include name="scripts/db_dataobject/**"/>
     <include name="scripts/upgrade/**"/>
