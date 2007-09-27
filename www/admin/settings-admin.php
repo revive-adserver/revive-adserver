@@ -52,9 +52,9 @@ MAX_Permission::checkAccess(phpAds_Admin);
 $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
-    phpAds_registerGlobal('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
-                          'company_name', 'language', 'updates_enabled', 'admin_novice',
-                          'userlog_email', 'timezone_location', 'maintenance_autoMaintenance');
+    phpAds_registerGlobalUnslashed('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
+                                   'company_name', 'language', 'updates_enabled', 'admin_novice',
+                                   'userlog_email', 'timezone_location', 'maintenance_autoMaintenance');
 
     // Set up the config object
     $config = new OA_Admin_Config();
