@@ -57,15 +57,22 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
         $this->UnitTestCase();
         $this->oDbh = &OA_DB::singleton();
         $conf = &$GLOBALS['_MAX']['CONF'];
-        $this->tblDRTC  = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_click'],true);
-        $this->tblDRTI  = $this->oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_impression', true);
-        $this->tblDRTVV = $this->oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_variable_value', true);
+        //$this->tblDRTC  = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_click'],true);
+        $this->tblDRTI  = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'], true);
+        $this->tblDRTVV = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_variable_value'], true);
         $conf['maintenance']['operationInterval'] = 60;
         $conf['maintenance']['compactStats'] = false;
         $conf['modules']['Tracker'] = true;
         $conf['table']['split'] = false;
     }
 
+    /**
+     * data_raw_tracker_click table removed
+     * REFACTOR THESE TESTS
+     *
+     * @param unknown_type $aData
+     * @return unknown
+     */
     function _insertDataRawTrackerClick($aData)
     {
         $query = "
@@ -120,7 +127,7 @@ class Maintenance_TestOfMaintenanceStatisticsTracker extends UnitTestCase
     /**
      * The main test method.
      */
-    function testClass()
+    function DEPRECATED_testClass()
     {
         // Use a reference to $GLOBALS['_MAX']['CONF'] so that the configuration
         // options can be changed while the test is running
