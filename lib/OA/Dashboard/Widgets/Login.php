@@ -34,13 +34,43 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  */
 class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
 {
+    var $wrongCredentials;
+
+    function OA_Dashboard_Widget_Login($aParams)
+    {
+        parent::OA_Dashboard_Widget($aParams);
+
+        $this->wrongCredentials = !empty($aParams['wrongCredentials']);
+    }
+
     /**
      * A method to launch and display the widget
      *
      */
     function display()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
+
         $oTpl = new OA_Admin_Template('dashboard/login.html');
+
+        $oTpl->assign('signupUrl', $this->buildUrl($aConf['oacSSO'], 'signup'));
+        $oTpl->assign('forgotUrl', $this->buildUrl($aConf['oacSSO'], 'forgot'));
+        $oTpl->assign('ssoAdmin',  $ssoAdmin);
+
+        if ($this->wrongCredentials)
+        {
+            $oTpl->assign('displayError', true);
+
+            if ($ssoAdmin) {
+                $errorMessage = "Sorry, this platform is already connected to a different user.";
+            } else {
+                $errorMessage = "Check credentials, wrong username or password.";
+            }
+
+            $oTpl->assign('errorMessage', $errorMessage);
+        }
 
         $oTpl->display();
     }

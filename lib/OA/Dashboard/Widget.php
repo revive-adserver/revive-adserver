@@ -73,6 +73,25 @@ class OA_Dashboard_Widget
     function display()
     {
     }
+
+    /**
+     * A method to build the URLs from config variables
+     *
+     * @param array $aConf
+     * @param string $pathVariable
+     * @return string
+     */
+    function buildUrl($aConf, $pathVariable = 'path')
+    {
+        if (($aConf['protocol'] == 'http' && $aConf['port'] == 80) ||
+            ($aConf['protocol'] == 'https' && $aConf['port'] == 443)) {
+            $port = '';
+        } else {
+            $port = ':'.$aConf['port'];
+        }
+
+        return "{$aConf['protocol']}://{$aConf['host']}{$port}{$aConf[$pathVariable]}";
+    }
 }
 
 ?>

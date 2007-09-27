@@ -354,6 +354,8 @@ protocol    = https
 host        = login.openads.org
 port        = 443
 path        = /sso/login
+signup      = /account/signup
+forgot      = /account/forgotPassword
 
 ;------------------------------------------------------------------------------------------;
 ; Plugins Settings                                                                         ;
