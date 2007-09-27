@@ -33,7 +33,7 @@ $Id:$
  *
  */
 
-// Base class BaseLogonService
+// This is the base class for the BaseLogonService
 require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 
 // Advertiser Dll class
