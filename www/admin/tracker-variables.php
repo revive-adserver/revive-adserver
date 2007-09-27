@@ -405,12 +405,12 @@ if (isset($trackerid) && $trackerid != '')
                                     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>\n";
                                         echo "<tr>\n";
                                             echo "<td>".$strVariableName."</td>\n";
-                                            echo "<td><input class='flat' type='text' name='name".$k."' value='".$v['name']."'></td>\n";
+                                            echo "<td><input class='flat' type='text' name='name{$k}' value=\"".htmlspecialchars($v['name'])."\"></td>\n";
                                         echo "</tr>\n";
                                         echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
                                         echo "<tr>\n";
                                             echo "<td width='200'>".$strVariableDescription."</td>\n";
-                                            echo "<td><input class='flat' type='text' name='description".$k."' value='".$v['description']."'></td>\n";
+                                            echo "<td><input class='flat' type='text' name='description".$k."' value=\"".htmlspecialchars($v['description'])."\"></td>\n";
                                         echo "</tr>\n";
                                         echo "<tr><td colspan='2'>&nbsp;</td></tr>\n";
                                         echo "<tr>\n";
