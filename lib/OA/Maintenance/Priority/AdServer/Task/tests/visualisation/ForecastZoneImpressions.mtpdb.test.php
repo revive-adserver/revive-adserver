@@ -163,14 +163,14 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                     COPY
                         {$this->tblDSZIH}
                     FROM
-                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/tests/visualisation/ForecastZoneImpressions.sql'
+                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/AdServer/Tasks/tests/visualisation/ForecastZoneImpressions.sql'
                     WITH DELIMITER
                         '\t'";
                 break;
             case 'mysql':
                 $query = "
                     LOAD DATA INFILE
-                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/tests/visualisation/ForecastZoneImpressions.sql'
+                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/AdServer/Tasks/tests/visualisation/ForecastZoneImpressions.sql'
                     INTO TABLE
                         {$this->tblDSZIH}
                     FIELDS TERMINATED BY
@@ -409,7 +409,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             case "mysql":
                 $query = "
                     LOAD DATA INFILE
-                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/tests/visualisation/ForecastZoneImpressions.sql'
+                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/AdServer/Tasks/tests/visualisation/ForecastZoneImpressions.sql'
                     INTO TABLE
                         {$this->tblDSZIH}
                     FIELDS TERMINATED BY
@@ -422,7 +422,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                     COPY
                         {$this->tblDSZIH}
                     FROM
-                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/tests/visualisation/ForecastZoneImpressions.sql'
+                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/AdServer/Tasks/tests/visualisation/ForecastZoneImpressions.sql'
                     WITH DELIMITER
                         '\t'";
                 break;
@@ -662,7 +662,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
             case 'mysql':
                 $query = "
                     LOAD DATA INFILE
-                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/tests/visualisation/ForecastZoneImpressions.sql'
+                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/AdServer/Tasks/tests/visualisation/ForecastZoneImpressions.sql'
                     INTO TABLE
                         {$this->tblDSZIH}
                     FIELDS TERMINATED BY
@@ -675,7 +675,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
                     COPY
                         {$this->tblDSZIH}
                     FROM
-                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/tests/visualisation/ForecastZoneImpressions.sql'
+                        '" . MAX_PATH . "/lib/OA/Maintenance/Priority/AdServer/Tasks/tests/visualisation/ForecastZoneImpressions.sql'
                     WITH DELIMITER
                         '\t'";
                 break;
