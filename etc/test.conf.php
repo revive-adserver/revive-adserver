@@ -221,7 +221,6 @@ data_intermediate_ad_variable_value      = data_intermediate_ad_variable_value
 data_raw_ad_click                        = data_raw_ad_click
 data_raw_ad_impression                   = data_raw_ad_impression
 data_raw_ad_request                      = data_raw_ad_request
-data_raw_tracker_click                   = data_raw_tracker_click
 data_raw_tracker_impression              = data_raw_tracker_impression
 data_raw_tracker_variable_value          = data_raw_tracker_variable_value
 data_summary_ad_hourly                   = data_summary_ad_hourly
