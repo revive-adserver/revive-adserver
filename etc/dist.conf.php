@@ -333,21 +333,36 @@ compactStats        = true
 compactStatsGrace   = 604800
 
 ;------------------------------------------------------------------------------------------;
-; Sync / Dashboard Settings                                                                ;
+; Openads Central Settings                                                                 ;
 ;------------------------------------------------------------------------------------------;
 
-[sync]
-host                = sync.openads.org
-script              = /xmlrpc.php
-port                = 80
+[oacSync]
+protocol    = https
+host        = sync.openads.org
+path        = /xmlrpc.php
+httpPort    = 80
+httpsPort   = 443
 
-[dashboard]
-protocol            = http://
-host                = sync.openads.org
-path                = /dashboard-sync/dashboard/dashboard_iframe.php
+[oacXmlRpc]
+protocol    = https
+host        = oac.openads.org
+port        = 443
+path        = /oac/xmlrpc
+
+[oacDashboard]
+protocol    = https
+host        = oac.openads.org
+port        = 443
+path        = /oac/dashboard/home
+
+[oacSSO]
+protocol    = https
+host        = login.openads.org
+port        = 443
+path        = /sso/login
 
 ;------------------------------------------------------------------------------------------;
-; Plugins Settings                                                                ;
+; Plugins Settings                                                                         ;
 ;------------------------------------------------------------------------------------------;
 
 [channelDerivation]

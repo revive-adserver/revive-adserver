@@ -40,6 +40,8 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
      */
     function display()
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
         $oTpl = new OA_Admin_Template('dashboard-iframe.html');
 
         $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
@@ -51,10 +53,28 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
         // md5 doesn't work yet - we will have to either reconfigure cas-server or create different url for
         // logging in using hashed password
         $oTpl->assign('ssoPasswd',    $ssoPasswd); // ? md5($ssoPasswd) : 'bar');
-        $oTpl->assign('casLoginURL',  'https://login.openads.org/sso/login');
-        $oTpl->assign('serviceURL',   'https://login.openads.org/account/account.auth');
+        $oTpl->assign('casLoginURL',  $this->_buildUrl($aConf['oacSSO']));
+        $oTpl->assign('serviceURL',   $this->_buildUrl($aConf['oacDashboard']));
 
         $oTpl->display();
+    }
+
+    /**
+     * A private function to build the URLs
+     *
+     * @param array $aConf
+     * @return string
+     */
+    function _buildUrl($aConf)
+    {
+        if (($aConf['protocol'] == 'http' && $aConf['port'] == 80) ||
+            ($aConf['protocol'] == 'https' && $aConf['port'] == 443)) {
+            $port = '';
+        } else {
+            $port = ':'.$aConf['port'];
+        }
+
+        return "{$aConf['protocol']}://{$aConf['host']}{$port}{$aConf['path']}";
     }
 }
 

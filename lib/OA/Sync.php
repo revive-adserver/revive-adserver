@@ -28,9 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+require_once MAX_PATH . '/lib/OA/XmlRpcClient.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
-
-require_once 'XML/RPC.php';
 
 /**
  * A class to deal with the services provided by Openads Sync
@@ -40,11 +39,11 @@ require_once 'XML/RPC.php';
  */
 class OA_Sync
 {
-    var $conf;
-    var $pref;
+    var $aConf;
+    var $aPref;
     var $oDbh;
 
-    var $_openadsServer;
+    var $_conf;
 
     /**
      * Constructor
@@ -54,9 +53,10 @@ class OA_Sync
      */
     function OA_Sync($conf = null, $pref = null)
     {
-        $this->conf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
-        $this->pref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
-        $this->_openadsServer = $GLOBALS['_MAX']['CONF']['sync'];
+        $this->aConf = is_null($conf) ? $GLOBALS['_MAX']['CONF'] : $conf;
+        $this->aPref = is_null($pref) ? $GLOBALS['_MAX']['PREF'] : $pref;
+
+        $this->_conf = $this->aConf['oacSync'];
 
         $this->oDbh =& OA_DB::singleton();
     }
@@ -148,8 +148,16 @@ class OA_Sync
         global $XML_RPC_erruser;
 
         // Create client object
-        $client = new XML_RPC_Client($this->_openadsServer['script'],
-            $this->_openadsServer['host'], $this->_openadsServer['port']);
+        if ($this->_conf['protocol'] == 'https') {
+            $client = new OA_XML_RPC_Client($this->_conf['path'],
+                "https://{$this->_conf['host']}", $this->_conf['httpsPort']);
+        }
+
+        if ($this->_conf['protocol'] != 'https' || !$client->canUseSSL()) {
+            // Fall back to plain http
+            $client = new OA_XML_RPC_Client($this->_conf['path'],
+                "http://{$this->_conf['host']}", $this->_conf['httpPort']);
+        }
 
         $params = array(
             new XML_RPC_Value('Openads', 'string'),
@@ -216,7 +224,7 @@ class OA_Sync
             // prepare update query
             $sUpdate = "
                 UPDATE
-                    ".$this->conf['table']['prefix'].$this->conf['table']['preference']."
+                    ".$this->aConf['table']['prefix'].$this->aConf['table']['preference']."
                 SET
                     updates_cache = '".addslashes(serialize($cache))."',
                     updates_timestamp = ".time()."

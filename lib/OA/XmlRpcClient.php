@@ -54,6 +54,11 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         parent::XML_RPC_Client($path, $server, $port);
     }
 
+    function canUseSSL()
+    {
+        return $this->hasCurl || $this->hasOpenssl;
+    }
+
     function _sendHttpGenerate(&$msg, $username = '', $password = '')
     {
         // Pre-emptive BC hacks for fools calling sendPayloadHTTP10() directly

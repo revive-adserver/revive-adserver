@@ -48,16 +48,23 @@ class OA_Dal_Central_Rpc
     var $oXml;
 
     /**
+     * @var array
+     */
+    var $_conf;
+
+    /**
      * Class constructor
      *
      * @return OA_Dal_Central_Rpc
      */
     function OA_Dal_Central_Rpc()
     {
+        $this->_conf = $GLOBALS['_MAX']['CONF']['oacXmlRpc'];
+
         $this->oXml = new OA_XML_RPC_Client(
-            '/xmlrpc.php',
-            'https://sync.openads.org',
-            443
+            $this->_conf['path'],
+            "{$this->_conf['protocol']}://{$this->_conf['host']}",
+            $this->_conf['port']
         );
     }
 
