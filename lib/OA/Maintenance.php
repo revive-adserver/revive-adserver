@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/Max.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 require_once MAX_PATH . '/scripts/maintenance/translationStrings.php';
 
 if (!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cache.php']) && !is_callable('MAX_commonGetDeliveryUrl')) {
@@ -39,6 +38,7 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -135,7 +135,7 @@ class OA_Maintenance
      */
     function runMSE()
     {
-        MAX_Maintenance_Statistics::run();
+        OA_Maintenance_Statistics::run();
     }
 
     /**

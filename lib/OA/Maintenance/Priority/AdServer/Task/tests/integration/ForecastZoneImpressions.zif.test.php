@@ -229,7 +229,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_ForecastZoneImpressions extends
         $oServiceLocator->register('now', $oNowDate);
 
         // Insert the fact that the MSE has run "now" (but before the MPE)
-        $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
+        $oLogCompletion = new OA_Maintenance_Statistics_AdServer_Task_LogCompletion();
         $oLogCompletion->oController->updateIntermediate = true;
         $oLogCompletion->oController->updateFinal        = true;
         $oLogCompletion->oController->oUpdateIntermediateToDate = $aDates['end'];

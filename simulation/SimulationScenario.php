@@ -29,12 +29,12 @@ require_once MAX_PATH . '/lib/max/SqlBuilder.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/Delivery/querystring.php';
 require_once MAX_PATH . '/lib/max/Delivery/adSelect.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Core.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
@@ -508,7 +508,7 @@ class SimulationScenario
     function runMaintenance()
     {
         $this->printHeading('Starting Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
-        MAX_Maintenance_Statistics::run();
+        OA_Maintenance_Statistics::run();
         $this->printHeading('End Maintenance Statistics; date: ' . $this->_getDateTimeString(), 3);
     }
 

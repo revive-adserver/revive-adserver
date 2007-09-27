@@ -58,9 +58,9 @@ $path = dirname(__FILE__);
 require_once $path . '/../../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Maintenance/Statistics.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -221,6 +221,6 @@ $oLastUpdatedDate->subtractSeconds(1);
 $oServiceLocator->register('lastUpdatedDate', $oLastUpdatedDate);
 
 // Run the Maintenance Statistics Engine (MSE) process
-MAX_Maintenance_Statistics::run();
+OA_Maintenance_Statistics::run();
 
 ?>

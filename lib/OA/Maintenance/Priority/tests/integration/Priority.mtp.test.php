@@ -32,9 +32,8 @@ $Id$
 define('ZONE_FORECAST_DEFAULT_ZONE_IMPRESSIONS', 10);
 
 require_once MAX_PATH . '/variables.php';
-require_once MAX_PATH . '/lib/max/Maintenance/Statistics/AdServer.php';
-
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Statistics/AdServer.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 require_once MAX_PATH . '/lib/pear/Date/Span.php';
@@ -313,14 +312,14 @@ class Test_Priority extends UnitTestCase
         $this->oServiceLocator =& OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-15 14:00:01');
         $this->oServiceLocator->register('now', $startDate);
-        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $this->oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
+        $oLogCompletion = new OA_Maintenance_Statistics_AdServer_Task_LogCompletion();
         $oLogCompletion->run();
 
         // Test 2: Set "previous" date for the MPE run
@@ -503,14 +502,14 @@ class Test_Priority extends UnitTestCase
         $this->oServiceLocator =& OA_ServiceLocator::instance();
         $startDate = new Date('2005-06-19 00:00:01');
         $this->oServiceLocator->register('now', $startDate);
-        $oMaintenanceStatistics = new MAX_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateIntermediate = true;
         $oMaintenanceStatistics->updateFinal = true;
         $aOiDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($startDate);
         $oMaintenanceStatistics->oUpdateIntermediateToDate = $aOiDates['end'];
         $oMaintenanceStatistics->oUpdateFinalToDate = $aOiDates['end'];
         $this->oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        $oLogCompletion = new MAX_Maintenance_Statistics_AdServer_Task_LogCompletion();
+        $oLogCompletion = new OA_Maintenance_Statistics_AdServer_Task_LogCompletion();
         $oLogCompletion->run();
 
         // Test 3: Set "current" date for the MPE run
