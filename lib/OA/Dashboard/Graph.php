@@ -135,8 +135,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         if ($this->draw) {
     		$Canvas =& Image_Canvas::factory('png',
     			array(
-    				'width'		=> 230,
-    				'height'	=> 140,
+    				'width'		=> 239,
+    				'height'	=> 132,
     				'antialias'	=> 'native'
     			)
     		);
@@ -187,6 +187,10 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     */
 
             $Graph->add($Plotarea = Image_Graph::factory('plotarea'));
+
+            $FillBG =& Image_Graph::factory('Image_Graph_Fill_Image', MAX_PATH . '/www/admin/images/dashboard-graph-bg.gif');
+            $Graph->setBackground($FillBG);
+
 
     		$Grid =& $Plotarea->addNew('line_grid', IMAGE_GRAPH_AXIS_Y);
     		$Grid->setLineColor('#cccccc');
