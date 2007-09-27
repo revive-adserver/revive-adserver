@@ -34,21 +34,28 @@ body {
     padding: 0;
     font-family: Verdana, Arial, helvetica, sans-serif;
 }
-h3 {
-    display: block;
-    width: 230px;
-    text-align: center;
-    font-size: 12px;
-    font-weigth: bold;
-    color: #738d5e;
-    margin: 0;
-}
 ul#feed {
-    width: 230px;
+    color: #77797C;
+    width: 215px;
+    padding-left: 15px;
+    margin: 0 0 15px 0;
+    
 }
 ul#feed li {
-    font-size: 10px;
-    margin-left: -1.5em;
+    font-size: 7pt;
+    list-style-image: url('./images/listIcon.gif');
+    margin-bottom: 5px;
+}
+ul#feed li:first-child {
+    list-style-image: url('./images/listIconFirst.gif');
+}
+div#siteLink a {
+    font-size: 7pt;
+    color: #00B0D8;
+    text-decoration: none;
+}
+div#siteLink a:hover{
+    text-decoration: underline;
 }
 a {
     color: black;

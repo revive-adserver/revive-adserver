@@ -38,13 +38,11 @@ $Id$
 
 <body>
 
-<h3>{$title|escape}</h3>
-
 <ul id="feed">
 {foreach item=f from=$feed}
     <li><a href="{$f.link|escape}" target="_blank">{$f.title|escape}</a></li>
 {/foreach}
 </ul>
-
+<div id="siteLink"><a href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
 </body>
 </html>

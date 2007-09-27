@@ -52,13 +52,15 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
      * @param int $posts
      * @return OA_Dashboard_Widget_Feed
      */
-    function OA_Dashboard_Widget_Feed($aParams, $title, $url, $posts = 5)
+    function OA_Dashboard_Widget_Feed($aParams, $title, $url, $posts = 5, $siteTitle = null, $siteUrl = null)
     {
         parent::OA_Dashboard_Widget();
 
         $this->title = $title;
         $this->url   = $url;
         $this->posts = $posts;
+        $this->siteTitle = $siteTitle;
+        $this->siteUrl   = $siteUrl;
 
         $this->oTpl = new OA_Admin_Template('dashboard-feed.html');
 
@@ -77,8 +79,16 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
             $oRss =& new XML_RSS($this->url);
             $oRss->parse();
 
+            $aPost = array_slice($oRss->getItems(), 0, $this->posts);
+            foreach ($aPost as $key => $aValue) {
+                if (strlen($aValue['title']) > 30) {
+                    $aPost[$key]['title'] = substr($aValue['title'], 0, 30) .'...';
+                }
+            }
             $this->oTpl->assign('title', $this->title);
-            $this->oTpl->assign('feed', array_slice($oRss->getItems(), 0, $this->posts));
+            $this->oTpl->assign('feed', $aPost);
+            $this->oTpl->assign('siteTitle', $this->siteTitle);
+            $this->oTpl->assign('siteUrl', $this->siteUrl);
         }
 
         $this->oTpl->display();

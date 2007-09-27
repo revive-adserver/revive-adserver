@@ -45,7 +45,9 @@ class OA_Dashboard_Widget_ForumFeed extends OA_Dashboard_Widget_Feed
             $aParams,
             'Last 5 forum posts',
             'http://feeds.feedburner.com/OpenadsForum?format=xml',
-            5
+            5,
+            'Go to Openads forum page',
+            'http://forum.openads.org'
         );
     }
 }
