@@ -140,10 +140,6 @@ defaultClickConnectionWindow        =
 logInUTC                            = false   ; If true delivery log raw data in UTC
 ignoreHosts                         =         ; Comma separated list of hosts
 
-[modules]
-AdServer                            = true
-Tracker                             = true
-
 [maintenance]
 autoMaintenance                     = 1
 autoMaintenanceDelay                = 5      ; Delay for automaintenance, should be lesser than opearationInterval

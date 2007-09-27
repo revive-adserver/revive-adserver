@@ -61,19 +61,11 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends
     /**
      * A method to test the run() method.
      *
-     * Tests WITHOUT the Tracker module
-     * Test 1:  Test where not updating either intermediate or final tables.
-     * Test 2:  Test where updating intermediate tables on a single hour.
-     * Test 3:  Test where updating final tables on a single hour.
-     * Test 4:  Test where updating intermediate tables on multiple hours.
-     * Test 5:  Test where updating final tables on multiple hours.
-     *
-     * Tests WITH the Tracker module
-     * Test 6:  Test where not updating either intermediate or final tables.
-     * Test 7:  Test where updating intermediate tables on a single hour.
-     * Test 8:  Test where updating final tables on a single hour.
-     * Test 9:  Test where updating intermediate tables on multiple hours.
-     * Test 10: Test where updating final tables on multiple hours.
+     * Test 1: Test where not updating either intermediate or final tables.
+     * Test 2: Test where updating intermediate tables on a single hour.
+     * Test 3: Test where updating final tables on a single hour.
+     * Test 4: Test where updating intermediate tables on multiple hours.
+     * Test 5: Test where updating final tables on multiple hours.
      */
     function testRun()
     {
@@ -105,7 +97,6 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends
         );
 
         // Test 1
-        $conf['modules']['Tracker'] = false;
         $conf['maintenance']['operationInterval'] = 30;
         $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
         $oSummariseIntermediate->oController->updateUsingOI = false;
@@ -120,7 +111,6 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends
         $oSummariseIntermediate->tally();
 
         // Test 2
-        $conf['modules']['Tracker'] = false;
         $conf['maintenance']['operationInterval'] = 30;
         $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
         $olastDateIntermediate = new Date('2006-03-09 10:59:59');
@@ -137,13 +127,12 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends
         $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateClicks', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectNever('_summariseIntermediateConnections');
+        $oSummariseIntermediate->expectOnce('_summariseIntermediateConnections', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_saveIntermediateSummaries', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->run();
         $oSummariseIntermediate->tally();
 
         // Test 3
-        $conf['modules']['Tracker'] = false;
         $conf['maintenance']['operationInterval'] = 30;
         $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
         $olastDateFinal = new Date('2006-03-09 10:59:59');
@@ -160,160 +149,12 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends
         $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_summariseIntermediateClicks', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectNever('_summariseIntermediateConnections');
+        $oSummariseIntermediate->expectOnce('_summariseIntermediateConnections', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->expectOnce('_saveIntermediateSummaries', array($oStartDate, $oEndDate));
         $oSummariseIntermediate->run();
         $oSummariseIntermediate->tally();
 
         // Test 4
-        $conf['modules']['Tracker'] = false;
-        $conf['maintenance']['operationInterval'] = 30;
-        $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
-        $olastDateIntermediate = new Date('2006-03-09 10:59:59');
-        $oStartDate0 = new Date('2006-03-09 10:59:59');
-        $oStartDate0->addSeconds(1);
-        $oStartDate1 = new Date('2006-03-09 11:29:59');
-        $oStartDate1->addSeconds(1);
-        $oStartDate2 = new Date('2006-03-09 11:59:59');
-        $oStartDate2->addSeconds(1);
-        $oUpdateIntermediateToDate = new Date('2006-03-09 12:29:59');
-        $oEndDate0 = new Date('2006-03-09 11:29:58');
-        $oEndDate0->addSeconds(1);
-        $oEndDate1 = new Date('2006-03-09 11:59:58');
-        $oEndDate1->addSeconds(1);
-        $oEndDate2 = new Date('2006-03-09 12:29:58');
-        $oEndDate2->addSeconds(1);
-        $oSummariseIntermediate->oController->updateUsingOI = true;
-        $oSummariseIntermediate->oController->updateIntermediate = true;
-        $oSummariseIntermediate->oController->oLastDateIntermediate = $olastDateIntermediate;
-        $oSummariseIntermediate->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
-        $oSummariseIntermediate->oController->updateFinal = false;
-        $oSummariseIntermediate->expectCallCount('_summariseIntermediateRequests', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateRequests', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateRequests', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_summariseIntermediateRequests', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->expectCallCount('_summariseIntermediateImpressions', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateImpressions', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateImpressions', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_summariseIntermediateImpressions', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->expectCallCount('_summariseIntermediateClicks', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateClicks', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateClicks', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_summariseIntermediateClicks', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->expectNever('_summariseIntermediateConnections');
-        $oSummariseIntermediate->expectCallCount('_saveIntermediateSummaries', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_saveIntermediateSummaries', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_saveIntermediateSummaries', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_saveIntermediateSummaries', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->run();
-        $oSummariseIntermediate->tally();
-
-        // Test 5
-        $conf['modules']['Tracker'] = false;
-        $conf['maintenance']['operationInterval'] = 30;
-        $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
-        $olastDateFinal = new Date('2006-03-09 10:59:59');
-        $oStartDate0 = new Date('2006-03-09 10:59:59');
-        $oStartDate0->addSeconds(1);
-        $oStartDate1 = new Date('2006-03-09 11:59:59');
-        $oStartDate1->addSeconds(1);
-        $oStartDate2 = new Date('2006-03-09 12:59:59');
-        $oStartDate2->addSeconds(1);
-        $oUpdateFinalToDate = new Date('2006-03-09 13:59:59');
-        $oEndDate0 = new Date('2006-03-09 11:59:58');
-        $oEndDate0->addSeconds(1);
-        $oEndDate1 = new Date('2006-03-09 12:59:58');
-        $oEndDate1->addSeconds(1);
-        $oEndDate2 = new Date('2006-03-09 13:59:58');
-        $oEndDate2->addSeconds(1);
-        $oSummariseIntermediate->oController->updateUsingOI = false;
-        $oSummariseIntermediate->oController->updateIntermediate = false;
-        $oSummariseIntermediate->oController->updateFinal = true;
-        $oSummariseIntermediate->oController->oLastDateFinal = $olastDateFinal;
-        $oSummariseIntermediate->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
-        $oSummariseIntermediate->expectCallCount('_summariseIntermediateRequests', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateRequests', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateRequests', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_summariseIntermediateRequests', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->expectCallCount('_summariseIntermediateImpressions', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateImpressions', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateImpressions', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_summariseIntermediateImpressions', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->expectCallCount('_summariseIntermediateClicks', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_summariseIntermediateClicks', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_summariseIntermediateClicks', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_summariseIntermediateClicks', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->expectNever('_summariseIntermediateConnections');
-        $oSummariseIntermediate->expectCallCount('_saveIntermediateSummaries', 3);
-        $oSummariseIntermediate->expectArgumentsAt(0, '_saveIntermediateSummaries', array($oStartDate0, $oEndDate0));
-        $oSummariseIntermediate->expectArgumentsAt(1, '_saveIntermediateSummaries', array($oStartDate1, $oEndDate1));
-        $oSummariseIntermediate->expectArgumentsAt(2, '_saveIntermediateSummaries', array($oStartDate2, $oEndDate2));
-        $oSummariseIntermediate->run();
-        $oSummariseIntermediate->tally();
-
-        // Test 6
-        $conf['modules']['Tracker'] = true;
-        $conf['maintenance']['operationInterval'] = 30;
-        $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
-        $oSummariseIntermediate->oController->updateUsingOI = false;
-        $oSummariseIntermediate->oController->updateIntermediate = false;
-        $oSummariseIntermediate->oController->updateFinal = false;
-        $oSummariseIntermediate->expectNever('_summariseIntermediateRequests');
-        $oSummariseIntermediate->expectNever('_summariseIntermediateImpressions');
-        $oSummariseIntermediate->expectNever('_summariseIntermediateClicks');
-        $oSummariseIntermediate->expectNever('_summariseIntermediateConnections');
-        $oSummariseIntermediate->expectNever('_saveIntermediateSummaries');
-        $oSummariseIntermediate->run();
-        $oSummariseIntermediate->tally();
-
-        // Test 7
-        $conf['modules']['Tracker'] = true;
-        $conf['maintenance']['operationInterval'] = 30;
-        $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
-        $olastDateIntermediate = new Date('2006-03-09 10:59:59');
-        $oStartDate = new Date('2006-03-09 10:59:59');
-        $oStartDate->addSeconds(1);
-        $oUpdateIntermediateToDate = new Date('2006-03-09 11:29:59');
-        $oEndDate = new Date('2006-03-09 11:29:58');
-        $oEndDate->addSeconds(1);
-        $oSummariseIntermediate->oController->updateUsingOI = true;
-        $oSummariseIntermediate->oController->updateIntermediate = true;
-        $oSummariseIntermediate->oController->oLastDateIntermediate = $olastDateIntermediate;
-        $oSummariseIntermediate->oController->oUpdateIntermediateToDate = $oUpdateIntermediateToDate;
-        $oSummariseIntermediate->oController->updateFinal = false;
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateClicks', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateConnections', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_saveIntermediateSummaries', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->run();
-        $oSummariseIntermediate->tally();
-
-        // Test 8
-        $conf['modules']['Tracker'] = true;
-        $conf['maintenance']['operationInterval'] = 30;
-        $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
-        $olastDateFinal = new Date('2006-03-09 10:59:59');
-        $oStartDate = new Date('2006-03-09 10:59:59');
-        $oStartDate->addSeconds(1);
-        $oUpdateFinalToDate = new Date('2006-03-09 11:59:59');
-        $oEndDate = new Date('2006-03-09 11:59:58');
-        $oEndDate->addSeconds(1);
-        $oSummariseIntermediate->oController->updateUsingOI = false;
-        $oSummariseIntermediate->oController->updateIntermediate = false;
-        $oSummariseIntermediate->oController->updateFinal = true;
-        $oSummariseIntermediate->oController->oLastDateFinal = $olastDateFinal;
-        $oSummariseIntermediate->oController->oUpdateFinalToDate = $oUpdateFinalToDate;
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateRequests', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateImpressions', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateClicks', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_summariseIntermediateConnections', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->expectOnce('_saveIntermediateSummaries', array($oStartDate, $oEndDate));
-        $oSummariseIntermediate->run();
-        $oSummariseIntermediate->tally();
-
-        // Test 9
-        $conf['modules']['Tracker'] = true;
         $conf['maintenance']['operationInterval'] = 30;
         $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
         $olastDateIntermediate = new Date('2006-03-09 10:59:59');
@@ -358,8 +199,7 @@ class Test_OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends
         $oSummariseIntermediate->run();
         $oSummariseIntermediate->tally();
 
-        // Test 10
-        $conf['modules']['Tracker'] = true;
+        // Test 5
         $conf['maintenance']['operationInterval'] = 30;
         $oSummariseIntermediate = new PartialMockMAX_Maintenance_Statistics_AdServer_Task_SummariseIntermediate($this);
         $olastDateFinal = new Date('2006-03-09 10:59:59');

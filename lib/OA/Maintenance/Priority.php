@@ -91,17 +91,11 @@ class OA_Maintenance_Priority
             $oServiceLocator->register('now', $oDate);
         }
         // Run the MPE process for the AdServer module ONLY (at this stage :-)
-        foreach ($conf['modules'] as $module => $installed) {
-            if (($module == 'AdServer') && $installed) {
-                // Create the OA_Maintenance_Priority_AdServer class,
-                // and run the prioritisation process
-                require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
-                $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
-                $result = $oMaintenancePriority->updatePriorities();
-                if ($result === false) {
-                    return false;
-                }
-            }
+        require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer.php';
+        $oMaintenancePriority = new OA_Maintenance_Priority_AdServer();
+        $result = $oMaintenancePriority->updatePriorities();
+        if ($result === false) {
+            return false;
         }
         // Release the MPE database-level lock
         $result = $oDal->releasePriorityLock();

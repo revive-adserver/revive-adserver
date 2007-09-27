@@ -61,8 +61,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
 
-        // Enable the tracker
-        $aConf['modules']['Tracker'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
         // Insert the test data
         $this->_insertTestDeleteOldDataCampaignsTrackers();
@@ -95,8 +93,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
         $this->assertEqual($aRow['number'], 1);
         TestEnv::restoreEnv();
 
-        // Disable the tracker
-        $aConf['modules']['Tracker'] = false;
         $aConf['maintenance']['compactStatsGrace'] = 0;
         $dsa = $oMDMSF->factory("AdServer");
         // Insert the test data
@@ -129,8 +125,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
         $this->assertEqual($aRow['number'], 1);
         TestEnv::restoreEnv();
 
-        // Enable the tracker
-        $aConf['modules']['Tracker'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = $oMDMSF->factory("AdServer");
         // Insert the test data
@@ -165,7 +159,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_DeleteOldData extends UnitTest
         TestEnv::restoreEnv();
 
         // Disable the tracker
-        $aConf['modules']['Tracker'] = false;
         $aConf['maintenance']['compactStatsGrace'] = 3600;
         $dsa = $oMDMSF->factory("AdServer");
         // Insert the test data

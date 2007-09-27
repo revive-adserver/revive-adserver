@@ -775,10 +775,6 @@ class OA_Dal_Maintenance_Statistics_Common
     function _summariseConnections($oStart, $oEnd, $action, $connectionAction, $split = false)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        // If the tracker module is not installed, don't summarise connections
-        if (!$aConf['modules']['Tracker']) {
-            return 0;
-        }
         // Check the start and end dates, and obtain the operatin interval in use
         $operationInterval = $this->_checkStartAndEndDates($oStart, $oEnd);
         if ($operationInterval == 0) {
@@ -1178,9 +1174,8 @@ class OA_Dal_Maintenance_Statistics_Common
         $aDates = OA_OperationInterval::convertDateToOperationIntervalStartAndEndDates($oStart, $operationInterval);
         // Get the operation interval ID
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($aDates['start'], $operationInterval);
-        // Save connections to the intermediate tables, unless set not
-        // to do so (and unless the tracker module is not installed)
-        if ($saveConnections && $aConf['modules']['Tracker']) {
+        // Save connections to the intermediate tables, unless set not to do so
+        if ($saveConnections) {
             // Mark which connections are "latest"
             $connectionRows = $this->_saveIntermediateMarkLatestConnections($oStart, $oEnd);
             if ($connectionRows > 0) {
@@ -1191,14 +1186,11 @@ class OA_Dal_Maintenance_Statistics_Common
             OA::setTempDebugPrefix('- ');
             $this->tempTables->dropTable('tmp_ad_connection');
         }
-        // If the tracker module is installed, there may be connections that need
-        // to be put into the main intermediate table, regardless of if the value
-        // of $saveConnections is true or not - put the appropriate connections
-        // (i.e. that are conversions AND that have one of the connection types
-        // passed in) into the tmp_conversions table
-        if ($aConf['modules']['Tracker']) {
-            $this->_saveIntermediateSummariseConversions($oStart, $oEnd, $aActions);
-        }
+        // There may be connections that need to be put into the main intermediate
+        // table, regardless of if the value of $saveConnections is true or not -
+        // put the appropriate connections (i.e. that are conversions AND that have
+        // one of the connection types passed in) into the tmp_conversions table
+        $this->_saveIntermediateSummariseConversions($oStart, $oEnd, $aActions);
         // Create a temporary union table (tmp_union) of the required data types
         $query = $this->_saveIntermediateCreateUnionGetSql($aActions);
         $aQueries = array();
@@ -1235,30 +1227,29 @@ class OA_Dal_Maintenance_Statistics_Common
         }
         $query .= implode("
                 UNION ALL", $aQueries);
-        if ($aConf['modules']['Tracker']) {
-            $tmpConvTable = $this->oDbh->quoteIdentifier('tmp_conversions',true);
+        $tmpConvTable = $this->oDbh->quoteIdentifier('tmp_conversions',true);
+        $query .= "
+            UNION ALL
+            SELECT
+                {$tmpConvTable}.day AS day,
+                {$tmpConvTable}.hour AS hour,
+                {$tmpConvTable}.operation_interval AS operation_interval,
+                {$tmpConvTable}.operation_interval_id AS operation_interval_id,
+                {$tmpConvTable}.interval_start AS interval_start,
+                {$tmpConvTable}.interval_end AS interval_end,
+                {$tmpConvTable}.ad_id AS ad_id,
+                {$tmpConvTable}.creative_id AS creative_id,
+                {$tmpConvTable}.zone_id AS zone_id,";
+        foreach ($aActions['types'] as $type) {
             $query .= "
-                UNION ALL
-                SELECT
-                    {$tmpConvTable}.day AS day,
-                    {$tmpConvTable}.hour AS hour,
-                    {$tmpConvTable}.operation_interval AS operation_interval,
-                    {$tmpConvTable}.operation_interval_id AS operation_interval_id,
-                    {$tmpConvTable}.interval_start AS interval_start,
-                    {$tmpConvTable}.interval_end AS interval_end,
-                    {$tmpConvTable}.ad_id AS ad_id,
-                    {$tmpConvTable}.creative_id AS creative_id,
-                    {$tmpConvTable}.zone_id AS zone_id,";
-            foreach ($aActions['types'] as $type) {
-                $query .= "
-                    0 AS {$type}s,";
-            }
-            $query .= "
-                    COUNT(*) AS conversions,
-                    SUM({$tmpConvTable}.basket_value) AS total_basket_value,
-                    SUM({$tmpConvTable}.num_items) AS total_num_items
-                FROM
-                    {$tmpConvTable}";
+                0 AS {$type}s,";
+        }
+        $query .= "
+                COUNT(*) AS conversions,
+                SUM({$tmpConvTable}.basket_value) AS total_basket_value,
+                SUM({$tmpConvTable}.num_items) AS total_num_items
+            FROM
+                {$tmpConvTable}";
         $query .= "
                 GROUP BY
                     day,
@@ -1270,12 +1261,8 @@ class OA_Dal_Maintenance_Statistics_Common
                     ad_id,
                     creative_id,
                     zone_id";
-        }
         // Prepare the message about what's about to happen
-        $message = '- Creating a union of the ad ' . implode('s, ', $aActions['types']) . 's';
-        if ($aConf['modules']['Tracker']) {
-            $message .= ' and conversions';
-        }
+        $message = '- Creating a union of the ad ' . implode('s, ', $aActions['types']) . 's and conversions';
         OA::debug($message, PEAR_LOG_DEBUG);
         $rows = $this->oDbh->exec($query);
         if (PEAR::isError($rows)) {
@@ -1286,11 +1273,9 @@ class OA_Dal_Maintenance_Statistics_Common
             OA::setTempDebugPrefix('- ');
             $this->tempTables->dropTable("tmp_ad_{$type}");
         }
-        if ($aConf['modules']['Tracker']) {
-            // Drop the tmp_conversions table
-            OA::setTempDebugPrefix('- ');
-            $this->tempTables->dropTable('tmp_conversions');
-        }
+        // Drop the tmp_conversions table
+        OA::setTempDebugPrefix('- ');
+        $this->tempTables->dropTable('tmp_conversions');
         // Summarise the data in temporary union table (tmp_union) into the
         // main (data_intermediate_ad) table, to finally finish the job! ;-)
         $table = $aConf['table']['prefix'] .
@@ -1354,10 +1339,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     creative_id,
                     zone_id";
             // Prepare the message about what's about to happen
-            $message = '- Inserting the ad ' . implode('s, ', $aActions['types']) . 's';
-            if ($aConf['modules']['Tracker']) {
-                $message .= ' and conversions';
-            }
+            $message = '- Inserting the ad ' . implode('s, ', $aActions['types']) . 's and conversions';
             $message .= " into the $table table";
             OA::debug($message, PEAR_LOG_DEBUG);
             $rows = $this->oDbh->exec($query);
@@ -1365,10 +1347,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
             }
         } else {
-            $message = '- No ad ' . implode('s, ', $aActions['types']) . 's';
-            if ($aConf['modules']['Tracker']) {
-                $message .= ' or conversions';
-            }
+            $message = '- No ad ' . implode('s, ', $aActions['types']) . 's or conversions';
             $message .= " found to insert into the $table table";
             OA::debug($message, PEAR_LOG_DEBUG);
         }
@@ -2045,10 +2024,7 @@ class OA_Dal_Maintenance_Statistics_Common
             GROUP BY
                 day, hour, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
-        $message = '- Summarising the ad ' . implode('s, ', $aActions['types']) . 's';
-        if ($aConf['modules']['Tracker']) {
-            $message .= ' and conversions';
-        }
+        $message = '- Summarising the ad ' . implode('s, ', $aActions['types']) . 's and conversions';
         $message .= " from the $finalFromTable table";
         OA::debug($message, PEAR_LOG_DEBUG);
         $message = "  into the $finalToTable table, for data" .
@@ -2059,10 +2035,7 @@ class OA_Dal_Maintenance_Statistics_Common
         if (PEAR::isError($rows)) {
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
-        $message = '- Summarised ' . $rows . ' rows of ' . implode('s, ', $aActions['types']) . 's';
-        if ($aConf['modules']['Tracker']) {
-            $message .= ' and conversions';
-        }
+        $message = '- Summarised ' . $rows . ' rows of ' . implode('s, ', $aActions['types']) . 's and conversions';
         $message .= '.';
         OA::debug($message, PEAR_LOG_DEBUG);
         // Update the recently summarised data with basic financial information
@@ -3150,20 +3123,17 @@ class OA_Dal_Maintenance_Statistics_Common
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         $resultRows += $rows;
-        // Take into account the maximum connection window, if approproate
-        if ($aConf['modules']['Tracker']) {
-            // Find the largest, active impression and click connection windows
-            list($impressionWindow, $clickWindow) = $this->oDalMaintenanceStatistics->maxConnectionWindows();
-            // Find the largest of the two windows
-            if ($impressionWindow > $clickWindow) {
-                $maxWindow = $impressionWindow;
-            } else {
-                $maxWindow = $clickWindow;
-            }
-            OA::debug('- Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
-            $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
-                                                            // doesn't deal with strings
+        // Find the largest, active impression and click connection windows
+        list($impressionWindow, $clickWindow) = $this->oDalMaintenanceStatistics->maxConnectionWindows();
+        // Find the largest of the two windows
+        if ($impressionWindow > $clickWindow) {
+            $maxWindow = $impressionWindow;
+        } else {
+            $maxWindow = $clickWindow;
         }
+        OA::debug('- Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
+        $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
+                                                         // doesn't deal with strings
         // Delete the ad impressions
         $table = $aConf['table']['prefix'] .
                  $aConf['table']['data_raw_ad_impression'];
@@ -3262,20 +3232,17 @@ class OA_Dal_Maintenance_Statistics_Common
                 }
             }
         }
-        // Take into account the maximum connection window, if approproate
-        if ($aConf['modules']['Tracker']) {
-            // Find the largest, active impression and click connection windows
-            list($impressionWindow, $clickWindow) = $this->oDalMaintenanceStatistics->maxConnectionWindows();
-            // Find the largest of the two windows
-            if ($impressionWindow > $clickWindow) {
-                $maxWindow = $impressionWindow;
-            } else {
-                $maxWindow = $clickWindow;
-            }
-            OA::debug('- Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
-            $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
-                                                             // doesn't deal with strings
+        // Find the largest, active impression and click connection windows
+        list($impressionWindow, $clickWindow) = $this->oDalMaintenanceStatistics->maxConnectionWindows();
+        // Find the largest of the two windows
+        if ($impressionWindow > $clickWindow) {
+            $maxWindow = $impressionWindow;
+        } else {
+            $maxWindow = $clickWindow;
         }
+        OA::debug('- Found maximum connection window of ' . $maxWindow . ' seconds', PEAR_LOG_DEBUG);
+        $oDeleteDate->subtractSeconds((int) $maxWindow); // Cast to int, as Date class
+                                                         // doesn't deal with strings
         // Delete from remaining tables
         foreach ($aTables as $table) {
             // Look at the data_raw_ad_impression tables

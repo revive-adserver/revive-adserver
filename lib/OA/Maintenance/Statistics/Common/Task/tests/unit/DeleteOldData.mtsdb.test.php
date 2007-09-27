@@ -142,17 +142,291 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
         $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['maintenance']['operationInterval'] = 60;
         $conf['table']['prefix'] = 'max_';
-        $conf['table']['split'] = false;
         $tables =& OA_DB_Table_Core::singleton();
         $oDbh =& OA_DB::singleton();
         $oServiceLocator =& OA_ServiceLocator::instance();
+
         // Create the required tables
         $tables->createTable('campaigns_trackers');
         $tables->createTable('data_raw_ad_click');
         $tables->createTable('data_raw_ad_impression');
         $tables->createTable('data_raw_ad_request');
         $tables->createTable('log_maintenance_statistics');
+
         // Insert the test data
+        $this->_insertTestRunData();
+
+        // Set no compact_stats grace period
+        $conf['maintenance']['compactStatsGrace'] = 0;
+
+        // Set compact_stats to false
+        $conf['maintenance']['compactStats'] = false;
+
+        // Create and register a new OA_Maintenance_Statistics_AdServer object
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
+        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
+        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
+
+        // Test - compact stats set to false, so expect all 6 requests, impressions
+        // and clicks to remain in the raw data tables
+        $oDeleteOldData->run();
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+
+        // Set compact_stats to true
+        $conf['maintenance']['compactStats'] = true;
+
+        // Create and register a new OA_Maintenance_Statistics_AdServer object
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics->updateFinal = false;
+        $oMaintenanceStatistics->updateIntermediate = false;
+        $oMaintenanceStatistics->updateUsingOI = false;
+        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
+        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
+        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
+
+        // Test - compact stats set to true, MSE update values not valid for deleting old stats
+        // data, so expect all 6 requests, impressions and clicks to remain in the raw data tables
+        $oDeleteOldData->run();
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+
+        // Create and register a new OA_Maintenance_Statistics_AdServer object
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics->updateFinal = true;
+        $oMaintenanceStatistics->updateIntermediate = false;
+        $oMaintenanceStatistics->updateUsingOI = false;
+        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
+        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
+        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
+
+        // Test - compact stats set to true, MSE update values not valid for deleting old stats
+        // data, so expect all 6 requests, impressions and clicks to remain in the raw data tables
+        $oDeleteOldData->run();
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+
+        // Create and register a new OA_Maintenance_Statistics_AdServer object
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics->updateFinal = false;
+        $oMaintenanceStatistics->updateIntermediate = true;
+        $oMaintenanceStatistics->updateUsingOI = true;
+        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
+        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
+        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
+
+        // Test - compact stats set to true, MSE update values not valid for deleting old stats
+        // data, so expect all 6 requests, impressions and clicks to remain in the raw data tables
+        $oDeleteOldData->run();
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 6);
+
+        // Create and register a new OA_Maintenance_Statistics_AdServer object
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics->updateFinal = true;
+        $oMaintenanceStatistics->updateIntermediate = false;
+        $oMaintenanceStatistics->updateUsingOI = true;
+        $oMaintenanceStatistics->oUpdateFinalToDate = new Date('2004-06-06 17:59:59');
+        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
+        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
+        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
+
+        // Test - compact stats set to true, MSE update values valid for deleting old stats
+        // data, so expect all requests, impressions and clicks older than '2004-06-06 17:59:59'
+        // (i.e. 5 of the 6) to have been deleted
+        $oDeleteOldData->run();
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 1);
+
+        // Drop and re-create the tables
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_click']);
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_impression']);
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_request']);
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['log_maintenance_statistics']);
+        $tables->createTable('data_raw_ad_click');
+        $tables->createTable('data_raw_ad_impression');
+        $tables->createTable('data_raw_ad_request');
+        $tables->createTable('log_maintenance_statistics');
+
+        // Re-insert the test data
+        $this->_insertTestRunData();
+
+        // Set compact_stats grace period to one hour
+        $conf['maintenance']['compactStatsGrace'] = 3600;
+
+        // Create and register a new OA_Maintenance_Statistics_AdServer object
+        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
+        $oMaintenanceStatistics->updateFinal = false;
+        $oMaintenanceStatistics->updateIntermediate = true;
+        $oMaintenanceStatistics->updateUsingOI = false;
+        $oMaintenanceStatistics->oUpdateIntermediateToDate = new Date('2004-06-06 17:59:59');
+        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
+        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
+        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
+
+        // Test - compact stats set to true, MSE update values valid for deleting old stats
+        // data, so expect all requests, impressions and clicks older than '2004-06-06 17:59:59'
+        // but also older than the grace period (i.e. 3 of the 6) to have been deleted
+        $oDeleteOldData->run();
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
+        $query = "
+            SELECT
+                COUNT(*) AS number
+            FROM
+                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
+        $rc = $oDbh->query($query);
+        $aRow = $rc->fetchRow();
+        $this->assertEqual($aRow['number'], 3);
+
+        // Drop and re-create the tables
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_click']);
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_impression']);
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_request']);
+        $tables->dropTable($conf['table']['prefix'].$conf['table']['log_maintenance_statistics']);
+        $tables->createTable('data_raw_ad_click');
+        $tables->createTable('data_raw_ad_impression');
+        $tables->createTable('data_raw_ad_request');
+        $tables->createTable('log_maintenance_statistics');
+
+        // Re-insert the test data
+        $this->_insertTestRunData();
+
+        // Set no compact_stats grace period
+        $conf['maintenance']['compactStatsGrace'] = 0;
+
+        // Insert some converson tracking windows, the largets being on hour
         $query = "
             INSERT INTO
                 max_campaigns_trackers
@@ -177,158 +451,22 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
             3600
         );
         $rows = $st->execute($aData);
-        $this->_insertTestRunData();
-        // Set compact_stats to false
-        $conf['maintenance']['compactStats'] = false;
-        // Create and register a new OA_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
-        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
-        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
-        // Test
-        $oDeleteOldData->run();
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        // Set compact_stats to true
-        $conf['maintenance']['compactStats'] = true;
-        // Set compact_stats grace to one hour
-        $conf['maintenance']['compactStatsGrace'] = 3600;
-        // Disable the tracker
-        $conf['modules']['Tracker'] = false;
-        // Create and register a new OA_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
-        $oMaintenanceStatistics->updateFinal = false;
-        $oMaintenanceStatistics->updateIntermediate = false;
-        $oMaintenanceStatistics->updateUsingOI = false;
-        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
-        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
-        // Test
-        $oDeleteOldData->run();
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        // Create and register a new OA_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
-        $oMaintenanceStatistics->updateFinal = true;
-        $oMaintenanceStatistics->updateIntermediate = false;
-        $oMaintenanceStatistics->updateUsingOI = false;
-        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
-        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
-        // Test
-        $oDeleteOldData->run();
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
+
         // Create and register a new OA_Maintenance_Statistics_AdServer object
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
         $oMaintenanceStatistics->updateIntermediate = true;
-        $oMaintenanceStatistics->updateUsingOI = true;
+        $oMaintenanceStatistics->updateUsingOI = false;
+        $oMaintenanceStatistics->oUpdateIntermediateToDate = new Date('2004-06-06 17:59:59');
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
         // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
         $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
-        // Test
-        $oDeleteOldData->run();
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        $query = "
-            SELECT
-                COUNT(*) AS number
-            FROM
-                {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
-        $rc = $oDbh->query($query);
-        $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 6);
-        // Create and register a new OA_Maintenance_Statistics_AdServer object
-        $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
-        $oMaintenanceStatistics->updateFinal = true;
-        $oMaintenanceStatistics->updateIntermediate = false;
-        $oMaintenanceStatistics->updateUsingOI = true;
-        $oMaintenanceStatistics->oUpdateFinalToDate = new Date('2004-06-06 17:59:59');
-        $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
-        // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
-        $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
-        // Test
+
+        // Test - compact stats set to true, MSE update values valid for deleting old stats
+        // data, so expect all requests, impressions and clicks older than '2004-06-06 17:59:59'
+        // but also older than the largest conversion tracking window (i.e. 3 of the 6) wrt. the
+        // impressions and clicks to have been deleted
         $oDeleteOldData->run();
         $query = "
             SELECT
@@ -353,7 +491,8 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_request']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 3);
+        $this->assertEqual($aRow['number'], 1);
+
         // Drop and re-create the tables
         $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_click']);
         $tables->dropTable($conf['table']['prefix'].$conf['table']['data_raw_ad_impression']);
@@ -363,8 +502,39 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
         $tables->createTable('data_raw_ad_impression');
         $tables->createTable('data_raw_ad_request');
         $tables->createTable('log_maintenance_statistics');
+
         // Re-insert the test data
         $this->_insertTestRunData();
+
+        // Set compact_stats grace period to one hour
+        $conf['maintenance']['compactStatsGrace'] = 3600;
+
+        // Insert some converson tracking windows, the largets being on hour
+        $query = "
+            INSERT INTO
+                max_campaigns_trackers
+                (
+                    viewwindow,
+                    clickwindow
+                )
+            VALUES
+                (?, ?)";
+        $aTypes = array(
+            'integer',
+            'integer'
+        );
+        $st = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
+        $aData = array(
+            0,
+            60
+        );
+        $rows = $st->execute($aData);
+        $aData = array(
+            0,
+            3600
+        );
+        $rows = $st->execute($aData);
+
         // Create and register a new OA_Maintenance_Statistics_AdServer object
         $oMaintenanceStatistics = new OA_Maintenance_Statistics_AdServer();
         $oMaintenanceStatistics->updateFinal = false;
@@ -372,9 +542,14 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
         $oMaintenanceStatistics->updateUsingOI = false;
         $oMaintenanceStatistics->oUpdateIntermediateToDate = new Date('2004-06-06 17:59:59');
         $oServiceLocator->register('Maintenance_Statistics_Controller', $oMaintenanceStatistics);
+
         // Create a new OA_Maintenance_Statistics_Common_Task_DeleteOldData object
         $oDeleteOldData = new OA_Maintenance_Statistics_Common_Task_DeleteOldData();
-        // Test
+
+        // Test - compact stats set to true, MSE update values valid for deleting old stats
+        // data, so expect all requests, impressions and clicks older than '2004-06-06 17:59:59'
+        // but also older than the grace period and largest conversion tracking window
+        // (i.e. 1 of the 6) wrt. the impressions and clicks to have been deleted
         $oDeleteOldData->run();
         $query = "
             SELECT
@@ -383,7 +558,7 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_click']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 3);
+        $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -391,7 +566,7 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
                 {$conf['table']['prefix']}{$conf['table']['data_raw_ad_impression']}";
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
-        $this->assertEqual($aRow['number'], 3);
+        $this->assertEqual($aRow['number'], 5);
         $query = "
             SELECT
                 COUNT(*) AS number
@@ -400,6 +575,7 @@ class Test_OA_Maintenance_Statistics_Common_Task_DeleteOldData extends UnitTestC
         $rc = $oDbh->query($query);
         $aRow = $rc->fetchRow();
         $this->assertEqual($aRow['number'], 3);
+
         // Reset the testing environment
         TestEnv::restoreEnv();
     }

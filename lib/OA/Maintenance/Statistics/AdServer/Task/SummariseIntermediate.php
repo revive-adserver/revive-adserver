@@ -130,28 +130,26 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
                     MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
                     array($oStartDate, $oEndDate)
                 );
-                if ($aConf['modules']['Tracker']) {
-                    // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                    $return = MAX_Plugin::callOnPluginsByHook(
-                        $aPlugins,
-                        'run',
-                        MAINTENANCE_PLUGIN_PRE,
-                        MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                        array($oStartDate, $oEndDate)
-                    );
-                    if ($return !== false) {
-                        // Summarise the connections
-                        $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
-                    }
-                    // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                    MAX_Plugin::callOnPluginsByHook(
-                        $aPlugins,
-                        'run',
-                        MAINTENANCE_PLUGIN_POST,
-                        MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                        array($oStartDate, $oEndDate)
-                    );
+                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
+                $return = MAX_Plugin::callOnPluginsByHook(
+                    $aPlugins,
+                    'run',
+                    MAINTENANCE_PLUGIN_PRE,
+                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
+                    array($oStartDate, $oEndDate)
+                );
+                if ($return !== false) {
+                    // Summarise the connections
+                    $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
                 }
+                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
+                MAX_Plugin::callOnPluginsByHook(
+                    $aPlugins,
+                    'run',
+                    MAINTENANCE_PLUGIN_POST,
+                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
+                    array($oStartDate, $oEndDate)
+                );
                 // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries
                 $return = MAX_Plugin::callOnPluginsByHook(
                     $aPlugins,
@@ -253,28 +251,26 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
                     MSE_PLUGIN_HOOK_AdServer_summariseIntermediateClicks,
                     array($oStartDate, $oEndDate)
                 );
-                if ($aConf['modules']['Tracker']) {
-                    // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                    $return = MAX_Plugin::callOnPluginsByHook(
-                        $aPlugins,
-                        'run',
-                        MAINTENANCE_PLUGIN_PRE,
-                        MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                        array($oStartDate, $oEndDate)
-                    );
-                    if ($return !== false) {
-                        // Summarise the connections
-                        $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
-                    }
-                    // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
-                    MAX_Plugin::callOnPluginsByHook(
-                        $aPlugins,
-                        'run',
-                        MAINTENANCE_PLUGIN_POST,
-                        MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
-                        array($oStartDate, $oEndDate)
-                    );
+                // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
+                $return = MAX_Plugin::callOnPluginsByHook(
+                    $aPlugins,
+                    'run',
+                    MAINTENANCE_PLUGIN_PRE,
+                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
+                    array($oStartDate, $oEndDate)
+                );
+                if ($return !== false) {
+                    // Summarise the connections
+                    $this->_summariseIntermediateConnections($oStartDate, $oEndDate);
                 }
+                // MSE PLUGIN HOOK: POST- MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections
+                MAX_Plugin::callOnPluginsByHook(
+                    $aPlugins,
+                    'run',
+                    MAINTENANCE_PLUGIN_POST,
+                    MSE_PLUGIN_HOOK_AdServer_summariseIntermediateConnections,
+                    array($oStartDate, $oEndDate)
+                );
                 // MSE PLUGIN HOOK: PRE- MSE_PLUGIN_HOOK_AdServer_saveIntermediateSummaries
                 $return = MAX_Plugin::callOnPluginsByHook(
                     $aPlugins,
@@ -430,15 +426,9 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseIntermediate extends OA_M
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oDal =& $oServiceLocator->get('OA_Dal_Maintenance_Statistics_AdServer');
         $aConf = $GLOBALS['_MAX']['CONF'];
-        if ($aConf['modules']['Tracker']) {
-            $message = 'Saving request, impression, click and connection data into the intermediate tables';
-            $this->oController->report .= $message . "\n";
-            OA::debug($message, PEAR_LOG_DEBUG);
-        } else {
-            $message = 'Saving request, impression, click data into the intermediate tables';
-            $this->oController->report .= $message . "\n";
-            OA::debug($message, PEAR_LOG_DEBUG);
-        }
+        $message = 'Saving request, impression, click and connection data into the intermediate tables';
+        $this->oController->report .= $message . "\n";
+        OA::debug($message, PEAR_LOG_DEBUG);
         $aTypes = array(
             'types' => array(
                 0 => 'request',

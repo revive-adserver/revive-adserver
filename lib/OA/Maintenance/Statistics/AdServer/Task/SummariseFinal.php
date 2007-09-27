@@ -59,15 +59,9 @@ class OA_Maintenance_Statistics_AdServer_Task_SummariseFinal extends OA_Maintena
         $aPlugins = MAX_Plugin::getPlugins('Maintenance');
         $aConf = $GLOBALS['_MAX']['CONF'];
         if ($this->oController->updateIntermediate || $this->oController->updateFinal) {
-            if ($aConf['modules']['Tracker']) {
-                $message = 'Saving request, impression, click and connection data into the final tables';
-                $this->oController->report .= $message . "\n";
-                OA::debug($message, PEAR_LOG_DEBUG);
-            } else {
-                $message = 'Saving request, impression, click data into the final tables';
-                $this->oController->report .= $message . "\n";
-                OA::debug($message, PEAR_LOG_DEBUG);
-            }
+            $message = 'Saving request, impression, click and connection data into the final tables';
+            $this->oController->report .= $message . "\n";
+            OA::debug($message, PEAR_LOG_DEBUG);
         }
         if ($this->oController->updateIntermediate) {
             // Update the zone impression history table

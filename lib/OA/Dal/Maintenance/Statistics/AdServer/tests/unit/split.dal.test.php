@@ -675,7 +675,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
-        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -1407,8 +1406,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $this->assertEqual($aRow['latest'], 0);
         // Drop the temporary table
         $dsa->tempTables->dropTable('tmp_ad_connection');
-        // Test with the data present, but the tracker module uninstalled
-        $aConf['modules']['Tracker'] = false;
+        // Test with the data present
         $dsa = $oMDMSF->factory("AdServer");
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
@@ -1551,7 +1549,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
-        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -2007,7 +2004,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
         $aConf['table']['split'] = true;
-        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         // Create the (minimum set of) required tables
         $dsa->tempTables->createTable('tmp_ad_click');
@@ -2184,8 +2180,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
-        // Enable the tracker
-        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -2290,8 +2284,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
-        // Disable the tracker
-        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2372,8 +2364,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $oDbh =& OA_DB::singleton();
         $aConf['table']['split'] = true;
         $aConf['maintenance']['compactStatsGrace'] = 0;
-        // Disable the tracker
-        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2461,8 +2451,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
-        // Enable the tracker
-        $aConf['modules']['Tracker'] = true;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2544,8 +2532,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
-        // Disable the tracker
-        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);
@@ -2627,8 +2613,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_StarSplit extends UnitTestCase
         $aConf['table']['split'] = true;
         // Set a compact_stats_grace window
         $aConf['maintenance']['compactStatsGrace'] = 3600;
-        // Disable the tracker
-        $aConf['modules']['Tracker'] = false;
         $dsa = $oMDMSF->factory("AdServer");
         $now = new Date('2004-06-05');
         $dsa->tables->createTable('data_raw_ad_click', $now);

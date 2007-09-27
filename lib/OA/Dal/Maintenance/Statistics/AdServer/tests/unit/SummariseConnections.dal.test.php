@@ -29,9 +29,6 @@ require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/Factory.php';
 
-// pgsql execution time before refactor: 47.089s
-// pgsql execution time after refactor: s
-
 /**
  * A class for testing the OA_Dal_Maintenance_Statistics_AdServer_* classes.
  *
@@ -58,7 +55,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 30;
-        $aConf['modules']['Tracker'] = true;
 
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $dsa = $oMDMSF->factory("AdServer");
@@ -519,6 +515,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
         $this->assertEqual($aRow['latest'], 0);
         // Drop the temporary table
         $dsa->tempTables->dropTable('tmp_ad_connection');
+
         // Summarise where the other connections are
         $start = new Date('2004-06-06 18:00:00');
         $end = new Date('2004-06-06 18:29:59');
@@ -682,14 +679,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseConnections extends U
         $this->assertEqual($aRow['latest'], 0);
         // Drop the temporary table
         $dsa->tempTables->dropTable('tmp_ad_connection');
-        // Test with the data present, but the tracker module uninstalled
-        $aConf['modules']['Tracker'] = false;
-        $dsa = $oMDMSF->factory("AdServer");
-        // Summarise where the other connections are
-        $start = new Date('2004-06-06 18:00:00');
-        $end = new Date('2004-06-06 18:29:59');
-        $rows = $dsa->summariseConnections($start, $end);
-        $this->assertEqual($rows, 0);
 
         TestEnv::restoreEnv();
     }

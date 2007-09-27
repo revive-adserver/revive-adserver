@@ -47,7 +47,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'logging_reverseLookup', 'logging_proxyLookup', 'logging_sniff',
                           'ignoreHosts',
                           'maintenance_blockAdImpressions', 'maintenance_blockAdClicks',
-                          'modules_AdServer', 'modules_Tracker',
                           'maintenance_operationInterval',
                           'maintenance_compactStats', 'maintenance_compactStatsGrace',
                           'priority_instantUpdate',
@@ -91,8 +90,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         }
         $config->setBulkConfigChange('ignoreHosts', $ignoreHostsArray);
     }
-    $config->setConfigChange('modules', 'AdServer',        isset($modules_AdServer));
-    $config->setConfigChange('modules', 'Tracker',         isset($modules_Tracker));
     if (isset($maintenance_operationInterval)) {
         if ((!is_numeric($maintenance_operationInterval)) ||
                 (!OA_OperationInterval::checkOperationIntervalValue($maintenance_operationInterval))) {
@@ -260,26 +257,10 @@ $settings = array (
         'text'       => $strMaintenaceSettings,
         'items'      => array (
             array (
-                'type'    => 'checkbox',
-                'name'    => 'modules_AdServer',
-                'text'    => $strMaintenanceAdServerInstalled,
-                'depends' => 'logging_adRequests==true || logging_adImpressions==true || logging_adClicks==true'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'modules_Tracker',
-                'text'    => $strMaintenanceTrackerInstalled,
-                'depends' => 'logging_trackerImpressions==true'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
                 'type'    => 'select',
                 'name'    => 'maintenance_operationInterval',
                 'text'    => $strMaintenanceOI,
                 'size'    => 12,
-                'depends' => 'modules_AdServer==true || modules_Tracker==true',
                 'items'   =>  array(
                     60 => 60,
                     30 => 30,
@@ -295,8 +276,7 @@ $settings = array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'maintenance_compactStats',
-                'text'    => $strMaintenanceCompactStats,
-                'depends' => 'modules_AdServer==true || modules_Tracker==true'
+                'text'    => $strMaintenanceCompactStats
             ),
             array (
                 'type'    => 'break'
@@ -317,7 +297,7 @@ $settings = array (
                 'name'    => 'logging_defaultImpressionConnectionWindow',
                 'text'    => $strDefaultImpConWindow,
                 'size'    => 12,
-                'depends' => 'logging_adImpressions==true && logging_trackerImpressions==true && modules_AdServer==true && modules_Tracker==true',
+                'depends' => 'logging_adImpressions==true && logging_trackerImpressions==true',
                 'check'   => 'number+'
             ),
             array (
@@ -328,7 +308,7 @@ $settings = array (
                 'name'    => 'logging_defaultClickConnectionWindow',
                 'text'    => $strDefaultCliConWindow,
                 'size'    => 12,
-                'depends' => 'logging_adClicks==true && logging_trackerImpressions==true && modules_AdServer==true && modules_Tracker==true',
+                'depends' => 'logging_adClicks==true && logging_trackerImpressions==true',
                 'check'   => 'number+'
             )
         )
