@@ -42,12 +42,13 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * The solution at the moment is to remove the plugins/maintenance/arrivals folder and ignore
  * the testing of arrivals.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew.hill@openads.org>
+ *
  * @TODO Update to use a mocked DAL, instead of a real database?
  */
-class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
+class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
 {
     var $oDbh;
     var $doBanners = null;
@@ -67,7 +68,7 @@ class Maintenance_TestOfMaintenanceStatisticsAdServer extends UnitTestCase
     /**
      * The constructor method.
      */
-    function Maintenance_TestOfMaintenanceStatisticsAdServer()
+    function Test_OA_Maintenance_Statistics_AdServer()
     {
         $this->UnitTestCase();
         $this->oDbh =& OA_DB::singleton();
