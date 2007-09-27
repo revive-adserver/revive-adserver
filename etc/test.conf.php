@@ -257,7 +257,6 @@ zones                                    = zones
 data_raw_ad_click                        = true
 data_raw_ad_impression                   = true
 data_raw_ad_request                      = true
-data_raw_tracker_click                   = true
 data_raw_tracker_impression              = true
 data_raw_tracker_variable_value          = true
 
