@@ -42,7 +42,8 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
         phpAds_PageHeader('1.0', "", "", false);
 
         $oTpl = new OA_Admin_Template('dashboard/main.html');
-        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=IFrame'));
+        $url = OA_Dashboard::buildUrl($aConf['oacDashboard']);
+        $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=IFrame&url='.$url));
 
         $oTpl->display();
 

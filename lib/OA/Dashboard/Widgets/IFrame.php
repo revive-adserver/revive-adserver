@@ -74,7 +74,6 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
         $oTpl->assign('ssoAdmin',     $ssoAdmin);
         $oTpl->assign('ssoPasswd',    $ssoPasswd);
         $oTpl->assign('casLoginURL',  $this->buildUrl($aConf['oacSSO']));
-        //$oTpl->assign('serviceURL',   $this->buildUrl($aConf['oacDashboard']));
         $oTpl->assign('serviceURL',   $this->serviceUrl);
         $oTpl->assign('encodedServiceURL', urlencode($this->serviceUrl));
 
