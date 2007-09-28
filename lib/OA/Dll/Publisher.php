@@ -37,6 +37,7 @@ $Id:$
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/PublisherInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Publisher.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 
 /**
@@ -239,11 +240,11 @@ class OA_Dll_Publisher extends OA_Dll
                 $doPublisher->update();
             }
 
-            // Initialise Ad  Networks
-            $oAdNetworks = new OA_Central_AdNetworks();
-
             // Trigger OAC call if adnetworks was enabled or OAC values were changed
             if ($oPublisher->adNetworks) {
+                // Initialise Ad  Networks
+                $oAdNetworks = new OA_Central_AdNetworks();
+
                 // If adNetworks was not previously selected...
                 if (empty($publisherPrevData['oac_website_id'])) {
                     $aRpcPublisher = array(
