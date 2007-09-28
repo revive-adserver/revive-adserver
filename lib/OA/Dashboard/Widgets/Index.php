@@ -39,7 +39,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
      */
     function display()
     {
-        phpAds_PageHeader('1.0', "", "", false);
+        phpAds_PageHeader('1.0', '', '', false, true, true);
 
         $oTpl = new OA_Admin_Template('dashboard/main.html');
         $url = OA_Dashboard::buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
@@ -47,7 +47,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
 
         $oTpl->display();
 
-        phpAds_PageFooter();
+        phpAds_PageFooter('', true);
     }
 }
 

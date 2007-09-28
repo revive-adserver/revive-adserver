@@ -179,8 +179,9 @@ function phpAds_getKeyLineColor()
  * @param int imgPath: a relative path to Images, CSS files. Used if calling function from anything other than admin folder
  * @param boolean set to false if you do not wish to show the grey sidebar
  * @param boolean set to false if you do not wish to show the main navigation
+ * @param boolean set to true to hide white borders in the main part
  */
-function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true)
+function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
@@ -550,14 +551,14 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t</td>\n";
     echo "</tr>\n";
     echo "</table>\n\n";
+    echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
+    echo "<tr>\n";
+    echo "\t<td colspan='2' height='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
+    echo "</tr>\n";
+    echo "<tr>\n";
     // Sidebar
     if ($showSidebar == false) {
     } else {
-        echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-        echo "<tr>\n";
-        echo "\t<td colspan='2' height='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-        echo "</tr>\n";
-        echo "<tr>\n";
         echo "\t<td valign='top'>\n";
         echo "\t\t<table width='181' border='0' cellspacing='0' cellpadding='0'>\n";
         // Spacer
@@ -578,10 +579,12 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\t<td valign='top' width='100%'>\n";
     echo "\t\t<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
     echo "\t\t<tr>\n";
-    echo "\t\t\t<td colspan='2' height='10'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-    echo "\t\t</tr>\n";
-    echo "\t\t<tr>\n";
-    echo "\t\t\t<td width='20'>&nbsp;</td>\n";
+    if (!$noBorder) {
+        echo "\t\t\t<td colspan='2' height='10'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
+        echo "\t\t</tr>\n";
+        echo "\t\t<tr>\n";
+        echo "\t\t\t<td width='20'>&nbsp;</td>\n";
+    }
     echo "\t\t\t<td>\n";
 }
 
@@ -589,19 +592,21 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 /* Show page footer                                      */
 /*-------------------------------------------------------*/
 
-function phpAds_PageFooter($imgPath='')
+function phpAds_PageFooter($imgPath='', $noBorder = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
     global $session, $strMaintenanceNotActive;
     global $phpAds_TextDirection, $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
     echo "\t\t\t</td>\n";
-    echo "\t\t\t<td width='40'>&nbsp;</td>\n";
+    if (!$noBorder) {
+        echo "\t\t\t<td width='40'>&nbsp;</td>\n";
     echo "\t\t</tr>\n";
     // Spacer
     echo "\t\t<tr>\n";
     echo "\t\t\t<td width='40' height='20'>&nbsp;</td>\n";
     echo "\t\t\t<td height='20'>&nbsp;</td>\n";
+    }
     echo "\t\t</tr>\n";
     // Footer
     if (isset($pref['my_footer']) && $pref['my_footer'] != '') {
