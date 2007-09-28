@@ -176,6 +176,10 @@ function setupConstants()
     define('MAX_RAND',     mt_getrandmax());
     define('MAX_RAND_INV', 1 / MAX_RAND);
 
+    // Maintenance Engine Constants: Number of days to keep old maintenance
+    // data, before pruning, where a fixed retention value is appriopriate
+    define('OA_MAINTENANCE_FIXED_PRUNING', 30);
+
     // Maintenance Engine Plugin Types
     define('MAINTENANCE_PLUGIN_PRE',  0);
     define('MAINTENANCE_PLUGIN_POST', 1);

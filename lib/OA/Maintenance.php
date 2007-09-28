@@ -69,7 +69,7 @@ class OA_Maintenance
     }
 
     /**
-     * A method to run maintenance
+     * A method to run maintenance.
      */
     function run()
     {
@@ -101,14 +101,14 @@ class OA_Maintenance
                 exit();
             }
             // Run the Maintenance Statistics Engine (MSE) process
-            $this->runMSE();
+            $this->_runMSE();
             // Run the "midnight" tasks, if required
-            $this->runMidnightTasks();
+            $this->_runMidnightTasks();
             // Release lock before starting MPE
             $oLock->release();
             // Run the Maintenance Priority Engine (MPE) process, ensuring that the
             // process always runs, even if instant update of priorities is disabled
-            $this->runMPE();
+            $this->_runMPE();
             OA::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
         } else {
 			OA::debug('Scheduled Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
@@ -116,30 +116,37 @@ class OA_Maintenance
     }
 
     /**
-     * A method to run MSE
+     * A private method to run MSE.
+     *
+     * @access private
      */
-    function runMSE()
+    function _runMSE()
     {
         OA_Maintenance_Statistics::run();
     }
 
     /**
-     * A method to run midnight maintenance tasks
+     * A private method to run midnight maintenance tasks.
+     *
+     * @access private
      */
-    function runMidnightTasks()
+    function _runMidnightTasks()
     {
         if (date('H') == 0) {
             OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
-            $this->runReports();
-            $this->runOpenadsSync();
+            $this->_runReports();
+            $this->_runOpenadsSync();
+            $this->_runGeneralPruning();
             OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
         }
     }
 
     /**
-     * A method to run MPE
+     * A private method to run MPE.
+     *
+     * @access private
      */
-    function runMPE()
+    function _runMPE()
     {
         OA_Maintenance_Priority::run(true);
     }
@@ -148,8 +155,10 @@ class OA_Maintenance
      * A method to send the "midnight" reports during maintenance - that
      * is, the delivery information report, showing what the campaign(s)
      * have delivered since the last time the report was sendt.
+     *
+     * @access private
      */
-    function runReports()
+    function _runReports()
     {
         OA::debug('  Starting to send advertiser "campaign delivery" reports.', PEAR_LOG_DEBUG);
         // Get all advertisers where the advertiser preference is to send reports
@@ -199,9 +208,11 @@ class OA_Maintenance
     }
 
     /**
-     * A method to run Openads Sync
+     * A private method to run Openads Sync.
+     *
+     * @access private
      */
-    function runOpenadsSync()
+    function _runOpenadsSync()
     {
         OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
         if ($this->pref['updates_enabled'] == 't') {
@@ -215,8 +226,42 @@ class OA_Maintenance
         OA::debug('  Finished Openads Sync process.', PEAR_LOG_DEBUG);
     }
 
+
     /**
-     * A method to update maintenance last run information for old maintenance code
+     * A private method to run the "midnight" general pruning tasks.
+     *
+     * @access private
+     */
+    function _runGeneralPruning()
+    {
+        // Calculate the date before which it is valid to prune data
+        $oServiceLocator =& OA_ServiceLocator::instance();
+        $oNowDate =& $oServiceLocator->get('now');
+        if (is_null($oNowDate) || !is_a($oNowDate, 'Date')) {
+            return;
+        }
+        $oPruneDate = new Date();
+        $oPruneDate->copy($oNowDate);
+        $oPruneDate->subtractSeconds(OA_MAINTENANCE_FIXED_PRUNING * SECONDS_PER_DAY);
+        $oFormattedPruneDate = $this->oDbh->quote($oPruneDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+        $oFormattedPruneTimestamp = $this->oDbh->quote($oPruneDate->format('%E'), 'integer');
+        // Prune old data from the log_maintenance_statistics table
+        $doLog_maintenance_statistics = OA_Dal::factoryDO('log_maintenance_statistics');
+        $doLog_maintenance_statistics->whereAdd("start_run < $oFormattedPruneDate");
+        $doLog_maintenance_statistics->delete(true);
+        // Prune old data from the log_maintenance_priority table
+        $doLog_maintenance_priority = OA_Dal::factoryDO('log_maintenance_priority');
+        $doLog_maintenance_priority->whereAdd("start_run < $oFormattedPruneDate");
+        $doLog_maintenance_priority->delete(true);
+        // Prune old data from the userlog table
+        $doUserlog = OA_Dal::factoryDO('userlog');
+        $doUserlog->whereAdd("timestamp < $oFormattedPruneTimestamp");
+        $doUserlog->delete(true);
+    }
+
+    /**
+     * A method to update maintenance last run information for
+     * old maintenance code.
      */
     function updateLastRun($bScheduled = false)
     {
