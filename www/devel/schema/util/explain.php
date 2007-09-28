@@ -32,26 +32,34 @@ require_once MAX_PATH . '/lib/OA/DB.php';
 function parseLogFile()
 {
     $oDbh = &OA_DB::singleton();
-
     OA::disableErrorHandling();
 
     $data = file_get_contents(MAX_PATH."/var/sql.log");
     $i = preg_match_all('|<<([\s\W\w]+)>>|U',$data, $aMatches);
+    $data = null;
+
     if ($i > 1)
     {
-        foreach ($aMatches[1] AS $k => $v)
+        $aQueries = array_unique($aMatches[1]);
+        $aMatches = null;
+        $fp = fopen(MAX_PATH."/var/mysqsla.log", 'w');
+        fwrite($fp, "USE {$oDbh->connected_database_name};\n");
+
+        foreach ($aQueries AS $k => $v)
         {
             if (substr_count($v, 'tmp_')==0)
             {
-                $result = $oDbh->getAssoc('EXPLAIN '.$v);
+                $query = trim($v);
+                $result = $oDbh->getAssoc('EXPLAIN '.$query);
                 if (!PEAR::isError($result))
                 {
-                    $aResult[$k]['query']  = $v;
+                    $aResult[$k]['query']  = $query;
                     $aResult[$k]['result'] = $result;
+                    fwrite($fp, $query.";\n");
                 }
                 else
                 {
-                    $aResult[$k]['query']  = $v;
+                    $aResult[$k]['query']  = $query;
                     $aResult[$k]['result'][0]['table'] = '...';
                     $aResult[$k]['result'][0]['ref']   = '...';
                     $aResult[$k]['result'][0]['type']  = '...';
@@ -64,11 +72,26 @@ function parseLogFile()
                 }
             }
         }
+        fclose($fp);
+
+        $aConf = $GLOBALS['_MAX']['CONF']['database'];
+        $cmd = "sudo /usr/local/sbin/mysqlsla --user {$aConf['username']} --host {$aConf['host']} --port {$aConf['port']} --te --sort e --raw mysqsla.log > mysqlsla.txt";
+
+        $fp = fopen(MAX_PATH."/var/mysqslarun", 'w');
+        fwrite($fp, $cmd);
+        fclose($fp);
     }
     OA::enableErrorHandling();
     return $aResult;
 }
 
+if (array_key_exists('a',$_REQUEST))
+{
+    if ($_REQUEST['a']=='save')
+    {
+
+    }
+}
 $aDisplay = parseLogFile();
 include 'tpl/explain.html';
 
