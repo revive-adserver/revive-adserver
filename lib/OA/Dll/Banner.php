@@ -212,6 +212,12 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['imageurl'] 	= $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
 
+        // Different content types have different requirements...
+        switch($bannerData['storagetype']) {
+            case 'html':
+                $bannerData['contenttype'] = $bannerData['storagetype'];
+            break;
+        }
         if ($this->_validate($oBanner)) {
             $doBanner = OA_Dal::factoryDO('banners');
             if (!isset($bannerData['bannerId'])) {
