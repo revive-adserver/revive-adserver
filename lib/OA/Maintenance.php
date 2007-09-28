@@ -53,14 +53,13 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 class OA_Maintenance
 {
     var $oDbh;
-    var $conf;
+    var $aConf;
     var $pref;
 
     function OA_Maintenance()
     {
-        $this->conf = $GLOBALS['_MAX']['CONF'];
+        $this->aConf = $GLOBALS['_MAX']['CONF'];
         $this->pref = $GLOBALS['_MAX']['PREF'];
-
         // Get a connection to the datbase
         $this->oDbh =& OA_DB::singleton();
         if (PEAR::isError($this->oDbh)) {
@@ -74,56 +73,42 @@ class OA_Maintenance
      */
     function run()
     {
+        // Print a blank line in the debug log file when maintenance starts
         OA::debug();
-
         // Do not run if distributed stats are enabled
-        if (!empty($this->conf['lb']['enabled'])) {
+        if (!empty($this->aConf['lb']['enabled'])) {
             OA::debug('Distributed stats enabled, not running Maintenance Statistics and Priority', PEAR_LOG_INFO);
             return;
         }
-
         // Acquire the maintenance lock
         $oLock =& OA_DB_AdvisoryLock::factory();
         if ($oLock->get(OA_DB_ADVISORYLOCK_MAINTENANCE)) {
             OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
-
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
-
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
-
             // Record the current time, and register with the OA_ServiceLocator
             $oDate = new Date();
             $oServiceLocator =& OA_ServiceLocator::instance();
             $oServiceLocator->register('now', $oDate);
-
             // Check the operation interval is valid
-            $result = OA_OperationInterval::checkOperationIntervalValue($this->conf['maintenance']['operationInterval']);
+            $result = OA_OperationInterval::checkOperationIntervalValue($this->aConf['maintenance']['operationInterval']);
             if (PEAR::isError($result)) {
                 // Unable to continue!
-                MAX::raiseError($result, null, PEAR_ERROR_DIE);
+                $oLock->release();
+                OA::debug('Aborting maintenance: Invalid Operation Interval length', PEAR_LOG_CRIT);
+                exit();
             }
-
-            // Create lockfile, if required
-            $this->getLock();
-
             // Run the Maintenance Statistics Engine (MSE) process
             $this->runMSE();
-
-            // Run Midnight phpAdsNew Tasks
+            // Run the "midnight" tasks, if required
             $this->runMidnightTasks();
-
             // Release lock before starting MPE
             $oLock->release();
-
             // Run the Maintenance Priority Engine (MPE) process, ensuring that the
             // process always runs, even if instant update of priorities is disabled
             $this->runMPE();
-
-            // Remove lockfile, if required
-            $this->releaseLock();
-
             OA::debug('Maintenance Statistics and Priority Completed', PEAR_LOG_INFO);
         } else {
 			OA::debug('Scheduled Maintenance Task not run: could not acquire lock', PEAR_LOG_INFO);
@@ -219,71 +204,15 @@ class OA_Maintenance
     function runOpenadsSync()
     {
         OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
-
         if ($this->pref['updates_enabled'] == 't') {
             require_once MAX_PATH . '/lib/OA/Sync.php';
-
-            $oSync = new OA_Sync($this->conf, $this->pref);
+            $oSync = new OA_Sync($this->aConf, $this->pref);
             $res = $oSync->checkForUpdates(0);
-
             if ($res[0] != 0 && $res[0] != 800) {
                 OA::debug("Openads Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
             }
         }
-
         OA::debug('  Finished Openads Sync process.', PEAR_LOG_DEBUG);
-    }
-
-    /**
-     * A method to get maintenance lock
-     */
-    function getLock()
-    {
-        // If split tables, check for lockfile
-        if ($this->conf['table']['split']) {
-            OA::debug('Checking for lockfile', PEAR_LOG_INFO);
-            $attempt = 0;
-            // Don't start if lockfile detected
-            while (file_exists($this->conf['table']['lockfile'])) {
-                if ($attempt > 2) {
-                    // Give up on maintenance
-                    OA::debug('More than 3 attempts, sending email to admin user', PEAR_LOG_ERR);
-                    $message  = "Warning! Maintenance was unable to run - the lockfile was found\n";
-                    $message .= "in place while trying to start maintenance, even after 3 iterations.\n\n";
-                    $message .= "The lockfile used was: {$this->conf['table']['lockfile']}.\n\n";
-                    $query = "
-                        SELECT
-                            admin_email
-                        FROM
-                            {$this->conf['table']['prefix']}{$this->conf['table']['preference']}
-                        WHERE
-                            agencyid = 0
-                        ";
-                    $row = $this->oDbh->queryRow($query);
-                    OA_Email::sendMail('Lockfile altert!', $message, $row['admin_email'], '');
-                    MAX::raiseError('Aborting script execution', null, PEAR_ERROR_DIE);
-                }
-                // Pause for 30 secs
-                OA::debug('Lockfile exists, sleeping for 30 secs. Iteration ' . $attempt, PEAR_LOG_INFO);
-                sleep(30);
-                $attempt ++;
-            }
-            // Write lockfile so table splitting scripts will abort if they
-            // attempt to start during a maintenance run
-            OA::debug('No lockfile exists, writing lockfile', PEAR_LOG_INFO);
-            $fh = fopen($this->conf['table']['lockfile'], 'w');
-        }
-    }
-
-    /**
-     * A method to release maintenance lock
-     */
-    function releaseLock()
-    {
-        if ($this->conf['table']['split']) {
-            OA::debug('Removing lockfile', PEAR_LOG_INFO);
-            unlink($this->conf['table']['lockfile']);
-        }
     }
 
     /**
@@ -292,16 +221,14 @@ class OA_Maintenance
     function updateLastRun($bScheduled = false)
     {
         $sField = $bScheduled ? 'maintenance_cron_timestamp' : 'maintenance_timestamp';
-
         // Update the timestamp (for old maintenance code)
         // TODO: Move this query to the DAL, so that other code (tests, installation) can call it.
         $query = "
             UPDATE
-                {$this->conf['table']['prefix']}{$this->conf['table']['preference']}
+                {$this->aConf['table']['prefix']}{$this->aConf['table']['preference']}
             SET
                 {$sField} = UNIX_TIMESTAMP('". OA::getNow() ."')";
         $rows = $this->oDbh->exec($query);
-
         // Make sure that the maintenance delivery cache is regenerated
         MAX_cacheCheckIfMaintenanceShouldRun(false);
     }
