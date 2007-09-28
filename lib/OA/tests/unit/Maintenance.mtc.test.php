@@ -120,17 +120,17 @@ class Test_OA_Maintenance extends UnitTestCase
 
         $oDate = new Date('2007-09-28 11:01:01');
         $doUserlog = OA_Dal::factoryDO('userlog');
-        $doUserlog->timestamp  = $oDate->format('%E');
+        $doUserlog->timestamp  = $oDate->getTime();
         $idUserlogOne = DataGenerator::generateOne($doUserlog);
 
         $oDate = new Date('2007-09-28 10:01:01');
         $doUserlog = OA_Dal::factoryDO('userlog');
-        $doUserlog->timestamp  = $oDate->format('%E');
+        $doUserlog->timestamp  = $oDate->getTime();
         $idUserlogTwo = DataGenerator::generateOne($doUserlog);
 
         $oDate = new Date('2007-08-28 11:01:01');
         $doUserlog = OA_Dal::factoryDO('userlog');
-        $doUserlog->timestamp  = $oDate->format('%E');
+        $doUserlog->timestamp  = $oDate->getTime();
         $idUserlogThree = DataGenerator::generateOne($doUserlog);
 
         $doLog_maintenance_statistics = OA_Dal::factoryDO('log_maintenance_statistics');

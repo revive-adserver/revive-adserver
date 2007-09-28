@@ -244,7 +244,7 @@ class OA_Maintenance
         $oPruneDate->copy($oNowDate);
         $oPruneDate->subtractSeconds(OA_MAINTENANCE_FIXED_PRUNING * SECONDS_PER_DAY);
         $oFormattedPruneDate = $this->oDbh->quote($oPruneDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
-        $oFormattedPruneTimestamp = $this->oDbh->quote($oPruneDate->format('%E'), 'integer');
+        $oFormattedPruneTimestamp = $this->oDbh->quote($oPruneDate->getTime(), 'integer');
         // Prune old data from the log_maintenance_statistics table
         $doLog_maintenance_statistics = OA_Dal::factoryDO('log_maintenance_statistics');
         $doLog_maintenance_statistics->whereAdd("start_run < $oFormattedPruneDate");
