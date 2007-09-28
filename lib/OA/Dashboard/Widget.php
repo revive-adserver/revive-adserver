@@ -25,6 +25,8 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dashboard/Dashboard.php';
+
 /**
  * The base class to implement a dashboard widget
  *
@@ -83,14 +85,7 @@ class OA_Dashboard_Widget
      */
     function buildUrl($aConf, $pathVariable = 'path')
     {
-        if (($aConf['protocol'] == 'http' && $aConf['port'] == 80) ||
-            ($aConf['protocol'] == 'https' && $aConf['port'] == 443)) {
-            $port = '';
-        } else {
-            $port = ':'.$aConf['port'];
-        }
-
-        return "{$aConf['protocol']}://{$aConf['host']}{$port}{$aConf[$pathVariable]}";
+        return OA_Dashboard::buildUrl($aConf, $pathVariable);
     }
 }
 

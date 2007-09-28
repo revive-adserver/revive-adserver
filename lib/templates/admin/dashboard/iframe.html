@@ -49,8 +49,8 @@ function prepareLoginForm() {
 function checkForLoginTicket() {
 	var loginTicketProvided = false;
 	var query	= '';
-    	casLoginURL = '{/literal}{$casLoginURL|escape:javascript}{literal}';
-    	casLoginURL += '?login-at=' + encodeURIComponent ('{/literal}{$dashboardURL|escape:javascript}{literal}');
+	casLoginURL = '{/literal}{$casLoginURL|escape:javascript}{literal}';
+	casLoginURL += '?login-at=' + encodeURIComponent ('{/literal}{$dashboardURL|escape:javascript}&url={$encodedServiceURL|escape:javascript}{literal}');
 
 	query	= window.location.search;
 	query	= query.substr (1, query.length - 1);

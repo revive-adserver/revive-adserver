@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -28,17 +25,32 @@
 $Id$
 */
 
-// Require the initialisation file
-require_once '../../init.php';
+/**
+ * The base class to implement a dashboard widget
+ *
+ */
+class OA_Dashboard
+{
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+    /**
+     * A method to build the URLs from config variables
+     *
+     * @param array $aConf
+     * @param string $pathVariable
+     * @return string
+     * @static 
+     */
+    function buildUrl($aConf, $pathVariable = 'path')
+    {
+        if (($aConf['protocol'] == 'http' && $aConf['port'] == 80) ||
+            ($aConf['protocol'] == 'https' && $aConf['port'] == 443)) {
+            $port = '';
+        } else {
+            $port = ':'.$aConf['port'];
+        }
 
-require(MAX_PATH.'/lib/OA/Dashboard/SsoProxy.php');
-$oProxy = new OA_Dashboard_SsoProxy($_REQUEST);
-$oProxy->display();
+        return "{$aConf['protocol']}://{$aConf['host']}{$port}{$aConf[$pathVariable]}";
+    }
+}
 
 ?>

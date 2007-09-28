@@ -34,12 +34,34 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
  */
 class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
 {
+    var $serviceURL;
+    
+    /**
+     * The class constructor
+     *
+     * @param array $aParams The parameters array, usually $_REQUEST
+     * @return OA_Dashboard_Widget
+     */
+    function OA_Dashboard_Widget_Iframe($aParams)
+    {
+        parent::OA_Dashboard_Widget($aParams);
+        if (isset($aParams['url'])) {
+            $this->setServiceUrl($aParams['url']);
+        }
+    }
+    
+    function setServiceUrl($serviceURL) {
+        $this->serviceUrl = $serviceURL;
+    }
+    
     /**
      * A method to launch and display the widget
      *
      */
     function display()
     {
+        $this->validate();
+        
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $oTpl = new OA_Admin_Template('dashboard/iframe.html');
@@ -50,13 +72,21 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
         $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=IFrame'));
         $oTpl->assign('errorURL',     MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Login&error='));
         $oTpl->assign('ssoAdmin',     $ssoAdmin);
-        // md5 doesn't work yet - we will have to either reconfigure cas-server or create different url for
-        // logging in using hashed password
-        $oTpl->assign('ssoPasswd',    $ssoPasswd); // ? md5($ssoPasswd) : 'bar');
+        $oTpl->assign('ssoPasswd',    $ssoPasswd);
         $oTpl->assign('casLoginURL',  $this->buildUrl($aConf['oacSSO']));
-        $oTpl->assign('serviceURL',   $this->buildUrl($aConf['oacDashboard']));
+        //$oTpl->assign('serviceURL',   $this->buildUrl($aConf['oacDashboard']));
+        $oTpl->assign('serviceURL',   $this->serviceUrl);
+        $oTpl->assign('encodedServiceURL', urlencode($this->serviceUrl));
 
         $oTpl->display();
+    }
+    
+    function validate()
+    {
+        if (empty($this->serviceUrl)) {
+            MAX::raiseError('service URL is required but was empty');
+            exit();
+        }
     }
 }
 
