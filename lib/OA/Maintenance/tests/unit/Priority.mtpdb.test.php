@@ -33,6 +33,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
  */
 class Test_OA_Maintenance_Priority extends UnitTestCase
 {
+
     function testRun()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
@@ -48,5 +49,7 @@ class Test_OA_Maintenance_Priority extends UnitTestCase
         // 0 means it executed successfully, meaning the test was successful
         $this->assertEqual($result, 0);
     }
+
 }
+
 ?>

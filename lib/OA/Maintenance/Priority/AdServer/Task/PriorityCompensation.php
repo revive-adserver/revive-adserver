@@ -25,11 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-require_once MAX_PATH . '//lib/OA/Maintenance/Priority/Zone.php';
-
 require_once MAX_PATH . '/lib/OA.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
@@ -156,8 +155,8 @@ class OA_Maintenance_Priority_AdServer_Task_PriorityCompensation extends OA_Main
         // Add Advert objects to the zones
         if (is_array($aZoneImpAllocs) && !empty($aZoneImpAllocs)) {
             foreach ($aZoneImpAllocs as $aZoneImpAlloc) {
-                // Create a MAX_Entity_Ad object
-                $oAd = new MAX_Entity_Ad(array('ad_id' => $aZoneImpAlloc['ad_id']));
+                // Create a OA_Maintenance_Priority_Ad object
+                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $aZoneImpAlloc['ad_id']));
                 // Assign the required impressions for this ad/zone
                 $oAd->requiredImpressions = $aZoneImpAlloc['required_impressions'];
                 // Assign the requested impressions for this ad/zone

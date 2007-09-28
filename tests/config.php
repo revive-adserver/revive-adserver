@@ -88,7 +88,6 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'dll'   => array('Domain Logic Layer (DB)',             DB_WITH_TABLES),
         'del'   => array('Delivery Engine',                     NO_DB),
         'dl'    => array('Delivery Limitations',                NO_DB),
-        'ent'   => array('Entities',                            NO_DB),
         'mtc'   => array('Maintenance Engine (DB)',             DB_WITH_TABLES),
         'mts'   => array('Maintenance Statistics Engine',       NO_DB),
         'mtsdb' => array('Maintenance Statistics Engine (DB)',  DB_NO_TABLES),

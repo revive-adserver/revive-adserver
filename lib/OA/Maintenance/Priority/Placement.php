@@ -25,23 +25,21 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity.php';
-require_once MAX_PATH . '/lib/max/Entity/Ad.php';
 require_once MAX_PATH . '/lib/max/Dal/Entities.php';
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
- * An entity class used to represent placements (used to be campaigns).
+ * An entity class used to represent placements for the MPE.
  *
- * @package    MaxEntity
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Demain Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @package    OpenadsMaintenance
+ * @subpackage Priority
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Entity_Placement extends MAX_Entity
+class OA_Maintenance_Priority_Placement
 {
 
     /**
@@ -212,7 +210,7 @@ class MAX_Entity_Placement extends MAX_Entity
      *      'target_conversion' or 'conversion_target_daily' -> The daily conversion target
      *      'priority'                                       -> The placement priority
      */
-    function MAX_Entity_Placement($aParams)
+    function OA_Maintenance_Priority_Placement($aParams)
     {
         // Convert "old" input value names to "new", if required
         foreach ($this->aNewOldTypes as $newName => $oldName) {
@@ -290,7 +288,7 @@ class MAX_Entity_Placement extends MAX_Entity
 
     /**
      * A method to set the placement's "aAds" array to contain the
-     * (@link MAX_Entity_Ad} objects for each ad in the placement,
+     * (@link OA_Maintenance_Priority_Ad} objects for each ad in the placement,
      * from the data stored in the database.
      */
     function setAdverts()
@@ -299,7 +297,7 @@ class MAX_Entity_Placement extends MAX_Entity
         if (is_array($aAds) && (count($aAds) > 0)) {
             reset($aAds);
             while (list($adId, $aAdDetails) = each($aAds)) {
-                $this->aAds[$adId] = new MAX_Entity_Ad($aAdDetails);
+                $this->aAds[$adId] = new OA_Maintenance_Priority_Ad($aAdDetails);
             }
         }
     }

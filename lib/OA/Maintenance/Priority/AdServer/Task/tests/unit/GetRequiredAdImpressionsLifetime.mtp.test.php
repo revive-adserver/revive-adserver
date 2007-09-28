@@ -25,9 +25,8 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/GetRequiredAdImpressionsLifetime.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -183,7 +182,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oResult = $oGetRequiredAdImpressionsLifetime->_getAllPlacements();
         $this->assertTrue(is_array($oResult));
         $this->assertEqual(count($oResult), 2);
-        $this->assertTrue(is_a($oResult[0], 'MAX_Entity_Placement'));
+        $this->assertTrue(is_a($oResult[0], 'OA_Maintenance_Priority_Placement'));
         $this->assertEqual($oResult[0]->id, 1);
         $this->assertEqual($oResult[0]->expire, '2005-12-08 13:55:00');
         $this->assertEqual($oResult[0]->impressionTargetTotal, 10);
@@ -193,7 +192,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($oResult[0]->clickTargetDaily, 6);
         $this->assertEqual($oResult[0]->conversionTargetDaily, 7);
         $this->assertEqual($oResult[0]->priority, 3);
-        $this->assertTrue(is_a($oResult[1], 'MAX_Entity_Placement'));
+        $this->assertTrue(is_a($oResult[1], 'OA_Maintenance_Priority_Placement'));
         $this->assertEqual($oResult[1]->id, 2);
         $this->assertEqual($oResult[1]->expire, '2005-12-08 13:55:01');
         $this->assertEqual($oResult[1]->impressionTargetTotal, 11);
@@ -322,12 +321,12 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         // actually call the DAL when the
         // getPlacementImpressionInventoryRequirement() is called
         Mock::generatePartial(
-            'MAX_Entity_Placement',
-            'MockPartialMAX_Entity_Placement_GetRequiredAdImpressions',
+            'OA_Maintenance_Priority_Placement',
+            'MockPartialOA_Maintenance_Priority_Placement_GetRequiredAdImpressions',
             array('setSummaryStatisticsToDate')
         );
-        $oPlacement = new MockPartialMAX_Entity_Placement_GetRequiredAdImpressions($this);
-        $oPlacement->MAX_Entity_Placement(array('placement_id' => 1));
+        $oPlacement = new MockPartialOA_Maintenance_Priority_Placement_GetRequiredAdImpressions($this);
+        $oPlacement->OA_Maintenance_Priority_Placement(array('placement_id' => 1));
 
         // Manually set the remaining inventory that would normally be
         // set by the mocked setSummaryStatisticsToDate() method above
@@ -351,20 +350,20 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
     function test_getPlacementAdWeightTotal()
     {
         // Create a test Placement object with no Ads
-        $oPlacement = new MAX_Entity_Placement(array('placement_id' => 1));
+        $oPlacement = new OA_Maintenance_Priority_Placement(array('placement_id' => 1));
         // Test the returned sum is unity
         $oGetRequiredAdImpressionsLifetime =& $this->_getCurrentTask();
         $this->assertEqual(1, $oGetRequiredAdImpressionsLifetime->_getPlacementAdWeightTotal($oPlacement));
 
         // Create some test Ad objects
-        $oAd1 = new MAX_Entity_Ad(array('ad_id' => 1, 'active' => true, 'type' => 'sql', 'weight' => 2));
-        $oAd2 = new MAX_Entity_Ad(array('ad_id' => 2, 'active' => true, 'type' => 'sql', 'weight' => 1));
-        $oAd3 = new MAX_Entity_Ad(array('ad_id' => 3, 'active' => true, 'type' => 'sql', 'weight' => 0));
-        $oAd4 = new MAX_Entity_Ad(array('ad_id' => 4, 'active' => true, 'type' => 'sql', 'weight' => 3));
-        $oAd5 = new MAX_Entity_Ad(array('ad_id' => 5, 'active' => true, 'type' => 'sql', 'weight' => -10));
-        $oAd6 = new MAX_Entity_Ad(array('ad_id' => 6, 'active' => false, 'type' => 'sql', 'weight' => 100));
+        $oAd1 = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'active' => true, 'type' => 'sql', 'weight' => 2));
+        $oAd2 = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'active' => true, 'type' => 'sql', 'weight' => 1));
+        $oAd3 = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'active' => true, 'type' => 'sql', 'weight' => 0));
+        $oAd4 = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'active' => true, 'type' => 'sql', 'weight' => 3));
+        $oAd5 = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'active' => true, 'type' => 'sql', 'weight' => -10));
+        $oAd6 = new OA_Maintenance_Priority_Ad(array('ad_id' => 6, 'active' => false, 'type' => 'sql', 'weight' => 100));
         // Create a test Placement object
-        $oPlacement = new MAX_Entity_Placement(array('placement_id' => 1));
+        $oPlacement = new OA_Maintenance_Priority_Placement(array('placement_id' => 1));
         // Add the Ads to the Placement
         $oPlacement->aAds[] = $oAd1;
         $oPlacement->aAds[] = $oAd2;
@@ -401,7 +400,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $oServiceLocator->register('now', $oDate);
 
         // Create a "normal" placement to test with
-        $oPlacement = new MAX_Entity_Placement(
+        $oPlacement = new OA_Maintenance_Priority_Placement(
             array(
                 'campaignid' => 1,
                 'activate'   => '2006-01-12',
@@ -410,16 +409,16 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oPlacement->impressionTargetTotal = 5000;
         $oPlacement->requiredImpressions = 24;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 2, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 3, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 3, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
         $aPlacements[] = $oPlacement;
 
         // Create a "daily limit" placement to test with
-        $oPlacement = new MAX_Entity_Placement(
+        $oPlacement = new OA_Maintenance_Priority_Placement(
             array(
                 'campaignid' => 2,
                 'expire'     => OA_Dal::noDateValue()
@@ -427,9 +426,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
         $oPlacement->impressionTargetDaily = 24;
         $oPlacement->requiredImpressions = 24;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 4, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 4, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 5, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 5, 'weight' => 1, 'active' => 'f', 'type' => 'sql'));
         $oPlacement->aAds[] = $oAd;
         $aPlacements[] = $oPlacement;
 
@@ -522,8 +521,8 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $aConf['maintenance']['operationInterval'] = 60;
 
         Mock::generatePartial(
-            'MAX_Entity_Ad',
-            'PartialMockMAX_Entity_Ad',
+            'OA_Maintenance_Priority_Ad',
+            'PartialMockOA_Maintenance_Priority_Ad',
             array('getDeliveryLimitations')
         );
         Mock::generatePartial(
@@ -533,7 +532,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         );
 
         // Test 1
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql'));
         $totalRequiredAdImpressions = 10;
         $oDate = new Date();
         $oPlacementExpiryDate = new Date();
@@ -568,7 +567,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($result, 0);
 
         // Test 2
-        $oAd = new PartialMockMAX_Entity_Ad($this);
+        $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
         $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
@@ -583,7 +582,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->Max_Entity_Ad($aParam);
+        $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 120;
         $oDate = new Date('2006-02-15 12:07:01');
         $oPlacementExpiryDate = new Date('2006-12-15 23:59:59');
@@ -597,7 +596,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($result, 0);
 
         // Test 3
-        $oAd = new PartialMockMAX_Entity_Ad($this);
+        $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
         $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
@@ -612,7 +611,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->Max_Entity_Ad($aParam);
+        $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
@@ -631,7 +630,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($result, 0);
 
         // Test 4
-        $oAd = new PartialMockMAX_Entity_Ad($this);
+        $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
         $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
@@ -646,7 +645,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->Max_Entity_Ad($aParam);
+        $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
@@ -668,7 +667,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($result, 110);
 
         // Test 5
-        $oAd = new PartialMockMAX_Entity_Ad($this);
+        $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
         $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
@@ -683,7 +682,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->Max_Entity_Ad($aParam);
+        $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');
@@ -727,7 +726,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
         $this->assertEqual($result, 10);
 
         // Test 6
-        $oAd = new PartialMockMAX_Entity_Ad($this);
+        $oAd = new PartialMockOA_Maintenance_Priority_Ad($this);
         $aParam = array('ad_id' => 1, 'weight' => 1, 'active' => 't', 'type' => 'sql');
         $oAd->setReturnValue(
             'getDeliveryLimitations',
@@ -742,7 +741,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsLifetim
                 )
             )
         );
-        $oAd->Max_Entity_Ad($aParam);
+        $oAd->OA_Maintenance_Priority_Ad($aParam);
         $totalRequiredAdImpressions = 110;
         $oDate = new Date('2006-02-15 12:07:01');
         $oPlacementExpiryDate = new Date('2006-02-15 23:59:59');

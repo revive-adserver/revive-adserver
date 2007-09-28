@@ -78,7 +78,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
      * - The placement has daily inventory requirements.
      *
      * @access private
-     * @return array An array of {@link MAX_Entity_Placement} objects.
+     * @return array An array of {@link OA_Maintenance_Priority_Placement} objects.
      */
     function _getValidPlacements()
     {
@@ -103,7 +103,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressionsDaily extend
      * the calculated impression requirement added to it in the position
      * $oPlacement->requiredImpressions
      *
-     * @param MAX_Entity_Placement $oPlacement
+     * @param OA_Maintenance_Priority_Placement $oPlacement
      */
     function getPlacementImpressionInventoryRequirement(&$oPlacement)
     {

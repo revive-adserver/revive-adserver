@@ -25,10 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
 
 /**
@@ -191,7 +190,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             'type'   => 'sql',
             'weight' => 1
         );
-        $oAd = new MAX_Entity_Ad($aAdParams);
+        $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $oZone = new OA_Maintenance_Priority_Zone(array('zoneid' => 1));
         $oZone->addAdvert($oAd);
         $aZoneAdArray = array($oZone->id => $oZone);
@@ -1226,7 +1225,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             'type'   => 'sql',
             'weight' => 1
         );
-        $oAd = new MAX_Entity_Ad($aAdParams);
+        $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $oZone->addAdvert($oAd);
         $aAdParams = array(
             'ad_id'  => 11,
@@ -1234,7 +1233,7 @@ class Test_OA_Dal_Maintenance_Priority_getPreviousAdDeliveryInfo extends UnitTes
             'type'   => 'sql',
             'weight' => 1
         );
-        $oAd = new MAX_Entity_Ad($aAdParams);
+        $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $oZone->addAdvert($oAd);
         $aZoneAdArray = array($oZone->id => $oZone);
         $operationIntervalID = OA_OperationInterval::convertDateToOperationIntervalID($oDate);

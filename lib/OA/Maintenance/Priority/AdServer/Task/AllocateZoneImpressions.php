@@ -25,11 +25,10 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Placement.php';
-require_once MAX_PATH . '//lib/OA/Maintenance/Priority/Zone.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Placement.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/OA/DB/Table/Priority.php';
 
 /**
@@ -169,7 +168,7 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
         $aPlacementObjects = array();
         if (is_array($aPlacements) && !empty($aPlacements)) {
             foreach ($aPlacements as $aPlacementData) {
-                $aPlacementObjects[] = new MAX_Entity_Placement($aPlacementData);
+                $aPlacementObjects[] = new OA_Maintenance_Priority_Placement($aPlacementData);
             }
         }
         return $aPlacementObjects;
@@ -180,7 +179,8 @@ class OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends OA_M
      * advertisements from the database, and the set these values in the array.
      *
      * @access private
-     * @param array $aAds An array of {@link MAX_Entity_Ad} objects, passed by reference.
+     * @param array $aAds An array of {@link OA_Maintenance_Priority_Ad} objects,
+     *                    passed by reference.
      */
     function _setRequiredImpressions(&$aAds)
     {

@@ -25,8 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Ad.php';
-
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Ad.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task/AllocateZoneImpressions.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -192,7 +191,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(is_array($aPlacements));
         $this->assertTrue(!empty($aPlacements));
         $this->assertEqual(count($aPlacements), 2);
-        $this->assertIsA($aPlacements[0], 'MAX_Entity_Placement');
+        $this->assertIsA($aPlacements[0], 'OA_Maintenance_Priority_Placement');
         $this->assertEqual($aPlacements[0]->id, 1);
         $this->assertEqual($aPlacements[0]->impressionTargetTotal, 1000);
         $this->assertEqual($aPlacements[0]->clickTargetTotal, 0);
@@ -201,7 +200,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertEqual($aPlacements[0]->clickTargetDaily, 0);
         $this->assertEqual($aPlacements[0]->conversionTargetDaily, 0);
         $this->assertEqual($aPlacements[0]->priority, 5);
-        $this->assertIsA($aPlacements[1], 'MAX_Entity_Placement');
+        $this->assertIsA($aPlacements[1], 'OA_Maintenance_Priority_Placement');
         $this->assertEqual($aPlacements[1]->id, 2);
         $this->assertEqual($aPlacements[1]->impressionTargetTotal, 0);
         $this->assertEqual($aPlacements[1]->clickTargetTotal, 0);
@@ -248,7 +247,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             'type'   => 'sql',
             'weight' => 1
         );
-        $oAd = new MAX_Entity_Ad($aAdParams);
+        $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
         $aAdParams = array(
             'ad_id'  => 2,
@@ -256,7 +255,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             'type'   => 'sql',
             'weight' => 1
         );
-        $oAd = new MAX_Entity_Ad($aAdParams);
+        $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
         $aAdParams = array(
             'ad_id'  => 3,
@@ -264,22 +263,22 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
             'type'   => 'sql',
             'weight' => 1
         );
-        $oAd = new MAX_Entity_Ad($aAdParams);
+        $oAd = new OA_Maintenance_Priority_Ad($aAdParams);
         $aAdverts[] = $oAd;
         $oAllocateZoneImpressions->_setRequiredImpressions($aAdverts);
         $this->assertTrue(is_array($aAdverts));
         $this->assertTrue(!empty($aAdverts));
         $this->assertEqual(count($aAdverts), 3);
         $this->assertTrue(isset($aAdverts[0]));
-        $this->assertIsA($aAdverts[0], 'MAX_Entity_Ad');
+        $this->assertIsA($aAdverts[0], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($aAdverts[0]->id, 1);
         $this->assertEqual($aAdverts[0]->requiredImpressions, 0);
         $this->assertTrue(isset($aAdverts[1]));
-        $this->assertIsA($aAdverts[1], 'MAX_Entity_Ad');
+        $this->assertIsA($aAdverts[1], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($aAdverts[1]->id, 2);
         $this->assertEqual($aAdverts[1]->requiredImpressions, 0);
         $this->assertTrue(isset($aAdverts[2]));
-        $this->assertIsA($aAdverts[2], 'MAX_Entity_Ad');
+        $this->assertIsA($aAdverts[2], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($aAdverts[2]->id, 3);
         $this->assertEqual($aAdverts[2]->requiredImpressions, 0);
 
@@ -289,15 +288,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(!empty($aAdverts));
         $this->assertEqual(count($aAdverts), 3);
         $this->assertTrue(isset($aAdverts[0]));
-        $this->assertIsA($aAdverts[0], 'MAX_Entity_Ad');
+        $this->assertIsA($aAdverts[0], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($aAdverts[0]->id, 1);
         $this->assertEqual($aAdverts[0]->requiredImpressions, 1);
         $this->assertTrue(isset($aAdverts[1]));
-        $this->assertIsA($aAdverts[1], 'MAX_Entity_Ad');
+        $this->assertIsA($aAdverts[1], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($aAdverts[1]->id, 2);
         $this->assertEqual($aAdverts[1]->requiredImpressions, 0);
         $this->assertTrue(isset($aAdverts[2]));
-        $this->assertIsA($aAdverts[2], 'MAX_Entity_Ad');
+        $this->assertIsA($aAdverts[2], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($aAdverts[2]->id, 3);
         $this->assertEqual($aAdverts[2]->requiredImpressions, 10);
     }
@@ -393,7 +392,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(is_array($oAllocateZoneImpressions->aPlacements));
         $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements));
         $this->assertEqual(count($oAllocateZoneImpressions->aPlacements), 2);
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0], 'MAX_Entity_Placement');
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0], 'OA_Maintenance_Priority_Placement');
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->id, 1);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->impressionTargetTotal, 1000);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->clickTargetTotal, 0);
@@ -407,15 +406,15 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements[0]->aAds));
         $this->assertEqual(count($oAllocateZoneImpressions->aPlacements[0]->aAds), 2);
         $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[0]->aAds[0]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[0], 'MAX_Entity_Ad');
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[0], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[0]->id, 1);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[0]->requiredImpressions, 1);
         $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[0]->aAds[1]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[1], 'MAX_Entity_Ad');
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[0]->aAds[1], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[1]->id, 2);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[0]->aAds[1]->requiredImpressions, 9);
 
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1], 'MAX_Entity_Placement');
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1], 'OA_Maintenance_Priority_Placement');
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->id, 2);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->impressionTargetTotal, 0);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->clickTargetTotal, 0);
@@ -429,11 +428,11 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(!empty($oAllocateZoneImpressions->aPlacements[1]->aAds));
         $this->assertEqual(count($oAllocateZoneImpressions->aPlacements[1]->aAds), 2);
         $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[1]->aAds[0]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[0], 'MAX_Entity_Ad');
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[0], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[0]->id, 3);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[0]->requiredImpressions, 5);
         $this->assertTrue(isset($oAllocateZoneImpressions->aPlacements[1]->aAds[1]));
-        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[1], 'MAX_Entity_Ad');
+        $this->assertIsA($oAllocateZoneImpressions->aPlacements[1]->aAds[1], 'OA_Maintenance_Priority_Ad');
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[1]->id, 4);
         $this->assertEqual($oAllocateZoneImpressions->aPlacements[1]->aAds[1]->requiredImpressions, 0);
     }
@@ -476,7 +475,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $this->assertTrue(empty($oAllocateZoneImpressions->aAdZoneAssociations));
 
         // Test 2
-        $oPlacement = new MAX_Entity_Placement(
+        $oPlacement = new OA_Maintenance_Priority_Placement(
             array(
                 'campaignid'        => 1,
                 'views'             => 1000,
@@ -496,9 +495,9 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
 
         // Test 3
         $aAdverts = array();
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 1));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 1));
         $aAdverts[] = $oAd;
-        $oAd = new MAX_Entity_Ad(array('ad_id' => 2));
+        $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => 2));
         $aAdverts[] = $oAd;
         $oAllocateZoneImpressions->aPlacements[0]->aAds = $aAdverts;
         $oAllocateZoneImpressions->_setAdZoneAssociations();

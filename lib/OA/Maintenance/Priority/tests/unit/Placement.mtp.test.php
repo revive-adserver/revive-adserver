@@ -25,30 +25,29 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Placement.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Placement.php';
 
 /**
- * A class for testing the MAX_Entity_Placement class.
+ * A class for testing the OA_Maintenance_Priority_Placement class.
  *
- * @package    MaxEntity
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
- * @author     Andrew Hill <andrew@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
+class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
 {
 
     /**
      * The class constructor method.
      */
-    function  Maintenance_TestOfMAX_Entity_Placement()
+    function  Test_OA_Maintenance_Priority_Placement()
     {
         $this->UnitTestCase();
         Mock::generate('MAX_Dal_Entities');
         Mock::generate('OA_Dal_Maintenance_Priority');
         Mock::generatePartial(
-            'MAX_Entity_Placement',
-            'MockPartialMAX_Entity_Placement',
+            'OA_Maintenance_Priority_Placement',
+            'MockPartialOA_Maintenance_Priority_Placement',
             array('_abort')
         );
     }
@@ -79,38 +78,38 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
     }
 
     /**
-     * A method to test the MAX_Entity_Placement() method.
+     * A method to test the OA_Maintenance_Priority_Placement() method.
      *
      * Requirements:
      * Test 1: Test with invalid input and ensure the _abort() method is called.
      * Test 2: Test with the "old" values, and ensure they are correctly set.
      * Test 3: Test with the "new" values, and ensure they are correctly set.
      */
-    function testMAX_Entity_Placement()
+    function testOA_Maintenance_Priority_Placement()
     {
         // Test 1
         $aParams = 'foo';
-        $oMaxEntityPlacement = new MockPartialMAX_Entity_Placement($this);
+        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
         $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
         $oMaxEntityPlacement->tally();
 
         $aParams = array();
-        $oMaxEntityPlacement = new MockPartialMAX_Entity_Placement($this);
+        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
         $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
         $oMaxEntityPlacement->tally();
 
         $aParams = array('placement_id' => 'foo');
-        $oMaxEntityPlacement = new MockPartialMAX_Entity_Placement($this);
+        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
         $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
         $oMaxEntityPlacement->tally();
 
         $aParams = array('priority' => 5);
-        $oMaxEntityPlacement = new MockPartialMAX_Entity_Placement($this);
+        $oMaxEntityPlacement = new MockPartialOA_Maintenance_Priority_Placement($this);
         $oMaxEntityPlacement->expectCallCount('_abort', 1);
-        $oMaxEntityPlacement->MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement->OA_Maintenance_Priority_Placement($aParams);
         $oMaxEntityPlacement->tally();
 
         // Test 2
@@ -126,7 +125,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
             'target_conversion' => 4,
             'priority'          => 5
         );
-        $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
         $this->assertEqual($oMaxEntityPlacement->id, 1);
         $this->assertEqual($oMaxEntityPlacement->activate, '2005-01-01');
         $this->assertEqual($oMaxEntityPlacement->expire, '2005-01-31');
@@ -151,7 +150,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
             'conversion_target_daily' => 4,
             'priority'                => 5
         );
-        $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
         $this->assertEqual($oMaxEntityPlacement->id, 1);
         $this->assertEqual($oMaxEntityPlacement->activate, '2005-01-01');
         $this->assertEqual($oMaxEntityPlacement->expire, '2005-01-31');
@@ -197,7 +196,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
 
         // Test 1
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
         $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
         $this->assertEqual(count($oMaxEntityPlacement->aAds), 0);
         $oMaxEntityPlacement->setAdverts();
@@ -206,7 +205,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
 
         // Test 2
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
         $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
         $this->assertEqual(count($oMaxEntityPlacement->aAds), 0);
         $oMaxEntityPlacement->setAdverts();
@@ -219,10 +218,10 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
         $oMaxEntityPlacement->setAdverts();
         $this->assertTrue(is_array($oMaxEntityPlacement->aAds));
         $this->assertEqual(count($oMaxEntityPlacement->aAds), 4);
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[1], 'MAX_Entity_Ad'));
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[2], 'MAX_Entity_Ad'));
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[3], 'MAX_Entity_Ad'));
-        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[5], 'MAX_Entity_Ad'));
+        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[1], 'OA_Maintenance_Priority_Ad'));
+        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[2], 'OA_Maintenance_Priority_Ad'));
+        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[3], 'OA_Maintenance_Priority_Ad'));
+        $this->assertTrue(is_a($oMaxEntityPlacement->aAds[5], 'OA_Maintenance_Priority_Ad'));
 
         $oMaxDalEntities->tally();
     }
@@ -259,7 +258,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
 
         // Test 1
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
         $this->assertNull($oMaxEntityPlacement->deliveredRequests);
         $this->assertNull($oMaxEntityPlacement->deliveredImpressions);
         $this->assertNull($oMaxEntityPlacement->deliveredClicks);
@@ -312,7 +311,7 @@ class Maintenance_TestOfMAX_Entity_Placement extends UnitTestCase
 
         // Test 1
         $aParams = array('campaignid' => 1);
-        $oMaxEntityPlacement = new MAX_Entity_Placement($aParams);
+        $oMaxEntityPlacement = new OA_Maintenance_Priority_Placement($aParams);
         $this->assertNull($oMaxEntityPlacement->deliveredRequests);
         $this->assertNull($oMaxEntityPlacement->deliveredImpressions);
         $this->assertNull($oMaxEntityPlacement->deliveredClicks);

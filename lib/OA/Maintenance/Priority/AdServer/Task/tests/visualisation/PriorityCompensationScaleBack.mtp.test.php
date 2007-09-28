@@ -131,7 +131,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             $zoneTotalRequired += $aAdData['requiredImpressions'];
         }
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+            $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
             $oAd->requiredImpressions = $aAdData['requiredImpressions'];
             if ($zoneTotalRequired > $oZone->availableImpressions) {
                 $oAd->requestedImpressions = floor(($oZone->availableImpressions - 1) / count($aAds));
@@ -177,7 +177,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
             }
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['requiredImpressions'];
                 if ($zoneTotalRequired > $zoneImpressions) {
                     $oAd->requestedImpressions = floor(($zoneImpressions - 1) / count($aAds));
@@ -245,7 +245,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
             }
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['requiredImpressions'];
                 if ($zoneTotalRequired > $zoneImpressions) {
                     $oAd->requestedImpressions = floor(($zoneImpressions - 1) / count($aAds));
@@ -442,7 +442,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             $zoneTotalRequired += $aAdData['requiredImpressions'];
         }
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+            $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
             $oAd->requiredImpressions = $aAdData['requiredImpressions'];
             if ($zoneTotalRequired > $oZone->availableImpressions) {
                 $oAd->requestedImpressions = floor(($oZone->availableImpressions - 1) / count($aAds));
@@ -488,7 +488,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
             }
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['requiredImpressions'];
                 if ($zoneTotalRequired > $zoneImpressions) {
                     $oAd->requestedImpressions = floor(($zoneImpressions - 1) / count($aAds));
@@ -556,7 +556,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
             }
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['requiredImpressions'];
                 if ($zoneTotalRequired > $zoneImpressions) {
                     $oAd->requestedImpressions = floor(($zoneImpressions - 1) / count($aAds));
@@ -870,7 +870,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             $zoneTotalRequired += $aAdData['requiredImpressions'];
         }
         foreach ($aAds as $adKey => $aAdData) {
-            $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+            $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
             $oAd->requiredImpressions = $aAdData['requiredImpressions'];
             if ($zoneTotalRequired > $oZone->availableImpressions) {
                 $oAd->requestedImpressions = floor(($oZone->availableImpressions - 1) / count($aAds));
@@ -916,7 +916,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
                 $zoneTotalRequired += $aAdData['requiredImpressions'];
             }
             foreach ($aAds as $adKey => $aAdData) {
-                $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+                $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                 $oAd->requiredImpressions = $aAdData['requiredImpressions'];
                 if ($zoneTotalRequired > $zoneImpressions) {
                     $oAd->requestedImpressions = floor(($zoneImpressions - 1) / count($aAds));
@@ -987,7 +987,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_PriorityCompensation_ScaleBack 
             }
             foreach ($aAds as $adKey => $aAdData) {
                 if (!(($iteration > (($initialIterations + $finalIterations) / 2)) && ($adKey == 2))) {
-                    $oAd = new MAX_Entity_Ad(array('ad_id' => $adKey));
+                    $oAd = new OA_Maintenance_Priority_Ad(array('ad_id' => $adKey));
                     $oAd->requiredImpressions = $aAdData['requiredImpressions'];
                     if ($zoneTotalRequired > $zoneImpressions) {
                         $oAd->requestedImpressions = floor(($zoneImpressions - 1) / count($aAds));

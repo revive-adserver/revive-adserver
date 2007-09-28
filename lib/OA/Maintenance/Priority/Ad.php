@@ -25,21 +25,17 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity.php';
-
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 
 /**
- * An entity class used to represent ads.
+ * An entity class used to represent ads for the MPE.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Priority
- * @author     Andrew Hill <andrew@m3.net>
- * @author     Demain Turner <demian@m3.net>
- * @author     James Floyd <james@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class MAX_Entity_Ad extends MAX_Entity
+class OA_Maintenance_Priority_Ad
 {
 
     /**
@@ -103,7 +99,7 @@ class MAX_Entity_Ad extends MAX_Entity
      *      'type'   -> The ad type (eg. 'sql').
      *      'weight' -> The ad weight.
      */
-	function MAX_Entity_Ad($aParams)
+	function OA_Maintenance_Priority_Ad($aParams)
     {
         // Test the input values
         $valid = true;

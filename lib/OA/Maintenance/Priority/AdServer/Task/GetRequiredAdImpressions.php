@@ -25,13 +25,12 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Entity/Placement.php';
-require_once MAX_PATH . '//lib/OA/Maintenance/Priority/Zone.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/AdServer/Task.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority/DeliveryLimitation.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Placement.php';
+require_once MAX_PATH . '/lib/OA/Maintenance/Priority/Zone.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
@@ -132,17 +131,17 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      *
      * @abstract
      * @access private
-     * @return array An array of {@link MAX_Entity_Placement} objects.
+     * @return array An array of {@link OA_Maintenance_Priority_Placement} objects.
      */
     function _getValidPlacements() {}
 
     /**
      * A private method that can be used by implementations of _getValidPlacements()
-     * in children classes to return an array of MAX_Entity_Placement objects.
+     * in children classes to return an array of OA_Maintenance_Priority_Placement objects.
      *
      * Essentially a convenience method to convert the results of the
      * {@link OA_Dal_Maintenance_Priority::_getPlacements()} method from an array
-     * of database records into an array of MAX_Entity_Placement objects.
+     * of database records into an array of OA_Maintenance_Priority_Placement objects.
      *
      * @access private
      * @param array $aFields An optional array of extra fields to select from the database
@@ -151,7 +150,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * @param array $aWheres An optional array of where statements to limit which placements
      *                      are returned from the database (see the
      *                       {@link MAX_Dal_Maintenance::getPlacements()} class.)
-     * @return array An array of {@link MAX_Entity_Placement} objects, appropriate to the
+     * @return array An array of {@link OA_Maintenance_Priority_Placement} objects, appropriate to the
      *               $filter given.
      */
     function _getAllPlacements($aFields = array(), $aWheres = array())
@@ -160,7 +159,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
         $aPlacements = $this->oDal->getPlacements($aFields, $aWheres);
         if (is_array($aPlacements) && (count($aPlacements) > 0)) {
             foreach ($aPlacements as $aPlacement) {
-                $aPlacementObjects[] = new MAX_Entity_Placement($aPlacement);
+                $aPlacementObjects[] = new OA_Maintenance_Priority_Placement($aPlacement);
             }
         }
         return $aPlacementObjects;
@@ -174,7 +173,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * the calculated impression requirement added to it in the position
      * $oPlacement->requiredImpressions
      *
-     * @param MAX_Entity_Placement $oPlacement A reference to the placement.
+     * @param OA_Maintenance_Priority_Placement $oPlacement A reference to the placement.
      * @param string $type Ether "total" or "daily", depending on whether the
      *                     required impressions should be based on the placement
      *                     lifetime totals, or the placement daily totals.
@@ -304,7 +303,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * for later analysis by the {@link OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions}
      * class.
      *
-     * @param array $aPlacements An array of {@link MAX_Entity_Placement} objects which require
+     * @param array $aPlacements An array of {@link OA_Maintenance_Priority_Placement} objects which require
      *                           that their total required impressions be distributed between the
      *                           component advertisements.
      */
@@ -407,16 +406,16 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * is set to unity (1).
      *
      * @access private
-     * @param MAX_Entity_Placement $oPlacement The placement.
+     * @param OA_Maintenance_Priority_Placement $oPlacement The placement.
      * @return integer The ad weight total.
      */
     function _getPlacementAdWeightTotal($oPlacement)
     {
         $weight = 0;
-        if (is_a($oPlacement, 'MAX_Entity_Placement')) {
+        if (is_a($oPlacement, 'OA_Maintenance_Priority_Placement')) {
             reset($oPlacement->aAds);
             while (list($adId, $oAd) = each($oPlacement->aAds)) {
-                if (is_a($oAd, 'MAX_Entity_Ad') && $oAd->active) {
+                if (is_a($oAd, 'OA_Maintenance_Priority_Ad') && $oAd->active) {
                     $weight += ($oAd->weight > 0) ? $oAd->weight : 0;
                 }
             }
@@ -435,7 +434,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
      * in, and the average zone pattern of the zones the ad is linked to.
      *
      * @access private
-     * @param MAX_Entity_Ad $oAd An ad object, representing the advertisement.
+     * @param OA_Maintenance_Priority_Ad $oAd An ad object, representing the advertisement.
      * @param integer $totalRequiredAdImpressions The total number of impressions the advertisement
      *                                            needs to deliver.
      * @param PEAR::Date $oDate A Date object, set in the current operation interval.
@@ -447,7 +446,7 @@ class OA_Maintenance_Priority_AdServer_Task_GetRequiredAdImpressions extends OA_
     function _getAdImpressions($oAd, $totalRequiredAdImpressions, $oDate, $oPlacementExpiryDate)
     {
         // Check the parameters, and return 0 impressions if not valid
-        if (!is_a($oAd, 'MAX_Entity_Ad') || !is_numeric($totalRequiredAdImpressions) ||
+        if (!is_a($oAd, 'OA_Maintenance_Priority_Ad') || !is_numeric($totalRequiredAdImpressions) ||
             !is_a($oDate, 'Date') || !is_a($oPlacementExpiryDate, 'Date')) {
             return 0;
         }
