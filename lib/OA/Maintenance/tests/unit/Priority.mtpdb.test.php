@@ -27,14 +27,13 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 /**
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
  * @author     Alexander J. Tarachanowicz <aj.tarachanowicz@openads.org>
  */
-
 class Test_OA_Maintenance_Priority extends UnitTestCase
 {
-    function xtestRun()
+    function testRun()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 

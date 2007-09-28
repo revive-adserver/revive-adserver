@@ -32,7 +32,7 @@ require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 /**
  * A class for testing the OA_Maintenance_Statistics_Tracker class.
  *
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage TestSuite
  * @author     Andrew Hill <andrew@m3.net>
  */

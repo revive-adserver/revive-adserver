@@ -27,6 +27,11 @@ $Id$
 $path = dirname(__FILE__);
 require_once $path . '/../../../../../init.php';
 
+/**
+ * @package    OpenadsMaintenance
+ * @subpackage TestSuite
+ * @author     Alexander J. Tarachanowicz <aj.tarachanowicz@openads.org>
+ */
 class Test_OA_Maintenance_PriorityFork
 {
 
