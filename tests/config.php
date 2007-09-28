@@ -127,7 +127,8 @@ $GLOBALS['_MAX']['TEST'][$type . '_layers'] =
         'mts' => array('Maintenance Statistics Engine (DB)',   DB_NO_TABLES),
         'mtp' => array('Maintenance Priority Engine (DB)',     DB_WITH_DATA),
         'up'  => array('Upgrade Classes',                      DB_WITH_TABLES),
-        'zif' => array('Zone Impression Forecasting (DB)',     DB_WITH_TABLES)
+        'zif' => array('Zone Impression Forecasting (DB)',     DB_WITH_TABLES),
+        'del' => array('Delivery Engine (DB)',                 DB_WITH_TABLES),
     );
 
 /*

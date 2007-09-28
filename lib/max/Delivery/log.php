@@ -57,6 +57,7 @@ function MAX_Delivery_log_logAdRequest($viewerId, $adId, $creativeId, $zoneId)
     if (_viewersHostOkayToLog()) {
         $conf = $GLOBALS['_MAX']['CONF'];
         list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+        $geotargeting = array();
         $table = $conf['table']['prefix'] . $conf['table']['data_raw_ad_request'];
         MAX_Dal_Delivery_Include();
         OA_Dal_Delivery_logAction(

@@ -47,56 +47,6 @@ class Delivery_TestOfLog extends UnitTestCase
     }
 
     /**
-     * A method to test the MAX_Delivery_log_logAdRequest() function.
-     *
-     * @TODO Not implemented.
-     */
-    function test_MAX_Delivery_log_logAdRequest()
-    {
-
-    }
-
-    /**
-     * A method to test the MAX_Delivery_log_logAdImpression() function.
-     *
-     * @TODO Not implemented.
-     */
-    function test_MAX_Delivery_log_logAdImpression()
-    {
-
-    }
-
-    /**
-     * A method to test the MAX_Delivery_log_logAdClick() function.
-     *
-     * @TODO Not implemented.
-     */
-    function test_MAX_Delivery_log_logAdClick()
-    {
-
-    }
-
-    /**
-     * A method to test the MAX_Delivery_log_logTrackerImpression() function.
-     *
-     * @TODO Not implemented.
-     */
-    function test_MAX_Delivery_log_logTrackerImpression()
-    {
-
-    }
-
-    /**
-     * A method to test the MAX_Delivery_log_logVariableValues() function.
-     *
-     * @TODO Not implemented.
-     */
-    function test_MAX_Delivery_log_logVariableValues()
-    {
-
-    }
-
-    /**
      * A method to test the _viewersHostOkayToLog() function.
      */
     function test_viewersHostOkayToLog()

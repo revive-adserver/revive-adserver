@@ -60,7 +60,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
     var $doAclsChannel = null;
     var $doZones = null;
     var $doTrackers = null;
-    var $tblDRT;
+    var $tblDRAR;
     var $tblDRAI;
     var $tblDRTI;
 
@@ -82,7 +82,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
         $this->doZones = OA_Dal::factoryDO('zones');
         $this->doTrackers = OA_Dal::factoryDO('trackers');
         $conf =& $GLOBALS['_MAX']['CONF'];
-        $this->tblDRT = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true);
+        $this->tblDRAR = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_request'],true);
         $this->tblDRAI = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_ad_impression'],true);
         $this->tblDRTI = $this->oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['data_raw_tracker_impression'],true);
     }
@@ -242,7 +242,7 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
     {
         $query = "
             INSERT INTO
-            {$this->tblDRT}
+            {$this->tblDRAR}
                 (
                     viewer_id,
                     viewer_session_id,
@@ -255,7 +255,6 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
                     language,
                     ip_address,
                     host_name,
-                    country,
                     https,
                     domain,
                     page,
@@ -272,15 +271,14 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
                 '{$aData[0]}',
                 '{$aData[1]}',
                 '{$aData[2]}',
-                {$aData[3]},
-                {$aData[4]},
-                {$aData[5]},
+                 {$aData[3]},
+                 {$aData[4]},
+                 {$aData[5]},
                 '{$aData[6]}',
                 '{$aData[7]}',
                 '{$aData[8]}',
                 '{$aData[9]}',
                 '{$aData[10]}',
-                '{$aData[11]}',
                 '{$aData[12]}',
                 '{$aData[13]}',
                 '{$aData[14]}',
@@ -329,9 +327,9 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
                 '{$aData[0]}',
                 '{$aData[1]}',
                 '{$aData[2]}',
-                {$aData[3]},
-                {$aData[4]},
-                {$aData[5]},
+                 {$aData[3]},
+                 {$aData[4]},
+                 {$aData[5]},
                 '{$aData[6]}',
                 '{$aData[7]}',
                 '{$aData[8]}',
