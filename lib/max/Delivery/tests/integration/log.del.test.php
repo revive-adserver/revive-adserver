@@ -114,9 +114,13 @@ class Delivery_TestOfLogDB extends UnitTestCase
         $this->_clearLogInfo();
         $this->_setupLogInfoGeotargeting();
         $aExpected = $this->_getExpected($aExpected);
+        $aExpected['geotargeting'] = array();
         MAX_Delivery_log_logAdRequest($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
         $aRows = $oDbh->queryAll($query);
         $this->_assertResults($aRows, $aExpected, 6);
+
+        $query = "TRUNCATE TABLE {$table}";
+        $oDbh->exec($query);
     }
 
     /**
@@ -126,7 +130,73 @@ class Delivery_TestOfLogDB extends UnitTestCase
      */
     function test_MAX_Delivery_log_logAdImpression()
     {
+        $oDbh = OA_DB::singleton();
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_impression'],true);
+        $query = "SELECT * FROM {$table}";
 
+        $aExpected['viewerId']   = '01010101010101';
+        $aExpected['adId']       = '1';
+        $aExpected['creativeId'] = '1';
+        $aExpected['zoneId']     = '1';
+
+        $this->msg = 'Test 1: ';
+        $this->_clearLogInfo();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdImpression($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 0);
+
+        $this->msg = 'Test 2: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoUserAgent();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdImpression($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 1);
+
+        $this->msg = 'Test 3: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoHttps();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdImpression($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 2);
+
+        $this->msg = 'Test 4: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoRefererLoc();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdImpression($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 3);
+
+        $this->msg = 'Test 5: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoChannels();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdImpression($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 4);
+
+        $this->msg = 'Test 6: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoRefererNormal();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdImpression($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 5);
+
+        $this->msg = 'Test 7: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoGeotargeting();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdImpression($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 6);
+
+        $query = "TRUNCATE TABLE {$table}";
+        $oDbh->exec($query);
     }
 
     /**
@@ -294,6 +364,7 @@ class Delivery_TestOfLogDB extends UnitTestCase
         $this->_assertZoneInfo($aExpected['zoneInfo'], $aActual[$rowId]);
         $this->_assertMaxHttps($aExpected['maxHttps'], $aActual[$rowId]);
         $this->_assertUserAgent($aExpected['userAgentInfo'], $aActual[$rowId]);
+        $this->_assertGeotargeting($aExpected['geotargeting'], $aActual[$rowId]);
     }
 
     function _assertIds($aExpected, $aActual)
@@ -308,18 +379,27 @@ class Delivery_TestOfLogDB extends UnitTestCase
 
     function _assertGeotargeting($aExpected, $aActual)
     {
-        $this->assertEqual($aExpected['country_code']   , $aActual['country_code'], $this->msg.'incorrect country_code');
-        $this->assertEqual($aExpected['country_name']   , $aActual['country_name'], $this->msg.'incorrect country_name');
-        $this->assertEqual($aExpected['region']         , $aActual['region'], $this->msg.'incorrect region');
-        $this->assertEqual($aExpected['city']           , $aActual['city'], $this->msg.'incorrect city');
-        $this->assertEqual($aExpected['postal_code']    , $aActual['postal_code'], $this->msg.'incorrect postal_code');
-        $this->assertEqual($aExpected['latitude']       , $aActual['latitude'], $this->msg.'incorrect latitude');
-        $this->assertEqual($aExpected['longitude']      , $aActual['longitude'], $this->msg.'incorrect longitude');
-        $this->assertEqual($aExpected['dma_code']       , $aActual['dma_code'], $this->msg.'incorrect dma_code');
-        $this->assertEqual($aExpected['area_code']      , $aActual['area_code'], $this->msg.'incorrect area_code');
-        $this->assertEqual($aExpected['organisation']   , $aActual['organisation'], $this->msg.'incorrect organisation');
-        $this->assertEqual($aExpected['isp']            , $aActual['isp'], $this->msg.'incorrect isp');
-        $this->assertEqual($aExpected['netspeed']       , $aActual['netspeed'], $this->msg.'incorrect netspeed');
+        if (isset($aActual['country_code']))
+        {
+            $this->assertEqual($aExpected['country_code']   , $aActual['country_code'], $this->msg.'incorrect country_code');
+        }
+        if (isset($aActual['country_name']))
+        {
+            $this->assertEqual($aExpected['country_name']   , $aActual['country_name'], $this->msg.'incorrect country_name');
+        }
+        if (isset($aActual['isp']))
+        {
+            $this->assertEqual($aExpected['isp']            , $aActual['isp'], $this->msg.'incorrect isp');
+        }
+        $this->assertEqual($aExpected['region']         , $aActual['geo_region'], $this->msg.'incorrect region');
+        $this->assertEqual($aExpected['city']           , $aActual['geo_city'], $this->msg.'incorrect city');
+        $this->assertEqual($aExpected['postal_code']    , $aActual['geo_postal_code'], $this->msg.'incorrect postal_code');
+        $this->assertEqual(floatval($aExpected['latitude'])       , $aActual['geo_latitude'], $this->msg.'incorrect latitude');
+        $this->assertEqual(floatval($aExpected['longitude'])      , $aActual['geo_longitude'], $this->msg.'incorrect longitude');
+        $this->assertEqual($aExpected['dma_code']       , $aActual['geo_dma_code'], $this->msg.'incorrect dma_code');
+        $this->assertEqual($aExpected['area_code']      , $aActual['geo_area_code'], $this->msg.'incorrect area_code');
+        $this->assertEqual($aExpected['organisation']   , $aActual['geo_organisation'], $this->msg.'incorrect organisation');
+        $this->assertEqual($aExpected['netspeed']       , $aActual['geo_netspeed'], $this->msg.'incorrect netspeed');
     }
 
     function _assertZoneInfo($aExpected, $aActual)
