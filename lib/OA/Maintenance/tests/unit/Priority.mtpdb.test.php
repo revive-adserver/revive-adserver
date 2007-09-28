@@ -42,7 +42,7 @@ class Test_OA_Maintenance_Priority extends UnitTestCase
         $this->assertTrue($result);
 
         $phpPath    = $aConf['test']['phpPath'] .' -f';
-        $testPath   = MAX_PATH .'/lib/max/Maintenance/tests/unit/maintenance-priority-test.php';
+        $testPath   = MAX_PATH .'/lib/OA/Maintenance/tests/unit/PriorityFork.php';
         $host       = $_SERVER['SERVER_NAME'];
         system("$phpPath $testPath $host", $result);
 

@@ -27,12 +27,12 @@ $Id$
 $path = dirname(__FILE__);
 require_once $path . '/../../../../../init.php';
 
-class Test_ForkOf_MAX_Maintenanace_Priority
+class Test_OA_Maintenance_PriorityFork
 {
+
     function testForkRun()
     {
         require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
-
         $pid = pcntl_fork();
         if ($pid == -1) {
             // something bad happened
@@ -41,12 +41,11 @@ class Test_ForkOf_MAX_Maintenanace_Priority
         } else {
             $resultParent = OA_Maintenance_Priority::run();
         }
-
         (isset($resultParent) && $resultParent === true) ? exit : exit(1);
     }
 }
 
-$test = new Test_ForkOf_MAX_Maintenanace_Priority();
+$test = new Test_OA_Maintenance_PriorityFork();
 $test->testForkRun();
 
 ?>
