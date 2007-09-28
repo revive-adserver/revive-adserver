@@ -106,13 +106,9 @@ class Test_OA_DB_Table_Core extends UnitTestCase
 
         $aTablesWork    = $aConfWork['table'];
         unset($aTablesWork['prefix']);
-        unset($aTablesWork['split']);
-        unset($aTablesWork['lockfile']);
         unset($aTablesWork['type']);
         $aTablesDist    = $aConfDist['table'];
         unset($aTablesDist['prefix']);
-        unset($aTablesDist['split']);
-        unset($aTablesDist['lockfile']);
         unset($aTablesDist['type']);
         $aTablesSchema  = $oTable->aDefinition['tables'];
 
@@ -167,7 +163,7 @@ class Test_OA_DB_Table_Core extends UnitTestCase
         $oTable->createAllTables();
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         foreach ($conf['table'] as $key => $tableName) {
-            if ($key == 'prefix' || $key == 'split' || $key == 'lockfile' || $key == 'type') {
+            if ($key == 'prefix' || $key == 'type') {
                 continue;
             }
             // Test that the tables exists
