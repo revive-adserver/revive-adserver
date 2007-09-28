@@ -61,23 +61,9 @@ class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
     function testCreateAdServer()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
-        $aConf['table']['split'] = false;
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('AdServer');
         $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_AdServer_' . $this->dbType);
-        TestEnv::restoreConfig();
-    }
-
-    /**
-     * Test the creation of a split AdServer module via the factory.
-     */
-    function testCreateAdServerSplit()
-    {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
-        $aConf['table']['split'] = true;
-        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
-        $classname = $oMDMSF->_deriveClassName('AdServer');
-        $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_AdServer_' . $this->dbType . 'Split');
         TestEnv::restoreConfig();
     }
 
@@ -87,23 +73,9 @@ class Test_OA_Dal_Maintenance_Statistics_Factory extends UnitTestCase
     function testCreateTracker()
     {
         $aConf =& $GLOBALS['_MAX']['CONF'];
-        $aConf['table']['split'] = false;
         $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
         $classname = $oMDMSF->_deriveClassName('Tracker');
         $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_Tracker_' . $this->dbType);
-        TestEnv::restoreConfig();
-    }
-
-    /**
-     * Test the creation of a split Tracker module via the factory.
-     */
-    function testCreateTrackerSplit()
-    {
-        $aConf =& $GLOBALS['_MAX']['CONF'];
-        $aConf['table']['split'] = true;
-        $oMDMSF = new OA_Dal_Maintenance_Statistics_Factory();
-        $classname = $oMDMSF->_deriveClassName('Tracker');
-        $this->assertEqual($classname, 'OA_Dal_Maintenance_Statistics_Tracker_' . $this->dbType . 'Split');
         TestEnv::restoreConfig();
     }
 

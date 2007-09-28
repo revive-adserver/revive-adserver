@@ -231,13 +231,7 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
                 ORDER BY date ASC
                 LIMIT 1";
             OA::debug('- Maintenance process run information not found - trying to get data from ' . $aAlternateInfo['tableName'], PEAR_LOG_DEBUG);
-            if ($aConf['table']['split']) {
-                PEAR::pushErrorHandling(null);
-            }
             $rc = $this->oDbh->query($query);
-            if ($aConf['table']['split']) {
-                PEAR::popErrorHandling();
-            }
             if (PEAR::isError($rc)) {
                 return false;
             }
@@ -417,3 +411,5 @@ class OA_Dal_Maintenance_Common extends MAX_Dal_Common
     }
 
 }
+
+?>

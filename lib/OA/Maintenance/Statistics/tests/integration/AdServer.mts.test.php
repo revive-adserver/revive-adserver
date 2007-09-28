@@ -843,7 +843,6 @@ class Test_OA_Maintenance_Statistics_AdServer extends UnitTestCase
         // Set up the config as desired for testing
         $conf['maintenance']['operationInterval'] = 60;
         $conf['maintenance']['compactStats'] = false;
-        $conf['table']['split'] = false;
         // Set the "current" time
         $oDateNow = new Date('2004-11-28 12:00:00');
         $oServiceLocator =& OA_ServiceLocator::instance();

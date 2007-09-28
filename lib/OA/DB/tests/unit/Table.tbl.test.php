@@ -312,10 +312,9 @@ class Test_OA_DB_Table extends UnitTestCase
      *
      * Requirements:
      * Test 1: Test that a table can be created.
-     * Test 2: Test that a split table can be created.
-     * Test 3: Test character sets are set correctly (mysql specific).
-     * Test 4: Test table created with prefix
-     * Test 5: Test table created with uppercase prefix
+     * Test 2: Test character sets are set correctly (mysql specific).
+     * Test 3: Test table created with prefix
+     * Test 4: Test table created with uppercase prefix
      */
     function testCreateTable()
     {
@@ -323,7 +322,6 @@ class Test_OA_DB_Table extends UnitTestCase
         $conf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = '';
-        $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
@@ -334,22 +332,6 @@ class Test_OA_DB_Table extends UnitTestCase
 
         // Test 2
         $conf =& $GLOBALS['_MAX']['CONF'];
-        $conf['table']['prefix'] = '';
-        $conf['table']['split'] = true;
-        $conf['splitTables']['test_table'] = true;
-        $oDbh =& OA_DB::singleton();
-        $oTable = new OA_DB_Table();
-        $this->_writeTestDatabaseSchema();
-        $oTable->init(MAX_PATH . '/var/test.xml');
-        $oDate = new Date();
-        $oTable->createTable('test_table', $oDate);
-        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
-        unlink(MAX_PATH . '/var/test.xml');
-        $this->assertTrue($oTable->dropTable('test_table_' . $oDate->format('%Y%m%d')));
-
-        // Test 3
-        $conf =& $GLOBALS['_MAX']['CONF'];
         if ($conf['database']['type'] == 'mysql') {
             // Ensure that MySQL version >= 4.1, as no character set support in earlier versions
             $oDbh =& OA_DB::singleton();
@@ -358,7 +340,6 @@ class Test_OA_DB_Table extends UnitTestCase
 
                 $this->_writeStringTestDatabaseSchema();
                 $conf['table']['prefix'] = '';
-                $conf['table']['split'] = false;
 
                 // Create tables with default character set.
                 $oTable = new OA_DB_Table();
@@ -432,11 +413,10 @@ class Test_OA_DB_Table extends UnitTestCase
             }
         }
 
-        // Test 4
+        // Test 3
         $conf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = 'oatest_';
-        $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
@@ -445,11 +425,10 @@ class Test_OA_DB_Table extends UnitTestCase
         $this->assertEqual($aExistingTables[0], 'oatest_test_table');
         $oTable->dropTable('oatest_test_table');
 
-        // Test 5
+        // Test 4
         $conf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = 'OATEST_';
-        $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
@@ -474,7 +453,6 @@ class Test_OA_DB_Table extends UnitTestCase
         $conf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = '';
-        $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $this->_writeTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
@@ -487,18 +465,16 @@ class Test_OA_DB_Table extends UnitTestCase
         $conf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $conf['table']['prefix'] = '';
-        $conf['table']['split'] = true;
-        $conf['splitTables']['test_table'] = true;
         $oTable = new OA_DB_Table();
         $this->_writeBigTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
         $oDate = new Date();
         $oTable->createAllTables($oDate);
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        $this->assertEqual($aExistingTables[0], 'test_table_' . $oDate->format('%Y%m%d'));
+        $this->assertEqual($aExistingTables[0], 'test_table');
         $this->assertEqual($aExistingTables[1], 'the_second_table');
         unlink(MAX_PATH . '/var/test.xml');
-        $oTable->dropTable('test_table_' . $oDate->format('%Y%m%d'));
+        $oTable->dropTable('test_table');
         $oTable->dropTable('the_second_table');
 
         TestEnv::restoreConfig();
@@ -517,7 +493,6 @@ class Test_OA_DB_Table extends UnitTestCase
         }
         $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
-        $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $this->_writeSequenceTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');
@@ -589,7 +564,6 @@ class Test_OA_DB_Table extends UnitTestCase
 //        }
         $conf =& $GLOBALS['_MAX']['CONF'];
         $conf['table']['prefix'] = '';
-        $conf['table']['split'] = false;
         $oTable = new OA_DB_Table();
         $this->_writeSequenceTestDatabaseSchema();
         $oTable->init(MAX_PATH . '/var/test.xml');

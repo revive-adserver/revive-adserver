@@ -61,7 +61,6 @@ class Test_OA_Maintenance_Statistics_Tracker extends UnitTestCase
         $this->tblDRTVV = $this->oDbh->quoteIdentifier($conf['table']['prefix'].'data_raw_tracker_variable_value', true);
         $conf['maintenance']['operationInterval'] = 60;
         $conf['maintenance']['compactStats'] = false;
-        $conf['table']['split'] = false;
     }
 
     /**

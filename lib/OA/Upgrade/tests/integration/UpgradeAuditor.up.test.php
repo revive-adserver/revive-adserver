@@ -353,7 +353,6 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	{
     		$conf =& $GLOBALS['_MAX']['CONF'];
 	        //$conf['table']['prefix'] = '';
-	        $conf['table']['split'] = false;
 	        $oTable = new OA_DB_Table();
 	        $oTable->init($this->path.'schema_test_backups.xml');
 	        $this->assertTrue($oTable->createTable('z_test1'),'error creating test table1');

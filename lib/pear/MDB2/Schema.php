@@ -2580,4 +2580,5 @@ class MDB2_Schema_Error extends PEAR_Error
             $mode, $level, $debuginfo);
     }
 }
+
 ?>

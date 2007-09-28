@@ -368,7 +368,6 @@ class OA_DB_Table
 
     /**
      * A method for dropping all tables from the currently parsed database XML schema file.
-     * Does not drop any tables that are set up to be "split", if split tables is enabled.
      *
      * @return boolean True if all tables dropped successfuly, false otherwise.
      */
@@ -380,10 +379,6 @@ class OA_DB_Table
         }
         $allTablesDropped = true;
         foreach ($this->aDefinition['tables'] as $tableName => $aTable) {
-            if (($aConf['table']['split']) && ($aConf['splitTables'][$tableName])) {
-                // Don't drop
-                continue;
-            }
             OA::debug('Dropping the ' . $tableName . ' table', PEAR_LOG_DEBUG);
             $result = $this->dropTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result) || (!$result)) {
@@ -438,27 +433,10 @@ class OA_DB_Table
             return false;
         }
         $allTablesTruncated = true;
-        // Do we need to truncate split tables?
-        if ($aConf['table']['split']) {
-            $aTables = OA_DB_Table::listOATablesCaseSensitive();
-        }
         // Iterate over each known table, and truncate
         foreach ($this->aDefinition['tables'] as $tableName => $aTable) {
-            if (($aConf['table']['split']) && ($aConf['splitTables'][$tableName])) {
-                // Find all split instances of this table
-                foreach ($aTables as $realTable) {
-                    if (preg_match("/^" . $aConf['table']['prefix'] . $tableName . '$/', $realTable)) {
-                        OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-                        $result = $this->truncateTable($realTable);
-                    } else if (preg_match("/^" . $aConf['table']['prefix'] . $tableName . '_[0-9]{8}/', $realTable)) {
-                        OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-                        $result = $this->truncateTable($realTable);
-                    }
-                }
-            } else {
-                OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
-                $result = $this->truncateTable($aConf['table']['prefix'].$tableName);
-            }
+            OA::debug('Truncating the ' . $tableName . ' table', PEAR_LOG_DEBUG);
+            $result = $this->truncateTable($aConf['table']['prefix'].$tableName);
             if (PEAR::isError($result)) {
                 OA::debug('Unable to truncate the table ' . $tableName, PEAR_LOG_ERROR);
                 $allTablesTruncated = false;
@@ -627,27 +605,18 @@ class OA_DB_Table
     }
 
     /**
-     * A method for generating a table name, adding prefix and/or split date
+     * A method for generating a table name, adding prefix as required.
      *
      * @param string $table The original name of the table.
-     * @param Date   $oDate An optional date for creating split tables. Will use current
-     *                      date if the date is required for creation, but not supplied.
-     * @return string The name of the table
+     * @return string The name of the table.
      */
-    function _generateTableName($table, $oDate = null)
+    function _generateTableName($table)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $tableName = $table;
         // Does a table prefix need to be added to the table name?
         if ($aConf['table']['prefix'] && !$this->temporary) {
             $tableName = $aConf['table']['prefix'] . $tableName;
-        }
-        // Are split tables in operation, and is the table designed to be split?
-        if (($aConf['table']['split']) && ($aConf['splitTables'][$table])) {
-            if ($oDate == NULL) {
-                $oDate = new Date();
-            }
-            $tableName = $tableName . '_' . $oDate->format('%Y%m%d');
         }
         return $tableName;
     }

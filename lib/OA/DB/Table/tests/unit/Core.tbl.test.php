@@ -148,13 +148,11 @@ class Test_OA_DB_Table_Core extends UnitTestCase
      *
      * Requirements:
      * Test 1: Test that all core tables can be created and dropped.
-     * Test 2: Test that all core tables can be created and dropped, including split tables.
      */
     function testAllCoreTables()
     {
         // Test 1
         $conf =& $GLOBALS['_MAX']['CONF'];
-        $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
         $oDbh =& OA_DB::singleton();
         $oTable =& OA_DB_Table_Core::singleton();
@@ -176,56 +174,6 @@ class Test_OA_DB_Table_Core extends UnitTestCase
             $this->assertTrue(in_array($tableName, $aExistingTables), 'does not exist: '.$tableName.' (found in conf file)');
         }
         $oTable->dropAllTables();
-        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        if (PEAR::isError($aExistingTables)) {
-            // Can't talk to database, test fails!
-            $this->assertTrue(false);
-        }
-        $this->assertEqual(count($aExistingTables), 0);
-
-        // Ensure the singleton is destroyed
-        $oTable->destroy();
-
-        // Test 2
-        $conf =& $GLOBALS['_MAX']['CONF'];
-        $conf['table']['split'] = true;
-        $conf['table']['prefix'] = '';
-        $oDbh =& OA_DB::singleton();
-        $oTable =& OA_DB_Table_Core::singleton();
-        $oTable->dropAllTables();
-        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        if (PEAR::isError($aExistingTables)) {
-            // Can't talk to database, test fails!
-            $this->assertTrue(false);
-        }
-        $this->assertEqual(count($aExistingTables), 0);
-        $oDate = new Date('2007-04-19');
-        $oTable->createAllTables($oDate);
-        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        foreach ($conf['table'] as $key => $tableName) {
-            if ($key == 'prefix' || $key == 'split' || $key == 'lockfile' || $key == 'type') {
-                continue;
-            }
-            if ($conf['splitTables'][$tableName]) {
-                // That that the split table exists
-                $this->assertTrue(in_array($tableName . '_' . $oDate->format('%Y%m%d'), $aExistingTables), 'does not exist: '.$tableName.'_'.$oDate->format('%Y%m%d').' (found in conf file)');
-            } else {
-                // Test that the normal table exists
-                $this->assertTrue(in_array($tableName, $aExistingTables), 'does not exist: '.$tableName.' (found in conf file)');
-            }
-        }
-        $oTable->dropAllTables();
-        $splitTableCount = count($conf['splitTables']);
-        $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
-        if (PEAR::isError($aExistingTables)) {
-            // Can't talk to database, test fails!
-            $this->assertTrue(false);
-        }
-        $this->assertEqual(count($aExistingTables), $splitTableCount);
-        foreach ($conf['splitTables'] as $splitTableName => $value) {
-            $dropSplitTableName = $conf['table']['prefix'] . $splitTableName . '_' . $oDate->format('%Y%m%d');
-            $oTable->dropTable($dropSplitTableName);
-        }
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables)) {
             // Can't talk to database, test fails!

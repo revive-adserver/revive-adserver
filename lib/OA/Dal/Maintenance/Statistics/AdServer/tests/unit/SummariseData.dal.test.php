@@ -234,7 +234,6 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SummariseData extends UnitTest
         foreach ($aBLockingTimes as $blockingTime) {
             foreach ($aType as $type => $table) {
 
-                $aConf['table']['split']                    = false;
                 $aConf['maintenance']['operationInterval']  = 30;
                 $aConf['maintenance']['blockAdImpressions'] = $blockingTime;
                 $aConf['maintenance']['blockAdClicks']      = $blockingTime;

@@ -29,164 +29,24 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
 /**
- * A class for testing the non-DB specific OA_Dal_Maintenance_Priority class.
+ * A class for testing the updatePriorities() method of the
+ * non-DB specific OA_Dal_Maintenance_Priority class.
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openads.org>
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
+class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
 {
     var $aIds = array();
 
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_UpdatePriorities()
+    function Test_OA_Dal_Maintenance_Priority_updatePriorities()
     {
         $this->UnitTestCase();
-    }
-
-    /**
-     * A method to generate data for testing.
-     * NOT USED
-     *
-     * @access private
-     */
-    function _generateTestData()
-    {
-        $oNow = new Date();
-
-        // Populate campaigns table
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->campaignname = 'Test Campaign';
-        $doCampaigns->clientid = 1;
-        $doCampaigns->views = 500;
-        $doCampaigns->clicks = 0;
-        $doCampaigns->conversions = 401;
-        $doCampaigns->expire = OA_Dal::noDateString();
-        $doCampaigns->activate = OA_Dal::noDateString();
-        $doCampaigns->active = 't';
-        $doCampaigns->priority = '4';
-        $doCampaigns->weight = 2;
-        $doCampaigns->target_impression = 0;
-        $doCampaigns->anonymous = 'f';
-        $doCampaigns->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $this->aIds['campaign'] = DataGenerator::generateOne($doCampaigns);
-
-        // Add a banner
-        $doBanners   = OA_Dal::factoryDO('banners');
-        $doBanners->campaignid=$this->aIds['campaign'];
-        $doBanners->active = 't';
-        $doBanners->contenttype = 'txt';
-        $doBanners->pluginversion = 0;
-        $doBanners->storagetype = 'txt';
-        $doBanners->filename = '';
-        $doBanners->imageurl = '';
-        $doBanners->htmltemplate = '';
-        $doBanners->htmlcache = '';
-        $doBanners->width = 0;
-        $doBanners->height = 0;
-        $doBanners->weight = 1;
-        $doBanners->seq = 0;
-        $doBanners->target = '';
-        $doBanners->url = 'http://www.example.com';
-        $doBanners->alt = 'Test Campaign - Text Banner';
-        $doBanners->status = '';
-        $doBanners->bannerTEXT = '';
-        $doBanners->description = '';
-        $doBanners->autohtml = 'f';
-        $doBanners->adserver = '';
-        $doBanners->block = 0;
-        $doBanners->capping = 0;
-        $doBanners->session_capping = 0;
-        $doBanners->compiledlimitation = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
-        $doBanners->append = '';
-        $doBanners->appendtype = 0;
-        $doBanners->bannertype = 0;
-        $doBanners->alt_filename = '';
-        $doBanners->alt_imageurl = '';
-        $doBanners->alt_contenttype = '';
-        $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $this->aIds['ad'] = DataGenerator::generateOne($doBanners);
-
-        // Add an agency record
-        $doAgency = OA_Dal::factoryDO('agency');
-        $doAgency->name = 'Test Agency';
-        $doAgency->contact = 'Test Contact';
-        $doAgency->email = 'agency@example.com';
-        $doAgency->username = 'Agency User Name';
-        $doAgency->password = 'password';
-        $doAgency->permissions = 0;
-        $doAgency->language = 'en_GB';
-        $doAgency->logout_url= 'logout.php';
-        $doAgency->active = 1;
-        $doAgency->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $this->aIds['agency'] = DataGenerator::generateOne($doAgency);
-
-        // Add a client record (advertiser)
-        $doClient = OA_Dal::factoryDO('clients');
-        $doClient->agencyid = $this->aIds['agency'];
-        $doClient->clientname = 'Test Client';
-        $doClient->contact = 'yes';
-        $doClient->email = 'client@example.com';
-        $doClient->clientusername = 'Client User Name';
-        $doClient->clientpassword = 'password';
-        $doClient->permissions = 59;
-        $doClient->language = '';
-        $doClient->report = 't';
-        $doClient->reportinterval = 7;
-        $doClient->reportlastdate = '2005-03-21';
-        $doClient->reportdeactivate = 't';
-        $doClient->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $this->aIds['client'] = DataGenerator::generateOne($doClient);
-
-        // Add an affiliate (publisher) record
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        $doAffiliates->agencyid = $this->aIds['agency'];
-        $doAffiliates->name = 'Test Publisher';
-        $doAffiliates->mnemonic = 'ABC';
-        $doAffiliates->contact = 'Affiliate Contact';
-        $doAffiliates->email = 'affiliate@example.com';
-        $doAffiliates->website = 'www.example.com';
-        $doAffiliates->username = 'Affiliate User Name';
-        $doAffiliates->password = 'password';
-        $doAffiliates->permissions = null;
-        $doAffiliates->language = null;
-        $doAffiliates->publiczones = 'f';
-        $doAffiliates->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $this->aIds['affiliate'] = DataGenerator::generateOne($doAffiliates);
-
-        // Add zone record
-        $doZones = OA_Dal::factoryDO('zones');
-        $doZones->affiliateid = $this->aIds['affiliate'];
-        $doZones->zonename = 'Default Zone';
-        $doZones->description = '';
-        $doZones->delivery = 0;
-        $doZones->zonetype =3;
-        $doZones->category = '';
-        $doZones->width = 728;
-        $doZones->height = 90;
-        $doZones->ad_selection = '';
-        $doZones->chain = '';
-        $doZones->prepend = '';
-        $doZones->append = '';
-        $doZones->appendtype = 0;
-        $doZones->forceappend = 'f';
-        $doZones->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
-        $this->aIds['zone'] = DataGenerator::generateOne($doZones);
-
-        // Add ad_zone_assoc record
-        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
-        $doAdZone->ad_id = $this->aIds['ad'];
-        $doAdZone->zone_id = $this->aIds['zone'];
-        $doAdZone->priority = 0;
-        $doAdZone->link_type = 1;
-        $doAdZone->priority_factor = 1;
-        $doAdZone->to_be_delivered = 1;
-        $this->aIds['ad_zone'] = DataGenerator::generateOne($doAdZone);
     }
 
     /**
@@ -200,6 +60,11 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
      */
     function testUpdatePriorities()
     {
+        /**
+         * @TODO Locate where clean up doesn't happen before this test, and fix!
+         */
+        TestEnv::restoreEnv();
+
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
@@ -495,6 +360,147 @@ class Test_OA_Dal_Maintenance_Priority_UpdatePriorities extends UnitTestCase
         $result = $oMaxDalMaintenance->updatePriorities($aData);
         TestEnv::restoreEnv('dropTmpTables');
     }
+
+    /**
+     * A private method to generate data for testing.
+     *
+     * @access private
+     */
+    function _generateTestData()
+    {
+        $oNow = new Date();
+
+        // Populate campaigns table
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignname = 'Test Campaign';
+        $doCampaigns->clientid = 1;
+        $doCampaigns->views = 500;
+        $doCampaigns->clicks = 0;
+        $doCampaigns->conversions = 401;
+        $doCampaigns->expire = OA_Dal::noDateString();
+        $doCampaigns->activate = OA_Dal::noDateString();
+        $doCampaigns->active = 't';
+        $doCampaigns->priority = '4';
+        $doCampaigns->weight = 2;
+        $doCampaigns->target_impression = 0;
+        $doCampaigns->anonymous = 'f';
+        $doCampaigns->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $this->aIds['campaign'] = DataGenerator::generateOne($doCampaigns);
+
+        // Add a banner
+        $doBanners   = OA_Dal::factoryDO('banners');
+        $doBanners->campaignid=$this->aIds['campaign'];
+        $doBanners->active = 't';
+        $doBanners->contenttype = 'txt';
+        $doBanners->pluginversion = 0;
+        $doBanners->storagetype = 'txt';
+        $doBanners->filename = '';
+        $doBanners->imageurl = '';
+        $doBanners->htmltemplate = '';
+        $doBanners->htmlcache = '';
+        $doBanners->width = 0;
+        $doBanners->height = 0;
+        $doBanners->weight = 1;
+        $doBanners->seq = 0;
+        $doBanners->target = '';
+        $doBanners->url = 'http://www.example.com';
+        $doBanners->alt = 'Test Campaign - Text Banner';
+        $doBanners->status = '';
+        $doBanners->bannerTEXT = '';
+        $doBanners->description = '';
+        $doBanners->autohtml = 'f';
+        $doBanners->adserver = '';
+        $doBanners->block = 0;
+        $doBanners->capping = 0;
+        $doBanners->session_capping = 0;
+        $doBanners->compiledlimitation = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
+        $doBanners->append = '';
+        $doBanners->appendtype = 0;
+        $doBanners->bannertype = 0;
+        $doBanners->alt_filename = '';
+        $doBanners->alt_imageurl = '';
+        $doBanners->alt_contenttype = '';
+        $doBanners->acls_updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $doBanners->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $this->aIds['ad'] = DataGenerator::generateOne($doBanners);
+
+        // Add an agency record
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->name = 'Test Agency';
+        $doAgency->contact = 'Test Contact';
+        $doAgency->email = 'agency@example.com';
+        $doAgency->username = 'Agency User Name';
+        $doAgency->password = 'password';
+        $doAgency->permissions = 0;
+        $doAgency->language = 'en_GB';
+        $doAgency->logout_url= 'logout.php';
+        $doAgency->active = 1;
+        $doAgency->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $this->aIds['agency'] = DataGenerator::generateOne($doAgency);
+
+        // Add a client record (advertiser)
+        $doClient = OA_Dal::factoryDO('clients');
+        $doClient->agencyid = $this->aIds['agency'];
+        $doClient->clientname = 'Test Client';
+        $doClient->contact = 'yes';
+        $doClient->email = 'client@example.com';
+        $doClient->clientusername = 'Client User Name';
+        $doClient->clientpassword = 'password';
+        $doClient->permissions = 59;
+        $doClient->language = '';
+        $doClient->report = 't';
+        $doClient->reportinterval = 7;
+        $doClient->reportlastdate = '2005-03-21';
+        $doClient->reportdeactivate = 't';
+        $doClient->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $this->aIds['client'] = DataGenerator::generateOne($doClient);
+
+        // Add an affiliate (publisher) record
+        $doAffiliates = OA_Dal::factoryDO('affiliates');
+        $doAffiliates->agencyid = $this->aIds['agency'];
+        $doAffiliates->name = 'Test Publisher';
+        $doAffiliates->mnemonic = 'ABC';
+        $doAffiliates->contact = 'Affiliate Contact';
+        $doAffiliates->email = 'affiliate@example.com';
+        $doAffiliates->website = 'www.example.com';
+        $doAffiliates->username = 'Affiliate User Name';
+        $doAffiliates->password = 'password';
+        $doAffiliates->permissions = null;
+        $doAffiliates->language = null;
+        $doAffiliates->publiczones = 'f';
+        $doAffiliates->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $this->aIds['affiliate'] = DataGenerator::generateOne($doAffiliates);
+
+        // Add zone record
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $this->aIds['affiliate'];
+        $doZones->zonename = 'Default Zone';
+        $doZones->description = '';
+        $doZones->delivery = 0;
+        $doZones->zonetype =3;
+        $doZones->category = '';
+        $doZones->width = 728;
+        $doZones->height = 90;
+        $doZones->ad_selection = '';
+        $doZones->chain = '';
+        $doZones->prepend = '';
+        $doZones->append = '';
+        $doZones->appendtype = 0;
+        $doZones->forceappend = 'f';
+        $doZones->updated = $oNow->format('%Y-%m-%d %H:%M:%S');
+        $this->aIds['zone'] = DataGenerator::generateOne($doZones);
+
+        // Add ad_zone_assoc record
+        $doAdZone = OA_Dal::factoryDO('ad_zone_assoc');
+        $doAdZone->ad_id = $this->aIds['ad'];
+        $doAdZone->zone_id = $this->aIds['zone'];
+        $doAdZone->priority = 0;
+        $doAdZone->link_type = 1;
+        $doAdZone->priority_factor = 1;
+        $doAdZone->to_be_delivered = 1;
+        $this->aIds['ad_zone'] = DataGenerator::generateOne($doAdZone);
+    }
+
 }
 
 ?>

@@ -262,7 +262,6 @@ class Dal_TestOfMaxDalMaintenanceStatisticsTracker extends UnitTestCase
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $aConf['maintenance']['operationInterval'] = 60;
-        $aConf['table']['split'] = false;
         if ($this->dbms == 'mysql')
         {
             $dsa = new OA_Dal_Maintenance_Statistics_Tracker_mysql();

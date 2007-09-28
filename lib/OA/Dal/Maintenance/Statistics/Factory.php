@@ -62,13 +62,8 @@ class OA_Dal_Maintenance_Statistics_Factory
     function _deriveClassName($moduleName)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
-        if ($conf['table']['split']) {
-            $filename  = $conf['database']['type'] . 'Split';
-            $classname = 'OA_Dal_Maintenance_Statistics_' . $moduleName . '_' . $conf['database']['type'] . 'Split';
-        } else {
-            $filename  = $conf['database']['type'];
-            $classname = 'OA_Dal_Maintenance_Statistics_' . $moduleName . '_' . $conf['database']['type'];
-        }
+        $filename  = $conf['database']['type'];
+        $classname = 'OA_Dal_Maintenance_Statistics_' . $moduleName . '_' . $conf['database']['type'];
         $includeFile = MAX_PATH . "/lib/OA/Dal/Maintenance/Statistics/$moduleName/{$filename}.php";
         require_once $includeFile;
         if (!class_exists($classname)) {

@@ -28,25 +28,21 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
-// pgsql execution time before refactor: 55.804s
-// pgsql execution time after refactor: 23.435s
-
 /**
- * A class for testing the non-DB specific OA_Dal_Maintenance_Priority class.
+ * A class for testing the getAllZonesWithAllocInv() method of the non-DB specific
+ * OA_Dal_Maintenance_Priority class.
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Monique Szpak <monique.szpak@openads.org>
- * @author     James Floyd <james@m3.net>
  * @author     Andrew Hill <andrew.hill@openads.org>
- * @author     Demian Turner <demian@m3.net>
  */
-class Test_OA_Dal_Maintenance_Priority_AllZonesWithAllocInv extends UnitTestCase
+class Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv extends UnitTestCase
 {
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_AllZonesWithAllocInv()
+    function Test_OA_Dal_Maintenance_Priority_getAllZonesWithAllocInv()
     {
         $this->UnitTestCase();
     }
@@ -144,97 +140,6 @@ class Test_OA_Dal_Maintenance_Priority_AllZonesWithAllocInv extends UnitTestCase
         TestEnv::dropTempTables();
     }
 
-    /**
-     * Method to test the getAllZonesWithAllocInv method.
-     *
-     * Requirements:
-     * Test 1: Test with no data, and ensure no data returned.
-     * Test 2: Test with sample data, and ensure the correct data is returned.
-     */
-    function OLD_testGetAllZonesWithAllocInv()
-    {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $oDbh =& OA_DB::singleton();
-        $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
-
-        // Create the required temporary table for the tests
-        $oTable =& OA_DB_Table_Priority::singleton();
-        $oTable->createTable('tmp_ad_zone_impression');
-
-        $tableTmp = $oDbh->quoteIdentifier('tmp_ad_zone_impression',true);
-
-        // Test 1
-        $result =& $oMaxDalMaintenance->getAllZonesWithAllocInv();
-        $this->assertEqual(count($result), 0);
-
-        // Test 2
-        $query = "
-            INSERT INTO
-                {$tableTmp}
-                (
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions
-                )
-            VALUES
-                (
-                    1,
-                    1,
-                    2,
-                    3
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                {$tableTmp}
-                (
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions
-                )
-            VALUES
-                (
-                    1,
-                    2,
-                    4,
-                    5
-                )";
-        $rows = $oDbh->exec($query);
-        $query = "
-            INSERT INTO
-                {$tableTmp}
-                (
-                    ad_id,
-                    zone_id,
-                    required_impressions,
-                    requested_impressions
-                )
-            VALUES
-                (
-                    2,
-                    2,
-                    6,
-                    7
-                )";
-        $rows = $oDbh->exec($query);
-        $result =& $oMaxDalMaintenance->getAllZonesWithAllocInv();
-        $this->assertEqual(count($result), 3);
-        $this->assertEqual($result[0]['zone_id'], 1);
-        $this->assertEqual($result[0]['ad_id'], 1);
-        $this->assertEqual($result[0]['required_impressions'], 2);
-        $this->assertEqual($result[0]['requested_impressions'], 3);
-        $this->assertEqual($result[1]['zone_id'], 2);
-        $this->assertEqual($result[1]['ad_id'], 1);
-        $this->assertEqual($result[1]['required_impressions'], 4);
-        $this->assertEqual($result[1]['requested_impressions'], 5);
-        $this->assertEqual($result[2]['zone_id'], 2);
-        $this->assertEqual($result[2]['ad_id'], 2);
-        $this->assertEqual($result[2]['required_impressions'], 6);
-        $this->assertEqual($result[2]['requested_impressions'], 7);
-        TestEnv::restoreEnv('dropTmpTables');
-    }
 }
 
 ?>

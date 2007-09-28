@@ -121,17 +121,10 @@ class OA_Maintenance_Statistics_Common_Task_DeleteOldData extends OA_Maintenance
         $rows = $oDal->deleteOldData($oSummarisedToDate);
         $time = time() - $time;
         $this->report = !empty($this->report) ? $this->report : '';
-        if ($conf['table']['split']) {
-            $message = "- Dropped $rows " . $this->oController->module .
-                       " raw data tables of old data in $time seconds";
-            $this->report .= "\n$message\n";
-            OA::debug($message, PEAR_LOG_DEBUG);
-        } else {
-            $message = "- Deleted $rows rows of old " . $this->oController->module .
-                       " data in $time seconds";
-            $this->report .= "\n$message\n";
-            OA::debug($message, PEAR_LOG_DEBUG);
-        }
+        $message = "- Deleted $rows rows of old " . $this->oController->module .
+                   " data in $time seconds";
+        $this->report .= "\n$message\n";
+        OA::debug($message, PEAR_LOG_DEBUG);
     }
 
 }

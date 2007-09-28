@@ -96,7 +96,6 @@ class Test_OA_DB_Table_Priority extends UnitTestCase
 
         // Test 1
         $conf =& $GLOBALS['_MAX']['CONF'];
-        $conf['table']['split'] = false;
         $conf['table']['prefix'] = '';
         $oDbh =& OA_DB::singleton();
         foreach ($tmpTables as $tableName) {

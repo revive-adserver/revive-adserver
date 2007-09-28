@@ -28,11 +28,9 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 
-// pgsql execution time before refactor: 55.922s
-// pgsql execution time after refactor: 23.373s
-
 /**
- * A class for testing the non-DB specific OA_Dal_Maintenance_Priority class.
+ * A class for testing the getPreviousWeekZoneForcastImpressions() method of
+ * the non-DB specific OA_Dal_Maintenance_Priority class.
  *
  * @package    OpenadsDal
  * @subpackage TestSuite
@@ -41,12 +39,12 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
  * @author     Andrew Hill <andrew.hill@openads.org>
  * @author     Demian Turner <demian@m3.net>
  */
-class Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions extends UnitTestCase
+class Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions extends UnitTestCase
 {
     /**
      * The constructor method.
      */
-    function Test_OA_Dal_Maintenance_Priority_PreviousWeekZoneForcastImpressions()
+    function Test_OA_Dal_Maintenance_Priority_getPreviousWeekZoneForcastImpressions()
     {
         $this->UnitTestCase();
     }
