@@ -59,9 +59,10 @@ $Id$
 <script language="javascript">
 <!--{literal}
     $(document).ready(function() {
+    adnetworksSettingsStore($("#affiliateform").get(0));
     $("#affiliateform").submit(function() {
         if (max_formValidate(this)) {
-          if(this.adnetworks.checked) {
+          if(adnetworksSettingsChanged(this)) {
             $("#adnetworks-signup-dialog_" + this.id).jqmShow();
           }
           else {

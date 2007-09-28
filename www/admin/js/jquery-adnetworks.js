@@ -379,3 +379,42 @@ function selectElement()
     r.select();
   }
 }
+
+function adnetworksSettingsStore(form)
+{
+  if (document.adnetworks == undefined) {
+    document.adnetworks = new Array();
+  }
+  var adnetworks = document.adnetworks;
+  var formSettings = new Array();
+  if (form.adnetworks) {
+    formSettings["adnetworks"] =  form.adnetworks.checked;
+  }
+  if (form.country) {
+   formSettings["country"] =  form.country.value;
+  }
+  if (form.language) {
+   formSettings["language"] =  form.language.value;
+  }
+  if (form.category) {
+   formSettings["category"] =  form.category.value;
+  }
+
+  adnetworks[form.id] = formSettings;
+  document.adnetworks = adnetworks;
+}
+
+
+function adnetworksSettingsChanged(form)
+{
+  if (document.adnetworks == undefined || document.adnetworks[form.id] == undefined ) {
+    return false;
+  }
+
+  var formSettings = document.adnetworks[form.id];
+
+  return ((form.adnetworks && formSettings["adnetworks"] !=  form.adnetworks.checked)
+  || (form.country && formSettings["country"] !=  form.country.value)
+  || (form.language  && formSettings["language"] !=  form.language.value)
+  || (form.category && formSettings["category"] !=  form.category.value));
+}
