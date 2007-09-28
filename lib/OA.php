@@ -49,7 +49,7 @@ function logSQL($oDbh)
         }
         else if ($i > 0)
         {
-            $select = substr($oDbh->last_query,$i, strlen($oDbh->last_query));
+            $select = substr($oDbh->last_query,$i, strlen($oDbh->last_query)-1);
         }
         $log = fopen(MAX_PATH."/var/sql.log", 'a');
         fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.$select.">>\n");
