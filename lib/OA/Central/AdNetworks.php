@@ -300,7 +300,15 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 if (!$existingPublisher) {
                     $aCreated['publishers'][] = $publisherId;
                 }
+                // Lookup the existing zone sizes for this publisher
                 $aZones = array();
+                $doZones = OA_Dal::factoryDO('zones');
+                $doZones->affiliateid = $publisherId;
+                $doZones->find();
+                while ($doZones->fetch()) {
+                    $zoneSize = $doZones->width . 'x' . $doZones->height;
+                    $aZones[$zoneSize][] = $doZones->zoneid;
+                }
             } else {
                 $ok = false;
             }
@@ -361,8 +369,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                         $aCreated['banners'][] = $bannerId;
 
                         $zoneSize = "{$aBanner['width']}x{$aBanner['height']}";
-                        if (isset($aZones[$zoneSize])) {
-                            $zoneId = $aZones[$zoneSize];
+                        if (!empty($aZones[$zoneSize])) {
+                            $zoneIds = $aZones[$zoneSize];
                         } else {
                             // Create zone
                             $zoneName = $this->oDal->getUniqueZoneName("{$publisherName} - {$zoneSize}");
@@ -377,10 +385,10 @@ class OA_Central_AdNetworks extends OA_Central_Common
                             $doZones->setFrom($zone);
                             $zoneId = $doZones->insert();
 
-                            $aZones[$zoneSize] = $zoneId;
+                            $aZones[$zoneSize][] = $zoneId;
                         }
 
-                        if (!empty($zoneId)) {
+                        foreach ($aZones[$zoneSize] as $idx => $zoneId) {
                             // Link banner to zone
                             $aVariables = array(
                                 'ad_id'   => $bannerId,
@@ -392,8 +400,6 @@ class OA_Central_AdNetworks extends OA_Central_Common
                             if (PEAR::isError($result)) {
                                 $ok = false;
                             }
-                        } else {
-                            $ok = false;
                         }
                     } else {
                         $ok = false;

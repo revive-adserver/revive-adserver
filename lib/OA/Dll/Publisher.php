@@ -238,31 +238,59 @@ class OA_Dll_Publisher extends OA_Dll
                 $doPublisher->setFrom($publisherData);
                 $doPublisher->update();
             }
+
+            // Initialise Ad  Networks
+            $oAdNetworks = new OA_Central_AdNetworks();
+
             // Trigger OAC call if adnetworks was enabled or OAC values were changed
             if ($oPublisher->adNetworks) {
-                // Initialise Ad  Networks
-                $oAdNetworks = new OA_Central_AdNetworks();
-
-                $aRpcPublisher = array(
-                array(
-                        'id'       => $oPublisher->publisherId,
-                        'url'      => $oPublisher->website,
-                        'country'  => $oPublisher->oacCountryCode,
-                        'language' => $oPublisher->oacLanguageId,
-                        'category' => $oPublisher->oacCategoryId,
-                    )
-                );
-
-                $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
-
-                if (PEAR::isError($result)) {
-                    $aError = array(
-                       'id' => isset($pubid) ? $pubid : 0,
-                       'message' => $result->getMessage()
+                // If adNetworks was not previously selected...
+                if (empty($publisherPrevData['oac_website_id'])) {
+                    $aRpcPublisher = array(
+                    array(
+                            'id'       => $oPublisher->publisherId,
+                            'url'      => $oPublisher->website,
+                            'country'  => $oPublisher->oacCountryCode,
+                            'language' => $oPublisher->oacLanguageId,
+                            'category' => $oPublisher->oacCategoryId,
+                        )
                     );
-                    if ($result->getCode() == 802) {
-                        $captchaErrorFormId = $formId;
-                        $aError['message'] = '';
+                    $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
+
+                    if (PEAR::isError($result)) {
+                        $aError = array(
+                           'id' => isset($pubid) ? $pubid : 0,
+                           'message' => $result->getMessage()
+                        );
+                        if ($result->getCode() == 802) {
+                            $captchaErrorFormId = $formId;
+                            $aError['message'] = '';
+                        }
+                    }
+                } else {
+                    // This publisher was already signed up for adnetworks, only action if OAC related values have changed
+                    if (($publisherPrevData['oac_category_id']  != $publisherData['oac_category_id']) ||
+                        ($publisherPrevData['oac_language_id']  != $publisherData['oac_language_id']) ||
+                        ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code'])
+                    ) {
+                        // OAC related fields have changed, so unsubscribe and resubscribe this publisher
+                        $aPublisher = array(
+                            array(
+                                    'id'       => $oPublisher->publisherId,
+                                    'url'      => $oPublisher->website,
+                                    'country'  => $oPublisher->oacCountryCode,
+                                    'language' => $oPublisher->oacLanguageId,
+                                    'category' => $oPublisher->oacCategoryId,
+                                )
+                            );
+                            $result = $oAdNetworks->unsubscribeWebsites($aPublisher);
+                            if (PEAR::isError($result)) {
+                                $aError = array(
+                                   'id' => isset($oPublisher->publisherId) ? $oPublisher->publisherId : 0,
+                                   'message' => $result->getMessage()
+                                );
+                            }
+                        $result = $oAdNetworks->subscribeWebsites($aPublisher);
                     }
                 }
             }
