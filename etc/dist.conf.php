@@ -333,6 +333,7 @@ protocol    = https
 host        = oac.openads.org
 port        = 443
 path        = /oac/dashboard/home
+ssoCheck    = /oac/ssoCheck
 
 [oacSSO]
 protocol    = https
