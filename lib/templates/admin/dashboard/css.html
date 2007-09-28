@@ -119,7 +119,7 @@ img#graph {
  */
 div.widgetOverlay {
     position: absolute;
-    top: 25%;
+    top: 10%;
     left: 20%;
     width: 50%;
     height: 70%;
@@ -193,7 +193,7 @@ div.dashboardOverlay {
     top: 0%;
     left: 0%;
     width: 817px;
-    min-height: 750px;
+    min-height: 850px;
     height: 100%;
     background-color: #ffffff;
     z-index:1001;
@@ -205,19 +205,20 @@ div.dashboardOverlay {
 /**
  * Login form
  */
-div.loginForm {
+#loginForm {
 	width: 347px;
 	height: 75px;
 	clear: both;
     margin-top: 20px;
 }
-div.loginForm div.line {
+#loginForm div.line {
     padding-right: 5px;
+    clear: both;
 }
-div.loginForm div.line-nolabel {
+#loginForm div.line-nolabel {
     padding: 5px 5px 0 170px;
 }
-div.loginForm label {
+#loginForm label {
 	color: #77797C;
 	font-size: 8pt;
     text-align: left;
@@ -225,16 +226,16 @@ div.loginForm label {
     width: 170px;
     float: left;
 }
-.loginForm input {
-    margin-top: 3px;
+#loginForm input {
+    font-size: 9pt;
+    margin-top: 6px;
 	border: 1px solid #77797C;
 	width: 130px;
 }
-input.loginFormSubmit {
+#loginForm input.loginFormSubmit {
 	color: #ffffff;
 	width: 67px;
 	border: 0;
-	font-size: 9pt;
 	background: url('images/dashboard/widgetLoginButton.gif');
 	cursor: pointer;
 }

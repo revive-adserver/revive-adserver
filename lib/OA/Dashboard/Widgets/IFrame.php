@@ -26,7 +26,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
-require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 /**
  * A class to display the dashboard iframe content
@@ -35,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
 {
     var $serviceURL;
-    
+
     /**
      * The class constructor
      *
@@ -45,47 +44,40 @@ class OA_Dashboard_Widget_Iframe extends OA_Dashboard_Widget
     function OA_Dashboard_Widget_Iframe($aParams)
     {
         parent::OA_Dashboard_Widget($aParams);
+
         if (isset($aParams['url'])) {
-            $this->setServiceUrl($aParams['url']);
+            $url = $aParams['url'];
+        } else {
+            $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
         }
+
+        $this->setServiceUrl($aParams['url']);
     }
-    
+
     function setServiceUrl($serviceURL) {
         $this->serviceUrl = $serviceURL;
     }
-    
+
     /**
      * A method to launch and display the widget
      *
      */
     function display()
     {
-        $this->validate();
-        
         $aConf = $GLOBALS['_MAX']['CONF'];
 
         $oTpl = new OA_Admin_Template('dashboard/iframe.html');
 
-        $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
-        $ssoPasswd = OA_Dal_ApplicationVariables::get('sso_password');
+        $this->getCredentials();
 
         $oTpl->assign('dashboardURL', MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=IFrame'));
         $oTpl->assign('errorURL',     MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Login&error='));
-        $oTpl->assign('ssoAdmin',     $ssoAdmin);
-        $oTpl->assign('ssoPasswd',    $ssoPasswd);
+        $oTpl->assign('ssoAdmin',     $this->ssoAdmin);
+        $oTpl->assign('ssoPasswd',    $this->ssoPasswd);
         $oTpl->assign('casLoginURL',  $this->buildUrl($aConf['oacSSO']));
         $oTpl->assign('serviceURL',   $this->serviceUrl);
-        $oTpl->assign('encodedServiceURL', urlencode($this->serviceUrl));
 
         $oTpl->display();
-    }
-    
-    function validate()
-    {
-        if (empty($this->serviceUrl)) {
-            MAX::raiseError('service URL is required but was empty');
-            exit();
-        }
     }
 }
 

@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Dashboard.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 /**
  * The base class to implement a dashboard widget
@@ -41,6 +42,9 @@ class OA_Dashboard_Widget
     var $accessList;
 
     var $widgetName;
+
+    var $ssoAdmin;
+    var $ssoPassword;
 
     /**
      * The class constructor
@@ -86,6 +90,12 @@ class OA_Dashboard_Widget
     function buildUrl($aConf, $pathVariable = 'path')
     {
         return OA_Dashboard::buildUrl($aConf, $pathVariable);
+    }
+
+    function getCredentials()
+    {
+        $this->ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
+        $this->ssoPasswd = OA_Dal_ApplicationVariables::get('sso_password');
     }
 }
 

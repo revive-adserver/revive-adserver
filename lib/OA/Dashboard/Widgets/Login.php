@@ -26,7 +26,8 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
-require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+
 
 /**
  * A class to display the dashboard iframe content
@@ -35,12 +36,34 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
 {
     var $wrongCredentials;
+    var $wrongParameters;
 
     function OA_Dashboard_Widget_Login($aParams)
     {
         parent::OA_Dashboard_Widget($aParams);
 
-        $this->wrongCredentials = !empty($aParams['wrongCredentials']);
+        $this->wrongCredentials = isset($aParams['error']) && $aParams['error'] == 'error.authentication.credentials.bad';
+
+        $this->getCredentials();
+
+        $this->wrongParameters = false;
+        if (!empty($aParams['sso_password'])) {
+            if (!$this->ssoAdmin) {
+                if (!empty($aParams['sso_username'])) {
+                    OA_Dal_ApplicationVariables::set('sso_admin', $aParams['sso_username']);
+                    OA_Dal_ApplicationVariables::set('sso_password', md5($aParams['sso_password']));
+                } else {
+                    $this->wrongParameters = true;
+                }
+            } else {
+                OA_Dal_ApplicationVariables::set('sso_password', md5($aParams['sso_password']));
+            }
+
+            if (!$this->wrongParameters) {
+                MAX_Admin_Redirect::redirect('dashboard.php?widget=IFrame');
+                exit;
+            }
+        }
     }
 
     /**
@@ -51,20 +74,20 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
-        $ssoAdmin = OA_Dal_ApplicationVariables::get('sso_admin');
-
         $oTpl = new OA_Admin_Template('dashboard/login.html');
 
         $oTpl->assign('signupUrl', $this->buildUrl($aConf['oacSSO'], 'signup'));
         $oTpl->assign('forgotUrl', $this->buildUrl($aConf['oacSSO'], 'forgot'));
-        $oTpl->assign('ssoAdmin',  $ssoAdmin);
+        $oTpl->assign('ssoAdmin',  $this->ssoAdmin);
 
-        if ($this->wrongCredentials)
+        if ($this->wrongCredentials || $this->wrongParameters)
         {
             $oTpl->assign('displayError', true);
 
-            if ($ssoAdmin) {
+            if ($this->ssoAdmin) {
                 $errorMessage = "Sorry, this platform is already connected to a different user.";
+            } elseif ($this->wrongParameters) {
+                $errorMessage = "You must enter both username and passwsord.";
             } else {
                 $errorMessage = "Check credentials, wrong username or password.";
             }

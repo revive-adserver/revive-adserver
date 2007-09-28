@@ -60,21 +60,21 @@ $Id$
                 <p>If you have a username and password for the Openads forums, provide them in the form below. If you do not yet have an Openads SSO account, please <a href="{$signupUrl|escape}" target="_blank">create one</a>, and then fill in the details below.</p>
             {/if}
 
-                <div class="loginForm">
+                <form id="loginForm" action="" method="POST">
                     <div class="line">
                       <label for="username"><img src="images/dashboard/user_green.gif" />&nbsp;Single sign-on username</label>
-                      <input type="text" id="username" name="username" value="{$ssoAdmin|escape}"{if $ssoAdmin} disabled="disabled"{/if}{tabindex} />
+                      <input type="text" id="sso_username" name="sso_username" value="{$ssoAdmin|escape}"{if $ssoAdmin} disabled="disabled"{/if}{tabindex} />
                     </div>
 
                     <div class="line">
                         <label for="password"><img src="images/dashboard/key.gif" />&nbsp;Single sign-on password</label>
-                        <input type="password" id="password" name="password"{tabindex} />
+                        <input type="password" id="sso_password" name="sso_password"{tabindex} />
                     </div>
 
                     <div class="line-nolabel">
                         <input class="loginFormSubmit" type="submit" name="submit" value="Connect"{tabindex} />
                     </div>
-                </div>
+                </form>
                 <div class="loginCreateAccount"><a href="{$signupUrl|escape}" target="_blank">I want to create a new single sign-on account</a></div>
             </div>
         </div>
