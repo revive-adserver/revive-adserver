@@ -60,7 +60,8 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
             }
 
             if (!$this->wrongParameters) {
-                MAX_Admin_Redirect::redirect('dashboard.php?widget=IFrame');
+                $url = OA_Dashboard::buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
+                MAX_Admin_Redirect::redirect('ssoProxy.php?url='.urlencode($url));
                 exit;
             }
         }
