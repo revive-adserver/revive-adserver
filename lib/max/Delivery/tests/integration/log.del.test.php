@@ -126,7 +126,6 @@ class Delivery_TestOfLogDB extends UnitTestCase
     /**
      * A method to test the MAX_Delivery_log_logAdImpression() function.
      *
-     * @TODO Not implemented.
      */
     function test_MAX_Delivery_log_logAdImpression()
     {
@@ -202,31 +201,181 @@ class Delivery_TestOfLogDB extends UnitTestCase
     /**
      * A method to test the MAX_Delivery_log_logAdClick() function.
      *
-     * @TODO Not implemented.
      */
     function test_MAX_Delivery_log_logAdClick()
     {
+        $oDbh = OA_DB::singleton();
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_ad_click'],true);
+        $query = "SELECT * FROM {$table}";
 
+        $aExpected['viewerId']   = '01010101010101';
+        $aExpected['adId']       = '1';
+        $aExpected['creativeId'] = '1';
+        $aExpected['zoneId']     = '1';
+
+        $this->msg = 'Test 1: ';
+        $this->_clearLogInfo();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdClick($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 0);
+
+        $this->msg = 'Test 2: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoUserAgent();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdClick($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 1);
+
+        $this->msg = 'Test 3: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoHttps();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdClick($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 2);
+
+        $this->msg = 'Test 4: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoRefererLoc();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdClick($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 3);
+
+        $this->msg = 'Test 5: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoChannels();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdClick($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 4);
+
+        $this->msg = 'Test 6: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoRefererNormal();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdClick($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 5);
+
+        $this->msg = 'Test 7: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoGeotargeting();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logAdClick($aExpected['viewerId'], $aExpected['adId'], $aExpected['creativeId'], $aExpected['zoneId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 6);
+
+        $query = "TRUNCATE TABLE {$table}";
+        $oDbh->exec($query);
     }
 
     /**
      * A method to test the MAX_Delivery_log_logTrackerImpression() function.
      *
-     * @TODO Not implemented.
      */
     function test_MAX_Delivery_log_logTrackerImpression()
     {
+        $oDbh = OA_DB::singleton();
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_tracker_impression'],true);
+        $query = "SELECT * FROM {$table}";
 
+        $aExpected['viewerId']   = '01010101010101';
+        $aExpected['trackerId']  = '1';
+
+        $this->msg = 'Test 1: ';
+        $this->_clearLogInfo();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logTrackerImpression($aExpected['viewerId'], $aExpected['trackerId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 0);
+
+        $this->msg = 'Test 2: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoUserAgent();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logTrackerImpression($aExpected['viewerId'], $aExpected['trackerId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 1);
+
+        $this->msg = 'Test 3: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoHttps();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logTrackerImpression($aExpected['viewerId'], $aExpected['trackerId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 2);
+
+        $this->msg = 'Test 4: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoRefererLoc();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logTrackerImpression($aExpected['viewerId'], $aExpected['trackerId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 3);
+
+        $this->msg = 'Test 5: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoChannels();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logTrackerImpression($aExpected['viewerId'], $aExpected['trackerId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 4);
+
+        $this->msg = 'Test 6: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoRefererNormal();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logTrackerImpression($aExpected['viewerId'], $aExpected['trackerId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 5);
+
+        $this->msg = 'Test 7: ';
+        $this->_clearLogInfo();
+        $this->_setupLogInfoGeotargeting();
+        $aExpected = $this->_getExpected($aExpected);
+        MAX_Delivery_log_logTrackerImpression($aExpected['viewerId'], $aExpected['trackerId']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertResults($aRows, $aExpected, 6);
+
+        $query = "TRUNCATE TABLE {$table}";
+        $oDbh->exec($query);
     }
 
     /**
      * A method to test the MAX_Delivery_log_logVariableValues() function.
      *
-     * @TODO Not implemented.
+     * @todo MORE TEST CASES? different variable types and values?
      */
     function test_MAX_Delivery_log_logVariableValues()
     {
+        $oDbh = OA_DB::singleton();
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $table = $oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_raw_tracker_variable_value'],true);
+        $query = "SELECT * FROM {$table}";
 
+        $this->msg = 'Test 1: ';
+        $aExpected = $this->_createVariableValueArray(array(1,2));
+        $query = "SELECT * FROM {$table} WHERE tracker_variable_id IN (1,2)";
+        MAX_Delivery_log_logVariableValues($aExpected['variables'], 1, 1, '127.0.0.0');
+        unset($aExpected['variables']);
+        $aRows = $oDbh->queryAll($query);
+        $this->_assertVariableResults($aRows, $aExpected);
+
+//        $this->msg = 'Test 2: ';
+//        $aExpected = $this->_createVariableValueArray(array(3,4,5));
+//        $query = "SELECT * FROM {$table} WHERE tracker_variable_id IN (3,4,5)";
+//        MAX_Delivery_log_logVariableValues($aExpected['variables'], 1, 1, '127.0.0.0');
+//        unset($aExpected['variables']);
+//        $aRows = $oDbh->queryAll($query);
+//        $this->_assertVariableResults($aRows, $aExpected);
+
+        $query = "TRUNCATE TABLE {$table}";
+        $oDbh->exec($query);
     }
 
     /**
@@ -283,6 +432,22 @@ class Delivery_TestOfLogDB extends UnitTestCase
         $GLOBALS['_MAX']['CLIENT']['os']        = '';
         $GLOBALS['_MAX']['CLIENT']['long_name'] = '';
         $GLOBALS['_MAX']['CLIENT']['browser']   = '';
+    }
+
+    /**
+     * A method to compile the expected results of a test
+     *
+     * @param array $aExpected
+     */
+    function _getExpected($aExpected)
+    {
+        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
+        $zoneInfo['host'] = $_SERVER['REMOTE_HOST'];
+        $aExpected['geotargeting']  = $geotargeting;
+        $aExpected['zoneInfo']      = $zoneInfo;
+        $aExpected['userAgentInfo'] = $userAgentInfo;
+        $aExpected['maxHttps']      = $maxHttps;
+        return $aExpected;
     }
 
     /**
@@ -356,6 +521,55 @@ class Delivery_TestOfLogDB extends UnitTestCase
         $_SERVER['SERVER_PORT'] = $GLOBALS['_MAX']['CONF']['openads']['sslPort'];
     }
 
+    /**
+     * A method to setup some request variable for logging
+     *
+     * @param array $aIds
+     * @return array
+     */
+    function _createVariableValueArray($aIds)
+    {
+        foreach ($aIds as $id)
+        {
+            $aExpected[] = array('serverRTId'      => 1,
+                                 'serverRawIp'     => '127.0.0.0',
+                                 'variableId'      => $id,
+                                 'variableValue'   => $id,
+                                 'dateTime'        => true
+                                );
+            $aExpected['variables'][$id] = array('variable_id'=>$id, 'name'=>'var'.$id, 'type'=>'int');
+            $_GET['var'.$id]   = $id;
+        }
+        return $aExpected;
+    }
+
+    /**
+     * A method to assert the results of variable logging test
+     *
+     * @param array $aActual
+     * @param array $aExpected
+     */
+    function _assertVariableResults($aActual, $aExpected)
+    {
+        $count = count($aExpected);
+        $this->assertIsA($aActual,'array',$this->msg.'failed to return array result');
+        $this->assertEqual(count($aActual),$count, $this->msg.'failed to return correct number of records');
+        for ($i=0;$i<$count;$i++)
+        {
+            $this->assertEqual($aExpected[$i]['variableId'] , $aActual[$i]['tracker_variable_id'],$this->msg.'incorrect tracker_variable_id');
+            $this->assertEqual($aExpected[$i]['serverRTId'] , $aActual[$i]['server_raw_tracker_impression_id'],$this->msg.'incorrect server_raw_tracker_impression_id');
+            $this->assertEqual($aExpected[$i]['serverRawIp'] , $aActual[$i]['server_raw_ip'],$this->msg.'incorrect server_raw_ip');
+            $this->assertEqual($aExpected[$i]['variableValue'] , $aActual[$i]['value'],$this->msg.'incorrect value');
+            $this->assertNotNull($aActual[$i]['date_time'],$this->msg.'invalid date_time');
+        }
+    }
+
+    /**
+     * A method to assert the results of a logging test
+     *
+     * @param array $aActual
+     * @param array $aExpected
+     */
     function _assertResults($aActual, $aExpected, $rowId)
     {
         $this->assertIsA($aActual,'array',$this->msg.'failed to return array result');
@@ -367,6 +581,12 @@ class Delivery_TestOfLogDB extends UnitTestCase
         $this->_assertGeotargeting($aExpected['geotargeting'], $aActual[$rowId]);
     }
 
+    /**
+     * A method to assert the results of a logging test: Ids
+     *
+     * @param array $aActual
+     * @param array $aExpected
+     */
     function _assertIds($aExpected, $aActual)
     {
         $this->assertIsA($aActual,'array',$this->msg.'failed to return array result');
@@ -375,8 +595,15 @@ class Delivery_TestOfLogDB extends UnitTestCase
         $this->assertEqual($aExpected['adId']      , $aActual['ad_id'],$this->msg.'incorrect ad_id');
         $this->assertEqual($aExpected['creativeId'], $aActual['creative_id'],$this->msg.'incorrect creative_id');
         $this->assertEqual($aExpected['zoneId']    , $aActual['zone_id'],$this->msg.'incorrect zone_id');
+        $this->assertEqual($aExpected['trackerId'] , $aActual['tracker_id'],$this->msg.'incorrect tracker_id');
     }
 
+    /**
+     * A method to assert the results of a logging test: geotargeting
+     *
+     * @param array $aActual
+     * @param array $aExpected
+     */
     function _assertGeotargeting($aExpected, $aActual)
     {
         if (isset($aActual['country_code']))
@@ -402,35 +629,49 @@ class Delivery_TestOfLogDB extends UnitTestCase
         $this->assertEqual($aExpected['netspeed']       , $aActual['geo_netspeed'], $this->msg.'incorrect netspeed');
     }
 
+    /**
+     * A method to assert the results of a logging test: zone info
+     *
+     * @param array $aActual
+     * @param array $aExpected
+     */
     function _assertZoneInfo($aExpected, $aActual)
     {
         $this->assertEqual($aExpected['channel_ids'], $aActual['channel_ids'],$this->msg.'incorrect channel_ids');
         $this->assertEqual($aExpected['host']       , $aActual['host_name'],$this->msg.'incorrect host');
         $this->assertEqual($aExpected['path']       , $aActual['page'],$this->msg.'incorrect path');
         $this->assertEqual($aExpected['query']      , $aActual['query'],$this->msg.'incorrect query');
-        $this->assertEqual($aExpected['scheme']     , $aActual['https'],$this->msg.'incorrect scheme');
+        if (!is_null($aExpected['scheme']))
+        {
+            $this->assertEqual($aExpected['scheme'] , $aActual['https'],$this->msg.'incorrect scheme');
+        }
+        else
+        {
+            $this->assertFalse($aActual['https']    ,$this->msg.'incorrect scheme');  // https value could be null or 0
+        }
     }
 
+    /**
+     * A method to assert the results of a logging test: user agent
+     *
+     * @param array $aActual
+     * @param array $aExpected
+     */
     function _assertUserAgent($aExpected, $aActual)
     {
         $this->assertEqual($aExpected['os']     , $aActual['os'],$this->msg.'incorrect os');
         $this->assertEqual($aExpected['browser'], $aActual['browser'],$this->msg.'incorrect browser');
     }
 
+    /**
+     * A method to assert the results of a logging test: secure http
+     *
+     * @param array $aActual
+     * @param array $aExpected
+     */
     function _assertMaxHttps($aExpected, $aActual)
     {
         $this->assertEqual($aExpected, $aActual['max_https'],$this->msg.'incorrect max_https');
-    }
-
-    function _getExpected($aExpected)
-    {
-        list($geotargeting, $zoneInfo, $userAgentInfo, $maxHttps) = _prepareLogInfo();
-        $zoneInfo['host'] = $_SERVER['REMOTE_HOST'];
-        $aExpected['geotargeting']  = $geotargeting;
-        $aExpected['zoneInfo']      = $zoneInfo;
-        $aExpected['userAgentInfo'] = $userAgentInfo;
-        $aExpected['maxHttps']      = $maxHttps;
-        return $aExpected;
     }
 }
 
