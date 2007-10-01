@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 class Test_OA_Maintenance_Priority extends UnitTestCase
 {
 
-    function testRun()
+    function XXXtestRun()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
 
