@@ -55,7 +55,7 @@ function parseLogFile()
                 {
                     $aResult[$k]['query']  = $query;
                     $aResult[$k]['result'] = $result;
-                    fwrite($fp, $query.";\n");
+                    fwrite($fp, str_replace("\n","",$query).";\n");
                 }
                 else
                 {
@@ -75,7 +75,7 @@ function parseLogFile()
         fclose($fp);
 
         $aConf = $GLOBALS['_MAX']['CONF']['database'];
-        $cmd = "sudo /usr/local/sbin/mysqlsla --user {$aConf['username']} --host {$aConf['host']} --port {$aConf['port']} --te --sort e --raw mysqsla.log > mysqlsla.txt";
+        $cmd = "sudo /usr/local/sbin/mysqlsla --user {$aConf['username']} --host {$aConf['host']} --port {$aConf['port']} --time-each-query --sort e --top 50 --flush-qc --avg 10 --raw mysqsla.log > mysqlsla.txt";
 
         $fp = fopen(MAX_PATH."/var/mysqslarun", 'w');
         fwrite($fp, $cmd);

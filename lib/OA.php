@@ -36,7 +36,9 @@ require_once 'PEAR.php';
  */
 function logSQL($oDbh)
 {
-    if (substr_count($oDbh->last_query, 'EXPLAIN')==0)
+    // don't log 'explain' queries or we spiral out of control
+    // don't log queries against temporary tables (cos the tables won't exist to use for explain)
+    if ((substr_count($oDbh->last_query, 'EXPLAIN')==0) && (substr_count($v, 'tmp_')==0))
     {
         $i = strpos($oDbh->last_query, 'SELECT');
         if ($i === false)
@@ -52,7 +54,7 @@ function logSQL($oDbh)
             $select = substr($oDbh->last_query,$i, strlen($oDbh->last_query)-1);
         }
         $log = fopen(MAX_PATH."/var/sql.log", 'a');
-        fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.$select.">>\n");
+        fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.trim($select).">>\n");
         fclose($log);
     }
 }

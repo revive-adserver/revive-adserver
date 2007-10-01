@@ -35,36 +35,43 @@
     <?php
         foreach ($v['result'] AS $rk => $rv)
         {
-            $style =  '';
-            switch (trim($rv['type']))
+            $styleType =  '';
+            $stylePoss =  '';
+            if (!$rv['extra']!='Impossible WHERE noticed after reading const tables')
             {
-                case 'ALL':
-                case 'index_merge':
-                case 'index':
-                case 'index_subquery':
-                case 'range':
-                case 'unique_subquery':
-                    if ($rv['rows']>10)
+                if ($rv['rows']>10)
+                {
+                    switch (trim($rv['type']))
                     {
-                        $style =  'style="background:lightpink"';
+                        case 'ALL':
+                        case 'index_merge':
+                        case 'index':
+                        case 'index_subquery':
+                        case 'range':
+                        case 'unique_subquery':
+                            if ($rv['rows']>10)
+                            {
+                                $styleType =  'style="background:lightpink"';
+                            }
+                            break;
                     }
-                    break;
-                case 'eq_ref':
-                case 'const':
-                case 'system':
-                    $style =  'style="background:lightgreen"';
-                    break;
-
+                    switch (trim($rv['possible_keys']))
+                    {
+                        case null:
+                            $stylePoss =  'style="background:lightpink"';
+                            break;
+                    }
+                }
             }
     ?>
             <tr>
                 <td class="tablebody"><?php echo $rv['table']; ?></td>
                 <td class="tablebody"><?php echo $rv['ref']; ?></td>
-                <td class="tablebody" <?php echo $style; ?>><?php echo $rv['type']; ?></td>
+                <td class="tablebody" <?php echo $styleType; ?>><?php echo $rv['type']; ?></td>
                 <td class="tablebody"><?php echo $rv['rows']; ?></td>
                 <td class="tablebody"><?php echo $rv['key']; ?></td>
                 <td class="tablebody"><?php echo $rv['key_len']; ?></td>
-                <td class="tablebody"><?php echo $rv['possible_keys']; ?></td>
+                <td class="tablebody"<?php echo $stylePoss; ?>><?php echo $rv['possible_keys']; ?></td>
                 <td class="tablebody"><?php echo $rv['select_type']; ?></td>
                 <td class="tablebody"><?php echo $rv['extra']; ?></td>
 
