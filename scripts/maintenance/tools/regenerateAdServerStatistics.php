@@ -27,9 +27,9 @@ $Id$
 */
 
 /**
- * @package    MaxMaintenance
+ * @package    OpenadsMaintenance
  * @subpackage Tools
- * @author     Andrew Hill <andrew@m3.net>
+ * @author     Andrew Hill <andrew.hill@openads.org>
  *
  * A script file to run to re-generate the AdServer statistics for a given
  * interval, in the event that the raw data tables were incorrect when the

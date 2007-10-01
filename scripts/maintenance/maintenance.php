@@ -29,6 +29,10 @@ $Id$
 /**
  * A script file to run the Maintenance Statistics Engine and the
  * Maintenance Priority Engine processes.
+ *
+ * @package    OpenadsMaintenance
+ * @subpackage Tools
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 
 // Require the initialisation file
