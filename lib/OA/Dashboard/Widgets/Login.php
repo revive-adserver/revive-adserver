@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 
 /**
@@ -49,11 +50,18 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
         $this->wrongParameters = false;
         if (!empty($aParams['sso_password'])) {
             if (!$this->ssoAdmin) {
+                $this->wrongParameters = true;
                 if (!empty($aParams['sso_username'])) {
-                    OA_Dal_ApplicationVariables::set('sso_admin', $aParams['sso_username']);
-                    OA_Dal_ApplicationVariables::set('sso_password', md5($aParams['sso_password']));
-                } else {
-                    $this->wrongParameters = true;
+                    $passwordHash = md5($aParams['sso_password']);
+                    
+                    $oAdNetworks = new OA_Central_AdNetworks();
+                    $result = $oAdNetworks->connectOAPToOAC($aParams['sso_username'], $passwordHash);
+
+                    if (!PEAR::isError($result)) {
+                        OA_Dal_ApplicationVariables::set('sso_admin', $aParams['sso_username']);
+                        OA_Dal_ApplicationVariables::set('sso_password', $passwordHash);
+                        $this->wrongParameters = false;
+                    }
                 }
             } else {
                 OA_Dal_ApplicationVariables::set('sso_password', md5($aParams['sso_password']));

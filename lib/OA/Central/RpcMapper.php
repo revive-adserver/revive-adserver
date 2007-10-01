@@ -58,8 +58,11 @@ class OA_Central_RpcMapper
      * @return mixed A boolean True if the platform is correctly connected to OAC,
      *               PEAR_Error otherwise
      */
-    function connectOAPToOAC()
+    function connectOAPToOAC($username, $password)
     {
+        $this->oRpc->ssoUsername = $username;
+        $this->oRpc->ssoPassword = $password;
+        
         return $this->oRpc->callSSo('connectOAPToOAC');
     }
 

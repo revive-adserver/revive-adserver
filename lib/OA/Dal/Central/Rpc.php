@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH.'/lib/OA.php';
 require_once MAX_PATH.'/lib/OA/XmlRpcClient.php';
+require_once 'Date.php';
 
 
 define('OA_DAL_CENTRAL_PROTOCOL_VERSION', 3);
@@ -51,6 +52,20 @@ class OA_Dal_Central_Rpc
      * @var array
      */
     var $_conf;
+    
+    /**
+     * SSO username
+     *
+     * @var string
+     */
+    var $ssoUsername;
+    
+    /**
+     * SSO password hash
+     *
+     * @var string
+     */
+    var $ssoPassword;
 
     /**
      * Class constructor
@@ -66,6 +81,9 @@ class OA_Dal_Central_Rpc
             "{$this->_conf['protocol']}://{$this->_conf['host']}",
             $this->_conf['port']
         );
+        
+        $this->ssoUsername = OA_Dal_ApplicationVariables::get('sso_admin');
+        $this->ssoPassword = OA_Dal_ApplicationVariables::get('sso_password');
     }
 
     /**
@@ -88,8 +106,8 @@ class OA_Dal_Central_Rpc
         );
 
         if ($authType & OA_DAL_CENTRAL_AUTH_SSO) {
-            $aHeader['ssoUsername'] = OA_Dal_ApplicationVariables::get('sso_admin');
-            $aHeader['ssoPassword'] = OA_Dal_ApplicationVariables::get('sso_password');
+            $aHeader['ssoUsername'] = $this->ssoUsername;
+            $aHeader['ssoPassword'] = $this->ssoPassword;
         }
         if ($authType & OA_DAL_CENTRAL_AUTH_CAPTCHA) {
             $aHeader['ssoCaptcha']  = isset($_REQUEST['captcha']) ? $_REQUEST['captcha'] : '';

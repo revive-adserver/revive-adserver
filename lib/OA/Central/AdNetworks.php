@@ -47,6 +47,19 @@ class OA_Central_AdNetworks extends OA_Central_Common
         parent::OA_Central_Common();
         $this->oDal = new OA_Dal_Central_AdNetworks();
     }
+    
+    /**
+     * A method to connect username with platform id or change user password.
+     * 
+     * @see Refs R-AN-1: Connecting Openads Platform with SSO
+     *
+     * @param String $username  Username
+     * @param String $passwordHash Md5 of password
+     */
+    function connectOAPToOAC($username, $passwordHash)
+    {
+        return $this->oMapper->connectOAPToOAC($username, $passwordHash);
+    }
 
     /**
      * A method to retrieve the localised list of categories and subcategories
