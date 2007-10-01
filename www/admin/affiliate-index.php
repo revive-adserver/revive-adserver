@@ -191,7 +191,6 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
 	$affiliates[$row_affiliates['affiliateid']] = $row_affiliates;
 	$affiliates[$row_affiliates['affiliateid']]['expand'] = 0;
 	$affiliates[$row_affiliates['affiliateid']]['count'] = 0;
-    $affiliates[$row_affiliates['affiliateid']]['channels'] = Admin_DA::getChannels(array('publisher_id' => $row_affiliates['affiliateid']));
 
     $affiliates[$row_affiliates['affiliateid']]['website'] = preg_replace('#^https?://#', '', $row_affiliates['website']);
     $affiliates[$row_affiliates['affiliateid']]['oac_adnetworks'] = !empty($row_affiliates['oac_website_id']) ? 'yes' : 'no';
