@@ -34,14 +34,17 @@ function parseLogFile()
     $oDbh = &OA_DB::singleton();
     OA::disableErrorHandling();
 
-    $data = file_get_contents(MAX_PATH."/var/sql.log");
-    $i = preg_match_all('|([\s\W\w]+;[^\w)}])|U',$data, $aMatches);
-    $data = null;
-
-    if ($i > 1)
+    $fpsql = fopen(MAX_PATH."/var/sql.log", 'r');
+    while ($v = fgets($fpsql,4096))
     {
-        $aQueries = array_unique($aMatches[1]);
-        $aMatches = null;
+        $aQueries[] = $v;
+    }
+    fclose($fpsql);
+
+    $aQueries = array_unique($aQueries);
+
+    if (count($aQueries) > 1)
+    {
         // write a log for use by mysqlsla
         $fpsla = fopen(MAX_PATH."/var/mysqlsla.log", 'w');
         fwrite($fpsla, "USE {$oDbh->connected_database_name};\n");
@@ -64,15 +67,7 @@ function parseLogFile()
                 else
                 {
                     $aResult[$k]['query']  = $query;
-                    $aResult[$k]['result'][0]['table'] = '...';
-                    $aResult[$k]['result'][0]['ref']   = '...';
-                    $aResult[$k]['result'][0]['type']  = '...';
-                    $aResult[$k]['result'][0]['rows']  = '...';
-                    $aResult[$k]['result'][0]['key']   = '...';
-                    $aResult[$k]['result'][0]['key_len']= '...';
-                    $aResult[$k]['result'][0]['possible_keys']= '...';
-                    $aResult[$k]['result'][0]['select_type']= '...';
-                    $aResult[$k]['result'][0]['extra'] = '...';
+                    $aResult[$k]['error'] = $result->getUserInfo();
                 }
             }
         }
