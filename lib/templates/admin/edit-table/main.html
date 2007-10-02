@@ -80,7 +80,7 @@ $Id$
     <tr>
         <td width='30'>&nbsp;</td><td width='200'>{$_e.content}</td>
         <td width='100%'>
-            <select name="{$_e.name|escape}"{$tabindex}{if $_e.style == 'big'} style="width:350px;"{elseif $_e.style} style="{$_e.style}"{/if}{if $_e.onchange} onchange="{$_e.onchange}"{/if}{if $_e.disabled} disabled="disabled"{/if}>
+            <select name="{$_e.name|escape}"{tabindex}{if $_e.style == 'big'} style="width:350px;"{elseif $_e.style} style="{$_e.style}"{/if}{if $_e.onchange} onchange="{$_e.onchange}"{/if}{if $_e.disabled} disabled="disabled"{/if}>
             {html_options options=$_e.options selected=$_e.value}
             </select>
         </td>
