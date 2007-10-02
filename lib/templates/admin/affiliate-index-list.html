@@ -74,6 +74,9 @@ $Id$
 	{cycle name=bgcolor assign=bgColor}
 <tr height="25" class="data inline-edit {if $formError && $formError.id == $affiliate.affiliateid}edit{else}view{/if}" bgcolor="{$bgColor}">
     <form action="" id="pub_form_{$affiliate.affiliateid|escape}" class="inline-edit" method="POST">
+        <script type="text/javascript">
+          adnetworksSettingsStore($("#pub_form_{$affiliate.affiliateid|escape}").get(0));
+        </script>
         <input type="hidden" name="formId" value="pub_form_{$affiliate.affiliateid|escape}" />
         <input type="hidden" name="pubid" value="{$affiliate.affiliateid|escape}">
 

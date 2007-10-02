@@ -40,7 +40,7 @@ function saveInlineEdit()
   {
     $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
 
-    if(form.adnetworks.checked) {
+    if(adnetworksSettingsChanged(form)) {
       $("#adnetworks-signup-dialog_" + $(form).attr("id")).jqmShow();
     }
     else {
