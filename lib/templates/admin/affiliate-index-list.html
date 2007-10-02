@@ -107,7 +107,7 @@ $Id$
             <span class="edit">
                 <input type="checkbox" name="adnetworks" class="adn-cb" id="adnetworks{$affiliate.affiliateid|escape}"
                     {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes'} checked="checked"{/if}
-                    {if $affiliate.oac_adnetworks == 'yes'} disabled="disabled"{/if}>
+                    {if $affiliate.oac_adnetworks == 'yes'} disabled="disabled"{/if} value="t">
                 {if $affiliate.oac_adnetworks == 'yes'}<input type="hidden" name="adnetworks" value="1">{/if}
             </span>
         </td>

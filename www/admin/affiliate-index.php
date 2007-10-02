@@ -40,6 +40,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/cache.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection',
@@ -59,70 +60,28 @@ $oAdNetworks = new OA_Central_AdNetworks();
 $captchaErrorFormId = false;
 $aError = false;
 
-if (!empty($url)) {
-    $doAffiliate = OA_Dal::factoryDO('affiliates');
-
-    if (!empty($pubid)) {
-        MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
-        $doAffiliate->get($pubid);
-    }
-
-    if (!empty($adnetworks)) {
-        // Insert or update publisher using OAC methods
-        $aWebsites = array(
-            array(
-                'id'       => empty($pubid) ? null : $pubid,
-                'url'      => $url,
-                'country'  => $country,
-                'language' => $language,
-                'category' => $category
-            )
-        );
-
-        $result = $oAdNetworks->subscribeWebsites($aWebsites);
-
-        if (PEAR::isError($result)) {
-            $aError = array(
-               'id' => isset($pubid) ? $pubid : 0,
-               'message' => $result->getMessage()
-            );
-            if ($result->getCode() == 802) {
-                $captchaErrorFormId = $formId;
-                $aError['message'] = '';
-            }
+if (!empty($formId)) {
+    // Setup a new publisher object and set the fields passed in from the form:
+    $oPublisher = new OA_Dll_PublisherInfo();
+    $oPublisher->publisherId    = $pubid;
+    $oPublisher->agencyId       = phpAds_getAgencyID();
+    $oPublisher->publisherName  = $url;
+    $oPublisher->oacCategoryId  = $category;
+    $oPublisher->oacCountryCode = $country;
+    $oPublisher->oacLanguageId  = $language;
+    $oPublisher->website        = 'http://' . $url;
+    $oPublisher->adNetworks     = ($adnetworks == 't') ? true : false;
+    $oPublisherDll = new OA_Dll_Publisher();
+    if ($oPublisherDll->modify($oPublisher)) {
+        if ($formId == 'add_new_publisher_form') {
+            MAX_Admin_Redirect::redirect('affiliate-zones.php?affiliateid='.$oPublisher->publisherId);
         }
     } else {
-        // Insert or update publisher
-        $aPref = $GLOBALS['_MAX']['PREF'];
-
-        $publisher = array(
-            'name'             => $url,
-            'mnemonic'         => '',
-            'contact'          => $aPref['admin_name'],
-            'email'            => $aPref['admin_email'],
-            'website'          => 'http://'.$url,
-            'oac_country_code' => $country,
-            'oac_language_id'  => $language,
-            'oac_category_id'  => $category
+        $aError = array(
+            'id' => $pubid,
+            'message' => 'There was an error creating/updating the publisher: ' . $oPublisher->_errorMessage
         );
-
-        $doAffiliate->setFrom($publisher);
-
-        if (!empty($pubid)) {
-            $ok = $doAffiliate->update();
-        } else {
-            $pubid = $ok = $doAffiliate->insert();
-        }
-
-        if ($ok) {
-            MAX_Admin_Redirect::redirect('affiliate-zones.php?affiliateid='.$pubid);
-        } else {
-            $aError = array(
-                'id' => $pubid,
-                'message' => 'There was an error creating/updating the publisher'
-            );
-        }
-   }
+    }
 }
 
 phpAds_PageHeader("4.2");

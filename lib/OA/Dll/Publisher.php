@@ -218,7 +218,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
 
-        if (isset($publisherData['password']) && ($publisherData['password'] != '********')) {
+        if (isset($publisherData['password']) && (!is_null($publisherData['password'])) && ($publisherData['password'] != '********')) {
             $publisherData['password'] = md5($oPublisher->password);
         } else {
             // Starred password passed in, leave as-is
