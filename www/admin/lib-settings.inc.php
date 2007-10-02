@@ -178,14 +178,14 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
     $usertypebuffer = '';
     $helpbuffer     = '';
     $i = 0;
-    while (list(,$section) = each ($data)) {
+    foreach ($data as $section) {
         if (!isset($section['visible']) || $section['visible']) {
             if (isset($errors[$i])) {
                 phpAds_ShowSettings_StartSection($section['text'], $errors[$i], $disableSubmit, $imgPath);
             } else {
                 phpAds_ShowSettings_StartSection($section['text'], NULL ,$disableSubmit, $imgPath);
             }
-            while (list(,$item) = each ($section['items'])) {
+            foreach ($section['items'] as $item) {
                 if (!isset($item['visible']) || $item['visible']) {
                     if (!$item['enabled']) {
                         $item['enabled'] = showSettingsLocked($item);
