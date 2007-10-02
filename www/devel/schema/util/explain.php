@@ -35,15 +35,18 @@ function parseLogFile()
     OA::disableErrorHandling();
 
     $data = file_get_contents(MAX_PATH."/var/sql.log");
-    $i = preg_match_all('|<<([\s\W\w]+)>>|U',$data, $aMatches);
+    $i = preg_match_all('|([\s\W\w]+;[^\w)}])|U',$data, $aMatches);
     $data = null;
 
     if ($i > 1)
     {
         $aQueries = array_unique($aMatches[1]);
         $aMatches = null;
-        $fp = fopen(MAX_PATH."/var/mysqsla.log", 'w');
-        fwrite($fp, "USE {$oDbh->connected_database_name};\n");
+        // write a log for use by mysqlsla
+        $fpsla = fopen(MAX_PATH."/var/mysqlsla.log", 'w');
+        fwrite($fpsla, "USE {$oDbh->connected_database_name};\n");
+        // write a log for use by mysql-query-profiler
+        $fpmsqp = fopen(MAX_PATH."/var/mysqlqp.log", 'w');
 
         foreach ($aQueries AS $k => $v)
         {
@@ -55,7 +58,8 @@ function parseLogFile()
                 {
                     $aResult[$k]['query']  = $query;
                     $aResult[$k]['result'] = $result;
-                    fwrite($fp, str_replace("\n","",$query).";\n");
+                    fwrite($fpsla, $query."\n");
+                    fwrite($fpmsqp, $query."\n\n");
                 }
                 else
                 {
@@ -72,14 +76,21 @@ function parseLogFile()
                 }
             }
         }
-        fclose($fp);
+        fclose($fpsla);
+        fclose($fpmsqp);
 
         $aConf = $GLOBALS['_MAX']['CONF']['database'];
-        $cmd = "sudo /usr/local/sbin/mysqlsla --user {$aConf['username']} --host {$aConf['host']} --port {$aConf['port']} --time-each-query --sort e --top 50 --flush-qc --avg 10 --raw mysqsla.log > mysqlsla.txt";
 
-        $fp = fopen(MAX_PATH."/var/mysqslarun", 'w');
-        fwrite($fp, $cmd);
-        fclose($fp);
+        $cmd = "sudo /usr/local/sbin/mysqlsla --user {$aConf['username']} --host {$aConf['host']} --port {$aConf['port']} --time-each-query --sort e --top 50 --flush-qc --avg 10 --raw mysqlsla.log > mysqlsla.txt";
+        $fpsla = fopen(MAX_PATH."/var/mysqlslarun", 'w');
+        fwrite($fpsla, $cmd);
+        fclose($fpsla);
+
+        $cmd = "mysql-query-profiler --user {$aConf['username']} --host {$aConf['host']} --port {$aConf['port']} --database {$aConf['name']} mysqlqp.log > mysqlqp.txt";
+        $fpmsqp = fopen(MAX_PATH."/var/mysqlqprun", 'w');
+        fwrite($fpmsqp, $cmd);
+        fclose($fpmsqp);
+
     }
     OA::enableErrorHandling();
     return $aResult;

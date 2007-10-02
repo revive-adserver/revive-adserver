@@ -114,6 +114,7 @@ class OA_DB
             // currently used for analysis purposes
 	        if (isset($aConf['debug']['logSQL']) && $aConf['debug']['logSQL'])
 	        {
+                $aOptions['log_statements'] = explode('|', $aConf['debug']['logSQL']);
                 $aOptions['debug'] = true;
                 $aOptions['debug_handler'] = 'logSQL';
 	        }

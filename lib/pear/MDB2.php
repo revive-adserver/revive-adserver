@@ -1146,6 +1146,7 @@ class MDB2_Driver_Common extends PEAR
         'datatype_map' => array(),
         'datatype_map_callback' => array(),
         'nativetype_map_callback' => array(),
+        'log_statements' => array(),
     );
 
     /**
