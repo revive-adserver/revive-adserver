@@ -52,14 +52,14 @@ class OA_Dal_Central_Rpc
      * @var array
      */
     var $_conf;
-    
+
     /**
      * SSO username
      *
      * @var string
      */
     var $ssoUsername;
-    
+
     /**
      * SSO password hash
      *
@@ -81,7 +81,7 @@ class OA_Dal_Central_Rpc
             "{$this->_conf['protocol']}://{$this->_conf['host']}",
             $this->_conf['port']
         );
-        
+
         $this->ssoUsername = OA_Dal_ApplicationVariables::get('sso_admin');
         $this->ssoPassword = OA_Dal_ApplicationVariables::get('sso_password');
     }
@@ -127,7 +127,7 @@ class OA_Dal_Central_Rpc
 
         if (!$oResponse) {
             return new PEAR_Error('XML-RPC connection error', 800);
-        } elseif ($oResponse->faultCode()) {
+        } elseif ($oResponse->faultCode() || $oResponse->faultString()) {
             return new PEAR_Error($oResponse->faultString(), $oResponse->faultCode());
         }
 
