@@ -1257,21 +1257,25 @@ function logSQL($oDbh)
 // don't log queries against temporary tables (cos the tables won't exist to use for explain)
 if ((substr_count($oDbh->last_query, 'EXPLAIN')==0) && (substr_count($v, 'tmp_')==0))
 {
-$i = strpos($oDbh->last_query, 'SELECT');
-if ($i === false)
-{
-return;
-}
-else if ($i === 0)
-{
-$select = $oDbh->last_query;
-}
-else if ($i > 0)
-{
-$select = substr($oDbh->last_query,$i, strlen($oDbh->last_query)-1);
-}
 $log = fopen(MAX_PATH."/var/sql.log", 'a');
-fwrite($log, '['.date('Y-m-d h:i:s').'] <<'.trim($select).">>\n");
+$aStatements = $oDbh->options['log_statements'];
+foreach ($aStatements AS $statement)
+{
+$i = strpos($oDbh->last_query, strtoupper($statement));
+if ($i > -1)
+{
+$query = $oDbh->last_query;
+if ($i > 0)
+{
+$query = substr($query,$i, strlen($query)-1);
+}
+$query = preg_replace('/[\s\t\n]+/',' ',$query);
+$query = str_replace('\n','',$query);
+$query = stripslashes($query);
+//fwrite($log, "[".date('Y-m-d h:i:s')."] <<{$query}>>\n");
+fwrite($log, trim($query)."; \n");
+}
+}
 fclose($log);
 }
 }
