@@ -118,7 +118,9 @@ class OA_Dll_Banner extends OA_Dll
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'width') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'height') ||
             !$this->checkStructureNotRequiredIntegerField($oBanner, 'weight') ||
-            !$this->checkStructureNotRequiredStringField($oBanner, 'url')
+            !$this->checkStructureNotRequiredStringField($oBanner, 'url') ||
+            !$this->checkStructureNotRequiredBooleanField($oBanner, 'active') ||
+            !$this->checkStructureNotRequiredStringField($oBanner, 'adserver')
             ) {
             return false;
         }
@@ -211,6 +213,7 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['filename'] 	= $oBanner->fileName;
         $bannerData['imageurl'] 	= $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
+        $bannerData['active']       = ($oBanner->active) ? 't' : 'f';
 
         // Different content types have different requirements...
         switch($bannerData['storagetype']) {

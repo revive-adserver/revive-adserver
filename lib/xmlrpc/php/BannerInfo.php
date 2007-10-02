@@ -115,6 +115,20 @@ class OA_Dll_BannerInfo extends OA_Info
 	var $url;
 
 	/**
+	 * A boolean field to indicate if the banner is active
+	 *
+	 * @var boolean $active
+	 */
+	var $active;
+
+	/**
+	 * A text field for HTML banners to indicate which adserver this ad is from
+	 *
+	 * @var string $adserver
+	 */
+	var $adserver;
+
+	/**
 	 * Setting all default values. Used in adding new banner.
 	 *
 	 */
@@ -135,6 +149,10 @@ class OA_Dll_BannerInfo extends OA_Info
 	        $this->weight = 1;
 	    }
 
+	    if (is_null($this->active)) {
+	        $this->active = true;
+	    }
+
 	}
 
     function getFieldsTypes()
@@ -145,12 +163,14 @@ class OA_Dll_BannerInfo extends OA_Info
                     'bannerName' => 'string',
                     'storageType' => 'string',
                     'fileName' => 'string',
-                    'imageURL' => 'string', 
+                    'imageURL' => 'string',
                     'htmlTemplate' => 'string',
                     'width' => 'integer',
                     'height' => 'integer',
                     'weight' => 'integer',
-                    'url' => 'string'
+                    'url' => 'string',
+                    'active' => 'boolean',
+                    'adserver' => 'string'
                 );
     }
 }

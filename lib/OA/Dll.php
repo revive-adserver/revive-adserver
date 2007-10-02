@@ -162,6 +162,50 @@ class OA_Dll extends OA_BaseObjectWithErrors
     }
 
     /**
+     * Checks required boolean field in structure.
+     *
+     * @param structure &$oStructure  Structure to check
+     * @param string $fieldName       Field name in structure to check
+     *
+     * @return boolean  Returns true when field exists and it is boolean.
+     *                      And returns false in other case.
+     */
+    function checkStructureRequiredBooleanField(&$oStructure, $fieldName)
+    {
+        if (!isset($oStructure->$fieldName)) {
+            $this->raiseError('Field \''. $fieldName .'\' in structure does not exists');
+            return false;
+        }
+
+        if (!$this->checkStructureNotRequiredIntegerField($oStructure, $fieldName)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks not required boolean field in structure.
+     *
+     * @param structure &$oStructure  Structure to check
+     * @param string $fieldName       Field name in structure to check
+     *
+     * @return boolean  Returns true when field exists and it is boolean.
+     *                      Also returns true when field doesn't exists.
+     *                      And returns false in other case.
+     */
+    function checkStructureNotRequiredBooleanField(&$oStructure, $fieldName)
+    {
+        if (isset($oStructure->$fieldName)) {
+            if (!is_bool($oStructure->$fieldName)) {
+                $this->raiseError('Field \''.$fieldName.'\' is not boolean');
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Checks whether end date is after start date.
      *
      * @param date $oStartDate  Pear::Date object with Start Date

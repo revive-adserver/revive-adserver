@@ -34,7 +34,7 @@ $Id:$
  */
 
 // Require the XMLRPC classes
-require_once '../../pear/XML/RPC/Server.php';
+require_once 'XML/RPC/Server.php';
 
 /**
  * Class to description XmlRpc methods.
@@ -83,6 +83,9 @@ class XmlRpcUtils
             case 'float':
                 return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Double']);
 
+            case 'boolean':
+                return new XML_RPC_Value($variable, $GLOBALS['XML_RPC_Boolean']);
+
             case 'date':
 
                 if (!is_object($variable) || !is_a($variable, 'Date')) {
@@ -102,7 +105,7 @@ class XmlRpcUtils
         }
         die('Unsupported Xml Rpc type \'' . $type . '\'');
     }
-    
+
 }
 
 
