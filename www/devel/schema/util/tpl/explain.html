@@ -18,6 +18,18 @@
         {
     ?>
     <table class="tablemain" style="border:1px black double;margin-top:10px;">
+    <?php
+        if (isset($v['error']))
+        {
+    ?>
+        <tr>
+            <td class="tablebody" style="background:lightgray"><?php echo htmlspecialchars($v['error']); ?></td>
+        </tr>
+    <?php
+        }
+        else
+        {
+    ?>
         <tr>
             <td class="tablebody" colspan="9"><?php echo htmlspecialchars($v['query']); ?></td>
         </tr>
@@ -32,17 +44,7 @@
             <th class="textmini">select_type</th>
             <th class="textmini">extra</th>
         </tr>
-    <?php
-        if (isset($v['error']))
-        {
-    ?>
-            <tr>
-                <td class="tablebody" colspan="9"><?php echo htmlspecialchars($v['error']); ?></td>
-            </tr>
-    <?php
-        }
-        else
-        {
+      <?php
             foreach ($v['result'] AS $rk => $rv)
             {
                 $styleType =  '';
@@ -78,7 +80,7 @@
                     <td class="tablebody"><?php echo $rv['rows']; ?></td>
                     <td class="tablebody"><?php echo $rv['key']; ?></td>
                     <td class="tablebody"><?php echo $rv['key_len']; ?></td>
-                    <td class="tablebody"<?php echo $stylePoss; ?>><?php echo $rv['possible_keys']; ?></td>
+                    <td class="tablebody" <?php echo $stylePoss; ?>><?php echo $rv['possible_keys']; ?></td>
                     <td class="tablebody"><?php echo $rv['select_type']; ?></td>
                     <td class="tablebody"><?php echo $rv['extra']; ?></td>
 
