@@ -1432,49 +1432,49 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                     }
                 }
             }
-            $table = $this->_getTablename('data_summary_ad_zone_assoc');
-            $query = "
-                INSERT INTO
-                    {$table}
-                    (
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        ad_id,
-                        zone_id,
-                        required_impressions,
-                        requested_impressions,
-                        to_be_delivered,
-                        priority,
-                        priority_factor,
-                        priority_factor_limited,
-                        past_zone_traffic_fraction,
-                        created,
-                        created_by
-                    )
-                 VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp',
-                'integer',
-                'integer',
-                'integer',
-                'integer',
-                'integer',
-                'float',
-                'float',
-                'integer',
-                'float',
-                'timestamp',
-                'integer'
-            );
-            $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
             if (is_array($aValues) && !empty($aValues)) {
                 reset($aValues);
+                $table = $this->_getTablename('data_summary_ad_zone_assoc');
+                $query = "
+                    INSERT INTO
+                        {$table}
+                        (
+                            operation_interval,
+                            operation_interval_id,
+                            interval_start,
+                            interval_end,
+                            ad_id,
+                            zone_id,
+                            required_impressions,
+                            requested_impressions,
+                            to_be_delivered,
+                            priority,
+                            priority_factor,
+                            priority_factor_limited,
+                            past_zone_traffic_fraction,
+                            created,
+                            created_by
+                        )
+                     VALUES
+                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $aTypes = array(
+                    'integer',
+                    'integer',
+                    'timestamp',
+                    'timestamp',
+                    'integer',
+                    'integer',
+                    'integer',
+                    'integer',
+                    'integer',
+                    'float',
+                    'float',
+                    'integer',
+                    'float',
+                    'timestamp',
+                    'integer'
+                );
+                $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
                 while (list(,$aInsertValues) = each($aValues)) {
                     if (is_array($aInsertValues) && !empty($aInsertValues)) {
                         $rows = $st->execute($aInsertValues);
@@ -1796,69 +1796,60 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
         }
         $rc->free();
-        // Prepare SQL statements for use later
+        // Prepare SQL statements for use later ONLY if they will be used
         $table = $this->_getTablename('data_summary_zone_impression_history');
-        $sInsertQuery = "
-            INSERT INTO
-                {$table}
-                (
-                    zone_id,
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    forecast_impressions,
-                    est
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'timestamp',
-            'timestamp',
-            'integer',
-            'integer'
-        );
-        $stInsert = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
-        $sInsertWithActualQuery = "
-            INSERT INTO
-                {$table}
-                (
-                    zone_id,
-                    operation_interval,
-                    operation_interval_id,
-                    interval_start,
-                    interval_end,
-                    forecast_impressions,
-                    actual_impressions,
-                    est
-                )
-            VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?)";
-        $aTypes = array(
-            'integer',
-            'integer',
-            'integer',
-            'timestamp',
-            'timestamp',
-            'integer',
-            'integer',
-            'integer'
-        );
-        $stInsertWithActual = $this->oDbh->prepare($sInsertWithActualQuery, $aTypes, MDB2_PREPARE_MANIP);
-        // Does the database in use support transactions?
-        if (
-               strcasecmp($aConf['database']['type'], 'mysql') === 0
-               &&
-               strcasecmp($aConf['table']['type'], 'myisam') === 0
-           )
+        if (count($aForecasts)>0)
         {
-            // Oh noz! No transaction support? How tragic!
-            OA::debug('  - Saving zone impression forecasts WITHOUT transaction support', PEAR_LOG_DEBUG);
-            // Prepare SQL statement for use later
-            $table = $this->_getTablename('data_summary_zone_impression_history');
+            $sInsertQuery = "
+                INSERT INTO
+                    {$table}
+                    (
+                        zone_id,
+                        operation_interval,
+                        operation_interval_id,
+                        interval_start,
+                        interval_end,
+                        forecast_impressions,
+                        est
+                    )
+                VALUES
+                    (?, ?, ?, ?, ?, ?, ?)";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'integer',
+                'timestamp',
+                'timestamp',
+                'integer',
+                'integer'
+            );
+            $stInsert = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
+            $sInsertWithActualQuery = "
+                INSERT INTO
+                    {$table}
+                    (
+                        zone_id,
+                        operation_interval,
+                        operation_interval_id,
+                        interval_start,
+                        interval_end,
+                        forecast_impressions,
+                        actual_impressions,
+                        est
+                    )
+                VALUES
+                    (?, ?, ?, ?, ?, ?, ?, ?)";
+            $aTypes = array(
+                'integer',
+                'integer',
+                'integer',
+                'timestamp',
+                'timestamp',
+                'integer',
+                'integer',
+                'integer'
+            );
+            $stInsertWithActual = $this->oDbh->prepare($sInsertWithActualQuery, $aTypes, MDB2_PREPARE_MANIP);
             $sLocateQuery = "
                 SELECT
                     data_summary_zone_impression_history_id
@@ -1882,8 +1873,6 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 'timestamp'
             );
             $stLocate = $this->oDbh->prepare($sLocateQuery, $aTypes, MDB2_PREPARE_RESULT);
-            // Prepare SQL statement for use later
-            $table = $this->_getTablename('data_summary_zone_impression_history');
             $sUpdateQuery = "
                 UPDATE
                     {$table}
@@ -1910,8 +1899,17 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 'timestamp'
             );
             $stUpdate = $this->oDbh->prepare($sUpdateQuery, $aTypes, MDB2_PREPARE_MANIP);
+        }
+        // Does the database in use support transactions?
+        if (
+               strcasecmp($aConf['database']['type'], 'mysql') === 0
+               &&
+               strcasecmp($aConf['table']['type'], 'myisam') === 0
+           )
+        {
+            // Oh noz! No transaction support? How tragic!
             // Try to insert the new zone impression forecasts
-            OA::debug('    - Inserting new zone impression forecasts', PEAR_LOG_DEBUG);
+            OA::debug('    - Inserting new zone impression forecasts WITHOUT transaction support', PEAR_LOG_DEBUG);
             // For each forecast in the array
             reset($aForecasts);
             while (list($zoneId, $aOperationIntervals) = each($aForecasts)) {
