@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH.'/lib/OA.php';
 require_once MAX_PATH.'/lib/OA/XmlRpcClient.php';
+require_once MAX_PATH.'/lib/OA/Dashboard/Dashboard.php';
 require_once MAX_PATH.'/lib/OA/Dashboard/SsoProxy.php';
 require_once 'Date.php';
 
