@@ -25,6 +25,9 @@
 $Id$
 */
 
+define('OA_SSO_PLATFORM_HASH_PARAM', 'ph');
+define('OA_SSO_PLATFORM_PATH_PARAM', 'pp');
+
 /**
  * The base class to implement a dashboard widget
  *

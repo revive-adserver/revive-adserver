@@ -29,8 +29,6 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Dashboard/Dashboard.php';
 
 /** Protocol parameters as defined: https://staff.openads.org/wiki/DashboardSSO **/
-define('OA_SSO_PLATFORM_HASH_PARAM', 'oapId');
-define('OA_SSO_PLATFORM_PATH_PARAM', 'oapPath');
 define('OA_SSO_URL_PARAM', 'url');
 define('OA_SSO_SERVICE_PARAM', 'service');
 define('OA_SSO_BACK_URL_PARAM', 'backUr');

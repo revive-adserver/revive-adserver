@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH.'/lib/OA.php';
 require_once MAX_PATH.'/lib/OA/XmlRpcClient.php';
+require_once MAX_PATH.'/lib/OA/Dashboard/SsoProxy.php';
 require_once 'Date.php';
 
 
@@ -101,8 +102,8 @@ class OA_Dal_Central_Rpc
         $oMsg = new XML_RPC_Message('oac.'.$methodName);
 
         $aHeader = array(
-            'protocolVersion'   => OA_DAL_CENTRAL_PROTOCOL_VERSION,
-            'platformHash'      => OA_Dal_ApplicationVariables::get('platform_hash')
+            'protocolVersion'          => OA_DAL_CENTRAL_PROTOCOL_VERSION,
+            OA_SSO_PLATFORM_HASH_PARAM => OA_Dal_ApplicationVariables::get('platform_hash')
         );
 
         if ($authType & OA_DAL_CENTRAL_AUTH_SSO) {
