@@ -49,30 +49,42 @@ function parseLogFile()
         $fpsla = fopen(MAX_PATH."/var/mysqlsla.log", 'w');
         fwrite($fpsla, "USE {$oDbh->connected_database_name};\n");
         // write a log for use by mysql-query-profiler
-        $fpmsqp = fopen(MAX_PATH."/var/mysqlqp.log", 'w');
+        $fpmqp = fopen(MAX_PATH."/var/mysqlqp.log", 'w');
 
         foreach ($aQueries AS $k => $v)
         {
             if (substr_count($v, 'tmp_')==0)
             {
-                $query = trim($v);
-                $result = $oDbh->getAssoc('EXPLAIN '.$query);
-                if (!PEAR::isError($result))
+                $i = preg_match('/((\[(?P<type>[\w]+)\])(?P<query>[\w\W\s]+))/',$v,$aMatches);
+                if ($i)
                 {
+                    $type = $aMatches['type'];
+                    $query = trim($aMatches['query']);
                     $aResult[$k]['query']  = $query;
-                    $aResult[$k]['result'] = $result;
-                    fwrite($fpsla, $query."\n");
-                    fwrite($fpmsqp, $query."\n\n");
-                }
-                else
-                {
-                    $aResult[$k]['query']  = $query;
-                    $aResult[$k]['error'] = $result->getUserInfo();
+                    if ($type=='prepare' || (strpos($query,'PREPARE MDB2_STATEMENT')===0))
+                    {
+                        $aResult[$k]['error']  = 'cannot execute statement: '.$query;
+                    }
+                    else
+                    {
+                        $result = $oDbh->getAssoc('EXPLAIN '.$query);
+                        if (!PEAR::isError($result))
+                        {
+                            $aResult[$k]['result'] = $result;
+                            fwrite($fpsla, $query."\n");
+                            fwrite($fpmqp, $query."\n\n");
+                        }
+                        else
+                        {
+                            //$aResult[$k]['error']  = $result->getUserInfo();
+                            $aResult[$k]['error']  = 'failed to explain statement: '.$query;
+                        }
+                    }
                 }
             }
         }
         fclose($fpsla);
-        fclose($fpmsqp);
+        fclose($fpmqp);
 
         $aConf = $GLOBALS['_MAX']['CONF']['database'];
 
@@ -82,9 +94,9 @@ function parseLogFile()
         fclose($fpsla);
 
         $cmd = "mysql-query-profiler --user {$aConf['username']} --host {$aConf['host']} --port {$aConf['port']} --database {$aConf['name']} mysqlqp.log > mysqlqp.txt";
-        $fpmsqp = fopen(MAX_PATH."/var/mysqlqprun", 'w');
-        fwrite($fpmsqp, $cmd);
-        fclose($fpmsqp);
+        $fpmqp = fopen(MAX_PATH."/var/mysqlqprun", 'w');
+        fwrite($fpmqp, $cmd);
+        fclose($fpmqp);
 
     }
     OA::enableErrorHandling();
