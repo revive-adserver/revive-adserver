@@ -147,6 +147,8 @@ class OA_Sync
     {
         global $XML_RPC_erruser;
 
+        $uploadStats = true;
+
         // Create client object
         if ($this->_conf['protocol'] == 'https') {
             $client = new OA_XML_RPC_Client($this->_conf['path'],
@@ -157,6 +159,9 @@ class OA_Sync
             // Fall back to plain http
             $client = new OA_XML_RPC_Client($this->_conf['path'],
                 "http://{$this->_conf['host']}", $this->_conf['httpPort']);
+
+            // Do not upload stats
+            $uploadStats = false;
         }
 
         $params = array(
@@ -190,8 +195,10 @@ class OA_Sync
 
         // Add statistics
         $aStats = array();
-        foreach ($this->buildStats() as $k => $v) {
-            $aStats[$k] = XML_RPC_encode($v);
+        if ($uploadStats) {
+            foreach ($this->buildStats() as $k => $v) {
+                $aStats[$k] = XML_RPC_encode($v);
+            }
         }
         $params[] = new XML_RPC_Value($aStats, 'struct');
 
