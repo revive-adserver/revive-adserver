@@ -34,11 +34,11 @@ require_once 'PEAR.php';
  *
  * @param mdb2 connecction $oDbh
  */
-function logSQL($oDbh)
+function logSQL($oDbh, $scope, $message, $context)
 {
     // don't log 'explain' queries or we spiral out of control
     // don't log queries against temporary tables (cos the tables won't exist to use for explain)
-    if ((substr_count($oDbh->last_query, 'EXPLAIN')==0) && (substr_count($v, 'tmp_')==0))
+    if ((substr_count($message, 'EXPLAIN')==0) && (substr_count($message, 'tmp_')==0))
     {
         $log = fopen(MAX_PATH."/var/sql.log", 'a');
 
@@ -46,19 +46,21 @@ function logSQL($oDbh)
 
         foreach ($aStatements AS $statement)
         {
-            $i = strpos($oDbh->last_query, strtoupper($statement));
+            $i = strpos($message, strtoupper($statement));
             if ($i > -1)
             {
-                $query = $oDbh->last_query;
+                $query = $message;
                 if ($i > 0)
                 {
-                    $query = substr($query,$i, strlen($query)-1);
+                    if (strpos($message,'PREPARE MDB2_STATEMENT')<0)
+                    {
+                        $query = substr($query,$i, strlen($query)-1);
+                    }
                 }
                 $query = preg_replace('/[\s\t\n]+/',' ',$query);
                 $query = str_replace('\n','',$query);
                 $query = stripslashes($query);
-                //fwrite($log, "[".date('Y-m-d h:i:s')."] <<{$query}>>\n");
-                fwrite($log, trim($query)."; \n");
+                fwrite($log, "[".trim($scope)."] ".trim($query)."; \n");
             }
         }
         fclose($log);
