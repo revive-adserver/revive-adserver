@@ -153,7 +153,7 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                 if (isset($mi->params['port'])) {
                     $buffer .= ', ' . $mi->params['port'] . '';
                 } else {
-                    $buffer .= ', 0';
+                    $buffer .= ($mi->xmlrpcproto) ? ', 443' : ', 80';
                 }
                 if ($mi->xmlrpcproto) {
                     $buffer .= ', true';
