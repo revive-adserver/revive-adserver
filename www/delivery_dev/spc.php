@@ -53,7 +53,7 @@ $spc_output = '';
 foreach ($zones as $thisZone) {
     if (empty($thisZone)) continue;
     // nz is set when "named zones" are being used, this allows a zone to be selected more than once
-    if ($nz) {
+    if (!empty($nz)) {
         list($zonename,$thisZoneid) = explode('=', $thisZone);
         $varname = $zonename;
     } else {
