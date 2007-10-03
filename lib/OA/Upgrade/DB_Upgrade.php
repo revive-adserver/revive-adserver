@@ -1208,6 +1208,7 @@ class OA_DB_Upgrade
                     }
                     else
                     {
+                        $this->oLogger->_logError('failed to create table '.$this->prefix.$table);
                         $this->_halt();
                         return false;
                     }
@@ -1414,8 +1415,14 @@ class OA_DB_Upgrade
     {
         if ($method && is_callable(array($this->oMigrator, $method)))
         {
-            return call_user_func(array($this->oMigrator, $method));
+            $result = call_user_func(array($this->oMigrator, $method));
+            if (!$result)
+            {
+                $this->oLogger->_logError('failure during migration: '.$method);
+            }
+            return $result;
         }
+        $this->oLogger->_logError('migration method not found: '.$method);
         return false;
     }
 
