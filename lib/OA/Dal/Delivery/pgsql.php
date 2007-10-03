@@ -892,8 +892,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $query .= "
                 '{$userAgentInfo['browser']}',";
     }
-    $query .= "
-                '$maxHttps',";
+    $query .= intval($maxHttps).",";
     if (isset($geotargeting['region'])) {
         $query .= "
                 '{$geotargeting['region']}',";
@@ -907,12 +906,10 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
                 '{$geotargeting['postal_code']}',";
     }
     if (isset($geotargeting['latitude'])) {
-        $query .= "
-                '{$geotargeting['latitude']}',";
+        $query .= floatval($geotargeting['latitude']).",";
     }
     if (isset($geotargeting['longitude'])) {
-        $query .= "
-                '{$geotargeting['longitude']}',";
+        $query .= floatval($geotargeting['longitude']).",";
     }
     if (isset($geotargeting['dma_code'])) {
         $query .= "
