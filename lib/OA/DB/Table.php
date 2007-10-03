@@ -256,8 +256,13 @@ class OA_DB_Table
             if ($this->temporary && $suppressTempTableError) {
                 $showError = false;
             }
-            if ($showError) {
+            if ($showError)
+            {
                 OA::debug('Unable to create the table ' . $table, PEAR_LOG_ERR);
+                if (PEAR::isError($result))
+                {
+                    OA::debug($result->getUserInfo(), PEAR_LOG_ERR);
+                }
             }
             return false;
         }
