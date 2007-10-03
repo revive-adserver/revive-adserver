@@ -67,6 +67,8 @@ class OA_Admin_Template extends Smarty
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
 
+        $this->register_function('oac_captcha', array('OA_Admin_Template',  '_function_oac_captcha'));
+
         $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template',  '_function_phpAds_ShowBreak'));
         $this->register_function('phpAds_DelConfirm', array('OA_Admin_Template',  '_function_phpAds_DelConfirm'));
 
@@ -211,6 +213,13 @@ class OA_Admin_Template extends Smarty
         } else {
             $smarty->trigger_error("t: missing 'str'parameter");
         }
+    }
+
+    function _function_oac_captcha()
+    {
+        require_once MAX_PATH . '/lib/OA/Central/Common.php';
+
+        return OA_Central_Common::getCaptchaUrl();
     }
 
     function _block_edit($aParams, $content, &$smarty, &$repeat)

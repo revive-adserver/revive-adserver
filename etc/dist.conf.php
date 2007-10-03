@@ -327,6 +327,7 @@ protocol    = https
 host        = oac.openads.org
 port        = 443
 path        = /oac/xmlrpc
+captcha     = /oac/captcha
 
 [oacDashboard]
 protocol    = https

@@ -41,7 +41,7 @@ class OA_Dashboard
      * @param array $aConf
      * @param string $pathVariable
      * @return string
-     * @static 
+     * @static
      */
     function buildUrl($aConf, $pathVariable = 'path')
     {

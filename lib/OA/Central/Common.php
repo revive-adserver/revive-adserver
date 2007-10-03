@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/Common.php';
 require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
+require_once MAX_PATH . '/lib/OA/Dashboard/Dashboard.php';
 
 require_once 'Cache/Lite/Function.php';
 
@@ -91,22 +92,19 @@ class OA_Central_Common
     }
 
     /**
-     * A method to retrieve the image data of a captcha image
+     * A method to retrieve the URL of the captcha image
      *
      * @see R-AN-20: Captcha Validation
      *
-     * @return mixed An array with the image content type and binary data if successful,
-     *               FALSE otherwise
+     * @return string
      */
-    function getCaptcha()
+    function getCaptchaUrl()
     {
-        $result = $this->oMapper->getCaptcha();
+        $platformHash = OA_Dal_ApplicationVariables::get('platform_hash');
+        $url = OA_Dashboard::buildUrl($GLOBALS['_MAX']['CONF']['oacXmlRpc'], 'captcha');
+        $url .= '?'.OA_SSO_PLATFORM_HASH_PARAM.'='.urlencode($platformHash);
 
-        if (PEAR::isError($result)) {
-            return false;
-        }
-
-        return $result;
+        return $url;
     }
 
 }
