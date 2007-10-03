@@ -1458,7 +1458,9 @@ class OA_Upgrade
         }
 
         $oSync = new OA_Sync();
+        OA::disableErrorHandling();
         $oSync->checkForUpdates();
+        OA::enableErrorHandling();
 
         return true;
     }
