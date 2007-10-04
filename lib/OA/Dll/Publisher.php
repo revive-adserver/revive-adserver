@@ -77,7 +77,7 @@ class OA_Dll_Publisher extends OA_Dll
      * and where necessary connects to the DAL to obtain information
      * required to perform other business validations (e.g. username must be
      * unique across all relevant tables).
-     * 
+     *
 	 * @access private
 	 *
      * @param OA_Dll_PublisherInfo $oPublisher
@@ -164,7 +164,7 @@ class OA_Dll_Publisher extends OA_Dll
      * @param OA_Dll_PublisherInfo &$oPublisher <br />
      *          <b>For addign</b><br />
      *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
-     * 
+     *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> publisherId<br />
      *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
@@ -271,7 +271,7 @@ class OA_Dll_Publisher extends OA_Dll
                            'id' => isset($pubid) ? $pubid : 0,
                            'message' => $result->getMessage()
                         );
-                        if ($result->getCode() == 802) {
+                        if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
                             $captchaErrorFormId = $formId;
                             $aError['message'] = '';
                         }
@@ -410,7 +410,7 @@ class OA_Dll_Publisher extends OA_Dll
 
     /**
     * This method returns statistics for a given publisher, broken down by day.
-    * 
+    *
     * @access public
     *
     * @param integer $publisherId The ID of the publisher to view statistics for

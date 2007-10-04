@@ -25,16 +25,45 @@
 $Id$
 */
 
+/**
+ * OA Central error codes
+ *
+ */
+define('OA_CENTRAL_ERROR_ERROR_NOT_AUTHORIZED', 801);
+define('OA_CENTRAL_ERROR_CAPTCHA_FAILED', 802);
+define('OA_CENTRAL_ERROR_WRONG_PARAMETERS', 803);
+define('OA_CENTRAL_ERROR_USERNAME_DO_NOT_MATCH_PLATFORM', 804);
+define('OA_CENTRAL_ERROR_PLATFORM_DO_NOT_EXIST', 805);
+define('OA_CENTRAL_ERROR_SERVER_ERROR', 806);
+
+/**
+ * Protocol parameters as defined: https://staff.openads.org/wiki/DashboardSSO
+ */
+define('OA_SSO_URL_PARAM', 'url');
+define('OA_SSO_SERVICE_PARAM', 'service');
+define('OA_SSO_BACK_URL_PARAM', 'backUr');
 define('OA_SSO_PLATFORM_HASH_PARAM', 'ph');
 define('OA_SSO_PLATFORM_PATH_PARAM', 'pp');
 
 /**
- * The base class to implement a dashboard widget
+ * CAS server parameters
+ */
+define('OA_SSO_CAS_SERVICE_PARAM', 'service');
+define('OA_SSO_CAS_GATEWAY_PARAM', 'gateway');
+define('OA_SSO_CAS_TICKET_PARAM', 'ticket');
+
+/**
+ * ssoProxy specific parameters
+ */
+define('OA_SSO_CAS_SERVER_CHECK_PARAM', 'casServerCheck');
+
+
+/**
+ * The base class which contains utility methods for OAC services
  *
  */
-class OA_Dashboard
+class OA_Central
 {
-
     /**
      * A method to build the URLs from config variables
      *
@@ -55,5 +84,3 @@ class OA_Dashboard
         return "{$aConf['protocol']}://{$aConf['host']}{$port}{$aConf[$pathVariable]}";
     }
 }
-
-?>

@@ -38,7 +38,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
 {
     var $wrongCredentials;
     var $wrongParameters;
-    
+
     var $lastUsedUserName;
 
     function OA_Dashboard_Widget_Login($aParams)
@@ -56,7 +56,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
                 if (!empty($aParams['sso_username'])) {
                     $this->lastUsedUserName = $aParams['sso_username'];
                     $passwordHash = md5($aParams['sso_password']);
-                    
+
                     $oAdNetworks = new OA_Central_AdNetworks();
                     $result = $oAdNetworks->connectOAPToOAC($aParams['sso_username'], $passwordHash);
 
@@ -71,7 +71,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
             }
 
             if (!$this->wrongParameters) {
-                $url = OA_Dashboard::buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
+                $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
                 MAX_Admin_Redirect::redirect('ssoProxy.php?url='.urlencode($url));
                 exit;
             }

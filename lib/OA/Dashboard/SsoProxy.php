@@ -26,51 +26,39 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
-require_once MAX_PATH . '/lib/OA/Dashboard/Dashboard.php';
+require_once MAX_PATH . '/lib/OA/Central.php';
 
-/** Protocol parameters as defined: https://staff.openads.org/wiki/DashboardSSO **/
-define('OA_SSO_URL_PARAM', 'url');
-define('OA_SSO_SERVICE_PARAM', 'service');
-define('OA_SSO_BACK_URL_PARAM', 'backUr');
-
-// CAS-server parameters
-define('OA_SSO_CAS_SERVICE_PARAM', 'service');
-define('OA_SSO_CAS_GATEWAY_PARAM', 'gateway');
-define('OA_SSO_CAS_TICKET_PARAM', 'ticket');
-
-// ssoProxy.php specific parameters
-define('OA_SSO_CAS_SERVER_CHECK_PARAM', 'casServerCheck');
 
 /**
  * The class to sign-in client into dashboard and cas-server
  *
  */
-class OA_Dashboard_SsoProxy
+class OA_Dashboard_SsoProxy extends OA_Central
 {
     /** Path to OAP (without trailing slash) **/
     var $oapPath;
-    
+
     /** Path to ssoProxy.php script in OAP **/
     var $ssoProxyPath;
-    
+
     /** Path to dashboard ssoCheck path **/
     var $ssoCheckUrl;
-    
+
     /** Path to cas login servlet **/
     var $casServerLoginUrl;
-    
+
     /** OAP platform hash **/
     var $oapId;
-    
+
     /** Widget or dashboard url where ssoProxy should authenticate user into **/
     var $url;
-    
+
     /** Url to dashboard with appended platform hash and platform path **/
     var $dashboardTargetUrl;
 
     /** Parameters array, usually $_REQUEST **/
     var $aParams;
-    
+
     /**
      * The class constructor
      *
@@ -83,20 +71,20 @@ class OA_Dashboard_SsoProxy
         $this->init($aParams);
         $this->checkAccess();
     }
-    
+
     function init($aParams)
     {
         $this->aParams = $aParams;
         $aConf = $GLOBALS['_MAX']['CONF'];
-        
+
         $this->oapPath = $this->removeTrailingSlash(MAX::constructURL(MAX_URL_ADMIN));
         $this->ssoProxyPath = $this->oapPath . '/ssoProxy.php';
-        
-        $this->ssoCheckUrl       = OA_Dashboard::buildUrl($aConf['oacDashboard'], 'ssoCheck');
-        $this->casServerLoginUrl = OA_Dashboard::buildUrl($aConf['oacSSO']);
-        
+
+        $this->ssoCheckUrl       = $this->buildUrl($aConf['oacDashboard'], 'ssoCheck');
+        $this->casServerLoginUrl = $this->buildUrl($aConf['oacSSO']);
+
         $this->oapId = OA_Dal_ApplicationVariables::get('platform_hash');
-        
+
         // A target url where user should be redirected to
         // this is url where ssoProxy.php is proxying user
         $this->url = $aParams[OA_SSO_URL_PARAM];
@@ -104,7 +92,7 @@ class OA_Dashboard_SsoProxy
             . OA_SSO_PLATFORM_HASH_PARAM . '=' . $this->oapId
             . '&'. OA_SSO_PLATFORM_PATH_PARAM .'=' . $this->oapPath;
     }
-    
+
     /**
      * Removes trailing slash from the url
      *
@@ -118,7 +106,7 @@ class OA_Dashboard_SsoProxy
         }
         return $url;
     }
-    
+
     /**
      * A method to check for permissions to run SsoProxy
      *
@@ -127,7 +115,7 @@ class OA_Dashboard_SsoProxy
     {
         MAX_Permission::checkAccess(phpAds_Admin);
     }
-    
+
     /**
      * Validate request parameters
      *
@@ -140,7 +128,7 @@ class OA_Dashboard_SsoProxy
             exit();
         }
     }
-    
+
     /**
      * "ssoProxy.php" script sends request to "ssoCheck" servlet
      *    * if user is already authenticated request is redirected to "service" url -> STOP
@@ -153,24 +141,24 @@ class OA_Dashboard_SsoProxy
         {
             return;
         }
-        $backUrl = $this->ssoProxyPath 
+        $backUrl = $this->ssoProxyPath
             . '?'. OA_SSO_URL_PARAM . '=' . urlencode($this->url)
             . '&' . OA_SSO_DASHBOARD_CHECK_PARAM . '=1';
-        
+
         $serviceUrl = $this->ssoProxyPath . '?'
             . OA_SSO_URL_PARAM . '=' . $this->url
             . '&' . OA_SSO_CAS_SERVER_CHECK_PARAM . '=1';
         $redirectToSsoGatewayUrl = $this->casServerLoginUrl . '?'
             . OA_SSO_CAS_SERVICE_PARAM . '=' . urlencode($serviceUrl)
             . '&' . OA_SSO_CAS_GATEWAY_PARAM . '=1';
-        $redirectToSsoCheckUrl = $this->ssoCheckUrl 
+        $redirectToSsoCheckUrl = $this->ssoCheckUrl
             . '?'. OA_SSO_SERVICE_PARAM .'=' . urlencode($this->dashboardTargetUrl)
             . '&backUrl=' . urlencode($redirectToSsoGatewayUrl);
-    
+
         MAX_header('Location: ' . $redirectToSsoCheckUrl);
         exit();
     }
-    
+
     /**
      *   CAS-server returned the answer after we queried it with gateway parameter
      *   If user is authenticated, CAS-server appended a service "ticket" to URL
@@ -180,7 +168,7 @@ class OA_Dashboard_SsoProxy
      */
     function redirectToDashboard()
     {
-        if (!empty($this->aParams[OA_SSO_CAS_SERVER_CHECK_PARAM]) 
+        if (!empty($this->aParams[OA_SSO_CAS_SERVER_CHECK_PARAM])
             && !empty($this->aParams[OA_SSO_CAS_TICKET_PARAM]))
         {
             MAX_header('Location: ' . $this->dashboardTargetUrl);
@@ -192,7 +180,7 @@ class OA_Dashboard_SsoProxy
     {
         $this->redirectToSsoCheck();
         $this->redirectToDashboard();
-        
+
         // user is not signed-in yet and in that case we
         // should perform authentication using credentials stored in OAP database
         require(MAX_PATH.'/lib/OA/Dashboard/Widgets/IFrame.php');

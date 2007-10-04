@@ -25,14 +25,14 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Dashboard/Dashboard.php';
+require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 /**
  * The base class to implement a dashboard widget
  *
  */
-class OA_Dashboard_Widget
+class OA_Dashboard_Widget extends OA_Central
 {
     /**
      * The user permissions mask, defaults to admin + agencies + publishers
@@ -78,18 +78,6 @@ class OA_Dashboard_Widget
      */
     function display()
     {
-    }
-
-    /**
-     * A method to build the URLs from config variables
-     *
-     * @param array $aConf
-     * @param string $pathVariable
-     * @return string
-     */
-    function buildUrl($aConf, $pathVariable = 'path')
-    {
-        return OA_Dashboard::buildUrl($aConf, $pathVariable);
     }
 
     function getCredentials()

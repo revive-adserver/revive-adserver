@@ -490,7 +490,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     // We need to pass back the submitted values to the form
                     $oTpl->assign('aSites', $aTplSites);
 
-                    if ($result->getCode() == 802) {
+                    if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
                         // Captcha error
                         $oTpl->assign('captchaErrorFormId', 'frmOpenads');
                     } else {
