@@ -137,14 +137,24 @@ function validateNewPublisher()
   return false;
 }
 
-function initAdNetworksSignup(formId)
+function initAdNetworksSignup(formId, captchaURL)
 {
   var form = $(formId);
-
   var signupDialog = $("#adnetworks-signup-dialog_" + formId);
-  signupDialog
-    .jqm({modal: true})
-    .jqmAddClose($("#dg-cancel", signupDialog));
+  
+  var onShow = function(hash)
+  { 
+    var captcha = $("#captcha", hash.w);
+    captcha.attr("src", captchaURL + '&t=' +  new Date().getTime());
+    hash.w.fadeIn("fast"); 
+  };  
+  
+  signupDialog.jqm(
+    { modal: true,
+      onShow: onShow}).jqmAddClose($("#dg-cancel", signupDialog));
+
+  //TODO add captcha on show and replace an captcha image there
+  
 
   if (badCaptcha(formId)) {
     $("#wrong-captcha", signupDialog).show();
@@ -184,7 +194,7 @@ function initFindOtherNetworks()
       { country: country, language: language },
       function(html) {
         $("#other-networks-table").empty().append(html);
-	$("#other-networks-table").slideDown("slow");
+	      $("#other-networks-table").slideDown("slow");
       }
     );
   });
