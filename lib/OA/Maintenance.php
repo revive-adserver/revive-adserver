@@ -41,7 +41,9 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+
+require_once 'Date.php';
 
 /**
  * A library class for providing common maintenance process methods.
@@ -54,12 +56,15 @@ class OA_Maintenance
 {
     var $oDbh;
     var $aConf;
-    var $pref;
+    var $aPref;
 
     function OA_Maintenance()
     {
         $this->aConf = $GLOBALS['_MAX']['CONF'];
-        $this->pref = $GLOBALS['_MAX']['PREF'];
+
+        MAX_Admin_Preferences::loadPrefs();
+        $this->aPref = $GLOBALS['_MAX']['PREF'];
+
         // Get a connection to the datbase
         $this->oDbh =& OA_DB::singleton();
         if (PEAR::isError($this->oDbh)) {
@@ -132,10 +137,14 @@ class OA_Maintenance
      */
     function _runMidnightTasks()
     {
-        if (date('H') == 0) {
+        $lastRun = new Date($this->aPref['maintenance_timestamp']);
+        $lastMidnight = new Date(date('Y-m-d'));
+
+        if ($lastRun->after($lastMidnight)) {
             OA::debug('Running Midnight Maintenance Tasks', PEAR_LOG_INFO);
             $this->_runReports();
             $this->_runOpenadsSync();
+            $this->_runOpenadsCentral();
             $this->_runGeneralPruning();
             OA::debug('Midnight Maintenance Tasks Completed', PEAR_LOG_INFO);
         }
@@ -215,9 +224,9 @@ class OA_Maintenance
     function _runOpenadsSync()
     {
         OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
-        if ($this->pref['updates_enabled'] == 't') {
+        if ($this->aPref['updates_enabled'] == 't') {
             require_once MAX_PATH . '/lib/OA/Sync.php';
-            $oSync = new OA_Sync($this->aConf, $this->pref);
+            $oSync = new OA_Sync($this->aConf, $this->aPref);
             $res = $oSync->checkForUpdates(0);
             if ($res[0] != 0 && $res[0] != 800) {
                 OA::debug("Openads Sync error ($res[0]): $res[1]", PEAR_LOG_INFO);
@@ -226,6 +235,26 @@ class OA_Maintenance
         OA::debug('  Finished Openads Sync process.', PEAR_LOG_DEBUG);
     }
 
+
+
+    /**
+     * A private method to run Openads Central related tasks.
+     *
+     * @access private
+     */
+    function _runOpenadsCentral()
+    {
+        OA::debug('  Starting Openads Central process.', PEAR_LOG_DEBUG);
+        if ($this->aPref['updates_enabled'] == 't') {
+            require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+            $oAdNetworks = new OA_Central_AdNetworks();
+            $result = $oAdNetworks->getRevenue();
+            if (PEAR::isError($result)) {
+                OA::debug("Openads Central error (".$result->getCode()."): ".$result->getMessage(), PEAR_LOG_INFO);
+            }
+        }
+        OA::debug('  Finished Openads Central process.', PEAR_LOG_DEBUG);
+    }
 
     /**
      * A private method to run the "midnight" general pruning tasks.
