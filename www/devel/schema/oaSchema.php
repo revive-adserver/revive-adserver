@@ -38,6 +38,7 @@ require_once 'Config.php';
 require_once MAX_PATH.'/lib/OA/DB.php';
 require_once MAX_PATH.'/lib/OA/DB/Table.php';
 require_once MAX_PATH.'/lib/OA/Dal/Links.php';
+require_once MAX_PATH.'/lib/OA/Upgrade/UpgradeLogger.php';
 
 class Openads_Schema_Manager
 {
@@ -85,6 +86,8 @@ class Openads_Schema_Manager
 
     var $dbo_name = 'openads_dbo';
 
+    var $oLogger;
+
     /**
      * php5 class constructor
      *
@@ -92,6 +95,9 @@ class Openads_Schema_Manager
      */
     function __construct($file_schema = 'tables_core.xml', $file_changes='')
     {
+        $this->oLogger = new OA_UpgradeLogger();
+        $this->oLogger->setLogFile('schema.log');
+
         $this->path_schema_final = MAX_PATH.'/etc/';
         $this->path_schema_trans = MAX_PATH.'/var/';
         $this->path_changes_final = MAX_PATH.'/etc/changes/';
@@ -204,6 +210,17 @@ class Openads_Schema_Manager
             {
                 return true;
             }
+            else
+            {
+                $this->oLogger->logError($result->getUserInfo());
+                return false;
+            }
+        }
+        else
+        {
+            $this->oLogger->logError('one or more files not found:');
+            $this->oLogger->logError($this->schema_trans);
+            $this->oLogger->logError($this->schema_final);
         }
         return false;
     }
@@ -229,7 +246,13 @@ class Openads_Schema_Manager
             {
                 return true;
             }
+            else
+            {
+                $this->oLogger->logError($result->getUserInfo());
+                return false;
+            }
         }
+        $this->oLogger->logError('file not found: '.$input_file);
         return false;
     }
 
@@ -311,6 +334,10 @@ class Openads_Schema_Manager
         {
             $this->deleteTransitional();
         }
+        else
+        {
+            $this->oLogger->logError('Failed to commit final schema');
+        }
         return $result;
     }
 
@@ -379,7 +406,13 @@ class Openads_Schema_Manager
                 $this->version = $this->aDB_definition['version'];
                 return true;
             }
+            else
+            {
+                $this->oLogger->logError($result->getUserInfo());
+                return false;
+            }
         }
+        $this->oLogger->logError('file not found: '.$this->working_file_schema);
         $this->aDB_definition = array();
         return false;
     }
@@ -400,6 +433,7 @@ class Openads_Schema_Manager
         {
             return true;
         }
+        $this->oLogger->logError($result->getUserInfo());
         return false;
     }
 
@@ -591,6 +625,7 @@ class Openads_Schema_Manager
 
         if (PEAR::isError($aChanges))
         {
+            $this->oLogger->logError($aChanges->getUserInfo());
             return false;
         }
 
@@ -938,7 +973,12 @@ class Openads_Schema_Manager
     {
         $this->init_schema_validator();
         $result = $this->oValidator->validateTable($this->aDB_definition['tables'], $aTbl_definition, $tbl_name);
-        return (Pear::iserror($result)? false: true);
+        if (PEAR::iserror($result))
+        {
+            $this->oLogger->logError($result->getUserInfo());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -953,7 +993,12 @@ class Openads_Schema_Manager
     {
         $this->init_schema_validator();
         $result = $this->oValidator->validateField($this->aDB_definition['tables'][$table_name]['fields'], $aField_definition, $field_name);
-        return (Pear::iserror($result)? false: true);
+        if (PEAR::iserror($result))
+        {
+            $this->oLogger->logError($result->getUserInfo());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -968,7 +1013,12 @@ class Openads_Schema_Manager
     {
         $this->init_schema_validator();
         $result = $this->oValidator->validateIndex($this->aDB_definition['tables'][$table_name]['indexes'], $aIdx_definition, $idx_name);
-        return (Pear::iserror($result)? false: true);
+        if (PEAR::iserror($result))
+        {
+            $this->oLogger->logError($result->getUserInfo());
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -1156,10 +1206,11 @@ class Openads_Schema_Manager
 
             $this->oValidator =& new MDB2_Schema_Validate($fail_on_invalid_names, $valid_types, $force_defaults);
         }
-        if (!Pear::iserror($result))
+        if (!Pear::iserror($this->oValidator))
         {
             return $this->oValidator;
         }
+        $this->oLogger->logError($this->oValidator->getUserInfo());
         return false;
     }
 
@@ -1380,7 +1431,15 @@ class Openads_Schema_Manager
             {
                 return true;
             }
+            else
+            {
+                $this->oLogger->logError($result->getUserInfo());
+                return false;
+            }
         }
+        $this->oLogger->logError('one or more files do not exist:');
+        $this->oLogger->logError($this->schema_trans);
+        $this->oLogger->logError($this->schema_final);
         return false;
     }
 
@@ -1532,7 +1591,9 @@ class Openads_Schema_Manager
     function _databaseExists($database_name)
     {
         $result = $this->oSchema->db->manager->listDatabases();
-        if (PEAR::isError($result)) {
+        if (PEAR::isError($result))
+        {
+            $this->oLogger->logError($result->getUserInfo());
             return false;
         }
         return in_array(strtolower($database_name), array_map('strtolower', $result));
