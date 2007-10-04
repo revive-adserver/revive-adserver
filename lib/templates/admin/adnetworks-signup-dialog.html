@@ -36,18 +36,19 @@ $Id$
           The security code you've provided is incorrect. Please try again.        </div>
       </div>
 
-        <p style="margin-top: 20px">
-        Please confirm signing up the sites to AdNetworks by entering the security code shown below (*):<br/>
-        <img id="captcha" src="images/spacer.gif" />
+        <div class="captcha">
+          Please confirm signing up the sites to AdNetworks by entering the security code shown below (*):<br/>
+          <div>
+          <img id="captcha" src="images/spacer.gif" />
           <input class="flat" name="captcha-value" type="text" />
-        </p>
+          </div>
+        </div>
 
-        <div style="padding-bottom: 10px; font-size: 80%; color: #555555; text-align: left;">
+        <div style="padding-bottom: 10px; font-size: 80%; color: #555555; text-align: left; clear: both;">
         * This is to improve performance and prevent unauthorized automated scripts
         </div>
 
-        <img width="100%" height="1" src="images/break.gif"/>
-        <div style="padding-top: 10px;text-align: right;">
+        <div style="padding-top: 10px;text-align: right; border-top: 1px #DDDDDD solid">
           <input id="dg-submit" type="button" value="Submit" class="main-submit" />&nbsp;
           <input id="dg-cancel" type="button" value="Cancel" />
         </div>
