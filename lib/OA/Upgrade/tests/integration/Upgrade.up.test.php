@@ -155,6 +155,17 @@ class Test_OA_Upgrade extends UnitTestCase
     }
 
     /**
+     * ensure this runs without error
+     *
+     */
+    function test_checkPermissionToCreateTable()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->initDatabaseConnection();
+        $this->assertTrue($oUpgrade->checkPermissionToCreateTable(),'failed permissions check for test user');
+    }
+
+    /**
      * testing for invalid version to upgrade and upgrade required
      * does not test for absent database
      *

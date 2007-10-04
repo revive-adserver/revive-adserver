@@ -1549,7 +1549,7 @@ class OA_Upgrade
     }
 
     /**
-     * test if the database username has permissions to create tables
+     * test if the database username has necessary permissions
      *
      * @return boolean
      */
@@ -1648,7 +1648,7 @@ class OA_Upgrade
     }
 
     /**
-     * test if the database username has permissions to create tables
+     * check if openads tables already exist in the specified database
      *
      * @return boolean
      */
