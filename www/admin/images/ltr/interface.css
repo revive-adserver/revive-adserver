@@ -731,21 +731,7 @@ a.adv-list-entry {
 }
 
 
-/** window **/
-.jqm-window-title {
-  position: relative;
-  top: -12px;
-  left: -12px;
-  padding: 7px 12px;
-  width: 100%;
-  color: white;
-  background-color: #599BDD;
-  font-weight: bold;
-  font-size: 120%;
-  text-align: left;
-  margin-bottom: 10px;
-}
-
+/** captcha window **/
 .captcha {
   margin-top: 20px;
   vertical-align: top;
