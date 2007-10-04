@@ -97,7 +97,7 @@ class OA_Dal_Central_Rpc
      * @param array  $aParams    Array of XML_RPC_Values
      * @return mixed The returned value or PEAR_Error on error
      */
-    function call($methodName, $authType, $aParams = null)
+    function call($methodName, $authType, $aParams = null, $recursionLevel = 0)
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
 
@@ -131,7 +131,15 @@ class OA_Dal_Central_Rpc
         if (!$oResponse) {
             return new PEAR_Error('XML-RPC connection error', 800);
         } elseif ($oResponse->faultCode() || $oResponse->faultString()) {
-            return new PEAR_Error($oResponse->faultString(), $oResponse->faultCode());
+            if ($oResponse->faultCode() == OA_CENTRAL_ERROR_PLATFORM_DOES_NOT_EXIST && !$recursionLevel) {
+                OA::disableErrorHandling();
+                $oSync = new OA_Sync();
+                $oSync->checkForUpdates();
+                OA::enableErrorHandling();
+                return $this->call($methodName, $authType, $aParams, $recursionLevel + 1);
+            } else {
+                return new PEAR_Error($oResponse->faultString(), $oResponse->faultCode());
+            }
         }
 
         return XML_RPC_decode($oResponse->value());
