@@ -19,9 +19,25 @@
     
     background-color: #ffffff;
     /*color: #333;*/
-    border: 2px solid #59599B;
+    border: 2px solid #0066CC;
     padding: 12px;
 }
+
+
+.jqm-window-title {
+  position: relative;
+  top: -12px;
+  left: -12px;
+  padding: 7px 12px;
+  width: 600px;
+  color: white;
+  background-color: #599BDD;
+  font-weight: bold;
+  font-size: 120%;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
 
 .jqmOverlay { background-color: #000; }
 
