@@ -29,30 +29,33 @@ $Id$
 -->*}
 
 <div id="adnetworks-signup-dialog_{$formId|escape:javascript}" class="jqmWindow">
-      <div class="jqm-window-title">Confirm Ad Networks signup</div>
+  <div class="jqm-window-title">&nbsp;&nbsp;Confirm Ad Networks signup</div>
+  
+  <div class="jqm-window-body">
 
-      <div style="text-align: center">
-        <div id="wrong-captcha" class="error-box hide" style="margin-bottom: 10px">
-          The security code you've provided is incorrect. Please try again.        </div>
-      </div>
-
-        <div class="captcha">
-          Please confirm signing up the sites to AdNetworks by entering the security code shown below (*):<br/>
-          <div>
-          <img id="captcha" src="images/spacer.gif" />
-          <input class="flat" name="captcha-value" type="text" />
-          </div>
-        </div>
-
-        <div style="padding-bottom: 10px; font-size: 80%; color: #555555; text-align: left; clear: both;">
-        * This is to improve performance and prevent unauthorized automated scripts
-        </div>
-
-        <div style="padding-top: 10px;text-align: right; border-top: 1px #DDDDDD solid">
-          <input id="dg-submit" type="button" value="Submit" class="main-submit" />&nbsp;
-          <input id="dg-cancel" type="button" value="Cancel" />
-        </div>
+    <div style="text-align: center">
+      <div id="wrong-captcha" class="error-box hide" style="margin-bottom: 10px">
+        The security code you've provided is incorrect. Please try again.        </div>
     </div>
+
+    <div class="captcha">
+      Please confirm signing up the sites to AdNetworks by entering the security code shown below (*):<br/>
+      <div>
+      <img id="captcha" src="images/spacer.gif" />
+      <input class="flat" name="captcha-value" type="text" />
+      </div>
+    </div>
+
+    <div style="font-size: 80%; color: #555555; text-align: left; clear: both;">
+    * This is to improve performance and prevent unauthorized automated scripts
+    </div>
+
+    <div style="margin-top: 10px; padding-top: 10px;text-align: right; border-top: 1px #DDDDDD solid">
+      <input id="dg-submit" type="button" value="Submit" class="main-submit" />&nbsp;
+      <input id="dg-cancel" type="button" value="Cancel" />
+    </div>
+  </div>  
+</div>
 
 <script type="text/javascript">
   initAdNetworksSignup('{$formId|escape:javascript}', '{oac_captcha}');
