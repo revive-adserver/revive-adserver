@@ -1574,7 +1574,7 @@ class OA_Upgrade
         $aExistingTables = OA_DB_Table::listOATablesCaseSensitive();
         if (PEAR::isError($aExistingTables))
         {
-            $this->oLogger->logError('Unable to list the tables that exist in the database');
+            $this->oLogger->logError('Unable to SHOW TABLES - check your database permissions');
             return false;
         }
         $tblTmp = $prefix.'tmp_dbpriviligecheck';
@@ -1592,7 +1592,7 @@ class OA_Upgrade
         $result = $this->oDbh->exec("CREATE TABLE {$tblTmpQuoted} (tmp int)");
         if (PEAR::isError($result))
         {
-            $this->oLogger->logError('Failed to create test privileges index - check your database permissions');
+            $this->oLogger->logError('Failed to CREATE TABLE - check your database permissions');
             return false;
         }
         $result   = $this->oDbh->manager->listTableFields($tblTmp);
@@ -1600,43 +1600,47 @@ class OA_Upgrade
         if (PEAR::isError($result))
         {
             $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
-            $this->oLogger->logError('Failed to list test privileges table fields - check your database permissions');
+            $this->oLogger->logError('Failed to SHOW FIELDS - check your database permissions');
             return false;
         }
-        $result = $this->oDbh->manager->createIndex($tblTmp, $tblTmp.'_idx', array(
-            'fields' => array(
-                'tmp' => array( 'sorting' => 'ascending' )
-        )));
+        $result = $this->oDbh->exec("ALTER TABLE {$tblTmpQuoted} ADD test_desc TEXT");
         if (PEAR::isError($result))
         {
             $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
-            $this->oLogger->logError('Failed to create test privileges index - check your database permissions');
+            $this->oLogger->logError('Failed to ALTER TABLE - check your database permissions');
+            return false;
+        }
+        $result = $this->oDbh->manager->createIndex($tblTmp, $tblTmp.'_idx', array('fields' => array('tmp' => array( 'sorting' => 'ascending' ))));
+        if (PEAR::isError($result))
+        {
+            $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
+            $this->oLogger->logError('Failed to CREATE INDEX - check your database permissions');
             return false;
         }
         $result = $this->oDbh->manager->dropIndex($tblTmp, $tblTmp.'_idx');
         if (PEAR::isError($result))
         {
             $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
-            $this->oLogger->logError('Failed to drop test privileges index - check your database permissions');
+            $this->oLogger->logError('Failed to DROP INDEX - check your database permissions');
             return false;
         }
         $result = $this->oDbh->exec("DROP TABLE {$tblTmpQuoted}");
         if (PEAR::isError($result))
         {
-            $this->oLogger->logError('Failed to drop test privileges table - check your database permissions');
+            $this->oLogger->logError('Failed to DROP TABLE - check your database permissions');
             return false;
         }
         $tblTmp = $prefix.'tmp_tmp_dbpriviligecheck';
         $result = $this->oDbh->exec("CREATE TEMPORARY TABLE {$tblTmp} (tmp int)");
         if (PEAR::isError($result))
         {
-            $this->oLogger->logError('Failed to create test privileges temporary table - check your database permissions');
+            $this->oLogger->logError('Failed to CREATE TEMPORARY TABLE - check your database permissions');
             return false;
         }
         $result = $this->oDbh->exec("DROP TABLE {$tblTmp}");
         if (PEAR::isError($result))
         {
-            $this->oLogger->logError('Failed to drop test privileges temporary table - check your database permissions');
+            $this->oLogger->logError('Failed to DROP TEMPORARY TABLE - check your database permissions');
             return false;
         }
         $this->oLogger->log('Database settings and permissions are OK');
