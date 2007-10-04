@@ -38,6 +38,8 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
 {
     var $wrongCredentials;
     var $wrongParameters;
+    
+    var $lastUsedUserName;
 
     function OA_Dashboard_Widget_Login($aParams)
     {
@@ -52,6 +54,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
             if (!$this->ssoAdmin) {
                 $this->wrongParameters = true;
                 if (!empty($aParams['sso_username'])) {
+                    $this->lastUsedUserName = $aParams['sso_username'];
                     $passwordHash = md5($aParams['sso_password']);
                     
                     $oAdNetworks = new OA_Central_AdNetworks();
@@ -87,7 +90,11 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
 
         $oTpl->assign('signupUrl', $this->buildUrl($aConf['oacSSO'], 'signup'));
         $oTpl->assign('forgotUrl', $this->buildUrl($aConf['oacSSO'], 'forgot'));
-        $oTpl->assign('ssoAdmin',  $this->ssoAdmin);
+        if (!empty($this->lastUsedUserName)) {
+            $oTpl->assign('ssoAdmin', $this->lastUsedUserName);
+        } else {
+            $oTpl->assign('ssoAdmin', $this->ssoAdmin);
+        }
 
         if ($this->wrongCredentials || $this->wrongParameters)
         {

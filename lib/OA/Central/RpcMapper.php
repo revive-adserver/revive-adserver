@@ -67,26 +67,6 @@ class OA_Central_RpcMapper
     }
 
     /**
-     * A method to retrieve the image data of a captcha image
-     *
-     * @see R-AN-20: Captcha Validation
-     *
-     * Array
-     * (
-     *     [type] => 'image/png',
-     *     [content] => <binary data>
-     *
-     * )
-     *
-     * @return mixed An array with the image content type and binary data if successful,
-     *               PEAR_Error otherwise
-     */
-    function getCaptcha()
-    {
-        return $this->oRpc->callNoAuth('getCaptcha');
-    }
-
-    /**
      * A method to retrieve the localised list of categories and subcategories
      *
      * @see R-AN-3: Gathering the data of Websites during Installation
@@ -114,26 +94,6 @@ class OA_Central_RpcMapper
      */
     function getCategories($language = '')
     {
-        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
-            return array(
-                1 => array(
-                    'name' => 'Hobby',
-                    'subcategories' => array(
-                        3 => 'Cars',
-                        4 => 'Fishing',
-                    )
-                ),
-                2 => array(
-                    'name' => 'Hobby',
-                    'subcategories' => array(
-                        5 => 'Cricket',
-                        6 => 'Football',
-                        7 => 'Snooker'
-                    )
-                )
-            );
-        }
-
         $result = $this->oRpc->callNoAuth('getCategories', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
@@ -158,15 +118,6 @@ class OA_Central_RpcMapper
      */
     function getCountries($language = '')
     {
-        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
-            return array(
-                'DE' => 'Germany',
-                'IT' => 'Italy',
-                'PL' => 'Poland',
-                'UK' => 'United Kingdom',
-            );
-        }
-
         $result = $this->oRpc->callNoAuth('getCountries', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
@@ -191,15 +142,6 @@ class OA_Central_RpcMapper
      */
     function getLanguages($language = '')
     {
-        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
-            return array(
-                1 => 'English',
-                2 => 'German',
-                3 => 'Italian',
-                4 => 'Polish',
-            );
-        }
-
         $result = $this->oRpc->callNoAuth('getLanguages', array(
             new XML_RPC_Value($language, $GLOBALS['XML_RPC_String'])
         ));
@@ -347,111 +289,6 @@ class OA_Central_RpcMapper
      */
     function subscribeWebsites($aWebsites)
     {
-        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
-            if ($_REQUEST['captcha-value'] != 'following') {
-                return new PEAR_Error('Captcha wrong', 802);
-            }
-            return array(
-                'adnetworks' => array(
-                    array(
-                        'adnetwork_id' => 1,
-                        'name' => 'CPX'
-                    )
-                ),
-                'websites' => array(
-                    array(
-                        'website_id' => mt_rand(1, 10000),
-                        'url' => $aWebsites[0]['url'],
-                        'campaigns' => array(
-                            array(
-                                'campaign_id' => mt_rand(1, 10000),
-                                'adnetwork_id' => 1,
-                                'name' => 'Top Tier',
-                                'weight' => 1,
-                                'capping' => 3,
-                                'banners' => array(
-                                    array(
-                                        'banner_id' => mt_rand(1, 10000),
-                                        'name' => 'Leaderboard',
-                                        'width' => 728,
-                                        'height' => 90,
-                                        'capping' => 0,
-                                        'html' => '<!-- BEGIN STANDARD TAG - 728 x 90 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
-<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=728 HEIGHT=90 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=728x90&entity=33841&site_code=4567345&section_code=0001P&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
-<!-- END TAG -->',
-                                        'adserver' => 'cpx'
-                                    ),
-                                    array(
-                                        'banner_id' => mt_rand(1, 10000),
-                                        'name' => 'Full Banner',
-                                        'width' => 468,
-                                        'height' => 60,
-                                        'capping' => 0,
-                                        'html' => '<!-- BEGIN STANDARD TAG - 468 x 60 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
-<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=468 HEIGHT=60 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=468x60&entity=33841&site_code=4567345&section_code=0001P&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
-<!-- END TAG -->',
-                                        'adserver' => 'cpx'
-                                    ),
-                                    array(
-                                        'banner_id' => mt_rand(1, 10000),
-                                        'name' => 'Square Button',
-                                        'width' => 125,
-                                        'height' => 125,
-                                        'capping' => 0,
-                                        'html' => '<!-- BEGIN STANDARD TAG - 125 x 125 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
-<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=125 HEIGHT=125 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=125x125&entity=33841&site_code=4567345&section_code=0001P&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
-<!-- END TAG -->',
-                                        'adserver' => 'cpx'
-                                    )
-                                )
-                            ),
-                            array(
-                                'campaign_id' => mt_rand(1, 10000),
-                                'adnetwork_id' => 1,
-                                'name' => 'Remnant',
-                                'weight' => 1,
-                                'capping' => 0,
-                                'banners' => array(
-                                    array(
-                                        'banner_id' => mt_rand(1, 10000),
-                                        'name' => 'Leaderboard',
-                                        'width' => 728,
-                                        'height' => 90,
-                                        'capping' => 0,
-                                        'html' => '<!-- BEGIN STANDARD TAG - 728 x 90 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
-<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=728 HEIGHT=90 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=728x90&entity=33841&site_code=4567345&section_code=0001D&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
-<!-- END TAG -->',
-                                        'adserver' => 'cpx'
-                                    ),
-                                    array(
-                                        'banner_id' => mt_rand(1, 10000),
-                                        'name' => 'Full Banner',
-                                        'width' => 468,
-                                        'height' => 60,
-                                        'capping' => 0,
-                                        'html' => '<!-- BEGIN STANDARD TAG - 468 x 60 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
-<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=468 HEIGHT=60 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=468x60&entity=33841&site_code=4567345&section_code=0001D&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
-<!-- END TAG -->',
-                                        'adserver' => 'cpx'
-                                    ),
-                                    array(
-                                        'banner_id' => mt_rand(1, 10000),
-                                        'name' => 'Square Button',
-                                        'width' => 125,
-                                        'height' => 125,
-                                        'capping' => 0,
-                                        'html' => '<!-- BEGIN STANDARD TAG - 125 x 125 - SITE CODE REQUIRED : SECTION CODE REQUIRED - DO NOT MODIFY -->
-<IFRAME FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=125 HEIGHT=125 SRC="http://adserving.cpxinteractive.com/st?ad_type=iframe&ad_size=125x125&entity=33841&site_code=4567345&section_code=0001D&pub_redirect_unencoded=1&pub_redirect=$CLICK_TRACKER$"></IFRAME>
-<!-- END TAG -->',
-                                        'adserver' => 'cpx'
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            );
-        }
         return $this->oRpc->callCaptcha('subscribeWebsites', array(
             XML_RPC_encode($aWebsites)
         ));
@@ -508,31 +345,6 @@ class OA_Central_RpcMapper
      */
     function getOtherNetworks()
     {
-        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
-            return array (
-                'Google Adsense' => array (
-                    'rank' => 1,
-                    'url' => 'http://adsense.google.com',
-                    'is_global' => 0,
-                    'countries' => array (
-                        'us' => 'http://adsense.google.com',
-                        'uk' => 'http://adsense.google.co.uk',
-                    ),
-                    'languages' => array(
-                        0 => 1,
-                        1 => 2,
-                    )
-                ),
-                'Advertising.com' => array (
-                      'rank' => 2,
-                      'url' => 'http://www.advertising.com',
-                      'is_global' => 1,
-                      'countries' => array(),
-                      'languages' => array()
-                )
-            );
-        }
-
         $result = $this->oRpc->callNoAuth('getOtherNetworks');
 
         if (PEAR::isError($result)) {
@@ -619,6 +431,9 @@ class OA_Central_RpcMapper
             new XML_RPC_Value($batchSequence, $GLOBALS['XML_RPC_Int'])
         ));
 
+        if (PEAR::isError($aResult)) {
+            return $aResult;
+        }
         foreach ($aResult as $k1 => $v1) {
             foreach ($v1 as $k2 => $v2) {
                 $v2['start'] = $this->oRpc->utcToDate($v2['start']);
@@ -664,16 +479,6 @@ class OA_Central_RpcMapper
      */
     function getCommunityStats()
     {
-        if (!defined('TEST_ENVIRONMENT_RUNNING')) {
-            $aData = array();
-            for ($i = 0; $i < 7; $i++) {
-                $day = date('D', time() - 86400 * (7 - $i));
-                $aData['impressions'][$day] = mt_rand(1500000, 2000000) * 50;
-                $aData['clicks'][$day] = mt_rand(15000, 20000) * 50;
-            }
-            return $aData;
-        }
-
         $aResult = $this->oRpc->callSso('getCommunityStats');
 
         return $aResult;
