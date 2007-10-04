@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Base Zone Service class.
- *
  */
 
 // Require Zone Service Implementation
@@ -43,12 +41,16 @@ require_once MAX_PATH . '/www/api/v1/xmlrpc/ZoneServiceImpl.php';
 class BaseZoneService
 {
     /**
-     * Reference on zone Service implementation.
+     * Reference to zone Service implementation.
      *
      * @var ZoneServiceImpl $_oZoneServiceImp
      */
 	var $_oZoneServiceImp;
 
+	/**
+	 * This method initialises Service implementation object field.
+	 *
+	 */
 	function BaseZoneService()
 	{
 		$this->_oZoneServiceImp = new ZoneServiceImpl();

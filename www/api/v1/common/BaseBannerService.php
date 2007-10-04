@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Base Banner Service class.
- *
  */
 
 // Require Banner Service Implementation
@@ -43,12 +41,16 @@ require_once MAX_PATH . '/www/api/v1/xmlrpc/BannerServiceImpl.php';
 class BaseBannerService
 {
     /**
-     * Reference on banner Service implementation.
+     * Reference to banner Service implementation.
      *
      * @var BannerServiceImpl $_oBannerServiceImp
      */
 	var $_oBannerServiceImp;
 
+	/**
+	 * This method initialises Service implementation object field.
+	 *
+	 */
 	function BaseBannerService()
 	{
 		$this->_oBannerServiceImp = new BannerServiceImpl();

@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Base Service Implementation class.
- *
  */
 
 // Require the XMLRPC classes
@@ -61,7 +59,7 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
     }
 
     /**
-     * Init session from sessionId
+     * Session initialisation from sessionId
      *
      * @access private
      * @param string $sessionId

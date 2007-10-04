@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Campaign Service Implementation class.
- *
  */
 
 // Base class BaseLogonService
@@ -39,6 +37,11 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 // Campaign Dll class
 require_once MAX_PATH . '/lib/OA/Dll/Campaign.php';
 
+/**
+ * The CampaignServiceImpl class extends the BaseServiceImpl class to enable 
+ * you to add, modify, delete and search the campaign object. 
+ *
+ */
 class CampaignServiceImpl extends BaseServiceImpl
 {
     /**
@@ -49,7 +52,7 @@ class CampaignServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * Constructor for CampignServiceImpl.
+     * The CampaignServiceImpl function is the constructor for the CampignServiceImpl class.
      */
     function CampaignServiceImpl()
     {
@@ -58,7 +61,8 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Validate action, reise error and return result.
+     * This function checks if an action is valid and either returns a result 
+	 * or an error, as appropriate.
      *
      * @access private
      *
@@ -76,10 +80,15 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Add campaign. Call method to modify campaign.
+     * The addCampaign function creates a campaign and updates the 
+	 * campaign object with the campaign ID.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_CampaignInfo &$oCampaign
+     * @param OA_Dll_CampaignInfo &$oCampaign <br />
+     *          <b>Required properties:</b> advertiserId<br />
+     *          <b>Optional properties:</b> campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
      *
      * @return boolean
      */
@@ -97,10 +106,16 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Modify campaign. Call method to modify campaign.
+     * The modifyCampaign function checks if a campaign ID exists and 
+	 * modifies the details for the campaign if it exists or returns an error 
+	 * message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_DLL_CampaignInfo &$oCampaign
+     * @param OA_Dll_CampaignInfo &$oCampaign <br />
+     *          <b>Required properties:</b> campaignId<br />
+     *          <b>Optional properties:</b> advertiserId, campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
      *
      * @return boolean
      */
@@ -126,8 +141,12 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to delete campaign.
+     * The deleteCampaign function checks if a campaign ID exists and 
+	 * modifies the details for the campaign if it exists or returns an error 
+	 * message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $campaignId
      *
@@ -146,8 +165,11 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate daily statistics.
+     * The getCampaignDailyStatistics function returns daily statistics for a 
+	 * campaign for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -170,8 +192,11 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate banner statistics.
+     * The getCampaignBannerStatistics function returns banner statistics for a 
+	 * campaign for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -194,8 +219,11 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate publisher statistics.
+     * The getCampaignPublisherStatistics function returns publisher statistics 
+	 * for a campaign for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -218,8 +246,11 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate zone statistics.
+     * The getCampaignZoneStatistics function returns zone statistics for a campaign
+	 * for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -242,12 +273,14 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to get campaign by id
+     * The getCampaign function returns the campaign details for a specified campaign.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $campaignId
      * @param OA_Dll_CampaignInfo &$oCampaign
-     * 
+     *
      * @return boolean
      */
     function getCampaign($sessionId, $campaignId, &$oCampaign)
@@ -261,14 +294,17 @@ class CampaignServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get campaigns by advertiser id
+     * The getCampaignListByAdvertiserId function returns a list of advertisers for 
+	 * a campaign.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      * @param array &$aCampaignList  Array of OA_Dll_CampaignInfo classes
-     * 
+     *
      * @return boolean
      */
     function getCampaignListByAdvertiserId($sessionId, $advertiserId, &$aCampaignList)
@@ -283,7 +319,7 @@ class CampaignServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
 }
 
 

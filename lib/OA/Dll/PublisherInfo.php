@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Publisher Information class.
- *
  */
 
 // Include base info class.
@@ -102,7 +100,14 @@ class OA_Dll_PublisherInfo extends OA_Info
 	        $this->agencyId = 0;
 	    }
 	}
-	
+
+	/**
+	 * This method returns array of fields with their corresponding types.
+	 *
+	 * @access public
+	 *
+	 * @return array
+	 */
     function getFieldsTypes()
     {
         return array(
@@ -111,7 +116,7 @@ class OA_Dll_PublisherInfo extends OA_Info
                     'publisherName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string',
-                    'username' => 'string', 
+                    'username' => 'string',
                     'password' => 'string'
                 );
     }

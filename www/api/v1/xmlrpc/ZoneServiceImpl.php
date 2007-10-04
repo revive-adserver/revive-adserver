@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Zone Service Implementation class.
- *
  */
 
 // Base class BaseLogonService
@@ -39,6 +37,11 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 // Zone Dll class
 require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
 
+/**
+ * The ZoneServiceImpl class extends the BaseServiceImpl class to enable 
+ * you to add, modify, delete and search the zone object.
+ *
+ */
 class ZoneServiceImpl extends BaseServiceImpl
 {
     /**
@@ -49,7 +52,7 @@ class ZoneServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * Constructor for ZoneServiceImpl.
+     * The ZoneServiceImpl function is the constructor for the ZoneServiceImpl class.
      */
     function ZoneServiceImpl()
     {
@@ -58,11 +61,13 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Validate action, reise error and return result.
+     * This function checks if an action is valid and either returns a result 
+	 * or an error, as appropriate.
      *
      * @access private
      *
      * @param boolean $result
+     * 
      * @return boolean
      */
     function _validateResult($result)
@@ -76,10 +81,15 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Add zone. Call method to modify zone.
+     * The addZone function creates a zone and updates the 
+	 * zone object with the zone ID.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_ZoneInfo &$oZone
+     * @param OA_Dll_ZoneInfo &$oZone <br />
+     *          <b>Required properties:</b> publisherId<br />
+     *          <b>Optional properties:</b> zoneName, type, width, height<br />
      *
      * @return boolean
      */
@@ -97,10 +107,16 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Modify zone. Check and call method to modify zone.
+     * The modifyZone function checks if a zone ID exists and 
+	 * modifies the details for the zone if it exists or returns an error 
+	 * message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_ZoneInfo &$oZone
+     * @param OA_Dll_ZoneInfo &$oZone <br />
+     *          <b>Required properties:</b> zoneId<br />
+     *          <b>Optional properties:</b> publisherId, zoneName, type, width, height<br />
      *
      * @return boolean
      */
@@ -126,8 +142,11 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to delete zone.
+     * The deleteZone function checks if a zone exists and deletes 
+	 * the zone or returns an error message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $zoneId
      *
@@ -146,8 +165,11 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate daily statistics.
+     * The getZoneDailyStatistics function returns daily statistics for a zone 
+	 * for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $zoneId
      * @param date $oStartDate
@@ -170,8 +192,11 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate advertiser statistics.
+     * The getZoneAdvertiserStatistics function returns advertiser statistics for a
+	 * zone for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $zoneId
      * @param date $oStartDate
@@ -194,8 +219,11 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate campaign statistics.
+     * The getZoneCampaignStatistics function returns campaign statistics for a zone
+	 * for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $zoneId
      * @param date $oStartDate
@@ -218,8 +246,11 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate banner statistics.
+     * The getZoneBannerStatistics function returns banner statistics for a zone
+	 * for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $zoneId
      * @param date $oStartDate
@@ -242,12 +273,14 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to get zone by id
+     * The getZone function returns zone details for a specified zone.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $zoneId
      * @param OA_Dll_ZoneInfo &$oZone
-     * 
+     *
      * @return boolean
      */
     function getZone($sessionId, $zoneId, &$oZone)
@@ -261,14 +294,17 @@ class ZoneServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get zone by publisher id
+     * The getZoneListByPublisherId function returns a list of zones for a 
+	 * specified publisher.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      * @param array &$oZone  Array of OA_Dll_ZoneInfo classes
-     * 
+     *
      * @return boolean
      */
     function getZoneListByPublisherId($sessionId, $publisherId, &$aZoneList)

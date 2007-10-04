@@ -30,8 +30,6 @@ $Id:$
  * @subpackage Statistics
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Dal Statistics Publisher class.
- *
  */
 
 // Required classes
@@ -45,6 +43,8 @@ class OA_Dal_Statistics_Publisher extends OA_Dal_Statistics
 {
    /**
     * This method returns statistics for a given publisher, broken down by day.
+    *
+    * @access public
     *
     * @param integer $publisherId The ID of the agency to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -97,6 +97,8 @@ class OA_Dal_Statistics_Publisher extends OA_Dal_Statistics
 
    /**
     * This method returns statistics for a given publisher, broken down by zone.
+    *
+    * @access public
     *
     * @param integer $publisherId The ID of the publisher to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -152,6 +154,8 @@ class OA_Dal_Statistics_Publisher extends OA_Dal_Statistics
 
    /**
     * This method returns statistics for a given publisher, broken down by advertiser.
+    *
+    * @access public
     *
     * @param integer $publisherId The ID of the publisher to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -221,6 +225,8 @@ class OA_Dal_Statistics_Publisher extends OA_Dal_Statistics
    /**
     * This method returns statistics for a given publisher, broken down by campaign.
     *
+    * @access public
+    *
     * @param integer $publisherId The ID of the publisher to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
@@ -229,8 +235,8 @@ class OA_Dal_Statistics_Publisher extends OA_Dal_Statistics
     *   <ul>
     *   <li><b>campaignID integer</b> The ID of the campaign
     *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>advertiserID integer</b> The ID advertiser
-    *   <li><b>advertiserName string</b> The name advertiser
+    *   <li><b>advertiserID integer</b> The ID of the advertiser
+    *   <li><b>advertiserName string</b> The name of the advertiser
     *   <li><b>requests integer</b> The number of requests for the campaign
     *   <li><b>impressions integer</b> The number of impressions for the campaign
     *   <li><b>clicks integer</b> The number of clicks for the campaign
@@ -294,6 +300,8 @@ class OA_Dal_Statistics_Publisher extends OA_Dal_Statistics
    /**
     * This method returns statistics for a given publisher, broken down by banner.
     *
+    * @access public
+    *
     * @param integer $publisherId The ID of the publisher to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
@@ -304,8 +312,8 @@ class OA_Dal_Statistics_Publisher extends OA_Dal_Statistics
     *   <li><b>bannerName string (255)</b> The name of the banner
     *   <li><b>campaignID integer</b> The ID of the banner
     *   <li><b>campaignName string (255)</b> The name of the banner
-    *   <li><b>advertiserID integer</b> The ID advertiser
-    *   <li><b>advertiserName string</b> The name advertiser
+    *   <li><b>advertiserID integer</b> The ID of the advertiser
+    *   <li><b>advertiserName string</b> The name of the advertiser
     *   <li><b>requests integer</b> The number of requests for the banner
     *   <li><b>impressions integer</b> The number of impressions for the banner
     *   <li><b>clicks integer</b> The number of clicks for the banner

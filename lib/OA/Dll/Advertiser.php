@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Dll Advertiser class.
- *
  */
 
 // Required classes
@@ -47,7 +45,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Advertiser.php';
 class OA_Dll_Advertiser extends OA_Dll
 {
     /**
-     * Init advertiser info from data array
+     * Initialisation of advertiser info from data array.
      *
      * @access private
      *
@@ -75,8 +73,8 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Method would perform data validation (e.g. email is an email)
-     * and where necessary would connect to the DAL to obtain information
+     * Method performs data validation (e.g. email is an email)
+     * and where necessary connects to the DAL to obtain information
      * required to perform other business validations (e.g. username must be
      * unique across all relevant tables).
      *
@@ -84,13 +82,13 @@ class OA_Dll_Advertiser extends OA_Dll
      *
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser  Structure with Advertiser information.
      *
-     * @return boolean  Returns false if fields is not valid and true in other case.
+     * @return boolean  Returns false if fields are not valid and true otherwise.
      *
      */
     function _validate(&$oAdvertiser)
     {
         if (isset($oAdvertiser->advertiserId)) {
-            // Modify Advertiser
+            //Advertiser Modification
             if (!$this->checkStructureRequiredIntegerField($oAdvertiser, 'advertiserId')){
                 return false;
             }
@@ -103,7 +101,7 @@ class OA_Dll_Advertiser extends OA_Dll
                 return false;
             }
         } else {
-            // For add we need to check required field 'advertiserName'
+            //When adding Advertiser check required field 'advertiserName' existence.
             if (!$this->checkStructureRequiredStringField($oAdvertiser, 'advertiserName', 255)){
                 return false;
             }
@@ -122,7 +120,7 @@ class OA_Dll_Advertiser extends OA_Dll
             return false;
         }
 
-        // Check Agency ID existance
+        // Check Agency ID existence.
         if (isset($oAdvertiser->agencyId) && $oAdvertiser->agencyId != 0) {
             if (!$this->checkIdExistence('agency', $oAdvertiser->agencyId)) {
                 return false;
@@ -133,7 +131,7 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Method would perform data validation for statistics methods(advertiserId, date).
+     * This method performs data validation for statistics methods(advertiserId, date).
      *
      * @access private
      *
@@ -157,9 +155,11 @@ class OA_Dll_Advertiser extends OA_Dll
     /**
      * Calls method for checking permissions from Dll class.
      *
+     * @access public
+     * 
      * @param integer $advertiserId  Advertiser ID
      *
-     * @return boolean  False in access forbidden and true in other case.
+     * @return boolean  False if access denied and true otherwise.
      */
     function checkStatisticsPermissions($advertiserId)
     {
@@ -175,15 +175,22 @@ class OA_Dll_Advertiser extends OA_Dll
 
     /**
      * This method modifies an existing advertiser.
-     * All fields which are undefined (e.g. permissions) are not changed
-     * from the state they were before modification.
-     * Any fields defined below that are NULL are unchanged.
+     * All fields which are undefined (e.g. permissions) do not change
+     * the state they had before modification.
+     * All below defined fields with value NULL are unchanged.
      *
      * @access public
      *
-     * @param OA_Dll_AdvertiserInfo &$oAdvertiser
-     *
-     * @return boolean  True if the operation was successful
+     * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
+     *          <b>For addign</b><br />
+     *          <b>Required properties:</b> advertiserName<br />
+     *          <b>Optional properties:</b> agencyId, contactName, emailAddress, username, password<br />
+     * 
+     *          <b>For modify</b><br />
+     *          <b>Required properties:</b> advertiserId<br />
+     *          <b>Optional properties:</b> agencyId, advertiserName, contactName, emailAddress, username, password<br />
+     * 
+     * @return boolean  True if the operation was successful.
      *
      */
     function modify(&$oAdvertiser)
@@ -238,7 +245,7 @@ class OA_Dll_Advertiser extends OA_Dll
      *
      * @param integer $advertiserId  The ID of the advertiser to delete.
      *
-     * @return boolean  True if the operation was successful
+     * @return boolean  True if the operation was successful.
      *
      */
     function delete($advertiserId)
@@ -266,7 +273,7 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Returns advertiser information by advertiser id
+     * Returns advertiser information by advertiser id.
      *
      * @access public
      *
@@ -298,7 +305,7 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Returns list of advertisers by agency id
+     * Returns list of advertisers by agency id.
      *
      * @access public
      *
@@ -339,7 +346,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *
     * @access public
     *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
+    * @param integer $advertiserId The ID of the advertiser to view the statistics for.
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -351,7 +358,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -388,7 +395,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -412,7 +419,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *
     * @access public
     *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
+    * @param integer $advertiserId The ID of the advertiser to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -427,7 +434,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -451,7 +458,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *
     * @access public
     *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
+    * @param integer $advertiserId The ID of the advertiser to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -464,7 +471,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -488,7 +495,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *
     * @access public
     *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
+    * @param integer $advertiserId The ID of the advertiser to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -503,7 +510,7 @@ class OA_Dll_Advertiser extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)

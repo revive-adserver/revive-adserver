@@ -30,8 +30,6 @@ $Id:$
  * @subpackage Statistics
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Dal Statistics Advertiser class.
- *
  */
 
 // Required classes
@@ -44,6 +42,8 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
 {
    /**
     * This method returns statistics for a given advertiser, broken down by day.
+    *
+    * @access public
     *
     * @param integer $advertiserId The ID of the advertiser to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -98,6 +98,8 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
 
    /**
     * This method returns statistics for a given advertiser, broken down by campaign.
+    *
+    * @access public
     *
     * @param integer $advertiserId The ID of the advertiser to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -154,6 +156,8 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
 
    /**
     * This method returns statistics for a given advertiser, broken down by banner.
+    *
+    * @access public
     *
     * @param integer $advertiserId The ID of the advertiser to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -214,6 +218,8 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
 
    /**
     * This method returns statistics for a given advertiser, broken down by publisher.
+    *
+    * @access public
     *
     * @param integer $advertiserId The ID of the advertiser to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -281,6 +287,8 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
 
    /**
     * This method returns statistics for a given advertiser, broken down by zone.
+    *
+    * @access public
     *
     * @param integer $advertiserId The ID of the advertiser to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)

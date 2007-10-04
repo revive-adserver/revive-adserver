@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Dll Publisher class.
- *
  */
 
 // Require the XMLRPC classes
@@ -48,7 +46,7 @@ require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 class OA_Dll_Publisher extends OA_Dll
 {
     /**
-     * Init publisher info from data array
+     * Initialisation of publisher info from data array
      *
      * @access private
      *
@@ -75,11 +73,13 @@ class OA_Dll_Publisher extends OA_Dll
     }
 
     /**
-     * method would perform data validation (e.g. email is an email)
-     * and where necessary would connect to the DAL to obtain information
-     * required to perform other business validations (e.g.
-     *      username must be unique across all relevant tables)
-     *
+     * Method performs data validation (e.g. email is an email)
+     * and where necessary connects to the DAL to obtain information
+     * required to perform other business validations (e.g. username must be
+     * unique across all relevant tables).
+     * 
+	 * @access private
+	 *
      * @param OA_Dll_PublisherInfo $oPublisher
      *
      * @return boolean
@@ -87,7 +87,6 @@ class OA_Dll_Publisher extends OA_Dll
      */
     function _validate(&$oPublisher)
     {
-        // Get if isset old username.
         if (isset($oPublisher->publisherId)) {
             // Modify Publisher
             if (!$this->checkStructureRequiredIntegerField($oPublisher, 'publisherId')) {
@@ -131,9 +130,11 @@ class OA_Dll_Publisher extends OA_Dll
     }
 
     /**
-     * Method would perform data validation for statistics
+     * This method performs data validation for statistics
      * methods(publisherId, date).
      *
+	 * @access private
+	 *
      * @param integer  $publisherId
      * @param date     $oStartDate
      * @param date     $oEndDate
@@ -153,13 +154,20 @@ class OA_Dll_Publisher extends OA_Dll
     }
 
     /**
-     * This method modifies an existing publisher. All fields which are
-     * undefined (e.g. permissions) are not changed from the state they
-     * were before modification. Any fields defined below
-     * that are NULL are unchanged.
-     * (Add would be triggered by modify where primary ID is null)
+     * This method modifies an existing publisher.
+     * All fields which are undefined (e.g. permissions) do not change
+     * the state they had before modification.
+     * All below defined fields with value NULL are unchanged.
      *
-     * @param OA_Dll_PublisherInfo $oPublisher
+	 * @access public
+	 *
+     * @param OA_Dll_PublisherInfo &$oPublisher <br />
+     *          <b>For addign</b><br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
+     * 
+     *          <b>For modify</b><br />
+     *          <b>Required properties:</b> publisherId<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
      *
      * @return success boolean True if the operation was successful
      *
@@ -303,6 +311,8 @@ class OA_Dll_Publisher extends OA_Dll
     /**
      * This method deletes an existing publisher.
      *
+	 * @access public
+	 *
      * @param integer $publisherId The ID of the publisher to delete
      *
      * @return boolean success - True if the operation was successful
@@ -400,8 +410,10 @@ class OA_Dll_Publisher extends OA_Dll
 
     /**
     * This method returns statistics for a given publisher, broken down by day.
+    * 
+    * @access public
     *
-    * @param integer $publisherId The ID of the publisher to view statistics
+    * @param integer $publisherId The ID of the publisher to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -413,7 +425,7 @@ class OA_Dll_Publisher extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean False if the is error
+    * @return boolean False if there is an error
     *
     */
     function getPublisherDailyStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -438,10 +450,12 @@ class OA_Dll_Publisher extends OA_Dll
     /**
     * This method returns statistics for a given publisher, broken down by zone.
     *
-    * @param integer $publisherId The ID of the publisher to view statistics
+    * @access public
+    *
+    * @param integer $publisherId The ID of the publisher to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
+    * @param array &$rsStatisticsData Parameter for returning data from function
     *   <ul>
     *   <li><b>zoneID integer</b> The ID of the zone
     *   <li><b>zoneName string (255)</b> The name of the zone
@@ -451,7 +465,7 @@ class OA_Dll_Publisher extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the zone
     *   </ul>
     *
-    * @return boolean False if the is error
+    * @return boolean False if there is an error
     *
     */
     function getPublisherZoneStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -477,7 +491,9 @@ class OA_Dll_Publisher extends OA_Dll
     * This method returns statistics for a given publisher,
     * broken down by advertiser.
     *
-    * @param integer $publisherId The ID of the publisher to view statistics
+    * @access public
+    *
+    * @param integer $publisherId The ID of the publisher to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -490,7 +506,7 @@ class OA_Dll_Publisher extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the advertiser
     *   </ul>
     *
-    * @return boolean False if the is error
+    * @return boolean False if there is an error
     *
     */
 
@@ -516,22 +532,24 @@ class OA_Dll_Publisher extends OA_Dll
     /**
     * This method returns statistics for a given publisher, broken down by campaign.
     *
-    * @param integer $publisherId The ID of the publisher to view statistics
+    * @access public
+    *
+    * @param integer $publisherId The ID of the publisher to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
     *   <ul>
     *   <li><b>campaignID integer</b> The ID of the campaign
     *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>advertiserID integer</b> The ID advertiser
-    *   <li><b>advertiserName string</b> The name advertiser
+    *   <li><b>advertiserID integer</b> The ID of the advertiser
+    *   <li><b>advertiserName string</b> The name of the advertiser
     *   <li><b>requests integer</b> The number of requests for the campaign
     *   <li><b>impressions integer</b> The number of impressions for the campaign
     *   <li><b>clicks integer</b> The number of clicks for the campaign
     *   <li><b>revenue decimal</b> The revenue earned for the campaign
     *   </ul>
     *
-    * @return boolean False if the is error
+    * @return boolean False if there is an error
     *
     */
     function getPublisherCampaignStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -556,7 +574,9 @@ class OA_Dll_Publisher extends OA_Dll
     /**
     * This method returns statistics for a given publisher, broken down by banner.
     *
-    * @param integer $publisherId The ID of the publisher to view statistics
+    * @access public
+    *
+    * @param integer $publisherId The ID of the publisher to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -565,15 +585,15 @@ class OA_Dll_Publisher extends OA_Dll
     *   <li><b>bannerName string (255)</b> The name of the banner
     *   <li><b>campaignID integer</b> The ID of the banner
     *   <li><b>campaignName string (255)</b> The name of the banner
-    *   <li><b>advertiserID integer</b> The ID advertiser
-    *   <li><b>advertiserName string</b> The name advertiser
+    *   <li><b>advertiserID integer</b> The ID of the advertiser
+    *   <li><b>advertiserName string</b> The name of the advertiser
     *   <li><b>requests integer</b> The number of requests for the banner
     *   <li><b>impressions integer</b> The number of impressions for the banner
     *   <li><b>clicks integer</b> The number of clicks for the banner
     *   <li><b>revenue decimal</b> The revenue earned for the banner
     *   </ul>
     *
-    * @return boolean False if the is error
+    * @return boolean False if there is an error
     *
     */
     function getPublisherBannerStatistics($publisherId, $oStartDate, $oEndDate, &$rsStatisticsData)

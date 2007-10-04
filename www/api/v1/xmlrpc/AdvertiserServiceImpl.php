@@ -29,16 +29,19 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Advertiser Service Implementation class.
- *
  */
 
-// This is the base class for the BaseLogonService
+// Require the base class, BaseLogonService
 require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 
-// Advertiser Dll class
+// Require the advertiser Dll class.
 require_once MAX_PATH . '/lib/OA/Dll/Advertiser.php';
 
+/**
+ * The AdvertiserServiceImpl class extends the BaseServiceImpl class to enable 
+ * you to add, modify, delete and search the advertiser object.
+ * 
+ */
 class AdvertiserServiceImpl extends BaseServiceImpl
 {
     /**
@@ -49,7 +52,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * Constructor for AdvertiserServiceImpl.
+     * The AdvertiserServiceImpl function is the constructor for the 
+	 * AdvertiserServiceImpl class.
      */
     function AdvertiserServiceImpl()
     {
@@ -57,12 +61,14 @@ class AdvertiserServiceImpl extends BaseServiceImpl
         $this->_dllAdvertiser = new OA_Dll_Advertiser();
     }
 
-    /**
-     * Validate action, reise error and return result.
+    /** 
+	 * This function checks if an action is valid and either returns a result 
+	 * or an error, as appropriate.
      *
      * @access private
      *
      * @param boolean $result
+     * 
      * @return boolean
      */
     function _validateResult($result)
@@ -76,10 +82,15 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Add Advertiser. Call method to modify advertiser.
+     * The addAdvertiser function creates an advertiser and updates the 
+	 * advertiser object with the advertiser ID.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_AdvertiserInfo &$oAdvertiser
+     * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
+     *          <b>Required properties:</b> advertiserName<br />
+     *          <b>Optional properties:</b> agencyId, contactName, emailAddress, username, password<br />
      *
      * @return boolean
      */
@@ -96,10 +107,16 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
     }
     /**
-     * Modify Advertiser. Check and call method to modify advertiser.
+     * The modifyAdvertiser function checks if an advertiser ID exists and 
+	 * modifies the details for the advertiser if it exists or returns an error 
+	 * message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_AdvertiserInfo &$oAdvertiser
+     * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
+     *          <b>Required properties:</b> advertiserId<br />
+     *          <b>Optional properties:</b> agencyId, advertiserName, contactName, emailAddress, username, password<br />
      *
      * @return boolean
      */
@@ -125,8 +142,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to delete advertiser.
+     * The deleteAdvertiser function checks if an advertiser exists and deletes 
+	 * the advertiser or returns an error message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      *
@@ -145,8 +165,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate daily statistics.
+     * The getAdvertiserDailyStatistics function returns daily statistics for an 
+	 * advertiser for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -169,8 +192,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate campaign statistics.
+     * The getAdvertiserCampaignStatistics function returns campaign statistics 
+	 * for an advertiser for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -193,8 +219,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate banner statistics.
+     * The getAdvertiserBannerStatistics function returns banner statistics for 
+	 * an advertiser for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -217,8 +246,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate publisher statistics.
+     * The getAdvertiserPublisherStatistics function returns publisher 
+	 * statistics for an advertiser for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -241,8 +273,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate zone statistics.
+     * The getAdvertiserZoneStatistics function returns zone statistics for an 
+	 * advertiser for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -265,12 +300,14 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to get advertiser by id
+     * The getAdvertiser function returns the advertiser details for a specified advertiser.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $advertiserId
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser
-     * 
+     *
      * @return boolean
      */
     function getAdvertiser($sessionId, $advertiserId, &$oAdvertiser)
@@ -284,14 +321,17 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get advertisers by agency id
+     * The getAdvertiserListByAgencyId function returns a list of advertisers 
+	 * for a specified agency.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param array &$aAdvertiserList  Array of OA_Dll_AdvertiserInfo classes
-     * 
+     *
      * @return boolean
      */
     function getAdvertiserListByAgencyId($sessionId, $agencyId, &$aAdvertiserList)

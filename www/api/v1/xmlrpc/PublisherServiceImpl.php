@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Publisher Service Implementation class.
- *
  */
 
 // Base class BaseLogonService
@@ -39,6 +37,11 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 // Publisher Dll class
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
+/**
+ * The PublisherServiceImpl class extends the BaseServiceImpl class to enable 
+ * you to add, modify, delete and search the publisher object.
+ *
+ */
 class PublisherServiceImpl extends BaseServiceImpl
 {
     /**
@@ -49,7 +52,7 @@ class PublisherServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * Constructor for PublisherServiceImpl.
+     * The PublisherServiceImpl function is the constructor for the PublisherServiceImpl class.
      */
     function PublisherServiceImpl()
     {
@@ -58,11 +61,13 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Validate action, reise error and return result.
+     * This function checks if an action is valid and either returns a result 
+	 * or an error, as appropriate.
      *
      * @access private
      *
      * @param boolean $result
+     * 
      * @return boolean
      */
     function _validateResult($result)
@@ -76,10 +81,14 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Add publisher. Call method to modify publisher.
+     * The addPublisher function creates a publisher and updates the 
+	 * publisher object with the publisher ID.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_PublisherInfo &$oPublisher
+     * @param OA_Dll_PublisherInfo &$oPublisher <br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
      *
      * @return boolean
      */
@@ -97,10 +106,16 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Modify publisher. Check and call method to modify publisher.
+     * The modifyPublisher function checks if a publisher ID exists and 
+	 * modifies the details for the publisher if it exists or returns an error 
+	 * message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_PublisherInfo &$oPublisher
+     * @param OA_Dll_PublisherInfo &$oPublisher <br />
+     *          <b>Required properties:</b> publisherId<br />
+     *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
      *
      * @return boolean
      */
@@ -125,8 +140,11 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to delete publisher.
+     * The deletePublisher function checks if a publisher exists and deletes 
+	 * the publisher or returns an error message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      *
@@ -145,8 +163,11 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate daily statistics.
+     * The getPublisherDailyStatistics function returns daily statistics for a 
+	 * publisher for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      * @param date $oStartDate
@@ -169,8 +190,11 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate zone statistics.
+     * The getPublisherZoneStatistics function returns zone statistics for a
+	 * publisher for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      * @param date $oStartDate
@@ -193,8 +217,11 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate advertiser statistics.
+     * The getPublisherAdvertiserStatistics function returns advertiser statistics
+	 * for a publisher for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      * @param date $oStartDate
@@ -217,8 +244,11 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate campaign statistics.
+     * The getPublisherCampaignStatistics function returns campaign statistics for
+	 * a publisher for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      * @param date $oStartDate
@@ -241,8 +271,11 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate banner statistics.
+     * The getPublisherBannerStatistics function returns banner statistics for a 
+	 * publisher for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      * @param date $oStartDate
@@ -265,12 +298,14 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to get publisher by id
+     * The getPublisher function returns the details of a specified publisher.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $publisherId
      * @param OA_Dll_PublisherInfo &$oPublisher
-     * 
+     *
      * @return boolean
      */
     function getPublisher($sessionId, $publisherId, &$oPublisher)
@@ -284,14 +319,17 @@ class PublisherServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get publisher by agency id
+     * The getPublisherListByAgencyId function returns a list of publishers for 
+	 * a specified agency.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param array &$aPublisherList  Array of OA_Dll_PublisherInfo classes
-     * 
+     *
      * @return boolean
      */
     function getPublisherListByAgencyId($sessionId, $agencyId, &$aPublisherList)

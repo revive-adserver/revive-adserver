@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Agency Information class.
- *
  */
 
 // Include base info class.
@@ -84,7 +82,14 @@ class OA_Dll_AgencyInfo extends OA_Info
      * @var string $password
      */
     var $password;
-    
+
+	/**
+	 * This method returns array of fields with their corresponding types.
+	 *
+	 * @access public
+	 *
+	 * @return array
+	 */
     function getFieldsTypes()
     {
         return array(
@@ -92,7 +97,7 @@ class OA_Dll_AgencyInfo extends OA_Info
                     'agencyName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string',
-                    'username' => 'string', 
+                    'username' => 'string',
                     'password' => 'string'
                 );
     }

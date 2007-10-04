@@ -30,8 +30,6 @@ $Id:$
  * @subpackage Statistics
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Dal Statistics Agency class.
- *
  */
 
 // Required classes
@@ -44,6 +42,8 @@ class OA_Dal_Statistics_Agency extends OA_Dal_Statistics
 {
    /**
     * This method returns statistics for a given agency, broken down by day.
+    *
+    * @access public
     *
     * @param integer $agencyId The ID of the agency to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -104,6 +104,8 @@ class OA_Dal_Statistics_Agency extends OA_Dal_Statistics
     /**
     * This method returns statistics for a given agency, broken down by
     *   advertiser.
+    *
+    * @access public
     *
     * @param integer $agencyId The ID of the agency to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -166,6 +168,8 @@ class OA_Dal_Statistics_Agency extends OA_Dal_Statistics
     /**
     * This method returns statistics for a given agency, broken down by
     *   campaign.
+    *
+    * @access public
     *
     * @param integer $agencyId The ID of the agency to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -232,6 +236,8 @@ class OA_Dal_Statistics_Agency extends OA_Dal_Statistics
 
     /**
     * This method returns statistics for a given agency, broken down by banner.
+    *
+    * @access public
     *
     * @param integer $agencyId The ID of the agency to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -305,6 +311,8 @@ class OA_Dal_Statistics_Agency extends OA_Dal_Statistics
     * This method returns statistics for a given agency, broken down by
     *       publisher.
     *
+    * @access public
+    *
     * @param integer $agencyId The ID of the agency to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
@@ -362,6 +370,8 @@ class OA_Dal_Statistics_Agency extends OA_Dal_Statistics
 
    /**
     * This method returns statistics for a given agency, broken down by zone.
+    *
+    * @access public
     *
     * @param integer $agencyId The ID of the agency to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)

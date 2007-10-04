@@ -29,35 +29,45 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * Publisher XMLRPC Service.
+ * The publisher XML-RPC service enables XML-RPC communication with the publisher object.
  *
  */
 
-// Require the initialisation file
+// Require the initialisation file.
 require_once '../../../../init.php';
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes.
 require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 
-// Base class BasePublisherService
+// Require the base class, BasePublisherService.
 require_once MAX_PATH . '/www/api/v1/common/BasePublisherService.php';
 
-// XmlRpc utils
+// Require the XML-RPC utilities.
 require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
 
-// Require PublisherInfo class
+// Require the PublisherInfo helper class.
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 
+/**
+ * The PublisherXmlRpcService class extends the BasePublisherService class.
+ *
+ */
 class PublisherXmlRpcService extends BasePublisherService
 {
+    /**
+     * The PublisherXmlRpcService constructor calls the base service constructor 
+	 * to initialise the service.
+     *
+     */
     function PublisherXmlRpcService()
     {
         $this->BasePublisherService();
     }
 
     /**
-     *  Add new publisher.
+     * The addPublisher function adds details for a new publisher to the publisher 
+	 * object and returns either the publisher ID or an error message.
      *
      * @access public
      *
@@ -70,12 +80,12 @@ class PublisherXmlRpcService extends BasePublisherService
         $sessionId          = null;
         $oPublisherInfo     = new OA_Dll_PublisherInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams, 
-                1, array('agencyId', 'publisherName', 'contactName', 
-                        'emailAddress', 'username', 'password'), 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams,
+                1, array('agencyId', 'publisherName', 'contactName',
+                        'emailAddress', 'username', 'password'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -89,7 +99,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Modifies an existing.
+     * The modifyPublisher function changes the details for an existing publisher
+	 * or returns an error message.
      *
      * @access public
      *
@@ -102,12 +113,12 @@ class PublisherXmlRpcService extends BasePublisherService
         $sessionId          = null;
         $oPublisherInfo     = new OA_Dll_PublisherInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams, 
-                1, array('publisherId', 'agencyId', 'publisherName', 
-                        'contactName', 'emailAddress', 'username', 'password'), 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oPublisherInfo, $oParams,
+                1, array('publisherId', 'agencyId', 'publisherName',
+                        'contactName', 'emailAddress', 'username', 'password'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -121,7 +132,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Delete existing Publisher.
+     * The deletePublisher function either deletes an existing publisher or 
+	 * returns an error message.
      *
      * @access public
      *
@@ -132,7 +144,7 @@ class PublisherXmlRpcService extends BasePublisherService
     function deletePublisher(&$oParams)
     {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$publisherId), 
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$publisherId),
             array(true, true), $oParams, $oResponseWithError )) {
 
             return $oResponseWithError;
@@ -149,7 +161,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Statistics broken down by day.
+     * The publisherDailyStatistics function returns daily statistics for a publisher
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -165,7 +178,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherDailyStatistics($sessionId,
                 $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -184,7 +197,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Statistics broken down by Zone.
+     * The publisherZoneStatistics function returns zone statistics for a publisher
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -200,7 +214,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherZoneStatistics($sessionId,
                 $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -220,7 +234,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Statistics broken down by Advetiser.
+     * The publisherAdvertiserStatistics function returns advertiser statistics for a publisher
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -236,7 +251,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherAdvertiserStatistics($sessionId,
                 $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -256,7 +271,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Statistics broken down by Campaign.
+     * The publisherCampaignStatistics function returns campaign statistics for a publisher
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -272,7 +288,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherCampaignStatistics($sessionId,
                 $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -294,7 +310,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Statistics broken down by Banner.
+     * The publisherBannerStatistics function returns banner statistics for a publisher
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -310,7 +327,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oPublisherServiceImp->getPublisherBannerStatistics($sessionId,
                 $publisherId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -334,7 +351,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * Get existing Publisher by ID.
+     * The getPublisher function returns either information about a publisher or 
+	 * an error message.
      *
      * @access public
      *
@@ -349,7 +367,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $oPublisher = null;
         if ($this->_oPublisherServiceImp->getPublisher($sessionId,
                 $publisherId, $oPublisher)) {
@@ -360,9 +378,10 @@ class PublisherXmlRpcService extends BasePublisherService
             return XmlRpcUtils::generateError($this->_oPublisherServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get array of publishers by agency id
+     * The getPublisherListByAgencyId function returns a list of publishers 
+	 * for an agency, or returns an error message.
      *
      * @access public
      *
@@ -377,7 +396,7 @@ class PublisherXmlRpcService extends BasePublisherService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $aPublisherList = null;
         if ($this->_oPublisherServiceImp->getPublisherListByAgencyId($sessionId,
                                             $agencyId, $aPublisherList)) {
@@ -391,6 +410,10 @@ class PublisherXmlRpcService extends BasePublisherService
 
 }
 
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures.
+ *
+**/
 $oPublisherXmlRpcService = new PublisherXmlRpcService();
 
 $server = new XML_RPC_Server(

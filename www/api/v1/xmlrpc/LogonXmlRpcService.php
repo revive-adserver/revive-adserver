@@ -29,31 +29,41 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Logon XmlRpcService class.
+ * The logon XML-RPC service enables logon to the Openads server.
  *
  */
 
-// Require the initialisation file
+// Require the initialisation file.
 require_once '../../../../init.php';
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes.
 require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 
-// Base class BaseLogonService
+// Require the base class, BaseLogonService.
 require_once MAX_PATH . '/www/api/v1/common/BaseLogonService.php';
 
-// XmlRpc utils
+// Require the XML-RPC utilities.
 require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
 
+/**
+ * The LogonXmlRpcService class extends the BaseLogonService class.
+ *
+ */
 class LogonXmlRpcService extends BaseLogonService
 {
+    /**
+     * The LogonXmlRpcService constructor calls the base service constructor to 
+	 * initialise the service.
+     *
+     */
     function LogonXmlRpcService()
     {
         $this->BaseLogonService();
     }
-    
+
     /**
-     *  Logon user.
+     * The logon function sends the username and password to log on to the service
+	 * and returns either a session ID or an error message.
      *
      * @access public
      *
@@ -65,10 +75,10 @@ class LogonXmlRpcService extends BaseLogonService
     {
         $sessionId          = null;
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getScalarValues(array(&$userName, &$password), 
+
+        if (!XmlRpcUtils::getScalarValues(array(&$userName, &$password),
             array(true, true), $oParams, $oResponseWithError)) {
-            
+
             return $oResponseWithError;
         }
 
@@ -81,10 +91,11 @@ class LogonXmlRpcService extends BaseLogonService
             return XmlRpcUtils::generateError($this->logonServiceImp->getLastError());
         }
     }
-    
-    
+
+
     /**
-     *  Logoff user.
+     * The logoff function logs a user off from a service and ends the session
+	 * or returns an error message.  
      *
      * @access public
      *
@@ -96,12 +107,12 @@ class LogonXmlRpcService extends BaseLogonService
     {
         $sessionId          = null;
         $oResponseWithError = null;
-        
+
         if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, $oResponseWithError)) {
-            
+
             return  $oResponseWithError;
         }
-        
+
         if($this->logonServiceImp->logoff($sessionId))
         {
             return XmlRpcUtils::booleanTypeResponse(true);
@@ -113,6 +124,10 @@ class LogonXmlRpcService extends BaseLogonService
     }
 }
 
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures
+ *
+**/
 $oLogonXmlRpcService = new LogonXmlRpcService();
 
 $server = new XML_RPC_Server(

@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Dll Banner class.
- *
  */
 
 // Required classes
@@ -47,7 +45,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
 class OA_Dll_Banner extends OA_Dll
 {
     /**
-     * Init banner info from data array
+     * Initialisation of banner info from data array
      *
      * @access private
      *
@@ -71,16 +69,15 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * Method would perform data validation (e.g. email is an email)
-     * and where necessary would connect to the DAL to obtain information
-     * required to perform other business validations (e.g. username
-     * must be unique across all relevant tables).
+     * Method performs data validation (e.g. email is an email)
+     * and where necessary connects to the DAL to obtain information
+     * required to perform other business validations.
      *
      * @access private
      *
      * @param OA_Dll_BannerInfo &$oBanner  Banner object.
      *
-     * @return boolean  Returns false if fields is not valid and true in other case.
+     * @return boolean  Returns false if fields are not valid and true in otherwise.
      *
      */
     function _validate(&$oBanner)
@@ -129,7 +126,7 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * Method would perform data validation for statistics methods(bannerId, date).
+     * This Method performs data validation for statistics methods(bannerId, date).
      *
      * @access private
      *
@@ -153,9 +150,11 @@ class OA_Dll_Banner extends OA_Dll
     /**
      * Calls method for checking permissions from Dll class.
      *
+	 * @access public
+	 *
      * @param integer $advertiserId  Banner ID
      *
-     * @return boolean  False in access forbidden and true in other case.
+     * @return boolean  False is access denied and true in otherwise.
      */
     function checkStatisticsPermissions($bannerId)
     {
@@ -170,13 +169,20 @@ class OA_Dll_Banner extends OA_Dll
 
     /**
      * This method modifies an existing banner.
-     * All fields which are undefined (e.g. permissions) are not changed from
-     * the state they were before modification. Any fields defined below that
-     * are NULL are unchanged.
+     * All fields which are undefined (e.g. permissions) do not change
+     * the state they had before modification.
+     * All below defined fields with value NULL are unchanged.
      *
      * @access public
      *
-     * @param OA_Dll_BannerInfo &$oBanner
+     * @param OA_Dll_BannerInfo &$oBanner <br />
+     *          <b>For addign</b><br />
+     *          <b>Required properties:</b> campaignId<br />
+     *          <b>Optional properties:</b> bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
+     * 
+     *          <b>For modify</b><br />
+     *          <b>Required properties:</b> bannerId<br />
+     *          <b>Optional properties:</b> campaignId, bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
      *
      * @return boolean  True if the operation was successful
      *
@@ -345,7 +351,7 @@ class OA_Dll_Banner extends OA_Dll
     *
     * @access public
     *
-    * @param integer $bannerId The ID of the banner to view statistics
+    * @param integer $bannerId The ID of the banner to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -357,7 +363,7 @@ class OA_Dll_Banner extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -381,7 +387,7 @@ class OA_Dll_Banner extends OA_Dll
     *
     * @access public
     *
-    * @param integer $bannerId The ID of the banner to view statistics
+    * @param integer $bannerId The ID of the banner to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -394,7 +400,7 @@ class OA_Dll_Banner extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -418,7 +424,7 @@ class OA_Dll_Banner extends OA_Dll
     *
     * @access public
     *
-    * @param integer $bannerId The ID of the banner to view statistics
+    * @param integer $bannerId The ID of the banner to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -433,7 +439,7 @@ class OA_Dll_Banner extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)

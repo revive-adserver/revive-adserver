@@ -29,13 +29,11 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Stistics class.
- *
  */
 
 
 /**
- * Class to description Stistics methods.
+ * Stistics methods description сlass.
  *
  */
 class OA_Dal_Statistics extends OA_Dal
@@ -43,6 +41,8 @@ class OA_Dal_Statistics extends OA_Dal
     /**
      * Get SQL where for statistics methods.
      *
+	 * @access public
+	 *
      * @param date &$oStartDate
      * @param date &$oEndDate
      *
@@ -70,7 +70,10 @@ class OA_Dal_Statistics extends OA_Dal
     /**
      * Add quote for table name.
      *
+	 * @access public
+	 *
      * @param string $tableName
+     * 
      * @return string  quotes table name
      */
     function quoteTableName($tableName)

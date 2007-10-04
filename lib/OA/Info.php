@@ -29,34 +29,52 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * Base class for all info classes
- *  
+ *
  */
 
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 
+/**
+ * Base class for all info classes
+ *
+ */
 class OA_Info
 {
-    
+
+    /**
+     * This method should be redeclared in the inherited classes.
+     *
+     */
     function getFieldsTypes()
     {
         die('Please define this method in each derivative class');
     }
-    
+
+    /**
+     * This method returns class field type.
+     *
+     * @param string $fieldName
+     * @return string  field type
+     */
     function getFieldType($fieldName)
     {
         $aFieldsTypes = $this->getFieldsTypes();
         if (!isset($aFieldsTypes) || !is_array($aFieldsTypes)) {
             die('Please provide field types array for Info object creation');
         }
-        
+
         if (!array_key_exists($fieldName, $aFieldsTypes)) {
             die('Unknown type for field \'' . $fieldName .'\'');
         }
         return $aFieldsTypes[$fieldName];
     }
-    
+
+    /**
+     * This method initialises object from array.
+     *
+     * @param array $aEntityData
+     */
     function readDataFromArray($aEntityData)
     {
         $aFieldsTypes = $this->getFieldsTypes();

@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description XmlRpcUtils class.
- *
  */
 
 // Require the XMLRPC classes
@@ -40,7 +38,7 @@ require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
- * Class to description XmlRpc methods.
+ * XmlRpc methods class description.
  *
  */
 class XmlRpcUtils
@@ -48,7 +46,10 @@ class XmlRpcUtils
     /**
      * Generate Error message.
      *
+     * @access public
+     * 
      * @param string $errorMessage
+     * 
      * @return XML_RPC_Response
      */
     function generateError($errorMessage)
@@ -63,7 +64,10 @@ class XmlRpcUtils
     /**
      * Response string.
      *
+     * @access public
+     * 
      * @param string $string
+     * 
      * @return XML_RPC_Response
      */
     function stringTypeResponse($string)
@@ -75,7 +79,10 @@ class XmlRpcUtils
     /**
      * Response boolean.
      *
+     * @access public
+     * 
      * @param boolean $boolean
+     * 
      * @return XML_RPC_Response
      */
     function booleanTypeResponse($boolean)
@@ -87,7 +94,10 @@ class XmlRpcUtils
     /**
      * Response integer.
      *
+     * @access public
+     * 
      * @param integer $integer
+     * 
      * @return XML_RPC_Response
      */
     function integerTypeResponse($integer)
@@ -97,10 +107,13 @@ class XmlRpcUtils
     }
 
     /**
-     * Convert RecordSet with into array of structures XML_RPC_Response.
+     * Convert RecordSet into the array of XML_RPC_Response structures.
      *
+     * @access public
+     * 
      * @param array $aFieldTypes  field name - field type
      * @param RecordSet &$rsAllData   Record Set with all data
+     * 
      * @return XML_RPC_Response
      */
     function arrayOfStructuresResponse($aFieldTypes, &$rsAllData)
@@ -117,7 +130,7 @@ class XmlRpcUtils
                                                                 $fieldType, $fieldValue);
                 	}
                 }
-                
+
             }
 
             $aReturnData[$cRecords] = new XML_RPC_Value($aReturnData[$cRecords],
@@ -133,7 +146,10 @@ class XmlRpcUtils
     /**
      * Converts Info Object into XML_RPC_Value
      *
+     * @access public
+     * 
      * @param object &$oInfoObject
+     * 
      * @return XML_RPC_Value
      */
     function getEntity(&$oInfoObject)
@@ -150,9 +166,12 @@ class XmlRpcUtils
     }
 
     /**
-     * Converts Info Object into XML_RPC_Value and delete null fields
+     * Converts Info Object into XML_RPC_Value and deletes null fields
      *
+     * @access public
+     * 
      * @param object &$oInfoObject
+     * 
      * @return XML_RPC_Value
      */
     function getEntityWithNotNullFields(&$oInfoObject)
@@ -171,9 +190,12 @@ class XmlRpcUtils
     }
 
     /**
-     * Converts Info Object into structure XML_RPC_Response
+     * Converts Info Object into XML_RPC_Response structure
      *
+     * @access public
+     * 
      * @param object &$oInfoObject
+     * 
      * @return XML_RPC_Response
      */
     function getEntityResponse(&$oInfoObject)
@@ -182,9 +204,12 @@ class XmlRpcUtils
     }
 
     /**
-     * Converts Info Object into array of structures XML_RPC_Response
+     * Converts Info Object into the array of  XML_RPC_Response structures
      *
+     * @access public
+     * 
      * @param object $aInfoObjects
+     * 
      * @return XML_RPC_Response
      */
     function getArrayOfEntityResponse($aInfoObjects)
@@ -205,8 +230,11 @@ class XmlRpcUtils
     /**
      * Set RPC type for variable with default values.
      *
+     * @access private
+     * 
      * @param string $type
      * @param mixed $variable
+     * 
      * @return XML_RPC_Value or false
      */
     function _setRPCTypeWithDefaultValues($type, $variable)
@@ -252,8 +280,11 @@ class XmlRpcUtils
     /**
      * Set RPC type for variable.
      *
+     * @access private
+     * 
      * @param string $type
      * @param mixed $variable
+     * 
      * @return XML_RPC_Value or false
      */
     function _setRPCTypeForField($type, $variable)
@@ -290,11 +321,14 @@ class XmlRpcUtils
 
     /**
      * Convert Date from iso 8601 format.
+     * 
+     * @access private
      *
-     * @param string $date date string in ISO 8601 format
-     * @param PEAR::Date &$oResult transformed date
-     * @param XML_RPC_Response &$oResponseWithError response with error message
-     * @return boolean shows if method was executed successfully
+     * @param string $date  date string in ISO 8601 format
+     * @param PEAR::Date &$oResult  transformed date
+     * @param XML_RPC_Response &$oResponseWithError  response with error message
+     * 
+     * @return boolean  shows true if method was executed successfully
      */
     function _convertDateFromIso8601Format($date, &$oResult, &$oResponseWithError)
     {
@@ -332,10 +366,13 @@ class XmlRpcUtils
     /**
      * Get scalar value from parameter
      *
+     * @access private
+     * 
      * @param mixed &$result
      * @param XML_RPC_Value &$oParam
      * @param XML_RPC_Response &$oResponseWithError
-     * @return boolean shows if method was executed successfully
+     * 
+     * @return boolean  shows true if method was executed successfully
      */
     function _getScalarValue(&$result, &$oParam, &$oResponseWithError)
     {
@@ -358,11 +395,14 @@ class XmlRpcUtils
     /**
      * Get required scalar value
      *
+     * @access public
+     * 
      * @param mixed &$result
      * @param XML_RPC_Message  &$oParams
      * @param integer $idxParam
      * @param XML_RPC_Response &$oResponseWithError
-     * @return boolean shows if method was executed successfully
+     * 
+     * @return boolean  shows true if method was executed successfully
      */
     function getRequiredScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
     {
@@ -373,11 +413,14 @@ class XmlRpcUtils
     /**
      * Get not required scalar value
      *
+     * @access private
+     * 
      * @param mixed &$result value or null
      * @param XML_RPC_Message  &$oParams
      * @param integer $idxParam
      * @param XML_RPC_Response &$oResponseWithError
-     * @return boolean shows if method was executed successfully
+     * 
+     * @return boolean  shows true if method was executed successfully
      */
     function _getNotRequiredScalarValue(&$result, &$oParams, $idxParam, &$oResponseWithError)
     {
@@ -396,13 +439,16 @@ class XmlRpcUtils
 
     /**
      * Get scalar values from parameters
+     * 
+     * @access public
      *
-     * @param array $aReferencesOnVariables array of refrence on variables
+     * @param array $aReferencesOnVariables array of references to variables
      * @param array $aRequired array of boolean values to indicate which field is required
      * @param XML_RPC_Message  $oParams
      * @param XML_RPC_Response &$oResponseWithError
      * @param integer $idxStart Index of parameter from which values start
-     * @return boolean shows if method was executed successfully
+     * 
+     * @return boolean  shows true if method was executed successfully
      */
     function getScalarValues($aReferencesOnVariables, $aRequired, &$oParams, &$oResponseWithError,
         $idxStart = 0)
@@ -431,11 +477,14 @@ class XmlRpcUtils
     /**
      * Gets Structure Scalar field from XML RPC Value parameter
      *
+     * @access private
+     * 
      * @param structure &$oStructure  to return data
      * @param XML_RPC_Value $oStructParam
      * @param string $fieldName
      * @param XML_RPC_Response &$responseWithError
-     * @return boolean shows if method was executed successfully
+     * 
+     * @return boolean  shows true if method was executed successfully
      */
     function _getStructureScalarField(&$oStructure, &$oStructParam, $fieldName,
         &$oResponseWithError)
@@ -464,12 +513,15 @@ class XmlRpcUtils
     /**
      * Gets Structure Scalar fields
      *
+     * @access public
+     * 
      * @param structure &$oStructure  to return data
      * @param XML_RPC_Message &$oParams
      * @param integer $idxParam
      * @param array $aFieldNames
      * @param XML_RPC_Response &$oResponseWithError
-     * @return boolean shows if method was executed successfully
+     * 
+     * @return boolean  shows true if method was executed successfully
      */
     function getStructureScalarFields(&$oStructure, &$oParams, $idxParam,
         $aFieldNames, &$oResponseWithError)

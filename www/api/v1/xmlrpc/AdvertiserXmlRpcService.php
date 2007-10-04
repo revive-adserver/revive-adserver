@@ -29,34 +29,44 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * Advertiser XMLRPC Service.
+ * The advertiser XML-RPC service enables XML-RPC communication with the advertiser object.
  *
  */
 
-// Require the initialisation file
+// Require the initialisation file.
 require_once '../../../../init.php';
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes.
 require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 
-// Base class BaseAdvertiserService
+// Require the base class, BaseAdvertiserService.
 require_once MAX_PATH . '/www/api/v1/common/BaseAdvertiserService.php';
 
-// XmlRpc utils
+// Require the XML-RPC utilities.
 require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
 
-// Require AdvertiserInfo class
+// Require the AdvertiserInfo helper class.
 require_once MAX_PATH . '/lib/OA/Dll/Advertiser.php';
 
+/**
+ * The AdvertiserXmlRpcService class extends the BaseAdvertiserService class.
+ *
+ */
 class AdvertiserXmlRpcService extends BaseAdvertiserService
 {
+    /**.
+     * The AdvertiserXmlRpcService constructor calls the base service constructor 
+	 * to initialise the service.
+     *
+     */
     function AdvertiserXmlRpcService()
     {
         $this->BaseAdvertiserService();
     }
 
     /**
-     *  Add new advertiser.
+     * The addAdvertiser function adds details for a new advertiser to the advertiser
+	 * objectand returns either the advertiser ID or an error message.
      *
      * @access public
      *
@@ -69,16 +79,16 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
         $sessionId          = null;
         $oAdvertiserInfo    = new OA_Dll_AdvertiserInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oAdvertiserInfo, $oParams, 
-                1, array('agencyId', 'advertiserName', 'contactName', 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oAdvertiserInfo, $oParams,
+                1, array('agencyId', 'advertiserName', 'contactName',
                     'emailAddress', 'username', 'password'), $oResponseWithError)) {
 
             return $oResponseWithError;
         }
-        
+
         if ($this->_oAdvertiserServiceImp->addAdvertiser($sessionId, $oAdvertiserInfo)) {
             return XmlRpcUtils::integerTypeResponse($oAdvertiserInfo->advertiserId);
         } else {
@@ -87,7 +97,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * Modifies an existing.
+     * The modifyAdvertiser function changes the details for an existing advertiser
+	 * or returns an error message.
      *
      * @access public
      *
@@ -97,16 +108,16 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
      */
     function modifyAdvertiser(&$oParams)
     {
-        
+
         $sessionId          = null;
         $oAdvertiserInfo    = new OA_Dll_AdvertiserInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oAdvertiserInfo, $oParams, 
-                1, array('advertiserId', 'agencyId', 'advertiserName', 
-                    'contactName', 'emailAddress', 'username', 'password'), 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oAdvertiserInfo, $oParams,
+                1, array('advertiserId', 'agencyId', 'advertiserName',
+                    'contactName', 'emailAddress', 'username', 'password'),
                 $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -121,7 +132,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * Delete existing Advertiser.
+     * The deleteAdvertiser function either deletes an existing advertiser or 
+	 * returns an error message.
      *
      * @access public
      *
@@ -132,7 +144,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     function deleteAdvertiser(&$oParams)
     {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$advertiserId), 
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$advertiserId),
             array(true, true), $oParams, $oResponseWithError )) {
 
             return $oResponseWithError;
@@ -149,7 +161,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * Statistics broken down by day.
+     * The advertiserDailyStatistics function returns daily statistics for an advertiser
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -165,7 +178,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserDailyStatistics($sessionId,
                 $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -184,7 +197,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * Statistics broken down by Campaign.
+     * The advertiserCampaignStatistics function returns campaign statistics for 
+	 * an advertiser for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -200,7 +214,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserCampaignStatistics($sessionId,
                 $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -220,7 +234,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * Statistics broken down by Banner.
+     * The advertiserBannerStatistics function returns banner statistics for an 
+	 * advertiser for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -236,7 +251,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserBannerStatistics($sessionId,
                 $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -257,7 +272,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * Statistics broken down by Publisher.
+     * The advertiserPublisherStatistics function returns the publisher statistics for
+	 * an advertiser for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -273,7 +289,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserPublisherStatistics($sessionId,
                 $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -292,7 +308,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * Statistics broken down by Zone.
+     * The advertiserZoneStatistics function returns the zone statistics for an advertiser
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -308,7 +325,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserZoneStatistics($sessionId,
                 $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -327,9 +344,10 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
             return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get existing Advertiser by ID.
+     * The getAdvertiser function returns either information about an advertiser or 
+	 * an error message.
      *
      * @access public
      *
@@ -344,7 +362,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $oAdvertiser = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiser($sessionId,
                 $advertiserId, $oAdvertiser)) {
@@ -355,9 +373,10 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
             return XmlRpcUtils::generateError($this->_oAdvertiserServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get array of advertisers by agency id
+     * The getAdvertiserListByAgencyId function returns a list of advertisers 
+	 * for an agency, or returns an error message.
      *
      * @access public
      *
@@ -372,7 +391,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $aAdvertiserList = null;
         if ($this->_oAdvertiserServiceImp->getAdvertiserListByAgencyId($sessionId,
                                             $agencyId, $aAdvertiserList)) {
@@ -386,6 +405,10 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
 }
 
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures.
+ *
+**/
 $oAdvertiserXmlRpcService = new AdvertiserXmlRpcService();
 
 $server = new XML_RPC_Server(

@@ -29,34 +29,44 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * Zone XMLRPC Service.
+ * The zone XML-RPC service enables XML-RPC communication with the zone object.
  *
  */
 
-// Require the initialisation file
+// Require the initialisation file.
 require_once '../../../../init.php';
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes.
 require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 
-// Base class BaseZoneService
+// Require the base class, BaseZoneService.
 require_once MAX_PATH . '/www/api/v1/common/BaseZoneService.php';
 
-// XmlRpc utils
+// Require the XML-RPC utilities.
 require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
 
-// Require ZoneInfo class
+// Require the ZoneInfo helper class.
 require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
 
+/**
+ * The ZoneXmlRpcService class the BaseZoneService class.
+ *
+ */
 class ZoneXmlRpcService extends BaseZoneService
 {
+    /**
+     * The ZoneXmlRpcService constructor calls the base service constructor 
+	 * to initialise the service.
+     *
+     */
     function ZoneXmlRpcService()
     {
         $this->BaseZoneService();
     }
 
     /**
-     *  Add new zone.
+     * The addZone function adds details for a new zone to the zone 
+	 * object and returns either the zone ID or an error message.
      *
      * @access public
      *
@@ -69,11 +79,11 @@ class ZoneXmlRpcService extends BaseZoneService
         $sessionId          = null;
         $oZoneInfo          = new OA_Dll_ZoneInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oZoneInfo, $oParams, 
-                1, array('publisherId', 'zoneName', 'type', 'width', 'height'), 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oZoneInfo, $oParams,
+                1, array('publisherId', 'zoneName', 'type', 'width', 'height'),
                 $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -88,7 +98,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * Modifies an existing.
+     * The modifyZone function changes the details for an existing zone
+	 * or returns an error message.
      *
      * @access public
      *
@@ -101,10 +112,10 @@ class ZoneXmlRpcService extends BaseZoneService
         $sessionId          = null;
         $oZoneInfo          = new OA_Dll_ZoneInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oZoneInfo, $oParams, 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oZoneInfo, $oParams,
                 1, array('zoneId', 'publisherId', 'zoneName', 'type', 'width',
                   'height'), $oResponseWithError)) {
 
@@ -119,7 +130,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * Delete existing Zone.
+     * The deleteZone function either deletes an existing zone or 
+	 * returns an error message.
      *
      * @access public
      *
@@ -130,7 +142,7 @@ class ZoneXmlRpcService extends BaseZoneService
     function deleteZone(&$oParams)
     {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$zoneId), 
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$zoneId),
             array(true, true), $oParams, $oResponseWithError )) {
 
             return $oResponseWithError;
@@ -147,7 +159,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * Statistics broken down by day.
+     * The zoneDailyStatistics function returns daily statistics for a zone
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -163,7 +176,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oZoneServiceImp->getZoneDailyStatistics($sessionId,
                 $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -182,7 +195,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * Statistics broken down by Advetiser.
+     * The zoneAdvertiserStatistics function returns advertiser statistics for a zone
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -198,7 +212,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oZoneServiceImp->getZoneAdvertiserStatistics($sessionId,
                 $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -218,7 +232,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * Statistics broken down by Campaign.
+     * The zoneCampaignStatistics function returns campaign statistics for a zone
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -234,7 +249,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oZoneServiceImp->getZoneCampaignStatistics($sessionId,
                 $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -256,7 +271,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * Statistics broken down by Banner.
+     * The zoneBannerStatistics function returns banner statistics for a zone
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -272,7 +288,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oZoneServiceImp->getZoneBannerStatistics($sessionId,
                 $zoneId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -296,7 +312,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * Get existing Zone by ID.
+     * The getZone function returns either information about a zone or 
+	 * an error message.
      *
      * @access public
      *
@@ -311,7 +328,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $oZone = null;
         if ($this->_oZoneServiceImp->getZone($sessionId,
                 $zoneId, $oZone)) {
@@ -322,9 +339,10 @@ class ZoneXmlRpcService extends BaseZoneService
             return XmlRpcUtils::generateError($this->_oZoneServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get array of zones by publisher id
+     * The getZoneListByPublisherId function returns a list of zones 
+	 * for an publisher, or returns an error message.
      *
      * @access public
      *
@@ -339,7 +357,7 @@ class ZoneXmlRpcService extends BaseZoneService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $aZoneList = null;
         if ($this->_oZoneServiceImp->getZoneListByPublisherId($sessionId,
                                             $publisherId, $aZoneList)) {
@@ -353,6 +371,10 @@ class ZoneXmlRpcService extends BaseZoneService
 
 }
 
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures.
+ *
+**/
 $oZoneXmlRpcService = new ZoneXmlRpcService();
 
 $server = new XML_RPC_Server(

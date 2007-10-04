@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Base class for all classes with error handling.
- *
  */
 
 /**
@@ -75,14 +73,14 @@ class OA_BaseObjectWithErrors
 	}
 
 	/**
-	 * Added error
+	 * Added error message
 	 *
+     * @param string $errorMessage
 	 */
 	function raiseError($errorMessage)
 	{
 	    $this->_errorMessage = $errorMessage;
 	}
 }
-
 
 ?>

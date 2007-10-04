@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Zone Information class.
- *
  */
 
 // Include base info class.
@@ -91,6 +89,8 @@ class OA_Dll_ZoneInfo extends OA_Info
 	/**
 	 * Setting all default values. Used in adding new zone.
 	 *
+	 * @access public
+	 *
 	 */
 	function setDefaultForAdd() {
 	    if (is_null($this->type)) {
@@ -105,7 +105,14 @@ class OA_Dll_ZoneInfo extends OA_Info
 	        $this->height = 0;
 	    }
 	}
-    
+
+	/**
+	 * This method returns array of fields with their corresponding types.
+	 *
+	 * @access public
+	 *
+	 * @return array
+	 */
     function getFieldsTypes()
     {
         return array(

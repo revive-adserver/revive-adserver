@@ -29,18 +29,20 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Logon Service Implementation class.
- *
  */
 
-// Base class BaseLogonService
+// Require the base class, BaseLogonService.
 require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 
+/**
+ * The LogonServiceImpl class extends the BaseServiceImp class.
+ *
+ */
 class LogonServiceImpl extends BaseServiceImpl
 {
 
     /**
-     * Constructor LogonServiceImpl.
+     * The LogonServiceImpl constructor calls the base constructor for the class.
      *
      */
     function LogonServiceImpl()
@@ -49,21 +51,25 @@ class LogonServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Login to system.
+     * Login to Openads without using the login form in the user interface and 
+	 * receive a session ID. 
      *
      * @access private
      *
      * @param string $username
      * @param string $password
+     * 
      * @return boolean
      */
     function _internalLogin($username, $password)
     {
-        // Required files
+        // Require the default language file.
         include_once MAX_PATH . '/lib/max/language/Default.php';
-        // Load the required language files
+        // Load the required language file.
         Language_Default::load();
-        // ???
+        /**
+         * @todo Please check code is correct from line 73 to line 103
+        **/ 
         if (!defined('MAX_SKIP_LOGIN')) {
 
             $md5digest = md5($password);
@@ -98,11 +104,14 @@ class LogonServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Login to system.
+     * Login to the system with the session ID.
      *
+     * @access public
+     * 
      * @param string $username
      * @param string $password
      * @param string &$sessionId
+     * 
      * @return boolean
      */
     function logon($username, $password, &$sessionId)
@@ -110,7 +119,13 @@ class LogonServiceImpl extends BaseServiceImpl
         global $_POST, $_COOKIE;
         global $strUsernameOrPasswordWrong;
 
-        if (!$this->_verifyUsernameAndPasswordLength($username, $password)) {
+        /**
+         * @todo Please check if the following statement is in correct place because
+		 * it seems illogical that user can get session ID from internal login with
+		 * a bad username or password.
+        **/ 
+		
+		if (!$this->_verifyUsernameAndPasswordLength($username, $password)) {
             return false;
         }
 
@@ -125,7 +140,7 @@ class LogonServiceImpl extends BaseServiceImpl
         $this->preInitSession();
         if ($this->_internalLogin($username, $password)) {
 
-            // Check if user is OA installation admin.
+            // Check if the user has administrator access to Openads.
             if (MAX_Permission::hasAccess(phpAds_Admin)) {
 
                 $this->postInitSession();
@@ -145,9 +160,12 @@ class LogonServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Logoff from system.
+     * Logoff from the session.
      *
+     * @access public
+     * 
      * @param string $sessionId
+     * 
      * @return boolean
      */
     function logoff($sessionId)
@@ -167,12 +185,15 @@ class LogonServiceImpl extends BaseServiceImpl
 
 
     /**
-     * Verify Username And Password Length.
+     * The _verifyUsernameAndPasswordLength function checks the length of the username
+	 * and password and returns an error message if either of them exceeds the limit of 
+	 * 64 characters.
      *
      * @access private
      *
      * @param string $username
      * @param string $password
+     * 
      * @return boolean
      */
     function _verifyUsernameAndPasswordLength($username, $password)

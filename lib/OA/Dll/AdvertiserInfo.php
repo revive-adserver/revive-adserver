@@ -29,44 +29,42 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Advertiser Information class.
- *
  */
 
 // Include base info class.
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  Class with information about advertiser
- *
+ *  This class contains information about an advertiser.
+i *
  */
 
 class OA_Dll_AdvertiserInfo extends OA_Info
 {
 
     /**
-     * The ID of the advertiser.
+	 * This required field provides the ID of the advertiser.
      *
      * @var integer $advertiserId
      */
 	var $advertiserId;
 
     /**
-     * The ID of the agency to which to add the advertiser.
+     * Thir option provides the ID of the agency to which to add the advertiser.
      *
      * @var integer $agencyId
      */
 	var $agencyId;
 
     /**
-     * The name of the advertiser.
+     * This required field provides the name of the advertiser.
      *
      * @var string $advertiserName
      */
 	var $advertiserName;
 
     /**
-     * The name of the contact.
+     * This option provides the name of the contact for the advertiser.
      *
      * @var string $contactName
      */
@@ -102,7 +100,14 @@ class OA_Dll_AdvertiserInfo extends OA_Info
 	        $this->agencyId = 0;
 	    }
 	}
-    
+
+	/**
+	 * This method returns array of fields with their corresponding types.
+	 * 
+	 * @access public
+	 *
+	 * @return array
+	 */
     function getFieldsTypes()
     {
         return array(
@@ -111,7 +116,7 @@ class OA_Dll_AdvertiserInfo extends OA_Info
                     'advertiserName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string',
-                    'username' => 'string', 
+                    'username' => 'string',
                     'password' => 'string'
                 );
     }

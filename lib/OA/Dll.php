@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Base class for all Domain Logical Layer classes.
- *
  */
 
 // Required permission class
@@ -51,6 +49,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Email Address Validation.
      *
+	 * @access public
+	 *
      * @param string $emailAddress  Email Address
      *
      * @return boolean  Returns true if email is valid and false in other case.
@@ -67,13 +67,15 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Checks required string field in structure.
      *
+	 * @access public
+	 *
      * @param structure &$oStructure  Structure to check
      * @param string $fieldName       Field name in structure to check
      * @param integer $maxLength      Max length of the field. If -1 -
-     *                                  there are no maximum length
+     *                                  there is no maximum length
      *
-     * @return boolean  Returns true when field exists and length is valid. And
-     * returns false in other case.
+     * @return boolean  Returns true when field exists and length is valid and
+     * false in other case.
      */
     function checkStructureRequiredStringField(&$oStructure, $fieldName, $maxLength = -1)
     {
@@ -92,14 +94,15 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Checks not required string field in structure.
      *
+	 * @access public
+	 *
      * @param structure &$oStructure  Structure to check
      * @param string $fieldName       Field name in structure to check
      * @param integer $maxLength      Max length of the field. If -1 -
-     *                                 there are no maximum length
+     *                                 there is no maximum length
      *
      * @return boolean  Returns true when field exists and length is valid.
-     *          Also returns true when field doesn't exists.
-     *          And returns false in other case.
+     *          Also returns true when field doesn't exist and false in other case.
      */
     function checkStructureNotRequiredStringField(&$oStructure, $fieldName, $maxLength = -1)
     {
@@ -120,11 +123,12 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Checks required integer field in structure.
      *
+	 * @access public
+	 *
      * @param structure &$oStructure  Structure to check
      * @param string $fieldName       Field name in structure to check
      *
-     * @return boolean  Returns true when field exists and it is integer.
-     *                      And returns false in other case.
+     * @return boolean  Returns true when field exists and is integer, and false in other case.
      */
     function checkStructureRequiredIntegerField(&$oStructure, $fieldName)
     {
@@ -143,12 +147,13 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Checks not required integer field in structure.
      *
+	 * @access public
+	 *
      * @param structure &$oStructure  Structure to check
      * @param string $fieldName       Field name in structure to check
      *
-     * @return boolean  Returns true when field exists and it is integer.
-     *                      Also returns true when field doesn't exists.
-     *                      And returns false in other case.
+     * @return boolean  Returns true when field exists and is integer.
+     *                      Also returns true when field doesn't exist, and returns false in other case.
      */
     function checkStructureNotRequiredIntegerField(&$oStructure, $fieldName)
     {
@@ -208,6 +213,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Checks whether end date is after start date.
      *
+	 * @access public
+	 *
      * @param date $oStartDate  Pear::Date object with Start Date
      * @param date $oEndDate    Pear::Date object with End Date
      *
@@ -231,6 +238,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Checks if username is still available and if it is allowed to use.
      *
+	 * @access public
+	 *
      * @param string $oldUsername
      * @param string $newUsername
      *
@@ -252,6 +261,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Checks if record for object exists in database.
      *
+	 * @access public
+	 *
      * @param string $table  Table name in database
      * @param integer $id    Id of the row in database
      *
@@ -294,6 +305,8 @@ class OA_Dll extends OA_BaseObjectWithErrors
     /**
      * Username Password validation.
      *
+	 * @access public
+	 *
      * @param string $username
      * @param string $password
      *
@@ -322,8 +335,9 @@ class OA_Dll extends OA_BaseObjectWithErrors
 
 	/**
 	 * Checks if user has access to specific area (for example admin or agency area)
-	 * Parametere is on off or sum of any of constants eg: phpAds_Admin + phpAds_Agency
 	 * Permissions are defined in www/admin/lib-permissions.inc.php file
+	 *
+	 * @access public
 	 *
 	 * @param integer $permissions
 	 * @param string $table  Table name

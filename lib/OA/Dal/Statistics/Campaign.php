@@ -30,8 +30,6 @@ $Id:$
  * @subpackage Statistics
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Dal Statistics Campaign class.
- *
  */
 
 // Required classes
@@ -45,6 +43,8 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
 {
     /**
     * This method returns statistics for a given campaign, broken down by day.
+    *
+    * @access public
     *
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -97,6 +97,8 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
 
     /**
     * This method returns statistics for a given campaign, broken down by banner.
+    *
+    * @access public
     *
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -157,6 +159,8 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
     /**
     * This method returns statistics for a given campaign, broken down by
     *       publisher.
+    *
+    * @access public
     *
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -219,6 +223,8 @@ class OA_Dal_Statistics_Campaign extends OA_Dal_Statistics
 
     /**
     * This method returns statistics for a given campaign, broken down by zone.
+    *
+    * @access public
     *
     * @param integer $campaignId The ID of the campaign to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)

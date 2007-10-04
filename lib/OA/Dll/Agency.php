@@ -29,11 +29,9 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Dll Agency class.
- *
  */
 
-// Require the XMLRPC classes
+// Required classes
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/AgencyInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Agency.php';
@@ -48,7 +46,7 @@ class OA_Dll_Agency extends OA_Dll
 {
 
     /**
-     * Init agency info from data array
+     * Initialisation of agency info from data array
      *
      * @access private
      *
@@ -72,21 +70,20 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * Method would perform data validation (e.g. email is an email)
-     * and where necessary would connect to the DAL to obtain information
-     * required to perform other business validations (e.g. username
-     * must be unique across all relevant tables).
+     * Method performs data validation (e.g. email is an email)
+     * and where necessary connects to the DAL to obtain information
+     * required to perform other business validations (e.g. username must be
+     * unique across all relevant tables).
      *
      * @access private
      *
      * @param OA_Dll_AgencyInfo &$oAgency
      *
-     * @return boolean
+     * @return boolean  Returns false if fields are not valid and true otherwise.
      *
      */
     function _validate(&$oAgency)
     {
-        // Get if isset old username.
         if (isset($oAgency->agencyId)) {
             // Modify Agency
             $doAgency = OA_Dal::factoryDO('agency');
@@ -122,7 +119,7 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * Method would perform data validation for statistics methods(agencyId,
+     * Method performs data validation for statistics methods(agencyId,
      * date).
      *
      * @access private
@@ -146,15 +143,21 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * This method modifies an existing agency. All fields which are
-     * undefined (e.g. permissions) are not changed from the state they
-     * were before modification. Any fields defined below
-     * that are NULL are unchanged.
-     * (Add would be triggered by modify where primary ID is null)
+     * This method modifies an existing agency.
+     * All fields which are undefined (e.g. permissions) do not change
+     * the state they had before modification.
+     * All below defined fields with value NULL are unchanged.
      *
      * @access public
      *
-     * @param OA_Dll_AgencyInfo &$oAgency
+     * @param OA_Dll_AgencyInfo &$oAgency <br />
+     *          <b>For addign</b><br />
+     *          <b>Required properties:</b> agencyName<br />
+     *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
+     * 
+     *          <b>For modify</b><br />
+     *          <b>Required properties:</b> agencyId<br />
+     *          <b>Optional properties:</b> agencyName, contactName, emailAddress, username, password<br />
      *
      * @return boolean  True if the operation was successful
      *
@@ -290,7 +293,7 @@ class OA_Dll_Agency extends OA_Dll
     *
     * @access public
     *
-    * @param integer $agencyId The ID of the agency to view statistics
+    * @param integer $agencyId The ID of the agency to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -329,7 +332,7 @@ class OA_Dll_Agency extends OA_Dll
     *
     * @access public
     *
-    * @param integer $agencyId The ID of the agency to view statistics
+    * @param integer $agencyId The ID of the agency to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -342,7 +345,7 @@ class OA_Dll_Agency extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAgencyAdvertiserStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -367,7 +370,7 @@ class OA_Dll_Agency extends OA_Dll
     *
     * @access public
     *
-    * @param integer $agencyId The ID of the agency to view statistics
+    * @param integer $agencyId The ID of the agency to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -382,7 +385,7 @@ class OA_Dll_Agency extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAgencyCampaignStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -407,7 +410,7 @@ class OA_Dll_Agency extends OA_Dll
     *
     * @access public
     *
-    * @param integer $agencyId The ID of the agency to view statistics
+    * @param integer $agencyId The ID of the agency to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -424,7 +427,7 @@ class OA_Dll_Agency extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAgencyBannerStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -449,7 +452,7 @@ class OA_Dll_Agency extends OA_Dll
     *
     * @access public
     *
-    * @param integer $agencyId The ID of the agency to view statistics
+    * @param integer $agencyId The ID of the agency to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -462,7 +465,7 @@ class OA_Dll_Agency extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAgencyPublisherStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -490,7 +493,7 @@ class OA_Dll_Agency extends OA_Dll
     *
     * @access public
     *
-    * @param integer $agencyId The ID of the agency to view statistics
+    * @param integer $agencyId The ID of the agency to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -505,7 +508,7 @@ class OA_Dll_Agency extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)

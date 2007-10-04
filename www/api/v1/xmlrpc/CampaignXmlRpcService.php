@@ -29,35 +29,45 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * Campaign XMLRPC Service.
+ * The campaign XML-RPC service enables XML-RPC communication with the campaign object.
  *
  */
 
-// Require the initialisation file
+// Require the initialisation file.
 require_once '../../../../init.php';
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes.
 require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 
-// Base class BaseCampaignService
+// Require the base class, BaseCampaignService.
 require_once MAX_PATH . '/www/api/v1/common/BaseCampaignService.php';
 
-// XmlRpc utils
+// Require the XML-RPC utilities.
 require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
 
-// Require CampaignInfo class
+// Require the CampaignInfo helper class.
 require_once MAX_PATH . '/lib/OA/Dll/Campaign.php';
 
 
+/**
+ * The CampaignXmlRpcService class extends the BaseCampaignService class.
+ *
+ */
 class CampaignXmlRpcService extends BaseCampaignService
 {
+    /**
+     * The CampaignXmlRpcService constructor calls the base service constructor 
+	 * to initialise the service.
+     *
+     */
     function CampaignXmlRpcService()
     {
         $this->BaseCampaignService();
     }
 
     /**
-     *  Add new Campaign.
+     * The addCampaign function adds details for a new campaign to the campaign 
+	 * object and returns either the campaign ID or an error message.
      *
      * @access public
      *
@@ -70,17 +80,17 @@ class CampaignXmlRpcService extends BaseCampaignService
         $sessionId          = null;
         $oCampaignInfo      = new OA_Dll_CampaignInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oCampaignInfo, $oParams, 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oCampaignInfo, $oParams,
                 1, array('advertiserId', 'campaignName', 'startDate', 'endDate',
-                       'impressions', 'clicks', 'priority', 'weight'), 
+                       'impressions', 'clicks', 'priority', 'weight'),
                         $oResponseWithError)) {
 
             return $oResponseWithError;
         }
-        
+
         if ($this->_oCampaignServiceImp->addCampaign($sessionId, $oCampaignInfo)) {
             return XmlRpcUtils::integerTypeResponse($oCampaignInfo->campaignId);
         } else {
@@ -89,7 +99,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * Modifies an existing.
+     * The modifyCampaign function changes the details for an existing campaign
+	 * or returns an error message.
      *
      * @access public
      *
@@ -102,12 +113,12 @@ class CampaignXmlRpcService extends BaseCampaignService
         $sessionId          = null;
         $oCampaignInfo      = new OA_Dll_CampaignInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0, 
-                $oResponseWithError) || 
-            !XmlRpcUtils::getStructureScalarFields($oCampaignInfo, $oParams, 
-                1, array('advertiserId', 'campaignId', 'campaignName', 
-                        'startDate', 'endDate', 'impressions', 'clicks', 
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
+            !XmlRpcUtils::getStructureScalarFields($oCampaignInfo, $oParams,
+                1, array('advertiserId', 'campaignId', 'campaignName',
+                        'startDate', 'endDate', 'impressions', 'clicks',
                         'priority', 'weight'), $oResponseWithError)) {
 
             return $oResponseWithError;
@@ -121,7 +132,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * Delete existing Campaign.
+     * The deleteCampaign function either deletes an existing campaign or 
+	 * returns an error message.
      *
      * @access public
      *
@@ -132,7 +144,7 @@ class CampaignXmlRpcService extends BaseCampaignService
     function deleteCampaign(&$oParams)
     {
         $oResponseWithError = null;
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$campaignId), 
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$campaignId),
             array(true, true), $oParams, $oResponseWithError )) {
 
             return $oResponseWithError;
@@ -149,7 +161,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * Statistics broken down by day.
+     * The campaignDailyStatistics function returns daily statistics for a campaign
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -183,7 +196,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * Statistics broken down by Banner.
+     * The campaignBannerStatistics function returns banner statistics for 
+	 * a campaign for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -220,7 +234,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * Statistics broken down by Publisher.
+     * The campaignPublisherStatistics function returns publisher statistics for 
+	 * a campaign for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -255,7 +270,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * Statistics broken down by Zone.
+     * The campaignZoneStatistics function returns zone statistics for 
+	 * a campaign for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -290,9 +306,10 @@ class CampaignXmlRpcService extends BaseCampaignService
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get existing Campaign by ID.
+     * The getCampaign function returns either information about a campaign or 
+	 * an error message.
      *
      * @access public
      *
@@ -307,7 +324,7 @@ class CampaignXmlRpcService extends BaseCampaignService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $oCampaign = null;
         if ($this->_oCampaignServiceImp->getCampaign($sessionId,
                 $campaignId, $oCampaign)) {
@@ -318,9 +335,10 @@ class CampaignXmlRpcService extends BaseCampaignService
             return XmlRpcUtils::generateError($this->_oCampaignServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get array of campaigns by advertiser id
+     * The getCampaignListByAdvertiserId function returns a list of campaigns 
+	 * for an advertiser, or returns an error message.
      *
      * @access public
      *
@@ -335,7 +353,7 @@ class CampaignXmlRpcService extends BaseCampaignService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $aCampaignList = null;
         if ($this->_oCampaignServiceImp->getCampaignListByAdvertiserId($sessionId,
                                             $advertiserId, $aCampaignList)) {
@@ -349,6 +367,10 @@ class CampaignXmlRpcService extends BaseCampaignService
 
 }
 
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures.
+ *
+**/
 $oCampaignXmlRpcService = new CampaignXmlRpcService();
 
 $server = new XML_RPC_Server(

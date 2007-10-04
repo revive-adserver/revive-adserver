@@ -29,34 +29,44 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * Agency XMLRPC Service.
+ * The agency XML-RPC service enables XML-RPC communication with the agency object.
  *
  */
 
-// Require the initialisation file
+// Require the initialisation file.
 require_once '../../../../init.php';
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes on the server.
 require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 
-// Base class BaseAgencyService
+// Require the base class, BaseAgencyService.
 require_once MAX_PATH . '/www/api/v1/common/BaseAgencyService.php';
 
-// XmlRpc utils
+// Require the XML-RPC utilities.
 require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
 
-// Require AgencyInfo class
+// Require the AgencyInfo helper class.
 require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
 
+/**
+ * The AgencyXmlRpcService class extends the BaseAgencyService class.
+ *
+ */
 class AgencyXmlRpcService extends BaseAgencyService
 {
+    /**
+     * The AgencyXmlRpcService constructor calls the base service constructor to 
+	 * initialise the service
+     *
+     */
     function AgencyXmlRpcService()
     {
         $this->BaseAgencyService();
     }
 
     /**
-     *  Add new agency.
+     * The addAgency function adds details for a new agency to the agency 
+	 * object and returns either the agency ID or an error message.
      *
      * @access public
      *
@@ -69,13 +79,13 @@ class AgencyXmlRpcService extends BaseAgencyService
         $sessionId          = null;
         $oAgencyInfo        = new OA_Dll_AgencyInfo();
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,  
+
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
                 $oResponseWithError) ||
-            !XmlRpcUtils::getStructureScalarFields($oAgencyInfo, $oParams, 1, 
+            !XmlRpcUtils::getStructureScalarFields($oAgencyInfo, $oParams, 1,
                 array('agencyName', 'contactName', 'emailAddress', 'username',
                 'password'), $oResponseWithError)) {
-            
+
             return $oResponseWithError;
         }
 
@@ -87,7 +97,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Modifies an existing.
+     * The modifyAgency function either changes the details for an existing agency
+	 * or returns an error message.
      *
      * @access public
      *
@@ -101,8 +112,8 @@ class AgencyXmlRpcService extends BaseAgencyService
         $oAgencyInfo        = new OA_Dll_AgencyInfo();
         $oResponseWithError = null;
 
-        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,  
-                $oResponseWithError) || 
+        if (!XmlRpcUtils::getRequiredScalarValue($sessionId, $oParams, 0,
+                $oResponseWithError) ||
             !XmlRpcUtils::getStructureScalarFields($oAgencyInfo, $oParams, 1,
                  array('agencyId', 'agencyName', 'contactName', 'emailAddress',
                      'username', 'password'), $oResponseWithError)) {
@@ -118,7 +129,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Delete existing Agency.
+     * The deleteAgency function either deletes an existing agency from the 
+	 * agency object or returns an error message.
      *
      * @access public
      *
@@ -129,10 +141,10 @@ class AgencyXmlRpcService extends BaseAgencyService
     function deleteAgency(&$oParams)
     {
         $oResponseWithError = null;
-        
-        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$agencyId), 
+
+        if (!XmlRpcUtils::getScalarValues(array(&$sessionId, &$agencyId),
             array(true, true), $oParams, $oResponseWithError)) {
-            
+
             return $oResponseWithError;
         }
 
@@ -147,7 +159,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Statistics broken down by day.
+     * The agencyDailyStatistics function returns either the daily statistics for an agency
+	 * for a specified period or an error message.
      *
      * @access public
      *
@@ -163,7 +176,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyDailyStatistics($sessionId,
                 $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -182,7 +195,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Statistics broken down by Advetiser.
+     * The agencyAdvertiserStatistics function returns either the advertiser statistics for 
+	 * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -198,7 +212,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyAdvertiserStatistics($sessionId,
                 $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -218,7 +232,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Statistics broken down by Campaign.
+     * The agencyCampaignStatistics function returns either the campaign statistics for 
+	 * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -234,7 +249,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyCampaignStatistics($sessionId,
                 $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -256,7 +271,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Statistics broken down by Banner.
+     * The agencyBannerStatistics function returns banner statistics for 
+	 * an agency for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -272,7 +288,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyBannerStatistics($sessionId,
                 $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -296,7 +312,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Statistics broken down by Publisher.
+     * The agencyPublisherStatistics function returns either the publisher statistics for 
+	 * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -312,7 +329,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyPublisherStatistics($sessionId,
                 $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -332,7 +349,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * Statistics broken down by Zone.
+     * The agencyZoneStatistics function returns either the zone statistics for 
+	 * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -348,7 +366,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true, true, false, false), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $rsStatisticsData = null;
         if ($this->_oAgencyServiceImp->getAgencyZoneStatistics($sessionId,
                 $agencyId, $oStartDate, $oEndDate, $rsStatisticsData)) {
@@ -368,9 +386,10 @@ class AgencyXmlRpcService extends BaseAgencyService
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get existing Agency by ID.
+     * The getAgency function returns either information about an agency or 
+	 * an error message.
      *
      * @access public
      *
@@ -385,7 +404,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true, true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $oAgency = null;
         if ($this->_oAgencyServiceImp->getAgency($sessionId,
                 $agencyId, $oAgency)) {
@@ -396,9 +415,10 @@ class AgencyXmlRpcService extends BaseAgencyService
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
-    
+
     /**
-     * Get array of agencies
+     * The getAgencyList function returns either a list of agencies 
+	 * or an error message. 
      *
      * @access public
      *
@@ -413,7 +433,7 @@ class AgencyXmlRpcService extends BaseAgencyService
                 array(true), $oParams, $oResponseWithError)) {
            return $oResponseWithError;
         }
-        
+
         $aAgencyList = null;
         if ($this->_oAgencyServiceImp->getAgencyList($sessionId, $aAgencyList)) {
 
@@ -423,11 +443,14 @@ class AgencyXmlRpcService extends BaseAgencyService
             return XmlRpcUtils::generateError($this->_oAgencyServiceImp->getLastError());
         }
     }
-    
-    
+
+
 }
 
-
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures.
+ *
+**/
 $oAgencyXmlRpcService = new AgencyXmlRpcService();
 
 $server = new XML_RPC_Server(

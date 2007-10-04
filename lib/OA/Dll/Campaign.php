@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Dll Campaign class.
- *
  */
 
 // Require the XMLRPC classes
@@ -47,7 +45,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Campaign.php';
 class OA_Dll_Campaign extends OA_Dll
 {
     /**
-     * Init campaign info from data array
+     * Initialisation of campaign info from data array
      *
      * @access private
      *
@@ -70,10 +68,9 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * Method would perform data validation (e.g. email is an email)
-     * and where necessary would connect to the DAL to obtain information
-     * required to perform other business validations (e.g. username
-     * must be unique across all relevant tables).
+     * Method performs data validation (e.g. email is an email)
+     * and where necessary connects to the DAL to obtain information
+     * required to perform other business validations.
      *
      * @access private
      *
@@ -139,7 +136,7 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * Method would perform data validation for statistics methods(campaignId,
+     * This method performs data validation for statistics methods (campaignId,
      * date).
      *
      * @access private
@@ -165,9 +162,11 @@ class OA_Dll_Campaign extends OA_Dll
     /**
      * Calls method for checking permissions from Dll class.
      *
+	 * @access public
+	 *
      * @param integer $campaignId  Campaign ID
      *
-     * @return boolean  False in access forbidden and true in other case.
+     * @return boolean  False if access denied and true in otherwise.
      */
     function checkStatisticsPermissions($campaignId)
     {
@@ -181,15 +180,21 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * This method modifies an existing campaign. All fields which are
-     * undefined (e.g. permissions) are not changed from the state they
-     * were before modification. Any fields defined below
-     * that are NULL are unchanged.<br>
-     * (Add would be triggered by modify where primary ID is null)
+     * This method modifies an existing campaign.
+     * All fields which are undefined (e.g. permissions) do not change
+     * the state they had before modification.
+     * All below defined fields with value NULL are unchanged.
      *
      * @access public
      *
-     * @param OA_Dll_CampaignInfo &$oCampaign
+     * @param OA_Dll_CampaignInfo &$oCampaign <br />
+     *          <b>For addign</b><br />
+     *          <b>Required properties:</b> advertiserId<br />
+     *          <b>Optional properties:</b> campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
+     * 
+     *          <b>For modify</b><br />
+     *          <b>Required properties:</b> campaignId<br />
+     *          <b>Optional properties:</b> advertiserId, campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
      *
      * @return boolean  True if the operation was successful
      *
@@ -353,7 +358,7 @@ class OA_Dll_Campaign extends OA_Dll
     *
     * @access public
     *
-    * @param integer $campaignId The ID of the campaign to view statistics
+    * @param integer $campaignId The ID of the campaign to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -365,7 +370,7 @@ class OA_Dll_Campaign extends OA_Dll
     *   <li><b>revenue decimal</b>  The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -390,7 +395,7 @@ class OA_Dll_Campaign extends OA_Dll
     *
     * @access public
     *
-    * @param integer $campaignId The ID of the campaign to view statistics
+    * @param integer $campaignId The ID of the campaign to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -407,7 +412,7 @@ class OA_Dll_Campaign extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -432,7 +437,7 @@ class OA_Dll_Campaign extends OA_Dll
     *
     * @access public
     *
-    * @param integer $campaignId The ID of the campaign to view statistics
+    * @param integer $campaignId The ID of the campaign to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -445,7 +450,7 @@ class OA_Dll_Campaign extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -473,7 +478,7 @@ class OA_Dll_Campaign extends OA_Dll
     *
     * @access public
     *
-    * @param integer $campaignId The ID of the campaign to view statistics
+    * @param integer $campaignId The ID of the campaign to view statistics for
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
     * @param array &$rsStatisticsData Parameter for returned data from function
@@ -488,7 +493,7 @@ class OA_Dll_Campaign extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     * </ul>
     *
-    * @return boolean  True if the operation was successful and false on error.
+    * @return boolean  True if the operation was successful and false otherwise.
     *
     */
     function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)

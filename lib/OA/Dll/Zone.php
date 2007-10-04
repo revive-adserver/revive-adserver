@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Dll Zone class.
- *
  */
 
 // Require the XMLRPC classes
@@ -47,7 +45,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Statistics/Zone.php';
 class OA_Dll_Zone extends OA_Dll
 {
     /**
-     * Init zone info from data array
+     * Initialisation of zone info from data array
      *
      * @access private
      *
@@ -68,9 +66,11 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Method would zone type validation.
-     * Types: banner=0, interstitial=1, popup=2, text=3, email=4)
+     * Zone type validation method.
+     * Types: banner=0, interstitial=1, popup=2, text=3, email=4
      *
+	 * @access private
+	 *
      * @param string $type
      *
      * @return boolean
@@ -90,8 +90,12 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * method would perform data validation
+     * Method performs data validation (e.g. email is an email)
+     * and where necessary connects to the DAL to obtain information
+     * required to perform other business validations.
      *
+	 * @access private
+	 *
      * @param OA_Dll_ZoneInfo $oZone
      *
      * @return boolean
@@ -131,9 +135,11 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Method would perform data validation for statistics methods(zoneId,
+     * This method performs data validation for statistics methods(zoneId,
      *  date).
      *
+	 * @access private
+	 *
      * @param integer  $zoneId
      * @param date     $oStartDate
      * @param date     $oEndDate
@@ -155,9 +161,11 @@ class OA_Dll_Zone extends OA_Dll
     /**
      * Calls method for checking permissions from Dll class.
      *
+	 * @access public
+	 *
      * @param integer $advertiserId  Zone ID
      *
-     * @return boolean  False in access forbidden and true in other case.
+     * @return boolean  False if access denied and true otherwise.
      */
     function checkStatisticsPermissions($zoneId)
     {
@@ -171,12 +179,21 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * This method modifies an existing zone. All fields which are
-     * undefined (e.g. permissions) are not changed from the state they
-     * were before modification. Any fields defined below
-     * that are NULL are unchanged.
+     * This method modifies an existing zone.
+     * All fields which are undefined (e.g. permissions) do not change
+     * the state they had before modification.
+     * All below defined fields with value NULL are unchanged.
      *
-     * @param OA_Dll_ZoneInfo $oZone
+	 * @access public
+	 *
+     * @param OA_Dll_ZoneInfo &$oZone <br />
+     *          <b>For addign</b><br />
+     *          <b>Required properties:</b> publisherId<br />
+     *          <b>Optional properties:</b> zoneName, type, width, height<br />
+     * 
+     *          <b>For modify</b><br />
+     *          <b>Required properties:</b> zoneId<br />
+     *          <b>Optional properties:</b> publisherId, zoneName, type, width, height<br />
      *
      * @return success boolean True if the operation was successful
      *
@@ -232,6 +249,8 @@ class OA_Dll_Zone extends OA_Dll
     /**
      * This method deletes an existing zone.
      *
+	 * @access public
+	 *
      * @param integer $zoneId The ID of the zone to delete
      *
      * @return boolean success - True if the operation was successful
@@ -333,6 +352,8 @@ class OA_Dll_Zone extends OA_Dll
     /**
     * This method returns statistics for a given zone, broken down by day.
     *
+    * @access public
+    *
     * @param integer $zoneId The ID of the zone to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
@@ -345,7 +366,7 @@ class OA_Dll_Zone extends OA_Dll
     *   <li><b>revenue decimal</b> The revenue earned for the day
     *   </ul>
     *
-    * @return boolean False if the is error
+    * @return boolean False if there is an error
     *
     */
     function getZoneDailyStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -368,6 +389,8 @@ class OA_Dll_Zone extends OA_Dll
     /**
     * This method returns statistics for a given zone, broken
     * down by advertiser.
+    *
+    * @access public
     *
     * @param integer $zoneId The ID of the zone to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -404,11 +427,8 @@ class OA_Dll_Zone extends OA_Dll
 
     /**
     * This method returns statistics for a given zone, broken down by campaign.
-    * @errors
-    *    Unknown ID Error
-    *       If the zoneId is not a defined zone ID.
-    *    Date Error
-    *        If the start date is after the end date
+    *
+    * @access public
     *
     * @param integer $zoneId The ID of the zone to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
@@ -447,6 +467,8 @@ class OA_Dll_Zone extends OA_Dll
     /**
     * This method returns statistics for a given zone, broken down by banner.
     *
+    * @access public
+    *
     * @param integer $zoneId The ID of the zone to view statistics
     * @param date $oStartDate The date from which to get statistics (inclusive)
     * @param date $oEndDate The date to which to get statistics (inclusive)
@@ -457,8 +479,8 @@ class OA_Dll_Zone extends OA_Dll
     *   <li><b>bannerName string (255)</b> The name of the banner
     *   <li><b>campaignID integer</b> The ID of the banner
     *   <li><b>campaignName string (255)</b> The name of the banner
-    *   <li><b>advertiserID integer</b> The ID advertiser
-    *   <li><b>advertiserName string</b> The name advertiser
+    *   <li><b>advertiserID integer</b> The ID of the advertiser
+    *   <li><b>advertiserName string</b> The name of the advertiser
     *   <li><b>requests integer</b> The number of requests for the banner
     *   <li><b>impressions integer</b> The number of impressions for the banner
     *   <li><b>clicks integer</b> The number of clicks for the banner

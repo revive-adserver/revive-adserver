@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Banner Service Implementation class.
- *
  */
 
 // Base class BaseLogonService
@@ -39,6 +37,11 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 // Banner Dll class
 require_once MAX_PATH . '/lib/OA/Dll/Banner.php';
 
+/**
+ * The BannerServiceImpl class extends the BaseServiceImpl class to enable 
+ * you to add, modify, delete and search the banner object. 
+ *
+ */
 class BannerServiceImpl extends BaseServiceImpl
 {
     /**
@@ -49,7 +52,7 @@ class BannerServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * Constructor for BannerServiceImpl.
+     * The BannerServiceImpl function is the constructor for the BannerServiceImpl class.
      */
     function BannerServiceImpl()
     {
@@ -58,11 +61,13 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Validate action, reise error and return result.
+     * This function checks if an action is valid and either returns a result 
+	 * or an error, as appropriate.
      *
      * @access private
      *
      * @param boolean $result
+     * 
      * @return boolean
      */
     function _validateResult($result)
@@ -76,10 +81,15 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Add Banner. Call method to modify Banner.
+     * The addBanner function creates a banner and updates the 
+	 * banner object with the banner ID.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_BannerInfo &$oBanner
+     * @param OA_Dll_BannerInfo &$oBanner <br />
+     *          <b>Required properties:</b> campaignId<br />
+     *          <b>Optional properties:</b> bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
      *
      * @return boolean
      */
@@ -97,10 +107,16 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Modify Banner. Check and call method to modify Banner.
+     * The modifyBanner function checks if a banner ID exists and 
+	 * modifies the details for the banner if it exists or returns an error 
+	 * message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_DLL_BannerInfo &$oBanner
+     * @param OA_Dll_BannerInfo &$oBanner <br />
+     *          <b>Required properties:</b> bannerId<br />
+     *          <b>Optional properties:</b> campaignId, bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
      *
      * @return boolean
      */
@@ -128,8 +144,11 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to delete banner.
+     * The deleteBanner function checks if a banner exists and deletes 
+	 * the banner or returns an error message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $bannerId
      *
@@ -148,8 +167,11 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate daily statistics.
+     * The getBannerDailyStatistics function returns daily statistics for a 
+	 * banner for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $bannerId
      * @param date $oStartDate
@@ -172,8 +194,11 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate publisher statistics.
+     * The getBannerPublisherStatistics function returns publisher statistics for
+	 * a banner for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $bannerId
      * @param date $oStartDate
@@ -196,8 +221,11 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate zone statistics.
+     * The getBannerZoneStatistics function returns zone statistics for a zone for
+	 * a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $bannerId
      * @param date $oStartDate
@@ -218,14 +246,16 @@ class BannerServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get banner by id
+     * The getBanner function returns the banner details for a specified banner.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $bannerId
      * @param OA_Dll_BannerInfo &$oBanner
-     * 
+     *
      * @return boolean
      */
     function getBanner($sessionId, $bannerId, &$oBanner)
@@ -239,14 +269,16 @@ class BannerServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get banners by campaign id
+     * The getBannerListByCampaignId function returns a list of banners for a campaign.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $campaignId
      * @param array &$aBannerList  Array of OA_Dll_BannerInfo classes
-     * 
+     *
      * @return boolean
      */
     function getBannerListByCampaignId($sessionId, $campaignId, &$aBannerList)

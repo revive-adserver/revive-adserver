@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Base Publisher Service class.
- *
  */
 
 // Require Publisher Service Implementation
@@ -43,12 +41,16 @@ require_once MAX_PATH . '/www/api/v1/xmlrpc/PublisherServiceImpl.php';
 class BasePublisherService
 {
     /**
-     * Reference on Publisher Service implementation.
+     * Reference to Publisher Service implementation.
      *
      * @var PublisherServiceImpl $_oPublisherServiceImp
      */
 	var $_oPublisherServiceImp;
 
+	/**
+	 * This method initialises Service implementation object field.
+	 *
+	 */
 	function BasePublisherService()
 	{
 		$this->_oPublisherServiceImp = new PublisherServiceImpl();

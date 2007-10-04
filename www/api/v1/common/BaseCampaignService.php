@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Base Advertiser Service class.
- *
  */
 
 // Require Campaign Service Implementation
@@ -43,12 +41,16 @@ require_once MAX_PATH . '/www/api/v1/xmlrpc/CampaignServiceImpl.php';
 class BaseCampaignService
 {
     /**
-     * Reference on campaign Service implementation.
+     * Reference to campaign Service implementation.
      *
      * @var CampaignServiceImpl $_oCampaignServiceImp
      */
 	var $_oCampaignServiceImp;
 
+	/**
+	 * This method initialises Service implementation object field.
+	 *
+	 */
 	function BaseCampaignService()
 	{
 		$this->_oCampaignServiceImp = new CampaignServiceImpl();

@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Campaign Information class.
- *
  */
 
 // Include base info class.
@@ -109,6 +107,8 @@ class OA_Dll_CampaignInfo extends OA_Info
 	/**
 	 * Setting all default values. Used in adding new campaign.
 	 *
+	 * @access public
+	 *
 	 */
 	function setDefaultForAdd() {
 	    if (is_null($this->startDate)) {
@@ -135,7 +135,14 @@ class OA_Dll_CampaignInfo extends OA_Info
 	        $this->weight = 1;
 	    }
 	}
-    
+
+	/**
+	 * This method returns array of fields with their corresponding types.
+	 *
+	 * @access public
+	 *
+	 * @return array
+	 */
     function getFieldsTypes()
     {
         return array(

@@ -29,34 +29,44 @@ $Id:$
  * @package    Openads
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * Banner XMLRPC Service.
+ * The banner XML-RPC service enables XML-RPC communication with the banner object.
  *
  */
 
-// Require the initialisation file
+// Require the initialisation file.
 require_once '../../../../init.php';
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes on the server.
 require_once MAX_PATH . '/lib/pear/XML/RPC/Server.php';
 
-// Base class BaseBannerService
+// Require the BaseBannerService class.
 require_once MAX_PATH . '/www/api/v1/common/BaseBannerService.php';
 
-// XmlRpc utils
+// Require the XML-RPC utilities.
 require_once MAX_PATH . '/www/api/v1/common/XmlRpcUtils.php';
 
-// Require BannerInfo class
+// Require the BannerInfo class.
 require_once MAX_PATH . '/lib/OA/Dll/Banner.php';
 
+/**
+ * The BannerXmlRpcService class extends the BaseBannerService class.
+ *
+ */
 class BannerXmlRpcService extends BaseBannerService
 {
+    /**
+     * The BannerXmlRpcService constructor calls the base service constructor to 
+	 * initialise the service
+     *
+     */
     function BannerXmlRpcService()
     {
         $this->BaseBannerService();
     }
 
     /**
-     *  Add new banner.
+     * The addBanner function adds details for a new banner to the banner 
+	 * object and returns either the banner ID or an error message.
      *
      * @access public
      *
@@ -88,7 +98,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * Modifies an existing.
+     * The modifyBanner function changes the details for an existing banner
+	 * in the banner object or returns an error message.
      *
      * @access public
      *
@@ -120,7 +131,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * Delete existing Banner.
+     * The deleteBanner function either deletes an existing banner or 
+	 * returns an error message.
      *
      * @access public
      *
@@ -148,7 +160,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * Statistics broken down by day.
+     * The bannerDailyStatistics function returns daily statistics for a banner
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -184,7 +197,8 @@ class BannerXmlRpcService extends BaseBannerService
 
 
     /**
-     * Statistics broken down by Publisher.
+     * The bannerPublisherStatistics function returns publisher statistics for a banner
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -220,7 +234,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * Statistics broken down by Zone.
+     * The bannerZoneStatistics function returns zone statistics for a banner
+	 * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -258,7 +273,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * Get existing Banner by ID.
+     * The getBanner function returns either information about a banner or 
+	 * an error message.
      *
      * @access public
      *
@@ -286,7 +302,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * Get array of banners by campaign id
+     * The getBannerListByCampaignId function returns a list of banners 
+	 * for a campaign, or returns an error message.
      *
      * @access public
      *
@@ -315,6 +332,10 @@ class BannerXmlRpcService extends BaseBannerService
 
 }
 
+/**
+ * Initialise the XML-RPC server including the available methods and their signatures.
+ *
+**/
 $oBannerInfoXmlRpcService = new BannerXmlRpcService();
 
 $server = new XML_RPC_Server(

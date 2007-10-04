@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Base Agency Service class.
- *
  */
 
 // Require Agency Service Implementation
@@ -43,12 +41,16 @@ require_once MAX_PATH . '/www/api/v1/xmlrpc/AgencyServiceImpl.php';
 class BaseAgencyService
 {
     /**
-     * Reference on agency Service implementation.
+     * Reference to agency Service implementation.
      *
      * @var AgencyServiceImpl $_oAgencyServiceImp
      */
 	var $_oAgencyServiceImp;
 
+	/**
+	 * This method initialises Service implementation object field.
+	 *
+	 */
 	function BaseAgencyService()
 	{
 		$this->_oAgencyServiceImp = new AgencyServiceImpl();

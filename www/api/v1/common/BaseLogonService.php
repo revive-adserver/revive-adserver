@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Base Logon Service class.
- *
  */
 
 // Require the XMLRPC classes
@@ -44,12 +42,16 @@ require_once MAX_PATH . '/www/api/v1/xmlrpc/LogonServiceImpl.php';
 class BaseLogonService
 {
     /**
-     * Reference on logon Service implementation.
+     * Reference to logon Service implementation.
      *
      * @var LogonServiceImpl $logonServiceImp
      */
 	var $logonServiceImp;
 
+	/**
+	 * This method initialises Service implementation object field.
+	 *
+	 */
 	function BaseLogonService()
 	{
 		$this->logonServiceImp = new LogonServiceImpl();

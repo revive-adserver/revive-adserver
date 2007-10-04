@@ -29,8 +29,6 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Agency Service Implementation class.
- *
  */
 
 // Base class BaseLogonService
@@ -39,6 +37,11 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 // Agency Dll class
 require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
 
+/**
+ * The AgencyServiceImpl class extends the BaseServiceImpl class to enable 
+ * you to add, modify, delete and search the agency object.
+ *
+ */
 class AgencyServiceImpl extends BaseServiceImpl
 {
     /**
@@ -49,7 +52,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * Constructor for AgencyServiceImpl.
+     * The AgencyServiceImpl function is the constructor for the AgencyServiceImpl class.
      */
     function AgencyServiceImpl()
     {
@@ -58,7 +61,8 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Validate action, reise error and return result.
+     * This function checks if an action is valid and either returns a result 
+	 * or an error, as appropriate.
      *
      * @access private
      *
@@ -76,10 +80,15 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Add agency. Call method to modify agency.
+     * The addAgency function creates an agency and updates the 
+	 * agency object with the agency ID.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_Dll_AgencyInfo &$oAgency
+     * @param OA_Dll_AgencyInfo &$oAgency <br />
+     *          <b>Required properties:</b> agencyName<br />
+     *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
      *
      * @return boolean
      */
@@ -97,10 +106,16 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Modify agency. Check and call method to modify agency.
+     * The modifyAgency function checks if an agency ID exists and 
+	 * modifies the details for the agency if it exists or returns an error 
+	 * message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
-     * @param OA_DLL_AgencyInfo &$oAgency
+     * @param OA_Dll_AgencyInfo &$oAgency <br />
+     *          <b>Required properties:</b> agencyId<br />
+     *          <b>Optional properties:</b> agencyName, contactName, emailAddress, username, password<br />
      *
      * @return boolean
      */
@@ -126,8 +141,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to delete agency.
+     * The deleteAgency function checks if an agency exists and deletes 
+	 * the agency or returns an error message, as appropriate.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      *
@@ -146,8 +164,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate daily statistics.
+     * The getAgencyDailyStatistics function returns daily statistics for an 
+	 * agency for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -170,8 +191,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate advertiser statistics.
+     * The getAgencyAdvertiserStatistics function returns advertiser statistics 
+	 * for an agency for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -194,8 +218,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate campaign statistics.
+     * The getAgencyCampaignStatistics function returns campaign statistics for 
+	 * an agency for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -218,8 +245,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate banner statistics.
+     * The getAgencyBannerStatistics function returns banner statistics for 
+	 * an agency for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -242,8 +272,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate publisher statistics.
+     * The getAgencyPublisherStatistics function returns publisher statistics for 
+	 * an agency for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -266,8 +299,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Call method to generate zone statistics.
+     * The getAgencyZoneStatistics function returns zone statistics for 
+	 * an agency for a specified period.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -288,14 +324,16 @@ class AgencyServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get agency by id
+     * The getAgency function returns the agency details for a specified agency.
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param integer $agencyId
      * @param OA_Dll_AgencyInfo &$oAgency
-     * 
+     *
      * @return boolean
      */
     function getAgency($sessionId, $agencyId, &$oAgency)
@@ -309,13 +347,15 @@ class AgencyServiceImpl extends BaseServiceImpl
 			return false;
 		}
     }
-    
+
     /**
-     * Call method to get all agencies list
+     * The getAgencyList function returns a list of agencies. 
      *
+     * @access public
+     * 
      * @param string $sessionId
      * @param array &$aAgencyList  Array of OA_Dll_AgencyInfo classes
-     * 
+     *
      * @return boolean
      */
     function getAgencyList($sessionId, &$aAgencyList)

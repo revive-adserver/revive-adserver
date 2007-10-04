@@ -29,8 +29,6 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Banner Information class.
- *
  */
 
 // Include base info class.
@@ -106,6 +104,13 @@ class OA_Dll_BannerInfo extends OA_Info
      * @var integer $height
      */
 	var $height;
+	
+	/**
+	 * The priority of this banner.
+	 *
+	 * @var integer $weight
+	 */
+	var $weight;
 
     /**
      * The destination URL of the banner.
@@ -131,6 +136,8 @@ class OA_Dll_BannerInfo extends OA_Info
 	/**
 	 * Setting all default values. Used in adding new banner.
 	 *
+	 * @access public
+	 *
 	 */
 	function setDefaultForAdd() {
 	    if (is_null($this->storageType)) {
@@ -155,6 +162,13 @@ class OA_Dll_BannerInfo extends OA_Info
 
 	}
 
+	/**
+	 * This method returns array of fields with their corresponding types.
+	 *
+	 * @access public
+	 *
+	 * @return array
+	 */
     function getFieldsTypes()
     {
         return array(
