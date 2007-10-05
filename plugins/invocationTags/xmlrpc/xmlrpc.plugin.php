@@ -94,6 +94,7 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
             'hostlanguage'  => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'xmlrpcproto'   => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
             'xmlrpctimeout' => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
+            'comments'      => MAX_PLUGINS_INVOCATION_TAGS_STANDARD,
         );
 
         return $options;
@@ -144,8 +145,9 @@ class Plugins_InvocationTags_xmlrpc_xmlrpc extends Plugins_InvocationTags
                 }
 
                 $buffer .= "<"."?php\n /* " . str_replace(array("\n", '/*', '*/'), array('', '', ''), $mi->buffer) . "\n  *";
-                $buffer .= MAX_Plugin_Translation::translate('PHP Comment', $this->module, $this->package) . "\n\n";
-
+                if (!isset($mi->comments) || ($mi->comments == "1")) {
+                    $buffer .= MAX_Plugin_Translation::translate('PHP Comment', $this->module, $this->package) . "\n\n";
+                }
                 $buffer .= '    //ini_set(\'include_path\', \'.:/usr/local/lib\');' . "\n";
                 $buffer .= '    require \'openads-xmlrpc.inc.php\';' . "\n\n";
                 $buffer .= '    if (!isset($OA_context)) $OA_context = array();' . "\n\n";
