@@ -2593,6 +2593,12 @@ return @file_get_contents($conf['file']['flash']);
 return file_get_contents(MAX_PATH . '/www/delivery/' . $conf['file']['flash']);
 }
 }
+// init-variables will have set "loc" to $_SERVER['HTTP_REFERER']
+// however - in local mode (only), this is not the case
+$referer = $loc;
+$loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+getHostName() .
+$_SERVER['REQUEST_URI'];
 // This function is a wrapper to view raw, this allows for future migration
 function view_local($what, $zoneid = 0, $campaignid = 0, $bannerid = 0, $target = '', $source = '', $withtext = '', $context = '') {
 // start stacked output buffering
@@ -2608,13 +2614,6 @@ if ($bannerid) {
 $what = "bannerid:".$bannerid;
 }
 }
-// init-variables will have set "loc" to $_SERVER['HTTP_REFERER']
-// however - in local mode (only), this is not the case
-global $loc, $referer;
-$referer = $loc;
-$loc = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
-getHostName() .
-$_SERVER['REQUEST_URI'];
 $output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $loc, $referer);
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
@@ -2638,6 +2637,56 @@ MAX_cookieFlush();
 // add cookies to output html
 $output['html'] .= ob_get_clean();
 return $output;
+}
+function view_spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0)
+{
+global $context;
+if (is_numeric($what)) {
+$zones = OA_cacheGetPublisherZones($what);
+$nz = false;
+} else {
+$zones = $what;
+$nz = true;
+}
+$spc_output = array();
+$fo_required = false;
+foreach ($zones as $zone => $data) {
+if (empty($zone)) continue;
+// nz is set when "named zones" are being used, this allows a zone to be selected more than once
+if ($nz) {
+$varname = $zone;
+$zoneid = $data;
+} else {
+$varname = $zoneid = $zone;
+}
+// Get the banner
+$output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
+if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
+$fo_required = true;
+}
+$spc_output[$varname] = $output['html'];
+// Block this banner for next invocation
+if (!empty($block) && !empty($output['bannerid'])) {
+$output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+}
+// Block this campaign for next invocation
+if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+$output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+}
+// Pass the context array back to the next call, have to iterate over elements to prevent duplication
+if (!empty($output['context'])) {
+foreach ($output['context'] as $id => $contextArray) {
+if (!in_array($contextArray, $context)) {
+$context[] = $contextArray;
+}
+}
+}
+}
+// Make sure the FlashObject library is available if required
+if ($fo_required) {
+echo MAX_flashGetFlashObjectExternal();
+}
+return $spc_output;
 }
 
 
