@@ -274,7 +274,7 @@ $viewwindow['second'] = $seconds_left;
 $tabindex = 1;
 
 echo "<br /><br />";
-echo "<form name='clientform' method='post' action='tracker-edit.php'>"."\n";
+echo "<form name='clientform' method='post' action='tracker-edit.php' onSubmit='return max_formValidate(this);'>"."\n";
 echo "<input type='hidden' name='trackerid' value='".(isset($trackerid) ? $trackerid : '')."'>"."\n";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
 echo "<input type='hidden' name='move' value='".(isset($move) ? $move : '')."'>"."\n";
@@ -410,13 +410,14 @@ echo "</form>"."\n";
 $doTrackers = OA_Dal::factoryDO('trackers');
 $doTrackers->clientid = $clientid;
 $unique_names = $doTrackers->getUniqueValuesFromColumn('trackername');
-
+if ($trackerid) {
+    ArrayUtils::unsetIfKeyNumeric($unique_names, $row['trackername']);
+}
 ?>
 
 <script language='JavaScript'>
 <!--
     max_formSetRequirements('trackername', '<?php echo addslashes($strName); ?>', true, 'unique');
-
     max_formSetUnique('trackername', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 
     function phpAds_formLimitBlur (f)
@@ -458,6 +459,12 @@ $unique_names = $doTrackers->getUniqueValuesFromColumn('trackername');
         if (f.clickwindowhour.value == '-' && f.clickwindowminute.value == '0') f.clickwindowminute.value = '-';
         if (f.clickwindowminute.value == '-' && f.clickwindowsecond.value == '0') f.clickwindowsecond.value = '-';
 
+        //  Set - if value negative
+        if (f.clickwindowday.value < 0) f.clickwindowday.value = 0;
+        if (f.clickwindowhour.value < 0) f.clickwindowhour.value = 0;
+        if (f.clickwindowminute.value < 0) f.clickwindowminute.value = 0;
+        if (f.clickwindowsecond.value < 0) f.clickwindowsecond.value = 0;
+
         // Set -
         if (f.viewwindowhour.value == '-' && f.viewwindowday.value != '-') f.viewwindowhour.value = '0';
         if (f.viewwindowminute.value == '-' && f.viewwindowhour.value != '-') f.viewwindowminute.value = '0';
@@ -468,6 +475,13 @@ $unique_names = $doTrackers->getUniqueValuesFromColumn('trackername');
         if (f.viewwindowday.value == '-' && f.viewwindowhour.value == '0') f.viewwindowhour.value = '-';
         if (f.viewwindowhour.value == '-' && f.viewwindowminute.value == '0') f.viewwindowminute.value = '-';
         if (f.viewwindowminute.value == '-' && f.viewwindowsecond.value == '0') f.viewwindowsecond.value = '-';
+
+        //  Set - if value negative
+        if (f.viewwindowday.value < 0) f.viewwindowday.value = 0;
+        if (f.viewwindowhour.value < 0) f.viewwindowhour.value = 0;
+        if (f.viewwindowminute.value < 0) f.viewwindowminute.value = 0;
+        if (f.viewwindowsecond.value < 0) f.viewwindowsecond.value = 0;
+
 
         <?php
         foreach ($plugins as $plugin) {
