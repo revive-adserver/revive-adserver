@@ -89,9 +89,9 @@ if (isset($graphFilter) && is_array($graphFilter)) {
     // Remove old filter fileds from link
     $REQUEST_URI = $_SERVER['REQUEST_URI'];
     $REQUEST_URI = preg_replace('/graphFields\[\]=(.*)$/', '', $REQUEST_URI);
-    $redirectUrl = 'http://'
-                   . $_SERVER['SERVER_NAME']
-                   . $REQUEST_URI;
+    $REQUEST_URI = substr(strrchr($REQUEST_URI, '/'), 1);
+    $redirectUrl = MAX::constructUrl(MAX_URL_ADMIN, $REQUEST_URI);
+
     foreach($graphFilter as $k => $v) {
         $redirectUrl .= '&graphFields[]=' . $v;
     }
