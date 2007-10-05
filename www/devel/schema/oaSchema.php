@@ -93,14 +93,19 @@ class Openads_Schema_Manager
      *
      * @param string The XML schema file we are working on
      */
-    function __construct($file_schema = 'tables_core.xml', $file_changes='')
+    function __construct($file_schema = 'tables_core.xml', $file_changes='', $path_schema)
     {
         $this->oLogger = new OA_UpgradeLogger();
         $this->oLogger->setLogFile('schema.log');
 
-        $this->path_schema_final = MAX_PATH.'/etc/';
+        if (!empty($path_schema))
+        {
+            $path_schema = '/'.$path_schema;
+        }
+
+        $this->path_schema_final = MAX_PATH.$path_schema.'/etc/';
         $this->path_schema_trans = MAX_PATH.'/var/';
-        $this->path_changes_final = MAX_PATH.'/etc/changes/';
+        $this->path_changes_final = MAX_PATH.$path_schema.'/etc/changes/';
         $this->path_changes_trans = MAX_PATH.'/var/';
 
         //$this->path_dbo = $this->path_changes_final.'DataObjects_';
@@ -116,6 +121,8 @@ class Openads_Schema_Manager
         $this->schema_final = $this->path_schema_final.$file_schema;
         $this->schema_trans = $this->path_schema_trans.$file_schema;
 
+        $this->oLogger->log($this->schema_final);
+
         $this->use_links = ($file_schema=='tables_core.xml');
         if ($this->use_links)
         {
@@ -125,6 +132,8 @@ class Openads_Schema_Manager
 
         $this->changes_final = $this->path_changes_final.$file_changes;
         $this->changes_trans = $this->path_changes_trans.$file_changes;
+
+        $this->oLogger->log($this->changes_final);
 
         if ($this->use_links)
         {

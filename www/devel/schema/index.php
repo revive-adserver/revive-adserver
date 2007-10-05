@@ -41,32 +41,45 @@ if (array_key_exists('btn_changeset_archive', $_POST))
 
 require_once 'oaSchema.php';
 
-if ( array_key_exists('xml_file', $_POST) && (!empty($_POST['xml_file'])) )
+if ( array_key_exists('xml_path', $_REQUEST) && (!empty($_REQUEST['xml_path'])) )
 {
-    setcookie('schemaFile', $_POST['xml_file']);
-    $schemaFile = $_POST['xml_file'];
+    $schemaPath = $_REQUEST['xml_path'];
+}
+else if ( array_key_exists('schemaPath', $_COOKIE) && (!empty($_COOKIE['schemaPath'])))
+{
+    $schemaPath = $_COOKIE['schemaPath'];
+}
+else
+{
+    $schemaPath = '';
+}
+setcookie('schemaPath', $schemaPath);
+
+if ( array_key_exists('xml_file', $_REQUEST) && (!empty($_REQUEST['xml_file'])) )
+{
+    $schemaFile = $_REQUEST['xml_file'];
     if ($_POST['table_edit'])
     {
         $_POST['table_edit'] = '';
     }
 }
-else if (array_key_exists('xajax', $_POST))
+else if ( array_key_exists('schemaFile', $_COOKIE) && (!empty($_COOKIE['schemaFile'])))
 {
-   $schemaFile = $_COOKIE['schemaFile'];
+    $schemaFile = $_COOKIE['schemaFile'];
 }
 else
 {
-    $schemaFile = $_COOKIE['schemaFile'];
-    if (!$schemaFile)
-    {
-        setcookie('schemaFile', 'tables_core.xml');
-        $schemaFile = 'tables_core.xml';
-    }
+    $schemaFile = 'tables_core.xml';
 }
-global $oaSchema;
-$oaSchema = & new Openads_Schema_Manager($schemaFile);
+setcookie('schemaFile', $schemaFile);
 
-if (($aErrs = $oaSchema->checkPermissions()) !== true) {
+global $oaSchema;
+$oaSchema = & new Openads_Schema_Manager($schemaFile, '', $schemaPath);
+
+if (($aErrs = $oaSchema->checkPermissions()) !== true)
+{
+    setcookie('schemaFile', '');
+    setcookie('schemaPath', '');
     die(join("<br />\n", $aErrs));
 }
 

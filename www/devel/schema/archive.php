@@ -82,7 +82,15 @@ function getSchemaFile($changesFile)
 
 require_once '../../../init.php';
 define('MAX_DEV', MAX_PATH.'/www/devel');
-define('MAX_CHG', MAX_PATH.'/etc/changes/');
+if (array_key_exists('schemaPath', $_COOKIE) && ($_COOKIE['schemaPath']))
+{
+    define('MAX_CHG', MAX_PATH.'/'.$_COOKIE['schemaPath'].'/etc/changes/');
+    $schemaPath = '/'.$_COOKIE['schemaPath'];
+}
+else
+{
+    define('MAX_CHG', MAX_PATH.'/etc/changes/');
+}
 
 if (array_key_exists('select_changesets', $_POST))
 {
@@ -115,7 +123,7 @@ else if (array_key_exists('btn_migration_create', $_POST))
         $schemaFile = 'changes/'.str_replace('changes_', 'schema_', $changesFile);
 
         require_once 'oaSchema.php';
-        $oaSchema = & new Openads_Schema_Manager($schemaFile);
+        $oaSchema = & new Openads_Schema_Manager($schemaFile, '', $schemaPath);
 
         if (($aErrs = $oaSchema->checkPermissions()) !== true) {
             die(join("<br />\n", $aErrs));
@@ -151,7 +159,7 @@ else if (array_key_exists('btn_field_save', $_POST))
     }
 
     require_once 'oaSchema.php';
-    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile);
+    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
 
     if (($aErrs = $oaSchema->checkPermissions()) !== true) {
         die(join("<br />\n", $aErrs));
@@ -182,7 +190,7 @@ else if (array_key_exists('btn_table_save', $_POST))
     }
 
     require_once 'oaSchema.php';
-    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile);
+    $oaSchema = & new Openads_Schema_Manager($schemaFile, $changesFile, $schemaPath);
 
     if (($aErrs = $oaSchema->checkPermissions()) !== true) {
         die(join("<br />\n", $aErrs));

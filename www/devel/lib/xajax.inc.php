@@ -41,11 +41,18 @@ function testAjax($form)
 function loadChangeset()
 {
     $objResponse = new xajaxResponse();
-    $changefile = $_COOKIE['changesetFile'];
+    $changeFile = $_COOKIE['changesetFile'];
     $opts = '';
     $aFiles = array();
-    $dh = opendir(MAX_PATH.'/etc/changes');
-    if ($dh) {
+    $changePath = MAX_CHG;
+    global $oaSchema;
+    if ($oaSchema)
+    {
+        $changePath = $oaSchema->path_changes_final;
+    }
+    $dh = opendir($changePath);
+    if ($dh)
+    {
         $opts = '<option value="" selected="selected"></option>';
         while (false !== ($file = readdir($dh)))
         {
@@ -57,7 +64,7 @@ function loadChangeset()
         krsort($aFiles);
         foreach ($aFiles AS $file => $null)
         {
-            if ($file!=$changefile)
+            if ($file!=$changeFile)
             {
                 $opts.= '<option value="'.$file.'">'.$file.'</option>';
             }
@@ -69,7 +76,7 @@ function loadChangeset()
         closedir($dh);
         $objResponse->addAssign('select_changesets',"innerHTML", $opts);
 
-        if (is_null($changefile))
+        if (is_null($changeFile))
         {
             $objResponse->addAssign('was_edit_field',"style.display", 'none');
             $objResponse->addAssign('was_show_field',"style.display", 'inline');
@@ -92,46 +99,16 @@ function loadChangeset()
 	return $objResponse;
 }
 
-function loadSchemaFile()
-{
-    $objResponse = new xajaxResponse();
-    $schemaFile = $_COOKIE['schemaFile'];
-    $opts = '';
-    $dh = opendir(MAX_PATH.'/etc/changes');
-    if ($dh) {
-        while (false !== ($file = readdir($dh)))
-        {
-            if (preg_match('/schema_[\w\W]+_[\d]+\.xml/', $file, $aMatches))
-            {
-                $aFiles[$file] = '';
-            }
-        }
-        ksort($aFiles);
-        foreach ($aFiles AS $file => $null)
-        {
-            if ($file!=$schemaFile)
-            {
-                $opts.= '<option value="'.$file.'">'.$file.'</option>';
-            }
-            else
-            {
-                $opts.= '<option value="'.$file.'" selected="selected">'.$file.'</option>';
-            }
-        }
-        closedir($dh);
-        $objResponse->addAssign('xml_file',"innerHTML", $opts);
-    }
-	return $objResponse;
-}
-
 function loadSchema()
 {
+    global $oaSchema;
     $objResponse = new xajaxResponse();
-    $schemaFile = $_COOKIE['schemaFile'];
+    $schemaFile = basename($oaSchema->schema_final);
     $opts = '';
-    $dh = opendir(MAX_PATH.'/etc');
-    if ($dh) {
-        //$opts = '<option value="" selected="selected"></option>';
+    $oaSchema->oLogger->log('xajax: '.$oaSchema->path_schema_final.$schemaFile);
+    $dh = opendir($oaSchema->path_schema_final);
+    if ($dh)
+    {
         while (false !== ($file = readdir($dh)))
         {
             if (strpos($file, '.xml')>0)
