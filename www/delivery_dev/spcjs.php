@@ -44,6 +44,9 @@ header("Content-Type: text/javascript");
 header("Content-Size: ".strlen($output));
 header("Expires: ".gmdate('r', time() + 86400));
 
+// Flush cookies
+MAX_cookieFlush();
+
 echo $output;
 
 function OA_SPCGetJavaScript($affiliateid)

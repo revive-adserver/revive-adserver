@@ -177,6 +177,89 @@ class OA_XmlRpc
             'campaignid' => 0
         );
     }
+
+    function spc($what, $target = '', $source = '', $withtext = 0, $block = 0, $blockcampaign = 0)
+    {
+        global $XML_RPC_String, $XML_RPC_Boolean;
+        global $XML_RPC_Array, $XML_RPC_Struct;
+        global $XML_RPC_Int;
+
+        // Prepare variables
+        $aServerVars = array(
+            'remote_addr'       => 'REMOTE_ADDR',
+            'remote_host'       => 'REMOTE_HOST',
+
+            // Headers used for ACLs
+            'request_uri'       => 'REQUEST_URI',
+            'https'             => 'HTTPS',
+            'server_name'       => 'SERVER_NAME',
+            'http_host'         => 'HTTP_HOST',
+            'accept_language'   => 'HTTP_ACCEPT_LANGUAGE',
+            'referer'           => 'HTTP_REFERER',
+            'user_agent'        => 'HTTP_USER_AGENT',
+
+            // Headers used for proxy lookup
+            'via'               => 'HTTP_VIA',
+            'forwarded'         => 'HTTP_FORWARDED',
+            'forwarded_for'     => 'HTTP_FORWARDED_FOR',
+            'x_forwarded'       => 'HTTP_X_FORWARDED',
+            'x_forwarded_for'   => 'HTTP_X_FORWARDED_FOR',
+            'client_ip'         => 'HTTP_CLIENT_IP'
+        );
+
+        // Create environment array
+        $aRemoteInfo = array();
+        foreach ($aServerVars as $xmlVar => $varName) {
+            if (isset($_SERVER[$varName])) {
+                $aRemoteInfo[$xmlVar] = $_SERVER[$varName];
+            }
+        }
+
+        // Add cookies
+        $aRemoteInfo['cookies'] = $_COOKIE;
+
+        // If an array of zones was passed into $what, then serialise this for the XML-RPC call
+        if (is_array($what)) {
+            $what = serialize($what);
+        }
+        // Create the XML-RPC message
+        $message = new XML_RPC_Message('openads.spc', array(
+            XML_RPC_encode($aRemoteInfo),
+            new XML_RPC_Value($what,          $XML_RPC_String),
+            new XML_RPC_Value($target,        $XML_RPC_String),
+            new XML_RPC_Value($source,        $XML_RPC_String),
+            new XML_RPC_Value($withtext,      $XML_RPC_Boolean),
+            new XML_RPC_Value($block,         $XML_RPC_Boolean),
+            new XML_RPC_Value($blockcampaign, $XML_RPC_Boolean),
+        ));
+
+        // Create an XML-RPC client to talk to the XML-RPC server
+        $client = new XML_RPC_Client($this->path, $this->host, $this->port);
+
+        // Send the XML-RPC message to the server
+        $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
+
+        // Was the response OK?
+        if ($response && $response->faultCode() == 0) {
+            $response = XML_RPC_decode($response->value());
+
+            if (isset($response['cookies']) && is_array($response['cookies'])) {
+                foreach ($response['cookies'] as $cookieName => $cookieValue) {
+                    setcookie($cookieName, $cookieValue[0], $cookieValue[1]);
+                }
+            }
+
+            unset($response['cookies']);
+
+            return $response;
+        }
+
+        return array(
+            'html'       => '',
+            'bannerid'   => 0,
+            'campaignid' => 0
+        );
+    }
 }
 
 ?>

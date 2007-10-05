@@ -41,6 +41,11 @@ $server = new XML_RPC_Server(array(
                 'signature' => $xmlRpcView_OA['sig'],
                 'docstring' => $xmlRpcView_OA['doc']
             ),
+            'openads.spc'   => array(
+                'function'  => 'OA_Delivery_XmlRpc_SPC',
+                'signature' => $xmlRpcSPC_OA['sig'],
+                'docstring' => $xmlRpcSPC_OA['doc']
+            ),
             'phpAds.view'  => array(
                 'function'  => 'OA_Delivery_XmlRpc_View_PAN',
                 'signature' => $xmlRpcView_PAN['sig'],

@@ -73,6 +73,29 @@ $xmlRpcView_OA =
                  '"withText", "context" returns the cookies to be set and the HTML code to display the ' .
                  'appropriate advertisement.'
     );
+/**
+ * New Openads signature / docs for SPC XML-RPC method
+ *
+ * @since 2.5.2-dev
+ */
+$xmlRpcSPC_OA =
+    array(
+        'sig' => array(
+                    array(
+                        $GLOBALS['XML_RPC_Struct'],  // Return value
+                        $GLOBALS['XML_RPC_Struct'],  // Environment and cookies
+                        $GLOBALS['XML_RPC_String'],  // What
+                        $GLOBALS['XML_RPC_String'],  // Target
+                        $GLOBALS['XML_RPC_String'],  // Source
+                        $GLOBALS['XML_RPC_Boolean'], // WithText
+                        $GLOBALS['XML_RPC_Boolean'], // Block
+                        $GLOBALS['XML_RPC_Boolean'], // Block Campaign
+                    )
+                ),
+        'doc' => 'When passed the "environment/cookies" struct, "what", "target", "source", ' .
+                 '"withtext", "block" and "blockcampaign" returns the cookies to be set and an array of HTML code to display the ' .
+                 'selected advertisements.'
+    );
 
 /**
  * MMM 0.3 / Openads 2.3 backwards compatible signature / docs
@@ -252,6 +275,201 @@ function OA_Delivery_XmlRpc_View($params)
         $_SERVER['REQUEST_URI'];
     // Add $referer parameter
     $view_params[] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+
+    // Call MAX_adSelect with supplied parameters
+    $output = call_user_func_array('MAX_adSelect', $view_params);
+
+    // Prepare output as PHP array
+    if (!is_array($output)) {
+        $output = array();
+    } elseif (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
+        $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
+    }
+
+    MAX_cookieFlush();
+
+    // Add cookie information
+    $output['cookies'] = $GLOBALS['_OA']['COOKIE']['XMLRPC_CACHE'];
+
+    // Return response
+    return new XML_RPC_Response(XML_RPC_encode($output));
+}
+
+/**
+ * A function to handle XML-RPC advertisement SPC requests.
+ *
+ * @param XML_RPC_Message $params An XML_RPC_Message containing the parameters. The expected parameters
+ *                              are (in order):
+ *                              - An XML_RPC_Value of type "struct"  containing remote informations
+ *                                which needs at least two members:
+ *                                - remote_addr (string) and
+ *                                - cookies     (struct);
+ *                              - An XML_RPC_Value of type "string"  containing the "what" value;
+ *                              - An XML_RPC_Value of type "string"  containing the "target" value;
+ *                              - An XML_RPC_Value of type "string"  containing the "source" value;
+ *                              - An XML_RPC_Value of type "boolean" containing the "withtext" value;
+ *                              - An XML_RPC_Value of type "boolean" containing the "block" value;
+ *                              - An XML_RPC_Value of type "boolean" containing the "blockcampaign" value;
+ * @return XML_RPC_Response The response. The XML_RPC_Value of the response can be one of
+ *                          a number of different values:
+ *                          - Error Code 21: wrong number of parameters.
+ *                          - Error Code 22: remote_addr element missing from the remote info struct.
+ *                          - Error Code 23: cookies element missing from the remote info struct.
+ *                          - An XML_RPC_Value of type "struct" with the HTML details required
+ *                            for displaying the advertisement stored as in XML_RPC_Value of
+ *                            type "string" in the "html" index, and other elements returned by the
+ *                            MAX_asSelect call. A special "cookies" element is either:
+ *                            - An empty XML_RPC_Value if there are no cookies to be set, or
+ *                            - An XML_RPC_Value of type "array", containing a number of XML_RPC_Values
+ *                              of tpye "array", each with 3 items:
+ *                              - An XML_RPC_Value of type "string" with the cookie name;
+ *                              - An XML_RPC_Value of type "string" with the cookie value; and
+ *                              - An XML_RPC_Value of type "string" with the cookie expiration time.
+ */
+function OA_Delivery_XmlRpc_SPC($params)
+{
+    global $XML_RPC_erruser;
+    global $XML_RPC_String, $XML_RPC_Struct, $XML_RPC_Array;
+
+    // Check the parameters exist
+    $numParams = $params->getNumParams();
+    if ($numParams != 7) {
+        // Return an error
+        $errorCode = $XML_RPC_erruser + 21;
+        $errorMsg  = 'Incorrect number of parameters';
+        return new XML_RPC_Response(0, $errorCode, $errorMsg);
+    }
+
+    // Set the XML values into their correct variables to make life easier
+    $vars = array(
+        1 => 'what',
+        2 => 'target',
+        3 => 'source',
+        4 => 'withtext',
+        5 => 'block',
+        6 => 'blockcampaign',
+    );
+    // Parse parameters
+    for ($i = 0; $i < $numParams; $i++)
+    {
+        $p = $params->getParam($i);
+
+        if ($i) {
+            // Put the decoded value the view arg array
+            $$vars[$i] = XML_RPC_decode($p);
+        } else {
+            // First parameter: environment information supplied be XML-RPC client
+            $p = XML_RPC_decode($p);
+
+            if (!isset($p['remote_addr'])) {
+                // Return an error
+                $errorCode = $XML_RPC_erruser + 22;
+                $errorMsg  = "Missing 'remote_addr' member";
+                return new XML_RPC_Response(0, $errorCode, $errorMsg);
+            }
+            if (!isset($p['cookies']) || !is_array($p['cookies'])) {
+                // Return an error
+                $errorCode = $XML_RPC_erruser + 23;
+                $errorMsg  = "Missing 'cookies' member";
+                return new XML_RPC_Response(0, $errorCode, $errorMsg);
+            }
+
+            $aServerVars = array(
+                'remote_addr'       => 'REMOTE_ADDR',
+                'remote_host'       => 'REMOTE_HOST',
+
+                // Headers used for ACLs
+                'request_uri'       => 'REQUEST_URI',
+                'https'             => 'HTTPS',
+                'server_name'       => 'SERVER_NAME',
+                'http_host'         => 'HTTP_HOST',
+                'accept_language'   => 'HTTP_ACCEPT_LANGUAGE',
+                'referer'           => 'HTTP_REFERER',
+                'user_agent'        => 'HTTP_USER_AGENT',
+
+                // Headers used for proxy lookup
+                'via'               => 'HTTP_VIA',
+                'forwarded'         => 'HTTP_FORWARDED',
+                'forwarded_for'     => 'HTTP_FORWARDED_FOR',
+                'x_forwarded'       => 'HTTP_X_FORWARDED',
+                'x_forwarded_for'   => 'HTTP_X_FORWARDED_FOR',
+                'client_ip'         => 'HTTP_CLIENT_IP'
+            );
+
+            // Extract environment vars to $_SERVER
+            foreach ($aServerVars as $xmlName => $varName) {
+                if (isset($p[$xmlName])) {
+                    $_SERVER[$varName] = $p[$xmlName];
+                }
+            }
+
+            // Extract cookie vars to $_COOKIE
+            foreach ($p['cookies'] as $key => $value) {
+                $_COOKIE[$key] = MAX_commonAddslashesRecursive($value);
+            }
+
+            MAX_cookieUnpackCapping();
+        }
+    }
+
+    // Add defaults for not-applicable values
+    $richmedia = true;
+    $ct0 = '';
+    $context = array();
+    // Make loc and referer global to ensure that the delivery limitations work correctly
+    global $loc, $referer;
+    $loc =
+        (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https' : 'http').'://'.
+        getHostName().
+        $_SERVER['REQUEST_URI'];
+    // Add $referer parameter
+    $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+
+    // If the what parameter is an int, it is the affiliateid, otherwise it's a serialized array of name=zone pairs
+    // This convention is inline with the parameters passed into local-mode SPC
+    if (is_numeric($what)) {
+        $zones = OA_cacheGetPublisherZones($what);
+        $nz = false;
+    } else {
+        $zones = unserialize($what);
+        $nz = true;
+    }
+
+    $spc_output = array();
+    foreach ($zones as $zone => $data) {
+        if (empty($zone)) continue;
+        // nz is set when "named zones" are being used, this allows a zone to be selected more than once
+        if ($nz) {
+            $varname = $zone;
+            $zoneid = $data;
+        } else {
+            $varname = $zoneid = $zone;
+        }
+
+        // Get the banner
+        $output = MAX_adSelect('zone:'.$zoneid, '', $target, $source, $withtext, $context, $richmedia, $ct0, $GLOBALS['loc'], $GLOBALS['referer']);
+
+        $spc_output[$varname] = $output['html'];
+
+        // Block this banner for next invocation
+        if (!empty($block) && !empty($output['bannerid'])) {
+            $output['context'][] = array('!=' => 'bannerid:' . $output['bannerid']);
+        }
+        // Block this campaign for next invocation
+        if (!empty($blockcampaign) && !empty($output['campaignid'])) {
+            $output['context'][] = array('!=' => 'campaignid:' . $output['campaignid']);
+        }
+        // Pass the context array back to the next call, have to iterate over elements to prevent duplication
+        if (!empty($output['context'])) {
+            foreach ($output['context'] as $id => $contextArray) {
+                if (!in_array($contextArray, $context)) {
+                    $context[] = $contextArray;
+                }
+            }
+        }
+    }
+    return new XML_RPC_Response(XML_RPC_encode($spc_output));
+    // Now we have all the parameters we need to select the ad
 
     // Call MAX_adSelect with supplied parameters
     $output = call_user_func_array('MAX_adSelect', $view_params);
