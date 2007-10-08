@@ -85,12 +85,19 @@ $Id$
             <span class="edit"><img src="images/icon-affiliate.gif" align="absmiddle">&nbsp;http://<input id="url{$affiliate.affiliateid|escape}" type="text" name="url" value="{$affiliate.edit.website|default:$affiliate.website|escape}" class="flat" style="width: 9em"></span>
         </td>
         <td height="25">
+        {if $oacEnabled!=''}
             <span class="view">{$affiliate.oac_category|escape|default:"&nbsp;"}</span>
             <span class="edit"><select style="width: 11em" name="category" class="inline flat" id="category{$affiliate.affiliateid|escape}">
                 {html_options options=$categories selected=$affiliate.edit.oac_category_id|default:$affiliate.oac_category_id}
             </select></span>
+        {else}
+            <span class="view" style="color: grey">
+                no category
+            </span>
+        {/if}
         </td>
         <td height="25">
+       {if $oacEnabled!=''}
             <span class="view">
                 {$affiliate.oac_country|escape|default:"&nbsp;"}<br />
                 {$affiliate.oac_language|escape|default:"&nbsp;"}
@@ -104,12 +111,18 @@ $Id$
                     {html_options options=$languages selected=$affiliate.edit.oac_language_id|default:$affiliate.oac_language_id}
                 </select>
             </span>
+        {else}
+            <span class="view" style="color: grey">
+                no country/language
+            </span>
+        {/if}
         </td>
         <td height="25" class="cntr">
             <span class="view">{if $affiliate.oac_adnetworks == 'yes'}{t str=Yes}{else}{t str=No}{/if}</span>
             <span class="edit">
                 <input type="checkbox" name="adnetworks" class="adn-cb" id="adnetworks{$affiliate.affiliateid|escape}"
-                    {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes'} checked="checked"{/if}
+                    {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes' && $oacEnabled!=''} checked="checked"{/if}
+                    {if $oacEnabled==''} disabled="disabled"{/if}
                     {if $affiliate.oac_adnetworks == 'yes'} disabled="disabled"{/if} value="t">
                 {if $affiliate.oac_adnetworks == 'yes'}<input type="hidden" name="adnetworks" value="1">{/if}
             </span>

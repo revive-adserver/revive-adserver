@@ -211,8 +211,9 @@ $oTpl->assign('fieldsTop', array(
                 'template'  => 'adnetworks',
                 'label'     => 'Ad Networks',
                 'vars'      => array(
-                                'checked' => !empty($affiliate['oac_website_id'])
-                               )
+                                'checked' => !empty($affiliate['oac_website_id']),
+                                'disabled'  => ($GLOBALS['_MAX']['PREF']['updates_enabled'] != 't')
+                               ),
             ),
             array(
                 'name'      => 'name',

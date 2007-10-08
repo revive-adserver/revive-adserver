@@ -124,12 +124,19 @@ $oTpl = new OA_Admin_Template('affiliate-index.html');
 
 $loosezones = false;
 
-$aCategories       = $oAdNetworks->getCategoriesFlat();
-$aSelectCategories = $oAdNetworks->getCategoriesSelect();
-$aCountries        = $oAdNetworks->getCountries();
-$aSelectCountries  = $oAdNetworks->getCountriesSelect();
-$aLanguages        = $oAdNetworks->getLanguages();
-$aSelectLanguages  = $oAdNetworks->getLanguagesSelect();
+if ($GLOBALS['_MAX']['PREF']['updates_enabled'] == 't') {
+    $aCategories       = $oAdNetworks->getCategoriesFlat();
+    $aSelectCategories = $oAdNetworks->getCategoriesSelect();
+    $aCountries        = $oAdNetworks->getCountries();
+    $aSelectCountries  = $oAdNetworks->getCountriesSelect();
+    $aLanguages        = $oAdNetworks->getLanguages();
+    $aSelectLanguages  = $oAdNetworks->getLanguagesSelect();
+    
+    $oTpl->assign('oacEnabled', true);
+    $oTpl->assign('categories', $aSelectCategories);
+    $oTpl->assign('countries',  $aSelectCountries);
+    $oTpl->assign('languages',  $aSelectLanguages);
+}
 
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doAffiliates->addListOrderBy($listorder, $orderdirection);
@@ -204,11 +211,10 @@ $oTpl->assign('countAffiliate', $countAffiliate);
 $oTpl->assign('listorder',      $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 
-$oTpl->assign('categories', $aSelectCategories);
-$oTpl->assign('countries',  $aSelectCountries);
-$oTpl->assign('languages',  $aSelectLanguages);
-
-$oTpl->assign('error', 'There was an error creating/updating the publisher: ' . $oPublisherDll->_errorMessage);
+if (!empty($oPublisherDll->_errorMessage)) {
+    $oTpl->assign('error', 'There was an error creating/updating the publisher: '
+        . $oPublisherDll->_errorMessage);
+}
 $oTpl->assign('captchaErrorFormId', $captchaErrorFormId);
 $oTpl->assign('newAffiliate', $newAffiliate);
 

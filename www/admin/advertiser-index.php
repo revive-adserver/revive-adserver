@@ -281,9 +281,11 @@ $oTpl->assign('aOacAdvertisers', $aOacAdvertisers);
 $oTpl->assign('aOapAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
 
-$oTpl->assign('aCountries',     $oAdNetworks->getCountriesSelect());
-$oTpl->assign('aLanguages',     $oAdNetworks->getLanguagesSelect());
-$oTpl->assign('aOtherNetworks', $oAdNetworks->getOtherNetworksForDisplay());
+if ($GLOBALS['_MAX']['PREF']['updates_enabled'] == 't') {
+    $oTpl->assign('aCountries',     $oAdNetworks->getCountriesSelect());
+    $oTpl->assign('aLanguages',     $oAdNetworks->getLanguagesSelect());
+    $oTpl->assign('aOtherNetworks', $oAdNetworks->getOtherNetworksForDisplay());
+}
 
 $oTpl->assign('hideinactive', $hideinactive);
 $oTpl->assign('listorder', $listorder);

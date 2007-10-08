@@ -71,25 +71,28 @@ $Id$
 <label for="urln" class="left">Website URL</label>
         http://<input id="urln" name="url" type="text" value="{$newAffiliate.website|escape}" class="flat" style="margin-left: 2px; width: 14.5em">
 </div>
-<div class="line">
-<label for="categoryn" class="left">Category</label><select name="category" class="flat" id="categoryn">
-    {html_options options=$categories selected=$newAffiliate.oac_category_id}
-</select>
 
-</div>
-<div class="line">
-<label for="countryn" class="left">Country</label><select name="country" class="flat" id="countryn">
-    {html_options options=$countries selected=$newAffiliate.oac_country_code}
-</select>
-</div>
-<div class="line">
-<label for="languagen" class="left">Language</label><select name="language" class="flat" id="languagen">
-    {html_options options=$languages selected=$newAffiliate.oac_language_id}
-</select>
+{if $oacEnabled!=''}
+    <div class="line">
+    <label for="categoryn" class="left">Category</label><select name="category" class="flat" id="categoryn">
+        {html_options options=$categories selected=$newAffiliate.oac_category_id}
+    </select>
+    
+    </div>
+    <div class="line">
+    <label for="countryn" class="left">Country</label><select name="country" class="flat" id="countryn">
+        {html_options options=$countries selected=$newAffiliate.oac_country_code}
+    </select>
+    </div>
+    <div class="line">
+    <label for="languagen" class="left">Language</label><select name="language" class="flat" id="languagen">
+        {html_options options=$languages selected=$newAffiliate.oac_language_id}
+    </select>
+{/if}
 
 </div>
 <div class="line line-nolabel">
-<input id="adnetworksn" type="checkbox" class="flat" name="adnetworks"{if $newAffiliate.oac_adnetworks == 'yes'} checked="checked"{/if} value="t" /><label for="adnetworksn" class="cb">Sign up this publisher for AdNetworks</label>
+<input id="adnetworksn" type="checkbox" class="flat" name="adnetworks"{if $newAffiliate.oac_adnetworks == 'yes'} checked="checked"{/if} {if $oacEnabled == ''} disabled="disabled"{/if} value="t" /><label for="adnetworksn" class="cb">Sign up this publisher for AdNetworks</label>
 </div>
 <div class="line line-nolabel" style="margin-top: 20px">
 <input id="add-publisher" type="submit" name="pub-add" value="Add publisher" class="main">
