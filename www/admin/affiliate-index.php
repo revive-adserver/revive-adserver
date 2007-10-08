@@ -208,7 +208,7 @@ $oTpl->assign('categories', $aSelectCategories);
 $oTpl->assign('countries',  $aSelectCountries);
 $oTpl->assign('languages',  $aSelectLanguages);
 
-$oTpl->assign('formError', $aError);
+$oTpl->assign('error', 'There was an error creating/updating the publisher: ' . $oPublisherDll->_errorMessage);
 $oTpl->assign('captchaErrorFormId', $captchaErrorFormId);
 $oTpl->assign('newAffiliate', $newAffiliate);
 

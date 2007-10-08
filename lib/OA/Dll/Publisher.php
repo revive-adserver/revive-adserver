@@ -267,14 +267,8 @@ class OA_Dll_Publisher extends OA_Dll
                     $result = $oAdNetworks->subscribeWebsites($aRpcPublisher);
 
                     if (PEAR::isError($result)) {
-                        $aError = array(
-                           'id' => isset($pubid) ? $pubid : 0,
-                           'message' => $result->getMessage()
-                        );
-                        if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
-                            $captchaErrorFormId = $formId;
-                            $aError['message'] = '';
-                        }
+                        $this->_errorMessage = $result->getMessage();
+                        return false;
                     }
                 } else {
                     // This publisher was already signed up for adnetworks, only action if OAC related values have changed

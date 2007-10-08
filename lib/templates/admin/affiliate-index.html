@@ -35,6 +35,14 @@ $Id$
 </script>
 {/if}
 
+{if $error!=''}
+    <div class='errormessage' id='errors'>
+        <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
+        <span class='tab-r'>The following errors were found:</span><br />
+        {$error}
+    </div>
+{/if}
+
 <br>
 <br>
 <div class="section ">

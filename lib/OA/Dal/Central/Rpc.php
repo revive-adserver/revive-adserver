@@ -29,6 +29,7 @@ require_once MAX_PATH.'/lib/OA.php';
 require_once MAX_PATH.'/lib/OA/XmlRpcClient.php';
 require_once MAX_PATH.'/lib/OA/Central.php';
 require_once MAX_PATH.'/lib/OA/Dashboard/SsoProxy.php';
+require_once MAX_PATH.'/lib/OA/Sync.php';
 
 require_once 'Date.php';
 
