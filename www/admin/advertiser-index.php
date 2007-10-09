@@ -281,7 +281,7 @@ $oTpl->assign('aOacAdvertisers', $aOacAdvertisers);
 $oTpl->assign('aOapAdvertisers', $clients);
 $oTpl->assign('aCount', $aCount);
 
-if ($GLOBALS['_MAX']['PREF']['updates_enabled'] == 't') {
+if (MAX_Admin_Preferences::checkBool('updates_enabled', true)) {
     $oTpl->assign('aCountries',     $oAdNetworks->getCountriesSelect());
     $oTpl->assign('aLanguages',     $oAdNetworks->getLanguagesSelect());
     $oTpl->assign('aOtherNetworks', $oAdNetworks->getOtherNetworksForDisplay());

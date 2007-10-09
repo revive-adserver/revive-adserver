@@ -29,6 +29,9 @@ require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 
+define('MAX_PREFERENCE_TRUE', 't');
+define('MAX_PREFERENCE_FALSE', 'f');
+
 /**
  * A preferences management class for the Openads administration interface.
  *
@@ -48,6 +51,37 @@ class MAX_Admin_Preferences
     function MAX_Admin_Preferences()
     {
         $this->prefSql = array();
+    }
+    
+    /**
+     * Check whether preference is not empty and is equal expected variable
+     *
+     * @static 
+     * @param string $name
+     * @param mixed $expectedValue
+     * @return boolean
+     */
+    function check($name, $expectedValue)
+    {
+        if (!isset($GLOBALS['_MAX']['PREF'])) {
+            $this->loadPrefs();
+        }
+        $pref = $GLOBALS['_MAX']['PREF'];
+        return (isset($pref[$name]) && $pref[$name] == $expectedValue);
+    }
+
+    /**
+     * Check whether preference is not empty and is equal expected boolean variable
+     *
+     * @static 
+     * @param string $name
+     * @param mixed $expectedValue
+     * @return boolean
+     */
+    function checkBool($name, $expectedValue)
+    {
+        $expected = ($expectedValue == MAX_PREFERENCE_TRUE) ? true : false;
+        return MAX_Admin_Preferences::check($name, $expected);
     }
 
     /**

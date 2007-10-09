@@ -47,7 +47,7 @@ class OA_Dashboard_Widget_Disabled extends OA_Dashboard_Widget
 
         $oTpl = new OA_Admin_Template('dashboard/disabled.html');
 
-        $oTpl->assign('loginUrl', $this->buildUrl('TODO: BUILD URL TO LOGIN PAGE HERE'));
+        $oTpl->assign('loginUrl', MAX::constructURL(MAX_URL_ADMIN, 'settings-admin.php'));
 
         $oTpl->display();
     }

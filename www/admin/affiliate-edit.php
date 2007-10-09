@@ -212,7 +212,7 @@ $oTpl->assign('fieldsTop', array(
                 'label'     => 'Ad Networks',
                 'vars'      => array(
                                 'checked' => !empty($affiliate['oac_website_id']),
-                                'disabled'  => ($GLOBALS['_MAX']['PREF']['updates_enabled'] != 't')
+                                'disabled'  => MAX_Admin_Preferences::checkBool('updates_enabled', false)
                                ),
             ),
             array(

@@ -44,12 +44,16 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
         $this->getCredentials();
 
         $oTpl = new OA_Admin_Template('dashboard/main.html');
-
-        if ($this->ssoAdmin) {
-            $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
-            $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'ssoProxy.php?url='.urlencode($url));
+        
+        if (MAX_Admin_Preferences::checkBool('updates_enabled', false)) {
+            $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Disabled');
         } else {
-            $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Login');
+            if ($this->ssoAdmin) {
+                $url = $this->buildUrl($GLOBALS['_MAX']['CONF']['oacDashboard']);
+                $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'ssoProxy.php?url='.urlencode($url));
+            } else {
+                $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Login');
+            }
         }
 
         $oTpl->assign('dashboardURL', $dashboardUrl);

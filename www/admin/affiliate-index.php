@@ -124,7 +124,7 @@ $oTpl = new OA_Admin_Template('affiliate-index.html');
 
 $loosezones = false;
 
-if ($GLOBALS['_MAX']['PREF']['updates_enabled'] == 't') {
+if (MAX_Admin_Preferences::checkBool('updates_enabled', true)) {
     $aCategories       = $oAdNetworks->getCategoriesFlat();
     $aSelectCategories = $oAdNetworks->getCategoriesSelect();
     $aCountries        = $oAdNetworks->getCountries();
