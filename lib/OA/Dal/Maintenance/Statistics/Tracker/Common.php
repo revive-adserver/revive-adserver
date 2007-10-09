@@ -125,21 +125,6 @@ class OA_Dal_Maintenance_Statistics_Tracker_Common extends OA_Dal_Maintenance_St
             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         $resultRows += $rows;
-        // Delete the tracker clicks
-        $table = $aConf['table']['prefix'] .
-                 $aConf['table']['data_raw_tracker_click'];
-        $query = "
-            DELETE FROM
-                ".$this->oDbh->quoteIdentifier($table,true)."
-            WHERE
-                date_time <= " . $this->oDbh->quote($oDeleteDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
-        OA::debug("Deleting summarised (earlier than '" . $oDeleteDate->format('%Y-%m-%d %H:%M:%S') .
-                   "') tracker clicks from the $table table", PEAR_LOG_DEBUG);
-        $rows = $this->oDbh->exec($query);
-        if (PEAR::isError($rows)) {
-            return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-        }
-        $resultRows += $rows;
         return $resultRows;
     }
 
