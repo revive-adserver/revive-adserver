@@ -90,9 +90,13 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
         $aSelectCategories = array('' => '- pick a category -');
         if ($aCategories) {
-            foreach ($aCategories as $k => $v) {
+            $size = count($aCategories);
+            for ($k = 1; $k <= $size; $k++) {
+                $v = $aCategories[$k];
                 $aSelectCategories[$k] = $v['name'];
-                foreach ($v['subcategories'] as $kk => $vv) {
+                $subcategories = $v['subcategories'];
+                asort($subcategories);
+                foreach ($subcategories as $kk => $vv) {
                     $aSelectCategories[$kk] = "&nbsp;&nbsp;&nbsp;".$vv;
                 }
             }
@@ -149,6 +153,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
     function getCountriesSelect()
     {
         $aCountries = $this->getCountries();
+        asort($aCountries);
 
         $aSelectCountries = array('' => '- pick a country -');
         if ($aCountries) {
@@ -184,6 +189,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
     function getLanguagesSelect()
     {
         $aLanguages = $this->getLanguages();
+        asort($aLanguages);
 
         $aSelectLanguages = array('' => '- pick a language -');
         if ($aLanguages) {
