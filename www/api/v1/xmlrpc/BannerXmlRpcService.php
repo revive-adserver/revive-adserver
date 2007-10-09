@@ -55,8 +55,8 @@ require_once MAX_PATH . '/lib/OA/Dll/Banner.php';
 class BannerXmlRpcService extends BaseBannerService
 {
     /**
-     * The BannerXmlRpcService constructor calls the base service constructor to 
-	 * initialise the service
+     * The BannerXmlRpcService constructor calls the base service constructor to
+     * initialise the service
      *
      */
     function BannerXmlRpcService()
@@ -65,8 +65,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The addBanner method adds details for a new banner to the banner 
-	 * object and returns either the banner ID or an error message.
+     * The addBanner method adds details for a new banner to the banner
+     * object and returns either the banner ID or an error message.
      *
      * @access public
      *
@@ -99,7 +99,7 @@ class BannerXmlRpcService extends BaseBannerService
 
     /**
      * The modifyBanner method changes the details for an existing banner
-	 * in the banner object or returns an error message.
+     * in the banner object or returns an error message.
      *
      * @access public
      *
@@ -131,8 +131,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The deleteBanner method either deletes an existing banner or 
-	 * returns an error message.
+     * The deleteBanner method either deletes an existing banner or
+     * returns an error message.
      *
      * @access public
      *
@@ -161,7 +161,7 @@ class BannerXmlRpcService extends BaseBannerService
 
     /**
      * The bannerDailyStatistics method returns daily statistics for a banner
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -198,7 +198,7 @@ class BannerXmlRpcService extends BaseBannerService
 
     /**
      * The bannerPublisherStatistics method returns publisher statistics for a banner
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -235,7 +235,7 @@ class BannerXmlRpcService extends BaseBannerService
 
     /**
      * The bannerZoneStatistics method returns zone statistics for a banner
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -273,8 +273,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The getBanner method returns either information about a banner or 
-	 * an error message.
+     * The getBanner method returns either information about a banner or
+     * an error message.
      *
      * @access public
      *
@@ -302,8 +302,8 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The getBannerListByCampaignId method returns a list of banners 
-	 * for a campaign, or returns an error message.
+     * The getBannerListByCampaignId method returns a list of banners
+     * for a campaign, or returns an error message.
      *
      * @access public
      *

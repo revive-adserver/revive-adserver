@@ -55,8 +55,8 @@ require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
 class AgencyXmlRpcService extends BaseAgencyService
 {
     /**
-     * The AgencyXmlRpcService constructor calls the base service constructor to 
-	 * initialise the service
+     * The AgencyXmlRpcService constructor calls the base service constructor to
+     * initialise the service
      *
      */
     function AgencyXmlRpcService()
@@ -65,8 +65,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The addAgency method adds details for a new agency to the agency 
-	 * object and returns either the agency ID or an error message.
+     * The addAgency method adds details for a new agency to the agency
+     * object and returns either the agency ID or an error message.
      *
      * @access public
      *
@@ -98,7 +98,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
     /**
      * The modifyAgency method either changes the details for an existing agency
-	 * or returns an error message.
+     * or returns an error message.
      *
      * @access public
      *
@@ -129,8 +129,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The deleteAgency method either deletes an existing agency from the 
-	 * agency object or returns an error message.
+     * The deleteAgency method either deletes an existing agency from the
+     * agency object or returns an error message.
      *
      * @access public
      *
@@ -160,7 +160,7 @@ class AgencyXmlRpcService extends BaseAgencyService
 
     /**
      * The agencyDailyStatistics method returns either the daily statistics for an agency
-	 * for a specified period or an error message.
+     * for a specified period or an error message.
      *
      * @access public
      *
@@ -195,8 +195,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyAdvertiserStatistics method returns either the advertiser statistics for 
-	 * an agency for a specified period or an error message.
+     * The agencyAdvertiserStatistics method returns either the advertiser statistics for
+     * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -232,8 +232,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyCampaignStatistics method returns either the campaign statistics for 
-	 * an agency for a specified period or an error message.
+     * The agencyCampaignStatistics method returns either the campaign statistics for
+     * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -271,8 +271,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyBannerStatistics method returns banner statistics for 
-	 * an agency for a specified period, or returns an error message.
+     * The agencyBannerStatistics method returns banner statistics for
+     * an agency for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -312,8 +312,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyPublisherStatistics method returns either the publisher statistics for 
-	 * an agency for a specified period or an error message.
+     * The agencyPublisherStatistics method returns either the publisher statistics for
+     * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -349,8 +349,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyZoneStatistics method returns either the zone statistics for 
-	 * an agency for a specified period or an error message.
+     * The agencyZoneStatistics method returns either the zone statistics for
+     * an agency for a specified period or an error message.
      *
      * @access public
      *
@@ -388,8 +388,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The getAgency method returns either information about an agency or 
-	 * an error message.
+     * The getAgency method returns either information about an agency or
+     * an error message.
      *
      * @access public
      *
@@ -417,8 +417,8 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The getAgencyList method returns either a list of agencies 
-	 * or an error message. 
+     * The getAgencyList method returns either a list of agencies
+     * or an error message.
      *
      * @access public
      *

@@ -48,35 +48,35 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      * @var integer $campaignId
      */
-	var $campaignId;
+    var $campaignId;
 
     /**
      * The advertiserID variable is the ID of the advertiser associated with the campaign.
      *
      * @var integer $advertiserId
      */
-	var $advertiserId;
+    var $advertiserId;
 
     /**
      * The campaignName variable is the name of the campaign.
      *
      * @var string $campaignName
      */
-	var $campaignName;
+    var $campaignName;
 
     /**
      * The startDate variable is the date the campaign will start.
      *
      * @var date $startDate
      */
-	var $startDate;
+    var $startDate;
 
     /**
      * The endDate variable is the date the campaign will end.
      *
      * @var date $endDate
      */
-	var $endDate;
+    var $endDate;
 
     /**
      * The impressions variable is the number of impressions booked for the campaign.
@@ -106,36 +106,36 @@ class OA_Dll_CampaignInfo extends OA_Info
      */
     var $weight;
 
-	/**
-	 * This function sets all default values when adding new campaign.
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->startDate)) {
-	        $this->startDate = new Date(OA_Dal::noDateValue());
-	    }
+    /**
+     * This function sets all default values when adding new campaign.
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->startDate)) {
+            $this->startDate = new Date(OA_Dal::noDateValue());
+        }
 
-	    if (is_null($this->endDate)) {
-	        $this->endDate = new Date(OA_Dal::noDateValue());
-	    }
+        if (is_null($this->endDate)) {
+            $this->endDate = new Date(OA_Dal::noDateValue());
+        }
 
-	    if (is_null($this->impressions)) {
-	        $this->impressions = -1;
-	    }
+        if (is_null($this->impressions)) {
+            $this->impressions = -1;
+        }
 
-	    if (is_null($this->clicks)) {
-	        $this->clicks = -1;
-	    }
+        if (is_null($this->clicks)) {
+            $this->clicks = -1;
+        }
 
-	    if (is_null($this->priority)) {
-	        $this->priority = 0;
-	    }
+        if (is_null($this->priority)) {
+            $this->priority = 0;
+        }
 
-	    if (is_null($this->weight)) {
-	        $this->weight = 1;
-	    }
-	}
-    
+        if (is_null($this->weight)) {
+            $this->weight = 1;
+        }
+    }
+
     function getFieldsTypes()
     {
         return array(

@@ -51,14 +51,14 @@ class LogonServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * Login to Openads without using the login form in the user interface and 
-	 * receive a session ID. 
+     * Login to Openads without using the login form in the user interface and
+     * receive a session ID.
      *
      * @access private
      *
      * @param string $username
      * @param string $password
-     * 
+     *
      * @return boolean
      */
     function _internalLogin($username, $password)
@@ -69,7 +69,7 @@ class LogonServiceImpl extends BaseServiceImpl
         Language_Default::load();
         /**
          * @todo Please check code is correct from line 73 to line 103
-        **/ 
+        **/
         if (!defined('MAX_SKIP_LOGIN')) {
 
             $md5digest = md5($password);
@@ -107,11 +107,11 @@ class LogonServiceImpl extends BaseServiceImpl
      * Login to the system with the session ID.
      *
      * @access public
-     * 
+     *
      * @param string $username
      * @param string $password
      * @param string &$sessionId
-     * 
+     *
      * @return boolean
      */
     function logon($username, $password, &$sessionId)
@@ -123,9 +123,9 @@ class LogonServiceImpl extends BaseServiceImpl
          * @todo Please check if the following statement is in correct place because
          * it seems illogical that user can get session ID from internal login with
          * a bad username or password.
-         */ 
-		
-		if (!$this->_verifyUsernameAndPasswordLength($username, $password)) {
+         */
+
+        if (!$this->_verifyUsernameAndPasswordLength($username, $password)) {
             return false;
         }
 
@@ -163,9 +163,9 @@ class LogonServiceImpl extends BaseServiceImpl
      * Logoff from the session.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
-     * 
+     *
      * @return boolean
      */
     function logoff($sessionId)
@@ -186,14 +186,14 @@ class LogonServiceImpl extends BaseServiceImpl
 
     /**
      * The _verifyUsernameAndPasswordLength method checks the length of the username
-	 * and password and returns an error message if either of them exceeds the limit of 
-	 * 64 characters.
+     * and password and returns an error message if either of them exceeds the limit of
+     * 64 characters.
      *
      * @access private
      *
      * @param string $username
      * @param string $password
-     * 
+     *
      * @return boolean
      */
     function _verifyUsernameAndPasswordLength($username, $password)

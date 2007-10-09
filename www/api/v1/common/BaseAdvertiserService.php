@@ -45,16 +45,16 @@ class BaseAdvertiserService
      *
      * @var AdvertiserServiceImpl $_oAdvertiserServiceImp
      */
-	var $_oAdvertiserServiceImp;
+    var $_oAdvertiserServiceImp;
 
-	/**
-	 * This method initialises Service implementation object field.
-	 *
-	 */
-	function BaseAdvertiserService()
-	{
-		$this->_oAdvertiserServiceImp = new AdvertiserServiceImpl();
-	}
+    /**
+     * This method initialises Service implementation object field.
+     *
+     */
+    function BaseAdvertiserService()
+    {
+        $this->_oAdvertiserServiceImp = new AdvertiserServiceImpl();
+    }
 }
 
 ?>

@@ -69,9 +69,9 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * This method performs data validation for a banner, for example to check 
-	 * that an email address is an email address. Where necessary, the method connects 
-	 * to the OA_Dal to obtain information for other business validations.
+     * This method performs data validation for a banner, for example to check
+     * that an email address is an email address. Where necessary, the method connects
+     * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -150,8 +150,8 @@ class OA_Dll_Banner extends OA_Dll
     /**
      * This function calls a method in the OA_Dll class which checks permissions.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param integer $advertiserId  Banner ID
      *
      * @return boolean  False if access is denied and true if allowed.
@@ -168,8 +168,8 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * This method modifies an existing banner. Undefined fields do not change 
-	 * and defined fields with a NULL value also remain unchanged.
+     * This method modifies an existing banner. Undefined fields do not change
+     * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
      *
@@ -177,7 +177,7 @@ class OA_Dll_Banner extends OA_Dll
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> campaignId<br />
      *          <b>Optional properties:</b> bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
-     * 
+     *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> bannerId<br />
      *          <b>Optional properties:</b> campaignId, bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
@@ -214,8 +214,8 @@ class OA_Dll_Banner extends OA_Dll
         $bannerData['campaignid']   = $oBanner->campaignId;
         $bannerData['description']  = $oBanner->bannerName;
         $bannerData['storagetype']  = $oBanner->storageType;
-        $bannerData['filename'] 	= $oBanner->fileName;
-        $bannerData['imageurl'] 	= $oBanner->imageURL;
+        $bannerData['filename']     = $oBanner->fileName;
+        $bannerData['imageurl']     = $oBanner->imageURL;
         $bannerData['htmltemplate'] = $oBanner->htmlTemplate;
         $bannerData['active']       = ($oBanner->active) ? 't' : 'f';
 
@@ -270,7 +270,7 @@ class OA_Dll_Banner extends OA_Dll
         if ($result) {
             return true;
         } else {
-        	$this->raiseError('Unknown bannerId Error');
+            $this->raiseError('Unknown bannerId Error');
             return false;
         }
     }

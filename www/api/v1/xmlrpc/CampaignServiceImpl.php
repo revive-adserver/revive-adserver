@@ -38,8 +38,8 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 require_once MAX_PATH . '/lib/OA/Dll/Campaign.php';
 
 /**
- * The CampaignServiceImpl class extends the BaseServiceImpl class to enable 
- * you to add, modify, delete and search the campaign object. 
+ * The CampaignServiceImpl class extends the BaseServiceImpl class to enable
+ * you to add, modify, delete and search the campaign object.
  *
  */
 class CampaignServiceImpl extends BaseServiceImpl
@@ -61,8 +61,8 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This method checks if an action is valid and either returns a result 
-	 * or an error, as appropriate.
+     * This method checks if an action is valid and either returns a result
+     * or an error, as appropriate.
      *
      * @access private
      *
@@ -80,11 +80,11 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addCampaign method creates a campaign and updates the 
-	 * campaign object with the campaign ID.
+     * The addCampaign method creates a campaign and updates the
+     * campaign object with the campaign ID.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_CampaignInfo &$oCampaign <br />
      *          <b>Required properties:</b> advertiserId<br />
@@ -94,24 +94,24 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function addCampaign($sessionId, &$oCampaign)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
-		    return $this->_validateResult($this->_dllCampaign->modify($oCampaign));
+            return $this->_validateResult($this->_dllCampaign->modify($oCampaign));
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
 
     }
 
     /**
-     * The modifyCampaign method checks if a campaign ID exists and 
-	 * modifies the details for the campaign if it exists or returns an error 
-	 * message, as appropriate.
+     * The modifyCampaign method checks if a campaign ID exists and
+     * modifies the details for the campaign if it exists or returns an error
+     * message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_CampaignInfo &$oCampaign <br />
      *          <b>Required properties:</b> campaignId<br />
@@ -121,7 +121,7 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function modifyCampaign($sessionId, &$oCampaign)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             if (isset($oCampaign->campaignId)) {
 
@@ -131,22 +131,22 @@ class CampaignServiceImpl extends BaseServiceImpl
 
                 $this->raiseError("Field 'campaignId' in structure does not exists");
                 return false;
-		    }
+            }
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
 
     }
 
     /**
-     * The deleteCampaign method checks if a campaign ID exists and 
-	 * modifies the details for the campaign if it exists or returns an error 
-	 * message, as appropriate.
+     * The deleteCampaign method checks if a campaign ID exists and
+     * modifies the details for the campaign if it exists or returns an error
+     * message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $campaignId
      *
@@ -154,22 +154,22 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function deleteCampaign($sessionId, $campaignId)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult($this->_dllCampaign->delete($campaignId));
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getCampaignDailyStatistics method returns daily statistics for a 
-	 * campaign for a specified period.
+     * The getCampaignDailyStatistics method returns daily statistics for a
+     * campaign for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -180,23 +180,23 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function getCampaignDailyStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignDailyStatistics(
                     $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getCampaignBannerStatistics method returns banner statistics for a 
-	 * campaign for a specified period.
+     * The getCampaignBannerStatistics method returns banner statistics for a
+     * campaign for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -207,23 +207,23 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function getCampaignBannerStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignBannerStatistics(
                     $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getCampaignPublisherStatistics method returns publisher statistics 
-	 * for a campaign for a specified period.
+     * The getCampaignPublisherStatistics method returns publisher statistics
+     * for a campaign for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -234,23 +234,23 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function getCampaignPublisherStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignPublisherStatistics(
                     $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getCampaignZoneStatistics method returns zone statistics for a campaign
-	 * for a specified period.
+     * for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $campaignId
      * @param date $oStartDate
@@ -261,22 +261,22 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function getCampaignZoneStatistics($sessionId, $campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignZoneStatistics(
                     $campaignId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getCampaign method returns the campaign details for a specified campaign.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $campaignId
      * @param OA_Dll_CampaignInfo &$oCampaign
@@ -285,22 +285,22 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function getCampaign($sessionId, $campaignId, &$oCampaign)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaign($campaignId, $oCampaign));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getCampaignListByAdvertiserId method returns a list of campaigns for 
-	 * a specified advertiser.
+     * The getCampaignListByAdvertiserId method returns a list of campaigns for
+     * a specified advertiser.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      * @param array &$aCampaignList  Array of OA_Dll_CampaignInfo classes
@@ -309,15 +309,15 @@ class CampaignServiceImpl extends BaseServiceImpl
      */
     function getCampaignListByAdvertiserId($sessionId, $advertiserId, &$aCampaignList)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllCampaign->getCampaignListByAdvertiserId($advertiserId,
                                                     $aCampaignList));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
 }

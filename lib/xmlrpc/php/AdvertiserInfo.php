@@ -49,60 +49,60 @@ class OA_Dll_AdvertiserInfo extends OA_Info
      *
      * @var integer $advertiserId
      */
-	var $advertiserId;
+    var $advertiserId;
 
     /**
      * The agencyID variable is the ID of the agency to which the advertiser is associated.
      *
      * @var integer $agencyId
      */
-	var $agencyId;
+    var $agencyId;
 
     /**
      * The advertiserName variable is the name of the advertiser.
      *
      * @var string $advertiserName
      */
-	var $advertiserName;
+    var $advertiserName;
 
     /**
      * The contactName variable is the name of the contact.
      *
      * @var string $contactName
      */
-	var $contactName;
+    var $contactName;
 
     /**
      * The emailAddress variable is the email address for the contact.
      *
      * @var string $emailAddress
      */
-	var $emailAddress;
+    var $emailAddress;
 
     /**
      * The username variable is the name the contact uses to log into Openads.
      *
      * @var string $username
      */
-	var $username;
+    var $username;
 
     /**
      * The password variable is the password the contact uses to log into Openads.
      *
      * @var string $password
      */
-	var $password;
+    var $password;
 
-	/**
-	 * This function sets all default values when adding a new advertiser.
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->agencyId)) {
-	        $this->agencyId = 0;
-	    }
-	}
-    
+    /**
+     * This function sets all default values when adding a new advertiser.
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->agencyId)) {
+            $this->agencyId = 0;
+        }
+    }
+
     function getFieldsTypes()
     {
         return array(
@@ -111,7 +111,7 @@ class OA_Dll_AdvertiserInfo extends OA_Info
                     'advertiserName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string',
-                    'username' => 'string', 
+                    'username' => 'string',
                     'password' => 'string'
                 );
     }

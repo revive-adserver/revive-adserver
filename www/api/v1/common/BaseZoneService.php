@@ -45,16 +45,16 @@ class BaseZoneService
      *
      * @var ZoneServiceImpl $_oZoneServiceImp
      */
-	var $_oZoneServiceImp;
+    var $_oZoneServiceImp;
 
-	/**
-	 * This method initialises Service implementation object field.
-	 *
-	 */
-	function BaseZoneService()
-	{
-		$this->_oZoneServiceImp = new ZoneServiceImpl();
-	}
+    /**
+     * This method initialises Service implementation object field.
+     *
+     */
+    function BaseZoneService()
+    {
+        $this->_oZoneServiceImp = new ZoneServiceImpl();
+    }
 }
 
 ?>

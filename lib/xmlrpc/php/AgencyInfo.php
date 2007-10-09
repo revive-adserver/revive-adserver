@@ -48,21 +48,21 @@ class OA_Dll_AgencyInfo extends OA_Info
      *
      * @var integer $agencyId
      */
-	var $agencyId;
+    var $agencyId;
 
     /**
      * The agencycName variable is the name of the agency.
      *
      * @var string $agencyName
      */
-	var $agencyName;
+    var $agencyName;
 
     /**
      * The contactName variable is the name of the contact for the agency.
      *
      * @var string $contactName
      */
-	var $contactName;
+    var $contactName;
 
     /**
      * The emailAddress variable is the email address for the agency contact.
@@ -84,7 +84,7 @@ class OA_Dll_AgencyInfo extends OA_Info
      * @var string $password
      */
     var $password;
-    
+
     function getFieldsTypes()
     {
         return array(
@@ -92,7 +92,7 @@ class OA_Dll_AgencyInfo extends OA_Info
                     'agencyName' => 'string',
                     'contactName' => 'string',
                     'emailAddress' => 'string',
-                    'username' => 'string', 
+                    'username' => 'string',
                     'password' => 'string'
                 );
     }

@@ -45,16 +45,16 @@ class BaseCampaignService
      *
      * @var CampaignServiceImpl $_oCampaignServiceImp
      */
-	var $_oCampaignServiceImp;
+    var $_oCampaignServiceImp;
 
-	/**
-	 * This method initialises Service implementation object field.
-	 *
-	 */
-	function BaseCampaignService()
-	{
-		$this->_oCampaignServiceImp = new CampaignServiceImpl();
-	}
+    /**
+     * This method initialises Service implementation object field.
+     *
+     */
+    function BaseCampaignService()
+    {
+        $this->_oCampaignServiceImp = new CampaignServiceImpl();
+    }
 }
 
 ?>

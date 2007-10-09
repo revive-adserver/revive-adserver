@@ -49,21 +49,21 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var integer $bannerId
      */
-	var $bannerId;
+    var $bannerId;
 
     /**
      * The campaignID variable is the ID of the campaign associated with the banner.
      *
      * @var integer $campaignId
      */
-	var $campaignId;
+    var $campaignId;
 
     /**
      * The nbannerName variable is the name of the banner.
      *
      * @var integer $bannerName
      */
-	var $bannerName;
+    var $bannerName;
 
     /**
      * The storageType variable is one of the following: 'sql','web','url','html','network','txt'.
@@ -77,83 +77,83 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var string $fileName
      */
-	var $fileName;
+    var $fileName;
 
     /**
      * The imageURL variable is the URL for an image file for network banners.
      *
      * @var string $imageURL
      */
-	var $imageURL;
+    var $imageURL;
 
     /**
      * The htmlTemplate variable is the HTML template for HTML banners.
      *
      * @var text $htmlTemplate
      */
-	var $htmlTemplate;
+    var $htmlTemplate;
 
     /**
      * The width variable contains the width of a banner.
      *
      * @var integer $width
      */
-	var $width;
+    var $width;
 
     /**
      * The height variable contains the height of the banner.
      *
      * @var integer $height
      */
-	var $height;
+    var $height;
 
     /**
      * The url variable is the destination URL of the banner.
      *
      * @var text $url
      */
-	var $url;
+    var $url;
 
-	/**
-	 * A boolean field to indicate if the banner is active
-	 *
-	 * @var boolean $active
-	 */
-	var $active;
+    /**
+     * A boolean field to indicate if the banner is active
+     *
+     * @var boolean $active
+     */
+    var $active;
 
-	/**
-	 * A text field for HTML banners to indicate which adserver this ad is from
-	 *
-	 * @var string $adserver
-	 */
-	var $adserver;
+    /**
+     * A text field for HTML banners to indicate which adserver this ad is from
+     *
+     * @var string $adserver
+     */
+    var $adserver;
 
-	/**
-	 * This method sets all default values when adding a new banner.
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->storageType)) {
-	        $this->storageType = 'sql';
-	    }
+    /**
+     * This method sets all default values when adding a new banner.
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->storageType)) {
+            $this->storageType = 'sql';
+        }
 
-	    if (is_null($this->width)) {
-	        $this->width = 0;
-	    }
+        if (is_null($this->width)) {
+            $this->width = 0;
+        }
 
-	    if (is_null($this->height)) {
-	        $this->height = 0;
-	    }
+        if (is_null($this->height)) {
+            $this->height = 0;
+        }
 
-	    if (is_null($this->weight)) {
-	        $this->weight = 1;
-	    }
+        if (is_null($this->weight)) {
+            $this->weight = 1;
+        }
 
-	    if (is_null($this->active)) {
-	        $this->active = true;
-	    }
+        if (is_null($this->active)) {
+            $this->active = true;
+        }
 
-	}
+    }
 
     function getFieldsTypes()
     {

@@ -38,9 +38,9 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 require_once MAX_PATH . '/lib/OA/Dll/Advertiser.php';
 
 /**
- * The AdvertiserServiceImpl class extends the BaseServiceImpl class to enable 
+ * The AdvertiserServiceImpl class extends the BaseServiceImpl class to enable
  * you to add, modify, delete and search the advertiser object.
- * 
+ *
  */
 class AdvertiserServiceImpl extends BaseServiceImpl
 {
@@ -61,14 +61,14 @@ class AdvertiserServiceImpl extends BaseServiceImpl
         $this->_dllAdvertiser = new OA_Dll_Advertiser();
     }
 
-    /** 
-	 * This method checks if an action is valid and either returns a result 
-	 * or an error, as appropriate.
+    /**
+     * This method checks if an action is valid and either returns a result
+     * or an error, as appropriate.
      *
      * @access private
      *
      * @param boolean $result
-     * 
+     *
      * @return boolean
      */
     function _validateResult($result)
@@ -82,11 +82,11 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addAdvertiser method creates an advertiser and updates the 
-	 * advertiser object with the advertiser ID.
+     * The addAdvertiser method creates an advertiser and updates the
+     * advertiser object with the advertiser ID.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
      *          <b>Required properties:</b> advertiserName<br />
@@ -96,23 +96,23 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function addAdvertiser($sessionId, &$oAdvertiser)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
-		    return $this->_validateResult($this->_dllAdvertiser->modify($oAdvertiser));
+            return $this->_validateResult($this->_dllAdvertiser->modify($oAdvertiser));
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
 
     }
     /**
-     * The modifyAdvertiser method checks if an advertiser ID exists and 
-	 * modifies the details for the advertiser if it exists or returns an error 
-	 * message, as appropriate.
+     * The modifyAdvertiser method checks if an advertiser ID exists and
+     * modifies the details for the advertiser if it exists or returns an error
+     * message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
      *          <b>Required properties:</b> advertiserId<br />
@@ -122,7 +122,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function modifyAdvertiser($sessionId, &$oAdvertiser)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             if (isset($oAdvertiser->advertiserId)) {
 
@@ -134,19 +134,19 @@ class AdvertiserServiceImpl extends BaseServiceImpl
                 return false;
             }
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
 
     }
 
     /**
-     * The deleteAdvertiser method checks if an advertiser exists and deletes 
-	 * the advertiser or returns an error message, as appropriate.
+     * The deleteAdvertiser method checks if an advertiser exists and deletes
+     * the advertiser or returns an error message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      *
@@ -154,22 +154,22 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function deleteAdvertiser($sessionId, $advertiserId)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult($this->_dllAdvertiser->delete($advertiserId));
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAdvertiserDailyStatistics method returns daily statistics for an 
-	 * advertiser for a specified period.
+     * The getAdvertiserDailyStatistics method returns daily statistics for an
+     * advertiser for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -180,23 +180,23 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function getAdvertiserDailyStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserDailyStatistics(
                     $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAdvertiserCampaignStatistics method returns campaign statistics 
-	 * for an advertiser for a specified period.
+     * The getAdvertiserCampaignStatistics method returns campaign statistics
+     * for an advertiser for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -207,23 +207,23 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function getAdvertiserCampaignStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserCampaignStatistics(
                     $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAdvertiserBannerStatistics method returns banner statistics for 
-	 * an advertiser for a specified period.
+     * The getAdvertiserBannerStatistics method returns banner statistics for
+     * an advertiser for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -234,23 +234,23 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function getAdvertiserBannerStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserBannerStatistics(
                     $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAdvertiserPublisherStatistics method returns publisher 
-	 * statistics for an advertiser for a specified period.
+     * The getAdvertiserPublisherStatistics method returns publisher
+     * statistics for an advertiser for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -261,23 +261,23 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function getAdvertiserPublisherStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserPublisherStatistics(
                     $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAdvertiserZoneStatistics method returns zone statistics for an 
-	 * advertiser for a specified period.
+     * The getAdvertiserZoneStatistics method returns zone statistics for an
+     * advertiser for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      * @param date $oStartDate
@@ -288,22 +288,22 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function getAdvertiserZoneStatistics($sessionId, $advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserZoneStatistics(
                     $advertiserId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getAdvertiser method returns the advertiser details for a specified advertiser.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $advertiserId
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser
@@ -312,22 +312,22 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function getAdvertiser($sessionId, $advertiserId, &$oAdvertiser)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiser($advertiserId, $oAdvertiser));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAdvertiserListByAgencyId method returns a list of advertisers 
-	 * for a specified agency.
+     * The getAdvertiserListByAgencyId method returns a list of advertisers
+     * for a specified agency.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param array &$aAdvertiserList  Array of OA_Dll_AdvertiserInfo classes
@@ -336,15 +336,15 @@ class AdvertiserServiceImpl extends BaseServiceImpl
      */
     function getAdvertiserListByAgencyId($sessionId, $agencyId, &$aAdvertiserList)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAdvertiser->getAdvertiserListByAgencyId($agencyId,
                                                     $aAdvertiserList));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
 }

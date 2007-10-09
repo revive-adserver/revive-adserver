@@ -45,16 +45,16 @@ class BaseBannerService
      *
      * @var BannerServiceImpl $_oBannerServiceImp
      */
-	var $_oBannerServiceImp;
+    var $_oBannerServiceImp;
 
-	/**
-	 * This method initialises Service implementation object field.
-	 *
-	 */
-	function BaseBannerService()
-	{
-		$this->_oBannerServiceImp = new BannerServiceImpl();
-	}
+    /**
+     * This method initialises Service implementation object field.
+     *
+     */
+    function BaseBannerService()
+    {
+        $this->_oBannerServiceImp = new BannerServiceImpl();
+    }
 }
 
 ?>

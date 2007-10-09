@@ -70,10 +70,10 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * This method performs data validation for an agency, for example to check 
-	 * that an email address is an email address. Where necessary, the method connects 
-	 * to the OA_Dal to obtain information for other business validations, 
-	 * for example a username must be unique across all relevant tables.
+     * This method performs data validation for an agency, for example to check
+     * that an email address is an email address. Where necessary, the method connects
+     * to the OA_Dal to obtain information for other business validations,
+     * for example a username must be unique across all relevant tables.
      *
      * @access private
      *
@@ -144,10 +144,10 @@ class OA_Dll_Agency extends OA_Dll
     /**
      * @todo checkStatisticsPermissions($agencyId)?
      */
-	
+
     /**
-     * This method modifies an existing agency. Undefined fields do not change 
-	 * and defined fields with a NULL value also remain unchanged.
+     * This method modifies an existing agency. Undefined fields do not change
+     * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
      *
@@ -155,7 +155,7 @@ class OA_Dll_Agency extends OA_Dll
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> agencyName<br />
      *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
-     * 
+     *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> agencyId<br />
      *          <b>Optional properties:</b> agencyName, contactName, emailAddress, username, password<br />
@@ -221,7 +221,7 @@ class OA_Dll_Agency extends OA_Dll
         if ($result) {
             return true;
         } else {
-        	$this->raiseError('Unknown agencyId Error');
+            $this->raiseError('Unknown agencyId Error');
             return false;
         }
     }

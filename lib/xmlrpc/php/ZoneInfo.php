@@ -50,35 +50,35 @@ class OA_Dll_ZoneInfo extends OA_Info
      *
      * @var integer $zoneId
      */
-	var $zoneId;
+    var $zoneId;
 
     /**
      * The publisherID is the ID of the publisher associated with the zone.
      *
      * @var integer $publisherId
      */
-	var $publisherId;
+    var $publisherId;
 
     /**
      * The zoneName is the name of the zone.
      *
      * @var string $zoneName
      */
-	var $zoneName;
+    var $zoneName;
 
     /**
      * The type variable type of zone, one of the following: banner, interstitial, popup, text, email.
      *
      * @var integer $type
      */
-	var $type;
+    var $type;
 
     /**
      * The width variable is the width of the zone.
      *
      * @var integer $width
      */
-	var $width;
+    var $width;
 
     /**
      * The height variable is the height of the zone.
@@ -88,24 +88,24 @@ class OA_Dll_ZoneInfo extends OA_Info
     var $height;
 
 
-	/**
-	 * This functions sets all default values when adding a new zone.
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->type)) {
-	        $this->type = 0;
-	    }
+    /**
+     * This functions sets all default values when adding a new zone.
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->type)) {
+            $this->type = 0;
+        }
 
-	    if (is_null($this->width)) {
-	        $this->width = 0;
-	    }
+        if (is_null($this->width)) {
+            $this->width = 0;
+        }
 
-	    if (is_null($this->height)) {
-	        $this->height = 0;
-	    }
-	}
-    
+        if (is_null($this->height)) {
+            $this->height = 0;
+        }
+    }
+
     function getFieldsTypes()
     {
         return array(

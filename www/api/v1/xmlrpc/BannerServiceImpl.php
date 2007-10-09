@@ -38,8 +38,8 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 require_once MAX_PATH . '/lib/OA/Dll/Banner.php';
 
 /**
- * The BannerServiceImpl class extends the BaseServiceImpl class to enable 
- * you to add, modify, delete and search the banner object. 
+ * The BannerServiceImpl class extends the BaseServiceImpl class to enable
+ * you to add, modify, delete and search the banner object.
  *
  */
 class BannerServiceImpl extends BaseServiceImpl
@@ -61,13 +61,13 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This method checks if an action is valid and either returns a result 
-	 * or an error, as appropriate.
+     * This method checks if an action is valid and either returns a result
+     * or an error, as appropriate.
      *
      * @access private
      *
      * @param boolean $result
-     * 
+     *
      * @return boolean
      */
     function _validateResult($result)
@@ -81,11 +81,11 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addBanner method creates a banner and updates the 
-	 * banner object with the banner ID.
+     * The addBanner method creates a banner and updates the
+     * banner object with the banner ID.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_BannerInfo &$oBanner <br />
      *          <b>Required properties:</b> campaignId<br />
@@ -95,24 +95,24 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function addBanner($sessionId, &$oBanner)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
-		    return $this->_validateResult($this->_dllBanner->modify($oBanner));
+            return $this->_validateResult($this->_dllBanner->modify($oBanner));
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
 
     }
 
     /**
-     * The modifyBanner method checks if a banner ID exists and 
-	 * modifies the details for the banner if it exists or returns an error 
-	 * message, as appropriate.
+     * The modifyBanner method checks if a banner ID exists and
+     * modifies the details for the banner if it exists or returns an error
+     * message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_BannerInfo &$oBanner <br />
      *          <b>Required properties:</b> bannerId<br />
@@ -122,12 +122,12 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function modifyBanner($sessionId, &$oBanner)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
 
             if (isset($oBanner->bannerId)) {
 
-    		    return $this->_validateResult($this->_dllBanner->modify($oBanner));
+                return $this->_validateResult($this->_dllBanner->modify($oBanner));
 
             } else {
 
@@ -136,19 +136,19 @@ class BannerServiceImpl extends BaseServiceImpl
 
             }
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
 
     }
 
     /**
-     * The deleteBanner method checks if a banner exists and deletes 
-	 * the banner or returns an error message, as appropriate.
+     * The deleteBanner method checks if a banner exists and deletes
+     * the banner or returns an error message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $bannerId
      *
@@ -156,22 +156,22 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function deleteBanner($sessionId, $bannerId)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult($this->_dllBanner->delete($bannerId));
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getBannerDailyStatistics method returns daily statistics for a 
-	 * banner for a specified period.
+     * The getBannerDailyStatistics method returns daily statistics for a
+     * banner for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $bannerId
      * @param date $oStartDate
@@ -182,23 +182,23 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function getBannerDailyStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerDailyStatistics(
                     $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getBannerPublisherStatistics method returns publisher statistics for
-	 * a banner for a specified period.
+     * a banner for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $bannerId
      * @param date $oStartDate
@@ -209,23 +209,23 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function getBannerPublisherStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerPublisherStatistics(
                     $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getBannerZoneStatistics method returns zone statistics for a zone for
-	 * a specified period.
+     * a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $bannerId
      * @param date $oStartDate
@@ -236,22 +236,22 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function getBannerZoneStatistics($sessionId, $bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerZoneStatistics(
                     $bannerId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getBanner method returns the banner details for a specified banner.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $bannerId
      * @param OA_Dll_BannerInfo &$oBanner
@@ -260,21 +260,21 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function getBanner($sessionId, $bannerId, &$oBanner)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBanner($bannerId, $oBanner));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getBannerListByCampaignId method returns a list of banners for a campaign.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $campaignId
      * @param array &$aBannerList  Array of OA_Dll_BannerInfo classes
@@ -283,15 +283,15 @@ class BannerServiceImpl extends BaseServiceImpl
      */
     function getBannerListByCampaignId($sessionId, $campaignId, &$aBannerList)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllBanner->getBannerListByCampaignId($campaignId,
                                                     $aBannerList));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 }
 

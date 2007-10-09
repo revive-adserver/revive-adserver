@@ -69,8 +69,8 @@ class OA_Dll_Zone extends OA_Dll
      * This method validates the zone type.
      * Types: banner=0, interstitial=1, popup=2, text=3, email=4
      *
-	 * @access private
-	 *
+     * @access private
+     *
      * @param string $type
      *
      * @return boolean
@@ -90,12 +90,12 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * This method performs data validation for a zone, for example to check 
-	 * that an email address is an email address. Where necessary, the method connects 
-	 * to the OA_Dal to obtain information for other business validations.
+     * This method performs data validation for a zone, for example to check
+     * that an email address is an email address. Where necessary, the method connects
+     * to the OA_Dal to obtain information for other business validations.
      *
-	 * @access private
-	 *
+     * @access private
+     *
      * @param OA_Dll_ZoneInfo $oZone
      *
      * @return boolean
@@ -137,8 +137,8 @@ class OA_Dll_Zone extends OA_Dll
     /**
      * This method performs data validation for statistics methods(zoneId, date).
      *
-	 * @access private
-	 *
+     * @access private
+     *
      * @param integer  $zoneId
      * @param date     $oStartDate
      * @param date     $oEndDate
@@ -160,8 +160,8 @@ class OA_Dll_Zone extends OA_Dll
     /**
      * This function calls a method in the OA_Dll class which checks permissions.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param integer $advertiserId  Zone ID
      *
      * @return boolean  False if access denied and true if allowed.
@@ -178,16 +178,16 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * This method modifies an existing banner. Undefined fields do not change 
-	 * and defined fields with a NULL value also remain unchanged.
+     * This method modifies an existing banner. Undefined fields do not change
+     * and defined fields with a NULL value also remain unchanged.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param OA_Dll_ZoneInfo &$oZone <br />
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> publisherId<br />
      *          <b>Optional properties:</b> zoneName, type, width, height<br />
-     * 
+     *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> zoneId<br />
      *          <b>Optional properties:</b> publisherId, zoneName, type, width, height<br />
@@ -246,8 +246,8 @@ class OA_Dll_Zone extends OA_Dll
     /**
      * This method deletes an existing zone.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param integer $zoneId The ID of the zone to delete
      *
      * @return boolean True if the operation was successful
@@ -272,7 +272,7 @@ class OA_Dll_Zone extends OA_Dll
         if ($result) {
             return true;
         } else {
-        	$this->raiseError('Unknown zoneId Error');
+            $this->raiseError('Unknown zoneId Error');
             return false;
         }
     }
@@ -398,11 +398,11 @@ class OA_Dll_Zone extends OA_Dll
      *   <li><b>requests integer</b> The number of requests for the advertiser
      *   <li><b>impressions integer</b> The number of impressions for the advertiser
      *   <li><b>clicks integer</b> The number of clicks for the advertiser
-     *   <li><b>revenue decimal</b> The revenue earned for the advertiser
+     *   <li>a<b>revenue decimal</b> The revenue earned for the advertiser
      *   </ul>
      *
      * @return boolean True if the operation was successful and false if not.
-	 * 
+     *
      */
 
     function getZoneAdvertiserStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
@@ -442,8 +442,8 @@ class OA_Dll_Zone extends OA_Dll
      *   <li><b>revenue decimal</b> The revenue earned for the campaign
      *   </ul>
      *
-	 * @return boolean True if the operation was successful and false if not.
-	 *
+     * @return boolean True if the operation was successful and false if not.
+     *
      */
     function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
@@ -485,7 +485,7 @@ class OA_Dll_Zone extends OA_Dll
      *   </ul>
      *
      * @return boolean True if the operation was successful and false if not.
-	 * 
+     *
      */
     function getZoneBannerStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {

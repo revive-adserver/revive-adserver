@@ -55,8 +55,8 @@ require_once MAX_PATH . '/lib/OA/Dll/Zone.php';
 class ZoneXmlRpcService extends BaseZoneService
 {
     /**
-     * The ZoneXmlRpcService constructor calls the base service constructor 
-	 * to initialise the service.
+     * The ZoneXmlRpcService constructor calls the base service constructor
+     * to initialise the service.
      *
      */
     function ZoneXmlRpcService()
@@ -65,8 +65,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The addZone method adds details for a new zone to the zone 
-	 * object and returns either the zone ID or an error message.
+     * The addZone method adds details for a new zone to the zone
+     * object and returns either the zone ID or an error message.
      *
      * @access public
      *
@@ -99,7 +99,7 @@ class ZoneXmlRpcService extends BaseZoneService
 
     /**
      * The modifyZone method changes the details for an existing zone
-	 * or returns an error message.
+     * or returns an error message.
      *
      * @access public
      *
@@ -130,8 +130,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The deleteZone method either deletes an existing zone or 
-	 * returns an error message.
+     * The deleteZone method either deletes an existing zone or
+     * returns an error message.
      *
      * @access public
      *
@@ -160,7 +160,7 @@ class ZoneXmlRpcService extends BaseZoneService
 
     /**
      * The zoneDailyStatistics method returns daily statistics for a zone
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -196,7 +196,7 @@ class ZoneXmlRpcService extends BaseZoneService
 
     /**
      * The zoneAdvertiserStatistics method returns advertiser statistics for a zone
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -233,7 +233,7 @@ class ZoneXmlRpcService extends BaseZoneService
 
     /**
      * The zoneCampaignStatistics method returns campaign statistics for a zone
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -272,7 +272,7 @@ class ZoneXmlRpcService extends BaseZoneService
 
     /**
      * The zoneBannerStatistics method returns banner statistics for a zone
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -312,8 +312,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The getZone method returns either information about a zone or 
-	 * an error message.
+     * The getZone method returns either information about a zone or
+     * an error message.
      *
      * @access public
      *
@@ -341,8 +341,8 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The getZoneListByPublisherId method returns a list of zones 
-	 * for an publisher, or returns an error message.
+     * The getZoneListByPublisherId method returns a list of zones
+     * for an publisher, or returns an error message.
      *
      * @access public
      *

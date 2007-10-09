@@ -46,16 +46,16 @@ class BaseLogonService
      *
      * @var LogonServiceImpl $logonServiceImp
      */
-	var $logonServiceImp;
+    var $logonServiceImp;
 
-	/**
-	 * This method initialises Service implementation object field.
-	 *
-	 */
-	function BaseLogonService()
-	{
-		$this->logonServiceImp = new LogonServiceImpl();
-	}
+    /**
+     * This method initialises Service implementation object field.
+     *
+     */
+    function BaseLogonService()
+    {
+        $this->logonServiceImp = new LogonServiceImpl();
+    }
 }
 
 

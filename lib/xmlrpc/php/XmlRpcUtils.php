@@ -57,7 +57,7 @@ class XmlRpcUtils
         foreach ($aInfoData as $fieldName => $fieldValue) {
             if (!is_null($fieldValue)) {
                 $aReturnData[$fieldName] = XmlRpcUtils::_setRPCTypeForField(
-            	            $oInfoObject->getFieldType($fieldName), $fieldValue);
+                            $oInfoObject->getFieldType($fieldName), $fieldValue);
             }
         }
         return new XML_RPC_Value($aReturnData,

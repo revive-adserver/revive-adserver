@@ -68,9 +68,9 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * This method performs data validation for a campaign, for example to check 
-	 * that an email address is an email address. Where necessary, the method connects 
-	 * to the OA_Dal to obtain information for other business validations.
+     * This method performs data validation for a campaign, for example to check
+     * that an email address is an email address. Where necessary, the method connects
+     * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -164,8 +164,8 @@ class OA_Dll_Campaign extends OA_Dll
     /**
      * This function calls a method in the OA_Dll class which checks permissions.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param integer $campaignId  Campaign ID
      *
      * @return boolean  False if access is denied and true if allowed.
@@ -182,7 +182,7 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * This method modifies an existing campaign. Undefined fields do not change 
+     * This method modifies an existing campaign. Undefined fields do not change
      * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
@@ -191,7 +191,7 @@ class OA_Dll_Campaign extends OA_Dll
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> advertiserId<br />
      *          <b>Optional properties:</b> campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
-     * 
+     *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> campaignId<br />
      *          <b>Optional properties:</b> advertiserId, campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
@@ -279,7 +279,7 @@ class OA_Dll_Campaign extends OA_Dll
         if ($result) {
             return true;
         } else {
-        	$this->raiseError('Unknown campaignId Error');
+            $this->raiseError('Unknown campaignId Error');
             return false;
         }
     }

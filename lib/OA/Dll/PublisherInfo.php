@@ -48,28 +48,28 @@ class OA_Dll_PublisherInfo extends OA_Info
      *
      * @var integer $publisherId
      */
-	var $publisherId;
+    var $publisherId;
 
     /**
      * This field provides the ID of the agency associated with the publisher.
      *
      * @var integer $agencyId
      */
-	var $agencyId;
+    var $agencyId;
 
     /**
      * This field provides the name of the publisher.
      *
      * @var string $publisherName
      */
-	var $publisherName;
+    var $publisherName;
 
     /**
      * This field provides the name of the contact for the publisher.
      *
      * @var string $contactName
      */
-	var $contactName;
+    var $contactName;
 
     /**
      * This field provides the email address of the contact for the publisher.
@@ -92,23 +92,23 @@ class OA_Dll_PublisherInfo extends OA_Info
      */
     var $password;
 
-	/**
-	 * This method sets all default values when adding a new publisher.
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->agencyId)) {
-	        $this->agencyId = 0;
-	    }
-	}
+    /**
+     * This method sets all default values when adding a new publisher.
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->agencyId)) {
+            $this->agencyId = 0;
+        }
+    }
 
-	/**
-	 * This method returns an array of fields with their corresponding types.
-	 *
-	 * @access public
-	 *
-	 * @return array
-	 */
+    /**
+     * This method returns an array of fields with their corresponding types.
+     *
+     * @access public
+     *
+     * @return array
+     */
     function getFieldsTypes()
     {
         return array(

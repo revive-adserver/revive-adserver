@@ -76,8 +76,8 @@ class OA_Api_Xmlrpc
      * @param string $basepath  The base path to XML-RPC services.
      * @param string $username  The username to authenticate to the web services API.
      * @param string $password  The password for this user.
-     * @param int    $port      The port number. Use 0 to use standard ports which 
-	 *                          are port 80 for HTTP and port 443 for HTTPS.
+     * @param int    $port      The port number. Use 0 to use standard ports which
+     *                          are port 80 for HTTP and port 443 for HTTPS.
      * @param bool   $ssl       Set to true to connect using an SSL connection.
      * @param int    $timeout   The timeout period to wait for a response.
      */
@@ -104,8 +104,8 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * This private function sends a method call and $data to a specified service and automatically 
-	 * adds the value of the sessionID.
+     * This private function sends a method call and $data to a specified service and automatically
+     * adds the value of the sessionID.
      *
      * @param string $service The name of the remote service file.
      * @param string $method  The name of the remote method to call.
@@ -203,7 +203,7 @@ class OA_Api_Xmlrpc
 
     /**
      * This method sends a call to the AgencyXmlRpcService and
-	 * passes the AgencyInfo with the session to add an agency.
+     * passes the AgencyInfo with the session to add an agency.
      *
      * @param OA_Dll_AgencyInfo $oAgencyInfo
      * @return  method result
@@ -216,7 +216,7 @@ class OA_Api_Xmlrpc
 
     /**
      * This method sends a call to the AgencyXmlRpcService and
-	 * passes the AgencyInfo object with the session to modify an agency.
+     * passes the AgencyInfo object with the session to modify an agency.
      *
      * @param OA_Dll_AgencyInfo $oAgencyInfo
      * @return  method result
@@ -572,7 +572,7 @@ class OA_Api_Xmlrpc
      * This method returns a list of campaigns for an advertiser.
      *
      * @param int $campaignId
-     * 
+     *
      * @return array  array OA_Dll_CampaignInfo objects
      */
     function getCampaignListByAdvertiserId($advertiserId)
@@ -670,7 +670,7 @@ class OA_Api_Xmlrpc
      * This method adds a banner to the banner object.
      *
      * @param OA_Dll_BannerInfo $oBannerInfo
-     * 
+     *
      * @return  method result
      */
     function addBanner(&$oBannerInfo)
@@ -683,7 +683,7 @@ class OA_Api_Xmlrpc
      * This method modifies a banner.
      *
      * @param OA_Dll_BannerInfo $oBannerInfo
-     * 
+     *
      * @return  method result
      */
     function modifyBanner(&$oBannerInfo)
@@ -696,7 +696,7 @@ class OA_Api_Xmlrpc
      * This method returns BannerInfo for a specified banner.
      *
      * @param int $bannerId
-     * 
+     *
      * @return OA_Dll_BannerInfo
      */
     function getBanner($bannerId)
@@ -708,12 +708,12 @@ class OA_Api_Xmlrpc
 
         return $oBannerInfo;
     }
-    
+
     /**
      * This method returns a list of banners for a specified campaign.
      *
      * @param int $banenrId
-     * 
+     *
      * @return array  array OA_Dll_CampaignInfo objects
      */
     function getBannerListByCampaignId($campaignId)

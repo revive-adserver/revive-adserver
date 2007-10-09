@@ -55,7 +55,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Advertiser.php';
 class AdvertiserXmlRpcService extends BaseAdvertiserService
 {
     /**
-     * The AdvertiserXmlRpcService constructor calls the base service constructor 
+     * The AdvertiserXmlRpcService constructor calls the base service constructor
      * to initialise the service.
      *
      */
@@ -98,7 +98,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
     /**
      * The modifyAdvertiser method changes the details for an existing advertiser
-	 * or returns an error message.
+     * or returns an error message.
      *
      * @access public
      *
@@ -132,8 +132,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * The deleteAdvertiser method either deletes an existing advertiser or 
-	 * returns an error message.
+     * The deleteAdvertiser method either deletes an existing advertiser or
+     * returns an error message.
      *
      * @access public
      *
@@ -162,7 +162,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
     /**
      * The advertiserDailyStatistics method returns daily statistics for an advertiser
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -197,8 +197,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * The advertiserCampaignStatistics method returns campaign statistics for 
-	 * an advertiser for a specified period, or returns an error message.
+     * The advertiserCampaignStatistics method returns campaign statistics for
+     * an advertiser for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -234,8 +234,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * The advertiserBannerStatistics method returns banner statistics for an 
-	 * advertiser for a specified period, or returns an error message.
+     * The advertiserBannerStatistics method returns banner statistics for an
+     * advertiser for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -273,7 +273,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
     /**
      * The advertiserPublisherStatistics method returns the publisher statistics for
-	 * an advertiser for a specified period, or returns an error message.
+     * an advertiser for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -309,7 +309,7 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
 
     /**
      * The advertiserZoneStatistics method returns the zone statistics for an advertiser
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -346,8 +346,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * The getAdvertiser method returns either information about an advertiser or 
-	 * an error message.
+     * The getAdvertiser method returns either information about an advertiser or
+     * an error message.
      *
      * @access public
      *
@@ -375,8 +375,8 @@ class AdvertiserXmlRpcService extends BaseAdvertiserService
     }
 
     /**
-     * The getAdvertiserListByAgencyId method returns a list of advertisers 
-	 * for an agency, or returns an error message.
+     * The getAdvertiserListByAgencyId method returns a list of advertisers
+     * for an agency, or returns an error message.
      *
      * @access public
      *

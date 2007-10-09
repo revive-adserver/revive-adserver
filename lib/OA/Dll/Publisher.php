@@ -73,13 +73,13 @@ class OA_Dll_Publisher extends OA_Dll
     }
 
     /**
-     * This method performs data validation for a publisher, for example to check 
-	 * that an email address is an email address. Where necessary, the method connects 
-	 * to the OA_Dal to obtain information for other business validations, for example
+     * This method performs data validation for a publisher, for example to check
+     * that an email address is an email address. Where necessary, the method connects
+     * to the OA_Dal to obtain information for other business validations, for example
      * the username must be unique across relevant tables.
-     * 
-	 * @access private
-	 *
+     *
+     * @access private
+     *
      * @param OA_Dll_PublisherInfo $oPublisher
      *
      * @return boolean
@@ -132,8 +132,8 @@ class OA_Dll_Publisher extends OA_Dll
     /**
      * This method performs data validation for statistics methods(publisherId, date).
      *
-	 * @access private
-	 *
+     * @access private
+     *
      * @param integer  $publisherId
      * @param date     $oStartDate
      * @param date     $oEndDate
@@ -153,15 +153,15 @@ class OA_Dll_Publisher extends OA_Dll
     }
 
     /**
-     * This method modifies an existing publisher. Undefined fields do not change 
-	 * and defined fields with a NULL value also remain unchanged.
+     * This method modifies an existing publisher. Undefined fields do not change
+     * and defined fields with a NULL value also remain unchanged.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param OA_Dll_PublisherInfo &$oPublisher <br />
      *          <b>For adding</b><br />
      *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
-     * 
+     *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> publisherId<br />
      *          <b>Optional properties:</b> agencyId, publisherName, contactName, emailAddress, username, password<br />
@@ -217,7 +217,7 @@ class OA_Dll_Publisher extends OA_Dll
         // Remap fields where the PublisherInfo object does not map directly to the DataObject.
         $publisherData['name']      = $oPublisher->publisherName;
         $publisherData['contact']   = $oPublisher->contactName;
-        $publisherData['email'] 	= $oPublisher->emailAddress;
+        $publisherData['email']     = $oPublisher->emailAddress;
         $publisherData['agencyid']  = $oPublisher->agencyId;
         $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
@@ -301,8 +301,8 @@ class OA_Dll_Publisher extends OA_Dll
     /**
      * This method deletes an existing publisher.
      *
-	 * @access public
-	 *
+     * @access public
+     *
      * @param integer $publisherId The ID of the publisher to delete
      *
      * @return boolean success - True if the operation was successful
@@ -323,7 +323,7 @@ class OA_Dll_Publisher extends OA_Dll
         if ($result) {
             return true;
         } else {
-        	$this->raiseError('Unknown publisherId Error');
+            $this->raiseError('Unknown publisherId Error');
             return false;
         }
     }
@@ -400,7 +400,7 @@ class OA_Dll_Publisher extends OA_Dll
 
     /**
      * This method returns daily statistics for a publisher for a specified period.
-     * 
+     *
      * @access public
      *
      * @param integer $publisherId The ID of the publisher to view statistics for

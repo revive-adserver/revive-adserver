@@ -45,16 +45,16 @@ class BasePublisherService
      *
      * @var PublisherServiceImpl $_oPublisherServiceImp
      */
-	var $_oPublisherServiceImp;
+    var $_oPublisherServiceImp;
 
-	/**
-	 * This method initialises Service implementation object field.
-	 *
-	 */
-	function BasePublisherService()
-	{
-		$this->_oPublisherServiceImp = new PublisherServiceImpl();
-	}
+    /**
+     * This method initialises Service implementation object field.
+     *
+     */
+    function BasePublisherService()
+    {
+        $this->_oPublisherServiceImp = new PublisherServiceImpl();
+    }
 }
 
 ?>

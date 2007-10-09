@@ -56,8 +56,8 @@ require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 class PublisherXmlRpcService extends BasePublisherService
 {
     /**
-     * The PublisherXmlRpcService constructor calls the base service constructor 
-	 * to initialise the service.
+     * The PublisherXmlRpcService constructor calls the base service constructor
+     * to initialise the service.
      *
      */
     function PublisherXmlRpcService()
@@ -66,8 +66,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The addPublisher method adds details for a new publisher to the publisher 
-	 * object and returns either the publisher ID or an error message.
+     * The addPublisher method adds details for a new publisher to the publisher
+     * object and returns either the publisher ID or an error message.
      *
      * @access public
      *
@@ -100,7 +100,7 @@ class PublisherXmlRpcService extends BasePublisherService
 
     /**
      * The modifyPublisher method changes the details for an existing publisher
-	 * or returns an error message.
+     * or returns an error message.
      *
      * @access public
      *
@@ -132,8 +132,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The deletePublisher method either deletes an existing publisher or 
-	 * returns an error message.
+     * The deletePublisher method either deletes an existing publisher or
+     * returns an error message.
      *
      * @access public
      *
@@ -162,7 +162,7 @@ class PublisherXmlRpcService extends BasePublisherService
 
     /**
      * The publisherDailyStatistics method returns daily statistics for a publisher
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -198,7 +198,7 @@ class PublisherXmlRpcService extends BasePublisherService
 
     /**
      * The publisherZoneStatistics method returns zone statistics for a publisher
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -235,7 +235,7 @@ class PublisherXmlRpcService extends BasePublisherService
 
     /**
      * The publisherAdvertiserStatistics method returns advertiser statistics for a publisher
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -272,7 +272,7 @@ class PublisherXmlRpcService extends BasePublisherService
 
     /**
      * The publisherCampaignStatistics method returns campaign statistics for a publisher
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -311,7 +311,7 @@ class PublisherXmlRpcService extends BasePublisherService
 
     /**
      * The publisherBannerStatistics method returns banner statistics for a publisher
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -351,8 +351,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The getPublisher method returns either information about a publisher or 
-	 * an error message.
+     * The getPublisher method returns either information about a publisher or
+     * an error message.
      *
      * @access public
      *
@@ -380,8 +380,8 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The getPublisherListByAgencyId method returns a list of publishers 
-	 * for an agency, or returns an error message.
+     * The getPublisherListByAgencyId method returns a list of publishers
+     * for an agency, or returns an error message.
      *
      * @access public
      *

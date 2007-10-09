@@ -48,67 +48,67 @@ class OA_Dll_AdvertiserInfo extends OA_Info
      *
      * @var integer $advertiserId
      */
-	var $advertiserId;
+    var $advertiserId;
 
     /**
      * This option provides the ID of the agency to associate with the advertiser.
      *
      * @var integer $agencyId
      */
-	var $agencyId;
+    var $agencyId;
 
     /**
      * This required field provides the name of the advertiser.
      *
      * @var string $advertiserName
      */
-	var $advertiserName;
+    var $advertiserName;
 
     /**
      * This option provides the name of the contact for the advertiser.
      *
      * @var string $contactName
      */
-	var $contactName;
+    var $contactName;
 
     /**
      * This field provides the email address of the contact.
      *
      * @var string $emailAddress
      */
-	var $emailAddress;
+    var $emailAddress;
 
     /**
      * This field provides the username the contact use to log into Openads.
      *
      * @var string $username
      */
-	var $username;
+    var $username;
 
     /**
      * This field provides the password the contact uses to log into Openads.
      *
      * @var string $password
      */
-	var $password;
+    var $password;
 
-	/**
-	 * This method sets all default values when adding a new advertiser.
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->agencyId)) {
-	        $this->agencyId = 0;
-	    }
-	}
+    /**
+     * This method sets all default values when adding a new advertiser.
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->agencyId)) {
+            $this->agencyId = 0;
+        }
+    }
 
-	/**
-	 * This method returns an array of fields with their corresponding types.
-	 * 
-	 * @access public
-	 *
-	 * @return array
-	 */
+    /**
+     * This method returns an array of fields with their corresponding types.
+     *
+     * @access public
+     *
+     * @return array
+     */
     function getFieldsTypes()
     {
         return array(

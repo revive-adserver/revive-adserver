@@ -38,7 +38,7 @@ require_once MAX_PATH . '/www/api/v1/common/BaseServiceImpl.php';
 require_once MAX_PATH . '/lib/OA/Dll/Agency.php';
 
 /**
- * The AgencyServiceImpl class extends the BaseServiceImpl class to enable 
+ * The AgencyServiceImpl class extends the BaseServiceImpl class to enable
  * you to add, modify, delete and search the agency object.
  *
  */
@@ -61,8 +61,8 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This method checks if an action is valid and either returns a result 
-	 * or an error, as appropriate.
+     * This method checks if an action is valid and either returns a result
+     * or an error, as appropriate.
      *
      * @access private
      *
@@ -80,11 +80,11 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addAgency method creates an agency and updates the 
-	 * agency object with the agency ID.
+     * The addAgency method creates an agency and updates the
+     * agency object with the agency ID.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_AgencyInfo &$oAgency <br />
      *          <b>Required properties:</b> agencyName<br />
@@ -101,17 +101,17 @@ class AgencyServiceImpl extends BaseServiceImpl
         } else {
 
             return false;
-		}
+        }
 
     }
 
     /**
-     * The modifyAgency method checks if an agency ID exists and 
-	 * modifies the details for the agency if it exists or returns an error 
-	 * message, as appropriate.
+     * The modifyAgency method checks if an agency ID exists and
+     * modifies the details for the agency if it exists or returns an error
+     * message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param OA_Dll_AgencyInfo &$oAgency <br />
      *          <b>Required properties:</b> agencyId<br />
@@ -136,16 +136,16 @@ class AgencyServiceImpl extends BaseServiceImpl
         } else {
 
             return false;
-		}
+        }
 
     }
 
     /**
-     * The deleteAgency method checks if an agency exists and deletes 
-	 * the agency or returns an error message, as appropriate.
+     * The deleteAgency method checks if an agency exists and deletes
+     * the agency or returns an error message, as appropriate.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      *
@@ -153,22 +153,22 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function deleteAgency($sessionId, $agencyId)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult($this->_dllAgency->delete($agencyId));
 
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAgencyDailyStatistics method returns daily statistics for an 
-	 * agency for a specified period.
+     * The getAgencyDailyStatistics method returns daily statistics for an
+     * agency for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -179,23 +179,23 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgencyDailyStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyDailyStatistics(
                     $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAgencyAdvertiserStatistics method returns advertiser statistics 
-	 * for an agency for a specified period.
+     * The getAgencyAdvertiserStatistics method returns advertiser statistics
+     * for an agency for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -206,23 +206,23 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgencyAdvertiserStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyAdvertiserStatistics(
                     $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAgencyCampaignStatistics method returns campaign statistics for 
-	 * an agency for a specified period.
+     * The getAgencyCampaignStatistics method returns campaign statistics for
+     * an agency for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -233,23 +233,23 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgencyCampaignStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyCampaignStatistics(
                     $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAgencyBannerStatistics method returns banner statistics for 
-	 * an agency for a specified period.
+     * The getAgencyBannerStatistics method returns banner statistics for
+     * an agency for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -260,23 +260,23 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgencyBannerStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyBannerStatistics(
                     $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAgencyPublisherStatistics method returns publisher statistics for 
-	 * an agency for a specified period.
+     * The getAgencyPublisherStatistics method returns publisher statistics for
+     * an agency for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -287,23 +287,23 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgencyPublisherStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyPublisherStatistics(
                     $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAgencyZoneStatistics method returns zone statistics for 
-	 * an agency for a specified period.
+     * The getAgencyZoneStatistics method returns zone statistics for
+     * an agency for a specified period.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param date $oStartDate
@@ -314,22 +314,22 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgencyZoneStatistics($sessionId, $agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyZoneStatistics(
                     $agencyId, $oStartDate, $oEndDate, $rsStatisticsData));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
      * The getAgency method returns the agency details for a specified agency.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param integer $agencyId
      * @param OA_Dll_AgencyInfo &$oAgency
@@ -338,21 +338,21 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgency($sessionId, $agencyId, &$oAgency)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgency($agencyId, $oAgency));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 
     /**
-     * The getAgencyList method returns a list of agencies. 
+     * The getAgencyList method returns a list of agencies.
      *
      * @access public
-     * 
+     *
      * @param string $sessionId
      * @param array &$aAgencyList  Array of OA_Dll_AgencyInfo classes
      *
@@ -360,14 +360,14 @@ class AgencyServiceImpl extends BaseServiceImpl
      */
     function getAgencyList($sessionId, &$aAgencyList)
     {
-		if ($this->verifySession($sessionId)) {
+        if ($this->verifySession($sessionId)) {
 
             return $this->_validateResult(
                 $this->_dllAgency->getAgencyList($aAgencyList));
-		} else {
+        } else {
 
-			return false;
-		}
+            return false;
+        }
     }
 }
 

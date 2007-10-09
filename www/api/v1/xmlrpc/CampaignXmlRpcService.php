@@ -56,8 +56,8 @@ require_once MAX_PATH . '/lib/OA/Dll/Campaign.php';
 class CampaignXmlRpcService extends BaseCampaignService
 {
     /**
-     * The CampaignXmlRpcService constructor calls the base service constructor 
-	 * to initialise the service.
+     * The CampaignXmlRpcService constructor calls the base service constructor
+     * to initialise the service.
      *
      */
     function CampaignXmlRpcService()
@@ -66,8 +66,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * The addCampaign method adds details for a new campaign to the campaign 
-	 * object and returns either the campaign ID or an error message.
+     * The addCampaign method adds details for a new campaign to the campaign
+     * object and returns either the campaign ID or an error message.
      *
      * @access public
      *
@@ -100,7 +100,7 @@ class CampaignXmlRpcService extends BaseCampaignService
 
     /**
      * The modifyCampaign method changes the details for an existing campaign
-	 * or returns an error message.
+     * or returns an error message.
      *
      * @access public
      *
@@ -132,8 +132,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * The deleteCampaign method either deletes an existing campaign or 
-	 * returns an error message.
+     * The deleteCampaign method either deletes an existing campaign or
+     * returns an error message.
      *
      * @access public
      *
@@ -162,7 +162,7 @@ class CampaignXmlRpcService extends BaseCampaignService
 
     /**
      * The campaignDailyStatistics method returns daily statistics for a campaign
-	 * for a specified period, or returns an error message.
+     * for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -196,8 +196,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * The campaignBannerStatistics method returns banner statistics for 
-	 * a campaign for a specified period, or returns an error message.
+     * The campaignBannerStatistics method returns banner statistics for
+     * a campaign for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -234,8 +234,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * The campaignPublisherStatistics method returns publisher statistics for 
-	 * a campaign for a specified period, or returns an error message.
+     * The campaignPublisherStatistics method returns publisher statistics for
+     * a campaign for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -270,8 +270,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * The campaignZoneStatistics method returns zone statistics for 
-	 * a campaign for a specified period, or returns an error message.
+     * The campaignZoneStatistics method returns zone statistics for
+     * a campaign for a specified period, or returns an error message.
      *
      * @access public
      *
@@ -308,8 +308,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * The getCampaign method returns either information about a campaign or 
-	 * an error message.
+     * The getCampaign method returns either information about a campaign or
+     * an error message.
      *
      * @access public
      *
@@ -337,8 +337,8 @@ class CampaignXmlRpcService extends BaseCampaignService
     }
 
     /**
-     * The getCampaignListByAdvertiserId method returns a list of campaigns 
-	 * for an advertiser, or returns an error message.
+     * The getCampaignListByAdvertiserId method returns a list of campaigns
+     * for an advertiser, or returns an error message.
      *
      * @access public
      *

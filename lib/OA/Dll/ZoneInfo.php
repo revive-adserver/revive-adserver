@@ -35,7 +35,7 @@ $Id:$
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- * The OA_Dll_ZoneInfo class extends the base OA_Info class and 
+ * The OA_Dll_ZoneInfo class extends the base OA_Info class and
  * contains information about the zone.
  *
  */
@@ -49,35 +49,35 @@ class OA_Dll_ZoneInfo extends OA_Info
      *
      * @var integer $zoneId
      */
-	var $zoneId;
+    var $zoneId;
 
     /**
      * This field provides the ID of the publisher associated with the zone.
      *
      * @var integer $publisherId
      */
-	var $publisherId;
+    var $publisherId;
 
     /**
      * This field provides the name of the zone.
      *
      * @var string $zoneName
      */
-	var $zoneName;
+    var $zoneName;
 
     /**
      * This field provides the type of the zone (banner, interstitial, popup, text, email).
      *
      * @var integer $type
      */
-	var $type;
+    var $type;
 
     /**
      * This field provides the width of the zone.
      *
      * @var integer $width
      */
-	var $width;
+    var $width;
 
     /**
      * This field provides the height of the zone.
@@ -87,33 +87,33 @@ class OA_Dll_ZoneInfo extends OA_Info
     var $height;
 
 
-	/**
-	 * This method sets all default values when adding a new zone.
-	 *
-	 * @access public
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->type)) {
-	        $this->type = 0;
-	    }
+    /**
+     * This method sets all default values when adding a new zone.
+     *
+     * @access public
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->type)) {
+            $this->type = 0;
+        }
 
-	    if (is_null($this->width)) {
-	        $this->width = 0;
-	    }
+        if (is_null($this->width)) {
+            $this->width = 0;
+        }
 
-	    if (is_null($this->height)) {
-	        $this->height = 0;
-	    }
-	}
+        if (is_null($this->height)) {
+            $this->height = 0;
+        }
+    }
 
-	/**
-	 * This method returns an array of fields with their corresponding types.
-	 *
-	 * @access public
-	 *
-	 * @return array
-	 */
+    /**
+     * This method returns an array of fields with their corresponding types.
+     *
+     * @access public
+     *
+     * @return array
+     */
     function getFieldsTypes()
     {
         return array(

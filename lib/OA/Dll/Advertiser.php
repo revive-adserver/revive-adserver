@@ -73,10 +73,10 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * This method performs data validation for an advertiser, for example to check 
-	 * that an email address is an email address. Where necessary, the method connects 
-	 * to the OA_Dal to obtain information for other business validations, 
-	 * for example a username must be unique across all relevant tables.
+     * This method performs data validation for an advertiser, for example to check
+     * that an email address is an email address. Where necessary, the method connects
+     * to the OA_Dal to obtain information for other business validations,
+     * for example a username must be unique across all relevant tables.
      *
      * @access private
      *
@@ -156,7 +156,7 @@ class OA_Dll_Advertiser extends OA_Dll
      * This function calls a method in the OA_Dll class to check permissions.
      *
      * @access public
-     * 
+     *
      * @param integer $advertiserId  The ID of the advertiser
      *
      * @return boolean  False if access is denied and true if allowed.
@@ -174,8 +174,8 @@ class OA_Dll_Advertiser extends OA_Dll
 
 
     /**
-     * This method modifies an existing advertiser. Undefined fields do not change 
-	 * and defined fields with a NULL value also remain unchanged.
+     * This method modifies an existing advertiser. Undefined fields do not change
+     * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
      *
@@ -183,11 +183,11 @@ class OA_Dll_Advertiser extends OA_Dll
      *          <b>For adding</b><br />
      *          <b>Required properties:</b> advertiserName<br />
      *          <b>Optional properties:</b> agencyId, contactName, emailAddress, username, password<br />
-     * 
+     *
      *          <b>For modify</b><br />
      *          <b>Required properties:</b> advertiserId<br />
      *          <b>Optional properties:</b> agencyId, advertiserName, contactName, emailAddress, username, password<br />
-     * 
+     *
      * @return boolean  True if the operation was successful.
      *
      */
@@ -213,7 +213,7 @@ class OA_Dll_Advertiser extends OA_Dll
         $advertiserData['email']          = $oAdvertiser->emailAddress;
         $advertiserData['clientusername'] = $oAdvertiser->username;
         $advertiserData['clientpassword'] = $oAdvertiser->password;
-        $advertiserData['agencyid'] 	  = $oAdvertiser->agencyId;
+        $advertiserData['agencyid']       = $oAdvertiser->agencyId;
 
         // Password
         if (isset($advertiserData['clientpassword'])) {
@@ -265,7 +265,7 @@ class OA_Dll_Advertiser extends OA_Dll
         if ($result) {
             return true;
         } else {
-        	$this->raiseError('Unknown advertiserId Error');
+            $this->raiseError('Unknown advertiserId Error');
             return false;
         }
     }

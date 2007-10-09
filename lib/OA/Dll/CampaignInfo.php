@@ -35,7 +35,7 @@ $Id:$
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- * The OA_Dll_CampaignInfo class extends the base OA_Info class and contains 
+ * The OA_Dll_CampaignInfo class extends the base OA_Info class and contains
  * information about the campaign.
  *
  */
@@ -47,35 +47,35 @@ class OA_Dll_CampaignInfo extends OA_Info
      *
      * @var integer $campaignId
      */
-	var $campaignId;
+    var $campaignId;
 
     /**
      * This field provides the ID of the advertiser to associate with the campaign.
      *
      * @var integer $advertiserId
      */
-	var $advertiserId;
+    var $advertiserId;
 
     /**
      * This field provides the name of the campaign.
      *
      * @var string $campaignName
      */
-	var $campaignName;
+    var $campaignName;
 
     /**
      * This field provides the date to start the campaign.
      *
      * @var date $startDate
      */
-	var $startDate;
+    var $startDate;
 
     /**
      * This field provides the date to end the campaign.
      *
      * @var date $endDate
      */
-	var $endDate;
+    var $endDate;
 
     /**
      * This field provides the number of impressions booked for the campaign.
@@ -105,45 +105,45 @@ class OA_Dll_CampaignInfo extends OA_Info
      */
     var $weight;
 
-	/**
-	 * This method sets all default values when adding a new campaign.
-	 *
-	 * @access public
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->startDate)) {
-	        $this->startDate = new Date(OA_Dal::noDateValue());
-	    }
+    /**
+     * This method sets all default values when adding a new campaign.
+     *
+     * @access public
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->startDate)) {
+            $this->startDate = new Date(OA_Dal::noDateValue());
+        }
 
-	    if (is_null($this->endDate)) {
-	        $this->endDate = new Date(OA_Dal::noDateValue());
-	    }
+        if (is_null($this->endDate)) {
+            $this->endDate = new Date(OA_Dal::noDateValue());
+        }
 
-	    if (is_null($this->impressions)) {
-	        $this->impressions = -1;
-	    }
+        if (is_null($this->impressions)) {
+            $this->impressions = -1;
+        }
 
-	    if (is_null($this->clicks)) {
-	        $this->clicks = -1;
-	    }
+        if (is_null($this->clicks)) {
+            $this->clicks = -1;
+        }
 
-	    if (is_null($this->priority)) {
-	        $this->priority = 0;
-	    }
+        if (is_null($this->priority)) {
+            $this->priority = 0;
+        }
 
-	    if (is_null($this->weight)) {
-	        $this->weight = 1;
-	    }
-	}
+        if (is_null($this->weight)) {
+            $this->weight = 1;
+        }
+    }
 
-	/**
-	 * This method returns an array of fields with their corresponding types.
-	 *
-	 * @access public
-	 *
-	 * @return array
-	 */
+    /**
+     * This method returns an array of fields with their corresponding types.
+     *
+     * @access public
+     *
+     * @return array
+     */
     function getFieldsTypes()
     {
         return array(

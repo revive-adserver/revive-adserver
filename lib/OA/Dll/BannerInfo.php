@@ -35,7 +35,7 @@ $Id:$
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  The OA_Dll_BannerInfo class extends the base OA_Info class and contains 
+ *  The OA_Dll_BannerInfo class extends the base OA_Info class and contains
  *  information about the banner.
  *
  */
@@ -48,25 +48,25 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var integer $bannerId
      */
-	var $bannerId;
+    var $bannerId;
 
     /**
      * This field provides the ID of the campaign to associate with the banner.
      *
      * @var integer $campaignId
      */
-	var $campaignId;
+    var $campaignId;
 
     /**
      * This field provides the name of the banner.
      *
      * @var integer $bannerName
      */
-	var $bannerName;
+    var $bannerName;
 
     /**
-     * This field provides the storageType for the banner, which is one of 
-	 * 'sql','web','url','html','network','txt'.
+     * This field provides the storageType for the banner, which is one of
+     * 'sql','web','url','html','network','txt'.
      *
      * @var enum $storageType
      */
@@ -77,100 +77,100 @@ class OA_Dll_BannerInfo extends OA_Info
      *
      * @var string $fileName
      */
-	var $fileName;
+    var $fileName;
 
     /**
      * This field provides the URL for the image file for a network banner.
      *
      * @var string $imageURL
      */
-	var $imageURL;
+    var $imageURL;
 
     /**
      * This field provides the HTML template for a HTML banner.
      *
      * @var text $htmlTemplate
      */
-	var $htmlTemplate;
+    var $htmlTemplate;
 
     /**
      * This field provides the width of the banner.
      *
      * @var integer $width
      */
-	var $width;
+    var $width;
 
     /**
      * This field provides the height of the banner.
      *
      * @var integer $height
      */
-	var $height;
-	
-	/**
-	 * This field provides the priority weight of the banner.
-	 *
-	 * @var integer $weight
-	 */
-	var $weight;
+    var $height;
+
+    /**
+     * This field provides the priority weight of the banner.
+     *
+     * @var integer $weight
+     */
+    var $weight;
 
     /**
      * This field provides the destination URL of the banner.
      *
      * @var text $url
      */
-	var $url;
+    var $url;
 
-	/**
-	 * A boolean field to indicate if the banner is active
-	 *
-	 * @var boolean $active
-	 */
-	var $active;
+    /**
+     * A boolean field to indicate if the banner is active
+     *
+     * @var boolean $active
+     */
+    var $active;
 
-	/**
-	 * A text field for HTML banners to indicate which adserver this ad is from
-	 *
-	 * @var string $adserver
-	 */
-	var $adserver;
+    /**
+     * A text field for HTML banners to indicate which adserver this ad is from
+     *
+     * @var string $adserver
+     */
+    var $adserver;
 
-	/**
-	 * This method sets all default values when adding a new banner.
-	 *
-	 * @access public
-	 *
-	 */
-	function setDefaultForAdd() {
-	    if (is_null($this->storageType)) {
-	        $this->storageType = 'sql';
-	    }
+    /**
+     * This method sets all default values when adding a new banner.
+     *
+     * @access public
+     *
+     */
+    function setDefaultForAdd() {
+        if (is_null($this->storageType)) {
+            $this->storageType = 'sql';
+        }
 
-	    if (is_null($this->width)) {
-	        $this->width = 0;
-	    }
+        if (is_null($this->width)) {
+            $this->width = 0;
+        }
 
-	    if (is_null($this->height)) {
-	        $this->height = 0;
-	    }
+        if (is_null($this->height)) {
+            $this->height = 0;
+        }
 
-	    if (is_null($this->weight)) {
-	        $this->weight = 1;
-	    }
+        if (is_null($this->weight)) {
+            $this->weight = 1;
+        }
 
-	    if (is_null($this->active)) {
-	        $this->active = true;
-	    }
+        if (is_null($this->active)) {
+            $this->active = true;
+        }
 
-	}
+    }
 
-	/**
-	 * This method returns an array of fields with their corresponding types.
-	 *
-	 * @access public
-	 *
-	 * @return array
-	 */
+    /**
+     * This method returns an array of fields with their corresponding types.
+     *
+     * @access public
+     *
+     * @return array
+     */
     function getFieldsTypes()
     {
         return array(
