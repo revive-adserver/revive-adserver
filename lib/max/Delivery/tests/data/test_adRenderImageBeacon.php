@@ -25,6 +25,11 @@
 $Id$
 */
 
+/**
+ * @package    MaxDelivery
+ * @subpackage TestSuite Data
+ */
+
 $aBanner	= array('ad_id'=>'9999',
 					'url'=>'http://www.somewhere.com',
 					'contenttype'=>''

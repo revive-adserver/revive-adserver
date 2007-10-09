@@ -22,10 +22,11 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
+$Id$
 */
 
 /**
- * @package    Delivery
+ * @package    MaxDelivery
  * @subpackage TestSuite Data
  * @author     Monique Szpak <monique@m3.net>
  */
