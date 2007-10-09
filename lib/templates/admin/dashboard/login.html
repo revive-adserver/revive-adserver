@@ -46,7 +46,7 @@ $Id$
         <div class="widgetOverlayBody">
             <div class="widgetOverlayContent">
                 <h1>Welcome to <span class="openads">Openads</span></h1>
-            {if $displayError}
+            {if $errorMessage != ''}
                 <p class="error">{$errorMessage|escape}</p>
 
                 <p>Please ensure that the CAPS LOCK key is not active when typing the password.</p>
@@ -59,7 +59,7 @@ $Id$
                 <form id="loginForm" action="" method="POST">
                     <div class="line">
                       <label for="sso_username"><img src="images/dashboard/user_green.gif" />&nbsp;Single sign-on username</label>
-                      <input type="text" id="sso_username" name="sso_username" value="{$ssoAdmin|escape}"{if $ssoAdmin} disabled="disabled"{/if}{tabindex} />
+                      <input type="text" id="sso_username" name="sso_username" value="{$ssoAdmin|escape}"{if $disabledUsername} disabled="disabled"{/if}{tabindex} />
                     </div>
 
                     <div class="line">
@@ -68,6 +68,7 @@ $Id$
                     </div>
 
                     <div class="line-nolabel">
+                        <input type="hidden" name="login" value="1" />
                         <input class="loginFormSubmit" type="submit" name="submit" value="Connect"{tabindex} />
                     </div>
                 </form>
