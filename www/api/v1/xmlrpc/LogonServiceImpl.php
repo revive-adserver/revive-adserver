@@ -121,9 +121,9 @@ class LogonServiceImpl extends BaseServiceImpl
 
         /**
          * @todo Please check if the following statement is in correct place because
-		 * it seems illogical that user can get session ID from internal login with
-		 * a bad username or password.
-        **/ 
+         * it seems illogical that user can get session ID from internal login with
+         * a bad username or password.
+         */ 
 		
 		if (!$this->_verifyUsernameAndPasswordLength($username, $password)) {
             return false;
@@ -185,7 +185,7 @@ class LogonServiceImpl extends BaseServiceImpl
 
 
     /**
-     * The _verifyUsernameAndPasswordLength function checks the length of the username
+     * The _verifyUsernameAndPasswordLength method checks the length of the username
 	 * and password and returns an error message if either of them exceeds the limit of 
 	 * 64 characters.
      *

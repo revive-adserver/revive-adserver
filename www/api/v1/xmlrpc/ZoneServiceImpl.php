@@ -52,7 +52,7 @@ class ZoneServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * The ZoneServiceImpl function is the constructor for the ZoneServiceImpl class.
+     * The ZoneServiceImpl method is the constructor for the ZoneServiceImpl class.
      */
     function ZoneServiceImpl()
     {
@@ -61,7 +61,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This function checks if an action is valid and either returns a result 
+     * This method checks if an action is valid and either returns a result 
 	 * or an error, as appropriate.
      *
      * @access private
@@ -81,7 +81,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addZone function creates a zone and updates the 
+     * The addZone method creates a zone and updates the 
 	 * zone object with the zone ID.
      *
      * @access public
@@ -107,7 +107,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The modifyZone function checks if a zone ID exists and 
+     * The modifyZone method checks if a zone ID exists and 
 	 * modifies the details for the zone if it exists or returns an error 
 	 * message, as appropriate.
      *
@@ -142,7 +142,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The deleteZone function checks if a zone exists and deletes 
+     * The deleteZone method checks if a zone exists and deletes 
 	 * the zone or returns an error message, as appropriate.
      *
      * @access public
@@ -165,7 +165,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getZoneDailyStatistics function returns daily statistics for a zone 
+     * The getZoneDailyStatistics method returns daily statistics for a zone 
 	 * for a specified period.
      *
      * @access public
@@ -192,7 +192,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getZoneAdvertiserStatistics function returns advertiser statistics for a
+     * The getZoneAdvertiserStatistics method returns advertiser statistics for a
 	 * zone for a specified period.
      *
      * @access public
@@ -219,7 +219,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getZoneCampaignStatistics function returns campaign statistics for a zone
+     * The getZoneCampaignStatistics method returns campaign statistics for a zone
 	 * for a specified period.
      *
      * @access public
@@ -246,7 +246,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getZoneBannerStatistics function returns banner statistics for a zone
+     * The getZoneBannerStatistics method returns banner statistics for a zone
 	 * for a specified period.
      *
      * @access public
@@ -273,7 +273,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getZone function returns zone details for a specified zone.
+     * The getZone method returns zone details for a specified zone.
      *
      * @access public
      * 
@@ -296,7 +296,7 @@ class ZoneServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getZoneListByPublisherId function returns a list of zones for a 
+     * The getZoneListByPublisherId method returns a list of zones for a 
 	 * specified publisher.
      *
      * @access public

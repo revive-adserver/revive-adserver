@@ -31,11 +31,12 @@ $Id:$
  *
  */
 
-// Include base info class.
+// Require the base Info class.
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  Class with information about banner
+ *  The OA_Dll_BannerInfo class extends the base OA_Info class and contains 
+ *  information about the banner.
  *
  */
 
@@ -43,77 +44,78 @@ class OA_Dll_BannerInfo extends OA_Info
 {
 
     /**
-     * The ID of the banner.
+     * This field provides the ID of the banner.
      *
      * @var integer $bannerId
      */
 	var $bannerId;
 
     /**
-     * The ID of the campaign to which to add the banner.
+     * This field provides the ID of the campaign to associate with the banner.
      *
      * @var integer $campaignId
      */
 	var $campaignId;
 
     /**
-     * The name of the banner.
+     * This field provides the name of the banner.
      *
      * @var integer $bannerName
      */
 	var $bannerName;
 
     /**
-     * One of 'sql','web','url','html','network','txt'.
+     * This field provides the storageType for the banner, which is one of 
+	 * 'sql','web','url','html','network','txt'.
      *
      * @var enum $storageType
      */
     var $storageType;
 
     /**
-     * The name of the file in SQL or Web types.
+     * This field provides the name of the banner file.
      *
      * @var string $fileName
      */
 	var $fileName;
 
     /**
-     * The URL of the image file in network types.
+     * This field provides the URL for the image file for a network banner.
      *
      * @var string $imageURL
      */
 	var $imageURL;
 
     /**
-     * The HTML template for HTML types.
+     * This field provides the HTML template for a HTML banner.
      *
      * @var text $htmlTemplate
      */
 	var $htmlTemplate;
 
     /**
-     * The priority of this banner.
+     * This field provides the width of the banner.
      *
      * @var integer $width
      */
 	var $width;
 
     /**
-     * The height of the banner.
+     * This field provides the height of the banner.
      *
      * @var integer $height
      */
 	var $height;
 	
 	/**
-	 * The priority of this banner.
+	 * This field provides the priority weight of the banner.
 	 *
 	 * @var integer $weight
 	 */
 	var $weight;
 
     /**
-     * The destination URL of the banner.
+     * This field provides the destination URL of the banner.
      *
      * @var text $url
      */
@@ -134,7 +136,7 @@ class OA_Dll_BannerInfo extends OA_Info
 	var $adserver;
 
 	/**
-	 * Setting all default values. Used in adding new banner.
+	 * This method sets all default values when adding a new banner.
 	 *
 	 * @access public
 	 *
@@ -163,7 +165,7 @@ class OA_Dll_BannerInfo extends OA_Info
 	}
 
 	/**
-	 * This method returns array of fields with their corresponding types.
+	 * This method returns an array of fields with their corresponding types.
 	 *
 	 * @access public
 	 *

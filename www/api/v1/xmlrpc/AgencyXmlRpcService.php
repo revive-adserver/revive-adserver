@@ -65,7 +65,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The addAgency function adds details for a new agency to the agency 
+     * The addAgency method adds details for a new agency to the agency 
 	 * object and returns either the agency ID or an error message.
      *
      * @access public
@@ -97,7 +97,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The modifyAgency function either changes the details for an existing agency
+     * The modifyAgency method either changes the details for an existing agency
 	 * or returns an error message.
      *
      * @access public
@@ -129,7 +129,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The deleteAgency function either deletes an existing agency from the 
+     * The deleteAgency method either deletes an existing agency from the 
 	 * agency object or returns an error message.
      *
      * @access public
@@ -159,7 +159,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyDailyStatistics function returns either the daily statistics for an agency
+     * The agencyDailyStatistics method returns either the daily statistics for an agency
 	 * for a specified period or an error message.
      *
      * @access public
@@ -195,7 +195,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyAdvertiserStatistics function returns either the advertiser statistics for 
+     * The agencyAdvertiserStatistics method returns either the advertiser statistics for 
 	 * an agency for a specified period or an error message.
      *
      * @access public
@@ -232,7 +232,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyCampaignStatistics function returns either the campaign statistics for 
+     * The agencyCampaignStatistics method returns either the campaign statistics for 
 	 * an agency for a specified period or an error message.
      *
      * @access public
@@ -271,7 +271,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyBannerStatistics function returns banner statistics for 
+     * The agencyBannerStatistics method returns banner statistics for 
 	 * an agency for a specified period, or returns an error message.
      *
      * @access public
@@ -312,7 +312,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyPublisherStatistics function returns either the publisher statistics for 
+     * The agencyPublisherStatistics method returns either the publisher statistics for 
 	 * an agency for a specified period or an error message.
      *
      * @access public
@@ -349,7 +349,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The agencyZoneStatistics function returns either the zone statistics for 
+     * The agencyZoneStatistics method returns either the zone statistics for 
 	 * an agency for a specified period or an error message.
      *
      * @access public
@@ -388,7 +388,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The getAgency function returns either information about an agency or 
+     * The getAgency method returns either information about an agency or 
 	 * an error message.
      *
      * @access public
@@ -417,7 +417,7 @@ class AgencyXmlRpcService extends BaseAgencyService
     }
 
     /**
-     * The getAgencyList function returns either a list of agencies 
+     * The getAgencyList method returns either a list of agencies 
 	 * or an error message. 
      *
      * @access public

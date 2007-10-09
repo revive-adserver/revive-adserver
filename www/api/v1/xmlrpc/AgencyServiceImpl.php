@@ -52,7 +52,7 @@ class AgencyServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * The AgencyServiceImpl function is the constructor for the AgencyServiceImpl class.
+     * The AgencyServiceImpl method is the constructor for the AgencyServiceImpl class.
      */
     function AgencyServiceImpl()
     {
@@ -61,7 +61,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This function checks if an action is valid and either returns a result 
+     * This method checks if an action is valid and either returns a result 
 	 * or an error, as appropriate.
      *
      * @access private
@@ -80,7 +80,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addAgency function creates an agency and updates the 
+     * The addAgency method creates an agency and updates the 
 	 * agency object with the agency ID.
      *
      * @access public
@@ -106,7 +106,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The modifyAgency function checks if an agency ID exists and 
+     * The modifyAgency method checks if an agency ID exists and 
 	 * modifies the details for the agency if it exists or returns an error 
 	 * message, as appropriate.
      *
@@ -141,7 +141,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The deleteAgency function checks if an agency exists and deletes 
+     * The deleteAgency method checks if an agency exists and deletes 
 	 * the agency or returns an error message, as appropriate.
      *
      * @access public
@@ -164,7 +164,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgencyDailyStatistics function returns daily statistics for an 
+     * The getAgencyDailyStatistics method returns daily statistics for an 
 	 * agency for a specified period.
      *
      * @access public
@@ -191,7 +191,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgencyAdvertiserStatistics function returns advertiser statistics 
+     * The getAgencyAdvertiserStatistics method returns advertiser statistics 
 	 * for an agency for a specified period.
      *
      * @access public
@@ -218,7 +218,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgencyCampaignStatistics function returns campaign statistics for 
+     * The getAgencyCampaignStatistics method returns campaign statistics for 
 	 * an agency for a specified period.
      *
      * @access public
@@ -245,7 +245,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgencyBannerStatistics function returns banner statistics for 
+     * The getAgencyBannerStatistics method returns banner statistics for 
 	 * an agency for a specified period.
      *
      * @access public
@@ -272,7 +272,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgencyPublisherStatistics function returns publisher statistics for 
+     * The getAgencyPublisherStatistics method returns publisher statistics for 
 	 * an agency for a specified period.
      *
      * @access public
@@ -299,7 +299,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgencyZoneStatistics function returns zone statistics for 
+     * The getAgencyZoneStatistics method returns zone statistics for 
 	 * an agency for a specified period.
      *
      * @access public
@@ -326,7 +326,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgency function returns the agency details for a specified agency.
+     * The getAgency method returns the agency details for a specified agency.
      *
      * @access public
      * 
@@ -349,7 +349,7 @@ class AgencyServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAgencyList function returns a list of agencies. 
+     * The getAgencyList method returns a list of agencies. 
      *
      * @access public
      * 

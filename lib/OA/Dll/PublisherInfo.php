@@ -31,11 +31,12 @@ $Id:$
  *
  */
 
-// Include base info class.
+// Require the base Info class.
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  Class with information about publisher
+ * The OA_Dll_PublisherInfo class extends the base OA_Info class and contains
+ * information about publisher
  *
  */
 
@@ -43,56 +44,56 @@ class OA_Dll_PublisherInfo extends OA_Info
 {
 
     /**
-     * The ID of the publisher.
+     * This field provides the ID of the publisher.
      *
      * @var integer $publisherId
      */
 	var $publisherId;
 
     /**
-     * The ID of the agency to the publisher.
+     * This field provides the ID of the agency associated with the publisher.
      *
      * @var integer $agencyId
      */
 	var $agencyId;
 
     /**
-     * The name of the publisher.
+     * This field provides the name of the publisher.
      *
      * @var string $publisherName
      */
 	var $publisherName;
 
     /**
-     * The name of the contact.
+     * This field provides the name of the contact for the publisher.
      *
      * @var string $contactName
      */
 	var $contactName;
 
     /**
-     * The email address of the contact.
+     * This field provides the email address of the contact for the publisher.
      *
      * @var string $emailAddress
      */
     var $emailAddress;
 
     /**
-     * The username of the contact used to log into OA.
+     * This field provides the username the contact uses to log into Openads.
      *
      * @var string $username
      */
     var $username;
 
     /**
-     * The password of the contact used to log into OA.
+     * This field provides the password the contact uses to log into Openads.
      *
      * @var string $password
      */
     var $password;
 
 	/**
-	 * Setting all default values. Used in adding new publisher.
+	 * This method sets all default values when adding a new publisher.
 	 *
 	 */
 	function setDefaultForAdd() {
@@ -102,7 +103,7 @@ class OA_Dll_PublisherInfo extends OA_Info
 	}
 
 	/**
-	 * This method returns array of fields with their corresponding types.
+	 * This method returns an array of fields with their corresponding types.
 	 *
 	 * @access public
 	 *

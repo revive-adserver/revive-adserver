@@ -29,85 +29,85 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Campaign Information class.
+ * This file describes the CampaignInfo class.
  *
  */
 
-// Include base info class.
+// Require the base info class.
 require_once 'Info.php';
 
 /**
- *  Class with information about campaign
+ *  The campaignInfo class extends the base Info class and contains information about the campaign.
  *
  */
 
 class OA_Dll_CampaignInfo extends OA_Info
 {
     /**
-     * The ID of the campaign.
+     * The campaignId variable is the unique ID for the campaign.
      *
      * @var integer $campaignId
      */
 	var $campaignId;
 
     /**
-     * The ID of the advertiser to which to add the campaign.
+     * The advertiserID variable is the ID of the advertiser associated with the campaign.
      *
      * @var integer $advertiserId
      */
 	var $advertiserId;
 
     /**
-     * The name of the campaign.
+     * The campaignName variable is the name of the campaign.
      *
      * @var string $campaignName
      */
 	var $campaignName;
 
     /**
-     * The date the campaign should start.
+     * The startDate variable is the date the campaign will start.
      *
      * @var date $startDate
      */
 	var $startDate;
 
     /**
-     * The date the campaign should end.
+     * The endDate variable is the date the campaign will end.
      *
      * @var date $endDate
      */
 	var $endDate;
 
     /**
-     * The number of impressions from which to book this campaign.
+     * The impressions variable is the number of impressions booked for the campaign.
      *
      * @var integer $impressions
      */
     var $impressions;
 
     /**
-     * The number of clicks from which to book this campaign.
+     * The clicks variable is the number of clicks booked for the campaign.
      *
      * @var integer $clicks
      */
     var $clicks;
 
     /**
-     * The priority of this campaign.
+     * The priority variable is the priority level set for the campaign.
      *
      * @var integer $priority
      */
     var $priority;
 
     /**
-     * The priority of this campaign.
+     * The weight variable is the weight set for the campaign.
      *
      * @var integer $weight
      */
     var $weight;
 
 	/**
-	 * Setting all default values. Used in adding new campaign.
+	 * This function sets all default values when adding new campaign.
 	 *
 	 */
 	function setDefaultForAdd() {

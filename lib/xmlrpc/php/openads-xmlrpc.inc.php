@@ -33,9 +33,8 @@ if (!@include('XML/RPC.php')) {
 }
 
 /**
- * A library class to provide XML-RPC routines on the client-side - that is, on
- * a web server that needs to display ads in its pages, but where Openads is NOT
- * installed on that server -- it's installed on a remote server.
+ * A library class to provide XML-RPC routines  to display ads on pages on
+ * a web server where Openads is not installed but is installed on a remote server.
  *
  * For use with Openads PHP-based XML-RPC invocation tags.
  *
@@ -58,9 +57,10 @@ class OA_XmlRpc
      *
      * @param string $host    The hostname to connect to
      * @param string $path    The path to the axmlrpc.php file
-     * @param int    $port    The port number, 0 to use standard ports
+     * @param int    $port    The port number, 0 to use standard ports which are
+                              port 80 for HTTP and port 443 for HTTPS.
      * @param bool   $ssl     True to connect using an SSL connection
-     * @param int    $timeout The timeout to wait for the response
+     * @param int    $timeout The timeout period to wait for the response
      */
     function __construct($host, $path, $port = 0, $ssl = false, $timeout = 15)
     {
@@ -82,7 +82,7 @@ class OA_XmlRpc
     }
 
     /**
-     * This method retrieves a banner from a remote Openads installation using XML-RPC
+     * This method retrieves a banner from a remote Openads installation using XML-RPC.
      *
      * @param string $what       The "what" parameter, see docs for more info
      * @param int    $campaignid The campaign id to fetch banners from, 0 means any campaign
@@ -99,12 +99,12 @@ class OA_XmlRpc
         global $XML_RPC_Array, $XML_RPC_Struct;
         global $XML_RPC_Int;
 
-        // Prepare variables
+        // Prepare variables:
         $aServerVars = array(
             'remote_addr'       => 'REMOTE_ADDR',
             'remote_host'       => 'REMOTE_HOST',
 
-            // Headers used for ACLs
+            // Declare headers used for ACLs:
             'request_uri'       => 'REQUEST_URI',
             'https'             => 'HTTPS',
             'server_name'       => 'SERVER_NAME',
@@ -113,7 +113,7 @@ class OA_XmlRpc
             'referer'           => 'HTTP_REFERER',
             'user_agent'        => 'HTTP_USER_AGENT',
 
-            // Headers used for proxy lookup
+            // Declase headers used for proxy lookup:
             'via'               => 'HTTP_VIA',
             'forwarded'         => 'HTTP_FORWARDED',
             'forwarded_for'     => 'HTTP_FORWARDED_FOR',
@@ -122,7 +122,7 @@ class OA_XmlRpc
             'client_ip'         => 'HTTP_CLIENT_IP'
         );
 
-        // Create environment array
+        // Create the environment array:
         $aRemoteInfo = array();
         foreach ($aServerVars as $xmlVar => $varName) {
             if (isset($_SERVER[$varName])) {
@@ -130,16 +130,16 @@ class OA_XmlRpc
             }
         }
 
-        // Add cookies
+        // Add cookies:
         $aRemoteInfo['cookies'] = $_COOKIE;
 
-        // Encode context
+        // Encode the context:
         $xmlContext = array();
         foreach ($context as $contexValue) {
             $xmlContext[] = XML_RPC_encode($contextValue);
         }
 
-        // Create the XML-RPC message
+        // Create the XML-RPC message:
         $message = new XML_RPC_Message('openads.view', array(
             XML_RPC_encode($aRemoteInfo),
             new XML_RPC_Value($what,       $XML_RPC_String),
@@ -150,13 +150,13 @@ class OA_XmlRpc
             new XML_RPC_Value($context,    $XML_RPC_Array)
         ));
 
-        // Create an XML-RPC client to talk to the XML-RPC server
+        // Create an XML-RPC client to communicate with the XML-RPC server:
         $client = new XML_RPC_Client($this->path, $this->host, $this->port);
 
-        // Send the XML-RPC message to the server
+        // Send the XML-RPC message to the server:
         $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
 
-        // Was the response OK?
+        // Check if the response is OK?
         if ($response && $response->faultCode() == 0) {
             $response = XML_RPC_decode($response->value());
 

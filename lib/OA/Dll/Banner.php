@@ -31,21 +31,21 @@ $Id:$
  *
  */
 
-// Required classes
+// Require the following classes:
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/BannerInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Banner.php';
 
 
 /**
- * Banner Dll class
+ * The OA_Dll_Banner class extends the OA_Dll class.
  *
  */
 
 class OA_Dll_Banner extends OA_Dll
 {
     /**
-     * Initialisation of banner info from data array
+     * This method sets BannerInfo from a data array.
      *
      * @access private
      *
@@ -69,28 +69,28 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * Method performs data validation (e.g. email is an email)
-     * and where necessary connects to the DAL to obtain information
-     * required to perform other business validations.
+     * This method performs data validation for a banner, for example to check 
+	 * that an email address is an email address. Where necessary, the method connects 
+	 * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
      * @param OA_Dll_BannerInfo &$oBanner  Banner object.
      *
-     * @return boolean  Returns false if fields are not valid and true in otherwise.
+     * @return boolean  Returns false if fields are not valid and true if valid.
      *
      */
     function _validate(&$oBanner)
     {
         if (isset($oBanner->bannerId)) {
-            // Modify Banner
+            // When modifying a banner, check correct field types are used and the bannerID exists.
             if (!$this->checkStructureNotRequiredIntegerField($oBanner, 'campaignId') ||
                 !$this->checkStructureRequiredIntegerField($oBanner, 'bannerId') ||
                 !$this->checkIdExistence('banners', $oBanner->bannerId)) {
                 return false;
             }
         } else {
-            // Add Banner
+            // When adding a banner, check that the required field 'campaignId' is correct.
             if (!$this->checkStructureRequiredIntegerField($oBanner, 'campaignId')) {
                 return false;
             }
@@ -126,7 +126,7 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * This Method performs data validation for statistics methods(bannerId, date).
+     * This method performs data validation for statistics methods(bannerId, date).
      *
      * @access private
      *
@@ -148,13 +148,13 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * Calls method for checking permissions from Dll class.
+     * This function calls a method in the OA_Dll class which checks permissions.
      *
 	 * @access public
 	 *
      * @param integer $advertiserId  Banner ID
      *
-     * @return boolean  False is access denied and true in otherwise.
+     * @return boolean  False if access is denied and true if allowed.
      */
     function checkStatisticsPermissions($bannerId)
     {
@@ -168,15 +168,13 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * This method modifies an existing banner.
-     * All fields which are undefined (e.g. permissions) do not change
-     * the state they had before modification.
-     * All below defined fields with value NULL are unchanged.
+     * This method modifies an existing banner. Undefined fields do not change 
+	 * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
      *
      * @param OA_Dll_BannerInfo &$oBanner <br />
-     *          <b>For addign</b><br />
+     *          <b>For adding</b><br />
      *          <b>Required properties:</b> campaignId<br />
      *          <b>Optional properties:</b> bannerName, storageType, fileName, imageURL, htmlTemplate, width, height, weight, url<br />
      * 
@@ -278,7 +276,7 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * Returns banner information by banner id
+     * This method returns BannerInfo for a specified banner.
      *
      * @access public
      *
@@ -310,7 +308,7 @@ class OA_Dll_Banner extends OA_Dll
     }
 
     /**
-     * Returns list of banners by campaign id
+     * This method returns a list of banners for a specified campaign.
      *
      * @access public
      *
@@ -346,26 +344,26 @@ class OA_Dll_Banner extends OA_Dll
         return true;
     }
 
-   /**
-    * This method returns statistics for a given banner, broken down by day.
-    *
-    * @access public
-    *
-    * @param integer $bannerId The ID of the banner to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>day date</b> The day
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns daily statistics for a banner for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $bannerId The ID of the banner to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>day date</b> The day
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getBannerDailyStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($bannerId)) {
@@ -382,27 +380,27 @@ class OA_Dll_Banner extends OA_Dll
         }
     }
 
-   /**
-    * This method returns statistics for a given banner, broken down by publisher.
-    *
-    * @access public
-    *
-    * @param integer $bannerId The ID of the banner to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns publisher statistics for a banner for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $bannerId The ID of the banner to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getBannerPublisherStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($bannerId)) {
@@ -419,29 +417,29 @@ class OA_Dll_Banner extends OA_Dll
         }
     }
 
-   /**
-    * This method returns statistics for a given banner, broken down by zone.
-    *
-    * @access public
-    *
-    * @param integer $bannerId The ID of the banner to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>zoneID integer</b> The ID of the zone
-    *   <li><b>zoneName string (255)</b> The name of the zone
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns zone statistics for a banner for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $bannerId The ID of the banner to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>zoneID integer</b> The ID of the zone
+     *   <li><b>zoneName string (255)</b> The name of the zone
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getBannerZoneStatistics($bannerId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($bannerId)) {

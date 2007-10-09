@@ -65,7 +65,7 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The addBanner function adds details for a new banner to the banner 
+     * The addBanner method adds details for a new banner to the banner 
 	 * object and returns either the banner ID or an error message.
      *
      * @access public
@@ -98,7 +98,7 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The modifyBanner function changes the details for an existing banner
+     * The modifyBanner method changes the details for an existing banner
 	 * in the banner object or returns an error message.
      *
      * @access public
@@ -131,7 +131,7 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The deleteBanner function either deletes an existing banner or 
+     * The deleteBanner method either deletes an existing banner or 
 	 * returns an error message.
      *
      * @access public
@@ -160,7 +160,7 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The bannerDailyStatistics function returns daily statistics for a banner
+     * The bannerDailyStatistics method returns daily statistics for a banner
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -197,7 +197,7 @@ class BannerXmlRpcService extends BaseBannerService
 
 
     /**
-     * The bannerPublisherStatistics function returns publisher statistics for a banner
+     * The bannerPublisherStatistics method returns publisher statistics for a banner
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -234,7 +234,7 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The bannerZoneStatistics function returns zone statistics for a banner
+     * The bannerZoneStatistics method returns zone statistics for a banner
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -273,7 +273,7 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The getBanner function returns either information about a banner or 
+     * The getBanner method returns either information about a banner or 
 	 * an error message.
      *
      * @access public
@@ -302,7 +302,7 @@ class BannerXmlRpcService extends BaseBannerService
     }
 
     /**
-     * The getBannerListByCampaignId function returns a list of banners 
+     * The getBannerListByCampaignId method returns a list of banners 
 	 * for a campaign, or returns an error message.
      *
      * @access public

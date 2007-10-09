@@ -29,22 +29,22 @@ $Id:$
  * @package    Openads
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description XmlRpcUtils class.
+ * This file describes the XmlRpcUtils class.
  *
  */
 
-// Require the XMLRPC classes
+// Require the XML-RPC classes.
 require_once 'XML/RPC/Server.php';
 
 /**
- * Class to description XmlRpc methods.
+ * The XmlRpcUtils class contains various XmlRpc methods.
  *
  */
 class XmlRpcUtils
 {
 
     /**
-     * Converts Info Object into XML_RPC_Value and delete null fields
+     * This method converts the Info object into an XML_RPC_Value and deletes null fields.
      *
      * @param object &$oInfoObject
      * @return XML_RPC_Value
@@ -65,7 +65,7 @@ class XmlRpcUtils
     }
 
     /**
-     * Set RPC type for variable.
+     * This method sets the RPC type for variables.
      *
      * @param string $type
      * @param mixed $variable

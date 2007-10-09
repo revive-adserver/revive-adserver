@@ -31,21 +31,21 @@ $Id:$
  *
  */
 
-// Require the XMLRPC classes
+// Require the following classes:
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/CampaignInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Campaign.php';
 
 
 /**
- * Campaign Dll class
+ * The OA_Dll_Campaign class extends the base OA_Dll class.
  *
  */
 
 class OA_Dll_Campaign extends OA_Dll
 {
     /**
-     * Initialisation of campaign info from data array
+     * This method sets the CampaignInfo from a data array.
      *
      * @access private
      *
@@ -68,9 +68,9 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * Method performs data validation (e.g. email is an email)
-     * and where necessary connects to the DAL to obtain information
-     * required to perform other business validations.
+     * This method performs data validation for a campaign, for example to check 
+	 * that an email address is an email address. Where necessary, the method connects 
+	 * to the OA_Dal to obtain information for other business validations.
      *
      * @access private
      *
@@ -82,7 +82,7 @@ class OA_Dll_Campaign extends OA_Dll
     function _validate(&$oCampaign)
     {
         if (isset($oCampaign->campaignId)) {
-            // Modify Campaign
+            // When modifying a campaign, check correct field types are used and the campaignID exists.
             if (!$this->checkStructureRequiredIntegerField($oCampaign, 'campaignId') ||
                 !$this->checkIdExistence('campaigns', $oCampaign->campaignId)) {
                 return false;
@@ -97,21 +97,24 @@ class OA_Dll_Campaign extends OA_Dll
                 return false;
             }
         } else {
-            // Add Campaign
+            // When adding a campaign, check that the required field 'advertiserId' is correct.
             if (!$this->checkStructureRequiredIntegerField($oCampaign, 'advertiserId') ||
                 !$this->checkIdExistence('clients', $oCampaign->advertiserId)) {
                 return false;
             }
         }
 
-        // If we have 2 dates we need to check dates order
+        // If the campaign has a start date and end date, check the date order is correct.
         if (is_object($oCampaign->startDate) && is_object($oCampaign->endDate)) {
             if (!$this->checkDateOrder($oCampaign->startDate, $oCampaign->endDate)) {
                 return false;
             }
         }
-
-        // Check priority and weight.
+    /**
+     * @todo The error message is awkward - suggest changing to "High or medium priority
+     * campaigns cannot have a weight that is greater than zero."
+     */
+        // Check that the campaign priority and weight are consistent.
         // High priority is between 1 and 10.
         if (isset($oCampaign->priority) &&
             (($oCampaign->priority >= 1) && ($oCampaign->priority <= 10)) &&
@@ -136,8 +139,7 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * This method performs data validation for statistics methods (campaignId,
-     * date).
+     * This method performs data validation for statistics methods (campaignId, date).
      *
      * @access private
      *
@@ -160,13 +162,13 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * Calls method for checking permissions from Dll class.
+     * This function calls a method in the OA_Dll class which checks permissions.
      *
 	 * @access public
 	 *
      * @param integer $campaignId  Campaign ID
      *
-     * @return boolean  False if access denied and true in otherwise.
+     * @return boolean  False if access is denied and true if allowed.
      */
     function checkStatisticsPermissions($campaignId)
     {
@@ -180,15 +182,13 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * This method modifies an existing campaign.
-     * All fields which are undefined (e.g. permissions) do not change
-     * the state they had before modification.
-     * All below defined fields with value NULL are unchanged.
+     * This method modifies an existing campaign. Undefined fields do not change 
+     * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
      *
      * @param OA_Dll_CampaignInfo &$oCampaign <br />
-     *          <b>For addign</b><br />
+     *          <b>For adding</b><br />
      *          <b>Required properties:</b> advertiserId<br />
      *          <b>Optional properties:</b> campaignName, startDate, endDate, impressions, clicks, priority, weight<br />
      * 
@@ -285,7 +285,7 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * Returns campaign information by campaign id
+     * This method returns CampaignInfo for a specified campaign.
      *
      * @access public
      *
@@ -317,7 +317,7 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-     * Returns list of campaigns by campaign id
+     * This method returns a list of campaigns for a specified advertiser.
      *
      * @access public
      *
@@ -354,25 +354,25 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given campaign, broken down by day.
-    *
-    * @access public
-    *
-    * @param integer $campaignId The ID of the campaign to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>day date</b>  The day
-    *   <li><b>requests integer</b>  The number of requests for the day
-    *   <li><b>impressions integer</b>  The number of impressions for the day
-    *   <li><b>clicks integer</b>  The number of clicks for the day
-    *   <li><b>revenue decimal</b>  The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns daily statistics for a campaign for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $campaignId The ID of the campaign to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>day date</b>  The day
+     *   <li><b>requests integer</b>  The number of requests for the day
+     *   <li><b>impressions integer</b>  The number of impressions for the day
+     *   <li><b>clicks integer</b>  The number of clicks for the day
+     *   <li><b>revenue decimal</b>  The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getCampaignDailyStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
@@ -391,30 +391,30 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given campaign, broken down by banner.
-    *
-    * @access public
-    *
-    * @param integer $campaignId The ID of the campaign to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>advertiserID integer</b> The ID of the advertiser
-    *   <li><b>advertiserName string (255)</b> The name of the advertiser
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>bannerID integer</b> The ID of the banner
-    *   <li><b>bannerName string (255)</b> The name of the banner
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns banner statistics for a campaign for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $campaignId The ID of the campaign to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>advertiserID integer</b> The ID of the advertiser
+     *   <li><b>advertiserName string (255)</b> The name of the advertiser
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string (255)</b> The name of the campaign
+     *   <li><b>bannerID integer</b> The ID of the banner
+     *   <li><b>bannerName string (255)</b> The name of the banner
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getCampaignBannerStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
@@ -433,26 +433,26 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given campaign, broken down by publisher.
-    *
-    * @access public
-    *
-    * @param integer $campaignId The ID of the campaign to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns publisher statistics for a campaign for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $campaignId The ID of the campaign to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getCampaignPublisherStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {
@@ -474,28 +474,28 @@ class OA_Dll_Campaign extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given campaign, broken down by zone.
-    *
-    * @access public
-    *
-    * @param integer $campaignId The ID of the campaign to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>zoneID integer</b> The ID of the zone
-    *   <li><b>zoneName string (255)</b> The name of the zone
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns zone statistics for a campaign for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $campaignId The ID of the campaign to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>zoneID integer</b> The ID of the zone
+     *   <li><b>zoneName string (255)</b> The name of the zone
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getCampaignZoneStatistics($campaignId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($campaignId)) {

@@ -29,7 +29,7 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Zone Information class.
+ * This files describes the ZoneInfo class.
  *
  */
 
@@ -37,7 +37,7 @@ $Id:$
 require_once 'Info.php';
 
 /**
- *  Class with information about zone
+ *  The ZoneInfo class extends the base Info class and contains information about the zone.
  *
  */
 
@@ -46,42 +46,42 @@ class OA_Dll_ZoneInfo extends OA_Info
 
 
     /**
-     * The ID of the zone to modify.
+     * The zoneId variable is the unique ID for the zone.
      *
      * @var integer $zoneId
      */
 	var $zoneId;
 
     /**
-     * The ID of the publisher to which to add the zone.
+     * The publisherID is the ID of the publisher associated with the zone.
      *
      * @var integer $publisherId
      */
 	var $publisherId;
 
     /**
-     * The name of the zone.
+     * The zoneName is the name of the zone.
      *
      * @var string $zoneName
      */
 	var $zoneName;
 
     /**
-     * The type of the zone (banner, interstitial, popup, text, email).
+     * The type variable type of zone, one of the following: banner, interstitial, popup, text, email.
      *
      * @var integer $type
      */
 	var $type;
 
     /**
-     * The width of the zone.
+     * The width variable is the width of the zone.
      *
      * @var integer $width
      */
 	var $width;
 
     /**
-     * The width of the zone.
+     * The height variable is the height of the zone.
      *
      * @var integer $height
      */
@@ -89,7 +89,7 @@ class OA_Dll_ZoneInfo extends OA_Info
 
 
 	/**
-	 * Setting all default values. Used in adding new zone.
+	 * This functions sets all default values when adding a new zone.
 	 *
 	 */
 	function setDefaultForAdd() {

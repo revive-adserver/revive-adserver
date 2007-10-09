@@ -29,7 +29,7 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * Base class for all info classes
+ * The Info class is the base class for all info classes.
  *  
  */
 

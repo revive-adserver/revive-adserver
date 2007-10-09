@@ -65,7 +65,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The addZone function adds details for a new zone to the zone 
+     * The addZone method adds details for a new zone to the zone 
 	 * object and returns either the zone ID or an error message.
      *
      * @access public
@@ -98,7 +98,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The modifyZone function changes the details for an existing zone
+     * The modifyZone method changes the details for an existing zone
 	 * or returns an error message.
      *
      * @access public
@@ -130,7 +130,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The deleteZone function either deletes an existing zone or 
+     * The deleteZone method either deletes an existing zone or 
 	 * returns an error message.
      *
      * @access public
@@ -159,7 +159,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The zoneDailyStatistics function returns daily statistics for a zone
+     * The zoneDailyStatistics method returns daily statistics for a zone
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -195,7 +195,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The zoneAdvertiserStatistics function returns advertiser statistics for a zone
+     * The zoneAdvertiserStatistics method returns advertiser statistics for a zone
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -232,7 +232,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The zoneCampaignStatistics function returns campaign statistics for a zone
+     * The zoneCampaignStatistics method returns campaign statistics for a zone
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -271,7 +271,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The zoneBannerStatistics function returns banner statistics for a zone
+     * The zoneBannerStatistics method returns banner statistics for a zone
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -312,7 +312,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The getZone function returns either information about a zone or 
+     * The getZone method returns either information about a zone or 
 	 * an error message.
      *
      * @access public
@@ -341,7 +341,7 @@ class ZoneXmlRpcService extends BaseZoneService
     }
 
     /**
-     * The getZoneListByPublisherId function returns a list of zones 
+     * The getZoneListByPublisherId method returns a list of zones 
 	 * for an publisher, or returns an error message.
      *
      * @access public

@@ -31,11 +31,12 @@ $Id:$
  *
  */
 
-// Include base info class.
+// Require the base Info class.
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  Class with information about zone
+ * The OA_Dll_ZoneInfo class extends the base OA_Info class and 
+ * contains information about the zone.
  *
  */
 
@@ -44,42 +45,42 @@ class OA_Dll_ZoneInfo extends OA_Info
 
 
     /**
-     * The ID of the zone to modify.
+     * This field provides the ID of the zone.
      *
      * @var integer $zoneId
      */
 	var $zoneId;
 
     /**
-     * The ID of the publisher to which to add the zone.
+     * This field provides the ID of the publisher associated with the zone.
      *
      * @var integer $publisherId
      */
 	var $publisherId;
 
     /**
-     * The name of the zone.
+     * This field provides the name of the zone.
      *
      * @var string $zoneName
      */
 	var $zoneName;
 
     /**
-     * The type of the zone (banner, interstitial, popup, text, email).
+     * This field provides the type of the zone (banner, interstitial, popup, text, email).
      *
      * @var integer $type
      */
 	var $type;
 
     /**
-     * The width of the zone.
+     * This field provides the width of the zone.
      *
      * @var integer $width
      */
 	var $width;
 
     /**
-     * The width of the zone.
+     * This field provides the height of the zone.
      *
      * @var integer $height
      */
@@ -87,7 +88,7 @@ class OA_Dll_ZoneInfo extends OA_Info
 
 
 	/**
-	 * Setting all default values. Used in adding new zone.
+	 * This method sets all default values when adding a new zone.
 	 *
 	 * @access public
 	 *
@@ -107,7 +108,7 @@ class OA_Dll_ZoneInfo extends OA_Info
 	}
 
 	/**
-	 * This method returns array of fields with their corresponding types.
+	 * This method returns an array of fields with their corresponding types.
 	 *
 	 * @access public
 	 *

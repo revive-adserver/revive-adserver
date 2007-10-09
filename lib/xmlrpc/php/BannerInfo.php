@@ -29,15 +29,15 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Banner Information class.
+ * This file describes the BannerInfo class.
  *
  */
 
-// Include base info class.
+// Require the base info class.
 require_once 'Info.php';
 
 /**
- *  Class with information about banner
+ *  The BannerInfo class extends the base Info class and contains information about the banner.
  *
  */
 
@@ -45,70 +45,70 @@ class OA_Dll_BannerInfo extends OA_Info
 {
 
     /**
-     * The ID of the banner.
+     * The bannerID variable is the unique ID of the banner.
      *
      * @var integer $bannerId
      */
 	var $bannerId;
 
     /**
-     * The ID of the campaign to which to add the banner.
+     * The campaignID variable is the ID of the campaign associated with the banner.
      *
      * @var integer $campaignId
      */
 	var $campaignId;
 
     /**
-     * The name of the banner.
+     * The nbannerName variable is the name of the banner.
      *
      * @var integer $bannerName
      */
 	var $bannerName;
 
     /**
-     * One of 'sql','web','url','html','network','txt'.
+     * The storageType variable is one of the following: 'sql','web','url','html','network','txt'.
      *
      * @var enum $storageType
      */
     var $storageType;
 
     /**
-     * The name of the file in SQL or Web types.
+     * The fileName variable is the name of a banner file in either SQL or web address format.
      *
      * @var string $fileName
      */
 	var $fileName;
 
     /**
-     * The URL of the image file in network types.
+     * The imageURL variable is the URL for an image file for network banners.
      *
      * @var string $imageURL
      */
 	var $imageURL;
 
     /**
-     * The HTML template for HTML types.
+     * The htmlTemplate variable is the HTML template for HTML banners.
      *
      * @var text $htmlTemplate
      */
 	var $htmlTemplate;
 
     /**
-     * The priority of this banner.
+     * The width variable contains the width of a banner.
      *
      * @var integer $width
      */
 	var $width;
 
     /**
-     * The height of the banner.
+     * The height variable contains the height of the banner.
      *
      * @var integer $height
      */
 	var $height;
 
     /**
-     * The destination URL of the banner.
+     * The url variable is the destination URL of the banner.
      *
      * @var text $url
      */
@@ -129,7 +129,7 @@ class OA_Dll_BannerInfo extends OA_Info
 	var $adserver;
 
 	/**
-	 * Setting all default values. Used in adding new banner.
+	 * This method sets all default values when adding a new banner.
 	 *
 	 */
 	function setDefaultForAdd() {

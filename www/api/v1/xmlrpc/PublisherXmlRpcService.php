@@ -66,7 +66,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The addPublisher function adds details for a new publisher to the publisher 
+     * The addPublisher method adds details for a new publisher to the publisher 
 	 * object and returns either the publisher ID or an error message.
      *
      * @access public
@@ -99,7 +99,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The modifyPublisher function changes the details for an existing publisher
+     * The modifyPublisher method changes the details for an existing publisher
 	 * or returns an error message.
      *
      * @access public
@@ -132,7 +132,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The deletePublisher function either deletes an existing publisher or 
+     * The deletePublisher method either deletes an existing publisher or 
 	 * returns an error message.
      *
      * @access public
@@ -161,7 +161,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The publisherDailyStatistics function returns daily statistics for a publisher
+     * The publisherDailyStatistics method returns daily statistics for a publisher
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -197,7 +197,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The publisherZoneStatistics function returns zone statistics for a publisher
+     * The publisherZoneStatistics method returns zone statistics for a publisher
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -234,7 +234,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The publisherAdvertiserStatistics function returns advertiser statistics for a publisher
+     * The publisherAdvertiserStatistics method returns advertiser statistics for a publisher
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -271,7 +271,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The publisherCampaignStatistics function returns campaign statistics for a publisher
+     * The publisherCampaignStatistics method returns campaign statistics for a publisher
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -310,7 +310,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The publisherBannerStatistics function returns banner statistics for a publisher
+     * The publisherBannerStatistics method returns banner statistics for a publisher
 	 * for a specified period, or returns an error message.
      *
      * @access public
@@ -351,7 +351,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The getPublisher function returns either information about a publisher or 
+     * The getPublisher method returns either information about a publisher or 
 	 * an error message.
      *
      * @access public
@@ -380,7 +380,7 @@ class PublisherXmlRpcService extends BasePublisherService
     }
 
     /**
-     * The getPublisherListByAgencyId function returns a list of publishers 
+     * The getPublisherListByAgencyId method returns a list of publishers 
 	 * for an agency, or returns an error message.
      *
      * @access public

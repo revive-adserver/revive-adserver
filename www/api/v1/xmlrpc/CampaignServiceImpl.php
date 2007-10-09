@@ -52,7 +52,7 @@ class CampaignServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * The CampaignServiceImpl function is the constructor for the CampignServiceImpl class.
+     * The CampaignServiceImpl method is the constructor for the CampignServiceImpl class.
      */
     function CampaignServiceImpl()
     {
@@ -61,7 +61,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This function checks if an action is valid and either returns a result 
+     * This method checks if an action is valid and either returns a result 
 	 * or an error, as appropriate.
      *
      * @access private
@@ -80,7 +80,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addCampaign function creates a campaign and updates the 
+     * The addCampaign method creates a campaign and updates the 
 	 * campaign object with the campaign ID.
      *
      * @access public
@@ -106,7 +106,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The modifyCampaign function checks if a campaign ID exists and 
+     * The modifyCampaign method checks if a campaign ID exists and 
 	 * modifies the details for the campaign if it exists or returns an error 
 	 * message, as appropriate.
      *
@@ -141,7 +141,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The deleteCampaign function checks if a campaign ID exists and 
+     * The deleteCampaign method checks if a campaign ID exists and 
 	 * modifies the details for the campaign if it exists or returns an error 
 	 * message, as appropriate.
      *
@@ -165,7 +165,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getCampaignDailyStatistics function returns daily statistics for a 
+     * The getCampaignDailyStatistics method returns daily statistics for a 
 	 * campaign for a specified period.
      *
      * @access public
@@ -192,7 +192,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getCampaignBannerStatistics function returns banner statistics for a 
+     * The getCampaignBannerStatistics method returns banner statistics for a 
 	 * campaign for a specified period.
      *
      * @access public
@@ -219,7 +219,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getCampaignPublisherStatistics function returns publisher statistics 
+     * The getCampaignPublisherStatistics method returns publisher statistics 
 	 * for a campaign for a specified period.
      *
      * @access public
@@ -246,7 +246,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getCampaignZoneStatistics function returns zone statistics for a campaign
+     * The getCampaignZoneStatistics method returns zone statistics for a campaign
 	 * for a specified period.
      *
      * @access public
@@ -273,7 +273,7 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getCampaign function returns the campaign details for a specified campaign.
+     * The getCampaign method returns the campaign details for a specified campaign.
      *
      * @access public
      * 
@@ -296,8 +296,8 @@ class CampaignServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getCampaignListByAdvertiserId function returns a list of advertisers for 
-	 * a campaign.
+     * The getCampaignListByAdvertiserId method returns a list of campaigns for 
+	 * a specified advertiser.
      *
      * @access public
      * 

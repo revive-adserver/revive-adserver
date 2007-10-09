@@ -31,21 +31,21 @@ $Id:$
  *
  */
 
-// Require the XMLRPC classes
+// Require the following classes:
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/ZoneInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Zone.php';
 
 
 /**
- * Zone Dll class
+ * The OA_Dll_Zone class extends the base OA_Dll class.
  *
  */
 
 class OA_Dll_Zone extends OA_Dll
 {
     /**
-     * Initialisation of zone info from data array
+     * This method sets ZoneInfo from a data array.
      *
      * @access private
      *
@@ -66,7 +66,7 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Zone type validation method.
+     * This method validates the zone type.
      * Types: banner=0, interstitial=1, popup=2, text=3, email=4
      *
 	 * @access private
@@ -90,9 +90,9 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Method performs data validation (e.g. email is an email)
-     * and where necessary connects to the DAL to obtain information
-     * required to perform other business validations.
+     * This method performs data validation for a zone, for example to check 
+	 * that an email address is an email address. Where necessary, the method connects 
+	 * to the OA_Dal to obtain information for other business validations.
      *
 	 * @access private
 	 *
@@ -112,14 +112,14 @@ class OA_Dll_Zone extends OA_Dll
         }
 
         if (isset($oZone->zoneId)) {
-            // Modify Zone
+            // When modifying a zone, check correct field types are used and the zoneID exists.
             if (!$this->checkStructureRequiredIntegerField($oZone, 'zoneId') ||
                 !$this->checkStructureNotRequiredIntegerField($oZone, 'publisherId') ||
                 !$this->checkIdExistence('zones', $oZone->zoneId)) {
                 return false;
             }
         } else {
-            // Add Zone
+            // When adding a zone, check that the required field 'publisherId' is correct.
             if (!$this->checkStructureRequiredIntegerField($oZone, 'publisherId')) {
                 return false;
             }
@@ -135,8 +135,7 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * This method performs data validation for statistics methods(zoneId,
-     *  date).
+     * This method performs data validation for statistics methods(zoneId, date).
      *
 	 * @access private
 	 *
@@ -159,13 +158,13 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Calls method for checking permissions from Dll class.
+     * This function calls a method in the OA_Dll class which checks permissions.
      *
 	 * @access public
 	 *
      * @param integer $advertiserId  Zone ID
      *
-     * @return boolean  False if access denied and true otherwise.
+     * @return boolean  False if access denied and true if allowed.
      */
     function checkStatisticsPermissions($zoneId)
     {
@@ -179,15 +178,13 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * This method modifies an existing zone.
-     * All fields which are undefined (e.g. permissions) do not change
-     * the state they had before modification.
-     * All below defined fields with value NULL are unchanged.
+     * This method modifies an existing banner. Undefined fields do not change 
+	 * and defined fields with a NULL value also remain unchanged.
      *
 	 * @access public
 	 *
      * @param OA_Dll_ZoneInfo &$oZone <br />
-     *          <b>For addign</b><br />
+     *          <b>For adding</b><br />
      *          <b>Required properties:</b> publisherId<br />
      *          <b>Optional properties:</b> zoneName, type, width, height<br />
      * 
@@ -253,7 +250,7 @@ class OA_Dll_Zone extends OA_Dll
 	 *
      * @param integer $zoneId The ID of the zone to delete
      *
-     * @return boolean success - True if the operation was successful
+     * @return boolean True if the operation was successful
      *
      */
     function delete($zoneId)
@@ -281,7 +278,7 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Returns zone information by id
+     * This method returns ZoneInfo for a specified zone.
      *
      * @access public
      *
@@ -313,7 +310,7 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-     * Returns list of zones by publisher id
+     * This method returns a list of zones for a publisher.
      *
      * @access public
      *
@@ -350,25 +347,25 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given zone, broken down by day.
-    *
-    * @access public
-    *
-    * @param integer $zoneId The ID of the zone to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array $rsStatisticsData Parametr for returned data from function
-    *   <ul>
-    *   <li><b>day date</b> The day
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean False if there is an error
-    *
-    */
+     * This method returns daily statistics for a zone for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $zoneId The ID of the zone to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array $rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>day date</b> The day
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean True if the operation was successful and false if not.
+     *
+     */
     function getZoneDailyStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
@@ -387,26 +384,26 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given zone, broken
-    * down by advertiser.
-    *
-    * @access public
-    *
-    * @param integer $zoneId The ID of the zone to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    *
-    * @return array
-    *   <ul>
-    *   <li><b>advertiser ID integer</b> The ID of the advertiser
-    *   <li><b>advertiserName string (255)</b> The name of the advertiser
-    *   <li><b>requests integer</b> The number of requests for the advertiser
-    *   <li><b>impressions integer</b> The number of impressions for the advertiser
-    *   <li><b>clicks integer</b> The number of clicks for the advertiser
-    *   <li><b>revenue decimal</b> The revenue earned for the advertiser
-    *   </ul>
-    *
-    */
+     * This method returns daily statistics for a zone for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $zoneId The ID of the zone to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array $rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>advertiser ID integer</b> The ID of the advertiser
+     *   <li><b>advertiserName string (255)</b> The name of the advertiser
+     *   <li><b>requests integer</b> The number of requests for the advertiser
+     *   <li><b>impressions integer</b> The number of impressions for the advertiser
+     *   <li><b>clicks integer</b> The number of clicks for the advertiser
+     *   <li><b>revenue decimal</b> The revenue earned for the advertiser
+     *   </ul>
+     *
+     * @return boolean True if the operation was successful and false if not.
+	 * 
+     */
 
     function getZoneAdvertiserStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
@@ -426,27 +423,28 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given zone, broken down by campaign.
-    *
-    * @access public
-    *
-    * @param integer $zoneId The ID of the zone to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    *
-    * @return array
-    *   <ul>
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string</b> The name of the campaign
-    *   <li><b>advertiserID integer</b> The ID advertiser
-    *   <li><b>advertiserName string</b> The name advertiser
-    *   <li><b>requests integer</b> The number of requests for the campaign
-    *   <li><b>impressions integer</b> The number of impressions for the campaign
-    *   <li><b>clicks integer</b> The number of clicks for the campaign
-    *   <li><b>revenue decimal</b> The revenue earned for the campaign
-    *   </ul>
-    *
-    */
+     * This method returns campaign statistics for a zone for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $zoneId The ID of the zone to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array $rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string</b> The name of the campaign
+     *   <li><b>advertiserID integer</b> The ID advertiser
+     *   <li><b>advertiserName string</b> The name advertiser
+     *   <li><b>requests integer</b> The number of requests for the campaign
+     *   <li><b>impressions integer</b> The number of impressions for the campaign
+     *   <li><b>clicks integer</b> The number of clicks for the campaign
+     *   <li><b>revenue decimal</b> The revenue earned for the campaign
+     *   </ul>
+     *
+	 * @return boolean True if the operation was successful and false if not.
+	 *
+     */
     function getZoneCampaignStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {
@@ -465,29 +463,30 @@ class OA_Dll_Zone extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given zone, broken down by banner.
-    *
-    * @access public
-    *
-    * @param integer $zoneId The ID of the zone to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    *
-    * @return array
-    *   <ul>
-    *   <li><b>bannerID integer</b> The ID of the banner
-    *   <li><b>bannerName string (255)</b> The name of the banner
-    *   <li><b>campaignID integer</b> The ID of the banner
-    *   <li><b>campaignName string (255)</b> The name of the banner
-    *   <li><b>advertiserID integer</b> The ID of the advertiser
-    *   <li><b>advertiserName string</b> The name of the advertiser
-    *   <li><b>requests integer</b> The number of requests for the banner
-    *   <li><b>impressions integer</b> The number of impressions for the banner
-    *   <li><b>clicks integer</b> The number of clicks for the banner
-    *   <li><b>revenue decimal</b> The revenue earned for the banner
-    *   </ul>
-    *
-    */
+     * This method returns banner statistics for a zone for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $zoneId The ID of the zone to view statistics
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array $rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>bannerID integer</b> The ID of the banner
+     *   <li><b>bannerName string (255)</b> The name of the banner
+     *   <li><b>campaignID integer</b> The ID of the banner
+     *   <li><b>campaignName string (255)</b> The name of the banner
+     *   <li><b>advertiserID integer</b> The ID of the advertiser
+     *   <li><b>advertiserName string</b> The name of the advertiser
+     *   <li><b>requests integer</b> The number of requests for the banner
+     *   <li><b>impressions integer</b> The number of impressions for the banner
+     *   <li><b>clicks integer</b> The number of clicks for the banner
+     *   <li><b>revenue decimal</b> The revenue earned for the banner
+     *   </ul>
+     *
+     * @return boolean True if the operation was successful and false if not.
+	 * 
+     */
     function getZoneBannerStatistics($zoneId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($zoneId)) {

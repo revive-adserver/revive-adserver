@@ -35,8 +35,8 @@ if (!@include('XML/RPC.php')) {
 require_once 'XmlRpcUtils.php';
 
 /**
- * A library class to provide XML-RPC routines on the client-side - that is, on
- * a web server that needs to control Openads via the webservice API
+ * A library class to provide XML-RPC routines on
+ * a web server to enable it to manipulate objects in Openads using the web services API.
  *
  * @package    Openads
  * @subpackage ExternalLibrary
@@ -53,13 +53,13 @@ class OA_Api_Xmlrpc
     var $username;
     var $password;
     /**
-     * The sessionId is set by the logon() method called during the constructor
+     * The sessionId is set by the logon() method called during the constructor.
      *
-     * @var string The remote session ID to be used in all subsequent transactions
+     * @var string The remote session ID is used in all subsequent transactions.
      */
     var $sessionId;
     /**
-     * Purely for my own use, this parameter lets me pass debug querystring paramters into
+     * Purely for my own use, this parameter lets me pass debug querystring parameters into
      * the remote call to trigger my Zend debugger on the server-side
      *
      * This will be removed before release
@@ -72,13 +72,14 @@ class OA_Api_Xmlrpc
     /**
      * PHP5 style constructor
      *
-     * @param string $host      The hostname to connect to
-     * @param string $basepath  The base path to the XML-RPC services
-     * @param string $username  The username to authenticate to the Webservice API
-     * @param string $password  The password for the above user
-     * @param int    $port      The port number, 0 to use standard ports
-     * @param bool   $ssl       True to connect using an SSL connection
-     * @param int    $timeout   The timeout to wait for the response
+     * @param string $host      The name of the host to which to connect.
+     * @param string $basepath  The base path to XML-RPC services.
+     * @param string $username  The username to authenticate to the web services API.
+     * @param string $password  The password for this user.
+     * @param int    $port      The port number. Use 0 to use standard ports which 
+	 *                          are port 80 for HTTP and port 443 for HTTPS.
+     * @param bool   $ssl       Set to true to connect using an SSL connection.
+     * @param int    $timeout   The timeout period to wait for a response.
      */
     function __construct($host, $basepath, $username, $password, $port = 0, $ssl = false, $timeout = 15)
     {
@@ -103,13 +104,13 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * A private function to call private method send add add to parameter
-     * data sessionId
+     * This private function sends a method call and $data to a specified service and automatically 
+	 * adds the value of the sessionID.
      *
-     * @param string $service The name of the remote service file
-     * @param string $method  The name of the remote method to be called
-     * @param mixed  $data    The data to be sent to the WebService
-     * @return mixed Response from server or false on failure
+     * @param string $service The name of the remote service file.
+     * @param string $method  The name of the remote method to call.
+     * @param mixed  $data    The data to send to the web service.
+     * @return mixed The response from the server or false in the event of failure.
      */
     function _sendWithSession($service, $method, $data = array())
     {
@@ -117,12 +118,12 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * A private function to send a method call to a specified service
+     * This function sends a method call to a specified service.
      *
-     * @param string $service The name of the remote service file
-     * @param string $method  The name of the remote method to be called
-     * @param mixed  $data    The data to be sent to the WebService
-     * @return mixed Response from server or false on failure
+     * @param string $service The name of the remote service file.
+     * @param string $method  The name of the remote method to call.
+     * @param mixed  $data    The data to send to the web service.
+     * @return mixed The response from the server or false in the event of failure.
      */
     function _send($service, $method, $data)
     {
@@ -138,10 +139,10 @@ class OA_Api_Xmlrpc
 
         $client = new XML_RPC_Client($this->basepath . '/' . $service . $this->debug, $this->host);
 
-        // Send the XML-RPC message to the server
+        // Send the XML-RPC message to the server.
         $response = $client->send($message, $this->timeout, $this->ssl ? 'https' : 'http');
 
-        // Check for error response
+        // Check for an error response.
         if ($response && $response->faultCode() == 0) {
             $result = XML_RPC_decode($response->value());
         } else {
@@ -152,9 +153,9 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * A private method to logon to the WebService
+     * This method logs on to web services.
      *
-     * @return boolean Was the remote logon() call successful?
+     * @return boolean "Was the remote logon() call successful?"
      */
     function _logon()
     {
@@ -164,9 +165,9 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * A private method to logoff to the WebService
+     * This method logs off from web wervices.
      *
-     * @return boolean Was the remote logoff() call successful
+     * @return boolean "Was the remote logoff() call successful?"
      */
     function logoff()
     {
@@ -174,13 +175,13 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Call Statistics Method for Entity.
+     * This method returns statistics for an entity.
      *
-     * @param string $serviceFileName
-     * @param string $methodName
-     * @param int $entityId
-     * @param Pear::Date $oStartDate
-     * @param Pear::Date $oEndDate
+     * @param string  $serviceFileName
+     * @param string  $methodName
+     * @param int  $entityId
+     * @param Pear::Date  $oStartDate
+     * @param Pear::Date  $oEndDate
      * @return array  result data
      */
     function _callStatisticsMethod($serviceFileName, $methodName, $entityId, $oStartDate = null, $oEndDate = null)
@@ -201,7 +202,8 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Add Agency.
+     * This method sends a call to the AgencyXmlRpcService and
+	 * passes the AgencyInfo with the session to add an agency.
      *
      * @param OA_Dll_AgencyInfo $oAgencyInfo
      * @return  method result
@@ -213,7 +215,8 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Modify Agency.
+     * This method sends a call to the AgencyXmlRpcService and
+	 * passes the AgencyInfo object with the session to modify an agency.
      *
      * @param OA_Dll_AgencyInfo $oAgencyInfo
      * @return  method result
@@ -225,7 +228,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Agency by id.
+     * This method  returns the AgencyInfo for a specified agency.
      *
      * @param int $agencyId
      * @return OA_Dll_AgencyInfo
@@ -241,7 +244,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Agency List.
+     * This method returns AgencyInfo for all agencies.
      *
      * @param int $agencyId
      * @return array  array OA_Dll_AgencyInfo objects
@@ -261,7 +264,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Delete Agency.
+     * This method deletes a specified agency.
      *
      * @param int $agencyId
      * @return  method result
@@ -273,7 +276,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Agency daily statistics.
+     * This method returns the daily statistics for an agency for a specified time period.
      *
      * @param int $agencyId
      * @param Pear::Date $oStartDate
@@ -295,7 +298,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Agency Advertiser statistics.
+     * This method returns the advertiser statistics for an agency for a specified time period.
      *
      * @param int $agencyId
      * @param Pear::Date $oStartDate
@@ -309,7 +312,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Agency Campaign statistics.
+     * This method returns the campaign statistics for an agency for a specified time period.
      *
      * @param int $agencyId
      * @param Pear::Date $oStartDate
@@ -323,7 +326,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Agency Banner statistics.
+     * This method returns the banner statistics for an agency for a specified time period.
      *
      * @param int $agencyId
      * @param Pear::Date $oStartDate
@@ -337,7 +340,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Agency Publisher statistics.
+     * This method returns the publisher statistics for an agency for a specified time period.
      *
      * @param int $agencyId
      * @param Pear::Date $oStartDate
@@ -351,7 +354,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Agency Zone statistics.
+     * This method returns the zone statistics for an agency for a specified time period.
      *
      * @param int $agencyId
      * @param Pear::Date $oStartDate
@@ -365,7 +368,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Add Advertiser.
+     * This method adds an advertiser.
      *
      * @param OA_Dll_AdvertiserInfo $oAdvertiserInfo
      *
@@ -378,7 +381,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Modify Advertiser.
+     * This method modifies an advertiser.
      *
      * @param OA_Dll_AdvertiserInfo $oAdvertiserInfo
      *
@@ -391,7 +394,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Advertiser by id.
+     * This method returns AdvertiserInfo for a specified advertiser.
      *
      * @param int $advertiserId
      *
@@ -408,7 +411,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Advertiser List By Agency Id.
+     * This method returns a list of advertisers by Agency ID.
      *
      * @param int $agencyId
      *
@@ -429,7 +432,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Delete Advertiser.
+     * This method deletes an advertiser.
      *
      * @param int $advertiserId
      * @return  method result
@@ -441,7 +444,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Advertiser daily statistics.
+     * This method returns daily statistics for an advertiser for a specified period.
      *
      * @param int $advertiserId
      * @param Pear::Date $oStartDate
@@ -463,7 +466,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Advertiser Campaign statistics.
+     * This method returns campaign statistics for an advertiser for a specified period.
      *
      * @param int $advertiserId
      * @param Pear::Date $oStartDate
@@ -478,7 +481,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Advertiser Banner statistics.
+     * This method returns banner statistics for an advertiser for a specified period.
      *
      * @param int $advertiserId
      * @param Pear::Date $oStartDate
@@ -493,7 +496,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Advertiser Publisher statistics.
+     * This method returns publisher statistics for an advertiser for a specified period.
      *
      * @param int $advertiserId
      * @param Pear::Date $oStartDate
@@ -508,7 +511,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Advertiser Zone statistics.
+     * This method returns zone statistics for an advertiser for a specified period.
      *
      * @param int $advertiserId
      * @param Pear::Date $oStartDate
@@ -523,7 +526,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Add Campaign.
+     * This method adds a campaign to the campaign object.
      *
      * @param OA_Dll_CampaignInfo $oCampaignInfo
      *
@@ -536,7 +539,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Modify Campaign.
+     * This method modifies a campaign.
      *
      * @param OA_Dll_CampaignInfo $oCampaignInfo
      *
@@ -549,7 +552,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Campaign by id.
+     * This method returns CampaignInfo for a specified campaign.
      *
      * @param int $campaignId
      *
@@ -566,7 +569,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Campaign List By Advertiser Id.
+     * This method returns a list of campaigns for an advertiser.
      *
      * @param int $campaignId
      * 
@@ -585,7 +588,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Delete Campaign.
+     * This method deletes a campaign from the campaign object.
      *
      * @param int $campaignId
      * @return  method result
@@ -597,7 +600,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Campaign daily statistics.
+     * This method returns daily statistics for a campaign for a specified period.
      *
      * @param int $campaignId
      * @param Pear::Date $oStartDate
@@ -619,7 +622,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Campaign Banner statistics.
+     * This method returns banner statistics for a campaign for a specified period.
      *
      * @param int $campaignId
      * @param Pear::Date $oStartDate
@@ -634,7 +637,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Campaign Publisher statistics.
+     * This method returns publisher statistics for a campaign for a specified period.
      *
      * @param int $campaignId
      * @param Pear::Date $oStartDate
@@ -649,7 +652,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Campaign Zone statistics.
+     * This method returns zone statistics for a campaign for a specified period.
      *
      * @param int $campaignId
      * @param Pear::Date $oStartDate
@@ -664,7 +667,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Add Banner.
+     * This method adds a banner to the banner object.
      *
      * @param OA_Dll_BannerInfo $oBannerInfo
      * 
@@ -677,7 +680,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Modify Banner.
+     * This method modifies a banner.
      *
      * @param OA_Dll_BannerInfo $oBannerInfo
      * 
@@ -690,7 +693,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Banner by id.
+     * This method returns BannerInfo for a specified banner.
      *
      * @param int $bannerId
      * 
@@ -707,7 +710,7 @@ class OA_Api_Xmlrpc
     }
     
     /**
-     * Get Banner List By Campaign Id.
+     * This method returns a list of banners for a specified campaign.
      *
      * @param int $banenrId
      * 
@@ -728,7 +731,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Delete Banner.
+     * This method deletes a banner from the banner object.
      *
      * @param int $bannerId
      * @return  method result
@@ -740,7 +743,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Banner daily statistics.
+     * This method returns daily statistics for a banner for a specified period.
      *
      * @param int $bannerId
      * @param Pear::Date $oStartDate
@@ -762,7 +765,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Banner Publisher statistics.
+     * This method returns publisher statistics for a banner for a specified period.
      *
      * @param int $bannerId
      * @param Pear::Date $oStartDate
@@ -778,7 +781,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Banner Zone statistics.
+     * This method returns zone statistics for a banner for a specified period.
      *
      * @param int $bannerId
      * @param Pear::Date $oStartDate
@@ -794,7 +797,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Add Publisher.
+     * This method adds a publisher to the publisher object.
      *
      * @param OA_Dll_PublisherInfo $oPublisherInfo
      * @return  method result
@@ -808,7 +811,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Modify Publisher.
+     * This method modifies a publisher.
      *
      * @param OA_Dll_PublisherInfo $oPublisherInfo
      * @return  method result
@@ -820,7 +823,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Publisher by id.
+     * This method returns PublisherInfo for a specified publisher.
      *
      * @param int $publisherId
      * @return OA_Dll_PublisherInfo
@@ -836,7 +839,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Publisher List by Agency Id.
+     * This method returns a list of publishers for a specified agency.
      *
      * @param int $agencyId
      * @return array  array OA_Dll_PublisherInfo objects
@@ -856,7 +859,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Delete Publisher.
+     * This method deletes a publisher from the publisher object.
      *
      * @param int $publisherId
      * @return  method result
@@ -868,7 +871,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Publisher daily statistics.
+     * This method returns daily statistics for a publisher for a specified period.
      *
      * @param int $publisherId
      * @param Pear::Date $oStartDate
@@ -890,7 +893,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Publisher Zone statistics.
+     * This method returns zone statistics for a publisher for a specified period.
      *
      * @param int $publisherId
      * @param Pear::Date $oStartDate
@@ -905,7 +908,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Publisher Advertiser statistics.
+     * This method returns advertiser statistics for a specified period.
      *
      * @param int $publisherId
      * @param Pear::Date $oStartDate
@@ -920,7 +923,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Publisher Campaign statistics.
+     * This method returns campaign statistics for a publisher for a specified period.
      *
      * @param int $publisherId
      * @param Pear::Date $oStartDate
@@ -935,7 +938,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Publisher Banner statistics.
+     * This method returns banner statistics for a publisher for a specified period.
      *
      * @param int $publisherId
      * @param Pear::Date $oStartDate
@@ -950,7 +953,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Add Zone.
+     * This method adds a zone to the zone object.
      *
      * @param OA_Dll_ZoneInfo $oZoneInfo
      * @return  method result
@@ -962,7 +965,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Modify Zone.
+     * This method modifies a zone.
      *
      * @param OA_Dll_ZoneInfo $oZoneInfo
      * @return  method result
@@ -974,7 +977,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Zone by id.
+     * This method returns ZoneInfo for a specified zone.
      *
      * @param int $zoneId
      * @return OA_Dll_ZoneInfo
@@ -990,7 +993,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Get Zone List by Publisher Id.
+     * This method returns a list of zones for a specified publisher.
      *
      * @param int $publisherId
      * @return array  array OA_Dll_ZoneInfo objects
@@ -1010,7 +1013,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Delete Zone.
+     * This method deletes a zone from the zone object.
      *
      * @param int $zoneId
      * @return  method result
@@ -1022,7 +1025,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Zone daily statistics.
+     * This method returns daily statistics for a zone for a specified period.
      *
      * @param int $zoneId
      * @param Pear::Date $oStartDate
@@ -1044,7 +1047,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Zone Advertiser statistics.
+     * This method returns advertiser statistics for a zone for a specified period.
      *
      * @param int $zoneId
      * @param Pear::Date $oStartDate
@@ -1059,7 +1062,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Zone Campaign statistics.
+     * This method returns campaign statistics for a zone for a specified period.
      *
      * @param int $zoneId
      * @param Pear::Date $oStartDate
@@ -1074,7 +1077,7 @@ class OA_Api_Xmlrpc
     }
 
     /**
-     * Zone Publisher statistics.
+     * This method returns publisher statistics for a zone for a specified period.
      *
      * @param int $zoneId
      * @param Pear::Date $oStartDate

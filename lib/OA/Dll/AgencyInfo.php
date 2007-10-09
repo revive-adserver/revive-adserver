@@ -31,60 +31,61 @@ $Id:$
  *
  */
 
-// Include base info class.
+// Require the base Info class.
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  Class with information about agency
+ * The OA_Dll_AgencyInfo class extends the OA_Info class and contains information
+ * about the agency.
  *
  */
 
 class OA_Dll_AgencyInfo extends OA_Info
 {
     /**
-     * The ID of the agency.
+     * This field contains the ID of the agency.
      *
      * @var integer $agencyId
      */
 	var $agencyId;
 
     /**
-     * The name of the agency.
+     * This field provides the name of the agency.
      *
      * @var string $agencyName
      */
 	var $agencyName;
 
     /**
-     * The name of the contact.
+     * This field provides the name of the contact for the agency.
      *
      * @var string $contactName
      */
 	var $contactName;
 
     /**
-     * The email address of the contact.
+     * This field provides the email address of the contact for the agency.
      *
      * @var string $emailAddress
      */
     var $emailAddress;
 
     /**
-     * The username of the contact used to log into OA.
+     * This field provides the username the contact uses to log into Openads.
      *
      * @var string $username
      */
     var $username;
 
     /**
-     * The password of the contact used to log into OA.
+     * This field provides the password the contact use to log into Openads.
      *
      * @var string $password
      */
     var $password;
 
 	/**
-	 * This method returns array of fields with their corresponding types.
+	 * This method returns an array of fields with their corresponding types.
 	 *
 	 * @access public
 	 *

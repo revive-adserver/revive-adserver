@@ -52,7 +52,7 @@ class PublisherServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * The PublisherServiceImpl function is the constructor for the PublisherServiceImpl class.
+     * The PublisherServiceImpl method is the constructor for the PublisherServiceImpl class.
      */
     function PublisherServiceImpl()
     {
@@ -61,7 +61,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This function checks if an action is valid and either returns a result 
+     * This method checks if an action is valid and either returns a result 
 	 * or an error, as appropriate.
      *
      * @access private
@@ -81,7 +81,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addPublisher function creates a publisher and updates the 
+     * The addPublisher method creates a publisher and updates the 
 	 * publisher object with the publisher ID.
      *
      * @access public
@@ -106,7 +106,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The modifyPublisher function checks if a publisher ID exists and 
+     * The modifyPublisher method checks if a publisher ID exists and 
 	 * modifies the details for the publisher if it exists or returns an error 
 	 * message, as appropriate.
      *
@@ -140,7 +140,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The deletePublisher function checks if a publisher exists and deletes 
+     * The deletePublisher method checks if a publisher exists and deletes 
 	 * the publisher or returns an error message, as appropriate.
      *
      * @access public
@@ -163,7 +163,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getPublisherDailyStatistics function returns daily statistics for a 
+     * The getPublisherDailyStatistics method returns daily statistics for a 
 	 * publisher for a specified period.
      *
      * @access public
@@ -190,7 +190,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getPublisherZoneStatistics function returns zone statistics for a
+     * The getPublisherZoneStatistics method returns zone statistics for a
 	 * publisher for a specified period.
      *
      * @access public
@@ -217,7 +217,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getPublisherAdvertiserStatistics function returns advertiser statistics
+     * The getPublisherAdvertiserStatistics method returns advertiser statistics
 	 * for a publisher for a specified period.
      *
      * @access public
@@ -244,7 +244,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getPublisherCampaignStatistics function returns campaign statistics for
+     * The getPublisherCampaignStatistics method returns campaign statistics for
 	 * a publisher for a specified period.
      *
      * @access public
@@ -271,7 +271,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getPublisherBannerStatistics function returns banner statistics for a 
+     * The getPublisherBannerStatistics method returns banner statistics for a 
 	 * publisher for a specified period.
      *
      * @access public
@@ -298,7 +298,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getPublisher function returns the details of a specified publisher.
+     * The getPublisher method returns the details of a specified publisher.
      *
      * @access public
      * 
@@ -321,7 +321,7 @@ class PublisherServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getPublisherListByAgencyId function returns a list of publishers for 
+     * The getPublisherListByAgencyId method returns a list of publishers for 
 	 * a specified agency.
      *
      * @access public

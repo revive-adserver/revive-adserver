@@ -29,15 +29,15 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Publisher Information class.
+ * This file describes the PublisherInfo class.
  *
  */
 
-// Include base info class.
+// Require the base Info class.
 require_once 'Info.php';
 
 /**
- *  Class with information about publisher
+ *  The PublisherInfo class extends the base Info class and contains information about the publisher.
  *
  */
 
@@ -45,56 +45,56 @@ class OA_Dll_PublisherInfo extends OA_Info
 {
 
     /**
-     * The ID of the publisher.
+     * The publisherId variable is the unique ID for the publisher.
      *
      * @var integer $publisherId
      */
 	var $publisherId;
 
     /**
-     * The ID of the agency to the publisher.
+     * The agencyID variable is the ID of the agency associated with the publisher.
      *
      * @var integer $agencyId
      */
 	var $agencyId;
 
     /**
-     * The name of the publisher.
+     * The publisherName variable is the name of the publisher.
      *
      * @var string $publisherName
      */
 	var $publisherName;
 
     /**
-     * The name of the contact.
+     * The contactName variable is the name of the contact for the publisher.
      *
      * @var string $contactName
      */
 	var $contactName;
 
     /**
-     * The email address of the contact.
+     * The emailAddress variable is the email address for the contact.
      *
      * @var string $emailAddress
      */
     var $emailAddress;
 
     /**
-     * The username of the contact used to log into OA.
+     * The username variable is the username the contact uses to log into Openads.
      *
      * @var string $username
      */
     var $username;
 
     /**
-     * The password of the contact used to log into OA.
+     * The password variable is the password the contact uses to log into Openads.
      *
      * @var string $password
      */
     var $password;
 
 	/**
-	 * Setting all default values. Used in adding new publisher.
+	 * This functions sets all default values when adding a new publisher.
 	 *
 	 */
 	function setDefaultForAdd() {

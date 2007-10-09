@@ -52,8 +52,8 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * The AdvertiserServiceImpl function is the constructor for the 
-	 * AdvertiserServiceImpl class.
+     * The AdvertiserServiceImpl method is the constructor for the
+     * AdvertiserServiceImpl class.
      */
     function AdvertiserServiceImpl()
     {
@@ -62,7 +62,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /** 
-	 * This function checks if an action is valid and either returns a result 
+	 * This method checks if an action is valid and either returns a result 
 	 * or an error, as appropriate.
      *
      * @access private
@@ -82,7 +82,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addAdvertiser function creates an advertiser and updates the 
+     * The addAdvertiser method creates an advertiser and updates the 
 	 * advertiser object with the advertiser ID.
      *
      * @access public
@@ -107,7 +107,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
 
     }
     /**
-     * The modifyAdvertiser function checks if an advertiser ID exists and 
+     * The modifyAdvertiser method checks if an advertiser ID exists and 
 	 * modifies the details for the advertiser if it exists or returns an error 
 	 * message, as appropriate.
      *
@@ -142,7 +142,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The deleteAdvertiser function checks if an advertiser exists and deletes 
+     * The deleteAdvertiser method checks if an advertiser exists and deletes 
 	 * the advertiser or returns an error message, as appropriate.
      *
      * @access public
@@ -165,7 +165,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAdvertiserDailyStatistics function returns daily statistics for an 
+     * The getAdvertiserDailyStatistics method returns daily statistics for an 
 	 * advertiser for a specified period.
      *
      * @access public
@@ -192,7 +192,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAdvertiserCampaignStatistics function returns campaign statistics 
+     * The getAdvertiserCampaignStatistics method returns campaign statistics 
 	 * for an advertiser for a specified period.
      *
      * @access public
@@ -219,7 +219,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAdvertiserBannerStatistics function returns banner statistics for 
+     * The getAdvertiserBannerStatistics method returns banner statistics for 
 	 * an advertiser for a specified period.
      *
      * @access public
@@ -246,7 +246,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAdvertiserPublisherStatistics function returns publisher 
+     * The getAdvertiserPublisherStatistics method returns publisher 
 	 * statistics for an advertiser for a specified period.
      *
      * @access public
@@ -273,7 +273,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAdvertiserZoneStatistics function returns zone statistics for an 
+     * The getAdvertiserZoneStatistics method returns zone statistics for an 
 	 * advertiser for a specified period.
      *
      * @access public
@@ -300,7 +300,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAdvertiser function returns the advertiser details for a specified advertiser.
+     * The getAdvertiser method returns the advertiser details for a specified advertiser.
      *
      * @access public
      * 
@@ -323,7 +323,7 @@ class AdvertiserServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getAdvertiserListByAgencyId function returns a list of advertisers 
+     * The getAdvertiserListByAgencyId method returns a list of advertisers 
 	 * for a specified agency.
      *
      * @access public

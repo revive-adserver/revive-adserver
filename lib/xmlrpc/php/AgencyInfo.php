@@ -29,57 +29,57 @@ $Id:$
  * @package    OpenadsDll
  * @author     Andriy Petlyovanyy <apetlyovanyy@lohika.com>
  *
- * A file to description Agency Information class.
+ * This file describes the AgencyInfo class.
  *
  */
 
-// Include base info class.
+// Require the base info class.
 require_once 'Info.php';
 
 /**
- *  Class with information about agency
+ *  The agencyInfo class extends the base Info class and contains information about the agency.
  *
  */
 
 class OA_Dll_AgencyInfo extends OA_Info
 {
     /**
-     * The ID of the agency.
+     * The agencyID variable is the unique ID for the agency.
      *
      * @var integer $agencyId
      */
 	var $agencyId;
 
     /**
-     * The name of the agency.
+     * The agencycName variable is the name of the agency.
      *
      * @var string $agencyName
      */
 	var $agencyName;
 
     /**
-     * The name of the contact.
+     * The contactName variable is the name of the contact for the agency.
      *
      * @var string $contactName
      */
 	var $contactName;
 
     /**
-     * The email address of the contact.
+     * The emailAddress variable is the email address for the agency contact.
      *
      * @var string $emailAddress
      */
     var $emailAddress;
 
     /**
-     * The username of the contact used to log into OA.
+     * The username variable is the username the contact uses to log into Openads.
      *
      * @var string $username
      */
     var $username;
 
     /**
-     * The password of the contact used to log into OA.
+     * The password variable is the password the contact uses to log into Openads.
      *
      * @var string $password
      */

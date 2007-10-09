@@ -29,15 +29,15 @@ $Id:$
  * @package    OpenadsDll
  * @author     Ivan Klishch <iklishch@lohika.com>
  *
- * A file to description Advertiser Information class.
+ * This file describes the AdvertiserInfo class.
  *
  */
 
-// Include base info class.
+// Require the base info class.
 require_once 'Info.php';
 
 /**
- *  Class with information about advertiser
+ *  The AdvertiserInfo class extends the base Info class and contains information about advertisers.
  *
  */
 
@@ -45,56 +45,56 @@ class OA_Dll_AdvertiserInfo extends OA_Info
 {
 
     /**
-     * The ID of the advertiser.
+     * The advertiserID variable is the unique ID for the advertiser.
      *
      * @var integer $advertiserId
      */
 	var $advertiserId;
 
     /**
-     * The ID of the agency to which to add the advertiser.
+     * The agencyID variable is the ID of the agency to which the advertiser is associated.
      *
      * @var integer $agencyId
      */
 	var $agencyId;
 
     /**
-     * The name of the advertiser.
+     * The advertiserName variable is the name of the advertiser.
      *
      * @var string $advertiserName
      */
 	var $advertiserName;
 
     /**
-     * The name of the contact.
+     * The contactName variable is the name of the contact.
      *
      * @var string $contactName
      */
 	var $contactName;
 
     /**
-     * The email address of the contact.
+     * The emailAddress variable is the email address for the contact.
      *
      * @var string $emailAddress
      */
 	var $emailAddress;
 
     /**
-     * The username of the contact used to log into OA.
+     * The username variable is the name the contact uses to log into Openads.
      *
      * @var string $username
      */
 	var $username;
 
     /**
-     * The password of the contact used to log into OA.
+     * The password variable is the password the contact uses to log into Openads.
      *
      * @var string $password
      */
 	var $password;
 
 	/**
-	 * Setting all default values. Used in adding new advertiser.
+	 * This function sets all default values when adding a new advertiser.
 	 *
 	 */
 	function setDefaultForAdd() {

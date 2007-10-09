@@ -31,14 +31,14 @@ $Id:$
  *
  */
 
-// Required classes
+// Require the following classes:
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/AgencyInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Agency.php';
 
 
 /**
- * Agency Dll class
+ * The OA_Dll_Agency class extends the OA_Dll class.
  *
  */
 
@@ -46,7 +46,7 @@ class OA_Dll_Agency extends OA_Dll
 {
 
     /**
-     * Initialisation of agency info from data array
+     * This method sets the AgencyInfo from a data array.
      *
      * @access private
      *
@@ -62,7 +62,7 @@ class OA_Dll_Agency extends OA_Dll
         $agencyData['contactName']  = $agencyData['contact'];
         $agencyData['emailAddress'] = $agencyData['email'];
 
-        // Do not return password from Dll
+        // Do not return the password from the Dll.
         unset($agencyData['password']);
 
         $oAgency->readDataFromArray($agencyData);
@@ -70,22 +70,22 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * Method performs data validation (e.g. email is an email)
-     * and where necessary connects to the DAL to obtain information
-     * required to perform other business validations (e.g. username must be
-     * unique across all relevant tables).
+     * This method performs data validation for an agency, for example to check 
+	 * that an email address is an email address. Where necessary, the method connects 
+	 * to the OA_Dal to obtain information for other business validations, 
+	 * for example a username must be unique across all relevant tables.
      *
      * @access private
      *
      * @param OA_Dll_AgencyInfo &$oAgency
      *
-     * @return boolean  Returns false if fields are not valid and true otherwise.
+     * @return boolean  Returns false if fields are not valid and true if valid.
      *
      */
     function _validate(&$oAgency)
     {
         if (isset($oAgency->agencyId)) {
-            // Modify Agency
+            // When modifying an agency, check correct field types are used and the agency exists.
             $doAgency = OA_Dal::factoryDO('agency');
             $doAgency->get($oAgency->agencyId);
             $agencyOld = $doAgency->toArray();
@@ -96,7 +96,7 @@ class OA_Dll_Agency extends OA_Dll
                 return false;
             }
         } else {
-            // Add Agency
+            // When adding an agency, check that the required field 'agencyName' is correct.
             if (!$this->checkStructureRequiredStringField($oAgency, 'agencyName', 255)) {
                 return false;
             }
@@ -119,8 +119,7 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * Method performs data validation for statistics methods(agencyId,
-     * date).
+     * This method performs data validation for statistics methods(agencyId, date).
      *
      * @access private
      *
@@ -143,15 +142,17 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * This method modifies an existing agency.
-     * All fields which are undefined (e.g. permissions) do not change
-     * the state they had before modification.
-     * All below defined fields with value NULL are unchanged.
+     * @todo checkStatisticsPermissions($agencyId)?
+     */
+	
+    /**
+     * This method modifies an existing agency. Undefined fields do not change 
+	 * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
      *
      * @param OA_Dll_AgencyInfo &$oAgency <br />
-     *          <b>For addign</b><br />
+     *          <b>For adding</b><br />
      *          <b>Required properties:</b> agencyName<br />
      *          <b>Optional properties:</b> contactName, emailAddress, username, password<br />
      * 
@@ -226,7 +227,7 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * Returns agency information by agency id
+     * This method returns AgencyInfo for a specified agency.
      *
      * @access public
      *
@@ -258,7 +259,7 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-     * Returns list of agencies
+     * This method returns a list of agencies.
      *
      * @access public
      *
@@ -289,25 +290,25 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given agency, broken down by day.
-    *
-    * @access public
-    *
-    * @param integer $agencyId The ID of the agency to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>day date</b>  The day
-    *   <li><b>requests integer</b>  The number of requests for the day
-    *   <li><b>impressions integer</b>  The number of impressions for the day
-    *   <li><b>clicks integer</b>  The number of clicks for the day
-    *   <li><b>revenue decimal</b>  The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false on error.
-    *
-    */
+     * This method returns daily statistics for an agency for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $agencyId The ID of the agency to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>day date</b>  The day
+     *   <li><b>requests integer</b>  The number of requests for the day
+     *   <li><b>impressions integer</b>  The number of impressions for the day
+     *   <li><b>clicks integer</b>  The number of clicks for the day
+     *   <li><b>revenue decimal</b>  The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAgencyDailyStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency',
@@ -328,26 +329,26 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given agency, broken down by advertiser.
-    *
-    * @access public
-    *
-    * @param integer $agencyId The ID of the agency to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>advertiserID integer</b> The ID of the advertiser
-    *   <li><b>advertiserName string (255)</b> The name of the advertiser
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns advertiser statistics for an agency for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $agencyId The ID of the agency to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>advertiserID integer</b> The ID of the advertiser
+     *   <li><b>advertiserName string (255)</b> The name of the advertiser
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAgencyAdvertiserStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
@@ -366,28 +367,28 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given agency, broken down by campaign.
-    *
-    * @access public
-    *
-    * @param integer $agencyId The ID of the agency to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>advertiserID integer</b> The ID of the advertiser
-    *   <li><b>advertiserName string (255)</b> The name of the advertiser
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns campaign statistics for an agency for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $agencyId The ID of the agency to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>advertiserID integer</b> The ID of the advertiser
+     *   <li><b>advertiserName string (255)</b> The name of the advertiser
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string (255)</b> The name of the campaign
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAgencyCampaignStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
@@ -406,30 +407,30 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given agency, broken down by banner.
-    *
-    * @access public
-    *
-    * @param integer $agencyId The ID of the agency to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>advertiserID integer</b> The ID of the advertiser
-    *   <li><b>advertiserName string (255)</b> The name of the advertiser
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>bannerID integer</b> The ID of the banner
-    *   <li><b>bannerName string (255)</b> The name of the banner
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns banner statistics for an agency for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $agencyId The ID of the agency to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>advertiserID integer</b> The ID of the advertiser
+     *   <li><b>advertiserName string (255)</b> The name of the advertiser
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string (255)</b> The name of the campaign
+     *   <li><b>bannerID integer</b> The ID of the banner
+     *   <li><b>bannerName string (255)</b> The name of the banner
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAgencyBannerStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
@@ -448,26 +449,26 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given agency, broken down by publisher.
-    *
-    * @access public
-    *
-    * @param integer $agencyId The ID of the agency to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns publisher statistics for an agency for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $agencyId The ID of the agency to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAgencyPublisherStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {
@@ -489,28 +490,28 @@ class OA_Dll_Agency extends OA_Dll
     }
 
     /**
-    * This method returns statistics for a given agency, broken down by zone.
-    *
-    * @access public
-    *
-    * @param integer $agencyId The ID of the agency to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    * <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>zoneID integer</b> The ID of the zone
-    *   <li><b>zoneName string (255)</b> The name of the zone
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    * </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+     * This method returns zone statistics for an agency for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $agencyId The ID of the agency to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     * <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>zoneID integer</b> The ID of the zone
+     *   <li><b>zoneName string (255)</b> The name of the zone
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     * </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAgencyZoneStatistics($agencyId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency, 'agency', $agencyId)) {

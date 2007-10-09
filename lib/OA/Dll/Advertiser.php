@@ -31,21 +31,21 @@ $Id:$
  *
  */
 
-// Required classes
+// Require the following classes:
 require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Dll/AdvertiserInfo.php';
 require_once MAX_PATH . '/lib/OA/Dal/Statistics/Advertiser.php';
 
 
 /**
- * Advertiser Dll class
+ * The OA_Dll_Advertiser class extends the OA_Dll class.
  *
  */
 
 class OA_Dll_Advertiser extends OA_Dll
 {
     /**
-     * Initialisation of advertiser info from data array.
+     * This method sets AdvertiserInfo from a data array.
      *
      * @access private
      *
@@ -65,7 +65,7 @@ class OA_Dll_Advertiser extends OA_Dll
         $advertiserData['agencyId']       = $advertiserData['agencyid'];
         $advertiserData['advertiserId']   = $advertiserData['clientid'];
 
-        // Do not return password from Dll
+        // Do not return the password from the Dll.
         unset($advertiserData['password']);
 
         $oAdvertiser->readDataFromArray($advertiserData);
@@ -73,22 +73,22 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Method performs data validation (e.g. email is an email)
-     * and where necessary connects to the DAL to obtain information
-     * required to perform other business validations (e.g. username must be
-     * unique across all relevant tables).
+     * This method performs data validation for an advertiser, for example to check 
+	 * that an email address is an email address. Where necessary, the method connects 
+	 * to the OA_Dal to obtain information for other business validations, 
+	 * for example a username must be unique across all relevant tables.
      *
      * @access private
      *
-     * @param OA_Dll_AdvertiserInfo &$oAdvertiser  Structure with Advertiser information.
+     * @param OA_Dll_AdvertiserInfo &$oAdvertiser  Structure with advertiser information.
      *
-     * @return boolean  Returns false if fields are not valid and true otherwise.
+     * @return boolean  Returns false if fields are not valid and true if valid.
      *
      */
     function _validate(&$oAdvertiser)
     {
         if (isset($oAdvertiser->advertiserId)) {
-            //Advertiser Modification
+            // When modifying an advertiser, check correct field types are used and the advertiserID exists.
             if (!$this->checkStructureRequiredIntegerField($oAdvertiser, 'advertiserId')){
                 return false;
             }
@@ -101,7 +101,7 @@ class OA_Dll_Advertiser extends OA_Dll
                 return false;
             }
         } else {
-            //When adding Advertiser check required field 'advertiserName' existence.
+            // When adding an advertiser, check that the required field 'advertiserName' is correct.
             if (!$this->checkStructureRequiredStringField($oAdvertiser, 'advertiserName', 255)){
                 return false;
             }
@@ -120,7 +120,7 @@ class OA_Dll_Advertiser extends OA_Dll
             return false;
         }
 
-        // Check Agency ID existence.
+        // Check that an agencyID exists.
         if (isset($oAdvertiser->agencyId) && $oAdvertiser->agencyId != 0) {
             if (!$this->checkIdExistence('agency', $oAdvertiser->agencyId)) {
                 return false;
@@ -153,13 +153,13 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Calls method for checking permissions from Dll class.
+     * This function calls a method in the OA_Dll class to check permissions.
      *
      * @access public
      * 
-     * @param integer $advertiserId  Advertiser ID
+     * @param integer $advertiserId  The ID of the advertiser
      *
-     * @return boolean  False if access denied and true otherwise.
+     * @return boolean  False if access is denied and true if allowed.
      */
     function checkStatisticsPermissions($advertiserId)
     {
@@ -174,15 +174,13 @@ class OA_Dll_Advertiser extends OA_Dll
 
 
     /**
-     * This method modifies an existing advertiser.
-     * All fields which are undefined (e.g. permissions) do not change
-     * the state they had before modification.
-     * All below defined fields with value NULL are unchanged.
+     * This method modifies an existing advertiser. Undefined fields do not change 
+	 * and defined fields with a NULL value also remain unchanged.
      *
      * @access public
      *
      * @param OA_Dll_AdvertiserInfo &$oAdvertiser <br />
-     *          <b>For addign</b><br />
+     *          <b>For adding</b><br />
      *          <b>Required properties:</b> advertiserName<br />
      *          <b>Optional properties:</b> agencyId, contactName, emailAddress, username, password<br />
      * 
@@ -273,7 +271,7 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Returns advertiser information by advertiser id.
+     * This method returns AdvertiserInfo for a specified advertiser.
      *
      * @access public
      *
@@ -305,7 +303,7 @@ class OA_Dll_Advertiser extends OA_Dll
     }
 
     /**
-     * Returns list of advertisers by agency id.
+     * This method returns a list of advertisers for a specified agency.
      *
      * @access public
      *
@@ -341,26 +339,26 @@ class OA_Dll_Advertiser extends OA_Dll
         return true;
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by day.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view the statistics for.
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>day date</b> The day
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns daily statistics for an advertiser for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view the statistics for.
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>day date</b> The day
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAdvertiserDailyStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
@@ -377,27 +375,27 @@ class OA_Dll_Advertiser extends OA_Dll
         }
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by campaign.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns campaign statistics for an advertiser for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string (255)</b> The name of the campaign
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAdvertiserCampaignStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
@@ -414,29 +412,29 @@ class OA_Dll_Advertiser extends OA_Dll
         }
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by banner.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>campaignID integer</b> The ID of the campaign
-    *   <li><b>campaignName string (255)</b> The name of the campaign
-    *   <li><b>bannerID integer</b> The ID of the banner
-    *   <li><b>bannerName string (255)</b> The name of the banner
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns banner statistics for an advertiser for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>campaignID integer</b> The ID of the campaign
+     *   <li><b>campaignName string (255)</b> The name of the campaign
+     *   <li><b>bannerID integer</b> The ID of the banner
+     *   <li><b>bannerName string (255)</b> The name of the banner
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false otherwise.
+     *
+     */
     function getAdvertiserBannerStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
@@ -453,27 +451,27 @@ class OA_Dll_Advertiser extends OA_Dll
         }
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by publisher.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns publisher statistics for an advertiser for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAdvertiserPublisherStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {
@@ -490,29 +488,29 @@ class OA_Dll_Advertiser extends OA_Dll
         }
     }
 
-   /**
-    * This method returns statistics for a given advertiser, broken down by zone.
-    *
-    * @access public
-    *
-    * @param integer $advertiserId The ID of the advertiser to view statistics for
-    * @param date $oStartDate The date from which to get statistics (inclusive)
-    * @param date $oEndDate The date to which to get statistics (inclusive)
-    * @param array &$rsStatisticsData Parameter for returned data from function
-    *   <ul>
-    *   <li><b>publisherID integer</b> The ID of the publisher
-    *   <li><b>publisherName string (255)</b> The name of the publisher
-    *   <li><b>zoneID integer</b> The ID of the zone
-    *   <li><b>zoneName string (255)</b> The name of the zone
-    *   <li><b>requests integer</b> The number of requests for the day
-    *   <li><b>impressions integer</b> The number of impressions for the day
-    *   <li><b>clicks integer</b> The number of clicks for the day
-    *   <li><b>revenue decimal</b> The revenue earned for the day
-    *   </ul>
-    *
-    * @return boolean  True if the operation was successful and false otherwise.
-    *
-    */
+    /**
+     * This method returns zone statistics for an advertiser for a specified period.
+     *
+     * @access public
+     *
+     * @param integer $advertiserId The ID of the advertiser to view statistics for
+     * @param date $oStartDate The date from which to get statistics (inclusive)
+     * @param date $oEndDate The date to which to get statistics (inclusive)
+     * @param array &$rsStatisticsData The data returned by the function
+     *   <ul>
+     *   <li><b>publisherID integer</b> The ID of the publisher
+     *   <li><b>publisherName string (255)</b> The name of the publisher
+     *   <li><b>zoneID integer</b> The ID of the zone
+     *   <li><b>zoneName string (255)</b> The name of the zone
+     *   <li><b>requests integer</b> The number of requests for the day
+     *   <li><b>impressions integer</b> The number of impressions for the day
+     *   <li><b>clicks integer</b> The number of clicks for the day
+     *   <li><b>revenue decimal</b> The revenue earned for the day
+     *   </ul>
+     *
+     * @return boolean  True if the operation was successful and false if not.
+     *
+     */
     function getAdvertiserZoneStatistics($advertiserId, $oStartDate, $oEndDate, &$rsStatisticsData)
     {
         if (!$this->checkStatisticsPermissions($advertiserId)) {

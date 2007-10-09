@@ -62,7 +62,7 @@ class LogonXmlRpcService extends BaseLogonService
     }
 
     /**
-     * The logon function sends the username and password to log on to the service
+     * The logon method sends the username and password to log on to the service
 	 * and returns either a session ID or an error message.
      *
      * @access public
@@ -94,7 +94,7 @@ class LogonXmlRpcService extends BaseLogonService
 
 
     /**
-     * The logoff function logs a user off from a service and ends the session
+     * The logoff method logs a user off from a service and ends the session
 	 * or returns an error message.  
      *
      * @access public

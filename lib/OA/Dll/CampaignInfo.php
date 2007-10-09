@@ -31,81 +31,82 @@ $Id:$
  *
  */
 
-// Include base info class.
+// Require the base Info class.
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  Class with information about campaign
+ * The OA_Dll_CampaignInfo class extends the base OA_Info class and contains 
+ * information about the campaign.
  *
  */
 
 class OA_Dll_CampaignInfo extends OA_Info
 {
     /**
-     * The ID of the campaign.
+     * This field provides the ID of the campaign.
      *
      * @var integer $campaignId
      */
 	var $campaignId;
 
     /**
-     * The ID of the advertiser to which to add the campaign.
+     * This field provides the ID of the advertiser to associate with the campaign.
      *
      * @var integer $advertiserId
      */
 	var $advertiserId;
 
     /**
-     * The name of the campaign.
+     * This field provides the name of the campaign.
      *
      * @var string $campaignName
      */
 	var $campaignName;
 
     /**
-     * The date the campaign should start.
+     * This field provides the date to start the campaign.
      *
      * @var date $startDate
      */
 	var $startDate;
 
     /**
-     * The date the campaign should end.
+     * This field provides the date to end the campaign.
      *
      * @var date $endDate
      */
 	var $endDate;
 
     /**
-     * The number of impressions from which to book this campaign.
+     * This field provides the number of impressions booked for the campaign.
      *
      * @var integer $impressions
      */
     var $impressions;
 
     /**
-     * The number of clicks from which to book this campaign.
+     * This field provides the number of clicks booked for the campaign.
      *
      * @var integer $clicks
      */
     var $clicks;
 
     /**
-     * The priority of this campaign.
+     * This field provides the priority level for the campaign.
      *
      * @var integer $priority
      */
     var $priority;
 
     /**
-     * The priority of this campaign.
+     * This field provides the priority weight of this campaign.
      *
      * @var integer $weight
      */
     var $weight;
 
 	/**
-	 * Setting all default values. Used in adding new campaign.
+	 * This method sets all default values when adding a new campaign.
 	 *
 	 * @access public
 	 *
@@ -137,7 +138,7 @@ class OA_Dll_CampaignInfo extends OA_Info
 	}
 
 	/**
-	 * This method returns array of fields with their corresponding types.
+	 * This method returns an array of fields with their corresponding types.
 	 *
 	 * @access public
 	 *

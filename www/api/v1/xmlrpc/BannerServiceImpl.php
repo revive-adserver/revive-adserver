@@ -52,7 +52,7 @@ class BannerServiceImpl extends BaseServiceImpl
 
     /**
      *
-     * The BannerServiceImpl function is the constructor for the BannerServiceImpl class.
+     * The BannerServiceImpl method is the constructor for the BannerServiceImpl class.
      */
     function BannerServiceImpl()
     {
@@ -61,7 +61,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * This function checks if an action is valid and either returns a result 
+     * This method checks if an action is valid and either returns a result 
 	 * or an error, as appropriate.
      *
      * @access private
@@ -81,7 +81,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The addBanner function creates a banner and updates the 
+     * The addBanner method creates a banner and updates the 
 	 * banner object with the banner ID.
      *
      * @access public
@@ -107,7 +107,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The modifyBanner function checks if a banner ID exists and 
+     * The modifyBanner method checks if a banner ID exists and 
 	 * modifies the details for the banner if it exists or returns an error 
 	 * message, as appropriate.
      *
@@ -144,7 +144,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The deleteBanner function checks if a banner exists and deletes 
+     * The deleteBanner method checks if a banner exists and deletes 
 	 * the banner or returns an error message, as appropriate.
      *
      * @access public
@@ -167,7 +167,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getBannerDailyStatistics function returns daily statistics for a 
+     * The getBannerDailyStatistics method returns daily statistics for a 
 	 * banner for a specified period.
      *
      * @access public
@@ -194,7 +194,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getBannerPublisherStatistics function returns publisher statistics for
+     * The getBannerPublisherStatistics method returns publisher statistics for
 	 * a banner for a specified period.
      *
      * @access public
@@ -221,7 +221,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getBannerZoneStatistics function returns zone statistics for a zone for
+     * The getBannerZoneStatistics method returns zone statistics for a zone for
 	 * a specified period.
      *
      * @access public
@@ -248,7 +248,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getBanner function returns the banner details for a specified banner.
+     * The getBanner method returns the banner details for a specified banner.
      *
      * @access public
      * 
@@ -271,7 +271,7 @@ class BannerServiceImpl extends BaseServiceImpl
     }
 
     /**
-     * The getBannerListByCampaignId function returns a list of banners for a campaign.
+     * The getBannerListByCampaignId method returns a list of banners for a campaign.
      *
      * @access public
      * 

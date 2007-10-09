@@ -31,26 +31,27 @@ $Id:$
  *
  */
 
-// Include base info class.
+// Require the base Info class.
 require_once MAX_PATH . '/lib/OA/Info.php';
 
 /**
- *  This class contains information about an advertiser.
-i *
+ * The OA_Dll_AdvertiserInfo class extends the base OA_info class and
+ * contains information about an advertiser.
+ *
  */
 
 class OA_Dll_AdvertiserInfo extends OA_Info
 {
 
     /**
-	 * This required field provides the ID of the advertiser.
+     * This required field provides the ID of the advertiser.
      *
      * @var integer $advertiserId
      */
 	var $advertiserId;
 
     /**
-     * Thir option provides the ID of the agency to which to add the advertiser.
+     * This option provides the ID of the agency to associate with the advertiser.
      *
      * @var integer $agencyId
      */
@@ -71,28 +72,28 @@ class OA_Dll_AdvertiserInfo extends OA_Info
 	var $contactName;
 
     /**
-     * The email address of the contact.
+     * This field provides the email address of the contact.
      *
      * @var string $emailAddress
      */
 	var $emailAddress;
 
     /**
-     * The username of the contact used to log into OA.
+     * This field provides the username the contact use to log into Openads.
      *
      * @var string $username
      */
 	var $username;
 
     /**
-     * The password of the contact used to log into OA.
+     * This field provides the password the contact uses to log into Openads.
      *
      * @var string $password
      */
 	var $password;
 
 	/**
-	 * Setting all default values. Used in adding new advertiser.
+	 * This method sets all default values when adding a new advertiser.
 	 *
 	 */
 	function setDefaultForAdd() {
@@ -102,7 +103,7 @@ class OA_Dll_AdvertiserInfo extends OA_Info
 	}
 
 	/**
-	 * This method returns array of fields with their corresponding types.
+	 * This method returns an array of fields with their corresponding types.
 	 * 
 	 * @access public
 	 *
