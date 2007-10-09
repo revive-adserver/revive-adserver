@@ -29,8 +29,8 @@ $Id$
 */
 
 /**
- * @package    MaxUI
- * @author     Andrew Hill <andrew@m3.net>
+ * @package    OpenadsUI
+ * @author     Andrew Hill <andrew.hill@openads.org>
  *
  * A collection of JavaScript functions for validating form submissions.
  */
