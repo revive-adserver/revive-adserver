@@ -164,7 +164,7 @@ if (isset($submit)) {
             $atar = array();
         }
 
-        while (list ($key, $val) = each ($alink)) {
+        foreach ($alink as $key => $val) {
             if (substr($val, 0, 7) == 'http://' && strlen($val) > 7) {
                 if (!isset($atar[$key])) {
                     $atar[$key] = '';
@@ -536,7 +536,7 @@ if ($type == 'sql') {
     } else {
         $i = 0;
 
-        while (list($key, $val) = each($hardcoded_links)) {
+        foreach ($hardcoded_links as $key => $val) {
             if ($i > 0) {
                 echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
                 echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";
@@ -736,7 +736,7 @@ if ($type == 'web') {
     } else {
         $i = 0;
 
-        while (list($key, $val) = each($hardcoded_links)) {
+        foreach ($hardcoded_links as $key => $val) {
             if ($i > 0) {
                 echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
                 echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td></tr>";

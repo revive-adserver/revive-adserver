@@ -168,6 +168,7 @@ function MAX_commonSetNoCacheHeaders()
 function MAX_commonAddslashesRecursive($a)
 {
     if (is_array($a)) {
+        reset($a);
         while (list($k,$v) = each($a)) {
             $a[$k] = MAX_commonAddslashesRecursive($v);
         }
@@ -497,6 +498,7 @@ function MAX_commonPackContext($context = array())
     $include = array();
     $exclude = array();
     foreach ($context as $idx => $value) {
+        reset($value);
         list($key, $value) = each($value);
         list($item,$id) = explode(':', $value);
         switch ($item) {

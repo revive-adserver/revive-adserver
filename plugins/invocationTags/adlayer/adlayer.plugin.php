@@ -204,6 +204,7 @@ class Plugins_InvocationTags_adlayer_adlayer extends Plugins_InvocationTags
         $option .= "<tr><td width='30'>&nbsp;</td>";
         $option .= "<td width='200'>". MAX_Plugin_Translation::translate('Style', 'invocationTags') ."</td><td width='370'>";
         $option .= "<select name='layerstyle' onChange='this.form.submit()' style='width:175px;' tabindex='".($this->maxInvocation->tabindex++)."'>";
+        reset($layerstyles);
         while (list($k, $v) = each($layerstyles)) {
             $option .= "<option value='$k'".($this->maxInvocation->layerstyle == $k ? ' selected' : '').">$v</option>";
         }

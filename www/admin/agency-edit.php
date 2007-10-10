@@ -232,7 +232,7 @@ echo "<select name='agencylanguage' tabindex='".($tabindex++)."'>";
 echo "<option value='' SELECTED>".$strDefault."</option>";
 
 $languages = MAX_Admin_Languages::AvailableLanguages();
-while (list($k, $v) = each($languages)) {
+foreach ($languages as $k => $v) {
 	if (isset($agency['agencylanguage']) && $agency['agencylanguage'] == $k) {
 		echo "<option value='$k' selected>$v</option>";
 	} else {
@@ -264,8 +264,7 @@ if (isset($errormessage) && count($errormessage)) {
 	echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
 	echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
 	echo "<img src='images/error.gif' align='absmiddle'>&nbsp;";
-
-	while (list($k,$v) = each($errormessage)) {
+    foreach ($errormessage as $k => $v) {
 		echo "<font color='#AA0000'><b>".$v."</b></font><br />";
 	}
 

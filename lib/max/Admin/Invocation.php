@@ -293,6 +293,7 @@ class MAX_Admin_Invocation {
             }
 
             if (!isset($codetype) || $allowed[$codetype] == false) {
+                reset($allowed);
                 while (list($k,$v) = each($allowed))
                     if ($v) $codetype = $k;
             }
@@ -431,6 +432,7 @@ class MAX_Admin_Invocation {
         }
         // Put extra hidden fields
         if (is_array($extra)) {
+            reset($extra);
             while (list($k, $v) = each($extra)) {
                 $buffer .= "<input type='hidden' value='$v' name='$k'>";
             }

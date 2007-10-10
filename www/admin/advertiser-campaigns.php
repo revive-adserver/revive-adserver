@@ -204,7 +204,7 @@ while ($doBanners->fetch() && $row_banners = $doBanners->toArray()) {
 if (isset($expand) && $expand != '') {
 	switch ($expand) {
 		case 'all' :	$node_array   = array();
-						if (isset($campaigns)) while (list($key,) = each($campaigns)) $node_array[] = $key;
+						if (isset($campaigns)) reset($campaigns); while (list($key,) = each($campaigns)) $node_array[] = $key;
 						break;
 		case 'none':	$node_array   = array();
 						break;

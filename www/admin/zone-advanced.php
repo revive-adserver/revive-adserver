@@ -459,7 +459,7 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
             else
             {
                 // Add globals for lib-invocation
-                while (list($k, $v) = each($appendvars[1]))
+                foreach ($appendvars[1] as $k => $v)
                 {
                     if ($k != 'n' && $k != 'what')
                         $GLOBALS[$k] = addslashes($v);

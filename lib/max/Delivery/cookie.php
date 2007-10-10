@@ -99,6 +99,7 @@ function MAX_cookieFlush()
 
     if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
         // Set cookies
+        reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
         while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
             list($value, $expire) = $v;
             MAX_setcookie($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));

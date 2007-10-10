@@ -103,7 +103,7 @@ if (isset($convert)) {
                     // Prepare the parameters
                     $parameters_complete = array();
 
-                    while (list($key, $val) = each($parameters)) {
+                    foreach ($parameters as $key => $val) {
                         if (isset($overwrite_source) && $overwrite_source[$val] != '') {
                             $overwrite_link[$val] .= '|source:'.$overwrite_source[$val];
                         }
@@ -249,7 +249,8 @@ if ($result) {
     echo "<tr><td height='10' colspan='4'>&nbsp;</td></tr>";
 
     $i=0;
-    while (list($key, $val) = each($result)) {
+
+    foreach ($result as $key => $val) {
         list ($url, $target) = $val;
 
         if ($i > 0) {

@@ -315,12 +315,13 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
 
 function phpAds_ShowSettings_CheckDependancies($data, $item)
 {
+    global $phpAds_config_locked;
     $formName = empty($GLOBALS['settings_formName'])?'settingsform' :$GLOBALS['settings_formName'];
     if (isset($item['depends'])) {
         $depends    = split('[ ]+', $item['depends']);
         $javascript = "\tenabled = (";
         $result     = true;
-        while (list(,$word) = each($depends)) {
+        foreach ($depends as $word) {
             if (ereg('[\&\|]{1,2}', $word)) {
                 // Operator
                 $javascript .= " ".$word." ";
@@ -328,10 +329,11 @@ function phpAds_ShowSettings_CheckDependancies($data, $item)
                 // Assignment
                 eregi ("^(\(?)([a-z0-9_-]+)([\=\!\<\>]{1,2})([\"\'a-z0-9_-]+)(\)?)$", $word, $regs);
                 $type          = phpAds_ShowSettings_GetType($data, $regs[2]);
+                $javascript .= $regs[1]."document.".$formName.".".$regs[2].".enabled &&";
                 $javascript .= $regs[1]."document.".$formName.".".$regs[2].".";
                 switch ($type){
                     case 'checkbox':    $javascript .= 'checked'; break;
-                    case 'select':        $javascript .= 'selectedIndex'; break;
+                    case 'select':      $javascript .= 'selectedIndex'; break;
                     default:            $javascript .= 'value'; break;
                 }
                 $javascript .= " ".$regs[3]." ".$regs[4].$regs[5];
@@ -384,7 +386,7 @@ function phpAds_ShowSettings_StartSection($name, $error = array(), $disableSubmi
         echo "<td width='22' valign='top'><img src='".$imgPath."images/error.gif' width='16' height='16'>&nbsp;&nbsp;</td>";
         echo "<td valign='top'><font color='#AA0000'><b>";
         if (is_array($error)) {
-            while (list(, $v) = each($error)) {
+            foreach ($error as $v) {
                 echo $v."<br />";
             }
         } else {
@@ -556,7 +558,7 @@ function phpAds_ShowSettings_Select($item, $value, $showSubmitButton=0)
             echo "\"";
         }
         echo ($item['enabled'] ? ' disabled' : '')." tabindex='".($tabindex++)."'>\n";
-        while (list($k, $v) = each($item['items'])) {
+        foreach ($item['items'] as $k => $v) {
             echo "<option value=\"".htmlspecialchars($k)."\"".
                 ($k == $value ? " selected='selected'" : "").">".
                 $v."</option>";

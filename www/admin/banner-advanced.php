@@ -251,7 +251,7 @@ if ($banner['type'] != 'txt') {
                 $appenddelivery = phpAds_ZonePopup;
             } else {
                 // Add globals for lib-invocation
-                while (list($k, $v) = each($appendvars[1])) {
+                foreach ($appendvars[1] as $k => $v) {
                     if ($k != 'n' && $k != 'what') {
                         $GLOBALS[$k] = addslashes($v);
                     }
@@ -282,7 +282,7 @@ if ($banner['type'] != 'txt') {
         echo "onchange='phpAds_formSelectAppendZone(0)'";
         echo (count($available[phpAds_ZonePopup]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
 
-        while (list($k, $v) = each($available[phpAds_ZonePopup])) {
+        foreach ($available[phpAds_Zone] as $k => $v) {
             if ($appendid == $k) {
                 echo "<option value='".$k."' selected>".$v."</option>";
             } else {
@@ -307,7 +307,7 @@ if ($banner['type'] != 'txt') {
         echo "onchange='phpAds_formSelectAppendZone(1)'";
         echo (count($available[phpAds_ZoneInterstitial]) ? '' : ' DISABLED')." tabindex='".($tabindex++)."'>";
 
-        while (list($k, $v) = each($available[phpAds_ZoneInterstitial])) {
+        foreach ($available[phpAds_ZoneInterstitial] as $k => $v) {
             if ($appendid == $k) {
                 echo "<option value='".$k."' selected>".$v."</option>";
             } else {

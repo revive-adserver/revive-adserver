@@ -508,6 +508,7 @@ function MAX_addslashes(&$item)
 function MAX_commonSlashArray($a)
 {
     if (is_array($a)) {
+        reset($a);
         while (list($k,$v) = each($a)) {
             $a[$k] = MAX_commonSlashArray($v);
         }
@@ -528,6 +529,7 @@ function MAX_commonSlashArray($a)
 function MAX_commonUnslashArray($a)
 {
     if (is_array($a)) {
+        reset($a);
         while (list($k,$v) = each($a)) {
             $a[$k] = MAX_commonUnslashArray($v);
         }
