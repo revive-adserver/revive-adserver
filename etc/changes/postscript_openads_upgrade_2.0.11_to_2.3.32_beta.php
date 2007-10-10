@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
-
 class OA_UpgradePostscript
 {
     var $oUpgrade;
