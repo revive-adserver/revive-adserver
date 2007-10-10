@@ -141,6 +141,7 @@ class OA_Dashboard_SsoProxy extends OA_Central
         {
             return;
         }
+        // TODO - move back redirection to OAP once we will redeploy SSO to servers
         $backUrl = $this->ssoProxyPath
             . '?'. OA_SSO_URL_PARAM . '=' . urlencode($this->url)
             . '&' . OA_SSO_DASHBOARD_CHECK_PARAM . '=1';
@@ -148,12 +149,15 @@ class OA_Dashboard_SsoProxy extends OA_Central
         $serviceUrl = $this->ssoProxyPath . '?'
             . OA_SSO_URL_PARAM . '=' . $this->url
             . '&' . OA_SSO_CAS_SERVER_CHECK_PARAM . '=1';
-        $redirectToSsoGatewayUrl = $this->casServerLoginUrl . '?'
-            . OA_SSO_CAS_SERVICE_PARAM . '=' . urlencode($serviceUrl)
-            . '&' . OA_SSO_CAS_GATEWAY_PARAM . '=1';
         $redirectToSsoCheckUrl = $this->ssoCheckUrl
             . '?'. OA_SSO_SERVICE_PARAM .'=' . urlencode($this->dashboardTargetUrl)
-            . '&backUrl=' . urlencode($redirectToSsoGatewayUrl);
+            . '&backUrl=' . urlencode($serviceUrl);
+//        $redirectToSsoGatewayUrl = $this->casServerLoginUrl . '?'
+//            . OA_SSO_CAS_SERVICE_PARAM . '=' . urlencode($serviceUrl)
+//            . '&' . OA_SSO_CAS_GATEWAY_PARAM . '=1';
+//        $redirectToSsoCheckUrl = $this->ssoCheckUrl
+//            . '?'. OA_SSO_SERVICE_PARAM .'=' . urlencode($this->dashboardTargetUrl)
+//            . '&backUrl=' . urlencode($redirectToSsoGatewayUrl);
 
         MAX_header('Location: ' . $redirectToSsoCheckUrl);
         exit();
