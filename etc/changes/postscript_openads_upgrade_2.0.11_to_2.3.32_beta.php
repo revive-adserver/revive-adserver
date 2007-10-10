@@ -43,10 +43,6 @@ class OA_UpgradePostscript
         {
             return false;
         }
-        if (!OA_Maintenance_Priority::run())
-        {
-            return false;
-        }
         return true;
     }
 
