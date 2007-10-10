@@ -245,7 +245,9 @@ class OA_Maintenance
     function _runOpenadsCentral()
     {
         OA::debug('  Starting Openads Central process.', PEAR_LOG_DEBUG);
-        if ($this->aPref['updates_enabled'] == 't') {
+        if ($this->aPref['updates_enabled'] == 't' && 
+            OA_Dal_ApplicationVariables::get('sso_admin') != "") 
+        {
             require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
             $oAdNetworks = new OA_Central_AdNetworks();
             $result = $oAdNetworks->getRevenue();
