@@ -280,6 +280,7 @@ $conf = $GLOBALS['_MAX']['CONF'];
 MAX_cookieSendP3PHeaders();
 if (!empty($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 // Set cookies
+reset($GLOBALS['_MAX']['COOKIE']['CACHE']);
 while (list($name,$v) = each ($GLOBALS['_MAX']['COOKIE']['CACHE'])) {
 list($value, $expire) = $v;
 MAX_setcookie($name, $value, $expire, '/', (!empty($conf['cookie']['domain']) ? $conf['cookie']['domain'] : null));
@@ -991,6 +992,7 @@ MAX_header('Date: '.gmdate('D, d M Y H:i:s', MAX_commonGetTimeNow()).' GMT');
 function MAX_commonAddslashesRecursive($a)
 {
 if (is_array($a)) {
+reset($a);
 while (list($k,$v) = each($a)) {
 $a[$k] = MAX_commonAddslashesRecursive($v);
 }
@@ -1224,6 +1226,7 @@ function MAX_commonPackContext($context = array())
 $include = array();
 $exclude = array();
 foreach ($context as $idx => $value) {
+reset($value);
 list($key, $value) = each($value);
 list($item,$id) = explode(':', $value);
 switch ($item) {
