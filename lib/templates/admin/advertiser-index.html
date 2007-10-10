@@ -108,10 +108,7 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
         Overall</div>
 <div class="content">
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
-<tr height="1">
-<td colspan="5" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
-</tr>
-{cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
+{cycle name=bgcolor values="#F6F6F6, #FFFFFF" assign=bgColor reset=1}
 {foreach key=overallTitle item=overall from=$aCount}
     {cycle name=bgcolor assign=bgColor}
 <tr bgcolor="{$bgColor}">
