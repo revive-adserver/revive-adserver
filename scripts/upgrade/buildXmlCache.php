@@ -73,11 +73,6 @@ $oCache = new OA_DB_XmlCache();
 
 $aOptions = array('force_defaults'=>false);
 $aSkipFiles = array(
-    // For an unknown reason the parsed array is different when run from the unit test when
-    // parsing schema_tables_core_049.xml.
-    // The cache seems to be correct, while the unit test own array has some 'default' => NULL
-    // elements for openads_text columns which of course break the comparison.
-    'schema_tables_core_049.xml'
 );
 
 clean_up();
