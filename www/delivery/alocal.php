@@ -78,6 +78,16 @@ return $conf;
 echo "Openads could not read the default configuration file for the {$pluginType} plugin";
 exit(1);
 }
+// Check for a 'default.conf.php' file
+$configFileName = $configPath . '/default' . $configFile . '.conf.php';
+$conf = @parse_ini_file($configFileName, $sections);
+if (isset($conf['realConfig'])) {
+// added for backward compatibility - realConfig points to different config
+$conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+}
+if (!empty($conf)) {
+return $conf;
+}
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
 echo "Openads has been installed, but no configuration file was found.\n";
@@ -593,6 +603,16 @@ return $conf;
 }
 echo "Openads could not read the default configuration file for the {$pluginType} plugin";
 exit(1);
+}
+// Check for a 'default.conf.php' file
+$configFileName = $configPath . '/default' . $configFile . '.conf.php';
+$conf = @parse_ini_file($configFileName, $sections);
+if (isset($conf['realConfig'])) {
+// added for backward compatibility - realConfig points to different config
+$conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+}
+if (!empty($conf)) {
+return $conf;
 }
 // Check to ensure Max hasn't been installed
 if (file_exists(MAX_PATH . '/var/INSTALLED')) {
