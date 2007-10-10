@@ -154,8 +154,48 @@ Class Test_OA_Admin_Config extends UnitTestCase
         // Clean up
         unlink('/tmp/dummy.conf.php');
         @unlink('/tmp/delivery.conf.php'); // File should have been cleaned up by test.
+        @unlink('/tmp/default.' . $filename . '.conf.php'); // File may have been created
         unlink('/tmp/newhost.conf.php');
         unlink('/tmp/newSSLhost.conf.php');
+    }
+
+    /**
+     * Check that the mechanism to detect unrecognised config files works as expected
+     *
+     */
+    function test_findOtherConfigFiles()
+    {
+        // Test 1.
+        $oConf = new OA_Admin_Config(true);
+
+        // Build the local conf array manually.
+        $oConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz');
+        $oConf->conf['webpath']['admin'] = 'localhost2';
+        $oConf->conf['webpath']['delivery'] = 'localhost';
+        $oConf->conf['webpath']['deliverySSL'] = 'localhost3';
+        $filename = 'oa_test_' . rand();
+        $folder = '/tmp/oa_test_' . rand();
+        mkdir($folder);
+        $this->assertEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Unexpected un-recognised config files detected');
+
+        //Check that if there is an admin config file, it it recognised
+        touch($folder . '/' . $oConf->conf['webpath']['admin'] . $filename . '.conf.php');
+        $this->assertEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Unexpected un-recognised config files detected');
+
+        // Same for a deliverySSL config file:
+        touch($folder . '/' . $oConf->conf['webpath']['deliverySSL'] . $filename . '.conf.php');
+        $this->assertEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Unexpected un-recognised config files detected');
+
+        $unrecognisedFilename = $folder . '/localhost4.' . $filename . '.conf.php';
+        touch($unrecognisedFilename);
+        $this->assertNotEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Expected un-recognised config files NOT detected');
+
+        // Cleanup
+        unlink($folder . '/' . $oConf->conf['webpath']['admin'] . $filename . '.conf.php');
+        unlink($folder . '/' . $oConf->conf['webpath']['deliverySSL'] . $filename . '.conf.php');
+        unlink($unrecognisedFilename);
+
+        rmdir($folder);
     }
 
     function testMergeConfigChanges()
@@ -198,6 +238,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         // Clean up
         unlink('/tmp/disthost.' . $distFilename . '.conf.php');
         unlink('/tmp/localhost.' . $userFilename . '.conf.php');
+        unlink('/tmp/default.' . $distFilename . '.conf.php'); // File may have been created
     }
 
     /**

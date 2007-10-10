@@ -57,7 +57,7 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
     }
     // Is this a web, or a cli call?
     if (is_null($configFile) && !isset($_SERVER['SERVER_NAME'])) {
-        if (!isset($GLOBALS['argv'][1])) {
+        if (!isset($GLOBALS['argv'][1]) && !file_exists($configPath . '/default' . $configFile . '.conf' . $type)) {
             echo MAX_PRODUCT_NAME . " was called via the command line, but had no host as a parameter.\n";
             exit(1);
         }
@@ -110,6 +110,21 @@ function parseIniFile($configPath = null, $configFile = null, $sections = true, 
         } else {
             echo MAX_PRODUCT_NAME . " could not read the default configuration file for the {$pluginType} plugin";
             exit(1);
+        }
+    }
+    // Check for a default.conf.php file...
+    if (file_exists($configPath . '/default' . $configFile . '.conf' . $type)) {
+        // Parse the configuration file
+        $conf = @parse_ini_file($configPath . '/default' . $configFile . '.conf' . $type, $sections);
+        // Is this a real config file?
+        if (!isset($conf['realConfig'])) {
+            // Yes, return the parsed configuration file
+            return $conf;
+        }
+        // Parse and return the real configuration .ini file
+        if (file_exists($configPath . '/' . $conf['realConfig'] . $configFile . '.conf' . $type)) {
+            $realConfig = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf' . $type, true);
+            return mergeConfigFiles($realConfig, $conf);
         }
     }
     // Got all this way, and no configuration file yet found - maybe

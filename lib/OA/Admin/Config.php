@@ -214,6 +214,25 @@ class OA_Admin_Config
                 @unlink($file);
             }
         }
+
+        // If there are any un-accounted for config files in the var directory, don't write a default.conf.php file
+        $aOtherConfigFiles = $this->findOtherConfigFiles($configPath, $configFile);
+        if (empty($aOtherConfigFiles) && !file_exists($configPath . '/default' . $configFile . '.conf.php')) {
+            $file = $configPath . '/default' . $configFile . '.conf.php';
+            if (!OA_Admin_Config::isConfigWritable($file)) {
+                return false;
+            }
+            $config = array('realConfig' => $newDeliveryHost);
+            $c = new Config();
+            $cc =& $c->parseConfig($config, 'phpArray');
+            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $cc->createComment('<'.'?php exit; ?>', 'top');
+            if (!$c->writeConfig($file, 'IniCommented')) {
+                return false;
+            }
+        } else {
+            OA::debug('Did not create a default.conf.php file due to the presence of:', implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
+        }
         // Re-parse the config file?
         if ($reParse) {
             $file = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
@@ -225,6 +244,51 @@ class OA_Admin_Config
             $conf = $GLOBALS['_MAX']['CONF'];
         }
         return true;
+    }
+
+    /**
+     * This method checks all the config files in a directory and returns an array of any config files
+     * which cannot be identified as part of the current installation
+     *
+     * @param string $configPath The directory to save the config file(s) in.
+     *                           Default is Max's /var directory.
+     * @param string $configFile The configuration file name (eg. "geotargeting").
+     *                           Default is no name (ie. the main Max
+     *                           configuration file).
+     * @return array An array of config file names which are not part of the current installation
+     */
+    function findOtherConfigFiles($configPath = null, $configFile = null)
+    {
+
+        if (!is_null($configPath) && is_dir($configPath)) {
+            // Enumerate any valid config files for this installation
+            $url = @parse_url('http://' . $this->conf['webpath']['admin']);
+            $hosts[] = $url['host'] . $configFile . '.conf.php';
+            $url = @parse_url('http://' . $this->conf['webpath']['delivery']);
+            $hosts[] = $url['host'] . $configFile . '.conf.php';
+            $url = @parse_url('http://' . $this->conf['webpath']['deliverySSL']);
+            $hosts[] = $url['host'] . $configFile . '.conf.php';
+
+            $files = array();
+            $CONFIG_DIR = opendir($configPath);
+            // Collect any "*.conf.php" files from the configPath folder
+            while ($file = readdir($CONFIG_DIR)) {
+                if ( // File is a .conf.php file
+                    substr($file, strlen($file) - 9) == '.conf.php' &&
+                    // File is not the default config file
+                    ($file != 'default.conf.php') &&
+                    // File is not the test config file
+                    ($file != 'test.conf.php') &&
+                    // File is not a backup config file
+                    (!preg_match('#[0-9]{8}_old.*conf.php#', $file)) &&
+                    // File is not a valid config file for this domain
+                    (!in_array($file, $hosts))
+                ) {
+                    $files[] = $file;
+                }
+            }
+            return $files;
+        }
     }
 
     /**

@@ -37,7 +37,7 @@ $Id: init-delivery-parse.php 6120 2007-04-30 01:55:40Z aj@seagullproject.org $
  * @param $configPath The path to the config file
  * @param $configFile Optional - The suffix of the config file
  * @param $sections Optional - process sections to get a multidimensional array
- * 
+ *
  * @return mixed The array resulting from the call to parse_ini_file(), with
  *               the appropriate .ini file for the installation.
  */
@@ -70,6 +70,16 @@ function parseDeliveryIniFile($configPath = null, $configFile = null, $sections 
         }
         echo "Openads could not read the default configuration file for the {$pluginType} plugin";
         exit(1);
+    }
+    // Check for a 'default.conf.php' file
+    $configFileName = $configPath . '/default' . $configFile . '.conf.php';
+    $conf = @parse_ini_file($configFileName, $sections);
+    if (isset($conf['realConfig'])) {
+        // added for backward compatibility - realConfig points to different config
+        $conf = @parse_ini_file(MAX_PATH . '/var/' . $conf['realConfig'] . '.conf.php', $sections);
+    }
+    if (!empty($conf)) {
+        return $conf;
     }
     // Check to ensure Max hasn't been installed
     if (file_exists(MAX_PATH . '/var/INSTALLED')) {
