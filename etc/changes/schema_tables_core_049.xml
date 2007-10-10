@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="xsl/mdb2_schema.xsl"?>
 <database>
 
- <name>openads_for_postgresql_2_0_11</name>
+ <name>openads_pgsql_2_0_11</name>
  <create>true</create>
  <overwrite>false</overwrite>
  <version>049</version>
