@@ -329,7 +329,7 @@ function phpAds_ShowSettings_CheckDependancies($data, $item)
                 // Assignment
                 eregi ("^(\(?)([a-z0-9_-]+)([\=\!\<\>]{1,2})([\"\'a-z0-9_-]+)(\)?)$", $word, $regs);
                 $type          = phpAds_ShowSettings_GetType($data, $regs[2]);
-                $javascript .= $regs[1]."document.".$formName.".".$regs[2].".enabled &&";
+                if ($phpAds_config_locked) $javascript .= $regs[1]."document.".$formName.".".$regs[2].".enabled && ";
                 $javascript .= $regs[1]."document.".$formName.".".$regs[2].".";
                 switch ($type){
                     case 'checkbox':    $javascript .= 'checked'; break;
