@@ -214,7 +214,10 @@ $oTpl->assign('orderdirection', $orderdirection);
 if (!empty($oPublisherDll->_errorMessage)) {
     $oTpl->assign('error', 'There was an error while creating or updating the publisher: '
         . $oPublisherDll->_errorMessage);
-    $oTpl->assign('newAffiliate', $errorAffiliate);
+    if (empty($pubid)) {
+        // populate only when a new publisher was added
+        $oTpl->assign('newAffiliate', $errorAffiliate);
+    }
 } else {
     $oTpl->assign('newAffiliate', $newAffiliate);
 }

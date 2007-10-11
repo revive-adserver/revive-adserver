@@ -222,6 +222,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['oac_category_id'] = $oPublisher->oacCategoryId;
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
+        $publisherData['oac_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
 
         if (isset($publisherData['password']) && (!is_null($publisherData['password'])) && ($publisherData['password'] != '********')) {
             $publisherData['password'] = md5($oPublisher->password);
@@ -244,11 +245,9 @@ class OA_Dll_Publisher extends OA_Dll
                 $doPublisher->setFrom($publisherData);
                 $doPublisher->update();
             }
+            $oAdNetworks = new OA_Central_AdNetworks();
             // Initiate a call to Openads Central if adnetworks are enabled or if OAC values are changed.
             if ($oPublisher->adNetworks) {
-                // Initialise ad networks
-                $oAdNetworks = new OA_Central_AdNetworks();
-
                 // If adNetworks was not previously selected...
                 if (empty($publisherPrevData['oac_website_id'])) {
                     $aRpcPublisher = array(
@@ -273,29 +272,46 @@ class OA_Dll_Publisher extends OA_Dll
                         ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code'])
                     ) {
                         // OAC related fields have changed, so unsubscribe and resubscribe this publisher
-                        $aPublisher = array(
-                            array(
-                                    'id'       => $oPublisher->publisherId,
-                                    'url'      => $oPublisher->website,
-                                    'country'  => $oPublisher->oacCountryCode,
-                                    'language' => $oPublisher->oacLanguageId,
-                                    'category' => $oPublisher->oacCategoryId,
-                                )
-                            );
-                            $result = $oAdNetworks->unsubscribeWebsites($aPublisher);
-                            if (PEAR::isError($result)) {
-                                $aError = array(
-                                   'id' => isset($oPublisher->publisherId) ? $oPublisher->publisherId : 0,
-                                   'message' => $result->getMessage()
-                                );
-                            }
+                        $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher);
                         $result = $oAdNetworks->subscribeWebsites($aPublisher);
                     }
                 }
+            } else if (!empty($publisherPrevData['oac_website_id'])) {
+                // User unsubscribed from adnetworks
+                $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher);
             }
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Sunsubscribe publisher from adnetworks. Returns error array in case any error occured
+     *
+     * @param AdNetworks $oAdNetworks
+     * @param PublisherInfo $oPublisher
+     * @return array
+     */
+    function unsubscribePublisher($oAdNetworks, $oPublisher)
+    {
+        $aPublisher = array(
+            array(
+                    'id'       => $oPublisher->publisherId,
+                    'url'      => $oPublisher->website,
+                    'country'  => $oPublisher->oacCountryCode,
+                    'language' => $oPublisher->oacLanguageId,
+                    'category' => $oPublisher->oacCategoryId,
+                )
+            );
+        $result = $oAdNetworks->unsubscribeWebsites($aPublisher);
+        if (PEAR::isError($result)) {
+            $aError = array(
+               'id' => isset($oPublisher->publisherId) ? $oPublisher->publisherId : 0,
+               'message' => $result->getMessage()
+            );
+            return $aError;
+        }
+        return array();
     }
 
     /**
