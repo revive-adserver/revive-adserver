@@ -182,7 +182,7 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
 
 $newAffiliate = array();
 
-if (isset($aError['id'])) {
+if (isset($aError['id']) || !empty($oPublisherDll->_errorMessage)) {
     if (!$aError['id']) {
         $errorAffiliate = &$newAffiliate;
     } else {
@@ -212,11 +212,13 @@ $oTpl->assign('listorder',      $listorder);
 $oTpl->assign('orderdirection', $orderdirection);
 
 if (!empty($oPublisherDll->_errorMessage)) {
-    $oTpl->assign('error', 'There was an error creating/updating the publisher: '
+    $oTpl->assign('error', 'There was an error while creating or updating the publisher: '
         . $oPublisherDll->_errorMessage);
+    $oTpl->assign('newAffiliate', $errorAffiliate);
+} else {
+    $oTpl->assign('newAffiliate', $newAffiliate);
 }
 $oTpl->assign('captchaErrorFormId', $captchaErrorFormId);
-$oTpl->assign('newAffiliate', $newAffiliate);
 
 $oTpl->assign('phpAds_ZoneBanner',          phpAds_ZoneBanner);
 $oTpl->assign('phpAds_ZoneInterstitial',    phpAds_ZoneInterstitial);
