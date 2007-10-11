@@ -217,7 +217,7 @@ class OA_Admin_Config
 
         // If there are any un-accounted for config files in the var directory, don't write a default.conf.php file
         $aOtherConfigFiles = $this->findOtherConfigFiles($configPath, $configFile);
-        if (empty($aOtherConfigFiles) && !file_exists($configPath . '/default' . $configFile . '.conf.php')) {
+        if (empty($aOtherConfigFiles)) {
             $file = $configPath . '/default' . $configFile . '.conf.php';
             if (!OA_Admin_Config::isConfigWritable($file)) {
                 return false;
@@ -231,7 +231,7 @@ class OA_Admin_Config
                 return false;
             }
         } else {
-            OA::debug('Did not create a default.conf.php file due to the presence of:', implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
+            OA::debug('Did not create a default.conf.php file due to the presence of:' . implode(', ', $aOtherConfigFiles), PEAR_LOG_INFO);
         }
         // Re-parse the config file?
         if ($reParse) {
@@ -275,18 +275,17 @@ class OA_Admin_Config
             while ($file = readdir($CONFIG_DIR)) {
                 if ( // File is a .conf.php file
                     substr($file, strlen($file) - 9) == '.conf.php' &&
-                    // File is not the default config file
-                    ($file != 'default.conf.php') &&
                     // File is not the test config file
                     ($file != 'test.conf.php') &&
                     // File is not a backup config file
-                    (!preg_match('#[0-9]{8}_old.*conf.php#', $file)) &&
+                    (!preg_match('#[0-9]{8}(_[0-9]+)?_old.*conf.php#', $file)) &&
                     // File is not a valid config file for this domain
                     (!in_array($file, $hosts))
                 ) {
                     $files[] = $file;
                 }
             }
+            closedir($CONFIG_DIR);
             return $files;
         }
     }
