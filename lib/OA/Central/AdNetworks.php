@@ -47,10 +47,10 @@ class OA_Central_AdNetworks extends OA_Central_Common
         parent::OA_Central_Common();
         $this->oDal = new OA_Dal_Central_AdNetworks();
     }
-    
+
     /**
      * A method to connect username with platform id or change user password.
-     * 
+     *
      * @see Refs R-AN-1: Connecting Openads Platform with SSO
      *
      * @param String $username  Username
@@ -152,11 +152,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
      */
     function getCountriesSelect()
     {
-        $aCountries = $this->getCountries();
-        asort($aCountries);
+        if ($aCountries = $this->getCountries()) {
+            asort($aCountries);
+        }
 
         $aSelectCountries = array('' => '- pick a country -');
-        if ($aCountries) {
+        if ($aCountries && is_array($aCountries)) {
             $aSelectCountries += $aCountries;
         }
 
@@ -188,11 +189,12 @@ class OA_Central_AdNetworks extends OA_Central_Common
      */
     function getLanguagesSelect()
     {
-        $aLanguages = $this->getLanguages();
-        asort($aLanguages);
+        if ($aLanguages = $this->getLanguages()) {
+            asort($aLanguages);
+        }
 
         $aSelectLanguages = array('' => '- pick a language -');
-        if ($aLanguages) {
+        if ($aLanguages && is_array($aSelectLanguages)) {
             $aSelectLanguages += $aLanguages;
         }
 
