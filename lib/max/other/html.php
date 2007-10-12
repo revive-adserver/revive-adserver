@@ -712,7 +712,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         phpAds_PageContext($otherBannerName, $page, $current);
     }
 
-    if (MAX_Permission::checkIsAllowed(phpAds_ModifyInfo)) {
+    if (MAX_Permission::isAllowed(phpAds_ModifyInfo)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
     }
     if (!phpAds_isUser(phpAds_Client)) {
