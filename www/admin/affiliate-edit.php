@@ -388,9 +388,7 @@ $oTpl->display();
 
 <script language='JavaScript'>
 <!--
-    max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
     max_formSetRequirements('website', '<?php echo addslashes($strWebsite); ?>', true, 'url');
-    max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
 
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');

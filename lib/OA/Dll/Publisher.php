@@ -107,7 +107,7 @@ class OA_Dll_Publisher extends OA_Dll
             }
         }
 
-        if ((isset($oPublisher->emailAddress) &&
+        if ((!empty($oPublisher->emailAddress) &&
             !$this->checkEmail($oPublisher->emailAddress)) ||
             !$this->checkUniqueUserName($publisherOld['username'], $oPublisher->username) ||
             !$this->checkStructureNotRequiredIntegerField($oPublisher, 'agencyId') ||
@@ -284,7 +284,7 @@ class OA_Dll_Publisher extends OA_Dll
         }
         return false;
     }
-    
+
     /**
      * Sunsubscribe publisher from adnetworks. Returns error array in case any error occured
      *
