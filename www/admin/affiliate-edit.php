@@ -213,6 +213,7 @@ $oTpl->assign('fieldsTop', array(
                 'vars'      => array(
                                 'checked' => !empty($affiliate['oac_website_id']),
                                 'disabled'  => MAX_Admin_Preferences::checkBool('updates_enabled', false)
+                                    || !MAX_Permission::hasAccess(phpAds_Admin)
                                ),
             ),
             array(

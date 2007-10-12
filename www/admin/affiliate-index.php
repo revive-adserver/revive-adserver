@@ -124,7 +124,7 @@ $oTpl = new OA_Admin_Template('affiliate-index.html');
 
 $loosezones = false;
 
-if (MAX_Admin_Preferences::checkBool('updates_enabled', true)) {
+if (MAX_Admin_Preferences::checkBool('updates_enabled', true) && MAX_Permission::hasAccess(phpAds_Admin)) {
     $aCategories       = $oAdNetworks->getCategoriesFlat();
     $aSelectCategories = $oAdNetworks->getCategoriesSelect();
     $aCountries        = $oAdNetworks->getCountries();
@@ -132,7 +132,7 @@ if (MAX_Admin_Preferences::checkBool('updates_enabled', true)) {
     $aLanguages        = $oAdNetworks->getLanguages();
     $aSelectLanguages  = $oAdNetworks->getLanguagesSelect();
     
-    $oTpl->assign('oacEnabled', MAX_Permission::hasAccess(phpAds_Admin));
+    $oTpl->assign('oacEnabled', true);
     $oTpl->assign('categories', $aSelectCategories);
     $oTpl->assign('countries',  $aSelectCountries);
     $oTpl->assign('languages',  $aSelectLanguages);
