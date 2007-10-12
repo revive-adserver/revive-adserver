@@ -179,7 +179,7 @@ function phpAds_isAllowed ($allowed)
 function phpAds_getUserID ()
 {
     global $session;
-    return ($session['userid']);
+    return (int) $session['userid'];
 }
 
 /*-------------------------------------------------------*/
@@ -226,7 +226,7 @@ function phpAds_getUserTypeAsString ()
 function phpAds_getAgencyID ()
 {
     global $session;
-    return ($session['agencyid']);
+    return (int) $session['agencyid'];
 }
 
 /*-------------------------------------------------------*/
