@@ -34,7 +34,14 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/www/admin/config.php';
+require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
+require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+
+phpAds_SessionDataFetch();
+
+if (phpAds_IsLoggedIn()) {
+    require_once MAX_PATH . '/www/admin/config.php';
+}
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 require(MAX_PATH.'/lib/OA/Dashboard/SsoProxy.php');

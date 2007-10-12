@@ -1,6 +1,5 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
@@ -26,36 +25,21 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
-// Require the initialisation file
-require_once '../../init.php';
+-->*}
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-MAX_Permission::checkAccess(phpAds_Admin);
-
-$widget = !empty($_REQUEST['widget']) ? $_REQUEST['widget'] : 'Index';
-
-if (preg_match('/[a-z0-9]+/i', $widget) && file_exists(MAX_PATH.'/lib/OA/Dashboard/Widgets/'.$widget.'.php')) {
-    // Load widget
-    require(MAX_PATH.'/lib/OA/Dashboard/Widgets/'.$widget.'.php');
-    $widget = 'OA_Dashboard_Widget_'.$widget;
-} else {
-    // Show empty widget
-    require(MAX_PATH.'/lib/OA/Dashboard/Widget.php');
-    $widget = 'OA_Dashboard_Widget';
-}
-
-$oDashboard = new $widget($_REQUEST);
-$oDashboard->display();
-
-?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>    
+    <body>
+      <script type="text/javascript">
+      <!--{literal}
+          setTimeout(function() {
+            parent.location.href = "{/literal}{$url|escape}{literal}";
+          }, {/literal}{$timeoutMs}{literal});
+      //-->{/literal}
+      </script>
+    </body>
+</html>
