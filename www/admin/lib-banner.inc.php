@@ -58,13 +58,12 @@ function phpAds_getBannerCache($banner)
                 // The regexp should handle ", ', \", \' as delimiters
                 $buffer = preg_replace('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', "<a$1href=$2{clickurl}http$3$2$4  target=$2{target}$2>", $buffer);
 
-
                 // Search: <\s*form (.*?)action\s*=\s*['"](.*?)['"](.*?)>
                 // Replace:<form\1 action="{url_prefix}/{$conf['file']['click']}" \3><input type='hidden' name='{clickurlparams}\2'>
                 $target = (!empty($banner['target'])) ? $banner['target'] : "_self";
                 $buffer = preg_replace(
                     '#<\s*form (.*?)action\s*=\s*[\\\\]?[\'"](.*?)[\'\\\"][\'\\\"]?(.*?)>(.*?)</form>#is',
-                    "<form $1 action=\\\"{url_prefix}\\\" $3 target=\'{$target}\'>$4<input type=\'hidden\' name=\'maxparams\\' value=\'{clickurlparams}$2\'></form>",
+                    "<form $1 action=\"{url_prefix}\" $3 target='{$target}'>$4<input type='hidden' name='maxparams' value='{clickurlparams}$2'></form>",
                     $buffer
                 );
 
