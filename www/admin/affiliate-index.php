@@ -132,7 +132,7 @@ if (MAX_Admin_Preferences::checkBool('updates_enabled', true)) {
     $aLanguages        = $oAdNetworks->getLanguages();
     $aSelectLanguages  = $oAdNetworks->getLanguagesSelect();
     
-    $oTpl->assign('oacEnabled', true);
+    $oTpl->assign('oacEnabled', MAX_Permission::hasAccess(phpAds_Admin));
     $oTpl->assign('categories', $aSelectCategories);
     $oTpl->assign('countries',  $aSelectCountries);
     $oTpl->assign('languages',  $aSelectLanguages);
