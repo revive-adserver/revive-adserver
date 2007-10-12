@@ -76,8 +76,18 @@ class OA_Dashboard_Widget_Feed extends OA_Dashboard_Widget
     function display()
     {
         if (!$this->oTpl->is_cached()) {
+            OA::disableErrorHandling();
             $oRss =& new XML_RSS($this->url);
-            $oRss->parse();
+            $result = $oRss->parse();
+            OA::enableErrorHandling();
+            
+            // ignore bad character error which could appear if rss is using invalid characters
+            if (PEAR::isError($result)) {
+                if (!strstr($result->getMessage(), 'Invalid character')) {
+                    PEAR::raiseError($result); // rethrow
+                    $this->oTpl->caching = false;
+                }
+            }
 
             $aPost = array_slice($oRss->getItems(), 0, $this->posts);
             foreach ($aPost as $key => $aValue) {
