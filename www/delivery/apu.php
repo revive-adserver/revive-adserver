@@ -2713,6 +2713,7 @@ MAX_{$row['bannerid']}.location='$contenturl';";
 // Move main window to the foreground if we are dealing with a popunder
 if (isset($popunder) && $popunder == '1') {
 echo "
+MAX_{$row['bannerid']}.blur();
 window.focus();";
 }
 echo "
