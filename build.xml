@@ -61,6 +61,12 @@
     </exec>
   </target>
   
+  <target name="generate-adnetworks-cache" description="Generate Adnetworks Cache (countries, categories and languages)">
+    <exec dir="${basedir}/scripts/upgrade" executable="php" failonerror="true">
+      <arg value="buildAdNetworksCache.php" />
+    </exec>
+  </target>
+  
   <!-- ******************************************************************** -->
   <!-- INITIALIZATION TARGETS                                               -->
   <!-- ******************************************************************** -->
@@ -141,7 +147,7 @@
     <zip destfile="${dir.test.results}/${release}.zip" basedir="${dir.test.results}"  includes="${release}/**"/>
   </target>
 
-  <target name="package" depends="generate-delivery, generate-xml-cache, checkconsistency, package-bzip2, package-gz, package-zip"/>
+  <target name="package" depends="generate-delivery, generate-xml-cache, generate-adnetworks-cache, checkconsistency, package-bzip2, package-gz, package-zip"/>
 
   <target name="build" depends="package, revert-after-packaging" description="Run this if you want your own release files built."/>
 
