@@ -44,6 +44,7 @@ define('OA_SSO_ERROR_PLATFORM_TAKEN', 3);
 class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
 {
     var $errorCode = null;
+    var $errorMessage = '';
 
     var $lastUsedUserName;
 
@@ -76,6 +77,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
                     OA_Dal_ApplicationVariables::set('sso_password', $passwordHash);
                 } else {
                     $this->errorCode = $result->getCode();
+                    $this->errorMessage = $result->getMessage();
                 }
             } else {
                 // user already connected - just changing password
@@ -137,7 +139,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
                 $msg = 'Check credentials, wrong username or password.';
                 break;
             default:
-                $msg = 'Error while authenticating user';
+                $msg = 'Error while authenticating user: ' . $this->errorMessage;
         }
         return $msg;
     }
