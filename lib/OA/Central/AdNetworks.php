@@ -76,6 +76,10 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aPref = $GLOBALS['_MAX']['PREF'];
         $result = $this->oCache->call(array(&$this->oMapper, 'getCategories'), $aPref['language']);
 
+        if (!$result) {
+            $result = $this->retrievePermanentCache('AdNetworks::getCategories');
+        }
+
         return $result;
     }
 
@@ -142,6 +146,10 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $aPref = $GLOBALS['_MAX']['PREF'];
         $result = $this->oCache->call(array(&$this->oMapper, 'getCountries'), $aPref['language']);
 
+        if (!$result) {
+            $result = $this->retrievePermanentCache('AdNetworks::getCountries');
+        }
+
         return $result;
     }
 
@@ -178,6 +186,10 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
         $result = $this->oCache->call(array(&$this->oMapper, 'getLanguages'), $aPref['language']);
+
+        if (!$result) {
+            $result = $this->retrievePermanentCache('AdNetworks::getLanguages');
+        }
 
         return $result;
     }

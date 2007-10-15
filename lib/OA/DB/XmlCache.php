@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once 'Cache/Lite.php';
+require_once MAX_PATH . '/lib/OA/PermanentCache.php';
 
 /**
  * A class to read and save cached XML schema and changesets, useful to store
@@ -38,18 +38,8 @@ require_once 'Cache/Lite.php';
  * @subpackage XmlCache
  * @author     Matteo Beccati <matteo.beccati@openads.org
  */
-class OA_DB_XmlCache
+class OA_DB_XmlCache extends OA_PermanentCache
 {
-    /**
-     * @var Cache_Lite
-     */
-    var $oCache;
-
-    /**
-     * @var string
-     */
-    var $cachePath;
-
     /**
      * Class constructor
      *
@@ -57,95 +47,7 @@ class OA_DB_XmlCache
      */
     function OA_DB_XmlCache()
     {
-        $this->cachePath = MAX_PATH . '/etc/xmlcache/';
-        $this->oCache = new Cache_Lite(array(
-            'cacheDir'               => $this->cachePath,
-            'fileNameProtection'     => false,
-            'lifeTime'               => null,
-            'readControlType'        => 'md5'
-        ));
-    }
-
-    /**
-     * A method to get the XML cache content
-     *
-     * @param string $fileName The name of the original file we are retrieving
-     * @return mixed The cache content or FALSE in case of cache miss
-     */
-    function get($fileName)
-    {
-        if (extension_loaded('zlib')) {
-            $id    = $this->_getId($fileName);
-            $group = $this->_getGroup($fileName);
-
-            if ($result = $this->oCache->get($id, $group, true)) {
-                return unserialize(gzuncompress($result));
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * A method to save the XML cache content. The content will be serialized and
-     * compressed to save space
-     *
-     * @param mixed  $data     The content to save
-     * @param string $fileName The name of the original file we are storing
-     * @return bool True if the cache was correctly saved
-     */
-    function save($data, $fileName)
-    {
-        if (is_writable($this->cachePath) && extension_loaded('zlib')) {
-            $id    = $this->_getId($fileName);
-            $group = $this->_getGroup($fileName);
-            return $this->oCache->save(gzcompress(serialize($data), 9), $id, $group);
-        }
-
-        return false;
-    }
-
-    /**
-     * A method to remove a cache file
-     *
-     * @param string $fileName The name of the original file
-     * @return bool True if the cache was deleted
-     */
-    function remove($fileName)
-    {
-        $id    = $this->_getId($fileName);
-        $group = $this->_getGroup($fileName);
-        return $this->oCache->remove($id, $group);
-    }
-
-    /**
-     * Private method to generate the Cache_Lite cache ID from a file name
-     *
-     * @param string $fileName The name of the original file
-     * @return string The cache ID (the base file name without extension)
-     */
-    function _getId($fileName)
-    {
-        $fileName = preg_replace('/\.[^.]+?$/', '', $fileName);
-        return preg_replace('/[^a-z0-9]/i', '-', basename($fileName)).'.bin';
-    }
-
-    /**
-     * Private method to generate the Cache_Lite cache group from a file name
-     *
-     * @param string $fileName The name of the original file
-     * @return string The cache group (generated using the file path, or 'default')
-     */
-    function _getGroup($fileName)
-    {
-        if (strpos($fileName, MAX_PATH) === 0) {
-            $groupName = dirname(substr($fileName, strlen(MAX_PATH) + 1));
-            if (!empty($groupName)) {
-                return preg_replace('/[^a-z0-9]/i', '-', $groupName);
-            }
-        }
-
-        return 'default';
+        parent::OA_PermanentCache(MAX_PATH . '/etc/xmlcache/');
     }
 }
 

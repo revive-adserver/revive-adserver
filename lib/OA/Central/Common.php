@@ -31,6 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/Common.php';
 require_once MAX_PATH . '/lib/OA/Central.php';
 require_once MAX_PATH . '/lib/OA/Central/RpcMapper.php';
+require_once MAX_PATH . '/lib/OA/PermanentCache.php';
 
 require_once 'Cache/Lite/Function.php';
 
@@ -105,6 +106,18 @@ class OA_Central_Common
         $url .= '?'.OA_SSO_PLATFORM_HASH_PARAM.'='.urlencode($platformHash);
 
         return $url;
+    }
+
+    /**
+     * A method to retrieve the permanently cached result in case of failures
+     *
+     * @param string $cacheName The cache name
+     * @return mixed The cached content
+     */
+    function retrievePermanentCache($cacheName)
+    {
+        $oCache = new OA_PermanentCache();
+        return $oCache->get($cacheName);
     }
 
 }

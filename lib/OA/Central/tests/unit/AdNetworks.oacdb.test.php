@@ -37,7 +37,16 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
  */
 class Test_OA_Central_AdNetworks extends UnitTestCase
 {
+    /**
+     * @var array
+     */
     var $aCleanupTables = array('clients','campaigns','banners', 'affiliates', 'ad_zone_assoc', 'zones');
+
+    /**
+     * @var OA_PermanentCache
+     */
+    var $oCache;
+
     /**
      * The constructor method.
      */
@@ -51,6 +60,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
             'admin_email' => 'foo@example.com'
         );
 
+        $this->oCache = new OA_PermanentCache();
     }
 
     function _setUpAppVars()
@@ -125,12 +135,13 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $result = $oAdNetworks->getCategories();
         $this->assertEqual($result, $aCategories);
 
-
-        // Test error
+        // Test error, this should use the cached values
         $oAdNetworks = $this->_newInstance();
         $this->_mockSendReference($oAdNetworks, new XML_RPC_Response(0, 1, 'testMock'));
         $result = $oAdNetworks->getCategories();
-        $this->assertFalse($result);
+        $expected = $this->oCache->get('AdNetworks::getCategories');
+        $this->assertTrue($expected, 'Invalid cache file for getCategories');
+        $this->assertEqual($result, $expected);
         DataGenerator::cleanUp($this->aCleanupTables);
     }
 
@@ -151,10 +162,18 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $oAdNetworks = $this->_newInstance();
         $this->_mockSendReference($oAdNetworks, $oResponse);
-
         $result = $oAdNetworks->getCountries();
         $this->assertEqual($result, $aCountries);
 
+        // Test error, this should use the cached values
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, new XML_RPC_Response(0, 1, 'testMock'));
+        $result = $oAdNetworks->getCountries();
+        $expected = $this->oCache->get('AdNetworks::getCountries');
+        $this->assertTrue($expected, 'Invalid cache file for getCountries');
+        $this->assertEqual($result, $expected);
+
+        DataGenerator::cleanUp($this->aCleanupTables);
     }
 
     /**
@@ -174,9 +193,17 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $oAdNetworks = $this->_newInstance();
         $this->_mockSendReference($oAdNetworks, $oResponse);
-
         $result = $oAdNetworks->getLanguages();
         $this->assertEqual($result, $aLanguages);
+
+        // Test error, this should use the cached values
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, new XML_RPC_Response(0, 1, 'testMock'));
+        $result = $oAdNetworks->getLanguages();
+        $expected = $this->oCache->get('AdNetworks::getLanguages');
+        $this->assertTrue($expected, 'Invalid cache file for getLanguages');
+        $this->assertEqual($result, $expected);
+
         DataGenerator::cleanUp($this->aCleanupTables);
     }
 
