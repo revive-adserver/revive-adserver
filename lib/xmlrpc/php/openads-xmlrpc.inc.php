@@ -135,7 +135,7 @@ class OA_XmlRpc
 
         // Encode the context:
         $xmlContext = array();
-        foreach ($context as $contexValue) {
+        foreach ($context as $contextValue) {
             $xmlContext[] = XML_RPC_encode($contextValue);
         }
 
@@ -147,7 +147,7 @@ class OA_XmlRpc
             new XML_RPC_Value($target,     $XML_RPC_String),
             new XML_RPC_Value($source,     $XML_RPC_String),
             new XML_RPC_Value($withText,   $XML_RPC_Boolean),
-            new XML_RPC_Value($context,    $XML_RPC_Array)
+            new XML_RPC_Value($xmlContext,    $XML_RPC_Array)
         ));
 
         // Create an XML-RPC client to communicate with the XML-RPC server:
