@@ -104,17 +104,20 @@ class OA_Upgrade
     var $package_file = '';
     var $recoveryFile;
     var $nobackupsFile;
+    var $postTaskFile = '';
 
     var $can_drop_database = false;
 
     var $existing_installation_status = OA_STATUS_NOT_INSTALLED;
     var $upgrading_from_milestone_version = false;
+    var $aToDoList = array();
 
     function OA_Upgrade()
     {
         $this->upgradePath  = MAX_PATH.'/etc/changes/';
         $this->recoveryFile = MAX_PATH.'/var/RECOVER';
         $this->nobackupsFile = MAX_PATH.'/var/NOBACKUPS';
+        $this->postTaskFile = MAX_PATH.'/var/TASKS.php';
 
         $this->oLogger      = new OA_UpgradeLogger();
         $this->oParser      = new OA_UpgradePackageParser();
@@ -1307,6 +1310,7 @@ class OA_Upgrade
             $this->_pickupNoBackupsFile();
         }
         $this->_pickupRecoveryFile();
+        $this->_writePostUpgradeTasksFile();
         return true;
     }
 
@@ -1396,6 +1400,11 @@ class OA_Upgrade
                                                 )
                                           );
         return true;
+    }
+
+    function addPostUpgradeTask($task)
+    {
+        $this->aToDoList[] = $task;
     }
 
     /**
@@ -1997,6 +2006,77 @@ class OA_Upgrade
             return $aResult;
         }
         return false;
+    }
+
+    /**
+     * write a list of files to be included after the upgrade
+     *
+     * @return boolean
+     */
+    function _writePostUpgradeTasksFile()
+    {
+        if (!empty($this->aToDoList))
+        {
+            $f = fopen($this->postTaskFile, 'w');
+            $this->aToDoList = array_unique($this->aToDoList);
+            foreach ($this->aToDoList AS $k => $v)
+            {
+                fwrite($f, "{$v};\r\n");
+            }
+            fclose($f);
+            return file_exists($this->postTaskFile);
+        }
+        return true;
+    }
+
+    /**
+     * retrieves a list of files to be included at the very end of the upgrade
+     * include each file
+     *
+     * @return array | false
+     */
+     function executePostUpgradeTasks()
+    {
+        if (file_exists($this->postTaskFile))
+        {
+            $aContent = array_unique(explode(';', trim(file_get_contents($this->postTaskFile))));
+            foreach ($aContent as $k => $v)
+            {
+                if (trim($v))
+                {
+                    $file = $this->upgradePath."tasks/openads_upgrade_task_".trim($v).".php";
+                    if (file_exists($file))
+                    {
+                        $this->oLogger->logOnly('attempting to include file '.$file);
+                        include $file;
+                        $this->oLogger->logOnly('executed file '.$file);
+                    }
+                    else
+                    {
+                        $this->oLogger->logOnly('file not found '.$file);
+                    }
+                    $aResult[$k]['task']    = trim($v);
+                    $aResult[$k]['file']    = $file;
+                    $aResult[$k]['result']  = $upgradeTaskResult;
+                    $aResult[$k]['message'] = $upgradeTaskMessage;
+                    $aResult[$k]['error']   = $upgradeTaskError;
+                }
+            }
+            $this->_pickupPostUpgradeTasksFile();
+            return $aResult;
+        }
+        return true;
+    }
+
+    /**
+     * remove the nobackups file
+     *
+     * @return boolean
+     */
+    function _pickupPostUpgradeTasksFile()
+    {
+        @unlink($this->postTaskFile);
+        return (!file_exists($this->postTaskFile));
     }
 
     /**

@@ -115,4 +115,5 @@ function phpAds_getBannerCache($banner)
 
     return ($buffer);
 }
+
 ?>

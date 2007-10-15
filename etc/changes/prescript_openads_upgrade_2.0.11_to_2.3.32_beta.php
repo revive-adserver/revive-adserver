@@ -1,6 +1,6 @@
 <?php
 
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
+//require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
 class OA_UpgradePrescript
 {

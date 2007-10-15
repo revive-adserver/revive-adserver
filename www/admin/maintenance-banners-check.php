@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
+require_once MAX_PATH . '/www/admin/lib-banner-cache.inc.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 
@@ -90,44 +91,44 @@ function _showPageHeader()
 }
 
 
-function processBanners($commit = false) {
-    $doBanners = OA_Dal::factoryDO('banners');
-
-    if (phpAds_isUser(phpAds_Agency))
-    {
-        $doBanners->addReferenceFilter('agency', $agencyId = phpAds_getUserId());
-    }
-    $doBanners->find();
-
-    $different = 0;
-    $same      = 0;
-    $errors    = array();
-
-    while ($doBanners->fetch())
-    {
-    	// Rebuild filename
-    	if ($doBanners->storagetype == 'sql' || $doBanners->storagetype == 'web') {
-    		$doBanners->imageurl = '';
-    	}
-    	$GLOBALS['_MAX']['bannerrebuild']['errors'] = false;
-    	if ($commit) {
-            $doBannersClone = clone($doBanners);
-            $doBannersClone->update();
-            $newCache = $doBannersClone->htmlcache;
-    	} else {
-    	    $newCache = phpAds_getBannerCache($doBanners->toArray());
-    	}
-        if (empty($GLOBALS['_MAX']['bannerrebuild']['errors'])) {
-            if ($doBanners->htmlcache != $newCache && ($doBanners->storagetype == 'html')) {
-                $different++;
-            } else {
-                $same++;
-            }
-    	} else {
-    	    $errors[] = $doBanners->toArray();
-    	}
-    }
-    return array('errors' => $errors, 'different' => $different, 'same' => $same);
-}
+//function processBanners($commit = false) {
+//    $doBanners = OA_Dal::factoryDO('banners');
+//
+//    if (phpAds_isUser(phpAds_Agency))
+//    {
+//        $doBanners->addReferenceFilter('agency', $agencyId = phpAds_getUserId());
+//    }
+//    $doBanners->find();
+//
+//    $different = 0;
+//    $same      = 0;
+//    $errors    = array();
+//
+//    while ($doBanners->fetch())
+//    {
+//    	// Rebuild filename
+//    	if ($doBanners->storagetype == 'sql' || $doBanners->storagetype == 'web') {
+//    		$doBanners->imageurl = '';
+//    	}
+//    	$GLOBALS['_MAX']['bannerrebuild']['errors'] = false;
+//    	if ($commit) {
+//            $doBannersClone = clone($doBanners);
+//            $doBannersClone->update();
+//            $newCache = $doBannersClone->htmlcache;
+//    	} else {
+//    	    $newCache = phpAds_getBannerCache($doBanners->toArray());
+//    	}
+//        if (empty($GLOBALS['_MAX']['bannerrebuild']['errors'])) {
+//            if ($doBanners->htmlcache != $newCache && ($doBanners->storagetype == 'html')) {
+//                $different++;
+//            } else {
+//                $same++;
+//            }
+//    	} else {
+//    	    $errors[] = $doBanners->toArray();
+//    	}
+//    }
+//    return array('errors' => $errors, 'different' => $different, 'same' => $same);
+//}
 
 ?>

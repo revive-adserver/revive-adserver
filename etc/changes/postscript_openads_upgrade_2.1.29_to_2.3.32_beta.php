@@ -44,6 +44,8 @@ class OA_UpgradePostscript
         {
             return false;
         }
+        $this->oUpgrade->addPostUpgradeTask('Rebuild_Banner_Cache');
+        $this->oUpgrade->addPostUpgradeTask('Maintenance_Priority');
         return true;
     }
 

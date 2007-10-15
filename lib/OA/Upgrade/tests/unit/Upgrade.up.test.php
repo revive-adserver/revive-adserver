@@ -462,6 +462,37 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->_pickupRecoveryFile();
     }
 
+    /**
+     * method to test the PostUpgradeTask methods
+     * write file
+     * read file and execute
+     *
+     */
+    function test_PostUpgradeTasksFile()
+    {
+        $oUpgrade  = new OA_Upgrade();
+        $oUpgrade->addPostUpgradeTask('Test_1');
+        $oUpgrade->addPostUpgradeTask('Test_2');
+        $oUpgrade->addPostUpgradeTask('Test_3');
+
+        $this->assertTrue($oUpgrade->_writePostUpgradeTasksFile());
+
+        $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/';
+
+        $result = $oUpgrade->executePostUpgradeTasks();
+
+        $this->assertIsA($result, 'array', '');
+        $this->assertEqual(count($result),3);
+        for ($i=0,$x=1;$i<3;$i++,$x++)
+        {
+            $this->assertEqual($result[$i]['task'],'Test_'.$x);
+            $this->assertEqual($result[$i]['file'],$oUpgrade->upgradePath.'tasks/openads_upgrade_task_Test_'.$x.'.php');
+            $this->assertEqual($result[$i]['result'],'Result from Test_'.$x);
+            $this->assertEqual($result[$i]['error'],'Error from Test_'.$x);
+            $this->assertEqual($result[$i]['message'],'Message from Test_'.$x);
+        }
+    }
+
     function test_createEmptyVarFile()
     {
         $oUpgrade  = new OA_Upgrade();

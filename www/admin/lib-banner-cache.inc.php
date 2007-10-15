@@ -1,5 +1,4 @@
 <?php
-
 /*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
@@ -7,6 +6,9 @@
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
 |                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
@@ -22,54 +24,47 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id $
 */
 
-class OA_UpgradePostscript
+function processBanners($commit = false)
 {
-    var $oUpgrade;
+    $doBanners = OA_Dal::factoryDO('banners');
 
-    function OA_UpgradePostscript()
+    if (phpAds_isUser(phpAds_Agency))
     {
-
+        $doBanners->addReferenceFilter('agency', $agencyId = phpAds_getUserId());
     }
+    $doBanners->find();
 
-    function execute($aParams)
+    $different = 0;
+    $same      = 0;
+    $errors    = array();
+
+    while ($doBanners->fetch())
     {
-        $this->oUpgrade = & $aParams[0];
-        if (!$this->configPan())
-        {
-            return false;
-        }
-        $this->oUpgrade->addPostUpgradeTask('Rebuild_Banner_Cache');
-        $this->oUpgrade->addPostUpgradeTask('Maintenance_Priority');
-        return true;
+    	// Rebuild filename
+    	if ($doBanners->storagetype == 'sql' || $doBanners->storagetype == 'web') {
+    		$doBanners->imageurl = '';
+    	}
+    	$GLOBALS['_MAX']['bannerrebuild']['errors'] = false;
+    	if ($commit) {
+            $doBannersClone = clone($doBanners);
+            $doBannersClone->update();
+            $newCache = $doBannersClone->htmlcache;
+    	} else {
+    	    $newCache = phpAds_getBannerCache($doBanners->toArray());
+    	}
+        if (empty($GLOBALS['_MAX']['bannerrebuild']['errors'])) {
+            if ($doBanners->htmlcache != $newCache && ($doBanners->storagetype == 'html')) {
+                $different++;
+            } else {
+                $same++;
+            }
+    	} else {
+    	    $errors[] = $doBanners->toArray();
+    	}
     }
-
-    function configPan()
-    {
-        if (!$this->oUpgrade->oConfiguration->putNewConfigFile())
-        {
-            $this->oUpgrade->oLogger->logError('Installation failed to create the configuration file');
-            return false;
-        }
-        $aConfig = $this->oUpgrade->oPAN->aConfig;
-        $aConfig['table'] = $GLOBALS['_MAX']['CONF']['table'];
-        $this->oUpgrade->oConfiguration->setupConfigPan($aConfig);
-        $this->oUpgrade->oConfiguration->writeConfig();
-        if (!$this->oUpgrade->oConfiguration->oConfig->backupConfig(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg))
-        {
-            $this->oUpgrade->oLogger->logError('Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)');
-            $this->oUpgrade->message = 'Failed to rename your old configuration file (non-critical, you should delete or rename /var/config.inc.php yourself)';
-        }
-        if (file_exists(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg))
-        {
-            unlink(MAX_PATH.'/var/'.$this->oUpgrade->oPAN->fileCfg);
-        }
-        $this->oUpgrade->oLogger->log('Removed old application version');
-        return true;
-    }
-
+    return array('errors' => $errors, 'different' => $different, 'same' => $same);
 }
-
 ?>
