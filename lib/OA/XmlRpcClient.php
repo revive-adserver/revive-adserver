@@ -140,6 +140,7 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->headers."\r\n\r\n".$msg->payload);
+        curl_setopt($ch, CURLOPT_CAINFO, MAX_PATH . '/etc/curl-ca-bundle.crt');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
         if (!empty($timeout)) {
