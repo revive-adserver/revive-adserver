@@ -98,7 +98,7 @@ function eol_flush()
 
 function clean_up()
 {
-    foreach (glob(MAX_PATH.'/etc/distcache/cache_adnetworks_*') as $fileName) {
+    foreach (glob(MAX_PATH.'/etc/permanentcache/cache_adnetworks_*') as $fileName) {
         unlink($fileName);
     }
 }
