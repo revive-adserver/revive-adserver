@@ -280,7 +280,7 @@ class MAX_Admin_Invocation {
 
         // Hide when integrated in zone-advanced.php
         if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced']) {
-            $buffer .= "<form name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
+            $buffer .= "<form id='generate' name='generate' action='".$_SERVER['PHP_SELF']."' method='POST' onSubmit='return max_formValidate(this);'>\n";
         }
 
         // Invocation type selection
@@ -312,7 +312,7 @@ class MAX_Admin_Invocation {
             }
 
             $buffer .= "</td></tr><tr><td height='35' valign='top'>";
-            $buffer .= "<select name='codetype' onChange=\"this.form.submit()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
+            $buffer .= "<select name='codetype' onChange=\"submitForm()\" accesskey=".$GLOBALS['keyList']." tabindex='".($tabindex++)."'>";
 
             foreach($invocationTags as $pluginKey => $invocationTag) {
                 if($allowed[$pluginKey]) {
@@ -389,7 +389,7 @@ class MAX_Admin_Invocation {
                     $buffer .= "<tr height='1'><td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
                     $buffer .= "<tr><td colspan='2'>";
 
-                    $buffer .= "<textarea name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
+                    $buffer .= "<textarea id='bannercode' name='bannercode' class='code-gray' rows='15' cols='80' style='width:95%; border: 1px solid black' readonly>";
                     $buffer .= htmlspecialchars($this->generateInvocationCode($invocationTag));
                     $buffer .= "</textarea>";
                 } else {
@@ -424,9 +424,9 @@ class MAX_Admin_Invocation {
                 $buffer .= "<br /><br />";
                 $buffer .= "<input type='hidden' value='".($generated ? 1 : 0)."' name='generate'>";
                 if ($generated) {
-                    $buffer .= "<input type='submit' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
+                    $buffer .= "<input type='button' onclick='submitForm();' value='".$GLOBALS['strRefresh']."' name='submitbutton' tabindex='".($tabindex++)."'>";
                 } else {
-                    $buffer .= "<input type='submit' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($tabindex++)."'>";
+                    $buffer .= "<input type='button' onclick='submitForm();' value='".$GLOBALS['strGenerate']."' name='submitbutton' tabindex='".($tabindex++)."'>";
                 }
             }
         }
@@ -441,6 +441,16 @@ class MAX_Admin_Invocation {
         if (!is_array($extra) || !isset($extra['zoneadvanced']) || !$extra['zoneadvanced']) {
             $buffer .= "</form><br /><br />";
         }
+
+        // Disable bannercode before submitting the form (causes problems with mod_security)
+        $buffer .= "<script type='text/javascript'>";
+        $buffer .= "function submitForm() {";
+        $buffer .= "    var form = document.getElementById('generate');";
+        $buffer .= "    form.bannercode.disabled = true;";
+        $buffer .= "    form.submit();";
+        $buffer .= "}";
+        $buffer .= "</script>";
+
         return $buffer;
     }
 
