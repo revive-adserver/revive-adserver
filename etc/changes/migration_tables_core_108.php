@@ -250,8 +250,7 @@ class Migration_108 extends Migration
 	function afterAddTable__data_summary_ad_hourly()
 	{
 	    $migration = new StatMigration();
-	    $migration->init($this->oDBH);
-
+	    $migration->init($this->oDBH, $this->logFile);
 		return $migration->migrateData() && $this->afterAddTable('data_summary_ad_hourly');
 	}
 

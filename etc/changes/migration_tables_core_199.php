@@ -64,8 +64,7 @@ class Migration_199 extends Migration
 	function beforeRemoveTable__adstats()
 	{
 	    $migration = new StatMigration();
-	    $migration->init($this->oDBH);
-
+	    $migration->init($this->oDBH, $this->logFile);
 		return $migration->correctCampaignTargets() && $this->beforeRemoveTable('adstats');
 	}
 

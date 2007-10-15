@@ -42,8 +42,7 @@ class prescript_tables_core_399
 
         $migration = new StatMigration();
 	    $migration->compactStats = true;
-
-	    $migration->init($oDBUpgrader->oSchema->db);
+	    $migration->init($oDBUpgrader->oSchema->db, $oDBUpgrader->logFile);
 
 		return $migration->migrateData();
     }

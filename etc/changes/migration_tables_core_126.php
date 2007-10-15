@@ -91,11 +91,16 @@ class Migration_126 extends Migration
 
 	function migrateData()
 	{
-	    $conf = $GLOBALS['_MAX']['CONF'];
+	    $table = $this->oDBH->quoteIdentifier($GLOBALS['_MAX']['CONF']['table']['prefix'].'targetstats',true);
 	    $query = "
-	       UPDATE {$conf['table']['prefix']}targetstats
+	       UPDATE {$table}
 	       set campaignid = clientid";
-	    $this->oDBH->exec($query);
+	    $result = $this->oDBH->exec($query);
+	    if (PEAR::isError($result))
+	    {
+	        return false;
+	    }
+	    return true;
 	}
 }
 
