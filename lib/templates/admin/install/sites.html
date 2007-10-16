@@ -41,12 +41,10 @@ $Id$
 <tr>
 <td valign="top"><img src="images/install-warning.gif"></td><td width="100%" valign="top">
 <br>
-<span class="tab-s">Sites Setup</span>
+<span class="tab-s">Adding sites & Network sign up</span>
 <br>
 <img src="images/break-el.gif" width="100%" height="1" vspace="8"><span class="install">
-Adding sites & Network sign up
- 
-Please add one or more sites where you wish to display advertising managed by Openads. 
+Please add one or more sites where you wish to display advertising managed by Openads. <br/><br/>
 Here you can also choose whether you wish to sign up to Ad Networks. This will allow you to generate revenue immediately from Openads’ partner Networks. 
 In order to be approved by the Ad Networks you will need to provide the country and language of your site as well as choosing the relevant category which reflects its content.
           </span></td>
@@ -107,7 +105,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
         $("#frmOpenads").submit(function() {
           if (installerValidateSites())
           {
-            if (adNetworksSingupsRequested())
+            if (isCaptchaRequired())
             {
               $("#adnetworks-signup-dialog_" + this.id).jqmShow();
             }
