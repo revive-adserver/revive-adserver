@@ -146,13 +146,8 @@ function initAdNetworksSignup(formId, captchaURL)
   { 
     var captcha = $("#captcha", hash.w);
     captcha.attr("src", captchaURL + '&t=' +  new Date().getTime());
-<<<<<<< .working
-    hash.w.fadeIn("fast");
-    $("input[@name='captcha-value']", signupDialog).get(0).focus();       
-=======
     hash.w.fadeIn("fast");
     $("input[@name='captcha-value']", signupDialog).get(0).focus(); 
->>>>>>> .merge-right.r11178
   };  
   
   signupDialog.jqm(
