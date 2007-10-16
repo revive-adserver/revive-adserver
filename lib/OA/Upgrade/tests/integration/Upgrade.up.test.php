@@ -285,30 +285,30 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oPAN->aDsn['database']['name'] = 'pan_test';
         $oUpgrade->oPAN->oDbh = null;
 
-        Mock::generatePartial(
-            'OA_DB_Integrity',
-            'OA_DB_Integrity_for_detectPAN',
-            array('checkIntegrityQuick')
-        );
-        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
-        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+//        Mock::generatePartial(
+//            'OA_DB_Integrity',
+//            'OA_DB_Integrity_for_detectPAN',
+//            array('checkIntegrityQuick')
+//        );
+//        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
+//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+//        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
-        $this->assertFalse($oUpgrade->detectPAN(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version');
-        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_PAN_NOT_INSTALLED,'wrong upgrade status code');
+        $this->assertFalse($oUpgrade->detectPAN(true),'PAN not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'200.311','wrong initial application version expected 200.311 got'.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_PAN_NOT_INSTALLED,'wrong upgrade status code, expected '.OA_STATUS_PAN_NOT_INSTALLED.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
 
-        $this->assertTrue($oUpgrade->detectPAN(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'200.313','wrong initial application version');
-        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
+        $this->assertTrue($oUpgrade->detectPAN(true),'PAN not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'200.313','wrong initial application version expected 200.313 got'.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.0.11_to_2.3.32_beta.xml','wrong package file assigned');
 
         $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'pan_test', '');
 
         $oUpgrade->tally();
         $oUpgrade->oPAN->tally();
-        $oUpgrade->oIntegrity->tally();
+//        $oUpgrade->oIntegrity->tally();
 
         TestEnv::restoreConfig();
     }
@@ -347,30 +347,30 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oPAN->aDsn['database']['name'] = 'm01_test';
         $oUpgrade->oPAN->oDbh = null;
 
-        Mock::generatePartial(
-            'OA_DB_Integrity',
-            'OA_DB_Integrity_for_detectM01',
-            array('checkIntegrityQuick')
-        );
-        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
-        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+//        Mock::generatePartial(
+//            'OA_DB_Integrity',
+//            'OA_DB_Integrity_for_detectM01',
+//            array('checkIntegrityQuick')
+//        );
+//        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectPAN($this);
+//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+//        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
-        $this->assertFalse($oUpgrade->detectMAX01(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'0.000','wrong initial application version');
-        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_M01_VERSION_FAILED,'wrong upgrade status code');
+        $this->assertFalse($oUpgrade->detectMAX01(true),'Max 0.1 not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'0.000','wrong initial application version expected 0.000 got'.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_M01_VERSION_FAILED,'wrong upgrade status code, expected '.OA_STATUS_M01_VERSION_FAILED.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
 
-        $this->assertTrue($oUpgrade->detectMAX01(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'0.100','wrong initial application version');
-        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
+        $this->assertTrue($oUpgrade->detectMAX01(true),'Max 0.1 not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'0.100','wrong initial application version expected 0.100 got'.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.1.29_to_2.3.32_beta.xml','wrong package file assigned');
 
         $this->assertEqual($GLOBALS['_MAX']['CONF']['database']['name'], 'm01_test', '');
 
         $oUpgrade->tally();
         $oUpgrade->oPAN->tally();
-        $oUpgrade->oIntegrity->tally();
+//        $oUpgrade->oIntegrity->tally();
 
         TestEnv::restoreConfig();
     }
@@ -385,30 +385,30 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->initDatabaseConnection();
 
-        Mock::generatePartial(
-            'OA_DB_Integrity',
-            'OA_DB_Integrity_for_detectMax',
-            array('checkIntegrityQuick')
-        );
-        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectMax($this);
-        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
+//        Mock::generatePartial(
+//            'OA_DB_Integrity',
+//            'OA_DB_Integrity_for_detectMax',
+//            array('checkIntegrityQuick')
+//        );
+//        $oUpgrade->oIntegrity = new OA_DB_Integrity_for_detectMax($this);
+//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+//        $oUpgrade->oIntegrity->expectOnce('checkIntegrityQuick');
 
         $this->_createTestAppVarRecord('max_version','v0.3.30-alpha');
-        $this->assertFalse($oUpgrade->detectMAX(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.30-alpha','wrong initial application version');
+        $this->assertFalse($oUpgrade->detectMAX(true),'Max 0.3 not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.30-alpha','wrong initial application version expected v0.3.30-alpha got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_MAX_VERSION_FAILED,'wrong upgrade status code');
         $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
 
         $this->_createTestAppVarRecord('max_version','v0.3.31-alpha');
-        $this->assertTrue($oUpgrade->detectMAX(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.31-alpha','wrong initial application version');
-        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code');
+        $this->assertTrue($oUpgrade->detectMAX(true),'Max 0.3 not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'v0.3.31-alpha','wrong initial application version expected v0.3.31-alpha got'.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.31_to_2.3.32_beta.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('max_version');
 
-        $oUpgrade->oIntegrity->tally();
+//        $oUpgrade->oIntegrity->tally();
     }
 
     /**
@@ -420,27 +420,28 @@ class Test_OA_Upgrade extends UnitTestCase
     {
         $oUpgrade  = new OA_Upgrade();
         $oUpgrade->upgradePath = MAX_PATH.'/lib/OA/Upgrade/tests/data/changes/';
+        $this->assertNull($oUpgrade->versionInitialApplication,'wrong initial application version expected null got'.$oUpgrade->versionInitialApplication);
 
         $GLOBALS['_MAX']['CONF']['openads']['installed'] = true;
 
-        Mock::generatePartial(
-            'OA_DB_Integrity',
-            $mockInteg = 'OA_DB_Integrity'.rand(),
-            array('checkIntegrityQuick')
-        );
-        $oUpgrade->oIntegrity = new $mockInteg($this);
-        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
-        $oUpgrade->oIntegrity->expectCallCount('checkIntegrityQuick',2);
+//        Mock::generatePartial(
+//            'OA_DB_Integrity',
+//            $mockInteg = 'OA_DB_Integrity'.rand(),
+//            array('checkIntegrityQuick')
+//        );
+//        $oUpgrade->oIntegrity = new $mockInteg($this);
+//        $oUpgrade->oIntegrity->setReturnValue('checkIntegrityQuick', true);
+//        $oUpgrade->oIntegrity->expectCallCount('checkIntegrityQuick',2);
 
         $this->_createTestAppVarRecord('oa_version','2.3.31-beta');
-        $this->assertTrue($oUpgrade->detectOpenads(),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertTrue($oUpgrade->detectOpenads(true),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.31-beta','wrong initial application version expected 2.3.31-beta got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.32-beta-rc2.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         $this->_createTestAppVarRecord('oa_version','2.3.32-beta-rc5');
-        $this->assertTrue($oUpgrade->detectOpenads(),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertTrue($oUpgrade->detectOpenads(true),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.32-beta-rc5','wrong initial application version expected 2.3.32-beta-rc5 got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.32-beta-rc10.xml','wrong package file assigned');
@@ -448,13 +449,13 @@ class Test_OA_Upgrade extends UnitTestCase
 
         // testing installation is up to date, no upgrade required
         $this->_createTestAppVarRecord('oa_version',OA_VERSION);
-        $this->assertFalse($oUpgrade->detectOpenads(),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertFalse($oUpgrade->detectOpenads(true),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version expected '.OA_VERSION.' got '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CURRENT_VERSION,'wrong upgrade status code, expected '.OA_STATUS_CURRENT_VERSION.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
-        $oUpgrade->oIntegrity->tally();
+//        $oUpgrade->oIntegrity->tally();
     }
 
     /**
