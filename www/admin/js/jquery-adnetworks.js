@@ -36,6 +36,9 @@ function submitInlineEdit()
   var pubId = this.pubid.value;
   if (validatePublisher(this, "", pubId, ""))
   {
+    if (!$("#adnetworks" + pubId).get(0).checked) {
+      $("#adnetworks_hidden_" + pubId).get(0).value = 'f';
+    }
     $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
     if (adnetworksSettingsChanged(this)) {
       $("#adnetworks-signup-dialog_" + this.id).jqmShow();
@@ -63,7 +66,9 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     $("#url" + fieldSuffix).removeClass("inerror");
   }
 
-  if ($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked)
+  if ($("#adnetworks" + fieldSuffix).get(0).checked ||
+    ($("#selfsignup" + fieldSuffix).get(0) != undefined
+    && $("#selfsignup" + fieldSuffix).get(0).checked))
   {
     if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
     {
@@ -109,7 +114,9 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
   }
 
   return ($("#url" + fieldSuffix).get(0).value.length > 0) &&
-         ( !($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked) || (
+         ( !($("#adnetworks" + fieldSuffix).get(0).checked 
+            || ($("#selfsignup" + fieldSuffix).get(0) != undefined
+            && $("#selfsignup" + fieldSuffix).get(0).checked)) || (
          $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#country" + fieldSuffix).get(0).selectedIndex));

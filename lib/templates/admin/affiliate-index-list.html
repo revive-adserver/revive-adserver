@@ -122,7 +122,7 @@ $Id$
                     {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes' && $oacEnabled!=''} checked="checked"{/if}
                     {if $oacEnabled==''} disabled="disabled"{/if}
                     value="t">
-                {if $affiliate.oac_adnetworks == 'yes'}<input type="hidden" name="adnetworks" value="t">{/if}
+                <input type="hidden" name="adnetworks" id="adnetworks_hidden_{$affiliate.affiliateid|escape}" value="{if $affiliate.oac_adnetworks == 'yes'}t{else}f{/if}">
             </span>
         </td>
         <td height="25">
