@@ -433,23 +433,23 @@ class Test_OA_Upgrade extends UnitTestCase
         $oUpgrade->oIntegrity->expectCallCount('checkIntegrityQuick',2);
 
         $this->_createTestAppVarRecord('oa_version','2.3.31-beta');
-        $this->assertTrue($oUpgrade->detectOpenads(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.31-beta','wrong initial application version '.$oUpgrade->versionInitialApplication);
+        $this->assertTrue($oUpgrade->detectOpenads(),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.31-beta','wrong initial application version expected 2.3.31-beta got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.32-beta-rc2.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         $this->_createTestAppVarRecord('oa_version','2.3.32-beta-rc5');
-        $this->assertTrue($oUpgrade->detectOpenads(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.32-beta-rc5','wrong initial application version '.$oUpgrade->versionInitialApplication);
+        $this->assertTrue($oUpgrade->detectOpenads(),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,'2.3.32-beta-rc5','wrong initial application version expected 2.3.32-beta-rc5 got'.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CAN_UPGRADE,'wrong upgrade status code, expected '.OA_STATUS_CAN_UPGRADE.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], 'openads_upgrade_2.3.32-beta-rc10.xml','wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
 
         // testing installation is up to date, no upgrade required
         $this->_createTestAppVarRecord('oa_version',OA_VERSION);
-        $this->assertFalse($oUpgrade->detectOpenads(),'');
-        $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version '.$oUpgrade->versionInitialApplication);
+        $this->assertFalse($oUpgrade->detectOpenads(),'openads not detected: found application version '.$oUpgrade->versionInitialApplication);
+        $this->assertEqual($oUpgrade->versionInitialApplication,OA_VERSION,'wrong initial application version expected '.OA_VERSION.' got '.$oUpgrade->versionInitialApplication);
         $this->assertEqual($oUpgrade->existing_installation_status, OA_STATUS_CURRENT_VERSION,'wrong upgrade status code, expected '.OA_STATUS_CURRENT_VERSION.' got '.$oUpgrade->existing_installation_status);
         $this->assertEqual($oUpgrade->aPackageList[0], '', 'wrong package file assigned');
         $this->_deleteTestAppVarRecordAllNames('oa_version');
