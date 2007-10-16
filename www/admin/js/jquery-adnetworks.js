@@ -148,11 +148,12 @@ function initAdNetworksSignup(formId, captchaURL)
   { 
     var captcha = $("#captcha", hash.w);
     captcha.attr("src", captchaURL + '&t=' +  new Date().getTime());
-    hash.w.fadeIn("fast"); 
+    hash.w.fadeIn("fast");
+    $("input[@name='captcha-value']", signupDialog).get(0).focus();       
   };  
   
   signupDialog.jqm(
-    { modal: true,
+   { modal: true,
       overlay: 40,
       onShow: onShow}).jqmAddClose($("#dg-cancel", signupDialog));
 

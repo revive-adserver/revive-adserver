@@ -37,18 +37,6 @@ $Id$
 
 <br /><br />
 
-<script language="javascript">
-<!--{literal}
-      $(document).ready(function() {
-        $(":input").keydown(function(event){
-          switch(event.keyCode) {
-            case 13: return false;
-          }
-        });
-      });
-//-->{/literal}
-</script>
-
 <form name='affiliateform' id='affiliateform' method='post' action='affiliate-edit.php'>
 <input type="hidden" name="formId" value="affiliateform">
 <input type='hidden' name='affiliateid' value='{$affiliateid}'>
