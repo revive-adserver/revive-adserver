@@ -48,7 +48,7 @@ define('OA_DAL_CENTRAL_AUTH_CAPTCHA', 2);
 class OA_Dal_Central_Rpc
 {
     /**
-     * @var XML_RPC_Client
+     * @var OA_XML_RPC_Client
      */
     var $oXml;
 

@@ -27,7 +27,7 @@ $Id: Login.php 10874 2007-10-04 15:53:10Z matteo.beccati@openads.org $
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
 
 /**
@@ -36,7 +36,6 @@ require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
  */
 class OA_Dashboard_Widget_Disabled extends OA_Dashboard_Widget
 {
-
     /**
      * A method to launch and display the widget
      *
@@ -47,7 +46,12 @@ class OA_Dashboard_Widget_Disabled extends OA_Dashboard_Widget
 
         $oTpl = new OA_Admin_Template('dashboard/disabled.html');
 
-        $oTpl->assign('loginUrl', MAX::constructURL(MAX_URL_ADMIN, 'settings-admin.php'));
+        $oDashboard = new OA_Central_Dashboard();
+        if (!$oDashboard->oMapper->oRpc->oXml->canUseSSL()) {
+            $oTpl->assign('noSSL', true);
+        } else {
+            $oTpl->assign('settingsUrl', MAX::constructURL(MAX_URL_ADMIN, 'settings-admin.php'));
+        }
 
         $oTpl->display();
     }

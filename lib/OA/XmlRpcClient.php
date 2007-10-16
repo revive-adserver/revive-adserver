@@ -49,6 +49,8 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         if (extension_loaded('curl')) {
             $aCurl = curl_version();
             $this->hasCurl = !empty($aCurl['ssl_version']);
+        } else {
+            $this->hasCurl = false;
         }
 
         parent::XML_RPC_Client($path, $server, $port);
