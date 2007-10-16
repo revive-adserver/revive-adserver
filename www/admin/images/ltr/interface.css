@@ -220,6 +220,13 @@ div.boxrow input {
     vertical-align: middle;
 }
 
+input.accept { 
+    background-image: url('../icon-checkmark.gif'); 
+    background-repeat: no-repeat; 
+    background-position: 4px 3px; 
+    padding-left: 14px; 
+    font-weight:bold; 
+} 
 
 
 /* Custom */
@@ -643,7 +650,8 @@ span.cancel-edit {
   background-image: url('../icon-x.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;
-  padding-left: 20px;
+  padding-left: 15px; 
+  margin-left: 3px;
 }
 
 div.error-box {

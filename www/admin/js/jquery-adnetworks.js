@@ -7,9 +7,8 @@
 function initInlineEdit()
 {
   $("span.start-edit").click(startInlineEdit);
-  $("span.save-edit").click(saveInlineEdit);
   $("span.cancel-edit").click(cancelInlineEdit);
-//  $("input.adn-cb").change(startInlineEdit);
+  $("form[@id^='pub_form']").submit(submitInlineEdit);
 }
 
 function startInlineEdit()
@@ -32,21 +31,20 @@ function cancelInlineEdit()
   $("#required-missing").hide();
 }
 
-function saveInlineEdit()
+function submitInlineEdit()
 {
-  var form = $(this).parents("tr.inline-edit").children().get(0);
-  var pubId = form.pubid.value;
-  if (validatePublisher(form, "", pubId, ""))
+  var pubId = this.pubid.value;
+  if (validatePublisher(this, "", pubId, ""))
   {
     $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
-
-    if(adnetworksSettingsChanged(form)) {
-      $("#adnetworks-signup-dialog_" + $(form).attr("id")).jqmShow();
+    if (adnetworksSettingsChanged(this)) {
+      $("#adnetworks-signup-dialog_" + this.id).jqmShow();
     }
     else {
-      form.submit();
+      return true; //allow submit
     }
   }
+  return false; //bad form, stop submit
 }
 
 // Reimplement using jQuery validation plugin!
@@ -65,7 +63,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     $("#url" + fieldSuffix).removeClass("inerror");
   }
 
-  if ($("#adnetworks" + fieldSuffix).get(0).checked)
+  if ($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked)
   {
     if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
     {
@@ -111,7 +109,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
   }
 
   return ($("#url" + fieldSuffix).get(0).value.length > 0) &&
-         (!$("#adnetworks" + fieldSuffix).get(0).checked || (
+         ( !($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked) || (
          $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#country" + fieldSuffix).get(0).selectedIndex));
@@ -148,8 +146,13 @@ function initAdNetworksSignup(formId, captchaURL)
   { 
     var captcha = $("#captcha", hash.w);
     captcha.attr("src", captchaURL + '&t=' +  new Date().getTime());
+<<<<<<< .working
     hash.w.fadeIn("fast");
     $("input[@name='captcha-value']", signupDialog).get(0).focus();       
+=======
+    hash.w.fadeIn("fast");
+    $("input[@name='captcha-value']", signupDialog).get(0).focus(); 
+>>>>>>> .merge-right.r11178
   };  
   
   signupDialog.jqm(
@@ -206,8 +209,7 @@ function initInstallerSites()
   $("#add-new-site").click(installerAddNewSite);
   $(".remove-site").click(installerRemoveSite);
   $(".site-url").keyup(checkAddSiteEnabled);
-  $(".adnetworks-help").click(showAdNetworksHelp);
-  $(".popup-help").click(hideAdNetworksHelp);
+  initHelp();
   checkAddSiteEnabled();
 }
 
@@ -295,12 +297,12 @@ function installerValidateSites()
   return valid;
 }
 
-function adNetworksSingupsRequested()
+function isCaptchaRequired()
 {
   var form = $("#frmOpenads").get(0);
   var signupRequested = false;
 
-  $(":checkbox[id^=adnetworks]", form).each(function() {
+  $(":checkbox[id^=adnetworks], :checkbox[id^=selfsignup]", form).each(function() {
     if (this.checked) {
       signupRequested = true;
       return false;
@@ -359,12 +361,21 @@ function siteChanged()
   }
 }
 
-function showAdNetworksHelp()
+
+function initHelp() 
 {
+  $(".adnetworks-help").add(".selfsignup-help").click(showHelp);
+  $(".popup-help").click(hideHelp);
+}
+
+
+function showHelp()
+{
+  $(".popup-help").fadeOut("fast");
   $(this).prev().fadeIn("fast").css("display", "inline");
 }
 
-function hideAdNetworksHelp()
+function hideHelp()
 {
   $(this).fadeOut("fast");
 }
@@ -401,6 +412,9 @@ function adnetworksSettingsStore(form)
   if (form.adnetworks) {
     formSettings["adnetworks"] =  form.adnetworks.checked;
   }
+  if (form.selfsignup) {
+    formSettings["selfsignup"] =  form.selfsignup.checked;
+  }
   if (form.country) {
    formSettings["country"] =  form.country.value;
   }
@@ -425,7 +439,41 @@ function adnetworksSettingsChanged(form)
   var formSettings = document.adnetworks[form.id];
 
   return ((form.adnetworks && formSettings["adnetworks"] !=  form.adnetworks.checked)
+  || (form.selfsignup && formSettings["selfsignup"] !=  form.selfsignup.checked)
   || (form.country && formSettings["country"] !=  form.country.value)
   || (form.language  && formSettings["language"] !=  form.language.value)
   || (form.category && formSettings["category"] !=  form.category.value));
+}
+
+/** Advertisers and campaigns **/
+function initRejectedOARows()
+{
+	$(".oa td.sts:contains('Rejected')").each(function() {
+    var cell = $(this);
+    var statusRow = cell.parents("tr").next("tr").hide();     
+
+    cell.css("color", "green").click(function() {
+      statusRow.show();    	
+    });
+	});
+}
+
+function initCampaignStatus()
+{
+    var statusRows = $("[@id^='rsn_row']");
+    
+    if ($("#sts_reject").get(0).checked == false ) {
+        statusRows.hide();
+    }
+    
+    
+    
+    $("input[name='status']").change(function(){
+        if (this.value == "reject") {
+            statusRows.show();    
+        }
+        else {
+            statusRows.hide();
+        }
+    });
 }
