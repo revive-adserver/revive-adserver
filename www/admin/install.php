@@ -490,11 +490,11 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     // We need to pass back the submitted values to the form
                     $oTpl->assign('aSites', $aTplSites);
 
+                    $oTpl->assign('captchaErrorFormId', 'frmOpenads');
                     if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
-                        // Captcha error
-                        $oTpl->assign('captchaErrorFormId', 'frmOpenads');
+                        $oTpl->assign('captchaErrorMsg', "The security code you've provided is incorrect. Please try again.");
                     } else {
-                        // Other error
+                        $oTpl->assign('captchaErrorMsg', $result->getMessage() . " Please try again.");
                     }
 
                     $action = OA_UPGRADE_SITESSETUP;

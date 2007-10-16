@@ -44,10 +44,10 @@ $Id$
 <span class="tab-s">Sites Setup</span>
 <br>
 <img src="images/break-el.gif" width="100%" height="1" vspace="8"><span class="install">
+            <!--A short introduction about this screen goes here...
             A short introduction about this screen goes here...
             A short introduction about this screen goes here...
-            A short introduction about this screen goes here...
-            A short introduction about this screen goes here...
+            A short introduction about this screen goes here...-->
           </span></td>
 </tr>
 </table>
@@ -88,7 +88,7 @@ $Id$
 </div>
 <div class="line-nolabel">
 <input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks{$k}" value="{if $s.adnetworks}true{else}false{/if}" />
-<input type="checkbox" name="aAnCheckbox[]" id="adnetworks{$k}" onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks1" class="cb"{if $s.adnetworks} checked="checked"{/if}>Sign up this site to Ad Networks</label><span class="popup-help hide">
+<input type="checkbox" name="aAnCheckbox[]" id="adnetworks{$k}" {if $s.adnetworks}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks1" class="cb"{if $s.adnetworks} checked="checked"{/if}>Sign up this site to Ad Networks</label><span class="popup-help hide">
 <div class="close" style="text-align: right">
 <span class="link">Close</span>
 </div>
@@ -168,7 +168,7 @@ $Id$
 <div class="close" style="text-align: right">
 <span class="link">Close</span>
 </div>
-            Explanation text Explanation text Explanation text Explanation text Explanation text
+            <!--Explanation text Explanation text Explanation text Explanation text Explanation text -->
           </span><span class="link popup-help-link adnetworks-help">(what's this?)</span>
 </div>
 </div>
