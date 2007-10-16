@@ -88,7 +88,7 @@ $Id$
 </div>
 <div class="line-nolabel">
 <input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks{$k}" value="{if $s.adnetworks}true{else}false{/if}" />
-<input type="checkbox" name="aAnCheckbox[]" id="adnetworks{$k}" {if $s.adnetworks}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks1" class="cb"{if $s.adnetworks} checked="checked"{/if}>Sign up this site to Ad Networks</label><span class="popup-help hide">
+<input type="checkbox" name="aAnCheckbox[]" id="adnetworks{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.adnetworks}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks1" class="cb"{if $s.adnetworks} checked="checked"{/if}>Sign up this site to Ad Networks</label><span class="popup-help hide">
 <div class="close" style="text-align: right">
 <span class="link">Close</span>
 </div>

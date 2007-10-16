@@ -64,7 +64,7 @@ class MAX_Admin_Preferences
     function check($name, $expectedValue)
     {
         if (!isset($GLOBALS['_MAX']['PREF'])) {
-            $this->loadPrefs();
+            MAX_Admin_Preferences::loadPrefs();
         }
         $pref = $GLOBALS['_MAX']['PREF'];
         return (isset($pref[$name]) && $pref[$name] == $expectedValue);
@@ -80,7 +80,7 @@ class MAX_Admin_Preferences
      */
     function checkBool($name, $expectedValue)
     {
-        $expected = ($expectedValue == MAX_PREFERENCE_TRUE) ? true : false;
+        $expected = ($expectedValue == MAX_PREFERENCE_TRUE) ? 't' : 'f';
         return MAX_Admin_Preferences::check($name, $expected);
     }
 

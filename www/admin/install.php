@@ -490,6 +490,9 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     // We need to pass back the submitted values to the form
                     $oTpl->assign('aSites', $aTplSites);
 
+                    require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+                    $oTpl->assign('syncEnabled', MAX_Admin_Preferences::checkBool('updates_enabled', true));
+
                     $oTpl->assign('captchaErrorFormId', 'frmOpenads');
                     if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
                         $oTpl->assign('captchaErrorMsg', "The security code you've provided is incorrect. Please try again.");
@@ -593,6 +596,9 @@ else if (array_key_exists('btn_sitessetup', $_POST))
             $oTpl->assign('aSites', array(
                 1 => array('url' => '')
             ));
+            
+            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+            $oTpl->assign('syncEnabled', MAX_Admin_Preferences::checkBool('updates_enabled', true));
 
             $action = OA_UPGRADE_SITESSETUP;
         }
