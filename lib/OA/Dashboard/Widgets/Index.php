@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
+require_once MAX_PATH . '/lib/OA/Central/Dashboard.php';
 
 /**
  * A class to display the dashboard iframe container
