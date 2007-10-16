@@ -77,7 +77,7 @@ class DataObjects_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($doCampaigns_trackers->count(), $numTrackers);
 
         // Delete any data which wasn't created by DataGenerator
-        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers'));
+        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers','trackers'));
     }
 
 }

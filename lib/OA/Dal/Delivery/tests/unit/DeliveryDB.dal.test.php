@@ -53,6 +53,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->oDbh = OA_DB::singleton();
         $aConf = $GLOBALS['_MAX']['CONF'];
         $this->prefix = $aConf['table']['prefix'];
+        TestEnv::restoreEnv();
         $error = TestEnv::loadData('0.3.27_delivery', 'insert');
     }
 

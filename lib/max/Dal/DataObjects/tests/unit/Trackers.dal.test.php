@@ -115,6 +115,9 @@ class DataObjects_TrackersTest extends DalUnitTestCase
         // Assert the only difference in the campaign trackers is the trackers they are attached to
         $doCampaignTrackers->trackerid = $doNewCampaignTrackers->trackerid = null;
         $this->assertEqualDataObjects($this->stripKeys($doCampaignTrackers), $this->stripKeys($doNewCampaignTrackers));
+
+        DataGenerator::cleanUp(array('campaigns', 'campaigns_trackers','trackers','variables'));
+
     }
 
 }
