@@ -122,7 +122,7 @@ $Id$
                     {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes' && $oacEnabled!=''} checked="checked"{/if}
                     {if $oacEnabled==''} disabled="disabled"{/if}
                     value="t">
-                <input type="hidden" name="adnetworks" id="adnetworks_hidden_{$affiliate.affiliateid|escape}" value="{if $affiliate.oac_adnetworks == 'yes'}t{else}f{/if}">
+                {if $affiliate.oac_adnetworks == 'yes'}<input id="adnetworks_hidden_{$affiliate.affiliateid|escape}" type="hidden" name="adnetworks" value="t">{/if}
             </span>
         </td>
         <td height="25">
@@ -141,10 +141,10 @@ $Id$
 
             {include file=adnetworks-signup-dialog.html formId='pub_form_'|cat:$affiliate.affiliateid}
         </td>
-        <script type="text/javascript">
-          adnetworksSettingsStore($("#pub_form_{$affiliate.affiliateid|escape}").get(0));
-        </script>
     </form>
+    <script type="text/javascript">
+      adnetworksSettingsStore($("#pub_form_{$affiliate.affiliateid|escape}").get(0));
+    </script>
 </tr>
 <tr height="1">
     <td colspan="11" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
