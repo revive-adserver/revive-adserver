@@ -36,9 +36,6 @@ function submitInlineEdit()
   var pubId = this.pubid.value;
   if (validatePublisher(this, "", pubId, ""))
   {
-    if (!$("#adnetworks" + pubId).get(0).checked) {
-      $("#adnetworks_hidden_" + pubId).get(0).value = 'f';
-    }
     $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
     if (adnetworksSettingsChanged(this)) {
       $("#adnetworks-signup-dialog_" + this.id).jqmShow();
@@ -191,12 +188,12 @@ function initFindOtherNetworks()
   $("#findnetworksform select").change(function() {
     var country = $("select#country").attr("value");
     var language = $("select#language").attr("value");
-    $("#other-networks-table").slideUp("slow");
+    $("#other-networks-table").fadeOut("slow");
     $.get("./ajax/ajax-response-find-other-networks.php",
       { country: country, language: language },
       function(html) {
         $("#other-networks-table").empty().append(html);
-	      $("#other-networks-table").slideDown("slow");
+	      $("#other-networks-table").fadeIn("slow");
       }
     );
   });
@@ -432,11 +429,22 @@ function adnetworksSettingsChanged(form)
   }
 
   var formSettings = document.adnetworks[form.id];
-
-  return ((form.adnetworks && formSettings["adnetworks"] !=  form.adnetworks.checked)
-  || (form.country && formSettings["country"] !=  form.country.value)
-  || (form.language  && formSettings["language"] !=  form.language.value)
-  || (form.category && formSettings["category"] !=  form.category.value));
+  
+  var result = false;  
+  //show captcha if 
+  // 1) signing  up
+  result = (form.adnetworks && 
+    formSettings["adnetworks"] == false && form.adnetworks.checked);
+    
+  // 2) already signed up and changed cat/lang/cntry
+  result = result || (form.adnetworks && formSettings["adnetworks"] == true &&  
+    form.adnetworks.checked) &&  
+    ((form.country && formSettings["country"] !=  form.country.value)
+      || (form.language  && formSettings["language"] !=  form.language.value)
+      || (form.category && formSettings["category"] !=  form.category.value));
+      
+  //when unsigning or signed up and no changes do nothing
+  return result;    
 }
 
 /** Advertisers and campaigns **/
