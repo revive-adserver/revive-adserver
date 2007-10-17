@@ -203,7 +203,9 @@ class OA_Maintenance
                 // Send the advertiser's campaign delivery report
                 $aEmail = OA_Email::preparePlacementDeliveryEmail($aAdvertiser['clientid'], $oReportLastDate, $oReportEndDate);
                 if ($aEmail !== false) {
-                    OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                    if (!isset($aEmail['hasAdviews']) || $aEmail['hasAdviews'] !== false) {
+                        OA_Email::sendMail($aEmail['subject'], $aEmail['contents'], $aEmail['userEmail'], $aEmail['userName']);
+                    }
                     // Update the last run date to "today"
                     OA::debug('   - Updating the date the report was last sent for advertiser ID ' . $aAdvertiser['clientid'] . '.', PEAR_LOG_DEBUG);
                     $doUpdateClients = OA_Dal::factoryDO('clients');

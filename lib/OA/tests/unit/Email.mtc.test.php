@@ -161,7 +161,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, Openads Ltd.";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
         $this->assertEqual($aResult['userName'], $name);
         $this->assertEqual($aResult['subject'], $expectedSubject);
@@ -190,7 +190,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "There are no statistics available for this campaign\n\n\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, Openads Ltd.";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
         $this->assertEqual($aResult['userName'], $name);
         $this->assertEqual($aResult['subject'], $expectedSubject);
@@ -203,7 +203,7 @@ class Test_OA_Email extends UnitTestCase
         $adId1 = DataGenerator::generateOne($doBanners);
         $aResult = OA_Email::preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate);
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
         $this->assertEqual($aResult['userName'], $name);
         $this->assertEqual($aResult['subject'], $expectedSubject);
@@ -244,7 +244,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, Openads Ltd.";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
         $this->assertEqual($aResult['userName'], $name);
         $this->assertEqual($aResult['subject'], $expectedSubject);
@@ -306,7 +306,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, Openads Ltd.";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
         $this->assertEqual($aResult['userName'], $name);
         $this->assertEqual($aResult['subject'], $expectedSubject);
@@ -373,7 +373,7 @@ class Test_OA_Email extends UnitTestCase
         $expectedContents .= "\n\n";
         $expectedContents .= "Regards,\n   Andrew Hill, Openads Ltd.";
         $this->assertTrue(is_array($aResult));
-        $this->assertEqual(count($aResult), 4);
+        $this->assertEqual(count($aResult), 5);
         $this->assertEqual($aResult['userEmail'], $email);
         $this->assertEqual($aResult['userName'], $name);
         $this->assertEqual($aResult['subject'], $expectedSubject);

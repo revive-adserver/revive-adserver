@@ -75,7 +75,8 @@ class OA_Email
             'subject'   => '',
             'contents'  => '',
             'userEmail' => '',
-            'userName'  => null
+            'userName'  => null,
+            'hasAdviews' => false,
         );
 
         // Get the advertiser's details
@@ -96,10 +97,10 @@ class OA_Email
         }
 
         // Prepare the email body
-        $emailBody = OA_Email::_preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
+        $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
 
         // Was anything found?
-        if ($emailBody == '') {
+        if ($aEmailBody['body'] == '') {
             OA::debug('   - No placements with delivery for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
             return false;
         }
@@ -130,16 +131,17 @@ class OA_Email
         $email = str_replace("{enddate}", $oEndDate->format($date_format), $email);
 
         // Prepare the final email - add the report body
-        $email .= "$emailBody\n";
+        $email .= "{$aEmailBody['body']}\n";
 
         // Prepare the final email - add the "regards" signature
         $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
 
         // Prepare & return the final email array
-        $aResult['subject']   = $strMailSubject . ': ' . $aAdvertiser['clientname'];
-        $aResult['contents']  = $email;
-        $aResult['userEmail'] = $aAdvertiser['email'];
-        $aResult['userName']  = $aAdvertiser['contact'];
+        $aResult['subject']    = $strMailSubject . ': ' . $aAdvertiser['clientname'];
+        $aResult['contents']   = $email;
+        $aResult['userEmail']  = $aAdvertiser['email'];
+        $aResult['userName']   = $aAdvertiser['contact'];
+        $aResult['hasAdviews'] = ($aEmailBody['adviews'] > 0);
         return $aResult;
     }
 
@@ -186,6 +188,7 @@ class OA_Email
 
         // Prepare the result
         $emailBody = '';
+        $totalAdviewsInPeriod = 0;
 
         // Fetch all the advertiser's placements
         $doPlacements = OA_Dal::factoryDO('campaigns');
@@ -234,7 +237,9 @@ class OA_Email
                                 $emailBody .= sprintf($adTextPrint, $strTotalImpressions) . ': ';
                                 $emailBody .= sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
                                 // Fetch the ad's impressions for the report period, grouped by day
-                                $emailBody .= OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
+                                $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
+                                $emailBody .= $aEmailBody['body'];
+                                $totalAdviewsInPeriod += $aEmailBody['adviews'];
                             }
                             if ($adClicks > 0) {
                                 // The ad has clicks
@@ -242,7 +247,9 @@ class OA_Email
                                 $emailBody .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ';
                                 $emailBody .= sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
                                 // Fetch the ad's clicks for the report period, grouped by day
-                                $emailBody .= OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
+                                $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
+                                $emailBody .= $aEmailBody['body'];
+                                $totalAdviewsInPeriod += $aEmailBody['adviews'];
                             }
                             if ($adConversions > 0) {
                                 // The ad has conversions
@@ -250,7 +257,9 @@ class OA_Email
                                 $emailBody .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ';
                                 $emailBody .= sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
                                 // Fetch the ad's conversions for the report period, grouped by day
-                                $emailBody .= OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
+                                $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
+                                $emailBody .= $aEmailBody['body'];
+                                $totalAdviewsInPeriod += $aEmailBody['adviews'];
                             }
                             $emailBody .= "\n";
                         }
@@ -264,7 +273,10 @@ class OA_Email
         }
 
         // Return the email body
-        return $emailBody;
+        return array(
+            'body'    => $emailBody,
+            'adviews' => $totalAdviewsInPeriod,
+        );
     }
 
     /**
@@ -279,7 +291,9 @@ class OA_Email
      * @param string     $type         One of "impressions", "clicks" or "conversions".
      * @param string     $adTextPrint  An sprintf compatible formatting string for use
      *                                 with the $strTotalThisPeriod global string.
-     * @return string The ad statistics part of the report.
+     * @return an array with
+     *      'body'      => string The ad statistics part of the report.
+     *      'adviews'   => int    Adviews in this period
      */
     function _preparePlacementDeliveryEmailBodyStats($adId, $oStartDate, $oEndDate, $type, $adTextPrint)
     {
@@ -304,11 +318,16 @@ class OA_Email
         } else if ($type == 'conversions') {
             $nothingLogged = $strNoConversionLoggedInInterval;
         } else {
-            return '';
+            return array (
+                'body'    => '',
+                'adviews' => 0,
+            );
         }
 
         // Prepare the result
         $emailBodyStats = '';
+
+        $total = 0;
 
         // Fetch the ad's stats for the report period, grouped by day
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -326,7 +345,6 @@ class OA_Email
         $doDataSummaryAdHourly->find();
         if ($doDataSummaryAdHourly->getRowCount() > 0) {
             // The ad has statistics this period, add them to the report
-            $total = 0;
             while ($doDataSummaryAdHourly->fetch()) {
                 // Add this day's statistics
                 $aAdQuantity = $doDataSummaryAdHourly->toArray();
@@ -343,7 +361,10 @@ class OA_Email
         }
 
         // Return the result for the ad's stats
-        return $emailBodyStats;
+        return array(
+            'body'    => $emailBodyStats,
+            'adviews' => $total,
+        );
     }
 
     /**
