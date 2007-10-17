@@ -36,6 +36,9 @@ function submitInlineEdit()
   var pubId = this.pubid.value;
   if (validatePublisher(this, "", pubId, ""))
   {
+    if (!$("#adnetworks" + pubId).get(0).checked) {
+      $("#adnetworks_hidden_" + pubId).get(0).value = 'f';
+    }
     $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
     if (adnetworksSettingsChanged(this)) {
       $("#adnetworks-signup-dialog_" + this.id).jqmShow();
@@ -63,7 +66,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     $("#url" + fieldSuffix).removeClass("inerror");
   }
 
-  if ($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked)
+  if ($("#adnetworks" + fieldSuffix).get(0).checked)
   {
     if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
     {
@@ -109,7 +112,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
   }
 
   return ($("#url" + fieldSuffix).get(0).value.length > 0) &&
-         ( !($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked) || (
+         (!($("#adnetworks" + fieldSuffix).get(0).checked) || (
          $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#country" + fieldSuffix).get(0).selectedIndex));
@@ -297,7 +300,7 @@ function isCaptchaRequired()
   var form = $("#frmOpenads").get(0);
   var signupRequested = false;
 
-  $(":checkbox[id^=adnetworks], :checkbox[id^=selfsignup]", form).each(function() {
+  $(":checkbox[id^=adnetworks]", form).each(function() {
     if (this.checked) {
       signupRequested = true;
       return false;
@@ -359,7 +362,7 @@ function siteChanged()
 
 function initHelp() 
 {
-  $(".adnetworks-help").add(".selfsignup-help").click(showInstallerHelp);
+  $(".adnetworks-help").click(showInstallerHelp);
   $(".popup-help").click(hideInstallerHelp);
 }
 
@@ -407,9 +410,6 @@ function adnetworksSettingsStore(form)
   if (form.adnetworks) {
     formSettings["adnetworks"] =  form.adnetworks.checked;
   }
-  if (form.selfsignup) {
-    formSettings["selfsignup"] =  form.selfsignup.checked;
-  }
   if (form.country) {
    formSettings["country"] =  form.country.value;
   }
@@ -434,7 +434,6 @@ function adnetworksSettingsChanged(form)
   var formSettings = document.adnetworks[form.id];
 
   return ((form.adnetworks && formSettings["adnetworks"] !=  form.adnetworks.checked)
-  || (form.selfsignup && formSettings["selfsignup"] !=  form.selfsignup.checked)
   || (form.country && formSettings["country"] !=  form.country.value)
   || (form.language  && formSettings["language"] !=  form.language.value)
   || (form.category && formSettings["category"] !=  form.category.value));
