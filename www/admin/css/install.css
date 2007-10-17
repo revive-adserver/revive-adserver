@@ -406,3 +406,23 @@ div.zone-title {
   text-align: right;
   padding-bottom: 3px;
 }
+
+.popup-help .long-help-text {
+  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+.long-help-text li, ol {
+  margin: 0;
+  padding: 0;
+}
+
+.long-help-text ol {
+  margin-left: 2em;
+}
+
+.long-help-text li {
+  margin-bottom: 1ex;
+}
