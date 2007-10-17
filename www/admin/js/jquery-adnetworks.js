@@ -366,18 +366,18 @@ function siteChanged()
 
 function initHelp() 
 {
-  $(".adnetworks-help").add(".selfsignup-help").click(showHelp);
-  $(".popup-help").click(hideHelp);
+  $(".adnetworks-help").add(".selfsignup-help").click(showInstallerHelp);
+  $(".popup-help").click(hideInstallerHelp);
 }
 
 
-function showHelp()
+function showInstallerHelp()
 {
   $(".popup-help").fadeOut("fast");
   $(this).prev().fadeIn("fast").css("display", "inline");
 }
 
-function hideHelp()
+function hideInstallerHelp()
 {
   $(this).fadeOut("fast");
 }

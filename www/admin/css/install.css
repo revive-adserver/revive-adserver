@@ -241,7 +241,7 @@ input.add-new-site {
   color: #a0a0a0;
 }
 
-div.one-site .remove-site-cont {
+div.one-site .remove-site-cont, div.one-site input.remove-site {
   display: none;
 }
 
