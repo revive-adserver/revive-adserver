@@ -126,6 +126,87 @@ class TestEnv
     }
 
     /**
+     * useful for refactoring sql to dataobjects
+     *
+     * read some test data from a resource (file)
+     * convert SQL statements into dataobject calls
+     *
+     * @param string $source A filename
+     * @param string $mode 'insert / update / delete'
+     * @return void
+     */
+    function convertDataSQLtoDBO($source, $mode)
+    {
+        $aDataset   = TestEnv::getDataSQL($source, $mode);
+        $pattern    = "INSERT INTO (?P<table>[\w\W]+) \((?P<columns>[\w\W\s]+)\) VALUES \((?P<values>[\W\w\S]+)\);";
+        foreach ($aDataset as $k => $v)
+        {
+            switch ($mode)
+            {
+                case 'insert':
+                    if (preg_match("/{$pattern}/U",$v, $aMatches))
+                    {
+                        $aColumns   = explode(',',$aMatches['columns']);
+                        $aValues    = explode(",",$aMatches['values']);
+                        $aTables[$aMatches['table']][]  = array('columns' => $aColumns, 'values' => $aValues);
+                    }
+                    break;
+            }
+        }
+        $fh = fopen(MAX_PATH . "/var/testdata.php", 'w');
+        fwrite($fh, "<?php\n\n");
+        $stat1  = '$a%s[\'%s\'] = %s;';
+        $stat2  = "\$id%s%s = \$this->_insert%s(\$a%s);";
+        foreach ($aTables AS $tableRaw => $array)
+        {
+            $i = 0;
+            $tableBits  = explode('_',$tableRaw);
+            $tableCamel = '';
+            foreach ($tableBits as $val)
+            {
+                $tableCamel.= ucfirst($val);
+            }
+            foreach ($array AS $k => $v)
+            {
+                $i++;
+                foreach ($v['columns'] AS $k => $column)
+                {
+                    $line = sprintf($stat1, $tableCamel, $column, $v['values'][$k])."\n";
+                    fwrite($fh, $line);
+                }
+                $line = sprintf($stat2, $tableCamel, $i, $tableCamel, $tableCamel)."\n\n";
+                fwrite($fh, $line);
+            }
+        }
+        fwrite($fh, "?>\n\n");
+        fclose($fh);
+        return;
+    }
+
+    /**
+     * work in progress
+     * refactoring of data loading
+     * using dataobjects
+     * see testData_0.3.27_delivery_refactored.php
+     *
+     *
+     * @param string $source
+     */
+    function loadTestData($source)
+    {
+        if (file_exists(MAX_PATH . "/tests/data/testData_{$source}.php"))
+        {
+            $classname = 'OA_Test_Data_'.str_replace('.','_',$source);
+            require_once(MAX_PATH . "/tests/data/testData_{$source}.php");
+            if (class_exists($classname))
+            {
+                $obj = new $classname;
+                $obj->generateTestData();
+            }
+        }
+    }
+
+    /**
      * read some test data from a resource (file)
      *
      * return a dataset array in 'text' mode
