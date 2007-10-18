@@ -178,7 +178,9 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
     $usertypebuffer = '';
     $helpbuffer     = '';
     $i = 0;
-    foreach ($data as $section) {
+    $count = count($data);
+    for ($i = 0; $i < $count; $i++) {
+    	$section = $data[$i];
         if (!isset($section['visible']) || $section['visible']) {
             if (isset($errors[$i])) {
                 phpAds_ShowSettings_StartSection($section['text'], $errors[$i], $disableSubmit, $imgPath);
@@ -266,7 +268,6 @@ function phpAds_ShowSettings($data, $errors = array(), $disableSubmit=0, $imgPat
             }
             phpAds_ShowSettings_EndSection();
         }
-        $i++;
     }
     //if ($conf['openads']['installed'])
     if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
