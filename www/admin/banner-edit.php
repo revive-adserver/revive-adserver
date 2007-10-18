@@ -149,13 +149,36 @@ if (isset($submit)) {
         $aVariables['keyword'] = '';
     }
 
+    $editSwf = false;
+
+    // Deal with any files that are uploaded.
+    if (!empty($_FILES['upload']) && $replaceimage == 't') {
+        $aFile = _handleUploadedFile('upload', $type);
+        if (!empty($aFile)) {
+            $aVariables['filename']      = $aFile['filename'];
+            $aVariables['contenttype']   = $aFile['contenttype'];
+            $aVariables['width']         = $aFile['width'];
+            $aVariables['height']        = $aFile['height'];
+            $aVariables['pluginversion'] = $aFile['pluginversion'];
+            $editSwf                     = $aFile['editswf'];
+        }
+    }
+    if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
+        $aFile = _handleUploadedFile('uploadalt', $type, true);
+        if (!empty($aFile)) {
+            $aVariables['alt_filename']    = $aFile['filename'];
+            $aVariables['alt_contenttype'] = $aFile['contenttype'];
+        }
+    }
+
     // Handle SWF transparency
     if ($aVariables['contenttype'] == 'swf') {
         $aVariables['transparent'] = isset($transparent) && $transparent ? 1 : 0;
     }
 
-    // Update existing hard-coded links
-    if ($aVariables['contenttype'] == 'swf' && isset($alink) && is_array($alink) && count($alink)) {
+    // Update existing hard-coded links if new file has not been uploaded
+    if ($aVariables['contenttype'] == 'swf' && empty($_FILES['upload']['tmp_name'])
+        && isset($alink) && is_array($alink) && count($alink)) {
         // Prepare the parameters
         $parameters_complete = array();
 
@@ -193,32 +216,10 @@ if (isset($submit)) {
 
     $aVariables['parameters'] = serialize($parameters);
 
-    $editSwf = false;
-
     // Add variables from plugins
     foreach ($invPlugins as $plugin) {
         foreach ($plugin->prepareVariables() as $k => $v) {
             $sqlupdate[] = "{$k}='{$v}'";
-        }
-    }
-
-    // Deal with any files that are uploaded.
-    if (!empty($_FILES['upload']) && $replaceimage == 't') {
-        $aFile = _handleUploadedFile('upload', $type);
-        if (!empty($aFile)) {
-            $aVariables['filename']      = $aFile['filename'];
-            $aVariables['contenttype']   = $aFile['contenttype'];
-            $aVariables['width']         = $aFile['width'];
-            $aVariables['height']        = $aFile['height'];
-            $aVariables['pluginversion'] = $aFile['pluginversion'];
-            $editSwf                     = $aFile['editswf'];
-        }
-    }
-    if (!empty($_FILES['uploadalt']) && $replacealtimage == 't') {
-        $aFile = _handleUploadedFile('uploadalt', $type, true);
-        if (!empty($aFile)) {
-            $aVariables['alt_filename']    = $aFile['filename'];
-            $aVariables['alt_contenttype'] = $aFile['contenttype'];
         }
     }
 
