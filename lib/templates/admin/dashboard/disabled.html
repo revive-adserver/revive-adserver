@@ -48,14 +48,14 @@ $Id: login.html 10822 2007-10-03 14:47:48Z bernard.lange@openads.org $
                 <h1 style="margin-top: 70px">Your home page is disabled</h1>
 
 {if $noSSL}
-                <p style="color: red">Your installation does not currently support SSL.</p>
+                <p style="color: red">Your installation does not currently support SSL</p>
                 <p>
-                    In order to access the Home page, your ad server must be able to communicate your
-                    single sign-on account details to our central systems securely, using secure socket layer (SSL).
+                    To access the Home page, your ad server must be able to log on securely to our central
+                    system, using secure socket layer (SSL).
                 </p>
                 <p>
-                    Unfortunately your PHP installation does not currently support SSL. More information
-                    on resolving this problem can be found <a href="#" target="_blank">here</a>.
+                    It is necessary to install a PHP extension to communicate with SSL, either openssl or
+                    SSL-enabled curl. For more information contact your system administrator.
                 </p>
 {else}
                 <p style="margin-top: 70px">You have choosen to disable your Home page.
