@@ -472,6 +472,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-1.2.1.min.js"></script>';
     echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jqModal.js"></script>';
     echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-adnetworks.js"></script>';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-ifixpng.js"></script>';
     echo "\n";
 
     // Show Moz site bar

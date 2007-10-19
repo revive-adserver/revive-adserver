@@ -1,3 +1,8 @@
+$(document).ready(function(){
+	//fix all png files in IE 6
+	$("img[@src$='.png']").ifixpng(); 
+});
+
 /**
  * Javascript required for Ad Networks screens
  *
