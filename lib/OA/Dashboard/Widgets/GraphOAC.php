@@ -37,7 +37,7 @@ class OA_Dashboard_Widget_GraphOAC extends OA_Dashboard_Widget_Graph
 {
     function OA_Dashboard_Widget_GraphOAC($aParams)
     {
-        parent::OA_Dashboard_Widget_Graph($aParams, 'OAC Graph');
+        parent::OA_Dashboard_Widget_Graph($aParams);
 
         $this->oTpl->setCacheLifetime(new Date_Span('0-8-0-0'));
 

@@ -38,7 +38,13 @@ $Id$
 {if $extensionLoaded}
 <img id="graph" src="{$imageSrc|escape}" />
 {else}
-The GD extension is not available, this widget cannot be drawn.
+<p style="margin-top: 1em; text-align: justify">
+    Sorry, you cannot see this graph because the GD graphics extension is missing
+    from your PHP installation.
+</p>
+<p>
+    Please contact your system administrator to have it installed.
+</p>
 {/if}
 </body>
 </html>
