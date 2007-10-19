@@ -48,22 +48,22 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
      * The class constructor
      *
      * @param array $aParams The parameters array, usually $_REQUEST
-     * @param string $title
      * @return OA_Dashboard_Widget_Feed
      */
-    function OA_Dashboard_Widget_Graph($aParams, $title)
+    function OA_Dashboard_Widget_Graph($aParams)
     {
         parent::OA_Dashboard_Widget($aParams);
 
-        $this->title = $title;
-        $this->draw = !empty($aParams['draw']);
+        $gdAvailable = extension_loaded('gd');
+
+        $this->draw = $gdAvailable && !empty($aParams['draw']);
 
         $this->setDummyData();
 
         $this->oTpl = new OA_Admin_Template($this->draw ? 'passthrough.html' : 'dashboard/graph.html');
         $this->oTpl->setCacheId($title);
 
-        $this->oTpl->assign('extensionLoaded', extension_loaded('gd'));
+        $this->oTpl->assign('extensionLoaded', $gdAvailable);
     }
 
     function isDataRequired()
