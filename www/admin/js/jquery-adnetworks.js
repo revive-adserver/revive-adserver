@@ -168,8 +168,6 @@ function initAdNetworksSignup(formId, captchaURL)
   }
 
   $("#dg-submit", signupDialog).click(function() {
-    var value = this.form['captcha-value'].value;
-
     this.form.submit();
   });
 }
