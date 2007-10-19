@@ -151,10 +151,11 @@ function initAdNetworksSignup(formId, captchaURL)
   { 
     var captcha = $("#captcha", hash.w);
     var time = new Date().getTime();
-    $("#captcha-random").attr("value", time);
+    $("#captcha-random", signupDialog).attr("value", time);
     captcha.attr("src", captchaURL + '&t=' +  time);
-    hash.w.fadeIn("fast");
-    $("input[@name='captcha-value']", signupDialog).get(0).focus(); 
+    hash.w.fadeIn("fast", function() {
+      $("input[@name='captcha-value']", signupDialog).get(0).focus();
+    });
   };  
   
   signupDialog.jqm(
