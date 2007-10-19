@@ -143,8 +143,6 @@ function initAdNetworksSignup(formId, captchaURL)
   var form = $(formId);
   var signupDialog = $("#adnetworks-signup-dialog_" + formId);
   
-  //captchaURL = "http://localhost:8080/oac/captcha?ph=3e833f5f83358af88f14cd4089dbc5df1d7ebdd1";
-  
   var onShow = function(hash)
   { 
     var captcha = $("#captcha", hash.w);
