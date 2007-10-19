@@ -585,6 +585,7 @@ $GLOBALS['strNoAffiliates']                = "There are currently no publishers 
 $GLOBALS['strConfirmDeleteAffiliate']    = "Do you really want to delete this publisher?";
 $GLOBALS['strMakePublisherPublic']        = "Make the zones owned by this publisher publically available";
 $GLOBALS['strAffiliateInvocation']      = 'Invocation Code';
+$GLOBALS['strAdvertiserSetup']          = 'Advertiser Sign Up';
 $GLOBALS['strTotalAffiliates']          = 'Total publishers';
 $GLOBALS['strInactiveAffiliatesHidden'] = "inactive publisher(s) hidden";
 $GLOBALS['strShowParentAffiliates']     = "Show parent publishers";

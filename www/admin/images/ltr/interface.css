@@ -220,13 +220,13 @@ div.boxrow input {
     vertical-align: middle;
 }
 
-input.accept { 
-    background-image: url('../icon-checkmark.gif'); 
-    background-repeat: no-repeat; 
-    background-position: 4px 3px; 
-    padding-left: 14px; 
-    font-weight:bold; 
-} 
+ input.accept {
+  background-image: url('../icon-checkmark.gif');
+  background-repeat: no-repeat;
+  background-position: 4px 3px;
+  padding-left: 14px;
+  font-weight:bold;
+ }
 
 
 /* Custom */
@@ -553,26 +553,22 @@ a.time:before
 /** Extra CSS adde for AdNetworks integration */
 .section .title {
     font-weight: bold;	
-    margin-bottom: 5px;	
     padding: 5px 0px;
     border-bottom: 1px solid #CFCFCF;  
 }
 
 .section .content {
-  padding-left: 15px;
+    padding-top: 5px; 
+    padding-left: 15px;
 }
 
 .adnetworks-section {
-   /*background-color: #F1F7E2;*/
    border: 1px solid #CFCFCF;  
    padding-bottom: 10px;
 }
 
 .adnetworks-section .title {
-  
-   /*background-color: #F1F7E2;*/
    background-color: #545496;
-   /*background-color: #A9C94F;*/ 
    color: white;
 }
 
@@ -582,6 +578,19 @@ a.time:before
 
 .adnetworks-filled-section {
    background-color: #F6F6E6; /*#F1F7E2;*/
+}
+
+.even {
+  background-color: #F6F6F6;
+}
+
+.odd {
+  background-color: #FFFFFF;
+}
+
+table.data-grid th {
+  font-weight: bold;
+  text-align: left;
 }
 
 table.data-grid tr.data:hover {
@@ -650,7 +659,7 @@ span.cancel-edit {
   background-image: url('../icon-x.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;
-  padding-left: 15px; 
+  padding-left: 15px;
   margin-left: 3px;
 }
 
@@ -675,6 +684,10 @@ select.inerror, input.inerror {
 select.inline {
   margin-bottom: 2px;
   margin-top: 2px;
+}
+
+.main-submit {
+    font-weight: bold;  
 }
 
 form.new-form div.line:after, .clearfix:after {
@@ -702,6 +715,10 @@ form.new-form label.left {
 
 form.new-form input[type='checkbox'] {
   margin: 3px 5px 3px 0;
+}
+
+.line-cb {
+  margin: 0px 2px 0 2px;
 }
 
 form.new-form label.cb {
@@ -755,3 +772,96 @@ a.adv-list-entry {
   margin-top: 15px;
 }
 
+/** advertisers **/
+
+.oa {
+  background-color: #EFFBDE; /*#E7F7CE;*/
+}
+
+.space td {
+  height: 9px;
+}
+
+.break td {
+  background-color: #888888;
+  height: 1px;
+}
+
+.sts {
+  padding: 0px 5px;
+}
+
+.sts-accepted, .sts-not-started, .sts-finished {
+  color: green; /*#547852;*/
+}
+
+.sts-rejected, .sts-pending, .sts-paused {
+    color: #777777;
+}
+
+.sts-pending, .sts-paused {
+  font-style: italic;
+}
+
+.sts-awaiting, .sts-awaiting:hover {
+  color: #EF0E17 !important;
+}
+
+.sts-reason {
+  display: none;
+  background-color: #F9FFD0;
+}
+
+.dev-note {
+    padding: 15px;
+    color: #00;
+    background-color: #F7FFC0;
+    border: 1px solid #D7D7D7;
+    width: 90%;
+    margin: 15px 0px;
+} 
+
+/* HELP */
+.popup-help {
+  position: absolute;
+  z-index: 1;
+  border: 1px solid #666666;
+  background-color: #ffffcc;
+  padding: 7px;
+  -moz-border-radius: 8px;
+  margin-top: -100px;
+  height: 90px;
+  width: 190px;
+  margin-left: 20px;
+  font-weight: normal;
+}
+
+.popup-help-link {
+  padding-left: 5px;
+  position: relative;
+  top: -2px;
+  font-weight: normal;
+}
+
+.popup-help .close {
+  text-align: right;
+  padding-bottom: 3px;
+}
+
+
+pre.invocation-codes {
+  background: #FFFFFF none repeat scroll 0%;
+  border: 1px solid #CCCCCC;
+  cursor: text;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 8px;
+  white-space: -moz-pre-wrap;
+  width: 100%;
+}
+
+pre.invocation-codes {
+  color: #777777;
+  font-family: "Lucida Console","Courier New",Courier,monospace;
+  font-size: 12px;
+}

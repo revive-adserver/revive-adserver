@@ -257,6 +257,23 @@ if (!phpAds_isUser(phpAds_Client)) {
     phpAds_ShowBreak();
     echo "<br /><br />";
 }
+?>
+
+<div class="dev-note">
+    <b>Notes to developer:</b><br/>
+    The campaign can be in one of the following states:
+    <ul>
+        <li>Awaiting approval - new campaign, needs user action (corresponding CSS class: .sts-awaiting), should link to campaign edit screen</li>
+        <li>Rejected - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
+        <li>Running - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
+        <li>Paused - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
+        <li>Not started yet - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
+        <li>Finished - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+    </ul>
+</div>
+
+
+<?php
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
 
 echo "<tr height='25'>";
@@ -274,6 +291,20 @@ if (($listorder == "name") || ($listorder == "")) {
 }
 
 echo '</b></td>';
+
+echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=status">Status</a>';
+if ($listorder == "status") {
+    if  (($orderdirection == "") || ($orderdirection == "down")) {
+        echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=up">';
+        echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
+    } else {
+        echo ' <a href="advertiser-campaigns.php?clientid='.$clientid.'&orderdirection=down">';
+        echo '<img src="images/caret-u.gif" border="0" alt="" title="">';
+    }
+    echo '</a>';
+}
+echo "</td>";
+
 echo '<td height="25"><b><a href="advertiser-campaigns.php?clientid='.$clientid.'&listorder=id">'.$GLOBALS['strID'].'</a>';
 
 if ($listorder == "id") {
@@ -293,14 +324,14 @@ echo "<td height='25'>&nbsp;</td>";
 echo "<td height='25'>&nbsp;</td>";
 echo "</tr>";
 
-echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-
+echo "<tr class='break'><td colspan='6' ></td></tr>";
 
 if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 	echo "<tr height='25' bgcolor='#F6F6F6'><td height='25' colspan='5'>";
 	echo "&nbsp;&nbsp;".$strNoCampaigns;
 	echo "</td></tr>";
-	echo "<td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>";
+	echo "<tr class='break'><td colspan='6' ></td></tr>";
+
 } else {
 	$i=0;
 	foreach (array_keys($campaigns) as $ckey) {
@@ -332,6 +363,10 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 		echo "</td>";
 
+        // status
+        echo "<td height='25'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'><span class='sts-awaiting'>Awaiting approval</span></a></td>";
+		
+		
 		// ID
 		echo "<td height='25'>".$campaigns[$ckey]['campaignid']."</td>";
 
@@ -367,10 +402,11 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				$name = phpAds_breakString ($name, '30');
 
 				// Divider
-				echo "<tr height='1'>";
-				echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-				echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
+				echo "<tr height='1' bgcolor='#f6f6f6'>";
+				echo "<td></td>";
+				echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
 				echo "</tr>";
+				
 
 				// Icon & name
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -402,7 +438,10 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				} else {
     				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";
 				}
-
+				
+                //empty cell to match status    
+                echo "<td height='25'>&nbsp;</td>";
+                            
 				// ID
 				echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
 
@@ -428,11 +467,13 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 
 		if ($pref['gui_show_campaign_info']) {
-			echo "<tr height='1'>";
-			echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
-			echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
-			echo "</tr>";
-			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
+		      //divider
+            echo "<tr height='1' bgcolor='#f6f6f6'>";
+            echo "<td></td>";
+            echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
+            echo "</tr>";
+            
+			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='2'>&nbsp;</td><td colspan='4'>";
 			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 			echo "<tr height='25'>";
 			echo "<td width='20%'>".$strImpressionsBooked.":</td>";
@@ -459,12 +500,13 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			echo "<br /></td>";
 			echo "</tr>";
 		}
-		echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+		echo "<tr class='break'><td colspan='6' ></td></tr>";
+
 		$i++;
 	}
 }
 
-echo "<tr height='25'><td colspan='2' height='25' nowrap>";
+echo "<tr height='25'><td colspan='3' height='25' nowrap>";
 
 if ($hideinactive == true) {
 	echo "&nbsp;&nbsp;<img src='images/icon-activate.gif' align='absmiddle' border='0'>";
@@ -486,9 +528,9 @@ echo "</td>";
 echo "</tr>";
 
 if (isset($campaigns) && count($campaigns) && !phpAds_isUser(phpAds_Client)) {
-	echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>";
+    echo "<tr class=''><td colspan='6' ></td></tr>";
 	echo "<tr height='25'>";
-	echo "<td colspan='5' height='25' align='".$phpAds_TextAlignRight."'>";
+	echo "<td colspan='6' height='25' align='".$phpAds_TextAlignRight."'>";
 	echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle'>&nbsp;<a href='campaign-delete.php?clientid=".$clientid."&returnurl=advertiser-campaigns.php'".phpAds_DelConfirm($strConfirmDeleteAllCampaigns).">$strDeleteAllCampaigns</a>&nbsp;&nbsp;";
 	echo "</td>";
 	echo "</tr>";

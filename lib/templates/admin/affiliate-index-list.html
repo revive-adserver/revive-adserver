@@ -33,7 +33,7 @@ $Id$
 
 <div style="text-align: center">
 <div id="required-missing" class="error-box hide" style="margin-bottom: 10px">
-        To activate Ad Networks, please pick Category, Country and Language.
+        To activate Ad Networks or Advertiser self service,<br />please pick Category, Country and Language.
       </div>
 <div id="url-empty" class="error-box hide" style="margin-bottom: 10px">
         Please provide website URL
@@ -47,7 +47,7 @@ $Id$
 {/if}
 
 <table border="0" width="100%" cellpadding="0" cellspacing="0" class="data-grid">
-    <tr height="25">
+    <tr height="30">
         <td height="25" width="23%" colspan="2">
             <b>{oa_title_sort str=Website item=website order=down default=1 url=affiliate-index.php}</b>
         </td>
@@ -58,7 +58,7 @@ $Id$
             <b>Country/Language</b>
         </td>
         <td height="25" class="cntr">
-            <b>Ad Networks</b>
+            <b>Ad Networks /<br />Advertiser Sign Up</b>
         </td>
         <td height="25">&nbsp;</td>
         <td height="25">&nbsp;</td>
@@ -116,12 +116,16 @@ $Id$
         {/if}
         </td>
         <td height="25" class="cntr">
-            <span class="view">{if $affiliate.oac_adnetworks == 'yes'}{t str=Yes}{else}{t str=No}{/if}</span>
+            <span class="view">{if $affiliate.oac_adnetworks == 'yes'}{t str=Yes}{else}{t str=No}{/if} / No</span>
             <span class="edit">
-                <input type="checkbox" name="adnetworks" class="adn-cb" id="adnetworks{$affiliate.affiliateid|escape}"
+                <input type="checkbox" name="adnetworks" class="adn-cb line-cb" id="adnetworks{$affiliate.affiliateid|escape}"
                     {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes' && $oacEnabled!=''} checked="checked"{/if}
                     {if $oacEnabled==''} disabled="disabled"{/if}
-                    value="t">
+                    {if $affiliate.oac_adnetworks == 'yes'} disabled="disabled"{/if} value="t"> /
+                <input type="checkbox" class="ss-cb line-cb" name="selfsignup" id="selfsignup{$affiliate.affiliateid|escape}" />
+                <!-- Add logic for the Advertiser self signup checkbox above -->
+                {if $affiliate.oac_adnetworks == 'yes'}<input type="hidden" name="adnetworks" value="1">{/if}
+                <!-- A similar hidden field as above may be needed for the Advertiser self signup checkbox -->
             </span>
         </td>
         <td height="25">

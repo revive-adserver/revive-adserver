@@ -922,11 +922,12 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
     unset($aOtherEntities['affiliateid']);
     $otherEntityString = _getEntityString($aOtherEntities);
 
-    $tabSections = array('4.2.2', '4.2.3', '4.2.4', '4.2.5');
+    $tabSections = array('4.2.2', '4.2.3', '4.2.4', '4.2.5', '4.2.6');
 
     // Determine which tab is highlighted
     switch ($pageName) {
         case 'affiliate-channels.php' : $tabValue = '4.2.4'; break;
+        case 'affiliate-advsetup.php' : $tabValue = '4.2.6'; break;
     }
 
     // Sort the publishers by name...

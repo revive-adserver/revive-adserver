@@ -126,6 +126,16 @@ In order to be approved by the Ad Networks you will need to provide the country 
 </span>
 <span class="link popup-help-link adnetworks-help">(what's this?)</span>
 </div>
+<div class="line-nolabel">
+  <!-- Probably you'll need to add a hidden field here, just as for the AdNetworks checkbox -->
+  <input type="checkbox" id="selfsignup{$k}" /><label for="selfsignup1" class="cb">Sign up for Advertiser self service and Payment</label>
+  
+  <span class="popup-help hide">
+    <div class="close" style="text-align: right"><span class="link">Close</span></div>
+    Explanation text Explanation text Explanation text Explanation text Explanation text
+  </span>
+  
+  <span class="link popup-help-link selfsignup-help">(what's this?)</span>
 </div>
 </div>
 </div>
@@ -158,9 +168,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
 <br>
 <br>
 <br>
-<img width="100%" vspace="5" height="1" src="images/break-el.gif"><input type="submit" class="button" name="btn_tagssetup" value="Continue &raquo;"{tabindex}><input type="hidden" name="dirPage" id="dirPage" value="">
-</form>
-
+<img width="100%" vspace="5" height="1" src="images/break-el.gif"><input type="submit" class="button" name="btn_tagssetup" value="Continue &raquo;"{tabindex}>
 <input type="hidden" name="dirPage" id="dirPage" value="">
 </form>
 <div class="hide">
@@ -193,6 +201,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
 {html_options options=$aSelectLanguages}
 </select>
 </div>
+
 <div class="line-nolabel">
 <input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks" value="false">
 <input type="checkbox" name="aAnCheckbox[]" id="adnetworks" {if !$syncEnabled}disabled="true"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks" class="cb">Sign up this site to Ad Networks</label>

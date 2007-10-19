@@ -66,7 +66,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     $("#url" + fieldSuffix).removeClass("inerror");
   }
 
-  if ($("#adnetworks" + fieldSuffix).get(0).checked)
+  if ($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked)
   {
     if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
     {
@@ -112,7 +112,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
   }
 
   return ($("#url" + fieldSuffix).get(0).value.length > 0) &&
-         (!($("#adnetworks" + fieldSuffix).get(0).checked) || (
+         ( !($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked) || (
          $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#country" + fieldSuffix).get(0).selectedIndex));
@@ -300,7 +300,7 @@ function isCaptchaRequired()
   var form = $("#frmOpenads").get(0);
   var signupRequested = false;
 
-  $(":checkbox[id^=adnetworks]", form).each(function() {
+  $(":checkbox[id^=adnetworks], :checkbox[id^=selfsignup]", form).each(function() {
     if (this.checked) {
       signupRequested = true;
       return false;
@@ -362,18 +362,18 @@ function siteChanged()
 
 function initHelp() 
 {
-  $(".adnetworks-help").click(showInstallerHelp);
-  $(".popup-help").click(hideInstallerHelp);
+  $(".adnetworks-help").add(".selfsignup-help").click(showHelp);
+  $(".popup-help").click(hideOaHelp);
 }
 
 
-function showInstallerHelp()
+function showHelp()
 {
   $(".popup-help").fadeOut("fast");
   $(this).prev().fadeIn("fast").css("display", "inline");
 }
 
-function hideInstallerHelp()
+function hideOaHelp()
 {
   $(this).fadeOut("fast");
 }
@@ -409,6 +409,9 @@ function adnetworksSettingsStore(form)
   var formSettings = new Array();
   if (form.adnetworks) {
     formSettings["adnetworks"] =  form.adnetworks.checked;
+  }
+  if (form.selfsignup) {
+    formSettings["selfsignup"] =  form.selfsignup.checked;
   }
   if (form.country) {
    formSettings["country"] =  form.country.value;

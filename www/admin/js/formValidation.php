@@ -332,7 +332,10 @@ function getObj(name)
   if (document.getElementById)
   {
   	this.obj = document.getElementById(name);
-	this.style = document.getElementById(name).style;
+   if (this.obj) 
+   {
+	   this.style = document.getElementById(name).style;
+   }
   }
   else if (document.all)
   {

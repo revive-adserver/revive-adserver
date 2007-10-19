@@ -58,7 +58,7 @@ $Id$
 <div class="content">
 <div style="text-align: center">
 <div id="required-missing-form" class="error-box hide" style="margin-bottom: 10px">
-        To activate Ad Networks, please pick Category, Country and Language.
+        To activate Ad Networks or Advertiser self service,<br /> please pick Category, Country and Language.
       </div>
 <div id="url-empty-form" class="error-box hide" style="margin-bottom: 10px">
 
@@ -93,6 +93,10 @@ $Id$
 </div>
 <div class="line line-nolabel">
 <input id="adnetworksn" type="checkbox" class="flat" name="adnetworks"{if $newAffiliate.oac_adnetworks == 'yes'} checked="checked"{/if} {if $oacEnabled == ''} disabled="disabled"{/if} value="t" /><label for="adnetworksn" class="cb">Sign up this publisher for AdNetworks</label>
+</div>
+<div class="line line-nolabel">
+<input id="selfsignupn" name="selfsignup" type="checkbox" class="flat" /><label for="selfsignupn" class="cb">Sign up for Advertiser self service and Payment</label>
+<!-- Add logic for the Advertiser self signup checkbox above -->
 </div>
 <div class="line line-nolabel" style="margin-top: 20px">
 <input id="add-publisher" type="submit" name="pub-add" value="Add publisher" class="main">

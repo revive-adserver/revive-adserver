@@ -620,6 +620,115 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 $tabindex = 1;
 
 echo "<br /><br />";
+echo "<form name='clientform' method='post' action='campaign-edit.php' >"."\n";
+echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>"."\n";
+echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
+?>
+
+<div class="dev-note">
+    <p>
+    <b>Notes to developer:</b><br/>
+    The campaign status should not be visible when new campaign is being added
+    The campaign can be in one of the following states:
+    <ul>
+        <li>Awaiting approval - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
+        <li>Rejected - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
+        <li>Running - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
+        <li>Paused - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
+        <li>Not started yet - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
+        <li>Finished - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+    </ul>
+    The list of possible choices depends on current campaign state e.g Running campaigns can only by paused, paused campaigns can only be restarted
+    </p>
+    
+    <p><b>Notes to specification</b><br/>
+    Shouldn't the "Contract details" section be read only for advertiser proposed campaigns?
+    </p>
+    
+</div>
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td height="25" colspan="3"><b>Campaign status</b> - <span class="sts-awaiting">Awaiting approval</span></td>
+        </tr>
+        <tr class="break" >
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td height="10" colspan="3"></td>
+        </tr>
+        
+        <tr>
+            <td width="30"> </td>
+            <td width="200" valign="top">Status</td>
+            <td>
+                <table>
+                <tbody><tr>
+                    <td><input type="radio" {tabindex}  value="approve" name="status" id="sts_approve"/></td>
+                    <td><label for="sts_approve">Approve</label></td>
+                    <td><label for="sts_approve">- accept this campaign</label></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" {tabindex}  value="reject" name="status" id="sts_reject"/></td>
+                    <td><label for="sts_reject">Reject</label></td>
+                    <td><label for="sts_reject">- reject this campaign</label>
+                    </td>
+                </tr>
+                    <td><input type="radio" {tabindex}  value="pause" name="status" id="sts_pause"/></td>
+                    <td><label for="sts_pause">Pause</label></td>
+                    <td><label for="sts_pause">- pause this campaign temporarily</label></td>
+                </tr>
+                </tbody>
+                </table>
+            </td>
+        </tr>
+
+<script type="text/javascript">
+    <!--
+        $(document).ready(function() {
+            initCampaignStatus();
+        });
+    //-->
+</script>
+
+
+        <tr id="rsn_row1">
+          <td><img width="100%" height="1" src="images/spacer.gif"/></td>
+          <td colspan="2"><img width="200" vspace="6" height="1" src="images/break-l.gif"/></td>
+        </tr>
+        
+        <tr id="rsn_row2">
+            <td width="30"></td>
+            <td width="200" valign="top">Reason for rejection</td>
+            <td>
+                <select name="sts_reject_rsn">
+                    <option value="rsn_not_live">Site not live</option>
+                    <option value="rsn_bad_creative">Inappropriate creative</option>
+                    <option value="rsn_bad_url">Inappropriate destination url</option>
+                    <option value="rsn_break_terms">Website againts terms and conditions</option>
+                </select>
+            </td>  
+        </tr>        
+        
+        <tr>
+            <td height="10" colspan="3">
+            </td>
+        </tr>
+        <tr class="break" >
+            <td colspan="3"></td>
+        </tr>
+     </tbody>
+</table>
+<div style="width:100%;text-align:left;padding: 15px 0px 0px 0px;margin-bottom: 50px;">
+<input value="Change status" type="submit" {tabindex}>
+</div>
+
+<?php
+echo "</form>";
+
+
+
 echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return (max_formValidate(this) && phpAds_priorityCheck(this) && phpAds_activeRangeCheck(this));'>"."\n";
 echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>"."\n";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
@@ -761,7 +870,21 @@ echo "  <option value='".MAX_FINANCE_MT."' ".(($row['revenue_type'] == MAX_FINAN
 echo "</select>";
 echo "</td>"."\n";
 echo "</tr>"."\n";
+?>
 
+<tr>
+  <td><img width="100%" height="1" src="images/spacer.gif"/></td>
+  <td colspan="2"><img width="200" vspace="6" height="1" src="images/break-l.gif"/></td>
+</tr>
+
+<tr>
+    <td width="30"></td>
+    <td width="200" valign="top">Total revenue</td>
+    <td>REVENUE VALUE GOES HERE</td>  
+</tr>        
+
+
+<?
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strPriorityInformation."</b></td></tr>"."\n";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
@@ -774,7 +897,7 @@ echo "\t"."<td>"."\n";
 echo "\t\t"."<table>"."\n";
 
 echo "\t\t"."<tr>"."\n";
-echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_form    RadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strExclusive."</td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityExclusive."</td>"."\n";
 echo "\t\t"."</tr>"."\n";

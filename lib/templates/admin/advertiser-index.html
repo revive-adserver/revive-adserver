@@ -27,8 +27,16 @@
 $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 
 -->*}
-
-
+{literal}
+<script>
+<!--
+  $(document).ready(function() { 
+    initFindOtherNetworks();
+    initHelp();
+  });
+//-->  
+</script>
+{/literal}
 
 <img src="images/icon-advertiser-new.gif" border="0" align="absmiddle">&nbsp;
 <a href="advertiser-edit.php" accesskey="{t key=AddNew}">{t str=AddClient_Key}</a>&nbsp;&nbsp;
@@ -38,24 +46,81 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <br>
 <br>
 
-<div class="section adnetworks-section">
+<div class="section">
 <div class="title">
 <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Openads advertisers</div>
+  Advertisers</div>
 <div class="content">
 
-{include file=advertiser-index-list.html from=$aOacAdvertisers aCount=$aCount.Openads}
+{include file=advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local}
+
+<div class="dev-note">
+    <p>
+    <b>Notes to developer:</b><br/>
+    <ol>
+    <li>
+        The adnetwork campaign can be in the following states:
+        <ul>
+            <li>Pending - adnetwork has not reviewed the publisher site yet (corresponding CSS class: .sts-pending)</li>
+            <li>Rejected - adnetwork has rejected site  (corresponding CSS class: .sts-rejected)</li>
+            <li>Running -  adnetwork has accepted site (corresponding CSS class: .sts-accepted)</li>
+        </ul>
+    </li>
+    <li>
+        Adnetwork campaigns cumulative status row  (the row with adnetwork name) rules (should be shown only if advertiser section is collapsed) :
+        <ul>
+            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit all if there is only one campaign, see TradeDoubler and TexLinkAds examples</li>
+            <li>if statuses are different, show the number of sites with the first available of the following statuses "Rejected", "Running", "Pending", see CPX example</li>
+        </ul>
+    </li>
+    <li>The advertiser signed-up campaign can be in one of the following states:
+    <ul>
+        <li>Awaiting approval - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
+        <li>Rejected - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
+        <li>Running - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
+        <li>Paused - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
+        <li>Not started yet - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
+        <li>Finished - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+    </ul>
+    </li>
+    <li>
+        Advertiser sign-up campaigns cumulative status row  (the row with advertiser name) rules (should be shown only if advertiser section is collapsed) 
+        <ul>
+            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit "All" if there is only one campaign, in case of single "Awaiting approval" the cumulative status should be a link to campaign edit, see Coca Cola example, Monster Job, Dell</li>
+            <li>if statuses are different, show the number of sites with the first available of the following statuses "Awaitng approval", "Running", "Not started yet", "Paused", Rejected", see Blackberry and Nike example</li></li>
+        </ul>
+    </li>
+    
+    
+   </p>
+   <p>
+    <b>Table below is a test table showing possible row states and cumulative status for both adnetwork camapaigns and advertisers campaigns. 
+    <br>Note that the cumulative status should not be shown if the advertiser section is expanded</b>   
+   </p> 
+</div>
+
+{include file=proto-advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local} 	
 
 </div>
 </div>
 
-{*<!-- Find other networks -->*}
-{if $aOtherNetworks!=''}
-<div class="section adnetworks-section adnetworks-filled-section">
+<!-- Find other networks -->
+<div class="section">
 <div class="title">
-<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Find other ad networks</div>
-<div class="content">
+    <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
+        Find other ad networks
+         <div class="popup-help hide" style="margin-top: -130px; height: auto; width: 290px;">
+            <div class="close" style="text-align: right">
+                <span class="link">Close</span>
+            </div>
+            The networks that you see here are the most popular networks that have been suggested by your fellow Openads community members. 
+            If you would like to try these networks, click on the link and you will be directed to the sign up page for the ad network. 
+            Once you have signed up, place the tags from the network into a new Openads banner.            
+        </div>
+        <span class="link popup-help-link adnetworks-help">(what's this?)</span>
+</div>
+            
+<div class="content oa">
 <table>
 <tr>
 <td style="vertical-align: top">
@@ -81,52 +146,23 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 </span></td>
 </tr>
 </table>
-<script>
-
-      initFindOtherNetworks();
-    </script>
 </div>
 </div>
-{/if}
 {*<!-- /Find other networks -->*}
-
-
 <div class="section">
 <div class="title">
-<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Local advertisers</div>
-<div class="content">
-
-{include file=advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local}
-
+<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;Overall
 </div>
-</div>
-
-<div class="section">
-<div class="title">
-<a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Overall</div>
 <div class="content">
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
-{cycle name=bgcolor values="#F6F6F6, #FFFFFF" assign=bgColor reset=1}
-{foreach key=overallTitle item=overall from=$aCount}
-    {cycle name=bgcolor assign=bgColor}
-<tr bgcolor="{$bgColor}">
-<td height="25" rowspan="3" style="width:15%"><b>{$overallTitle}</b></td><td height="25"><b>{$overall.advertisers}</b> advertiser(s)</td>
-
-</tr>
-<tr bgcolor="{$bgColor}">
-<td height="25"><b>{$overall.campaigns}</b> campaign(s) (<i>{$overall.campaigns_active} active</i>)</td>
-</tr>
-<tr bgcolor="{$bgColor}">
-<td height="25"><b>{$overall.banners}</b> banner(s) (<i>{$overall.banners_active} active</i>)
-        </td>
-</tr>
-
-<tr height="1">
-<td colspan="5" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
-</tr>
-{/foreach}
+  <tr>
+    <td height="25"><b>{$aCount.Total.advertisers}</b> advertiser(s)</td>
+    <td height="25"><b>{$aCount.Total.campaigns}</b> campaign(s) (<i>{$aCount.Total.campaigns_active} active</i>)</td>
+    <td height="25"><b>{$aCount.Total.banners}</b> banner(s) (<i>{$aCount.Total.banners_active} active</i>)</td>
+  </tr>
+  <tr class="break">
+      <td colspan="3"></td>
+  </tr>
 </table>
 </div>
 </div>
