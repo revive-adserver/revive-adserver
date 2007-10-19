@@ -40,8 +40,6 @@ class OA_Dashboard_Widget_GraphOAP extends OA_Dashboard_Widget_Graph
 
         $this->oTpl->setCacheLifetime(new Date_Span('0-3-0-0'));
 
-        $this->oTpl->clear_all_cache();
-
         if ($this->isDataRequired()) {
             $this->setData($this->getStats());
         }
