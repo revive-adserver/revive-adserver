@@ -238,7 +238,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         // Clean up
         unlink('/tmp/disthost.' . $distFilename . '.conf.php');
         unlink('/tmp/localhost.' . $userFilename . '.conf.php');
-        unlink('/tmp/default.' . $distFilename . '.conf.php'); // File may have been created
+        @unlink('/tmp/default.' . $distFilename . '.conf.php'); // File may have been created
     }
 
     /**
