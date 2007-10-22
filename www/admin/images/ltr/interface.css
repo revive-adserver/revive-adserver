@@ -704,7 +704,7 @@ form.new-form input[type='checkbox'] {
   margin: 3px 5px 3px 0;
 }
 
-form.new-form label.cb {
+label.cb {
   position: relative;
   top: -2px;
 }
@@ -755,3 +755,6 @@ a.adv-list-entry {
   margin-top: 15px;
 }
 
+.deleted-affiliate {
+  font-weight: bold;
+}
