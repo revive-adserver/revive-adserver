@@ -721,7 +721,7 @@ form.new-form input[type='checkbox'] {
   margin: 0px 2px 0 2px;
 }
 
-form.new-form label.cb {
+label.cb {
   position: relative;
   top: -2px;
 }
@@ -772,6 +772,9 @@ a.adv-list-entry {
   margin-top: 15px;
 }
 
+.deleted-affiliate {
+  font-weight: bold;
+}
 /** advertisers **/
 
 .oa {

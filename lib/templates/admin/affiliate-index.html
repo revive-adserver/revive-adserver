@@ -92,7 +92,7 @@ $Id$
 
 </div>
 <div class="line line-nolabel">
-<input id="adnetworksn" type="checkbox" class="flat" name="adnetworks"{if $newAffiliate.oac_adnetworks == 'yes'} checked="checked"{/if} {if $oacEnabled == ''} disabled="disabled"{/if} value="t" /><label for="adnetworksn" class="cb">Sign up this publisher for AdNetworks</label>
+<input id="adnetworksn" type="checkbox" name="adnetworks"{if $newAffiliate.oac_adnetworks == 'yes'} checked="checked"{/if} {if $oacEnabled == ''} disabled="disabled"{/if} value="t" /><label for="adnetworksn" class="cb">Sign up this publisher for AdNetworks</label>
 </div>
 <div class="line line-nolabel">
 <input id="selfsignupn" name="selfsignup" type="checkbox" class="flat" /><label for="selfsignupn" class="cb">Sign up for Advertiser self service and Payment</label>
@@ -105,6 +105,7 @@ $Id$
 </form>
 </div>
 </div>
+{include file=affiliate-delete-dialog.html}
 <script>
 <!--
       initInlineEdit();
