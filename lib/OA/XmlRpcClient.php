@@ -40,6 +40,8 @@ class OA_XML_RPC_Client extends XML_RPC_Client
 {
     var $hasCurl;
     var $hasOpenssl;
+    var $verifyPeer;
+    var $caFile;
 
     function OA_XML_RPC_Client($path, $server, $port = 0,
                             $proxy = '', $proxy_port = 0,
@@ -52,6 +54,9 @@ class OA_XML_RPC_Client extends XML_RPC_Client
         } else {
             $this->hasCurl = false;
         }
+
+        $this->verifyPeer = true;
+        $this->caFile     = MAX_PATH . '/etc/curl-ca-bundle.crt';
 
         parent::XML_RPC_Client($path, $server, $port);
     }
@@ -95,8 +100,8 @@ class OA_XML_RPC_Client extends XML_RPC_Client
                 'content' => $msg->payload
             ),
             'ssl' => array(
-                'verify_peer' => true,
-                'cafile'      => MAX_PATH . '/etc/curl-ca-bundle.crt'
+                'verify_peer' => $this->verifyPeer,
+                'cafile'      => $this->caFile
             )
         ));
 
@@ -140,10 +145,10 @@ class OA_XML_RPC_Client extends XML_RPC_Client
 
         $ch = curl_init("{$protocol}{$this->server}:{$port}{$this->path}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->headers."\r\n\r\n".$msg->payload);
-        curl_setopt($ch, CURLOPT_CAINFO, MAX_PATH . '/etc/curl-ca-bundle.crt');
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_HEADER,         true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST,  $this->headers."\r\n\r\n".$msg->payload);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->verifyPeer);
+        curl_setopt($ch, CURLOPT_CAINFO,         $this->caFile);
 
         if (!empty($timeout)) {
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
