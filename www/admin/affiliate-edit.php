@@ -152,7 +152,10 @@ if ($affiliateid != "") {
             }
             phpAds_PageHeader('4.2');
             phpAds_ShowSections($sections);
-        }
+        }    max_formSetRequirements('category', '<?php echo addslashes($strCategory); ?>', true, 'present');
+    max_formSetRequirements('country', '<?php echo addslashes($strCountry); ?>', true, 'present');
+    max_formSetRequirements('language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
+
     }
     // Do not get this information if the page
     // is the result of an error message
@@ -389,7 +392,12 @@ $oTpl->display();
 <script language='JavaScript'>
 <!--
     max_formSetRequirements('website', '<?php echo addslashes($strWebsite); ?>', true, 'url');
-
+    max_formSetRequirements('category', '<?php echo addslashes($strCategory); ?>', true, 'present');
+    max_formSetRequirements('country', '<?php echo addslashes($strCountry); ?>', true, 'present');
+    max_formSetRequirements('language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
+    max_formSetConditionalValidate('category', '$("#adnetworks").get(0).checked==true');
+    max_formSetConditionalValidate('country', '$("#adnetworks").get(0).checked==true');
+    max_formSetConditionalValidate('language', '$("#adnetworks").get(0).checked==true');
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetRequirements('affiliateusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');

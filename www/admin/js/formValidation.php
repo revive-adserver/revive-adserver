@@ -139,6 +139,22 @@ function max_formSetUnique(obj, unique)
 }
 
 /**
+ * A JavaScript function to add JS condition which if present should be evaluated before field is validated
+ *
+ * @param {String} obj The name of the HTML form element.
+ * @param JS condition (code for eval)
+ */
+function max_formSetConditionalValidate(obj, condition)
+{
+  obj = findObj(obj);
+  // Set properties
+  if (obj) {
+    obj.valCondition = condition;
+  }
+}
+
+
+/**
  * A JavaScript function to validate the set requirements/uniqueness of a form
  * element.
  *
@@ -166,9 +182,16 @@ function max_formValidateElement(obj)
     }
     echo $separator;
                       ?>';
+  
+    //skip validation in condition not met
+  if (obj.valCondition && !eval(obj.valCondition)) {
+    return false;
+  }
+                      
 	if (obj.validateCheck || obj.validateReq) {
 		err = false;
 		val = obj.value;
+		
 		// Test some simple cases where input is required, but not supplied
 		if (obj.validateReq == true && (val == '' || val == '-' || val == 'http://') && !obj.disabled) {
 			err = true;
@@ -315,7 +338,9 @@ function max_formValidate(f)
 			   '\n');
 
 		// Select field with first error
-		f.elements[first].select();
+		if (f.elements[first].nodeName.toLowerCase() != "select") { //selects don't have text to select 
+		  f.elements[first].select(); 
+		}
 		f.elements[first].focus();
 	}
 
@@ -423,6 +448,8 @@ function max_formValidateHtml(obj)
 
 	return true;
 }
+
+
 
 <?php
 if (defined('phpAds_installing')) {
