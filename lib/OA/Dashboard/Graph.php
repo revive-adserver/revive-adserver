@@ -35,7 +35,6 @@ require_once('Image/Graph.php');
  */
 class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 {
-    var $title;
     var $aData;
     var $draw;
 
@@ -61,7 +60,7 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
         $this->setDummyData();
 
         $this->oTpl = new OA_Admin_Template($this->draw ? 'passthrough.html' : 'dashboard/graph.html');
-        $this->oTpl->setCacheId($title);
+        $this->oTpl->setCacheId(get_class($this));
 
         $this->oTpl->assign('extensionLoaded', $gdAvailable);
     }
@@ -143,10 +142,15 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
      		$Graph =& Image_Graph::factory('graph', $Canvas);
 
-    		$Font =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/Vera.ttf');
-    		$Font->setSize(7);
+     		if (is_callable('imagettftext')) {
+        		$Font =& $Graph->addNew('ttf_font', MAX_PATH.'/lib/fonts/Bitstream/Vera.ttf');
+        		$Font->setSize(7);
 
-    		$Graph->setFont($Font);
+        		$Graph->setFont($Font);
+     		} else {
+     		    // TTF library not available, use standard bitmap font
+     		    $Graph->setFontSize(7);
+     		}
 
             $Datasets = array(
                 Image_Graph::factory('dataset'),
