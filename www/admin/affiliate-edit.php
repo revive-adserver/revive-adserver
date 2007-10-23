@@ -224,7 +224,7 @@ $oTpl->assign('fieldsTop', array(
             ),
             array(
                 'name'      => 'category',
-                'label'     => 'Category',
+                'label'     => $strCategory,
                 'type'      => 'select',
                 'options'   => $oAdNetworks->getCategoriesSelect(),
                 'value'     => $affiliate['oac_category_id'],
@@ -389,6 +389,12 @@ $oTpl->display();
 <script language='JavaScript'>
 <!--
     max_formSetRequirements('website', '<?php echo addslashes($strWebsite); ?>', true, 'url');
+    max_formSetRequirements('category', '<?php echo addslashes($strCategory); ?>', true, 'present');
+    max_formSetRequirements('country', '<?php echo addslashes($strCountry); ?>', true, 'present');
+    max_formSetRequirements('language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
+    max_formSetConditionalValidate('category', '$("#adnetworks").get(0).checked==true');
+    max_formSetConditionalValidate('country', '$("#adnetworks").get(0).checked==true');
+    max_formSetConditionalValidate('language', '$("#adnetworks").get(0).checked==true');
 
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
