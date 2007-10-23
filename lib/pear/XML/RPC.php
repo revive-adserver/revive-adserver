@@ -1081,7 +1081,7 @@ class XML_RPC_Response extends XML_RPC_Base
      */
     function XML_RPC_Response($val, $fcode = 0, $fstr = '')
     {
-        if ($fcode != 0) {
+        if ($fcode != 0 || $fstr != '') {
             $this->fn = $fcode;
             $this->fs = htmlspecialchars($fstr);
         } else {
