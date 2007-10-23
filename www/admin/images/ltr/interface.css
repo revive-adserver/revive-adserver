@@ -133,6 +133,9 @@ img#helpIcon {
 }
 
 /* Form elements */
+select:focus, textarea:focus, input:focus {
+  background-color:  #D0E5FF; 
+}
 
 select.flat, textarea.flat, input.flat,
 select.error, textarea.error, input.error,
