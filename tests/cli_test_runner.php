@@ -86,7 +86,7 @@ foreach ($aLayer as $layer) {
                         $command = "Failed command (in /tests): php $exec\n";
                         $oReporter->paintFail($command . $message);
                         break;
-                    default: $oReporter->paintException($message);
+                    default: $oReporter->paintFail('Unexpected Error:'.$returncode.' => '.$message);
                 }
                 $oReporter->paintMethodEnd($fileName);
             }
