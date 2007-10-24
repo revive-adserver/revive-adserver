@@ -658,7 +658,7 @@ span.save-edit {
   font-weight: bold;
 }
 
-span.cancel-edit {
+span.cancel-edit, span.cancel-add {
   background-image: url('../icon-x.gif');
   background-repeat: no-repeat;
   background-position: 1px 2px;

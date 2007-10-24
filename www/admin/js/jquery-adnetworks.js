@@ -8,6 +8,8 @@ function initInlineEdit()
 {
   $("span.start-edit").click(startInlineEdit);
   $("span.cancel-edit").click(cancelInlineEdit);
+  $("span.cancel-add").click(cancelInlineAdd);
+  $("#start-add").click(startInlineAdd);
   $("form[@id^='pub_form']").submit(submitInlineEdit);
 }
 
@@ -25,6 +27,21 @@ function cancelInlineEdit()
 {
   $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
   $(this).parents("tr.inline-edit").removeClass("edit").addClass("view");
+
+  // Clear validation
+  $("#url-empty").hide();
+  $("#required-missing").hide();
+}
+
+function startInlineAdd()
+{
+  $(".inline-add").show();
+  $("#urln").focus();
+}
+
+function cancelInlineAdd()
+{
+  $(".inline-add").hide();
 
   // Clear validation
   $("#url-empty").hide();
@@ -126,7 +143,7 @@ function initPublisherAdd()
 
 function validateNewPublisher()
 {
-  if (validatePublisher(this, "-form", "n", ""))
+  if (validatePublisher(this, "", "n", ""))
   {
     if(this.adnetworks.checked) {
       $("#adnetworks-signup-dialog_" + this.id).jqmShow();
