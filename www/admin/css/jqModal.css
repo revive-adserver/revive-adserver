@@ -36,6 +36,12 @@
   padding: 12px;
 }
 
+.jqm-controls {
+	 margin-top: 10px; 
+	 padding-top: 10px;
+	 text-align: right; 
+	 border-top: 1px #DDDDDD solid
+}
 
 .jqmOverlay { background-color: #000; }
 
