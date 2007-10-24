@@ -66,13 +66,13 @@
             <arg value="--dir=../lib/pear/MDB2/tests/" />
           </exec>
           <echo>after MDB2 tests</echo>
-          <echo>before MDB2 tests</echo>
+          <echo>before MDB2 schema tests</echo>
           <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/MDB2_Schema-@{{test.name}}.html">
             <arg value="run.php" />
             <arg value="--type=phpunit" />
             <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
           </exec>
-          <echo>after MDB2 tests</echo>
+          <echo>after MDB2 schema tests</echo>
         </sequential>
       </macrodef>
 
