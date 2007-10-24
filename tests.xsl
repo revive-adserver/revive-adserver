@@ -18,6 +18,8 @@
         <attribute name="db.name"/>
         <attribute name="db.table.type"/>
         <sequential>
+          <echo message="fulltest for @{{test.name}} using @{{php}}"/>
+          <echo>before config</echo>
           <exec dir="tests" executable="@{{php}}" failonerror="false" resultproperty="test.@{{test.name}}.configure" errorproperty="test.@{{test.name}}.error">
             <arg value="configuretest.php" />
             <arg value="@{{db.type}}" />
@@ -28,6 +30,7 @@
             <arg value="@{{db.name}}" />
             <arg value="@{{db.table.type}}" />
           </exec>
+          <echo>after config</echo>
           <fail message="Can't create configuration file for test: @{{test.name}}! Reason: ${{test.@{test.name}.error}}">
             <condition>
               <not>
@@ -35,30 +38,41 @@
               </not>
             </condition>
           </fail>
-          <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/@{{test.name}}.simpletest.xml" resultproperty="test.@{{test.name}}.result">
+          <echo>before simple tests</echo>
+          <exec dir="tests" executable="@{{php}}" failonerror="false"
+          		output="build/test-results/@{{test.name}}.simpletest.xml"
+          		error="build/test-results/@{{test.name}}.simpletest.error.txt"
+          		resultproperty="test.@{{test.name}}.result">
               <arg value="-q" />
               <arg value="cli_test_runner.php" />
               <arg value="@{{php}}"/>
               <arg value="@{{test.name}}"/>
           </exec>
+          <echo>after simple tests</echo>
+          <echo>before xslt</echo>
           <xslt style="tests/simpletest2junit.xslt" basedir="build/test-results" destdir="build/test-reports">
             <mapper type="glob" from="@{{test.name}}.simpletest.xml" to="@{{test.name}}.junit.xml" />
           </xslt>
+          <echo>after xslt</echo>
           <condition property="test.failure" value="@{{test.name}}">
             <not>
               <equals arg1="0" arg2="${{test.@{{test.name}}.result}}"/>
             </not>
           </condition>
+          <echo>before MDB2 tests</echo>
           <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/MDB2-@{{test.name}}.html">
             <arg value="run.php" />
             <arg value="--type=phpunit" />
             <arg value="--dir=../lib/pear/MDB2/tests/" />
           </exec>
+          <echo>after MDB2 tests</echo>
+          <echo>before MDB2 tests</echo>
           <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/MDB2_Schema-@{{test.name}}.html">
             <arg value="run.php" />
             <arg value="--type=phpunit" />
             <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
           </exec>
+          <echo>after MDB2 tests</echo>
         </sequential>
       </macrodef>
 
