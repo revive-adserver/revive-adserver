@@ -519,7 +519,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
      *
      * @param string $country
      * @param string $language
-     * @return mixed The other networs array on success, false otherwise
+     * @return array The other networks array. The array will be empty on failure
      */
     function getOtherNetworksForDisplay($country = '', $language = '')
     {
@@ -554,6 +554,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     }
                 }
             }
+        } else {
+            $aOtherNetworks = array();
         }
 
         return $aOtherNetworks;
