@@ -48,6 +48,6 @@
 
 	<target name="cruise" depends="init, update, clean, build"/>
 
-    <target name="release" depends="init,clean,update,make-release"/>
+    <target name="release" depends="init, clean, update, make-release"/>
 	
 </project>
