@@ -561,8 +561,7 @@ a.time:before
 }
 
 .section .content {
-    padding-top: 5px; 
-    padding-left: 15px;
+    padding: 5px 0px 10px 15px;
 }
 
 .adnetworks-section {
@@ -625,9 +624,13 @@ table.data-grid td.cntr {
   display: none;
 }
 
-span.link {
+.link {
   cursor: pointer;
 }
+.font-small {
+	font-size: 80%;
+}
+
 /*
 span.start-edit:before {
   content:url('../icon-generatecode.gif');
@@ -749,8 +752,11 @@ form.new-form {
   margin: 10px 0 0 0;
 }
 
-.main-submit {
-  font-weight: bold;
+form .controls {
+	width:100%;
+	text-align:left;
+	margin-top: 15px;
+	padding-top: 7px;
 }
 
 a.adv-list-entry {
@@ -781,7 +787,7 @@ a.adv-list-entry {
 /** advertisers **/
 
 .oa {
-  background-color: #EFFBDE; /*#E7F7CE;*/
+  background-color: #E7F7CE;
 }
 
 .space td {

@@ -1,0 +1,84 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: adnetworks-signup-dialog.html 11370 2007-10-19 14:31:29Z bernard.lange@openads.org $
+
+-->*}
+
+  <div id="adnetwork-suggest" class="hide" >
+    <form name="suggestAdnetworksForm" id="suggestAdnetworksForm" method="POST" action="" class="new-form">
+		  <input type="hidden" id="max-id" name="max_id" value="1">
+		  
+		  <div class="networks" >
+		    <div id="o-network1">
+		      <div class="line">
+		       <label for="on-country1" style="font-weight: bold;">Country</label>/<label for="on-language1" style="font-weight: bold;">Language</label>
+		       <select type="text" id="on-country1" style="width: 10em" class="flat">
+		        {html_options options=$aCountries}
+		       </select>
+		       <select type="text" id="on-language1"  style="width: 10em" class="flat">
+		        {html_options options=$aLanguages}
+		       </select>
+		       <label for="on-name1" class="inline">Name</label>
+		        <input type="text" id="on-name1" style="width: 10em" class="flat" >   
+		       <label for="on-url1" class="inline">URL</label>
+		       <input type="text" id="on-url1" style="width: 10em" class="flat" >
+		       <img class="remove-row link hide" style="position:relative; top: 4px;" src="images/icon-recycle.gif" />
+		      </div>
+		    </div>
+		  </div>  
+		  {include file=captcha-dialog.html formId='suggestAdnetworksForm' title='Confirm suggested adnetworks' message='Please confirm the submission of new adnetworks'}
+		  <input type="button" class="font-small"style="margin-top:5px;" value="Suggest another" id="add-new-adnetwork" disabled="true">&nbsp;<span class="font-small" id="add-new-info" >To add more networks, please fill in the fields of the existing ones</span></span>
+      <div class="controls" style=" border-top:1px solid #CFCFCF;text-align:right;">
+        <input value="Send suggestions" class="main-submit" type="submit" >
+        <input value="Cancel" class="suggest-adnetwork-cancel" type="button" >
+      </div>
+    </form>
+		    
+    <div class="hide proto line">
+      <label for="on-country" style="font-weight: bold;">Country</label>/<label for="on-language" style="font-weight: bold;">Language</label>
+      <select type="text" id="on-country" style="width: 10em" class="flat">
+      {html_options options=$aCountries}
+      </select>
+       <select type="text" id="on-language"  style="width: 10em" class="flat">
+      {html_options options=$aLanguages}
+      </select>
+      <label for="on-name" class="inline">Name</label>
+      <input type="text" id="on-name" style="width: 10em" class="flat" >   
+      <label for="on-ur" class="inline">URL</label>
+      <input type="text" id="on-url" style="width: 10em" class="flat" >
+      <img class="remove-row link hide" style="position:relative; top: 4px;" src="images/icon-recycle.gif" />
+    </div>
+		<script type="text/javascript">
+		{literal}
+		  $(document).ready(function() {
+		    initSuggestAdnetworks();
+		  });
+		{/literal}
+		</script>
+  </div>
+
+

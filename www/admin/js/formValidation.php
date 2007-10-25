@@ -336,7 +336,9 @@ function max_formValidate(f)
 			   '\n');
 
 		// Select field with first error
-		f.elements[first].select();
+    if (f.elements[first].nodeName.toLowerCase() != "select") { //selects don't have text to select 
+      f.elements[first].select(); 
+    }
 		f.elements[first].focus();
 	}
 

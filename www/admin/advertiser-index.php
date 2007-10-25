@@ -307,6 +307,22 @@ phpAds_SessionDataStore();
 
 $oTpl->display();
 
-phpAds_PageFooter();
+?>
 
+<script language='JavaScript'>
+<!--
+    max_formSetRequirements('on-country', '<?php echo addslashes($strCountry); ?>', true, 'present');
+    max_formSetRequirements('on-language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
+    max_formSetRequirements('on-name', '<?php echo addslashes($strName); ?>', true, 'present');
+    max_formSetRequirements('on-url', 'Adnetwork URL', true, 'url');
+//-->
+</script>
+
+<?php
+
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageFooter();
 ?>

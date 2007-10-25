@@ -24,56 +24,39 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: adnetworks-signup-dialog.html 11478 2007-10-24 10:10:13Z bernard.lange@openads.org $
 
 -->*}
-{if $error!=''}
-    <div class='errormessage' id='errors'>
-        <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
-        <span class='tab-r'>The following errors were found:</span><br />
-        {$error}
+
+<div id="captcha-dialog-{$formId|escape:javascript}" class="jqmWindow">
+  <div class="jqm-window-title">&nbsp;&nbsp;{$title}</div>
+  
+  <div class="jqm-window-body">
+
+    <div style="text-align: center">
+      <div id="wrong-captcha" class="error-box hide" style="margin-bottom: 10px">
+        {$captchaErrorMsg}        </div>
     </div>
-{/if}
 
-<br /><br />
+    <div class="captcha">
+      {$message} by entering the security code shown below (*):<br/>
+      <div>
+      <img id="captcha" src="images/spacer.gif" />
+      <input class="flat" name="captcha-value" type="text" autocomplete="off" {tabindex}/>      
+      </div>
+    </div>
 
-<form name='affiliateform' id='affiliateform' method='post' action='affiliate-edit.php'>
-<input type="hidden" name="formId" value="affiliateform">
-<input type='hidden' name='affiliateid' value='{$affiliateid}'>
-<input type='hidden' name='move' value='{$move}'>
+    <div class="font-small" style="color: #555555; text-align: left; clear: both;">
+    * This is to improve performance and prevent unauthorized automated scripts
+    </div>
 
-{include file=edit-table/create.html from=$fieldsTop}
-
-<script language="javascript">
-<!--{literal}
-    $(document).ready(function() {
-    adnetworksSettingsStore($("#affiliateform").get(0));
-    $("#affiliateform").submit(function() {
-        if (max_formValidate(this)) {
-          if(adnetworksSettingsChanged(this)) {
-            $("#adnetworks-signup-dialog_" + this.id).jqmShow();
-          }
-          else {
-            return true;
-          }
-        }
-        return false;
-      });
-    });
-//-->{/literal}
-</script>
-
-{include file=adnetworks-signup-dialog.html formId=affiliateform}
-
-<br /><br />
-
-<input type='hidden' name='affiliateid' value='{$affiliateid}'>
-
-{include file=edit-table/create.html from=$fieldsBottom}
-
-<div class="break" />
-
-<div class="controls">
-  <input value="Save Changes" type="submit" {tabindex}>
+    <div class="jqm-controls">
+      <input id="dg-submit" type="button" value="Submit" class="main-submit" {tabindex} />&nbsp;
+      <input id="dg-cancel" type="button" value="Cancel"  {tabindex} />
+    </div>
+  </div>  
 </div>
-</form>
+
+<script type="text/javascript">
+  initCaptchaDialog('captcha-dialog-{$formId|escape:javascript}', '{$formId|escape:javascript}', '{oac_captcha}');
+</script>

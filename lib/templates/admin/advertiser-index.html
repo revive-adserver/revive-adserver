@@ -121,33 +121,41 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 </div>
             
 <div class="content oa">
-<table>
-<tr>
-<td style="vertical-align: top">
-<form style="width: 230px" id="findnetworksform" class="new-form">
-
-<div class="line">
-<label for="country" class="left" style="width: 70px; line-height: 20px">Country</label><select style="width: 11em;margin-left: 5px;" name="country" id="country" class="inline flat">
-    {html_options options=$aCountries}
-</select>
-<br>
+<div  id="find-adnetworks-body">
+	<table>
+		<tr>
+			<td style="vertical-align: top">
+			<form style="width: 230px" id="findnetworksform" class="new-form">
+			
+			<div class="line">
+			<label for="country" class="left" style="width: 70px; line-height: 20px">Country</label><select style="width: 11em;margin-left: 5px;" name="country" id="country" class="inline flat">
+			    {html_options options=$aCountries}
+			</select>
+			<br>
+			</div>
+			<div class="line">
+			<label for="language" class="left" style="width: 70px; line-height: 20px">Language</label><select style="width: 11em;margin-left: 5px;" name="language" id="language" class="inline flat">
+			    {html_options options=$aLanguages}
+			</select>
+			
+			</div>
+			</form>
+			<div ><a href="" class="suggest-adnetwork-show">Suggest another Ad Network</a></div>
+			</td>
+			<td style="vertical-align: top; padding-top: 14px">
+			<span id="other-networks-table">
+			  {include file=ajax/find-other-networks.html}
+			</span>
+			</td>
+		</tr>
+	</table>
 </div>
-<div class="line">
-<label for="language" class="left" style="width: 70px; line-height: 20px">Language</label><select style="width: 11em;margin-left: 5px;" name="language" id="language" class="inline flat">
-    {html_options options=$aLanguages}
-</select>
-
-</div>
-</form>
-</td><td style="vertical-align: top; padding-top: 14px"><span id="other-networks-table">
-
-{include file=ajax/find-other-networks.html}
-
-</span></td>
-</tr>
-</table>
+{include file=suggest-adnetwork.html}
 </div>
 </div>
+
+
+
 {*<!-- /Find other networks -->*}
 <div class="section">
 <div class="title">
