@@ -115,6 +115,7 @@ class OA_Dal_Central_Rpc
         }
         if ($authType & OA_DAL_CENTRAL_AUTH_CAPTCHA) {
             $aHeader['ssoCaptcha']  = isset($_REQUEST['captcha-value']) ? $_REQUEST['captcha-value'] : '';
+            $aHeader['ssoCaptchaRandom']  = isset($_REQUEST['captcha-random']) ? $_REQUEST['captcha-random'] : '';
         }
 
         $oMsg->addParam(XML_RPC_encode($aHeader));
