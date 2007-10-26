@@ -199,9 +199,6 @@
 
   <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
 
-
   <target name="simpletest" depends="clean, init, test-all, package" />
-
-   
 
 </project>
