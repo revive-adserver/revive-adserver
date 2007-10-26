@@ -361,7 +361,9 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     'campaignname'    => $campaignName,
                     'clientid'        => $advertiserId,
                     'weight'          => $aCampaign['weight'],
+                    'block'           => $aCampaign['block'],
                     'capping'         => $aCampaign['capping'],
+                    'session_capping' => $aCampaign['session_capping'],
                     'oac_campaign_id' => $aCampaign['campaign_id']
                 );
 
@@ -379,16 +381,18 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     // Create banner
                     $bannerName = $this->oDal->getUniqueBannerName("{$advertiserName} - {$aBanner['name']}");
                     $banner = array(
-                        'description'   => $bannerName,
-                        'campaignid'    => $campaignId,
-                        'width'         => $aBanner['width'],
-                        'height'        => $aBanner['height'],
-                        'capping'       => $aBanner['capping'],
-                        'storagetype'   => 'html',
-                        'contenttype'   => 'html',
-                        'htmltemplate'  => $aBanner['html'],
-                        'adserver'      => $aBanner['adserver'],
-                        'oac_banner_id' => $aBanner['banner_id']
+                        'description'     => $bannerName,
+                        'campaignid'      => $campaignId,
+                        'width'           => $aBanner['width'],
+                        'height'          => $aBanner['height'],
+                        'block'           => $aBanner['block'],
+                        'capping'         => $aBanner['capping'],
+                        'session_capping' => $aBanner['session_capping'],
+                        'storagetype'     => 'html',
+                        'contenttype'     => 'html',
+                        'htmltemplate'    => $aBanner['html'],
+                        'adserver'        => $aBanner['adserver'],
+                        'oac_banner_id'   => $aBanner['banner_id']
                     );
                     if (!empty($banner['adserver'])) {
                         $banner['autohtml'] = 't';
