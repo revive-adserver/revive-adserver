@@ -537,7 +537,7 @@ function initSuggestAdnetworks()
   });
 
   $(".suggest-adnetwork-cancel").click(function() {
-    $suggestPane.fadeOut("fast");
+    $suggestPane.hide();
     $("#find-adnetworks-body").fadeIn("fast");
     return false;
   });
@@ -552,7 +552,7 @@ function initSuggestAdnetworks()
   
   
   $(".remove-row", $suggestPane).click(function() {
-    $(this).parent("@id^='o-network'").remove();
+    $(this).parent("[id^='o-network']").remove();
 	  checkAddNetworkEnabled();
 	  checkRemoveNetworkEnabled();
   });  
@@ -562,15 +562,14 @@ function initSuggestAdnetworks()
   $(":input", $suggestPane).keyup(checkAddNetworkEnabled)
     .mouseup(checkAddNetworkEnabled);
  
- 
   //copy validation constraints from proto to alreadt visible rows         
-  /*var $proto =$(".proto", $suggestPane);
+  var $proto =$(".proto", $suggestPane);
   $(":input", $proto).each(function () {
     var protoInput = this; 
-    $("@id^='" + this.id + "'").each(function() {
+    $(".networks [id^='" + this.id + "']", $suggestPane).each(function() {
       copyValidationConstraints(protoInput, this);
     })
-  });*/
+  });
     
   checkAddNetworkEnabled();
   checkRemoveNetworkEnabled();
