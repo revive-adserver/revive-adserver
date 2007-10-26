@@ -62,7 +62,7 @@ class OA_Central_RpcMapper
     {
         $this->oRpc->ssoUsername = $username;
         $this->oRpc->ssoPassword = $password;
-        
+
         return $this->oRpc->callSSo('connectOAPToOAC');
     }
 
@@ -211,7 +211,9 @@ class OA_Central_RpcMapper
      *                                     [adnetwork_id] => 1
      *                                     [name] => Campaign 1
      *                                     [weight] => 1
+     *                                     [block] => 0
      *                                     [capping] => 0
+     *                                     [session_capping] => 0
      *                                     [banners] => Array
      *                                         (
      *                                             [0] => Array
@@ -220,7 +222,9 @@ class OA_Central_RpcMapper
      *                                                     [name] => Banner 1
      *                                                     [width] => 468
      *                                                     [height] => 60
+     *                                                     [block] => 0
      *                                                     [capping] => 0
+     *                                                     [session_capping] => 0
      *                                                     [html] => ...
      *                                                     [adserver] =>
      *                                                 )
@@ -231,7 +235,9 @@ class OA_Central_RpcMapper
      *                                                     [name] => Banner 2
      *                                                     [width] => 125
      *                                                     [height] => 125
-     *                                                     [capping] => 1
+     *                                                     [block] => 0
+     *                                                     [capping] => 0
+     *                                                     [session_capping] => 0
      *                                                     [html] => ...
      *                                                     [adserver] =>
      *                                                 )
@@ -256,7 +262,9 @@ class OA_Central_RpcMapper
      *                                     [adnetwork_id] => 1
      *                                     [name] => Campaign 1
      *                                     [weight] => 1
+     *                                     [block] => 0
      *                                     [capping] => 0
+     *                                     [session_capping] => 0
      *                                     [banners] => Array
      *                                         (
      *                                             [0] => Array
@@ -265,7 +273,9 @@ class OA_Central_RpcMapper
      *                                                     [name] => Banner 1
      *                                                     [width] => 468
      *                                                     [height] => 60
+     *                                                     [block] => 0
      *                                                     [capping] => 0
+     *                                                     [session_capping] => 0
      *                                                     [html] => ...
      *                                                     [adserver] =>
      *                                                 )
