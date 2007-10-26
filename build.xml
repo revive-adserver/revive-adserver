@@ -182,9 +182,11 @@
     <if>
       <istrue value="${run.local}"/>
       <then>
+      	<echo message="running locally"/>
         <antcall target="test-canoo-local" />
       </then>
       <else>
+      	<echo message="running remotely"/>
         <antcall target="test-canoo-remote" />
       </else>
     </if>
