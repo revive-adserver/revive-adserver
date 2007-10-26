@@ -23,8 +23,8 @@
   <condition property="property_file" value="user.local.properties" else="user.remote.properties">
     <istrue value="${run.local}"/>
   </condition>
-  <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
 
+  <property file="${basedir}/tests/canoo/properties/${property_file}" prefix="canoo"/>
   <property file="${basedir}/ec2.properties"/>
   <property name="ec2.openads.config" value="${canoo.host}.conf.php"/>
   <property name="ec2.openads.database" value="openads"/>
@@ -138,6 +138,7 @@
   </macrodef>
 
   <target name="run-test-canoo">
+  	<echo message="Running ${canoo.webtest.exec}"/>
     <execute-webtest target="init-delivery-db" />
     <execute-webtest target="delivery" properties="-Dcanoo.host=${canoo.host} -Dec2.admin.password=${ec2.admin.password} -Dec2.openads.dir=${ec2.openads.dir}" />
   </target>
