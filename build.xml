@@ -193,13 +193,13 @@
   	<echo>test-canoo finished</echo>
   </target>
 
-  <target name="test-canoo-local" depends="run-test-canoo">
+  <target name="test-canoo-local" depends="canoo-create-openads-configuration-local, run-test-canoo">
     <property name="run.local" value="true" />
   </target>
 
   <target name="test-canoo-remote" depends="test-canoo-prepare, run-test-canoo, clean-ec2"/>
 
-  <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration"/>
+  <target name="test-canoo-prepare" depends="clean, checkconsistency, init-version, package-bzip2-canoo, canoo-prepare-dir, canoo-copy-package, canoo-unpack-package, canoo-create-openads-configuration-remote"/>
 
   <target name="simpletest" depends="clean, init, test-all, package" />
 

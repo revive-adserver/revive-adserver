@@ -88,7 +88,8 @@
     </canoo-scp>
   </target>
 
-  <target name="canoo-create-openads-configuration">
+	<!-- should be less EC2 dependant -->
+  <target name="canoo-create-openads-configuration-remote">
     <property name="openads.url" value="${canoo.host}/${release}/www"/>
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
@@ -115,6 +116,31 @@
     <canoo-ssh command="rm -f ${ec2.openads.dir}/var/UPGRADE"/>
   </target>
 
+  <target name="canoo-create-openads-configuration-local">
+    <property name="openads.url" value="${canoo.host}/${canoo.basepath}/www"/>
+    <exec dir="${basedir}/tests" executable="php" failonerror="true">
+      <arg value="create-config-file.php" />
+      <arg value="${canoo.host}.conf.php" />
+      <arg value="database.host=${canoo.host}"/>
+      <arg value="database.username=${canoo.sql.user}"/>
+      <arg value="database.password=${canoo.sql.password}"/>
+      <arg value="database.name=${canoo.sql.database}"/>
+      <arg value="debug.production=0"/>
+      <arg value="webpath.admin=${openads.url}/admin"/>
+      <arg value="webpath.delivery=${openads.url}/delivery"/>
+      <arg value="webpath.deliverySSL=${openads.url}/delivery"/>
+      <arg value="webpath.images=${openads.url}/images"/>
+      <arg value="webpath.imagesSSL=${openads.url}/images"/>
+      <arg value="openads.installed=1"/>
+      <arg value="table.prefix=oa_"/>
+      <arg value="maintenance.autoMaintenance=0"/>
+    </exec>
+  	<copy overwrite="true" todir="${basedir}/var" file="${basedir}/tests/${canoo.host}.conf.php"/>
+  	<copy overwrite="true" tofile="${basedir}/var/INSTALLED" file="${basedir}/tests/${canoo.host}.conf.php"/>
+  	<delete file="${basedir}/var/UPGRADE"/>
+  </target>
+	
+	
   <macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
     <attribute name="target" description="Target to execute."/>
     <attribute name="properties" default="" description="Additional properties."/>
