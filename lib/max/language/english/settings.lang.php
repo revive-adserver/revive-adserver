@@ -111,8 +111,7 @@ $GLOBALS['strDbUpgradeIntro']             = "Below are the detected database det
 $GLOBALS['strOaUpToDate']               = "Your Openads database and file structure are both using the most recent version and therefore no upgrade is required at this time. Please click Continue to proceed to the Openads administration panel.";
 $GLOBALS['strOaUpToDateCantRemove']     = "Warning: the UPGRADE file is still present inside of your var folder. We are unable to remove this file because of insufficient permissions. Please delete this file yourself.";
 $GLOBALS['strRemoveUpgradeFile']               = "You must remove the UPGRADE file from the var folder.";
-$GLOBALS['strInstallSuccess']               = "<strong>Congratulations! You have finished installing Openads</strong>
-<p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>
+$GLOBALS['strInstallSuccess']               = "<p>Welcome to the Openads community! To get the most out of Openads, there are two last steps you should perform.</p>
 
 <p><strong>Maintenance</strong><br>
 Openads is configured to automatically run some maintenance tasks every hour as long as ads are being served. To speed up ad delivery, you can set this up by automatically calling a maintenance file every hour (e.g a cron job). This is not required, but is highly recommended. For more information about this, please reference the <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'><strong>documentation</strong></a>.</p>
