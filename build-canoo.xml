@@ -121,7 +121,7 @@
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
       <arg value="${canoo.host}.conf.php" />
-      <arg value="database.host=${canoo.host}"/>
+      <arg value="database.host=${canoo.sql.host}"/>
       <arg value="database.username=${canoo.sql.user}"/>
       <arg value="database.password=${canoo.sql.password}"/>
       <arg value="database.name=${canoo.sql.database}"/>

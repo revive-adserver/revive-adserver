@@ -19,7 +19,9 @@ basepath=erasmus/www
 ;---------------------------------------------
 sql.driver=com.mysql.jdbc.Driver
 sql.jarfile=file:${basedir}/lib/mysql-connector-java-3.1.13-bin.jar
-sql.url=jdbc:mysql://localhost/test
+sql.database=test
+sql.host=localhost
+sql.url=jdbc:mysql://${sql.host}/${sql.database}
 sql.user=username
 sql.password=password
 
