@@ -138,7 +138,10 @@
   	<copy overwrite="true" todir="${basedir}/var" file="${basedir}/tests/${canoo.host}.conf.php"/>
   	<copy overwrite="true" tofile="${basedir}/var/INSTALLED" file="${basedir}/tests/${canoo.host}.conf.php"/>
   	<delete file="${basedir}/var/UPGRADE"/>
-  	<chmod dir="${basedir}" perm="a+rw" type="both" includes="**/*"/>
+  	<chmod dir="${basedir}/var" perm="a+rwx" type="dir"/>
+  	<chmod dir="${basedir}/var" perm="a+rw" type="both" includes="**/*"/>
+  	<chmod dir="${basedir}/www" perm="a+rwx" type="dir"/>
+  	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*"/>
   </target>
 	
 	
