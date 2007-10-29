@@ -263,12 +263,14 @@ if (!phpAds_isUser(phpAds_Client)) {
     <b>Notes to developer:</b><br/>
     The campaign can be in one of the following states:
     <ul>
-        <li>Awaiting approval - new campaign, needs user action (corresponding CSS class: .sts-awaiting), should link to campaign edit screen</li>
-        <li>Rejected - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
-        <li>Running - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
-        <li>Paused - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
-        <li>Not started yet - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
-        <li>Finished - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+        <li><span class="sts-awaiting">Awaiting approval</span> - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
+        <li><span class="sts-rejected">Rejected</span> - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
+        <li><span class="sts-accepted">Running</span> - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
+        <li><span class="sts-paused">Paused</span> - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
+        <li><span class="sts-not-started">Not started yet</span> - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
+        <li><span class="sts-finished">Finished</span> - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+        <li><span class="sts-insufficient">Insufficient impressions</span> - campaign's remaining impressions number is too small to to satisfy the number booked by advertiser -  the local remaining impression number is lower than central remaining impression number. (corresponding CSS class: .sts-insufficient)</li>
+        <li><span class="sts-insufficient">Insufficient clicks</span> - campaign's remaining clicks number is too small to satisfy the number booked by advertiser -  the local remaining click number is lower than central remaining click number.(corresponding CSS class: .sts-insufficient)</li>
     </ul>
 </div>
 
@@ -364,7 +366,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		echo "</td>";
 
         // status
-        echo "<td height='25'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'><span class='sts-awaiting'>Awaiting approval</span></a></td>";
+        echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";
 		
 		
 		// ID
@@ -473,7 +475,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
             echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
             echo "</tr>";
             
-			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='2'>&nbsp;</td><td colspan='4'>";
+			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td>&nbsp;</td><td colspan='5'>";
 			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 			echo "<tr height='25'>";
 			echo "<td width='20%'>".$strImpressionsBooked.":</td>";

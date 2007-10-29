@@ -73,7 +73,7 @@ $Id$
           </div>
     		</td>
 
-    		<td class="sts sts-awaiting">Awaiting approval</td>
+    		<td class="sts sts-awaiting"><a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>Awaiting approval &raquo;</a></td>
 
     		<td height='25' style="padding-right: 10px;">
     		{if $client.expand && !$client.campaigns}
@@ -124,7 +124,7 @@ $Id$
             </div>
         </td>
         
-        <td class="sts sts-awaiting"><a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>Awaiting approval</a></td>
+        <td class="sts sts-awaiting"><a href='campaign-edit.php?clientid={$clientId}&campaignid={$campaignId}'>Awaiting approval &raquo;</a></td>
 
         <td height='25' style="padding-right: 15px;">
             {if !$campaign.banners}

@@ -815,7 +815,8 @@ a.adv-list-entry {
   font-style: italic;
 }
 
-.sts-awaiting, .sts-awaiting:hover {
+.sts-awaiting, .sts-awaiting:hover, .sts-insufficient, 
+.sts-awaiting a, .sts-awaiting:hover a, .sts-insufficient a{
   color: #EF0E17 !important;
 }
 

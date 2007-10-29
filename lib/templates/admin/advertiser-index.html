@@ -69,25 +69,28 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
     <li>
         Adnetwork campaigns cumulative status row  (the row with adnetwork name) rules (should be shown only if advertiser section is collapsed) :
         <ul>
-            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit all if there is only one campaign, see TradeDoubler and TexLinkAds examples</li>
+            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit "All" if there is only one campaign, see TradeDoubler and TexLinkAds examples</li>
             <li>if statuses are different, show the number of sites with the first available of the following statuses "Rejected", "Running", "Pending", see CPX example</li>
         </ul>
     </li>
     <li>The advertiser signed-up campaign can be in one of the following states:
     <ul>
-        <li>Awaiting approval - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
-        <li>Rejected - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
-        <li>Running - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
-        <li>Paused - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
-        <li>Not started yet - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
-        <li>Finished - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+        <li><span class="sts-awaiting">Awaiting approval</span> - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
+        <li><span class="sts-rejected">Rejected</span> - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
+        <li><span class="sts-accepted">Running</span> - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
+        <li><span class="sts-paused">Paused</span> - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
+        <li><span class="sts-not-started">Not started yet</span> - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
+        <li><span class="sts-finished">Finished</span> - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+        <li><span class="sts-insufficient">Insufficient impressions</span> - campaign's remaining impressions number is too small to to satisfy the number booked by advertiser -  the local remaining impression number is lower than central remaining impression number. (corresponding CSS class: .sts-insufficient)</li>
+        <li><span class="sts-insufficient">Insufficient clicks</span> - campaign's remaining clicks number is too small to satisfy the number booked by advertiser -  the local remaining click number is lower than central remaining click number.(corresponding CSS class: .sts-insufficient)</li>
     </ul>
     </li>
     <li>
         Advertiser sign-up campaigns cumulative status row  (the row with advertiser name) rules (should be shown only if advertiser section is collapsed) 
         <ul>
-            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit "All" if there is only one campaign, in case of single "Awaiting approval" the cumulative status should be a link to campaign edit, see Coca Cola example, Monster Job, Dell</li>
-            <li>if statuses are different, show the number of sites with the first available of the following statuses "Awaitng approval", "Running", "Not started yet", "Paused", Rejected", see Blackberry and Nike example</li></li>
+            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit "All" if there is only one campaign. 
+                In case of single "Awaiting approval / Insufficient clicks / Insufficient impressions" the cumulative status should be a link to campaign edit (not the anchor for insufficient). See Coca Cola example, Monster Job, Dell, Ford, Michelin</li>
+            <li>if statuses are different, show the number of sites with the first available of the following statuses "Awaiting approval", "Insufficient impressions", "Insufficient clicks" ,"Running", "Not started yet", "Paused", Rejected", see Blackberry and Nike example</li></li>
         </ul>
     </li>
     
