@@ -620,7 +620,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 $tabindex = 1;
 
 echo "<br /><br />";
-echo "<form name='clientform' method='post' action='campaign-edit.php' >"."\n";
+echo "<form name='statusChangeForm' method='post' action='campaign-edit.php' >"."\n";
 echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>"."\n";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
 ?>
@@ -631,20 +631,19 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
     The campaign status should not be visible when new campaign is being added
     The campaign can be in one of the following states:
     <ul>
-        <li>Awaiting approval - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
-        <li>Rejected - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
-        <li>Running - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
-        <li>Paused - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
-        <li>Not started yet - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
-        <li>Finished - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+        <li><span class="sts-awaiting">Awaiting approval</span> - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
+        <li><span class="sts-rejected">Rejected</span> - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
+        <li><span class="sts-accepted">Running</span> - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
+        <li><span class="sts-paused">Paused</span> - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
+        <li><span class="sts-not-started">Not started yet</span> - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
+        <li><span class="sts-finished">Finished</span> - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
+        <li><span class="sts-insufficient">Insufficient impressions</span> - campaign's remaining impressions number is too small to to satisfy the number booked by advertiser -  the local remaining impression number is lower than central remaining impression number. (corresponding CSS class: .sts-insufficient)</li>
+        <li><span class="sts-insufficient">Insufficient clicks</span> - campaign's remaining clicks number is too small to satisfy the number booked by advertiser -  the local remaining click number is lower than central remaining click number.(corresponding CSS class: .sts-insufficient)</li>
     </ul>
-    The list of possible choices depends on current campaign state e.g Running campaigns can only by paused, paused campaigns can only be restarted
+    The list of possible choices depends on current campaign state e.g Running campaigns can only by paused, paused campaigns can only be restarted<br>
+    Please note that, the Openads remaining clicks/impressions should be visible only for advertiser bought campaigns
     </p>
-    
-    <p><b>Notes to specification</b><br/>
-    Shouldn't the "Contract details" section be read only for advertiser proposed campaigns?
-    </p>
-    
+
 </div>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
@@ -713,7 +712,7 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
         
         <tr>
             <td height="10" colspan="3">
-            </td>
+            </td>both;"
         </tr>
         <tr class="break" >
             <td colspan="3"></td>
@@ -726,7 +725,6 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
 
 <?php
 echo "</form>";
-
 
 
 echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return (max_formValidate(this) && phpAds_priorityCheck(this) && phpAds_activeRangeCheck(this));'>"."\n";
@@ -756,8 +754,7 @@ echo "\t"."<td width='200'>".$strName."</td>"."\n";
 echo "\t"."<td><input onBlur='phpAds_formPriorityUpdate(this.form);' class='flat' type='text' name='campaignname' size='35' style='width:350px;' value='".phpAds_htmlQuotes($row['campaignname'])."' tabindex='".($tabindex++)."'></td>"."\n";
 echo "</tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
-
-echo "<tr><td height='25' colspan='3'><b>".$strInventoryDetails."</b></td></tr>"."\n";
+echo "<tr><td height='25' colspan='3'><a name='inv-det' ></a><b>".$strInventoryDetails."</b></td></tr>"."\n";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
@@ -785,47 +782,84 @@ if (isset($row['active']) && $row['active'] == 'f')
 
 echo "<tr><td colspan='3'>\n";
 echo "  <table>\n";
-echo "    <tr>\n";
-echo "      <td width='30'>&nbsp;</td>\n";
-echo "      <td width='200'>".$strImpressionsBooked."</td>\n";
-echo "      <td>&nbsp;&nbsp;<input class='flat' type='text' name='impressions' size='25' value='".($row["impressions"] >= 0 ? $row["impressions"] : '-')."' onFocus=\"max_formUnFormat(this.form, 'impressions');\" onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedimpressions', 'impressions');\" onBlur=\"max_formFormat(this.form, 'impressions'); max_formBookedUpdate(this.form);\" tabindex='".($tabindex++)."'>&nbsp;";
-echo "          <input type='checkbox' name='unlimitedimpressions'".($row["impressions"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedimpressions', 'impressions');\" tabindex='".($tabindex++)."'>&nbsp;".$strUnlimited."</td>\n";
-echo "      <td width='50'>&nbsp;</td>\n";
-echo "      <td width='200'><div id='remainingImpressionsTitle' style='visibility: hidden;'>$strImpressionsRemaining</div></td>";
-echo "      <td><div id='remainingImpressionsCount' style='visibility: hidden;'>".$row["impressionsRemaining"]."</div></td>\n";
+?>
+  <tr>
+    <td width='30'>&nbsp;</td>
+    <td width='200'><?php echo $strImpressionsBooked ?></td>
+		<td colspan="4">
+		  <div>
+		    <div style="float: left;margin-right:10px;">
+		      <input type="radio" value="no" name="rd_impr_bkd" id="limitedimpressions" tabindex='<?php echo ($tabindex++); ?>' /><input class='flat' type='text' name='impressions' size='25'  value='<?php echo ($row["impressions"] >= 0 ? $row["impressions"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
+		    </div>
+		    <div id="remainingImpressionsSection">
+			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
+			    <span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE --></span>
+			     <div class="popup-help hide" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
+		            <div class="close" style="text-align: right">
+		                <span class="link">Close</span>
+		            </div>
+		            Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing number.
+		       </div>
+		       <span class="link hide popup-help-link" style="display: inline;" id="openadsRemainingImpressionsHelpLink"><img style="border: none; margin-left: 5px; position: relative; top:3px;" src="images/help-book.gif" /></span>
+		      </span>
+		    </div>  
+		  </div>
+		  <div style="clear: both;"><input type="radio"  value="unl" name="rd_impr_bkd" id="unlimitedimpressions" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedimpressions"><?php echo $strUnlimited; ?></label></div>
+		</td>
+  </tr>
+  
+  <tr>
+    <td><img src='images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+  </tr>
 
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "      <td><img src='images/spacer.gif' height='1' width='100%'></td>\n";
-echo "      <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>\n";
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "      <td width='30'>&nbsp;</td>\n";
-echo "      <td width='200'>".$strClicksBooked."</td>\n";
-echo "      <td>&nbsp;&nbsp;<input class='flat' type='text' name='clicks' size='25' value='".($row["clicks"] >= 0 ? $row["clicks"] : '-')."' onFocus=\"max_formUnFormat(this.form, 'clicks');\" onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');\" onBlur=\"max_formFormat(this.form, 'clicks'); max_formBookedUpdate(this.form);\" tabindex='".($tabindex++)."'>&nbsp;";
-echo "          <input type='checkbox' name='unlimitedclicks'".($row["clicks"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedclicks', 'clicks');\" tabindex='".($tabindex++)."'>&nbsp;".$strUnlimited."</td>\n";
-echo "      <td width='50'>&nbsp;</td>\n";
-echo "      <td width='200'><div id='remainingClicksTitle' style='visibility: hidden;'>$strClicksRemaining</div></td>";
-echo "      <td><div id='remainingClicksCount' style='visibility: hidden;'>".$row["clicksRemaining"]."</div></td>\n";
+  <tr>
+    <td width='30'>&nbsp;</td>
+    <td width='200'><?php echo $strClicksBooked; ?></td>
+    <td colspan="4">
+      <div>
+        <div style="float: left;margin-right:10px;">
+          <input type="radio" value="no" name="rd_click_bkd" id="limitedclicks" tabindex='<?php echo ($tabindex++); ?>' /><input class='flat' type='text' name='clicks' size='25'  value='<?php echo ($row["clicks"] >= 0 ? $row["clicks"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
+        </div>
+        <div id="remainingClicksSection">
+          <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
+          <span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE --></span>
+          <div class="popup-help hide" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
+                <div class="close" style="text-align: right">
+                    <span class="link">Close</span>
+                </div>
+                Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing number.
+           </div>
+            <span class="link hide popup-help-link" style="display: inline;" id="openadsRemainingClicksHelpLink"><img style="border: none; margin-left: 5px; position: relative; top:3px;" src="images/help-book.gif" /></span>
+          </span>
+        </div>  
+      </div>
+      <div style="clear: both;"><input type="radio"  value="unl" name="rd_click_bkd" id="unlimitedclicks" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedclicks"><?php echo $strUnlimited; ?></label></div>
+    </td>
+  </tr>
 
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "      <td><img src='images/spacer.gif' height='1' width='100%'></td>\n";
-echo "      <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>\n";
-echo "    </tr>\n";
-echo "    <tr>\n";
-echo "      <td width='30'>&nbsp;</td>\n";
-echo "      <td width='200'>".$strConversionsBooked."</td>\n";
-echo "      <td>&nbsp;&nbsp;<input class='flat' type='text' name='conversions' size='25' value='".($row["conversions"] >= 0 ? $row["conversions"] : '-')."' onFocus=\"max_formUnFormat(this.form, 'conversions');\" onKeyUp=\"phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');\" onBlur=\"max_formFormat(this.form, 'conversions'); max_formBookedUpdate(this.form);\" tabindex='".($tabindex++)."'>&nbsp;";
-echo "          <input type='checkbox' name='unlimitedconversions'".($row["conversions"] == -1 ? " CHECKED" : '')." onClick=\"phpAds_formUnlimitedClick('unlimitedconversions', 'conversions');\" tabindex='".($tabindex++)."'>&nbsp;".$strUnlimited."</td>\n";
-echo "      <td width='50'>&nbsp;</td>\n";
-echo "      <td width='200'><div id='remainingConversionsTitle' style='visibility: hidden;'>$strConversionsRemaining</div></td>";
-echo "      <td><div id='remainingConversionsCount' style='visibility: hidden;'>".$row["conversionsRemaining"]."</div></td>\n";
+	<tr>
+	  <td><img src='images/spacer.gif' height='1' width='100%'></td>
+	  <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+	</tr>
 
-echo "    </tr>\n";
-echo "  </table>\n";
-echo "</td></tr>";
+  <tr>
+    <td width='30'>&nbsp;</td>
+    <td width='200'><?php echo $strConversionsBooked; ?></td>
+    <td colspan="4">
+      <div>
+        <div style="float: left;margin-right:10px;">
+          <input type="radio" value="no" name="rd_conv_bkd" id="limitedconv" tabindex='<?php echo ($tabindex++); ?>' /><input class='flat' type='text' name='conversions' size='25'  value='<?php echo ($row["conversions"] >= 0 ? $row["conversions"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
+        </div>
+        <div id="remainingConversionsSection">
+          <span  id='remainingConversions' ><?php echo $strConversionsRemaining; ?>:<span id='remainingConversionsCount'><?php echo $row["conversionsRemaining"]; ?></span></span>
+        </div>  
+      </div>
+      <div style="clear: both;"><input type="radio"  value="unl" name="rd_conv_bkd" id="unlimitedconversions" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedconversions"><?php echo $strUnlimited; ?></label></div>
+    </td>
+  </tr>
 
+<?php
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strContractDetails."</b></td></tr>"."\n";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
@@ -897,7 +931,7 @@ echo "\t"."<td>"."\n";
 echo "\t\t"."<table>"."\n";
 
 echo "\t\t"."<tr>"."\n";
-echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_form    RadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_formRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strExclusive."</td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityExclusive."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
@@ -1020,6 +1054,35 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 <script language='javascript' type='text/javascript' src='js/numberFormat.php'></script>
 <script language='JavaScript'>
 <!--
+  $(document).ready(function() {
+    initHelp();
+      
+    phpAds_formUnlimitedCheck('unlimitedimpressions', 'impressions');
+    phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');
+    phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');
+    $(":input[name='rd_impr_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedimpressions', 'impressions', 'openadsRemainingImpressions'); });
+    $(":input[name='rd_click_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedclicks', 'clicks', 'openadsRemainingClicks'); });
+    $(":input[name='rd_conv_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedconversions', 'conversions'); });
+    initBookedInput($(":input[name='impressions']"));
+    initBookedInput($(":input[name='clicks']"));
+    initBookedInput($(":input[name='conversions']"));
+  });
+    
+    function initBookedInput($input)
+    {
+      $input
+        .focus(function() { 
+          max_formUnFormat(this.form, this.name);
+          })
+        .keyup(function() { 
+          max_formBookedUpdate(this.form);
+          })
+        .blur(function() { 
+          max_formFormat(this.form, this.name); 
+          max_formBookedUpdate(this.form);
+          });
+    }
+  
     max_formSetRequirements('campaignname', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetRequirements('impressions', '<?php echo addslashes($strImpressionsBooked); ?>', false, 'formattedNumber');
     max_formSetRequirements('clicks', '<?php echo addslashes($strClicksBooked); ?>', false, 'formattedNumber');
@@ -1035,6 +1098,8 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     var impressions_delivered = <?php echo (isset($data['impressions_delivered'])) ? $data['impressions_delivered'] : 0; ?>;
     var clicks_delivered = <?php echo (isset($data['clicks_delivered'])) ? $data['clicks_delivered'] : 0; ?>;
     var conversions_delivered = <?php echo (isset($data['conversions_delivered'])) ? $data['conversions_delivered'] : 0; ?>;
+    var centralImpressionsRemaining = 3000; // REAL DATA GOES HERE 
+    var centralClicksRemaining = 600; //REAL DATA GOES HERE
 
     function phpAds_priorityCheck(f)
     {
@@ -1046,6 +1111,43 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         }
         return true;
     }
+
+	  function insufficientNumberCheck(remainingLocalCount, remainingCentralCount, remainingCentralId)
+	  {
+	    var $remainingCentral = $("#" + remainingCentralId);
+	    if ($remainingCentral.lenght == 0) {
+	     return;
+	    }
+	    
+      markInsufficient(remainingLocalCount < remainingCentralCount, remainingCentralId);	    
+	  }
+	  
+	  
+	  function markInsufficient(insufficient, remainingCentralId)
+	  {
+      var $remainingCentral = $("#" + remainingCentralId);
+      var $remainingCentralHelpLink = $("#" + remainingCentralId + "HelpLink");
+	  
+      if (insufficient) {
+        $remainingCentral.addClass("sts-insufficient");
+        $remainingCentralHelpLink.show();
+      }
+      else {
+        $remainingCentral.removeClass("sts-insufficient");
+        $remainingCentralHelpLink.hide();    
+      }
+	  }
+	  
+	  function hasUnlimitedValue(input)
+	  {
+	   return (input.value == '-') || (input.value == 0)
+	  }
+	  
+	  
+	  function setUnlimitedValue(input)
+	  {
+	   input.value = "-";
+	  }
 
     function phpAds_formDateClick(o, value)
     {
@@ -1106,19 +1208,40 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         return true;
     }
 
-    function phpAds_formUnlimitedClick(oc,oe)
+    function phpAds_formUnlimitedClick(oc,oe, remainingCentralId)
     {
         e = findObj(oe);
         c = findObj(oc);
         if (c.checked == true) {
-            e.value = "-";
+            setUnlimitedValue(e);
+            e.disabled = true;
+            //remove any "insufficient" error indicators
+		        if (remainingCentralId != undefined && remainingCentralId != "") {
+		          markInsufficient(false, remainingCentralId);
+		        }
         } else {
             e.value = "";
+            e.disabled = false;
             e.focus();
         }
         // Update check
         max_formBookedUpdate(e.form);
     }
+    
+
+    function phpAds_formUnlimitedCheck(oc,oe)
+    {
+        e = findObj(oe);
+        c = findObj(oc);
+        if (hasUnlimitedValue(e)) {
+            c.checked = true;
+            e.disabled = true;
+        } else {
+            c.checked = false;
+            e.disabled = false;
+        }
+        max_formBookedUpdate(e.form);
+    }    
 
     function phpAds_enableRadioButton(field_name, field_value, enabled)
     {
@@ -1130,6 +1253,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
             }
         }
     }
+
 
     function phpAds_enableSelect(field_name, enabled)
     {
@@ -1170,18 +1294,6 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
             f.weight.select();
             f.weight.focus();
         }
-    }
-
-    function phpAds_formUnlimitedCheck(oc,oe)
-    {
-        e = findObj(oe);
-        c = findObj(oc);
-        if ((e.value == '-') || (e.value == 0)) {
-            c.checked = true;
-        } else {
-            c.checked = false;
-        }
-        max_formBookedUpdate(e.form);
     }
 
     function phpAds_setRemainingVisibility(elementName, visibility) {
@@ -1253,22 +1365,22 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         if (max_formattedNumberStringToFloat(f.impressions.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.impressions.value) - impressions_delivered;
             document.getElementById('remainingImpressionsCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
+            insufficientNumberCheck(remaining, centralImpressionsRemaining, 'openadsRemainingImpressions');
             visibility = true;
         } else {
             visibility = false;
         }
-        phpAds_setRemainingVisibility('remainingImpressionsCount', visibility);
-        phpAds_setRemainingVisibility('remainingImpressionsTitle', visibility);
+        phpAds_setRemainingVisibility('remainingImpressions', visibility);
 
         if (max_formattedNumberStringToFloat(f.clicks.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.clicks.value) - clicks_delivered;
             document.getElementById('remainingClicksCount').innerHTML = max_formatNumberIngnoreDecimals(remaining);
+            insufficientNumberCheck(remaining, centralClicksRemaining, 'openadsRemainingClicks');
             visibility = true;
         } else {
             visibility = false;
         }
-        phpAds_setRemainingVisibility('remainingClicksCount', visibility);
-        phpAds_setRemainingVisibility('remainingClicksTitle', visibility);
+        phpAds_setRemainingVisibility('remainingClicks', visibility);
 
         if (max_formattedNumberStringToFloat(f.conversions.value) >= 0) {
             var remaining = max_formattedNumberStringToFloat(f.conversions.value) - conversions_delivered;
@@ -1277,8 +1389,8 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         } else {
             visibility = false;
         }
-        phpAds_setRemainingVisibility('remainingConversionsCount', visibility);
-        phpAds_setRemainingVisibility('remainingConversionsTitle', visibility);
+        phpAds_setRemainingVisibility('remainingConversions', visibility);
+        
         phpAds_formPriorityUpdate(f);
     }
 
@@ -1306,7 +1418,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         // If an Exclusive campaign
         if (!f.priority[0].disabled && f.priority[0].checked) {
             phpAds_enableRadioButton('delivery', 'auto', false);
-            phpAds_enableRadioButton('delivery', 'manual', false);
+            phpAds_enableRadioButthttp://85.221.229.114:8000/oap-public/www/admin/campaign-edit.php?clientid=1&campaignid=on('delivery', 'manual', false);
             phpAds_enableRadioButton('delivery', 'none', true);
             phpAds_enableSelect('high_priority_value', false);
             phpAds_enableSelect('target_type', false);

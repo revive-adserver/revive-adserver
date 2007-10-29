@@ -837,6 +837,7 @@ a.adv-list-entry {
 /* HELP */
 .popup-help {
   position: absolute;
+  color: black;
   z-index: 1;
   border: 1px solid #666666;
   background-color: #ffffcc;
