@@ -382,7 +382,7 @@ function siteChanged()
 
 function initHelp() 
 {
-  $(".adnetworks-help").add(".selfsignup-help").click(showHelp);
+  $(".adnetworks-help").add(".selfsignup-help").add(".popup-help-link").click(showHelp);
   $(".popup-help").click(hideOaHelp);
 }
 
