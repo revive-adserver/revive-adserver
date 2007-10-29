@@ -52,6 +52,14 @@ function submitInlineEdit()
   return false; //bad form, stop submit
 }
 
+function isPublisherBlank(form, fieldSuffix)
+{
+  var result = $("#url" + fieldSuffix).get(0).value.length == 0 && 
+         !($("#adnetworks" + fieldSuffix).get(0).checked);
+  
+  return result;
+}
+
 // Reimplement using jQuery validation plugin!
 function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
 {
@@ -117,7 +125,7 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
          (!($("#adnetworks" + fieldSuffix).get(0).checked) || (
          $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
-         $("#country" + fieldSuffix).get(0).selectedIndex));
+         $("#country" + fieldSuffix).get(0).selectedIndex) > 0);
 }
 
 function initPublisherAdd()
@@ -280,7 +288,9 @@ function installerValidateSites()
   {
     if ($("#url" + i).get(0))
     {
-      valid = valid && validatePublisher(form, "", i + "", i + "", function(form, suffix, fieldSuffix) {
+      valid = valid && 
+	            (isPublisherBlank(form, i + "") || 
+				 validatePublisher(form, "", i + "", i + "", function(form, suffix, fieldSuffix) {
         if ($("#url" + fieldSuffix).get(0).value.length == 0)
         {
           $("#site-cont" + fieldSuffix).addClass("url-error");
@@ -289,7 +299,7 @@ function installerValidateSites()
         {
           $("#site-cont" + fieldSuffix).removeClass("url-error");
         }
-      });
+      }));
     }
   }
 
@@ -301,8 +311,9 @@ function isCaptchaRequired()
   var form = $("#frmOpenads").get(0);
   var signupRequested = false;
 
-  $(":checkbox[id^=adnetworks]", form).each(function() {
-    if (this.checked) {
+  $(":checkbox[id^=adnetworks]", form).each(function(nr) {
+	var form = $("#frmOpenads").get(0);
+    if (!isPublisherBlank(form, (nr + 1) + "") && this.checked) {
       signupRequested = true;
       return false;
     }
