@@ -117,7 +117,7 @@
   </target>
 
   <target name="canoo-create-openads-configuration-local">
-    <property name="openads.url" value="${canoo.host}/${canoo.basepath}/www"/>
+    <property name="openads.url" value="${canoo.host}/${canoo.basepath}"/>
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
       <arg value="${canoo.host}.conf.php" />
