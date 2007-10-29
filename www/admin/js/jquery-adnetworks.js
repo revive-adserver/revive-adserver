@@ -128,11 +128,13 @@ function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
     customAction(form, suffix, fieldSuffix);
   }
 
-  return ($("#url" + fieldSuffix).get(0).value.length > 0) &&
+  var result = ($("#url" + fieldSuffix).get(0).value.length > 0) &&
          ( !($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked) || (
          $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
          $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
-         $("#country" + fieldSuffix).get(0).selectedIndex));
+         $("#country" + fieldSuffix).get(0).selectedIndex > 0));
+
+  return result;
 }
 
 function initPublisherAdd()
