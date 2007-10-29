@@ -798,7 +798,7 @@ echo "  <table>\n";
 		            <div class="close" style="text-align: right">
 		                <span class="link">Close</span>
 		            </div>
-		            Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing number.
+		            Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
 		       </div>
 		       <span class="link hide popup-help-link" style="display: inline;" id="openadsRemainingImpressionsHelpLink"><img style="border: none; margin-left: 5px; position: relative; top:3px;" src="images/help-book.gif" /></span>
 		      </span>
@@ -828,7 +828,7 @@ echo "  <table>\n";
                 <div class="close" style="text-align: right">
                     <span class="link">Close</span>
                 </div>
-                Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing number.
+                Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
            </div>
             <span class="link hide popup-help-link" style="display: inline;" id="openadsRemainingClicksHelpLink"><img style="border: none; margin-left: 5px; position: relative; top:3px;" src="images/help-book.gif" /></span>
           </span>
