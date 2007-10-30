@@ -446,6 +446,10 @@ else if (array_key_exists('btn_tagssetup', $_POST))
 
             $aTplSites = array();
             foreach ($aUrls as $key => $url) {
+                if (empty($url)) {
+                    continue;
+                }
+
                 $isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
 
                 $aWebsites[$isOac][] = $aTplSites[count($aTplSites)+1] = array(
@@ -596,7 +600,7 @@ else if (array_key_exists('btn_sitessetup', $_POST))
             $oTpl->assign('aSites', array(
                 1 => array('url' => '')
             ));
-            
+
             require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
             $oTpl->assign('syncEnabled', MAX_Admin_Preferences::checkBool('updates_enabled', true));
 
