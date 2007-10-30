@@ -597,8 +597,10 @@ else if (array_key_exists('btn_sitessetup', $_POST))
             $oTpl->assign('aSelectCountries',  $oAdNetworks->getCountriesSelect());
             $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
 
+            $aUrl = parse_url('http://'.$conf['webpath']['admin']);
+
             $oTpl->assign('aSites', array(
-                1 => array('url' => '')
+                1 => array('url' => $aUrl['host'])
             ));
 
             require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
