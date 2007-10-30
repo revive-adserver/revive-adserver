@@ -389,7 +389,12 @@ function initHelp()
 function showHelp()
 {
   $(".popup-help").fadeOut("fast");
-  $(this).prev().fadeIn("fast").css("display", "inline");
+
+  var $help = $(this).prev();
+  if ($(this).attr("help") != undefined) {
+  	$help = $("#" + $(this).attr("help"));
+  }
+  $help.fadeIn("fast").css("display", "inline");
 }
 
 function hideOaHelp()
