@@ -272,13 +272,13 @@ class OA_Dll_Publisher extends OA_Dll
                         ($publisherPrevData['oac_country_code'] != $publisherData['oac_country_code'])
                     ) {
                         // OAC related fields have changed, so unsubscribe and resubscribe this publisher
-                        $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher);
+                        $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $publisherPrevData['oac_website_id']);
                         $result = $oAdNetworks->subscribeWebsites($aPublisher);
                     }
                 }
             } else if (!empty($publisherPrevData['oac_website_id'])) {
                 // User unsubscribed from adnetworks
-                $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher);
+                $aError = $this->unsubscribePublisher($oAdNetworks, $oPublisher, $publisherPrevData['oac_website_id']);
             }
             return true;
         }
@@ -290,17 +290,15 @@ class OA_Dll_Publisher extends OA_Dll
      *
      * @param AdNetworks $oAdNetworks
      * @param PublisherInfo $oPublisher
+     * @param int $oacWebsiteId
      * @return array
      */
-    function unsubscribePublisher($oAdNetworks, $oPublisher)
+    function unsubscribePublisher($oAdNetworks, $oPublisher, $oacWebsiteId)
     {
         $aPublisher = array(
             array(
-                    'id'       => $oPublisher->publisherId,
-                    'url'      => $oPublisher->website,
-                    'country'  => $oPublisher->oacCountryCode,
-                    'language' => $oPublisher->oacLanguageId,
-                    'category' => $oPublisher->oacCategoryId,
+                    'id'             => $oPublisher->publisherId,
+                    'oac_website_id' => $oacWebsiteId,
                 )
             );
         $result = $oAdNetworks->unsubscribeWebsites($aPublisher);

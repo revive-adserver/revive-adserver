@@ -304,6 +304,17 @@ class OA_Central_RpcMapper
         ));
     }
 
+    /**
+     * A method to unsubscribe websites
+     *
+     * @param array $aWebsiteIds
+     */
+    function unsubscribeWebsites($aWebsiteIds)
+    {
+        return $this->oRpc->callNoAuth('unsubscribeWebsites', array(
+            XML_RPC_encode($aWebsiteIds)
+        ));
+    }
 
     /**
      * A method to get the list of other networks currently available

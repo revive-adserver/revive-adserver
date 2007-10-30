@@ -126,7 +126,7 @@ $Id$
                     {if !$oacEnabled}disabled="disabled"{/if}> /
                 <input type="checkbox" class="ss-cb line-cb" name="selfsignup" id="selfsignup{$affiliate.affiliateid|escape}" />
                 <!-- Add logic for the Advertiser self signup checkbox above -->
-                {if $affiliate.oac_adnetworks == 'yes'}<input type="hidden" name="adnetworks" value="1">{/if}
+                {if $affiliate.oac_adnetworks == 'yes'}<input type="hidden" name="advsignup" value="1">{/if}
                 <!-- A similar hidden field as above may be needed for the Advertiser self signup checkbox -->
             </span>
         </td>

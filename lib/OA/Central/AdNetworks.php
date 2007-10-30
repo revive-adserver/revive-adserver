@@ -478,6 +478,9 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 // No publisher ID found, skip
                 continue;
             }
+            if (!empty($aWebsite['oac_website_id'])) {
+                $aWebsiteIds[] = $aWebsite['oac_website_id'];
+            }
             // Unlink any Ad Network banners linked to this publisher's zones
             $doZones = OA_Dal::factoryDO('zones');
             $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
@@ -499,6 +502,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
             $this->oDal->rollback();
             return new PEAR_Error('Unable to unlink all ad network banners');
         } else {
+            $this->oMapper->unsubscribeWebsites($aWebsiteIds);
+
             return $this->oDal->commit();
         }
     }
