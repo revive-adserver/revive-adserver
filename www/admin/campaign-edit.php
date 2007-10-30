@@ -793,15 +793,15 @@ echo "  <table>\n";
 		    </div>
 		    <div id="remainingImpressionsSection">
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
-			    <span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE --></span>
-			     <div class="popup-help hide" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
-		            <div class="close" style="text-align: right">
-		                <span class="link">Close</span>
-		            </div>
-		            Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
-		       </div>
-		       <span class="link hide popup-help-link" style="display: inline;" id="openadsRemainingImpressionsHelpLink"><img style="border: none; margin-left: 5px; position: relative; top:3px;" src="images/help-book.gif" /></span>
+				  <span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE --></span>
+				    <span class="link hide popup-help-link" help="openadsRemainingImpressionsHelp" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
 		      </span>
+		     	<div class="popup-help hide" id="openadsRemainingImpressionsHelp" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
+	          <div class="close" style="text-align: right">
+	              <span class="link">Close</span>
+	          </div>
+	          Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
+	       	</div>
 		    </div>  
 		  </div>
 		  <div style="clear: both;"><input type="radio"  value="unl" name="rd_impr_bkd" id="unlimitedimpressions" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedimpressions"><?php echo $strUnlimited; ?></label></div>
@@ -824,14 +824,14 @@ echo "  <table>\n";
         <div id="remainingClicksSection">
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
           <span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE --></span>
-          <div class="popup-help hide" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
-                <div class="close" style="text-align: right">
-                    <span class="link">Close</span>
-                </div>
-                Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
-           </div>
-            <span class="link hide popup-help-link" style="display: inline;" id="openadsRemainingClicksHelpLink"><img style="border: none; margin-left: 5px; position: relative; top:3px;" src="images/help-book.gif" /></span>
+            <span class="link hide popup-help-link"	help="openadsRemainingClicksHelp" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
           </span>
+         <div class="popup-help hide" id="openadsRemainingClicksHelp" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
+          <div class="close" style="text-align: right">
+              <span class="link">Close</span>
+          </div>
+          Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
+         </div>
         </div>  
       </div>
       <div style="clear: both;"><input type="radio"  value="unl" name="rd_click_bkd" id="unlimitedclicks" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedclicks"><?php echo $strUnlimited; ?></label></div>
@@ -1060,9 +1060,9 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
     phpAds_formUnlimitedCheck('unlimitedimpressions', 'impressions');
     phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');
     phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');
-    $(":input[name='rd_impr_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedimpressions', 'impressions', 'openadsRemainingImpressions'); });
-    $(":input[name='rd_click_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedclicks', 'clicks', 'openadsRemainingClicks'); });
-    $(":input[name='rd_conv_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedconversions', 'conversions'); });
+    $(":input[name='rd_impr_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedimpressions', 'impressions', 'openadsRemainingImpressions'); return true; });
+    $(":input[name='rd_click_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedclicks', 'clicks', 'openadsRemainingClicks'); return true;});
+    $(":input[name='rd_conv_bkd']").click(function() { phpAds_formUnlimitedClick('unlimitedconversions', 'conversions'); return true;});
     initBookedInput($(":input[name='impressions']"));
     initBookedInput($(":input[name='clicks']"));
     initBookedInput($(":input[name='conversions']"));
@@ -1130,7 +1130,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 	  
       if (insufficient) {
         $remainingCentral.addClass("sts-insufficient");
-        $remainingCentralHelpLink.show();
+        $remainingCentralHelpLink.show().css("display", "inline");
       }
       else {
         $remainingCentral.removeClass("sts-insufficient");
@@ -1296,13 +1296,14 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         }
     }
 
-    function phpAds_setRemainingVisibility(elementName, visibility) {
+    function phpAds_setRemainingVisibility(elementId, visible) {
+    	var $elem = $("#" + elementId);
+    
         if (visibility) {
-            visible = 'visible';
+        	$elem.show();
         } else {
-            visible = 'hidden';
+            $elem.hide();
         }
-        document.getElementById(elementName).style.visibility = visible;
     }
 
 
