@@ -444,11 +444,12 @@ else if (array_key_exists('btn_tagssetup', $_POST))
         if (isset($_POST['aUrls']) && is_array($_POST['aUrls'])) {
             phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks');
 
-            // Remove the template entry
-            array_pop($aUrls);
-
             $aTplSites = array();
             foreach ($aUrls as $key => $url) {
+                if (empty($url)) {
+                    continue;
+                }
+
                 $isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
 
                 $aWebsites[$isOac][] = $aTplSites[count($aTplSites)+1] = array(
