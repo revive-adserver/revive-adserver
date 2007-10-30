@@ -34,4 +34,4 @@ admin.password=password
 ; TODO: should we rather read these variables
 ;       from host.conf.php?
 ;--------------------------------------------
-viewerId=MAXID
+viewerId=OAID
