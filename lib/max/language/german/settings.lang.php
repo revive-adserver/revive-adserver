@@ -99,18 +99,18 @@ $GLOBALS['strOaUpToDateCantRemove']     = "Warnung: Die Datei UPGRADE im var Unt
 $GLOBALS['strRemoveUpgradeFile']               = "Sie m&uuml;ssen die Datei UPGRADE im var Unterverzeichnis manuell l&ouml;schen.";
 
 
-$GLOBALS['strInstallSuccess']			= 
+$GLOBALS['strInstallSuccess']			=
 "<strog>Herzlichen Gl&uuml;ckwunsch! Die Installation von " . MAX_PRODUCT_NAME . " " . OA_VERSION ." war erfolgreich.</strong><br />
 <br />Um das beste aus ". MAX_PRODUCT_NAME ." herauszuholen, sollten Sie noch folgende zwei Schritte durchf&uuml;hren.
 
 <strong>Wartungsmodul</strong><br />
-Damit ".MAX_PRODUCT_NAME." korrekt arbeitet, mu&szlig; sichergestellt sein, da&szlig; das Wartungsmodul (maintenance.php) st&uuml;ndlich aktiviert wird. 
-Es ist zwar nicht zwingend notwendig das Wartungsmodul &uuml;ber das Cron zu starten, da solange Banner ausgeliefert werden, das Wartungsmodul automatisch von 
+Damit ".MAX_PRODUCT_NAME." korrekt arbeitet, mu&szlig; sichergestellt sein, da&szlig; das Wartungsmodul (maintenance.php) st&uuml;ndlich aktiviert wird.
+Es ist zwar nicht zwingend notwendig das Wartungsmodul &uuml;ber das Cron zu starten, da solange Banner ausgeliefert werden, das Wartungsmodul automatisch von
 der Auslieferungsskripten gestartet wird. Der Zuverl&auml;ssigkeit wegen ist es jedoch empfehlenswert das Wartungsmodul &uuml;ber das Cron st&uuml;ndlich zu starten.
 N&auml;here Informationen finden sich im <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'>Handbuch</a>. <br />
 <br />
 <strong>Sicherheit</strong><br />
-Die " . MAX_PRODUCT_NAME . " Installationsroutine muss auf die Konfigurationsdatei schreibend zugreifen k&ouml;nnen. Nachdem die Installation und die nachfolgende Konfiguration beendet ist, 
+Die " . MAX_PRODUCT_NAME . " Installationsroutine muss auf die Konfigurationsdatei schreibend zugreifen k&ouml;nnen. Nachdem die Installation und die nachfolgende Konfiguration beendet ist,
 sollte der Schreibschutz auf der Konfigurationsdatei wieder entfernt werden.<br />
 N&auml;here Informationen finden sich im <a href='http://".MAX_PRODUCT_DOCSURL."' target='_blank'>Handbuch</a>.
 <br /><br />
@@ -237,7 +237,7 @@ $GLOBALS['strDatabaseOptimalisations']		= " Datenbank Optimierung";
 $GLOBALS['strPersistentConnections']		= "Dauerhafte (persistente) Verbindung zur Datenbank";
 $GLOBALS['strCantConnectToDb']		= "Verbindung zur Datenbank nicht m&ouml;glich";
 $GLOBALS['strDemoDataInstall']                       = 'Installation von Demonstrationsdaten';
-$GLOBALS['strDemoDataIntro']                         = 'Standardwerte k&ouml;nnen in die ' . MAX_PRODUCT_NAME . ' Datenbank geladen werden, um Ihnen die 
+$GLOBALS['strDemoDataIntro']                         = 'Standardwerte k&ouml;nnen in die ' . MAX_PRODUCT_NAME . ' Datenbank geladen werden, um Ihnen die
 Start mit dem Ad-Server zu erleichtern. Die meist verwendeten Bannertypen als auch einige Kampagnen werden vorkonfiguriert.
 
 Dies ist f&uuml;r Neuinstallationen sehr empfehlenswert.';
@@ -343,7 +343,7 @@ $GLOBALS['sslPort']                                  = 'Vom Web-Server genutzer 
 $GLOBALS['strGeotargetingSettings']                  = 'Einstellungen Geotargeting';
 $GLOBALS['strGeotargeting']			= "Allgemeine Einstellungen Geotargeting";
 $GLOBALS['strGeotargetingType']                      = 'Geotargeting Modultyp';
-$GLOBALS['strGeotargetingGeoipCountryLocation']      = 'Speicherort der MaxMind GeoIP L&auml;nderdatenbank<br />(Leer lassen um freie Datenbank zu nutzen)';
+$GLOBALS['strGeotargetingGeoipCountryLocation']      = 'Speicherort der MaxMind GeoIP L&auml;nderdatenbank';
 $GLOBALS['strGeotargetingGeoipRegionLocation']       = 'Speicherort der MaxMind GeoIP Regionendatenbank';
 $GLOBALS['strGeotargetingGeoipCityLocation']         = 'Speicherort der MaxMind GeoIP St&auml;dtedatenbank';
 $GLOBALS['strGeotargetingGeoipAreaLocation']         = 'Speicherort der MaxMind GeoIP Gebietsdatenbank';

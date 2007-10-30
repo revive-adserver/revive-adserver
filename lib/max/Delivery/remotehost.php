@@ -162,7 +162,7 @@ function MAX_remotehostSetGeoInfo()
     $aConf = $GLOBALS['_MAX']['CONF'];
     $type = (!empty($aConf['geotargeting']['type'])) ? $aConf['geotargeting']['type'] : null;
     if (!is_null($type) && $type != 'none') {
-        $functionName = 'MAX_Geo_'.$type.'_getInfo';
+        $functionName = 'OA_Geo_'.$type.'_getInfo';
         if (function_exists($functionName)) {
             return;
         }

@@ -42,6 +42,7 @@ phpAds_checkAccess(phpAds_Admin);
 $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('geotargeting_type',
+                          'geotargeting_useBundledCountryDatabase',
                           'geotargeting_geoipCountryLocation',
                           'geotargeting_geoipRegionLocation',
                           'geotargeting_geoipCityLocation',
@@ -55,8 +56,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Set up the top level geotargeting configuration file
     $config = new OA_Admin_Config();
     $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
-    $config->setConfigChange('geotargeting', 'saveStats', $geotargeting_saveStats);
-    $config->setConfigChange('geotargeting', 'showUnavailable', $geotargeting_showUnavailable);
+    $config->setConfigChange('geotargeting', 'saveStats', isset($geotargeting_saveStats));
+    $config->setConfigChange('geotargeting', 'useBundledCountryDatabase', isset($geotargeting_useBundledCountryDatabase));
+    $config->setConfigChange('geotargeting', 'showUnavailable', isset($geotargeting_showUnavailable));
     if (!$config->writeConfigChange()) { //MAX_Plugin::writePluginConfig($config->conf, 'geotargeting')) {
         // Unable to write the config file out
         $errormessage[0][] = $strUnableToWriteConfig;
@@ -173,11 +175,20 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
+                'type'    => 'checkbox',
+                'name'    => 'geotargeting_useBundledCountryDatabase',
+                'text'    => $strGeotargetingUseBundledCountryDb,
+                'depends' => 'geotargeting_type==1'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
                 'type'    => 'text',
                 'name'    => 'geotargeting_geoipCountryLocation',
                 'text'    => $strGeotargetingGeoipCountryLocation,
                 'size'    => 35,
-                'depends' => 'geotargeting_type==1'
+                'depends' => 'geotargeting_type==1 && geotargeting_useBundledCountryDatabase==0'
             ),
             array (
                 'type'    => 'break'
