@@ -1,0 +1,32 @@
+/* HELP */
+.popup-help {
+  position: absolute;
+  color: black;
+  z-index: 1;
+  border: 1px solid #666666;
+  background-color: #ffffcc;
+  padding: 7px;
+  padding-left:15px;  
+  -moz-border-radius: 8px;
+  margin-left: 20px;
+  font-weight: normal;
+}
+
+.popup-help-link {
+  padding-left: 5px;
+  position: relative;
+  top: -2px;
+  font-weight: normal;
+}
+
+.help-content {
+  height: 90px;
+  width: 190px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.popup-help .close {
+  text-align: right;
+  padding-bottom: 3px;
+}

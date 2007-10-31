@@ -794,12 +794,9 @@ echo "  <table>\n";
 		    <div id="remainingImpressionsSection">
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
 				  <span id="openadsRemainingImpressions">Openads impressions remaining: <span id='openadsRemainingImpressionsCount'>3000<!-- REAL DATA GOES HERE --></span>
-				    <span class="link hide popup-help-link" help="openadsRemainingImpressionsHelp" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
+				    <span class="link hide" help="help-openads-remaining-impressions" id="openadsRemainingImpressionsHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
 		      </span>
-		     	<div class="popup-help hide" id="openadsRemainingImpressionsHelp" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
-	          <div class="close" style="text-align: right">
-	              <span class="link">Close</span>
-	          </div>
+		     	<div class="hide" id="help-openads-remaining-impressions" style="height: auto; width: 290px;">
 	          Campaign's remaining impressions number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked impressions by the missing value.
 	       	</div>
 		    </div>  
@@ -824,12 +821,9 @@ echo "  <table>\n";
         <div id="remainingClicksSection">
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
           <span id="openadsRemainingClicks">Openads clicks remaining: <span id='openadsRemainingClicksCount'>600<!-- REAL DATA GOES HERE --></span>
-            <span class="link hide popup-help-link"	help="openadsRemainingClicksHelp" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
+            <span class="link hide"	help="help-openads-remaining-clicks" id="openadsRemainingClicksHelpLink"><img style="border: none; position: relative; top:5px;" src="images/help-book.gif" /></span>
           </span>
-         <div class="popup-help hide" id="openadsRemainingClicksHelp" style="margin-top: -110px; margin-left: -200px; height: auto; width: 290px;">
-          <div class="close" style="text-align: right">
-              <span class="link">Close</span>
-          </div>
+         <div class="hide" id="help-openads-remaining-clicks" style="height: auto; width: 290px;">
           Campaign's remaining clicks number is too small to satisfy the number booked by advertiser. It means that the local remaining click number is lower than central remaining click number and you should increase the booked clicks by the missing value.
          </div>
         </div>  
@@ -1055,8 +1049,6 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
 <script language='JavaScript'>
 <!--
   $(document).ready(function() {
-    initHelp();
-      
     phpAds_formUnlimitedCheck('unlimitedimpressions', 'impressions');
     phpAds_formUnlimitedCheck('unlimitedclicks', 'clicks');
     phpAds_formUnlimitedCheck('unlimitedconversions', 'conversions');

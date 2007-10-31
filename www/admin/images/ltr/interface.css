@@ -834,35 +834,6 @@ a.adv-list-entry {
     margin: 15px 0px;
 } 
 
-/* HELP */
-.popup-help {
-  position: absolute;
-  color: black;
-  z-index: 1;
-  border: 1px solid #666666;
-  background-color: #ffffcc;
-  padding: 7px;
-  -moz-border-radius: 8px;
-  margin-top: -100px;
-  height: 90px;
-  width: 190px;
-  margin-left: 20px;
-  font-weight: normal;
-}
-
-.popup-help-link {
-  padding-left: 5px;
-  position: relative;
-  top: -2px;
-  font-weight: normal;
-}
-
-.popup-help .close {
-  text-align: right;
-  padding-bottom: 3px;
-}
-
-
 pre.invocation-codes {
   background: #FFFFFF none repeat scroll 0%;
   border: 1px solid #CCCCCC;

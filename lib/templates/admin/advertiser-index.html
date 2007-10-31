@@ -32,7 +32,6 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <!--
   $(document).ready(function() { 
     initFindOtherNetworks();
-    initHelp();
   });
 //-->  
 </script>
@@ -111,16 +110,12 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <div class="section">
 <div class="title">
     <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Find other ad networks
-         <div class="popup-help hide" style="margin-top: -130px; height: auto; width: 290px;">
-            <div class="close" style="text-align: right">
-                <span class="link">Close</span>
-            </div>
-            The networks that you see here are the most popular networks that have been suggested by your fellow Openads community members. 
-            If you would like to try these networks, click on the link and you will be directed to the sign up page for the ad network. 
-            Once you have signed up, place the tags from the network into a new Openads banner.            
-        </div>
-        <span class="link popup-help-link adnetworks-help">(what's this?)</span>
+        Find other ad networks <span class="link" help="help-adnetworks">(what's this?)</span>
+</div>
+ <div id="help-adnetworks" class="hide" style="height: auto; width: 290px;">
+    The networks that you see here are the most popular networks that have been suggested by your fellow Openads community members. 
+    If you would like to try these networks, click on the link and you will be directed to the sign up page for the ad network. 
+    Once you have signed up, place the tags from the network into a new Openads banner.            
 </div>
             
 <div class="content oa">
