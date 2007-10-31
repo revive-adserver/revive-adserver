@@ -126,8 +126,8 @@ class BaseServiceImpl extends  OA_BaseObjectWithErrors
     function preInitSession()
     {
         global $pref;
-        $link = phpAds_dbConnect();
-        if (!$link)
+        $oDbh = OA_DB::singleton();
+        if (PEAR::isError($oDbh))
         {
             $this->raiseError("Could not connect to database");
             return false;
