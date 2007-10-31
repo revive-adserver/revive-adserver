@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-dmacodes.inc.php';
-
 /**
  * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
@@ -35,6 +33,8 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-dmacodes.inc.
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['dma'])) {
+    require MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-dmacodes.inc.php';
+
     $res = $OA_Geo_DmaCodes;
 
     asort($res);

@@ -25,10 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166.inc.php';
-require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166-2.inc.php';
-require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-fips.inc.php';
-
 /**
  * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
@@ -37,6 +33,10 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-fips.inc.php'
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['region'])) {
+    require MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166.inc.php';
+    require MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166-2.inc.php';
+    require MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-fips.inc.php';
+
     foreach ($OA_Geo_FIPS as $k => $v) {
         if ($k == 'US' || $k == 'CA') {
             $v = $OA_Geo_ISO3166_2[$k];
@@ -44,16 +44,11 @@ if (!isset($GLOBALS['_MAX']['_GEOCACHE']['region'])) {
         $res[$k] = array($OA_Geo_ISO3166[$k]) + $v;
     }
 
-    uasort($res, 'OA_Geo_Region_Sort');
+    uasort($res, create_function('$a,$b', 'return strcmp($a[0], $b[0]);'));
 
     $GLOBALS['_MAX']['_GEOCACHE']['region'] = $res;
 } else {
     $res = $GLOBALS['_MAX']['_GEOCACHE']['region'];
-}
-
-function OA_Geo_Region_Sort($a, $b)
-{
-    return strcmp($a[0], $b[0]);
 }
 
 ?>

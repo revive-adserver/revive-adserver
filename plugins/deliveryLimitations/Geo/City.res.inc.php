@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/Country.res.inc.php';
-
 /**
  * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
@@ -35,6 +33,9 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/Country.res.inc.php';
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['city'])) {
+    require MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166.inc.php';
+    require MAX_PATH . '/plugins/deliveryLimitations/Geo/Country.res.inc.php';
+
     foreach ($OA_Geo_ISO3166_MaxMind as $v) {
         unset($res[$v]);
     }

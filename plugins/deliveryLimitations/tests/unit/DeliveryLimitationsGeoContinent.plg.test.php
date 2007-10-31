@@ -54,9 +54,9 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Geo_Continent extends UnitTestCa
         $oPlugin = &MAX_Plugin::factory('deliveryLimitations', 'Geo', 'Continent');
         $oPlugin->init(array());
         $result = $oPlugin->_getSqlLimitation('=~', 'AF');
-        $this->assertEqual($result, "LOWER(country) IN ('zw','zm','eh','ug','tn','tg','tz','sz','sd','za','so','sl','sc','sn','st','rw','re','ng','ne','na','mz','ma','yt','mu','mr','ml','mw','mg','ly','lr','ls','ke','hm','gw','gn','gh','et','ci','gm','ga','tf','er','gq','eg','cd','cg','km','td','cf','cv','cm','bi','bf','bv','bw','bj','ao','dz')");
+        $this->assertEqual($result, "LOWER(country) IN ('zw','zr','zm','eh','ug','tn','tg','tz','sz','sd','za','so','sl','sc','sn','st','rw','re','ng','ne','na','mz','ma','yt','mu','mr','ml','mw','mg','ly','lr','ls','ke','hm','gw','gn','gh','et','ci','gm','ga','tf','er','gq','eg','cd','cg','km','td','cf','cv','cm','bi','bf','bv','bw','bj','ao','dz')");
         $result = $oPlugin->_getSqlLimitation('!~', 'AF,EU');
-        $this->assertEqual($result, "LOWER(country) NOT IN ('zw','zm','eh','ug','tn','tg','tz','sz','sd','za','so','sl','sc','sn','st','rw','re','ng','ne','na','mz','ma','yt','mu','mr','ml','mw','mg','ly','lr','ls','ke','hm','gw','gn','gh','et','ci','gm','ga','tf','er','gq','eg','cd','cg','km','td','cf','cv','cm','bi','bf','bv','bw','bj','ao','dz','eu','yu','gb','uk','ua','ch','se','sj','es','si','sk','sm','ru','ro','pt','pl','no','nl','mc','md','mt','mk','lu','lt','li','lv','it','ie','is','hu','va','gr','gi','de','ge','fx','fr','fi','fo','ee','dk','cz','cy','hr','bg','ba','be','by','at','am','ad','al')");
+        $this->assertEqual($result, "LOWER(country) NOT IN ('zw','zr','zm','eh','ug','tn','tg','tz','sz','sd','za','so','sl','sc','sn','st','rw','re','ng','ne','na','mz','ma','yt','mu','mr','ml','mw','mg','ly','lr','ls','ke','hm','gw','gn','gh','et','ci','gm','ga','tf','er','gq','eg','cd','cg','km','td','cf','cv','cm','bi','bf','bv','bw','bj','ao','dz','eu','yu','gb','uk','ua','ch','se','sj','es','si','sk','sm','ru','ro','pt','pl','no','nl','mc','md','mt','mk','lu','lt','li','lv','it','ie','is','hu','va','gr','gi','de','ge','fx','fr','fi','fo','ee','dk','cz','cy','hr','bg','ba','be','by','at','am','ad','al')");
     }
 
 

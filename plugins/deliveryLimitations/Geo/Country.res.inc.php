@@ -25,8 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166.inc.php';
-
 /**
  * @package    OpenadsPlugin
  * @subpackage DeliveryLimitations
@@ -35,6 +33,8 @@ require_once MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166.inc.p
  */
 
 if (!isset($GLOBALS['_MAX']['_GEOCACHE']['country'])) {
+    require MAX_PATH . '/plugins/deliveryLimitations/Geo/data/res-iso3166.inc.php';
+
     $res = array();
 
     foreach ($OA_Geo_ISO3166 as $k => $v) {
