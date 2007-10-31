@@ -110,12 +110,20 @@ class Plugins_InvocationTagsOptions
                 " WHERE m.clientid=c.clientid".
                 " AND c.agencyid=".phpAds_getAgencyID();
         }
-        $res = phpAds_dbQuery($query)
-            or phpAds_sqlDie();
-        while ($row = phpAds_dbFetchArray($res)) {
-            $option .= "<option value='".$row['campaignid']."'".($mi->campaignid == $row['campaignid'] ? ' selected' : '').">";
-            $option .= phpAds_buildName ($row['campaignid'], $row['campaignname']);
-            $option .= "</option>\n";
+        $oDbh = OA_DB::singleton();
+        $aResult = $oDbh->queryAll($query);
+        if (PEAR::isError($aResult))
+        {
+            $option .= "<option value='0'>'.$aResult->getUserInfo().'</option>\n";
+        }
+        else
+        {
+            foreach ($aResult AS $k => $row)
+            {
+                $option .= "<option value='".$row['campaignid']."'".($mi->campaignid == $row['campaignid'] ? ' selected' : '').">";
+                $option .= phpAds_buildName ($row['campaignid'], $row['campaignname']);
+                $option .= "</option>\n";
+            }
         }
         $option .= "</select>\n";
         $option .= "</td></tr>";

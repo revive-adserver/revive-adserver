@@ -506,17 +506,25 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
 
         $query = "SELECT ".$sFields." FROM ".$sFrom." ".$sWhere." ".$sGroupBy;
 
-        $res = phpAds_dbQuery($query);
+        $oDbh = OA_DB::singleton();
+        $aResult = $oDbh->queryAll($query);
+        if (PEAR::isError($aResult))
+        {
+            // if there is an error?
+        }
+        else
+        {
+            foreach ($aResult AS $k => $row)
+            {
+                $pkey = $row['pkey'];
+                unset ($row['pkey']);
 
-        while ($row = phpAds_dbFetchArray($res)) {
-            $pkey = $row['pkey'];
-            unset ($row['pkey']);
+                if (!isset($aRows[$pkey])) {
+                    $aRows[$pkey] = $emptyRow;
+                }
 
-            if (!isset($aRows[$pkey])) {
-                $aRows[$pkey] = $emptyRow;
+                $aRows[$pkey] = $row + $aRows[$pkey];
             }
-
-            $aRows[$pkey] = $row + $aRows[$pkey];
         }
     }
 
