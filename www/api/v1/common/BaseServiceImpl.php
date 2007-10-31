@@ -38,7 +38,6 @@ require_once MAX_PATH . '/lib/OA/BaseObjectWithErrors.php';
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';

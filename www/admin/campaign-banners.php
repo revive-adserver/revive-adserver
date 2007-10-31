@@ -430,7 +430,7 @@ echo "<tr><td height='25' colspan='3'><b>$strCreditStats</b></td></tr>";
 echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%' alt=''></td></tr>";
 
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-list($desc,$enddate,$daysleft) = $dalCampaigns->getDaysLeft($campaignid);
+$desc = $dalCampaigns->getDaysLeftString($campaignid);
 $adImpressionsLeft = phpAds_formatNumber($dalCampaigns->getAdImpressionsLeft($campaignid));
 $adClicksLeft = phpAds_formatNumber($dalCampaigns->getAdClicksLeft($campaignid));
 $adConversionsLeft = phpAds_formatNumber($dalCampaigns->getAdConversionsLeft($campaignid));

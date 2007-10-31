@@ -30,6 +30,9 @@ $Id$
 // Required files
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 
+// #1088 redundant code refactor
+//  phpAds_registerGlobal is a wrapper function for MAX_commonRegisterGlobalsArray($args);
+//  *technically* deprecated
 phpAds_registerGlobal('cap', 'session_capping', 'time');
 
 /**
@@ -235,7 +238,7 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
       <td valign='top'>
         <input class='flat' type='text' size='2' name='session_capping' value='{$session_capping}' onBlur=\"phpAds_formCapBlur(this);\" tabindex='".($tabindex++)."'> {$GLOBALS['strDeliveryCappingSession']}
       </td>
-      
+
       ";
 
     if ($showExtra) {
@@ -247,7 +250,7 @@ function _echoDeliveryCappingHtml($tabindex, $aText, $aCappedObject, $type = nul
       </td>";
     }
     if (($cap != '-' && $cap > 0) || ($session_capping != '-' && $session_capping > 0)) {
-        $timeDisabled = false; 
+        $timeDisabled = false;
     } else {
         $timeDisabled = true;
     }
@@ -307,10 +310,10 @@ echo "
 	function phpAds_formCapBlur (i)
 	{
 		if (i.value == '' || i.value == '0') {
-		  i.value = '-' 
+		  i.value = '-'
 		} else {
 		  oa_formEnableTime(i);
-		} 
+		}
 	}
 
 	function phpAds_formLimitBlur (i)

@@ -30,7 +30,6 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Dal/Admin/Acls.php';

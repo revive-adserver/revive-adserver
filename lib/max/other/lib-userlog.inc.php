@@ -28,9 +28,6 @@
 $Id$
 */
 
-// Required files
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
-
 // Define usertypes
 define ("phpAds_userDeliveryEngine", 1);
 define ("phpAds_userMaintenance", 2);

@@ -183,10 +183,11 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $this->assertEqual($actual, $expected);
     }
 
+
     /**
-     * A method to test the getDaysLeft() method.
+     * A method to test the getDaysLeftString() method.
      */
-    function testGetDaysLeft()
+    function test_getDaysLeftString()
     {
         $GLOBALS['strExpiration']   = 'Expiration';
         $GLOBALS['strEstimated']    = 'Estimated Expiration';
@@ -209,8 +210,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $aCampaignIds = $dg->generate($doCampaigns, 1, true);
         $campaignId = $aCampaignIds[0];
 
-        $expected = array($GLOBALS['strExpiration'].": ".$GLOBALS['strNoExpiration'],'', '');
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strExpiration'].": ".$GLOBALS['strNoExpiration'];
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
@@ -242,12 +243,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $doBanners->acls_updated = '2007-04-03 18:39:45';
         $bannerId = DataGenerator::generateOne($doBanners);
 
-        $expected = array(
-            $GLOBALS['strExpiration'] . ': ' . $oDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
-            $oDate->format('%d.%m.%Y'),
-            $daysLeft
-        );
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strExpiration'] . ': ' . $oDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft. ')';
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
@@ -290,12 +287,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = array(
-            $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
-            $oExpirationDate->format('%d.%m.%Y'),
-            $daysLeft
-        );
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
@@ -338,12 +331,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = array(
-            $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
-            $oExpirationDate->format('%d.%m.%Y'),
-            $daysLeft
-        );
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
@@ -386,12 +375,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = array(
-            $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
-            $oExpirationDate->format('%d.%m.%Y'),
-            $daysLeft
-        );
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
@@ -439,12 +424,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = array(
-            $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
-            $oExpirationDate->format('%d.%m.%Y'),
-            $daysLeft
-        );
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
@@ -501,12 +482,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = array(
-            $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
-            $oExpirationDate->format('%d.%m.%Y'),
-            $daysLeft
-        );
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strEstimated'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
 
 
@@ -563,12 +540,8 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
         $oExpirationDate = new Date();
         $oExpirationDate->copy($oDate);
         $oExpirationDate->addSeconds($daysLeft * SECONDS_PER_DAY);
-        $expected = array(
-            $GLOBALS['strExpiration'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")",
-            $oExpirationDate->format('%d.%m.%Y'),
-            $daysLeft
-        );
-        $actual = $this->oDalCampaigns->getDaysLeft($campaignId);
+        $expected = $GLOBALS['strExpiration'] . ': ' . $oExpirationDate->format('%d.%m.%Y') . " (".$GLOBALS['strDaysLeft'].": " . $daysLeft .")";
+        $actual = $this->oDalCampaigns->getDaysLeftString($campaignId);
         $this->assertEqual($actual, $expected);
     }
 

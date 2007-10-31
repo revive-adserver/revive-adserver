@@ -183,29 +183,24 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      *
      * Returns the earliest possible date from the following values:
      *  - The campaign's expiration date, if set.
-     *  - The extimated expiration date based on lifetime impression delivery
+     *  - The eStimated expiration date based on lifetime impression delivery
      *    rate, if applicable.
-     *  - The extimated expiration date based on lifetime click delivery rate
+     *  - The eStimated expiration date based on lifetime click delivery rate
      *    if applicable.
-     *  - The extimated expiration date based on lifetime conversion rate,
+     *  - The eStimated expiration date based on lifetime conversion rate,
      *    if applicable.
      *
      * Usage:
-     *   list($desc,$endDate,$daysLeft) = $dalCampaigns->getDaysLeft($campaignid);
+     *   $desc = $dalCampaigns->getDaysLeftString($campaignid);
      *
      * Where:
      *   $desc is a string to display giving how the expiration was calculated
-     *     (eg. "Estimated expiration"), or that there is no expiration date,
-     *     in which date $endDate and $daysLeft are null.
-     *   $endDate is a formatted date string, ready for display, of the expiration
-     *     date, if applicable.
-     *   $daysLeft is a formatted number string, ready for display, of the number
-     *     of days until the campaign will end, if applicable.
+     *     eg. "Estimated expiration", or that there is no expiration date
      *
      * @param integer $campaignId The campaign ID.
-     * @return array The result array, as described above.
+     * @return string
      */
-    function getDaysLeft($campaignId)
+    function getDaysLeftString($campaignId)
     {
         global $date_format, $strExpiration, $strNoExpiration, $strDaysLeft, $strEstimated;
         $prefix = $this->getTablePrefix();
@@ -303,13 +298,12 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			}
         }
 
-        $aReturn = array();
+        $result = '';
         // Is there a possible expiration date?
-        if (empty($aExpiration) || count($aExpiration) == 0) {
+        if (empty($aExpiration) || count($aExpiration) == 0)
+        {
             // No, so return the "no expiration date" value
-    		$aReturn[] = $strExpiration.": ".$strNoExpiration;
-    		$aReturn[] = '';
-    		$aReturn[] = '';
+    		$result = $strExpiration.": ".$strNoExpiration;
         } else {
         	// Find the earliest expiration date
     		$aFinalExpiration = $aExpiration[0];
@@ -322,16 +316,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             $aFinalExpiration['daysLeft'] = phpAds_formatNumber($aFinalExpiration['daysLeft']);
             // Prepare the return value
     		if ($aFinalExpiration['absolute']) {
-    			$aReturn[] = $strExpiration . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
+    			$result = $strExpiration . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
     		} else {
-    			$aReturn[] = $strEstimated  . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
+    			$result = $strEstimated  . ": " . $aFinalExpiration['date'] . " (" . $strDaysLeft . ": " . $aFinalExpiration['daysLeft'] . ")";
     		}
-    		$aReturn[] = $aFinalExpiration['date'];
-    		$aReturn[] = $aFinalExpiration['daysLeft'];
         }
-        return $aReturn;
+        return $result;
     }
-
 
     /**
      * A private method to caclucate the number of days left until a

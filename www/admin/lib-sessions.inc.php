@@ -29,7 +29,6 @@ $Id$
 */
 
 // Required files
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 
 if(!isset($GLOBALS['_MAX']['FILES']['/lib/max/Delivery/cookie.php'])) {

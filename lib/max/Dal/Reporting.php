@@ -41,7 +41,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         parent :: MAX_Dal_Common();
     }
-
+/* redundant
     function getPublisherDailyStats($agencyId, $publisherId, $statsStartDate = null, $statsEndDate = null)
     {
         $conf = & $GLOBALS['_MAX']['CONF'];
@@ -87,10 +87,10 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             $aAdvertiserDailyStatsData[$row['day']]['impressions'] = $row['impressions'];
             $aAdvertiserDailyStatsData[$row['day']]['clicks'] = $row['clicks'];
         }
-
         return $aAdvertiserDailyStatsData;
 
     }
+
     function getCampaignData($agencyId, $publisherId, $campaignStartDate, $campaignEndDate, $statsStartDate = null, $statsEndDate = null)
     {
         $conf = & $GLOBALS['_MAX']['CONF'];
@@ -296,10 +296,11 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
 
         return $aCampaignData;
     }
-
+*/
     /**
      * @todo Handle situations where user is not Admin, Agency or Advertiser
      */
+/* redundant
     function phpAds_getCampaignArray()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -369,7 +370,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
 
         return ($campaignArray);
     }
-
+*/
     /**
      * @todo Handle situations where user is not Admin, Agency or Advertiser.
      */
@@ -406,6 +407,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     /**
      * @todo Handle situations where user is not Admin, Agency, or Advertiser
      */
+/* redundant
     function phpAds_getZoneArray($orderBy = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -460,7 +462,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
 
         return ($zoneArray);
     }
-
+*/
     /**
      * @todo Handle cases where user is not Admin, Agency or Advertiser
      */
@@ -530,6 +532,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     /**
      * @todo Move this out of the DAL.
      */
+/*  redundant
     function displayAffiliateIdDropdownField($fields, $key)
     {
         $dal = new MAX_Dal_Reporting();
@@ -553,10 +556,11 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
             echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
         }
     }
-
+*/
     /**
      * @todo Move this out of the DAL.
      */
+/* redundant
     function displayTrackerDropdownField($fields, $key)
     {
         $dal = new MAX_Dal_Reporting();
@@ -573,5 +577,5 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
         echo "<tr><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
         echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
     }
-
+*/
 }
