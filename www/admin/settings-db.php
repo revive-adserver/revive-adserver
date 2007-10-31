@@ -57,7 +57,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $GLOBALS['_MAX']['CONF']['database']['password']    = $database_password;
         $GLOBALS['_MAX']['CONF']['database']['name']        = $database_name;
         $GLOBALS['_MAX']['CONF']['database']['persistent']  = isset($database_persistent) ? true : false;
-        if (!phpAds_dbConnect()) {
+        $oDbh = OA_DB::singleton();
+        if (PEAR::isError($oDbh)) {
             $errormessage[0][] = $strCantConnectToDb;
         } else {
             // Set up the configuration .ini file
