@@ -164,10 +164,8 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargeting extends OA_Admi
     {
         parent::_summariseTotals($aRows);
 
-        //  properly calculate the correct target ratio by dividing total impressions by total requested impressions
-        $this->aTotal['target_ratio'] = $this->aTotal['placement_actual_impressions'] / $this->aTotal['placement_requested_impressions'];
+        $this->_summarizeStats($this->aTotal);
     }
-
 }
 
 ?>
