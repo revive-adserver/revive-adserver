@@ -1748,7 +1748,7 @@ $append = (!empty($aBanner['append']) && $useAppend) ? $aBanner['append'] : '';
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onmouseover=\"self.status='{$aBanner['status']}'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 //$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='{target}'$status>";
 $clickTagEnd = '</a>';
@@ -1790,7 +1790,7 @@ $altImageAdCode = !empty($aBanner['alt_filename'])
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTARGET='.$target.'&clickTAG=' . $clickUrl;
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
@@ -1850,7 +1850,7 @@ $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $l
 // Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
 if (!empty($clickTag)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
 $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -1922,7 +1922,7 @@ $append = !empty($aBanner['append']) ? $aBanner['append'] : '';
 // Create the anchor tag..
 $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
 if (!empty($clickUrl)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $clickTag = "<a href='$clickUrl' target='$target'$status>";
 $clickTagEnd = '</a>';
@@ -1950,7 +1950,7 @@ $altImageBannercode = _adRenderImage($aBanner, $zoneId, $source, $ct0, false, $l
 // Create the anchor tag..
 $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
 if (!empty($clickTag)) {  // There is a link
-$status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+$status = _adRenderBuildStatusCode($aBanner);
 $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
 $swfParams = 'clickTAG=' . $clickTag;
 $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -2128,6 +2128,10 @@ $clickUrl = $logClick;
 $clickUrl = MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, true);
 }
 return $clickUrl;
+}
+function _adRenderBuildStatusCode($aBanner)
+{
+return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
 }
 function MAX_adSelect($what, $campaignid = '', $target = '', $source = '', $withtext = 0, $context = array(), $richmedia = true, $ct0 = '', $loc = '', $referer = '')
 {
