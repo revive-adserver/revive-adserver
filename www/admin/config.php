@@ -32,7 +32,6 @@ $Id$
 require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
-require_once MAX_PATH . '/lib/max/other/lib-db.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
@@ -40,6 +39,7 @@ require_once MAX_PATH . '/lib/max/Permission.php';
 
 $oDbh = OA_DB::singleton();
 if (PEAR::isError($oDbh))
+{
     // Check if UI is enabled
     if (!$conf['max']['uiEnabled']) {
         Language_Default::load();
