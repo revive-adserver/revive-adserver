@@ -204,7 +204,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
 
 <div class="line-nolabel">
 <input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks" value="false">
-<input type="checkbox" name="aAnCheckbox[]" id="adnetworks" {if !$syncEnabled}disabled="true"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks" class="cb">Sign up this site to Ad Networks</label>
+<input type="checkbox" name="aAnCheckbox[]" id="adnetworks" {if !$syncEnabled}disabled="true"{else}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks" class="cb">Sign up this site to Ad Networks</label>
 
 <span class="popup-help hide" style="width: 310px; height: 220px; margin-top: -210px; margin-left: 140px">
   <div class="close" style="text-align: right"><span class="link">Close</span></div>

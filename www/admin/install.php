@@ -598,13 +598,17 @@ else if (array_key_exists('btn_sitessetup', $_POST))
             $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
 
             $aUrl = parse_url('http://'.$conf['webpath']['admin']);
-
+            
+            $isOac = MAX_Admin_Preferences::checkBool('updates_enabled', true);
             $oTpl->assign('aSites', array(
-                1 => array('url' => $aUrl['host'])
+                1 => array(
+                	'url' => $aUrl['host'],
+                	'adnetworks' => $isOac
+                	)
             ));
 
             require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-            $oTpl->assign('syncEnabled', MAX_Admin_Preferences::checkBool('updates_enabled', true));
+            $oTpl->assign('syncEnabled', $isOac);
 
             $action = OA_UPGRADE_SITESSETUP;
         }
