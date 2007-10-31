@@ -225,7 +225,7 @@ function _adRenderImage($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     // Create the anchor tag..
     $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
     if (!empty($clickUrl)) {  // There is a link
-        $status = !empty($aBanner['status']) ? " onmouseover=\"self.status='{$aBanner['status']}'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+        $status = _adRenderBuildStatusCode($aBanner);
         //$target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
         $clickTag = "<a href='$clickUrl' target='{target}'$status>";
         $clickTagEnd = '</a>';
@@ -284,7 +284,7 @@ function _adRenderFlash($aBanner, $zoneId=0, $source='', $ct0='', $withText=fals
     // Create the anchor tag..
     $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
     if (!empty($clickUrl)) {  // There is a link
-        $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+        $status = _adRenderBuildStatusCode($aBanner);
         $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
         $swfParams = 'clickTARGET='.$target.'&clickTAG=' . $clickUrl;
         $clickTag = "<a href='$clickUrl' target='$target'$status>";
@@ -363,7 +363,7 @@ function _adRenderQuicktime($aBanner, $zoneId=0, $source='', $ct0='', $withText=
     // Create the anchor tag..
     $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
     if (!empty($clickTag)) {  // There is a link
-        $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+        $status = _adRenderBuildStatusCode($aBanner);
         $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
         $swfParams = 'clickTAG=' . $clickTag;
         $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -476,7 +476,7 @@ function _adRenderText($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
     // Create the anchor tag..
     $clickUrl = _adRenderBuildClickUrl($aBanner, $zoneId, $source, $ct0, $logClick);
     if (!empty($clickUrl)) {  // There is a link
-        $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+        $status = _adRenderBuildStatusCode($aBanner);
         $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
         $clickTag = "<a href='$clickUrl' target='$target'$status>";
         $clickTagEnd = '</a>';
@@ -524,7 +524,7 @@ function _adRenderReal($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
     // Create the anchor tag..
     $clickTag = _adRenderBuildClickUrl($aBanner, $source, $ct0, $logClick);
     if (!empty($clickTag)) {  // There is a link
-        $status = !empty($aBanner['status']) ? " onMouseOver=\"self.status='{$aBanner['status']}'; return true;\" onMouseOut=\"self.status=''; return true;\"" : '';
+        $status = _adRenderBuildStatusCode($aBanner);
         $target = !empty($aBanner['target']) ? $aBanner['target'] : '_blank';
         $swfParams = 'clickTAG=' . $clickTag;
         $anchor = "<a href='$clickTag' target='$target'$status>";
@@ -773,6 +773,19 @@ function _adRenderBuildClickUrl($aBanner, $zoneId=0, $source='', $ct0='', $logCl
         $clickUrl = MAX_commonGetDeliveryUrl($conf['file']['click']) . '?' . $conf['var']['params'] . '=' . _adRenderBuildParams($aBanner, $zoneId, $source, $ct0, $logClick, true);
     }
     return $clickUrl;
+}
+
+/**
+ * Generate the Javascript onMouseOver self.status code to attempt to set the browser status bar text
+ * Note: Most modern browsers prevent this feature
+ *
+ * @param array $aBanner The ad-array for the ad to generate status code for
+ * @return string The
+ */
+function _adRenderBuildStatusCode($aBanner)
+{
+    return !empty($aBanner['status']) ? " onmouseover=\"self.status='" . addslashes($aBanner['status']) . "'; return true;\" onmouseout=\"self.status=''; return true;\"" : '';
+
 }
 
 ?>
