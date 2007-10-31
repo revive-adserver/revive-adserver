@@ -1429,26 +1429,6 @@ require_once 'Log.php';
 require_once 'PEAR.php';
 class MAX
 {
-// Manage Orderdirection
-function getOrderDirection($ThisOrderDirection)
-{
-return MAX::phpAds_getOrderDirection($ThisOrderDirection);
-}
-function phpAds_getOrderDirection($ThisOrderDirection)
-{
-$sqlOrderDirection = '';
-switch ($ThisOrderDirection) {
-case 'down':
-$sqlOrderDirection .= ' DESC';
-break;
-case 'up':
-$sqlOrderDirection .= ' ASC';
-break;
-default:
-$sqlOrderDirection .= ' ASC';
-}
-return $sqlOrderDirection;
-}
 function errorConstantToString($errorCode)
 {
 $aErrorCodes = array(
