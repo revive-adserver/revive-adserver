@@ -123,7 +123,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
     function getErrorMessage()
     {
         if (!empty($_GET['error'])) {
-            $this->errorCode = OA_CENTRAL_ERROR_ERROR_NOT_AUTHORIZED;
+            $this->errorCode = OA_CENTRAL_ERROR_ERROR_NOT_AUTHENTICATED;
         }
         if (empty($this->errorCode)) {
             return null;
@@ -135,7 +135,7 @@ class OA_Dashboard_Widget_Login extends OA_Dashboard_Widget
             case OA_SSO_ERROR_WRONG_PARAMETERS:
                 $msg = 'You must enter both username and passwsord.';
                 break;
-            case OA_CENTRAL_ERROR_ERROR_NOT_AUTHORIZED:
+            case OA_CENTRAL_ERROR_ERROR_NOT_AUTHENTICATED:
                 $msg = 'Check credentials, wrong username or password.';
                 break;
             default:
