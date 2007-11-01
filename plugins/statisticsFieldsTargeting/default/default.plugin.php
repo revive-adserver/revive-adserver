@@ -123,7 +123,9 @@ class Plugins_statisticsFieldsTargeting_default_default extends Plugins_statisti
      */
     function summarizeStats(&$row)
     {
-        $row['target_ratio'] = $row['placement_actual_impressions'] / $row['placement_requested_impressions'];
+        $row['target_ratio'] = $row['placement_required_impressions'] ?
+            $row['placement_actual_impressions'] / $row['placement_required_impressions'] :
+            0;
     }
 }
 
