@@ -156,19 +156,13 @@ FAQ
     first upgrade to the latest version of Openads 2.0 before using the Openads
     ${RELEASE_MAJOR_MINOR} upgrade wizard.
 
- 3. Does Openads ${RELEASE_VERSION} support PostgreSQL?
-
-    No, there is currently no support for PostgreSQL in Openads ${RELEASE_VERSION}.
-    Installing and upgrading from Openads 2.0 for PostgreSQL are likely to be
-    supported in a future release of Openads.
-
- 4. Where do I go for support?
+ 3. Where do I go for support?
 
     Support is provided through the Openads forum [http://forum.openads.org/].
     In this way, we hope that the whole community benefits from the answers
     given.
 
- 5. Where's the source code?
+ 4. Where's the source code?
 
     You can access the Openads source code using subversion. See our developer
     website [https://developer.openads.org/].
