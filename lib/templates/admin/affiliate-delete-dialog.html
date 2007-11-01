@@ -40,9 +40,10 @@ $Id: adnetworks-signup-dialog.html 11370 2007-10-19 14:31:29Z bernard.lange@open
         Are you sure you want to delete <span class="deleted-affiliate">x</span>?
       </div>
 
-      <div style="margin-top: 10px">
+      <!--div style="margin-top: 10px">
         <input type="checkbox" id="deleteall" name="deleteall" /> <label for="deleteall" class="cb">Also delete all Advertisers and Campaigns associated only with <span class="deleted-affiliate"></span></label>
-      </div>
+      </div-->
+      <input type="hidden" id="deleteall" name="deleteall" />
 
       <div class="jqm-controls">
         <input id="ad-delete" type="submit" value="Delete" class="main-submit" {tabindex} />&nbsp;
