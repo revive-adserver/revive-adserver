@@ -416,14 +416,12 @@ class OA_Admin_Statistics_History
             $week = sprintf('%04d-%02d', $oDate->getYear(), $oDate->getWeekOfYear());
             // Prepare the data array for this week, if not set, where
             // the week is in the "week" index, there is a "data" index
-            // for all the rows that make up the week, an "avg" index
-            // for storing the average values, and the array has all
-            // the columns of an empty data row
+            // for all the rows that make up the week, and the array
+            // has all the columns of an empty data row
             if (!isset($aWeekData[$week])) {
                 $aWeekData[$week] = $oCaller->aEmptyRow;
                 $aWeekData[$week]['week'] = $week;
                 $aWeekData[$week]['data'] = array();
-                $aWeekData[$week]['avg']  = array();
             }
             // Add the data from the row to the totals of the week
             foreach (array_keys($oCaller->aColumns) as $colKey) {
@@ -433,14 +431,7 @@ class OA_Admin_Statistics_History
             $aWeekData[$week]['data'][$key] = $aRowData;
         }
         foreach (array_keys($aWeekData) as $week) {
-            // Calculate the average values of the data based on the
-            // number of days data that go into the week
-            $aWeekData[$week]['avg'] = $oCaller->_summarizeAverages($aWeekData[$week]['data']);
-            // Calculate CTR and other columns, making sure that the method is available
-            if (is_callable(array($oCaller, '_summarizeStats'))) {
-                $oCaller->_summarizeStats($aWeekData[$week]);
-            }
-            // Now that the averages and total are complete, fill any
+            // Now that the totals are complete, fill any
             // remaining days in the week with empty data
             $days = count($aWeekData[$week]['data']);
             if ($days < 7) {
@@ -554,10 +545,6 @@ class OA_Admin_Statistics_History
                 if (isset($aData[$key]['data']) && is_array($aData[$key]['data']) && count($aData[$key]['data']) > 0) {
                     $colour = ($i++ % 2 == 0) ? 'dark' : 'light';
                     $this->formatWeekRows($aData[$key]['data'], $oCaller, $colour);
-                }
-                // Is there an average value data array to format as well?
-                if (isset($aData[$key]['avg']) && is_array($aData[$key]['avg']) && count($aData[$key]['avg']) > 0) {
-                    $this->formatWeekRowsTotal($aData[$key]['avg'], $oCaller);
                 }
                 // Set the row's "htmlclass" value as being light, or dark
                 if (!isset($colour)) {
