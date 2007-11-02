@@ -80,7 +80,7 @@ class OA_Admin_Statistics_History
             }
         }
         $oNow  = new Date();
-        $oSpan = new Date_Span($oStartDate, new Date(date('Y-m-d')));
+        $oSpan = new Date_Span(new Date($oStartDate), new Date(date('Y-m-d')));
         // Store the span data required for stats display
         $oCaller->oStartDate = $oStartDate;
         $oCaller->spanDays   = (int)ceil($oSpan->toDays());
@@ -462,6 +462,11 @@ class OA_Admin_Statistics_History
             // Format all day rows
             foreach (array_keys($aWeekData[$week]['data']) as $key) {
                 $oCaller->_formatStatsRowRecursive($aWeekData[$week]['data'][$key]);
+            }
+
+            // Calculate CTR and other columns, making sure that the method is available
+            if (is_callable(array($oCaller, '_summarizeStats'))) {
+                $oCaller->_summarizeStats($aWeekData[$week]);
             }
         }
         // Set the new weekly-formatted data as the new data array to use
