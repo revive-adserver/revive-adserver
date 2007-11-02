@@ -120,7 +120,7 @@
             {scriptOpen:h}
              myvar = showGraph();
             {scriptClose:h}
-        {end:} 
+        {end:}
     </div>
     </td>
   </tr>
@@ -135,7 +135,6 @@
                 <th scope="col" class="aleft"><a href="{listOrderHrefRev(statsBreakdown)}">{statsKey}<img flexy:if="listOrderImage(statsBreakdown)" src="{listOrderImage(statsBreakdown)}" border="0" /></a></th>
                 <th>&nbsp;</th>
                 <th scope="col" class="acenter" flexy:foreach="weekDays,wv">{wv}</th>
-                <th scope="col" class="aright">{tr(#strAvg#)}</th>
                 <th scope="col" class="aright">{tr(#strTotal#)}</th>
             </tr>
         </thead>
@@ -146,48 +145,41 @@
                 <td class="{h[htmlclass][date]}">{tr(#strDate#)}</td>
                 <td class="{h[htmlclass][date]} aright separate" flexy:foreach="h[data],hw">{hw[day]}</td>
                 <td class="{h[htmlclass][date]} aright separate">&nbsp;</td>
-                <td class="{h[htmlclass][date]} aright separate">&nbsp;</td>
             </tr>
             <tr class="{h[htmlclass][requests]}" flexy:if="showColumns[requests]">
                 <td class="{h[htmlclass][requests]}">&nbsp;</td>
                 <td class="{h[htmlclass][requests]}">{tr(#strRequests#)}</td>
                 <td class="{h[htmlclass][requests]} aright separate" flexy:foreach="h[data],hw">{hw[sum_requests]}</td>
-                <td class="{h[htmlclass][requests]} aright separate">{h[avg_requests]}</td>
                 <td class="{h[htmlclass][requests]} aright separate">{h[sum_requests]}</td>
             </tr>
             <tr class="{h[htmlclass][views]}" flexy:if="showColumns[views]">
                 <td class="{h[htmlclass][views]}">&nbsp;</td>
                 <td class="{h[htmlclass][views]}">{tr(#strImpressions#)}</td>
                 <td class="{h[htmlclass][views]} aright separate" flexy:foreach="h[data],hw">{hw[sum_views]}</td>
-                <td class="{h[htmlclass][views]} aright separate">{h[avg_views]}</td>
                 <td class="{h[htmlclass][views]} aright separate">{h[sum_views]}</td>
             </tr>
             <tr class="{h[htmlclass][clicks]}" flexy:if="showColumns[clicks]">
                 <td class="{h[htmlclass][clicks]}">&nbsp;</td>
                 <td class="{h[htmlclass][clicks]}">{tr(#strClicks#)}</td>
                 <td class="{h[htmlclass][clicks]} aright separate" flexy:foreach="h[data],hw">{hw[sum_clicks]}</td>
-                <td class="{h[htmlclass][clicks]} aright separate">{h[avg_clicks]}</td>
                 <td class="{h[htmlclass][clicks]} aright separate">{h[sum_clicks]}</td>
             </tr>
             <tr class="{h[htmlclass][ctr]}" flexy:if="showColumns[ctr]">
                 <td class="{h[htmlclass][ctr]}">&nbsp;</td>
                 <td class="{h[htmlclass][ctr]}">{tr(#strCTRShort#)}</td>
                 <td class="{h[htmlclass][ctr]} aright separate" flexy:foreach="h[data],hw">{hw[sum_ctr]}</td>
-                <td class="{h[htmlclass][ctr]} aright separate">&nbsp;</td>
                 <td class="{h[htmlclass][ctr]} aright separate">{h[sum_ctr]}</td>
             </tr>
             <tr class="{h[htmlclass][conversions]}" flexy:if="showColumns[conversions]">
                 <td class="{h[htmlclass][conversions]}">&nbsp;</td>
                 <td class="{h[htmlclass][conversions]}">{tr(#strConversions#)}</td>
                 <td class="{h[htmlclass][conversions]} aright separate" flexy:foreach="h[data],hw"><a href="stats-conversions.php?{hw[conversionslink]}">{hw[sum_conversions]}</a></td>
-                <td class="{h[htmlclass][conversions]} aright separate">{h[avg_conversions]}</td>
                 <td class="{h[htmlclass][conversions]} aright separate">{h[sum_conversions]}</td>
             </tr>
             <tr class="{h[htmlclass][sr]}" flexy:if="showColumns[sr]">
                 <td class="{h[htmlclass][sr]}">&nbsp;</td>
                 <td class="{h[htmlclass][sr]}">{tr(#strCNVRShort#)}</td>
                 <td class="{h[htmlclass][sr]} aright separate" flexy:foreach="h[data],hw">{hw[sum_sr]}</td>
-                <td class="{h[htmlclass][sr]} aright separate">&nbsp;</td>
                 <td class="{h[htmlclass][sr]} aright separate">{h[sum_sr]}</td>
             </tr>
             {foreach:aColumns,ck,cv}
@@ -201,7 +193,6 @@
                     {showValue(hw,ck)}
                     {end:}
                 </td>
-                <td class="{showValue(h[htmlclass],ck)} aright separate">{showValue(h[avg],ck)}</td>
                 <td class="{showValue(h[htmlclass],ck)} aright separate">{showValue(h,ck)}</td>
             </tr>
             {end:}
@@ -242,22 +233,10 @@
                 <th scope="col" class="aright" flexy:if="showColumn(ck)">{cv}</th>
                 {end:}
             </tr>
-            <tr flexy:if="showAverage">
-                <td><b>{tr(#strTotal#)}</b></td>
-                {foreach:aColumns,ck,cv}
-                <td class="aright" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
-                {end:}
-            </tr>
-            <tr flexy:if="!showAverage">
+            <tr>
                 <td class="last"><b>{tr(#strTotal#)}</b></td>
                 {foreach:aColumns,ck,cv}
                 <td class="aright last" flexy:if="showColumn(ck)">{showValue(aTotal,ck)}</td>
-                {end:}
-            </tr>
-            <tr flexy:if="showAverage">
-                <td class="last">{tr(#strAverage#)} ({averageSpan} {averageDesc})</td>
-                {foreach:aColumns,ck,cv}
-                <td class="aright last" flexy:if="showColumn(ck)">{showValue(average,ck)}</td>
                 {end:}
             </tr>
         </tbody>
