@@ -25,12 +25,12 @@
     
     var windowWidth = $(window).width();
     var wrapperWidth =  $wrapper.width();
+    var widthDiff = windowWidth - (posX + wrapperWidth  + 35); 
     
-    if (posX + wrapperWidth  + 5 > windowWidth) {
-      posX -= wrapperWidth  + 30;
+    if (widthDiff <= 0) {
+      posX -= Math.abs(widthDiff)  + 30;
       posX = Math.max(10, posX);
     }
-     console.log('new posX: ' + posX);
     
     $wrapper.css({top: posY, left: posX});
   }
