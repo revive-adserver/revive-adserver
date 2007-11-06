@@ -11,7 +11,7 @@ webtest.exec=/usr/local/canoo/bin/webtest.sh
 host=localhost
 port=80
 protocol=http
-basepath=erasmus/www
+basepath=openads/www
 ;run.remote=true
 
 ;---------------------------------------------
@@ -36,4 +36,4 @@ admin.password=password
 ; TODO: should we rather read these variables
 ;       from host.conf.php?
 ;--------------------------------------------
-viewerId=MAXID
+viewerId=OAID
