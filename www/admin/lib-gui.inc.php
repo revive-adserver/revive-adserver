@@ -469,10 +469,13 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 
     // Add jQuery css/scripts
     echo "\n\t\t".'<link rel="stylesheet" type="text/css" media="all" href="css/jqModal.css" />';
+    echo "\n\t\t".'<link rel="stylesheet" type="text/css" media="all" href="css/oa.help.css" />';
     echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-1.2.1.min.js"></script>';
     echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jqModal.js"></script>';
     echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-adnetworks.js"></script>';
     echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-ifixpng.js"></script>';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/oa.help.js"></script>';
+    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery.dimensions.min.js"></script>';
     echo "\n";
 
     // Show Moz site bar
@@ -700,7 +703,7 @@ function showParams($params)
  *
  * @see getTranslation
  */
-function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgPath='', $customNav=false)
+function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgPath='', $customNav=false, $useContentDiv=false)
 {
     global $phpAds_nav, $phpAds_NavID;
     global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
