@@ -20,16 +20,24 @@
     $(".popup-help").fadeOut("fast");
     var posX = event.pageX;
     var posY = event.pageY + 5;
-    
+
     $wrapper.fadeIn("fast").css("display", "block");
     
-    var windowWidth = $(window).width();
-    var wrapperWidth =  $wrapper.width();
-    var widthDiff = windowWidth - (posX + wrapperWidth  + 35); 
+    var wrapperWidth = $wrapper.outerWidth({ margin: true });
+    var wrapperHeight = $wrapper.outerHeight({ margin: true });
+    var scrollY = event.pageY - event.clientY; 
     
-    if (widthDiff <= 0) {
-      posX -= Math.abs(widthDiff)  + 30;
+    var xDiff = $(window).width() - (posX + wrapperWidth + 10); 
+    var yDiff = $(window).height() - (posY - scrollY + wrapperHeight);
+    
+    if (xDiff <= 0) {
+      posX -= Math.abs(xDiff);
       posX = Math.max(10, posX);
+    }
+    
+    if (yDiff <= 0) {
+      posY -= (wrapperHeight + 10);
+      posY = Math.max(10 + scrollY, posY);
     }
     
     $wrapper.css({top: posY, left: posX});
