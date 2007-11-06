@@ -18,10 +18,21 @@
     
     //hide other help popups
     $(".popup-help").fadeOut("fast");
-    var posX = event.pageX + 5;
+    var posX = event.pageX;
     var posY = event.pageY + 5;
+    
+    $wrapper.fadeIn("fast").css("display", "block");
+    
+    var windowWidth = $(window).width();
+    var wrapperWidth =  $wrapper.width();
+    
+    if (posX + wrapperWidth  + 5 > windowWidth) {
+      posX -= wrapperWidth  + 30;
+      posX = Math.max(10, posX);
+    }
+     console.log('new posX: ' + posX);
+    
     $wrapper.css({top: posY, left: posX});
-     $wrapper.fadeIn("fast").css("display", "block");
   }
   
 	function hide()
@@ -46,4 +57,3 @@
     $("[id^='help-']").help();
   });
 })(jQuery);
-    

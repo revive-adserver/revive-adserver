@@ -6,7 +6,6 @@
   border: 1px solid #666666;
   background-color: #ffffcc;
   padding: 7px;
-  padding-left:15px;  
   -moz-border-radius: 8px;
   margin-left: 20px;
   font-weight: normal;
@@ -19,8 +18,9 @@
   font-weight: normal;
 }
 
-.help-content {
-  height: 90px;
+.popup-help .help-content {
+  min-height: 30px;
+  height: auto; 
   width: 190px;
   overflow-x: hidden;
   overflow-y: auto;
