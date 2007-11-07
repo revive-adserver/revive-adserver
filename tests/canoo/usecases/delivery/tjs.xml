@@ -13,7 +13,7 @@
   <import file="../../includes/init.xml"/>
   <import file="${webtest.home}/lib/taskdef.xml"/>
   
-  <property name="delivery_file" value="tjs.php"/>
+  <property name="delivery_file" value="delivery_test/tjs.php"/>
   
   <target name="canoo-test">
     <!-- remove any tracker impressions and tracker variable values before the test -->
@@ -22,7 +22,7 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke a tracker image page" url="tjs.php" />
+        <invoke description="Invoke a tracker image page" url="${delivery_file}" />
         &checkForErrors;
       </steps>
     </testSpec>

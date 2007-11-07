@@ -1,6 +1,6 @@
 <?php
     $webPath = substr($_SERVER['REQUEST_URI'], 0, 
-        strlen($_SERVER['REQUEST_URI']) - strlen('apu.php')) . 'delivery/apu.php';
+        strlen($_SERVER['REQUEST_URI']) - strlen('delivery_test/apu.php')) . 'delivery/apu.php';
 ?>
 <html>
 <head>

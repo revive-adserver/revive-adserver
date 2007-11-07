@@ -19,7 +19,7 @@
     <testSpec name="Run Delivery">
       &config;
       <steps>
-        <invoke description="Invoke delivery file" url="apu.php" />
+        <invoke description="Invoke delivery file" url="delivery_test/apu.php" />
         &checkForErrors;
         <!-- check that its JavaScript opens the window MAX_2 -->
         <verifyText description="Check that JavaScript opens the pop-up" text="window.open" />

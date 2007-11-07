@@ -6,7 +6,7 @@
 
   <property name="openads.path" value="${basedir}/../.."/>
   <property name="openads.url" value="${protocol}://${host}/${basepath}"/>
-  <property name="openads.example_url" value="${openads.url}/example.php"/>
+  <property name="openads.example_url" value="${openads.url}/delivery_test/example.php"/>
   <property name="uc" value="afr"/>
 
   <target name="www-admin">

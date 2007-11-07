@@ -15,12 +15,12 @@
   * 'include_path' value immediately below.
   */
 
-    define('MAX_PATH', './..');
+    define('MAX_PATH', './../..');
     ini_set('include_path', MAX_PATH . '/lib/pear');
     
     // resolve axmlrpc.php location
     $xmlrpcPath = substr($_SERVER['REQUEST_URI'], 0, 
-        strlen($_SERVER['REQUEST_URI']) - strlen('axmlrpc.php')) . 'delivery/axmlrpc.php';
+        strlen($_SERVER['REQUEST_URI']) - strlen('delivery_test/axmlrpc.php')) . 'delivery/axmlrpc.php';
 
     // Left for future debugging
     // $xmlrpcPath .= '?start_debug=1&debug_port=10000&debug_host=127.0.0.1&debug_stop=1';

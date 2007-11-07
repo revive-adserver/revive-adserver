@@ -17,6 +17,7 @@
 <project name="canoo" default="run-test-canoo" basedir=".">
   <property name="canoo.log" value="${basedir}/canoo.log"/>
   <property name="timeout" value="60000"/>
+  <property name="delivery_test" value="${basedir}/www/delivery_test"/>
 
   <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 
@@ -117,6 +118,7 @@
   </target>
 
   <target name="canoo-create-openads-configuration-local">
+  	<echo message="Creating local configuration"/>
     <property name="openads.url" value="${canoo.host}/${canoo.basepath}"/>
     <exec dir="${basedir}/tests" executable="php" failonerror="true">
       <arg value="create-config-file.php" />
@@ -144,7 +146,16 @@
   	<chmod dir="${basedir}/www" perm="a+rw" type="both" includes="**/*"/>
   </target>
 	
-	
+  <target name="setup-delivery-files">
+  	<copy todir="${delivery_test}">
+  	  <fileset dir="${basedir}/tests/canoo/php"/>
+  	</copy>
+  </target>
+		
+  <target name="clean-delivery">
+  	<delete dir="${delivery_test}" />
+  </target>
+		
   <macrodef name="execute-webtest" description="Executes webtest with provided target and additional properties.">
     <attribute name="target" description="Target to execute."/>
     <attribute name="properties" default="" description="Additional properties."/>
