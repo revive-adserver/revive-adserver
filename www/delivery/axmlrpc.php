@@ -3287,7 +3287,7 @@ $contextXmlRpcValue
 // Relay call to openads.view
 $xmlResponse = OA_Delivery_XmlRpc_View($msg);
 // Check for errors
-if ($xmlResponse->isError()) {
+if (XML_RPC_Base::isError($xmlResponse)) {
 // Return error
 return $xmlResponse;
 }
