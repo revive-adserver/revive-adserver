@@ -2643,7 +2643,7 @@ if ($bannerid) {
 $what = "bannerid:".$bannerid;
 }
 }
-$output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $loc, $referer);
+$output = MAX_adSelect($what, '', $target, $source, $withtext, $context, true, '', $GLOBALS['loc'], $GLOBALS['referer']);
 if (isset($output['contenttype']) && $output['contenttype'] == 'swf') {
 $output['html'] = MAX_flashGetFlashObjectExternal() . $output['html'];
 }
