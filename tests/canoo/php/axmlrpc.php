@@ -18,19 +18,25 @@
     define('MAX_PATH', './../..');
     ini_set('include_path', MAX_PATH . '/lib/pear');
     
+    error_reporting(E_ALL);
+    
     // resolve axmlrpc.php location
     $xmlrpcPath = substr($_SERVER['REQUEST_URI'], 0, 
         strlen($_SERVER['REQUEST_URI']) - strlen('delivery_test/axmlrpc.php')) . 'delivery/axmlrpc.php';
+        
+    $protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
 
     // Left for future debugging
     // $xmlrpcPath .= '?start_debug=1&debug_port=10000&debug_host=127.0.0.1&debug_stop=1';
     require_once 'XML/RPC.php';
+    require_once 'PEAR.php';
+    PEAR::setErrorHandling(PEAR_ERROR_PRINT);
 
     global $XML_RPC_String, $XML_RPC_Boolean;
     global $XML_RPC_Array, $XML_RPC_Struct;
 
     // Create an XML-RPC client to talk to the XML-RPC server
-    $client = new XML_RPC_Client($xmlrpcPath, $_SERVER['HTTP_HOST']);
+    $client = new XML_RPC_Client($xmlrpcPath, $protocol.$_SERVER['HTTP_HOST']);
     // Left for future debugging
     // $client->debug = true;
 
@@ -64,12 +70,12 @@
     $message->addParam(new XML_RPC_Value($cookiesStruct, $XML_RPC_Struct));
 
     // Send the XML-RPC message to the server
-    $protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
     $response = $client->send($message, 15, $protocol);
 
     // Was a response received?
     if (!$response) {
         echo 'Error: No XML-RPC response';
+        exit;
     }
 
     // Was a response an error?
