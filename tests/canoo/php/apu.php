@@ -9,7 +9,8 @@
 <body>
 <script type='text/javascript'>
 <?php
-echo file_get_contents('http://'.$_SERVER['HTTP_HOST'].$webPath.'?n=&bannerid=2');
+$protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
+echo file_get_contents($protocol.$_SERVER['HTTP_HOST'].$webPath.'?n=&bannerid=2');
 ?>
 </script>
 </body>
