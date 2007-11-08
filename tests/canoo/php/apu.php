@@ -10,7 +10,7 @@
 <script type='text/javascript'>
 <?php
 $protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-echo file_get_contents($protocol.$_SERVER['HTTP_HOST'].$webPath.'?n=123&what=bannerid:2');
+include($protocol.$_SERVER['HTTP_HOST'].$webPath.'?bannerid=2');
 ?>
 </script>
 </body>
