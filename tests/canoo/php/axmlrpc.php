@@ -64,7 +64,8 @@
     $message->addParam(new XML_RPC_Value($cookiesStruct, $XML_RPC_Struct));
 
     // Send the XML-RPC message to the server
-    $response = $client->send($message, 15, 'http');
+    $protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
+    $response = $client->send($message, 15, $protocol);
 
     // Was a response received?
     if (!$response) {
