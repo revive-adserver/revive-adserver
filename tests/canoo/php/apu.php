@@ -9,8 +9,11 @@
 <body>
 <script type='text/javascript'>
 <?php
-$protocol = !empty($_SERVER['HTTPS']) ? 'https://' : 'http://';
-include($protocol.$_SERVER['HTTP_HOST'].$webPath.'?bannerid=2');
+
+$_GET['bannerid'] = 2;
+
+define('MAX_PATH', './../..');
+require_once MAX_PATH . '/www/delivery/apu.php';
 ?>
 </script>
 </body>
