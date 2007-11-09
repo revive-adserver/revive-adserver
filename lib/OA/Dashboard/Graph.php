@@ -133,11 +133,13 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
     function display()
     {
         if ($this->draw) {
+            $useAntialias = is_callable('imageantialias');
+
     		$Canvas =& Image_Canvas::factory('png',
     			array(
     				'width'		=> 239,
     				'height'	=> 132,
-    				'antialias'	=> 'native'
+    				'antialias'	=> $useAntialias ? 'native' : false
     			)
     		);
 
