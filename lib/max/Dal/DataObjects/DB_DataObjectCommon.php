@@ -608,7 +608,7 @@ class DB_DataObjectCommon extends DB_DataObject
         {
             $val = $this->$key;
             $doOriginal = OA_Dal::factoryDO($this->_tableName);
-            if ($doOriginal->get($key, $val)==1)
+            if (($doOriginal) && $doOriginal->get($key, $val)==1)
             {
                 return $doOriginal;
             }

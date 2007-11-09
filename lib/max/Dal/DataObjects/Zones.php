@@ -91,6 +91,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
     {
     	// Handle all "appended" zones
     	$doZones = $this->factory('zones');
+    	$doZones->init();
     	$doZones->appendtype = phpAds_ZoneAppendZone;
     	$doZones->whereAdd("append LIKE '%zone:".$this->zoneid."%'");
     	$doZones->find();
@@ -104,6 +105,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
 
     	// Handle all "chained" zones
     	$doZones = $this->factory('zones');
+    	$doZones->init();
     	$doZones->chain = 'zone:'.$this->zoneid;
     	$doZones->find();
 
