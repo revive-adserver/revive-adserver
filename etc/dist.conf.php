@@ -189,6 +189,7 @@ affiliates                               = affiliates
 affiliates_extra                         = affiliates_extra
 agency                                   = agency
 application_variable                     = application_variable
+audit                                    = audit
 banners                                  = banners
 campaigns                                = campaigns
 campaigns_trackers                       = campaigns_trackers
