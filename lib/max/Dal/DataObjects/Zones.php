@@ -56,11 +56,11 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $forceappend;                     // string(1)  enum
     var $inventory_forecast_type;         // int(6)  not_null
     var $comments;                        // blob(65535)  blob
-    var $cost;                            // real(12)  
-    var $cost_type;                       // int(6)  
-    var $cost_variable_id;                // string(255)  
-    var $technology_cost;                 // real(12)  
-    var $technology_cost_type;            // int(6)  
+    var $cost;                            // real(12)
+    var $cost_type;                       // int(6)
+    var $cost_variable_id;                // string(255)
+    var $technology_cost;                 // real(12)
+    var $technology_cost_type;            // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
@@ -124,6 +124,53 @@ class DataObjects_Zones extends DB_DataObjectCommon
         $this->zoneid = null;
         $newZoneid = $this->insert();
         return $newZoneid;
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->zoneid;
+    }
+
+    function _getContext()
+    {
+        return 'Zone';
+    }
+
+    /**
+     * build a campaign specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->zonename;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        $aAuditFields['forceappend']    = $this->_formatValue('forceappend');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'forceappend':
+                 return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
     }
 
 }

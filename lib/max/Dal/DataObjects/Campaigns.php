@@ -42,9 +42,9 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $campaignid;                      // int(9)  not_null primary_key auto_increment
     var $campaignname;                    // string(255)  not_null
     var $clientid;                        // int(9)  not_null multiple_key
-    var $views;                           // int(11)  
-    var $clicks;                          // int(11)  
-    var $conversions;                     // int(11)  
+    var $views;                           // int(11)
+    var $clicks;                          // int(11)
+    var $conversions;                     // int(11)
     var $expire;                          // date(10)  binary
     var $activate;                        // date(10)  binary
     var $active;                          // string(1)  not_null enum
@@ -54,15 +54,15 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $target_click;                    // int(11)  not_null
     var $target_conversion;               // int(11)  not_null
     var $anonymous;                       // string(1)  not_null enum
-    var $companion;                       // int(1)  
+    var $companion;                       // int(1)
     var $comments;                        // blob(65535)  blob
-    var $revenue;                         // real(12)  
-    var $revenue_type;                    // int(6)  
+    var $revenue;                         // real(12)
+    var $revenue_type;                    // int(6)
     var $updated;                         // datetime(19)  not_null binary
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
-    var $oac_campaign_id;                 // int(11)  
+    var $oac_campaign_id;                 // int(11)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -98,7 +98,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
 
         while ($doTrackers->fetch()) {
             $doCampaigns_trackers = $this->factory('campaigns_trackers');
-
+            $doCampaigns_trackers->init();
             $doCampaigns_trackers->trackerid = $doTrackers->trackerid;
             $doCampaigns_trackers->campaignid = $this->campaignid;
             $doCampaigns_trackers->clickwindow = $doTrackers->clickwindow;
@@ -112,6 +112,54 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         }
 
         return $id;
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->campaignid;
+    }
+
+    function _getContext()
+    {
+        return 'Campaign';
+    }
+
+   /**
+     * build a campaign specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = $this->campaignname;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['active']     = $this->_formatValue('active');
+                        $aAuditFields['anonymous']  = $this->_formatValue('anonymous');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'active':
+            case 'anonymous':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
     }
 }
 

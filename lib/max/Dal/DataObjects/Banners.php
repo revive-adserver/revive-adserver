@@ -79,7 +79,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $keyword;                         // string(255)  not_null
     var $transparent;                     // int(1)  not_null
     var $parameters;                      // blob(65535)  blob
-    var $oac_banner_id;                   // int(11)  
+    var $oac_banner_id;                   // int(11)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -180,6 +180,57 @@ class DataObjects_Banners extends DB_DataObjectCommon
     {
         return phpAds_ImageDuplicate($storagetype, $filename);
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->bannerid;
+    }
+
+    function _getContext()
+    {
+        return 'Banner';
+    }
+
+    /**
+     * build a campaign specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->description;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['active']        = $this->_formatValue('active');
+                        $aAuditFields['autohtml']      = $this->_formatValue('autohtml');
+                        $aAuditFields['transparent']   = $this->_formatValue('transparent');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'active':
+            case 'autohtml':
+            case 'transparent':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
+
 }
 
 ?>

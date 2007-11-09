@@ -26,78 +26,35 @@ $Id$
 */
 
 /**
- * Table Definition for campaigns_trackers
+ * Table Definition for audit
  */
+
+define('OA_AUDIT_ACTION_INSERT',1);
+define('OA_AUDIT_ACTION_UPDATE',2);
+define('OA_AUDIT_ACTION_DELETE',3);
+
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
+class DataObjects_Audit extends DB_DataObjectCommon
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
-    var $__table = 'campaigns_trackers';              // table name
-    var $campaign_trackerid;              // int(9)  not_null primary_key auto_increment
-    var $campaignid;                      // int(9)  not_null multiple_key
-    var $trackerid;                       // int(9)  not_null multiple_key
-    var $viewwindow;                      // int(9)  not_null
-    var $clickwindow;                     // int(9)  not_null
-    var $status;                          // int(1)  not_null unsigned
-
-    /* ZE2 compatibility trick*/
-    function __clone() { return $this;}
+    public $__table = 'audit';                           // table name
+    public $auditid;                         // int(9)  not_null primary_key unsigned auto_increment
+    public $actionid;                        // int(5)  not_null unsigned
+    public $context;                         // string(255)  not_null
+    public $contextid;                       // int(9)  not_null
+    public $parentid;                        // int(9)  not_null
+    public $userid;                          // int(9)  not_null
+    public $username;                        // string(64)  not_null
+    public $usertype;                        // int(4)  not_null
+    public $details;                         // string(255)  not_null
+    public $updated;                         // datetime(19)  not_null multiple_key binary
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Campaigns_trackers',$k,$v); }
+    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Audit',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-
-    function _auditEnabled()
-    {
-        return true;
-    }
-
-     function _getContextId()
-    {
-        return $this->campaign_trackerid;
-    }
-
-    function _getContext()
-    {
-        return 'Campaign Tracker';
-    }
-
-    /**
-     * build a campaign-trackers specific audit array
-     *
-     * @param integer $actionid
-     * @param array $aAuditFields
-     */
-    function _buildAuditArray($actionid, &$aAuditFields)
-    {
-        $aAuditFields['key_desc']       = '';
-        switch ($actionid)
-        {
-            case OA_AUDIT_ACTION_INSERT:
-                        $aAuditFields['status']     = $this->_formatValue('status');
-                        break;
-            case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
-                        break;
-        }
-    }
-
-    function _formatValue($field)
-    {
-        switch ($field)
-        {
-            case 'status':
-                return $this->_boolToStr($this->$field);
-            default:
-                return $this->$field;
-        }
-    }
 }
-
-?>

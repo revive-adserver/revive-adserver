@@ -89,6 +89,8 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     var $triggerSqlDie = true;
 
+    var $doAudit;
+
     /**
      * //// Public methods, added to help users to optimize the use of DataObjects
      */
@@ -511,7 +513,6 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function delete($useWhere = false, $cascadeDelete = true)
     {
-
         $this->_addPrefixToTableName();
 
         if ($this->onDeleteCascade && $cascadeDelete) {
@@ -539,8 +540,26 @@ class DB_DataObjectCommon extends DB_DataObject
                 }
             }
         }
-
-        return parent::delete($useWhere);
+        // in order to audit we need a populated object
+        // populating the original object can break cascade
+        // the last object in a cascade will not be cloned by this point
+        // so ensure that we have a cloned and populated object to audit
+        if (is_null($doAffected))
+        {
+            $doAffected = clone($this);
+            if (!$useWhere) {
+                // Clear any additional WHEREs if it's not used in delete statement
+                $doAffected->whereAdd();
+            }
+            $doAffected->find();
+            $doAffected->fetch();
+        }
+        $result = parent::delete($useWhere);
+        if ($result)
+        {
+            $doAffected->audit(3);
+        }
+        return $result;
     }
 
     /**
@@ -575,8 +594,37 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function update($dataObject = false)
     {
+        $doOriginal = $this->getChanges();
         $this->_refreshUpdated();
-        return parent::update($dataObject);
+        $result = parent::update($dataObject);
+        $this->audit(2, $doOriginal);
+        return $result;
+    }
+
+    function getChanges()
+    {
+        $key = $this->_getKey();
+        if ($key)
+        {
+            $val = $this->$key;
+            $doOriginal = OA_Dal::factoryDO($this->_tableName);
+            if ($doOriginal->get($key, $val)==1)
+            {
+                return $doOriginal;
+            }
+        }
+        return false;
+    }
+
+    function _getKey()
+    {
+        $key = false;
+        $aKeys = $this->keys();
+        if (isset($aKeys[0]))
+        {
+            $key = $aKeys[0];
+        }
+        return $key;
     }
 
     /**
@@ -591,7 +639,9 @@ class DB_DataObjectCommon extends DB_DataObject
     function insert()
     {
         $this->_refreshUpdated();
-        return parent::insert();
+        $result = parent::insert();
+        $this->audit(1);
+        return $result;
     }
 
     /**
@@ -880,6 +930,162 @@ class DB_DataObjectCommon extends DB_DataObject
     {
     	$keys = $this->keys();
     	return !empty($keys) ? $keys[0] : null;
+    }
+
+    function _auditEnabled()
+    {
+        return false;
+    }
+
+    function audit($actionid, $dataobject=null)
+    {
+        require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+        if (isset($GLOBALS['_MAX']['CONF']['audit']) && $GLOBALS['_MAX']['CONF']['audit']['enabled'])
+        {
+            if ($this->_auditEnabled())
+            {
+                if (is_null($this->doAudit))
+                {
+                    $this->doAudit = $this->factory('audit');
+                }
+                $this->doAudit->actionid    = $actionid;
+                $this->doAudit->context     = $this->_getContext();
+                $this->doAudit->contextid   = $this->_getContextId();
+                $this->doAudit->parentid    = '';
+                $this->doAudit->username    = phpAds_getUserName();
+                $this->doAudit->userid      = phpAds_getUserID();
+                $this->doAudit->usertype    = phpAds_getUserType();
+
+                // prepare an generic array of data to be stored in the audit record
+                $aAuditFields = $this->_prepAuditArray($actionid, $dataobject);
+                // individual objects can customise this data (add, remove, format...)
+                $this->_buildAuditArray($actionid, $aAuditFields);
+                // scrunch the data up
+                $this->doAudit->details = serialize($aAuditFields);
+                // if the object has its own timestamp field use the value from that
+                if (property_exists($this, 'updated'))
+                {
+                    $this->doAudit->updated = $this->updated;
+                }
+                else
+                {
+                    // use current timestamp
+                    $this->doAudit->updated = OA::getNow();
+                }
+                // finally, insert the audit record
+                $id = $this->doAudit->insert();
+            }
+        }
+        return true;
+    }
+
+    /**
+     * build a generic audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _prepAuditArray($actionid, $dataobject)
+    {
+        global $_DB_DATAOBJECT;
+        $oDbh = $_DB_DATAOBJECT['CONNECTIONS'][$this->_database_dsn_md5];
+        $aFields = $_DB_DATAOBJECT['INI'][$oDbh->database_name][$this->_tableName];
+
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        // audit all data
+                        foreach ($aFields AS $name => $type)
+                        {
+                            $aAuditFields[$name] = $this->$name;
+                        }
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        // only audit data that has changed
+                        foreach ($aFields AS $name => $type)
+                        {
+                            // don't bother auditing timestamp changes?
+                            if ($name <> 'updated')
+                            {
+                                $valNew = $this->_formatValue($name);
+                                $valOld = $dataobject->_formatValue($name);
+                                if ($valNew != $valOld)
+                                {
+                                    $aAuditFields[$name]['was'] = $valOld;
+                                    $aAuditFields[$name]['is']  = $valNew;
+                                }
+                            }
+                        }
+                        break;
+
+        }
+        return $aAuditFields;
+    }
+
+    function _formatValue($field)
+    {
+        return $this->$field;
+    }
+
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = '';
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _boolToStr($val)
+    {
+        if (is_numeric($val))
+        {
+            switch ($val)
+            {
+                case '0':
+                case 0:
+                    return 'false';
+                case '1':
+                case 1:
+                    return 'true';
+                default:
+                    return $val;
+            }
+        }
+        elseif (is_bool($val))
+        {
+            switch ($val)
+            {
+                case false:
+                    return 'false';
+                case true:
+                    return 'true';
+            }
+        }
+        else
+        {
+            switch ($val)
+            {
+                case 'f':
+                case 'n':
+                case 'N':
+                case 'false':
+                    return 'false';
+                case 't':
+                case 'y':
+                case 'Y':
+                case 'true':
+                    return 'true';
+                default:
+                    return $val;
+            }
+        }
     }
 
 }

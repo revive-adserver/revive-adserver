@@ -333,6 +333,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
      */
     function testDelete()
     {
+        DataGenerator::cleanUp(array('audit'));
         // Create few records
         $aAgencyId = DataGenerator::generate('agency', 3);
         $agencyId = array_pop($aAgencyId);
@@ -349,8 +350,10 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
         // Test that onDeleteCascade is set
         $this->assertTrue($doAgency->onDeleteCascade);
+
         // Delete one agency
         $doAgency->delete();
+
         // Test that agency was deleted
         $doAgency = OA_Dal::factoryDO('agency');
         $aAgencyIdTest = $doAgency->getAll('agencyid');
@@ -359,6 +362,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $doClients = OA_Dal::factoryDO('clients');
         $aClientId1Test = $doClients->getAll('clientid');
         $this->assertEqual($aClientId1, $aClientId1Test); // only two should left
+        DataGenerator::cleanUp(array('audit'));
     }
 
     function testUpdate()
@@ -465,4 +469,103 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         // Not only above code should work but also id2 should be equal id1+1
         $this->assertEqual($id2, $id1+1);
     }
+
+    function testPrepAuditArray()
+    {
+        $oDO = & new DB_DataObjectCommon();
+        $oDO->_database_dsn_md5 = 8888888;
+        $oDO->_tableName = 'table1';
+        $oDO->col1 = 111;
+        $oDO->col2 = 'abc';
+        $oMockDbh = new stdClass();
+        $oMockDbh->database_name = 'dbtest';
+        $aTable = array('col1'=>129,'col2'=>130);
+        global $_DB_DATAOBJECT;
+        $_DB_DATAOBJECT['CONNECTIONS'][$oDO->_database_dsn_md5] = $oMockDbh;
+        $_DB_DATAOBJECT['INI'][$oMockDbh->database_name][$oDO->_tableName] = $aTable;
+
+        // prepare *insert* audit values
+        $aResult = $oDO->_prepAuditArray(1, null);
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual($aResult['col1'],111);
+        $this->assertEqual($aResult['col2'],'abc');
+
+        $oDO1 = clone($oDO);
+        $oDO1->col1 = 222;
+        $oDO1->col2 = 'def';
+
+        // prepare *update* audit values
+        $aResult = $oDO1->_prepAuditArray(2, $oDO);
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual($aResult['col1']['was'],111);
+        $this->assertEqual($aResult['col2']['was'],'abc');
+        $this->assertEqual($aResult['col1']['is'],222);
+        $this->assertEqual($aResult['col2']['is'],'def');
+
+        // prepare *delete* audit values
+        $aResult = $oDO1->_prepAuditArray(3, null);
+        $this->assertIsA($aResult, 'array');
+        $this->assertEqual($aResult['col1'],222);
+        $this->assertEqual($aResult['col2'],'def');
+    }
+
+    function testAudit()
+    {
+        $GLOBALS['_MAX']['CONF']['audit']['enabled'] = true;
+
+        Mock::generatePartial(
+            'DB_DataObjectCommon',
+            $mockDO = 'DB_DataObjectCommon'.rand(),
+            array('_prepAuditArray','_buildAuditArray','_auditEnabled','insert','_getContext','_getContextId')
+        );
+
+        $oDO = new $mockDO($this);
+        $aPrep = array('col1'=>111,'col2'=>'abc');
+        $oDO->setReturnValue('_prepAuditArray', $aPrep);
+        $oDO->expectOnce('_prepAuditArray');
+        $oDO->setReturnValue('_buildAuditArray', null);
+        $oDO->expectOnce('_buildAuditArray');
+        $oDO->setReturnValue('_auditEnabled', true);
+        $oDO->expectOnce('_auditEnabled');
+        $oDO->setReturnValue('_getContextId', 2);
+        $oDO->expectOnce('_getContextId');
+        $oDO->setReturnValue('_getContext', 'Test');
+        $oDO->expectOnce('_getContext');
+
+        $oDO->_tableName = 'table1';
+        $oDO->col1 = 111;
+        $oDO->col2 = 'abc';
+        $oDO->updated = '2000-01-01';
+
+        $oDO->doAudit = new $mockDO($oDO);
+        $oDO->doAudit->setReturnValue('insert', 1);
+        $oDO->doAudit->expectOnce('insert');
+
+        $oDO->audit(1, null);
+
+        $this->assertEqual($oDO->doAudit->actionid, 1);
+        $this->assertEqual($oDO->doAudit->context, 'Test');
+        $this->assertEqual($oDO->doAudit->contextid, 2);
+        $this->assertEqual($oDO->doAudit->updated, '2000-01-01');
+        $this->assertEqual(unserialize($oDO->doAudit->details), $aPrep);
+
+        $oDO->tally();
+        $oDO->doAudit->tally();
+    }
+
+    function testBoolToStr()
+    {
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('t'),'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('1'),'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(1),'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(true),'true');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('true'),'true');
+
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('f'),'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('0'),'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(0),'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr(false),'false');
+        $this->assertEqual(DB_DataObjectCommon::_boolToStr('false'),'false');
+    }
+
 }

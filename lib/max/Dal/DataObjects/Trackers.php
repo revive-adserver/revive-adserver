@@ -99,6 +99,54 @@ class DataObjects_Trackers extends DB_DataObjectCommon
 
         return $newTrackerid;
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->trackerid;
+    }
+
+    function _getContext()
+    {
+        return 'Tracker';
+    }
+
+    /**
+     * build a client specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+//        $context                      = 'Tracker';
+//        $aAuditFields['key_field']    = $this->trackerid;
+        $aAuditFields['key_desc']     = $this->trackername;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'linkcampaigns':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
 }
 
 ?>

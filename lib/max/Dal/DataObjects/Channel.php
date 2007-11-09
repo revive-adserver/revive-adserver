@@ -43,11 +43,11 @@ class DataObjects_Channel extends DB_DataObjectCommon
     var $channelid;                       // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null
     var $affiliateid;                     // int(9)  not_null
-    var $name;                            // string(255)  
-    var $description;                     // string(255)  
+    var $name;                            // string(255)
+    var $description;                     // string(255)
     var $compiledlimitation;              // blob(65535)  not_null blob
     var $acl_plugins;                     // blob(65535)  blob
-    var $active;                          // int(1)  
+    var $active;                          // int(1)
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $acls_updated;                    // datetime(19)  not_null binary
@@ -133,6 +133,55 @@ class DataObjects_Channel extends DB_DataObjectCommon
         $result = OA_Dal::staticDuplicate('acls_channel', $channelId, $newChannelId);
 
         return $newChannelId;
+    }
+
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+     function _getContextId()
+    {
+        return $this->channelid;
+    }
+
+    function _getContext()
+    {
+        return 'Channel';
+    }
+
+    /**
+     * build a client specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+//        $context                    = 'Channel';
+//        $aAuditFields['key_field']  = $this->channelid;
+        $aAuditFields['key_desc']   = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['active'] = $this->_formatValue('active');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'active':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
     }
 }
 

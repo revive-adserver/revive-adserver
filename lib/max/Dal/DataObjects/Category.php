@@ -38,7 +38,7 @@ class DataObjects_Category extends DB_DataObjectCommon
 
     var $__table = 'category';                        // table name
     var $category_id;                     // int(10)  not_null primary_key unsigned auto_increment
-    var $name;                            // string(255)  
+    var $name;                            // string(255)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -48,6 +48,52 @@ class DataObjects_Category extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+     function _getContextId()
+    {
+        return $this->category_id;
+    }
+
+    function _getContext()
+    {
+        return 'Category';
+    }
+
+    /**
+     * build a client specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+//        $context                    = 'Category';
+//        $aAuditFields['key_field']  = $this->category_id;
+        $aAuditFields['key_desc']   = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            default:
+                return $this->$field;
+        }
+    }
 }
 
 ?>

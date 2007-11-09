@@ -26,8 +26,8 @@ $Id$
 */
 
 /**
- * @package    Openads
- * @author     Andrew Hill <andrew.hill@openads.org>
+ * @package    Max
+ * @author     Andrew Hill <andrew@m3.net>
  *
  * A file to set up the environment constants for Openads.
  */
@@ -38,7 +38,7 @@ $Id$
 function setupConstants()
 {
     // Define this version of Openads's constants
-    define('OA_VERSION', '2.5.40-dev');
+    define('OA_VERSION', '2.5.41-dev');
     define('MAX_PRODUCT_NAME',      'Openads');
     define('MAX_PRODUCT_URL',       'www.openads.org');
     define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');

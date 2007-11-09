@@ -57,6 +57,52 @@ class DataObjects_Preference_advertiser extends DB_DataObjectCommon
     function sequenceKey() {
         return array(false, false, false);
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->advertiser_id;
+    }
+
+    function _getContext()
+    {
+        return 'Advertiser Preference';
+    }
+
+    /**
+     * build a client specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = '';
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+//                        $aAuditFields['preference'] = $this->preference;
+//                        $aAuditFields['value']   = $this->value;
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            default:
+                return $this->$field;
+        }
+    }
 }
 
 ?>

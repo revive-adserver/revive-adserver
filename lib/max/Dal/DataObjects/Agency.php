@@ -40,14 +40,14 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     var $__table = 'agency';                          // table name
     var $agencyid;                        // int(9)  not_null primary_key auto_increment
     var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $username;                        // string(64)  
-    var $password;                        // string(64)  
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
-    var $logout_url;                      // string(255)  
-    var $active;                          // int(1)  
+    var $username;                        // string(64)
+    var $password;                        // string(64)
+    var $permissions;                     // int(9)
+    var $language;                        // string(64)
+    var $logout_url;                      // string(255)
+    var $active;                          // int(1)
     var $updated;                         // datetime(19)  not_null binary
 
     /* ZE2 compatibility trick*/
@@ -73,6 +73,7 @@ class DataObjects_Agency extends DataObjects_AbstractUser
 
         // set agency preferences
         $doPreference = $this->factory('preference');
+        $doPreference->init();
         if ($doPreference->get(0)) {
             // overwrite default ones
             $doPreference->agencyid = $agencyid;
@@ -95,6 +96,7 @@ class DataObjects_Agency extends DataObjects_AbstractUser
             return $ret;
         }
         $doPreference = $this->factory('preference');
+        $doPreference->init();
         $doPreference->get($this->agencyid);
         $doPreference = $this->_updatePreferences($doPreference);
         $doPreference->update();
@@ -119,7 +121,6 @@ class DataObjects_Agency extends DataObjects_AbstractUser
         return $doPreference;
     }
 
-
     /**
      * Returns phpAds_Agency constant value.
      *
@@ -140,6 +141,54 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     {
         return $this->agencyid;
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->agencyid;
+    }
+
+    function _getContext()
+    {
+        return 'Agency';
+    }
+
+    /**
+     * build an agency specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        $aAuditFields['active']     = $this->_formatValue('active');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'active':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
+
 }
 
 ?>

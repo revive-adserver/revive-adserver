@@ -41,7 +41,7 @@ class DataObjects_Variables extends DB_DataObjectCommon
     var $variableid;                      // int(9)  not_null primary_key unsigned auto_increment
     var $trackerid;                       // int(9)  not_null multiple_key
     var $name;                            // string(250)  not_null
-    var $description;                     // string(250)  
+    var $description;                     // string(250)
     var $datatype;                        // string(7)  not_null enum
     var $purpose;                         // string(12)  enum
     var $reject_if_empty;                 // int(1)  not_null unsigned
@@ -59,6 +59,55 @@ class DataObjects_Variables extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->variableid;
+    }
+
+    function _getContext()
+    {
+        return 'Variable';
+    }
+
+    /**
+     * build a variable specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+//        $context                    = 'Variable';
+//        $aAuditFields['key_field']  = $this->variableid;
+        $aAuditFields['key_desc']   = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        $aAuditFields['hidden']    = $this->_formatValue('hidden');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'hidden':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
 }
 
 ?>
