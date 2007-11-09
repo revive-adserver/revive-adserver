@@ -457,6 +457,53 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
 
         $aExpected = $this->_getRevenueArray2();
         $this->assertEqual($aStats, $aExpected);
+
+
+        $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDsah->whereAdd('1=1');
+        $doDsah->delete(true);
+
+        foreach (array('2007-07-31', '2007-08-01', '2007-08-02') as $day) {
+            for ($hour = 0; $hour < 24; $hour += 4) {
+                $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+                $doDsah->day         = $day;
+                $doDsah->hour        = $hour;
+                $doDsah->ad_id       = $bannerId;
+                $doDsah->zone_id     = 10;
+                $doDsah->creative_id = 0;
+                $doDsah->impressions = 1;
+                $doDsah->clicks      = 0;
+                $doDsah->insert();
+            }
+        }
+
+        $result = $oAdNetworks->getRevenue(1);
+        $this->assertTrue($result);
+
+        $this->assertEqual(OA_Dal_ApplicationVariables::get('batch_sequence'), 3);
+
+        $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDsah->orderBy('day, hour');
+        $doDsah->find();
+        $aStats = array();
+        $revenueSum = 0;
+        while ($doDsah->fetch()) {
+            $aStats[] = array(
+                'day' => $doDsah->day,
+                'hour' => $doDsah->hour,
+                'impressions' => $doDsah->impressions,
+                'clicks' => $doDsah->clicks,
+                'total_revenue' => $doDsah->total_revenue
+            );
+            $revenueSum += $doDsah->total_revenue;
+        }
+
+        $this->assertEqual(strval($revenueSum), strval($revenue));
+
+        $aExpected = $this->_getRevenueArray3();
+        $this->assertEqual($aStats, $aExpected);
+
+
         DataGenerator::cleanUp($this->aCleanupTables);
     }
 
@@ -584,7 +631,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '2',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           1 =>
@@ -592,7 +639,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '3',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           2 =>
@@ -600,7 +647,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '4',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           3 =>
@@ -608,7 +655,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '5',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           4 =>
@@ -616,7 +663,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '6',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           5 =>
@@ -624,7 +671,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '7',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           6 =>
@@ -632,7 +679,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '8',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           7 =>
@@ -640,7 +687,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '9',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           8 =>
@@ -648,7 +695,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '10',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           9 =>
@@ -656,7 +703,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '11',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           10 =>
@@ -664,7 +711,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '12',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           11 =>
@@ -672,7 +719,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '13',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           12 =>
@@ -680,7 +727,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '14',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           13 =>
@@ -688,7 +735,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '15',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           14 =>
@@ -696,7 +743,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '16',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           15 =>
@@ -704,7 +751,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '17',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           16 =>
@@ -712,7 +759,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '18',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           17 =>
@@ -720,7 +767,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '19',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           18 =>
@@ -728,7 +775,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '20',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           19 =>
@@ -736,7 +783,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '21',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           20 =>
@@ -744,7 +791,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '22',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           21 =>
@@ -752,7 +799,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-01',
             'hour' => '23',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           22 =>
@@ -760,7 +807,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-02',
             'hour' => '0',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '0.9700',
           ),
           23 =>
@@ -768,7 +815,7 @@ document.write ("\'><" + "/script>");
             'day' => '2007-08-02',
             'hour' => '1',
             'impressions' => '0',
-            'clicks' => '1',
+            'clicks' => '0',
             'total_revenue' => '1.1400',
           )
         );
@@ -1355,6 +1402,158 @@ document.write ("\'><" + "/script>");
           ),
         );
     }
+
+
+    function _getRevenueArray3()
+    {
+        return array (
+          0 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '0',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          1 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '4',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          2 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '8',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          3 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '12',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          4 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '16',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          5 =>
+          array (
+            'day' => '2007-07-31',
+            'hour' => '20',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          6 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '0',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          7 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '4',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '3.9000',
+          ),
+          8 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '8',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '3.9000',
+          ),
+          9 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '12',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '3.9000',
+          ),
+          10 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '16',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '3.9000',
+          ),
+          11 =>
+          array (
+            'day' => '2007-08-01',
+            'hour' => '20',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '3.9000',
+          ),
+          12 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '0',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => '3.9500',
+          ),
+          13 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '4',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          14 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '8',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          15 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '12',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          16 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '16',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+          17 =>
+          array (
+            'day' => '2007-08-02',
+            'hour' => '20',
+            'impressions' => '1',
+            'clicks' => '0',
+            'total_revenue' => NULL,
+          ),
+        );
+    }
+
 }
 
 ?>

@@ -140,6 +140,13 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
             }
         }
 
+        if (!count($aActiveStats)) {
+            // Pick any of the available row
+            foreach ($aStats as $key => $row) {
+                $aActiveStats[$key] = 1;
+            }
+        }
+
         return $aActiveStats;
     }
 
@@ -169,7 +176,8 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
             }
 
             return $this->revenueUpdateStats($aActiveRevenues);
-        } else {
+        } elseif ($aRevenue['revenue'] > 0) {
+            // Create entries only if there is a revenue
             if ($this->revenueInsertStats($bannerId, $aRevenue, $actionType)) {
                 return $this->revenuePerformUpdate($bannerId, $aRevenue, $actionType, $recursionLevel + 1);
             }
@@ -182,11 +190,17 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
     {
         $doAza = OA_Dal::factoryDO('ad_zone_assoc');
         $doAza->ad_id = $bannerId;
+        $doAza->link_type = 1;
         $doAza->find();
 
         $aZoneIds = array();
         while ($doAza->fetch()) {
             $aZoneIds[] = $doAza->zone_id;
+        }
+
+        // Add direct selection only if no other linked zones are available
+        if (!count($aZoneIds)) {
+            $aZoneIds[] = 0;
         }
 
         return $aZoneIds;
@@ -211,7 +225,6 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
 
                 $doDsahClone = clone($doDsah);
                 if (!$doDsahClone->count()) {
-                    $doDsah->$actionType = 1;
                     $doDsah->updated = OA::getNow();
                     if ($doDsah->insert()) {
                         $i++;
