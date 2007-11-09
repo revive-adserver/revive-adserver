@@ -212,9 +212,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
                         $aAuditFields['active']        = $this->_formatValue('active');
                         $aAuditFields['autohtml']      = $this->_formatValue('autohtml');
                         $aAuditFields['transparent']   = $this->_formatValue('transparent');
-                        // TODO: data in these fields need special handling
-                        $aAuditFields['htmltemplate']  = '';
-                        $aAuditFields['htmlcache']     = '';
+                        $aAuditFields['htmltemplate']  = 'data not audited';
+                        $aAuditFields['htmlcache']     = 'data not audited';
                         break;
             case OA_AUDIT_ACTION_UPDATE:
                         break;
@@ -229,6 +228,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
             case 'autohtml':
             case 'transparent':
                 return $this->_boolToStr($this->$field);
+            case 'htmltemplate':
+            case 'htmlcache':
+                return 'data not audited';
             default:
                 return $this->$field;
         }

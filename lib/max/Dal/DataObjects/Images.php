@@ -87,6 +87,52 @@ class DataObjects_Images extends DB_DataObjectCommon
     {
         $this->t_stamp = OA::getNow();
     }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return 0;
+    }
+
+    function _getContext()
+    {
+        return 'Image';
+    }
+
+    /**
+     * build an image specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->filename;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
+                        $aAuditFields['contents']  = 'binary data not audited';
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'contents':
+                return 'binary data not audited';
+            default:
+                return $this->$field;
+        }
+    }
 }
 
 ?>

@@ -365,5 +365,17 @@ class DataObjectAuditTest
         $this->_fetchAuditArrayAll($aResult);
         return $aResult;
     }
+
+    function auditDummyData()
+    {
+        require_once MAX_PATH.'/lib/OA/Upgrade/DummyData.php';
+        $oDummy = new OA_Dummy_Data();
+        $oDummy->insert();
+        $aResult = array();
+        $this->_fetchAuditArrayAll($aResult);
+        return $aResult;
+    }
 }
+
+
 ?>

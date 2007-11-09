@@ -40,6 +40,10 @@ else if (array_key_exists('set', $_POST))
 {
     $aData = $obj->auditSet();
 }
+else if (array_key_exists('dummy', $_POST))
+{
+    $aData = $obj->auditDummyData();
+}
 
 include './tpl/audit.html';
 ?>
