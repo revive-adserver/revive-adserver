@@ -963,15 +963,15 @@ class DB_DataObjectCommon extends DB_DataObject
                 // scrunch the data up
                 $this->doAudit->details = serialize($aAuditFields);
                 // if the object has its own timestamp field use the value from that
-                if (property_exists($this, 'updated'))
-                {
-                    $this->doAudit->updated = $this->updated;
-                }
-                else
-                {
+//                if (property_exists($this, 'updated'))
+//                {
+//                    $this->doAudit->updated = $this->updated;
+//                }
+//                else
+//                {
                     // use current timestamp
                     $this->doAudit->updated = OA::getNow();
-                }
+//                }
                 // finally, insert the audit record
                 $id = $this->doAudit->insert();
             }
