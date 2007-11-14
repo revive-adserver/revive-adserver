@@ -78,14 +78,13 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
             INSERT INTO
                 ".$oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['data_intermediate_ad'],true)."
                 (
-                    day, hour, operation_interval, operation_interval_id, interval_start, interval_end,
+                    date_time, operation_interval, operation_interval_id, interval_start, interval_end,
                     ad_id, creative_id, zone_id, impressions, clicks, conversions, total_basket_value
                 )
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $aTypes = array(
-            'date',
-            'integer',
+            'timestamp',
             'integer',
             'integer',
             'timestamp',
@@ -100,19 +99,19 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
         );
         $stDIA = $oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
         $aData = array(
-            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 1, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 1, 2, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 1, 1, 1, 1, 0, 0
+            '2004-06-06 18:00:00', 30, 36, '2004-06-06 18:00:00', '2004-06-06 18:29:59', 2, 1, 1, 1, 1, 0, 0
         );
         $rows = $stDIA->execute($aData);
         // Test
@@ -141,19 +140,19 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
         $this->assertEqual($aRow['actual_impressions'], 4);
         // Insert more test data
         $aData = array(
-            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 1, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 1, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 2, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 1, 2, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 2, 1, 1, 1, 1, 0, 0
+            '2004-06-06 18:00:00', 30, 37, '2004-06-06 18:30:00', '2004-06-06 18:59:59', 2, 1, 1, 1, 1, 0, 0
         );
         $rows = $stDIA->execute($aData);
         // Test
@@ -229,19 +228,19 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_SaveHistory extends UnitTestCa
         $this->assertEqual($aRow['actual_impressions'], 0);
         // Insert more test data
         $aData = array(
-            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 1, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 1, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 2, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 2, 1, 1, 1, 1, 1
+            '2004-06-06 18:00:00', 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 1, 2, 1, 1, 1, 1, 1
         );
         $rows = $stDIA->execute($aData);
         $aData = array(
-            '2004-06-06', 18, 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 2, 1, 1, 1, 1, 0, 0
+            '2004-06-06 18:00:00', 30, 38, '2004-06-06 19:00:00', '2004-06-06 19:29:59', 2, 1, 1, 1, 1, 0, 0
         );
         $rows = $stDIA->execute($aData);
         // Test

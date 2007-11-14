@@ -50,8 +50,9 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
             if (preg_match('/^(\d\d\d\d)(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/', $doSession->lastused, $m)) {
                 $doSession->lastused = "{$m[1]}-{$m[2]}-{$m[3]} {$m[4]}:{$m[5]}:{$m[6]}";
             }
+            $timeNow = strtotime(OA::getNowUTC());
             $timeLastUsed = strtotime($doSession->lastused);
-            if (time() - $timeLastUsed < 3600) {
+            if ($timeNow - $timeLastUsed < 3600) {
                 return $doSession->sessiondata;
             }
         }
@@ -72,7 +73,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
                     UPDATE
                         {$tableS}
                     SET
-                        lastused = '". OA::getNow() ."'
+                        lastused = '". OA::getNowUTC() ."'
                     WHERE
                         sessionid = ?
                     ";
@@ -113,7 +114,7 @@ class MAX_Dal_Admin_Session extends MAX_Dal_Common
         $query = "
                 DELETE FROM {$tableS}
                 WHERE
-                    UNIX_TIMESTAMP('". OA::getNow() ."') - UNIX_TIMESTAMP(lastused) > 43200
+                    UNIX_TIMESTAMP('". OA::getNowUTC() ."') - UNIX_TIMESTAMP(lastused) > 43200
                 ";
         $this->oDbh->query($query);
     }

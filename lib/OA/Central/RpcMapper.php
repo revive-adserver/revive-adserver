@@ -452,17 +452,6 @@ class OA_Central_RpcMapper
             new XML_RPC_Value($batchSequence, $GLOBALS['XML_RPC_Int'])
         ));
 
-        if (PEAR::isError($aResult)) {
-            return $aResult;
-        }
-        foreach ($aResult as $k1 => $v1) {
-            foreach ($v1 as $k2 => $v2) {
-                $v2['start'] = $this->oRpc->utcToDate($v2['start']);
-                $v2['end']   = $this->oRpc->utcToDate($v2['end']);
-                $aResult[$k1][$k2] = $v2;
-            }
-        }
-
         return $aResult;
     }
 

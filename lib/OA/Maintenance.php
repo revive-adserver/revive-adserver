@@ -91,6 +91,8 @@ class OA_Maintenance
             OA::debug('Running Maintenance Statistics and Priority', PEAR_LOG_INFO);
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
+            // Set UTC timezone
+            setTimeZoneLocation('UTC');
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
             // Record the current time, and register with the OA_ServiceLocator
@@ -247,8 +249,8 @@ class OA_Maintenance
     function _runOpenadsCentral()
     {
         OA::debug('  Starting Openads Central process.', PEAR_LOG_DEBUG);
-        if ($this->aPref['updates_enabled'] == 't' && 
-            OA_Dal_ApplicationVariables::get('sso_admin') != "") 
+        if ($this->aPref['updates_enabled'] == 't' &&
+            OA_Dal_ApplicationVariables::get('sso_admin') != "")
         {
             require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
             $oAdNetworks = new OA_Central_AdNetworks();

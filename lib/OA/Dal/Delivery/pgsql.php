@@ -732,7 +732,6 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
         $log_viewerId = $viewerId;
     }
     // Log the raw data
-    $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $query = "
         INSERT INTO
             \"{$table}\"
@@ -840,7 +839,7 @@ function OA_Dal_Delivery_logAction($table, $viewerId, $adId, $creativeId, $zoneI
             (
                 '$log_viewerId',
                 '',
-                '".$dateFunc('Y-m-d H:i:s')."',
+                '".gmdate('Y-m-d H:i:s')."',
                 '$adId',
                 '$creativeId',
                 '$zoneId',";
@@ -976,7 +975,6 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
     $httpLanguage = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 
     // Log the raw data
-    $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $res = OA_Dal_Delivery_query("
         INSERT INTO
             \"{$table}\"
@@ -1018,7 +1016,7 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
             '$serverRawIp',
             '$log_viewerId',
             '',
-            '".$dateFunc('Y-m-d H:i:s')."',
+            '".gmdate('Y-m-d H:i:s')."',
             '$trackerId',
             '".MAX_commonDecrypt($source)."',
             '{$zoneInfo['channel_ids']}',
@@ -1066,14 +1064,13 @@ function OA_Dal_Delivery_logTracker($table, $viewerId, $trackerId, $serverRawIp,
 function OA_Dal_Delivery_logVariableValues($variables, $serverRawTrackerImpressionId, $serverRawIp)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
-    $dateFunc = !empty($conf['logging']['logInUTC']) ? 'gmdate' : 'date';
     $aRows = array();
     foreach ($variables as $variable) {
         $aRows[] = "(
                         '{$variable['variable_id']}',
                         '{$serverRawTrackerImpressionId}',
                         '{$serverRawIp}',
-                        '".$dateFunc('Y-m-d H:i:s')."',
+                        '".gmdate('Y-m-d H:i:s')."',
                         '{$variable['value']}'
                     )";
     }

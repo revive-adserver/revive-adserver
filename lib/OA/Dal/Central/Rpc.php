@@ -203,21 +203,6 @@ class OA_Dal_Central_Rpc
         return $this->call($methodName, OA_DAL_CENTRAL_AUTH_SSO | OA_DAL_CENTRAL_AUTH_CAPTCHA, $aParams);
     }
 
-    /**
-     * A static method to convert UTC XML-RPC dateTime.iso8601 to local time
-     *
-     * @static
-     *
-     * @param string $dateTime DateTime.iso8601 formatted timestamp
-     * @return string A YYYY-MM-DD HH:MI:SS formatted timestamp
-     */
-    function utcToDate($dateTime)
-    {
-        $timeStamp = strtotime($dateTime);
-        $tzOffset = date('Z', $timeStamp);
-
-        return date('Y-m-d H:i:s', $timeStamp + $tzOffset);
-    }
 }
 
 

@@ -555,8 +555,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 INSERT INTO
                     $tmpTableName
                     (
-                        day,
-                        hour,
+                        date_time,
                         operation_interval,
                         operation_interval_id,
                         interval_start,
@@ -569,8 +568,7 @@ class OA_Dal_Maintenance_Statistics_Common
             }
             $query .= "
                 SELECT
-                    DATE_FORMAT(drad.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
-                    DATE_FORMAT(drad.date_time, '%k'){$this->hourCastString} AS hour,
+                    DATE_FORMAT(drad.date_time, '%Y-%m-%d %H:00:00'){$this->dateCastString} AS day_and_hour,
                     $operationInterval AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
@@ -622,7 +620,7 @@ class OA_Dal_Maintenance_Statistics_Common
             }
             $query .= "
                 GROUP BY
-                    day, hour, drad.ad_id, drad.creative_id, drad.zone_id";
+                    day_and_hour, drad.ad_id, drad.creative_id, drad.zone_id";
             if ($blockSeconds == 0) {
                 OA::debug("- Summarising ad $type" . "s from the $baseTable table.", PEAR_LOG_DEBUG);
             } else {
@@ -655,8 +653,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         INSERT INTO
                             tmp_union_ignore_log_once
                             (
-                                day,
-                                hour,
+                                day_and_hour,
                                 operation_interval,
                                 operation_interval_id,
                                 interval_start,
@@ -667,8 +664,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 $countColumnName
                             )
                         SELECT
-                            DATE_FORMAT(tlo.date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
-                            DATE_FORMAT(tlo.date_time, '%k'){$this->hourCastString} AS hour,
+                            DATE_FORMAT(tlo.date_time, '%Y-%m-%d %H:00:00'){$this->dateCastString} AS day_and_hour,
                             {$aConf['maintenance']['operationInterval']} AS operation_interval,
                             $operationIntervalID AS operation_interval_id,
                             ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
@@ -680,7 +676,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         FROM
                             tmp_log_once AS tlo
                         GROUP BY
-                            day, hour, tlo.ad_id, tlo.creative_id, tlo.zone_id";
+                            day_and_hour, tlo.ad_id, tlo.creative_id, tlo.zone_id";
                     OA::debug("Adding one ad $type for each duplicate that occurred in the same second", PEAR_LOG_DEBUG);
                     $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
@@ -690,8 +686,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         INSERT INTO
                             $tmpTableName
                             (
-                                day,
-                                hour,
+                                date_time,
                                 operation_interval,
                                 operation_interval_id,
                                 interval_start,
@@ -702,8 +697,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 {$countColumnName}
                             )
                         SELECT
-                            tuilo.day AS day,
-                            tuilo.hour AS hour,
+                            tuilo.day_and_hour AS date_time,
                             tuilo.operation_interval AS operation_interval,
                             tuilo.operation_interval_id AS operation_interval_id,
                             tuilo.interval_start AS interval_start,
@@ -715,7 +709,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         FROM
                             tmp_union_ignore_log_once AS tuilo
                         GROUP BY
-                            day, hour, operation_interval, operation_interval_id, interval_start, interval_end, ad_id, creative_id, zone_id";
+                            day_and_hour, operation_interval, operation_interval_id, interval_start, interval_end, ad_id, creative_id, zone_id";
                     OA::debug("Summarising total ad $type" . "s without 'blocked' $type" . "s", PEAR_LOG_DEBUG);
                     $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
@@ -1198,8 +1192,7 @@ class OA_Dal_Maintenance_Statistics_Common
             $tmpAdTable = $this->oDbh->quoteIdentifier('tmp_ad_'.$type,true);
             $innerQuery = "
                 SELECT
-                    {$tmpAdTable}.day AS day,
-                    {$tmpAdTable}.hour AS hour,
+                    {$tmpAdTable}.date_time,
                     {$tmpAdTable}.operation_interval AS operation_interval,
                     {$tmpAdTable}.operation_interval_id AS operation_interval_id,
                     {$tmpAdTable}.interval_start AS interval_start,
@@ -1231,8 +1224,7 @@ class OA_Dal_Maintenance_Statistics_Common
         $query .= "
             UNION ALL
             SELECT
-                {$tmpConvTable}.day AS day,
-                {$tmpConvTable}.hour AS hour,
+                {$tmpConvTable}.date_time,
                 {$tmpConvTable}.operation_interval AS operation_interval,
                 {$tmpConvTable}.operation_interval_id AS operation_interval_id,
                 {$tmpConvTable}.interval_start AS interval_start,
@@ -1252,8 +1244,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 {$tmpConvTable}";
         $query .= "
                 GROUP BY
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -1288,8 +1279,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 INSERT INTO
                     ".$this->oDbh->quoteIdentifier($table,true)."
                     (
-                        day,
-                        hour,
+                        date_time,
                         operation_interval,
                         operation_interval_id,
                         interval_start,
@@ -1308,8 +1298,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         updated
                     )
                 SELECT
-                    tu.day AS day,
-                    tu.hour AS hour,
+                    tu.date_time,
                     tu.operation_interval AS operation_interval,
                     tu.operation_interval_id AS operation_interval_id,
                     tu.interval_start AS interval_start,
@@ -1329,8 +1318,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 FROM
                     ".$this->oDbh->quoteIdentifier('tmp_union',true)." AS tu
                 GROUP BY
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -1431,8 +1419,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 ".$this->oDbh->quoteIdentifier('tmp_conversions',true)."
                 (
                     data_intermediate_ad_connection_id,
-                    day,
-                    hour,
+                    date_time,
                     operation_interval,
                     operation_interval_id,
                     interval_start,
@@ -1445,8 +1432,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 )
             SELECT
                 diac.data_intermediate_ad_connection_id AS data_intermediate_ad_connection_id,
-                DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d'){$this->dateCastString} AS day,
-                DATE_FORMAT(diac.tracker_date_time, '%k'){$this->hourCastString} AS hour,
+                DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00'){$this->dateCastString} AS date_f,
                 $operationInterval AS operation_interval,
                 $operationIntervalID AS operation_interval_id,
                 ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,
@@ -1479,8 +1465,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 AND diac.tracker_date_time <= ". $this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . "
             GROUP BY
                 diac.data_intermediate_ad_connection_id,
-                day,
-                hour,
+                date_f,
                 diac.ad_id,
                 diac.creative_id,
                 diac.zone_id";
@@ -1985,8 +1970,7 @@ class OA_Dal_Maintenance_Statistics_Common
             INSERT INTO
                 ".$this->oDbh->quoteIdentifier($finalToTable,true)."
                 (
-                    day,
-                    hour,
+                    date_time,
                     ad_id,
                     creative_id,
                     zone_id,";
@@ -2001,8 +1985,7 @@ class OA_Dal_Maintenance_Statistics_Common
                     updated
                 )
             SELECT
-                day AS day,
-                hour AS hour,
+                date_time,
                 ad_id AS ad_id,
                 creative_id AS creative_id,
                 zone_id AS zone_id,";
@@ -2018,11 +2001,10 @@ class OA_Dal_Maintenance_Statistics_Common
             FROM
                 ".$this->oDbh->quoteIdentifier($finalFromTable,true)."
             WHERE
-                day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date')."
-                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H'))."
-                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'))."
+                date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp')."
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'))."
             GROUP BY
-                day, hour, ad_id, creative_id, zone_id";
+                date_time, ad_id, creative_id, zone_id";
         // Prepare the message about what's about to happen
         $message = '- Summarising the ad ' . implode('s, ', $aActions['types']) . 's and conversions';
         $message .= " from the $finalFromTable table";
@@ -2065,9 +2047,8 @@ class OA_Dal_Maintenance_Statistics_Common
             FROM
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
             WHERE
-                day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'));
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2089,9 +2070,8 @@ class OA_Dal_Maintenance_Statistics_Common
             FROM
                 ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table'][$table],true)."
             WHERE
-                day = ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S', 'timestamp'));
         $rc = $this->oDbh->query($query);
         if (PEAR::isError($rc)) {
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2227,10 +2207,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPC:
                         $query = "
@@ -2241,10 +2219,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H'))."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPA:
                         $query = "
@@ -2255,10 +2231,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 ad_id = {$aInfo['ad_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date') ."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                 }
             }
@@ -2410,10 +2384,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d'), 'date')."
-                                AND day <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d'), 'date') ."
-                                AND hour >= ". $this->oDbh->escape($oStartDate->format('%H')) ."
-                                AND hour <= ". $this->oDbh->escape($oEndDate->format('%H'));
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPC:
                         $query = "
@@ -2424,10 +2396,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPA:
                         $query = "
@@ -2438,10 +2408,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_RS:
                         $query = "
@@ -2452,10 +2420,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_BV:
                         $query = "
@@ -2466,10 +2432,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_AI:
                         $query = "
@@ -2480,10 +2444,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_ANYVAR:
                         // Get variable ID
@@ -2497,16 +2459,13 @@ class OA_Dal_Maintenance_Statistics_Common
                                     updated = '". OA::getNow() ."'
                                 WHERE
                                     zone_id = {$aInfo['zone_id']}
-                                    AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                    AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                    AND hour >= ".$oStartDate->format('%H')."
-                                    AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                             $rows = $this->oDbh->exec($innerQuery);
 
                             $innerQuery = "
                                 SELECT
-                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
-                                    HOUR(diac.tracker_date_time) AS hour,
+                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS date_f,
                                     diac.ad_id,
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
@@ -2523,8 +2482,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     AND diac.inside_window = 1
                                     AND diavv.tracker_variable_id = {$aInfo['cost_variable_id']}
                                 GROUP BY
-                                    day,
-                                    hour,
+                                    date_f,
                                     diac.ad_id,
                                     diac.creative_id
                             ";
@@ -2539,8 +2497,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         updated = '". OA::getNow() ."'
                                     WHERE
                                         zone_id = {$aInfo['zone_id']}
-                                        AND day = '".$row['day']."'
-                                        AND hour = ".$row['hour']."
+                                        AND date_time = '".$row['date_f']."'
                                         AND ad_id = ".$row['ad_id']."
                                         AND creative_id = ".$row['creative_id'];
                                 $rows = $this->oDbh->exec($innermostQuery);
@@ -2560,16 +2517,13 @@ class OA_Dal_Maintenance_Statistics_Common
                                     updated = '". OA::getNow() ."'
                                 WHERE
                                     zone_id = {$aInfo['zone_id']}
-                                    AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                    AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                    AND hour >= ".$oStartDate->format('%H')."
-                                    AND hour <= ".$oEndDate->format('%H');
+                                    AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                    AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                             $rows = $this->oDbh->exec($innerQuery);
 
                             $innerQuery = "
                                 SELECT
-                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS day,
-                                    HOUR(diac.tracker_date_time) AS hour,
+                                    DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS date_f,
                                     diac.ad_id,
                                     diac.creative_id,
                                     COALESCE(SUM(diavv.value), 0) * {$aInfo['cost']} / 100 AS total_cost
@@ -2586,8 +2540,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                     AND diac.inside_window = 1
                                     AND diavv.tracker_variable_id IN ({$aInfo['cost_variable_id']})
                                 GROUP BY
-                                    day,
-                                    hour,
+                                    date_f,
                                     diac.ad_id,
                                     diac.creative_id
                             ";
@@ -2602,8 +2555,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                         updated = '". OA::getNow() ."'
                                     WHERE
                                         zone_id = {$aInfo['zone_id']}
-                                        AND day = '".$row['day']."'
-                                        AND hour = ".$row['hour']."
+                                        AND date_time = '".$row['date_f']."'
                                         AND ad_id = ".$row['ad_id']."
                                         AND creative_id = ".$row['creative_id'];
                                 $rows = $this->oDbh->exec($innermostQuery);
@@ -2646,10 +2598,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_CPC:
                         $query = "
@@ -2660,10 +2610,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                     case MAX_FINANCE_RS:
                         $query = "
@@ -2674,10 +2622,8 @@ class OA_Dal_Maintenance_Statistics_Common
                                 updated = '". OA::getNow() ."'
                             WHERE
                                 zone_id = {$aInfo['zone_id']}
-                                AND day >= '".$oStartDate->format('%Y-%m-%d')."'
-                                AND day <= '".$oEndDate->format('%Y-%m-%d')."'
-                                AND hour >= ".$oStartDate->format('%H')."
-                                AND hour <= ".$oEndDate->format('%H');
+                                AND date_time >= ". $this->oDbh->quote($oStartDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ."
+                                AND date_time <= ". $this->oDbh->quote($oEndDate->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
                         break;
                 }
             }

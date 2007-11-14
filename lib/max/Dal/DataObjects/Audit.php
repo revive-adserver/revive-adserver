@@ -41,16 +41,19 @@ class DataObjects_Audit extends DB_DataObjectCommon
     /* the code below is auto generated do not remove the above tag */
 
     var $__table = 'audit';                           // table name
-    var $auditid;                         // int(9)  not_null primary_key unsigned auto_increment
-    var $actionid;                        // int(5)  not_null unsigned
-    var $context;                         // string(255)  not_null
-    var $contextid;                       // int(9)  not_null
-    var $parentid;                        // int(9)  not_null
+    var $auditid;                         // int(9)  not_null primary_key auto_increment
+    var $actionid;                        // int(9)  not_null
+    var $context;                         // string(255)  not_null multiple_key
+    var $contextid;                       // int(9)  
+    var $parentid;                        // int(9)  multiple_key
+    var $details;                         // blob(65535)  not_null blob
     var $userid;                          // int(9)  not_null
-    var $username;                        // string(64)  not_null
-    var $usertype;                        // int(4)  not_null
-    var $details;                         // string(255)  not_null
-    var $updated;                         // datetime(19)  not_null multiple_key binary
+    var $username;                        // string(64)  multiple_key
+    var $usertype;                        // int(4)  not_null multiple_key
+    var $updated;                         // datetime(19)  multiple_key binary
+
+    /* ZE2 compatibility trick*/
+    function __clone() { return $this;}
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('DataObjects_Audit',$k,$v); }

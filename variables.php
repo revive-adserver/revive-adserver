@@ -73,10 +73,8 @@ function setupConfigVariables()
     $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
         $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 
-    // Set time zone, for more info @see setTimeZoneLocation()
-    if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-        setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
-    }
+    // Always use UTC
+    setTimeZoneLocation('UTC');
 }
 
 /**

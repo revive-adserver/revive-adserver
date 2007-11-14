@@ -930,8 +930,10 @@ class OA_Dal_Statistics_Targeting extends OA_Dal
         if (!($type == 'ad' || $type == 'placement')) {
             return;
         }
+        $oNow = new Date();
         reset($aTemp);
         while (list(,$aValue) = each($aTemp)) {
+            $aValue['interval_start']->convertTZ($oNow->tz);
             if ($breakdown == 'day') {
                 $key = $aValue['interval_start']->format('%Y-%m-%d');
             } else if ($breakdown == 'week') {

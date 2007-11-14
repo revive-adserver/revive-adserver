@@ -282,7 +282,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                              );
         $query['joins']    = array(
                                 array($joinTable1, "$table.campaignid = $joinTable1.campaignid"),
-                                array($joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.day = '$today'")
+                                array($joinTable2, "$joinTable1.bannerid = $joinTable2.ad_id AND $joinTable2.date_time >= '$today 00:00:00' AND $joinTable2.date_time <= '$today 23:59:59'")
                              );
         $query['group']    = "placement_id";
         return $this->_get($query);

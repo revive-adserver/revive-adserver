@@ -240,6 +240,9 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
      */
     function getHistory($aParams, $link = '')
     {
+        $oNow = new Date();
+        $aParams['tz'] = $oNow->tz->getID();
+
         $method = $this->oHistory->setBreakdownInfo($this);
 
         // Add plugin aParams

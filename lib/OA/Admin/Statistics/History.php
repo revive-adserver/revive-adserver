@@ -68,19 +68,27 @@ class OA_Admin_Statistics_History
     function getSpan(&$oCaller, $aParams, $type = 'getHistorySpan', $pluginMethod = 'getHistorySpanParams')
     {
         $oStartDate = new Date(date('Y-m-d'));
+        $oStartDate->setHour(0);
+        $oStartDate->setMinute(0);
+        $oStartDate->setSecond(0);
         // Check span using all plugins
         foreach ($oCaller->aPlugins as $oPlugin) {
             $aPluginParams = call_user_func(array($oPlugin, $pluginMethod));
             $aSpan = Admin_DA::fromCache($type, $aParams + $aPluginParams);
             if (!empty($aSpan['start_date'])) {
                 $oDate = new Date($aSpan['start_date']);
+                $oDate->setTZbyID('UTC');
                 if ($oDate->before($oStartDate)) {
+                    $oDate->convertTZ($oStartDate->tz);
                     $oStartDate = new Date($oDate);
                 }
             }
         }
+        $oStartDate->setHour(0);
+        $oStartDate->setMinute(0);
+        $oStartDate->setSecond(0);
         $oNow  = new Date();
-        $oSpan = new Date_Span(new Date($oStartDate), new Date(date('Y-m-d')));
+        $oSpan = new Date_Span(new Date($oStartDate), new Date($oNow->format('%Y-%m-%d')));
         // Store the span data required for stats display
         $oCaller->oStartDate = $oStartDate;
         $oCaller->spanDays   = (int)ceil($oSpan->toDays());

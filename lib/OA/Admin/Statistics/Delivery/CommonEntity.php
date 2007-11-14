@@ -234,6 +234,9 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
     {
         if (is_null($this->data))
         {
+            $oNow = new Date();
+            $aParams['tz'] = $oNow->tz->getID();
+
             // Get plugin aParams
             $pluginParams = array();
             foreach ($this->aPlugins as $oPlugin) {

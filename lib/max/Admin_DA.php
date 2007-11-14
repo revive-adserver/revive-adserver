@@ -804,24 +804,82 @@ class Admin_DA
         return current($span);
     }
 
+    function getDayHourHistory($aParams)
+    {
+        return Admin_DA::_getEntities('history_day_hour', $aParams, false, 'date_time');
+    }
+
     function getDayHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_day', $aParams, false, 'day');
+        return Admin_DA::_getHistoryTz(
+            'history_day',
+            $aParams,
+            'day',
+            'format',
+            array('%Y-%m-%d'),
+            $GLOBALS['date_format']
+        );
     }
 
     function getMonthHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_month', $aParams, false, 'month');
+        return Admin_DA::_getHistoryTz(
+            'history_month',
+            $aParams,
+            'month',
+            'format',
+            array('%Y-%m'),
+            $GLOBALS['month_format']
+        );
     }
 
     function getDayOfWeekHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_dow', $aParams, false, 'dow');
+        return Admin_DA::_getHistoryTz(
+            'history_dow',
+            $aParams,
+            'dow',
+            'getDayOfWeek'
+        );
     }
 
     function getHourHistory($aParams)
     {
-        return Admin_DA::_getEntities('history_hour', $aParams, false, 'hour');
+        return Admin_DA::_getHistoryTz(
+            'history_hour',
+            $aParams,
+            'hour',
+            'getHour'
+        );
+    }
+
+    function _getHistoryTz($entity, $aParams, $name, $method, $args = array(), $formatted = null)
+    {
+        if (empty($aParams['tz'])) {
+            return Admin_DA::_getEntities($entity, $aParams, false, $name);
+        }
+
+        $aStats = array();
+        foreach (Admin_DA::fromCache('getDayHourHistory', $aParams) as $k => $v) {
+            unset($v['date_time']);
+            $oDate = new Date($k);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZbyID($aParams['tz']);
+            $key = call_user_func_array(array(&$oDate, $method), $args);
+            if (!isset($aStats[$key])) {
+                $v[$name] = $key;
+                if ($formatted) {
+                    $v['date_f'] = $oDate->format($formatted);
+                }
+                $aStats[$key] = $v;
+            } else {
+                foreach ($v as $kk => $vv) {
+                    $aStats[$key][$kk] += $vv;
+                }
+            }
+        }
+
+        return $aStats;
     }
 
     // +---------------------------------------+

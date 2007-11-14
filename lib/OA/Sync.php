@@ -272,57 +272,22 @@ class OA_Sync
         $oEnd->setMinute(0);
         $oEnd->setSecond(0);
 
-        $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
-        $tableDsah = $this->oDbh->quoteIdentifier($prefix.'data_summary_ad_hourly', true);
-
-        $query = "
-            SELECT
-                day,
-                hour,
-                SUM(impressions) AS total_impressions,
-                SUM(clicks) AS total_clicks
-            FROM
-                $tableDsah
-            WHERE
-                ((day = :startday AND hour >= :starthour) OR day > :start) AND
-                ((day = :endday AND hour < :endhour) OR day < :end)
-            GROUP BY
-                day,
-                hour
-            ORDER BY
-                day,
-                hour
-        ";
-
-        $oSth = $this->oDbh->prepare($query, array(
-            'startday'  => 'date',
-            'starthour' => 'integer',
-            'start'     => 'date',
-            'endday'    => 'date',
-            'endhour'   => 'integer',
-            'end'       => 'date'
-        ));
-
-        $rsStats = $oSth->execute(array(
-            'startday'  => $oStart->format('%Y-%m-%d'),
-            'starthour' => $oStart->format('%H'),
-            'start'     => $oStart->format('%Y-%m-%d'),
-            'endday'    => $oEnd->format('%Y-%m-%d'),
-            'endhour'   => $oEnd->format('%H'),
-            'end'       => $oEnd->format('%Y-%m-%d')
-        ));
-
-        $oSth->free();
+        $doDsah = OA_Dal::factoryDO('data_summary_ad_hourly');
+        $doDsah->selectAdd();
+        $doDsah->selectAdd('date_time');
+        $doDsah->selectAdd('SUM(impressions) AS total_impressions');
+        $doDsah->selectAdd('SUM(clicks) AS total_clicks');
+        $doDsah->whereAdd("date_time >= ".$this->oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S')));
+        $doDsah->whereAdd("date_time < ".$this->oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S')));
+        $doDsah->groupBy('date_time');
+        $doDsah->orderBy('date_time');
+        $doDsah->find();
 
         $aStats = array();
 
-        while ($row = $rsStats->fetchRow()) {
-            $timeStamp = strtotime(sprintf('%s %02d:00:00', $row['day'], $row['hour']));
-            $tzOffset = date('Z', $timeStamp);
-
-            $oDate = new Date($timeStamp - $tzOffset);
-
-            $aStats[$oDate->format('%Y-%m-%d %H:%M:%S')] = array(
+        while ($doDsah->fetch()) {
+            $row = $doDsah->toArray();
+            $aStats[$row['date_time']] = array(
                 'impressions' => $row['total_impressions'],
                 'clicks'      => $row['total_clicks']
             );

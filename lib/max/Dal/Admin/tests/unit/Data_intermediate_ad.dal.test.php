@@ -149,6 +149,8 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
 
         // Prepare the data for the data_intermediate_ad table,
         // there is one record being inserted.
+        $day  = '2007-04-04';
+        $hour = 17;
         $aData = array(
             'ad_id'              => array($bannerId),
             'conversions'        => array($conversions = 67),
@@ -156,10 +158,9 @@ class MAX_Dal_Admin_Data_intermediate_adTest extends DalUnitTestCase
             'total_num_items'    => array($total_num_items = 100),
             'creative_id'        => array($creative_id = 4),
             'zone_id'            => array($zone_id = 5),
-            'day'                => array($day = '2007-04-04'),
-            'hour'               => array($hour = 17),
-            'interval_start'     => array('2007-04-04 17:00:00'),
-            'interval_end'       => array('2007-04-04 17:59:59')
+            'date_time'          => array(sprintf('%s %02d:00:00', $day, $hour)),
+            'interval_start'     => array(sprintf('%s %02d:00:00', $day, $hour)),
+            'interval_end'       => array(sprintf('%s %02d:59:59', $day, $hour))
         );
         $dg = new DataGenerator();
         $dg->setData('data_intermediate_ad', $aData);

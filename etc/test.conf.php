@@ -151,7 +151,6 @@ proxyLookup                         = true
 sniff                               = false
 defaultImpressionConnectionWindow   =
 defaultClickConnectionWindow        =
-logInUTC                            = false   ; If true delivery log raw data in UTC
 ignoreHosts                         =         ; Comma separated list of hosts
 
 [maintenance]

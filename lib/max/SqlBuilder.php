@@ -132,7 +132,7 @@ class SqlBuilder
             break;
 
         case 'stats' :
-            $aColumns += array('s.day' => 'day', 's.hour' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
+            $aColumns += array('DATE(date_time)' => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
             break;
 
         case 'stats_by_entity' :
@@ -179,7 +179,7 @@ class SqlBuilder
             if (isset($aParams['custom_columns']) && is_array($aParams['custom_columns'])) {
                 $aColumns += $aParams['custom_columns'];
             } else {
-                $aColumns += array('MIN(s.day)' => 'start_date');
+                $aColumns += array('MIN(s.date_time)' => 'start_date');
             }
             break;
 
@@ -191,20 +191,24 @@ class SqlBuilder
             }
             break;
 
+        case 'history_day_hour' :
+            $aColumns += array('s.date_time' => 'date_time') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            break;
+
         case 'history_day' :
-            $aColumns += array('s.day' => 'day', "DATE_FORMAT(s.day, '{$GLOBALS['date_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array('DATE(s.date_time)' => 'day', "DATE_FORMAT(s.date_time, '{$GLOBALS['date_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'history_month' :
-            $aColumns += array("DATE_FORMAT(s.day, '%Y-%m')" => 'month', "DATE_FORMAT(s.day, '{$GLOBALS['month_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("DATE_FORMAT(s.date_time, '%Y-%m')" => 'month', "DATE_FORMAT(s.date_time, '{$GLOBALS['month_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'history_dow' :
-            $aColumns += array("(DAYOFWEEK(s.day) - 1)" => 'dow') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("(DAYOFWEEK(s.date_time) - 1)" => 'dow') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'history_hour' :
-            $aColumns += array("s.hour" => 'hour') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("HOUR(s.date_time)" => 'hour') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'stats_common' :
@@ -414,6 +418,7 @@ class SqlBuilder
             break;
 
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :
@@ -517,6 +522,7 @@ class SqlBuilder
         case 'placement_zone_assoc' :   $aTable = array($conf['table']['placement_zone_assoc'] => 'pz'); break;
         case 'publisher' :              $aTable = array($conf['table']['affiliates'] => 'p'); break;
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :
@@ -667,6 +673,7 @@ class SqlBuilder
             break;
 
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :
@@ -690,12 +697,12 @@ class SqlBuilder
             if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
             if (!empty($aParams['custom_table']) && $aParams['custom_table'] == 'data_intermediate_ad_connection') {
-                if (!empty($aParams['day_begin'])) $aLimitations[]="s.tracker_date_time>='{$aParams['day_begin']} 00:00:00'";
-                if (!empty($aParams['day_end'])) $aLimitations[]="s.tracker_date_time<='{$aParams['day_end']} 23:59:59'";
+                $dateTimeCol = "s.tracker_date_time";
             } else {
-                if (!empty($aParams['day_begin'])) $aLimitations[]="s.day>='{$aParams['day_begin']}'";
-                if (!empty($aParams['day_end'])) $aLimitations[]="s.day<='{$aParams['day_end']}'";
+                $dateTimeCol = "s.date_time";
             }
+            if (!empty($aParams['day_begin'])) $aLimitations[]="{$dateTimeCol}>='".SqlBuilder::_dayToDateTime($aParams['day_begin'], true)."'";
+            if (!empty($aParams['day_end'])) $aLimitations[]="{$dateTimeCol}<='".SqlBuilder::_dayToDateTime($aParams['day_end'], false)."'";
             break;
 
         case 'stats_by_entity' :
@@ -728,6 +735,19 @@ class SqlBuilder
             break;
         }
         return $aLimitations;
+    }
+
+    function _dayToDateTime($day, $begin = true)
+    {
+        $oDate = new Date($day);
+        if (!$begin) {
+            $oDate->setHour(23);
+            $oDate->setMinute(59);
+            $oDate->setSecond(59);
+        }
+        $oDate->toUTC();
+
+        return $oDate->format('%Y-%m-%d %H:%M:%S');
     }
 
     /**
@@ -802,8 +822,8 @@ class SqlBuilder
         if (!empty($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 's.zone_id', $aParams['zone_id']);
         if (!empty($aParams['placement_id'])) SqlBuilder::_addLimitation($aLimitations, 'placement_id', 'd.campaignid', $aParams['placement_id']);
         if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 's.ad_id', $aParams['ad_id']);
-        if (!empty($aParams['day_begin'])) $aLimitations[]="s.day>='{$aParams['day_begin']}'";
-        if (!empty($aParams['day_end'])) $aLimitations[]="s.day<='{$aParams['day_end']}'";
+        if (!empty($aParams['day_begin'])) $aLimitations[]="s.date_time>='{$aParams['day_begin']}'";
+        if (!empty($aParams['day_end'])) $aLimitations[]="s.date_time<='{$aParams['day_end']}'";
 
         return $aLimitations;
     }
@@ -873,10 +893,11 @@ class SqlBuilder
         $aGroupColumns = array();
         switch ($entity) {
 
-        case 'history_day' :   $aGroupColumns[] = 'day'; break;
-        case 'history_month' : $aGroupColumns[] = 'month'; break;
-        case 'history_dow' :   $aGroupColumns[] = 'dow'; break;
-        case 'history_hour' :  $aGroupColumns[] = 'hour'; break;
+        case 'history_day_hour' : $aGroupColumns[] = 'date_time'; break;
+        case 'history_day' :      $aGroupColumns[] = 'day'; break;
+        case 'history_month' :    $aGroupColumns[] = 'month'; break;
+        case 'history_dow' :      $aGroupColumns[] = 'dow'; break;
+        case 'history_hour' :     $aGroupColumns[] = 'hour'; break;
 
         case 'stats_by_entity' :
             $aGroupColumns = array('ad_id', 'zone_id');
@@ -921,6 +942,7 @@ class SqlBuilder
             }
             break;
         case 'history_span' :
+        case 'history_day_hour' :
         case 'history_day' :
         case 'history_month' :
         case 'history_dow' :

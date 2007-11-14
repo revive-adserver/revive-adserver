@@ -209,7 +209,24 @@ class OA
         if (is_null($format)) {
             $format = 'Y-m-d H:i:s';
         }
-        return date($format, time());
+        return date($format);
+    }
+
+    /**
+     * A method to obtain the current date/time in UTC
+     *
+     * @static
+     * @param string $format A PHP date() compatible formatting string, if
+     *                       required. Default is "Y-m-d H:i:s".
+     * @return string An appropriately formatted date/time string, representing
+     *                the "current" date/time, offset if required.
+     */
+    function getNowUTC($format = null)
+    {
+        if (is_null($format)) {
+            $format = 'Y-m-d H:i:s';
+        }
+        return gmdate($format);
     }
 
     /**
