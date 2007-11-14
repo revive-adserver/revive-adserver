@@ -511,7 +511,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return boolean
      * @access protected
      */
-    function delete($useWhere = false, $cascadeDelete = true)
+    function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
         $this->_addPrefixToTableName();
 
@@ -533,33 +533,18 @@ class DB_DataObjectCommon extends DB_DataObject
                     $doAffected->whereAdd();
                 }
                 $doAffected->find();
-
+                
                 while ($doAffected->fetch()) {
+                    $id = $this->audit(3, null, $parentid);
                     // Simulate "ON DELETE CASCADE"
-                    $doAffected->deleteCascade($linkedRefs, $primaryKey);
+                    $doAffected->deleteCascade($linkedRefs, $primaryKey, $id);
                 }
             }
+        } else {
+            $this->audit(3, null, $parentid);
         }
-        // in order to audit we need a populated object
-        // populating the original object can break cascade
-        // the last object in a cascade will not be cloned by this point
-        // so ensure that we have a cloned and populated object to audit
-        if (is_null($doAffected))
-        {
-            $doAffected = clone($this);
-            if (!$useWhere) {
-                // Clear any additional WHEREs if it's not used in delete statement
-                $doAffected->whereAdd();
-            }
-            $doAffected->find();
-            $doAffected->fetch();
-        }
-        $result = parent::delete($useWhere);
-        if ($result)
-        {
-            $doAffected->audit(3);
-        }
-        return $result;
+    
+        return  parent::delete($useWhere);
     }
 
     /**
@@ -823,7 +808,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return boolean  True on success else false
      * @access public
      **/
-    function deleteCascade($linkedRefs, $primaryKey)
+    function deleteCascade($linkedRefs, $primaryKey, $parentid)
     {
         foreach ($linkedRefs as $table => $column) {
             $doLinkded = DB_DataObject::factory($table);
@@ -834,7 +819,7 @@ class DB_DataObjectCommon extends DB_DataObject
 
             $doLinkded->$column = $this->$primaryKey;
             // ON DELETE CASCADE
-            $doLinkded->delete();
+            $doLinkded->delete(false, true, $parentid);
         }
     }
 
@@ -937,7 +922,7 @@ class DB_DataObjectCommon extends DB_DataObject
         return false;
     }
 
-    function audit($actionid, $dataobject=null)
+    function audit($actionid, $dataobject=null, $parentid = null)
     {
         require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
         if (isset($GLOBALS['_MAX']['CONF']['audit']) && $GLOBALS['_MAX']['CONF']['audit']['enabled'])
@@ -951,7 +936,7 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->doAudit->actionid    = $actionid;
                 $this->doAudit->context     = $this->_getContext();
                 $this->doAudit->contextid   = $this->_getContextId();
-                $this->doAudit->parentid    = '';
+                $this->doAudit->parentid    = $parentid;
                 $this->doAudit->username    = phpAds_getUserName();
                 $this->doAudit->userid      = phpAds_getUserID();
                 $this->doAudit->usertype    = phpAds_getUserType();
@@ -976,7 +961,7 @@ class DB_DataObjectCommon extends DB_DataObject
                 $id = $this->doAudit->insert();
             }
         }
-        return true;
+        return $id;
     }
 
     /**
