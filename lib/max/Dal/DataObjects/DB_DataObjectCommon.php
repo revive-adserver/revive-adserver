@@ -993,30 +993,6 @@ class DB_DataObjectCommon extends DB_DataObject
 
         switch ($actionid)
         {
-            case OA_AUDIT_ACTION_UPDATE:
-                        if (!empty($dataobject))
-                        {
-                            // only audit data that has changed
-                            foreach ($aFields AS $name => $type)
-                            {
-                                // don't bother auditing timestamp changes?
-                                if ($name <> 'updated')
-                                {
-                                    $valNew = $this->_formatValue($name);
-                                    $valOld = $dataobject->_formatValue($name);
-                                    if ($valNew != $valOld)
-                                    {
-                                        $aAuditFields[$name]['was'] = $valOld;
-                                        $aAuditFields[$name]['is']  = $valNew;
-                                    }
-                                }
-                            }
-                            break;
-                        }
-                        else
-                        {
-                            // Don't break!
-                        }
             case OA_AUDIT_ACTION_INSERT:
             case OA_AUDIT_ACTION_DELETE:
                         // audit all data
@@ -1025,7 +1001,22 @@ class DB_DataObjectCommon extends DB_DataObject
                             $aAuditFields[$name] = $this->$name;
                         }
                         break;
-
+            case OA_AUDIT_ACTION_UPDATE:
+                        // only audit data that has changed
+                        foreach ($aFields AS $name => $type)
+                        {
+                            // don't bother auditing timestamp changes?
+                            if ($name <> 'updated')
+                            {
+                                $valNew = $this->_formatValue($name);
+                                $valOld = !empty($dataobject) ? $dataobject->_formatValue($name) : '';
+                                if ($valNew != $valOld)
+                                {
+                                    $aAuditFields[$name]['was'] = $valOld;
+                                    $aAuditFields[$name]['is']  = $valNew;
+                                }
+                            }
+                        }
         }
         return $aAuditFields;
     }
