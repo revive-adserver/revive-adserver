@@ -48,7 +48,6 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
     function Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP()
     {
         $this->UnitTestCase();
-        $GLOBALS['_MAX']['CONF']['geotargeting']['useBundledCountryDatabase'] = false;
     }
 
     /**
@@ -78,7 +77,31 @@ class Delivery_TestOfPlugins_Geotargeting_GeoIP_GeoIP extends UnitTestCase
         $conf = &$GLOBALS['_MAX']['CONF'];
 
         $GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
-        // Test with no additional MaxMind GeoIP databases
+        // Test without the default database, and no additional MaxMind GeoIP databases
+        $GLOBALS['_MAX']['CONF']['geotargeting']['useBundledCountryDatabase'] = false;
+        $conf['geotargeting']['geoipCountryLocation'] = '';
+        $conf['geotargeting']['geoipRegionLocation'] = '';
+        $conf['geotargeting']['geoipCityLocation'] = '';
+        $conf['geotargeting']['geoipAreaLocation'] = '';
+        $conf['geotargeting']['geoipDmaLocation'] = '';
+        $conf['geotargeting']['geoipOrgLocation'] = '';
+        $conf['geotargeting']['geoipIspLocation'] = '';
+        $conf['geotargeting']['geoipNetspeedLocation'] = '';
+        $result = MAX_Plugin::callStaticMethod('geotargeting', 'GeoIP', 'GeoIP', 'getInfo');
+        $this->assertNull($result['country_code']);
+        $this->assertNull($result['region']);
+        $this->assertNull($result['city']);
+        $this->assertNull($result['postal_code']);
+        $this->assertNull($result['latitude']);
+        $this->assertNull($result['longitude']);
+        $this->assertNull($result['dma_code']);
+        $this->assertNull($result['area_code']);
+        $this->assertNull($result['organisation']);
+        $this->assertNull($result['netspeed']);
+
+        $GLOBALS['_MAX']['GEO_IP'] = '24.24.24.24';
+        // Test with the default database, and no additional MaxMind GeoIP databases
+        $GLOBALS['_MAX']['CONF']['geotargeting']['useBundledCountryDatabase'] = true;
         $conf['geotargeting']['geoipCountryLocation'] = '';
         $conf['geotargeting']['geoipRegionLocation'] = '';
         $conf['geotargeting']['geoipCityLocation'] = '';
