@@ -492,7 +492,9 @@ class OA_Central_AdNetworks extends OA_Central_Common
             $doAdZoneAssoc->joinAdd($doZones);
             $doAdZoneAssoc->find();
             while ($doAdZoneAssoc->fetch()) {
-                if (!$doAdZoneAssoc->delete()) {
+                $doAdZoneAssoc2 = OA_Dal::factoryDO('ad_zone_assoc');
+                $doAdZoneAssoc2->ad_zone_assoc_id = $doAdZoneAssoc->ad_zone_assoc_id;
+                if (!$doAdZoneAssoc2->delete()) {
                     $error = true;
                     break;
                 }
