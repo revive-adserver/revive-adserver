@@ -36,7 +36,6 @@ require_once MAX_PATH . '/tests/testClasses/DbTestCase.php';
  */
 class Test_OA_DB_Sql extends DbTestCase
 {
-
     function testSqlForInsert()
     {
         $sql = OA_DB_Sql::sqlForInsert('zones', array('zonetype' => 1, 'name' => "120x72"));
@@ -47,6 +46,7 @@ class Test_OA_DB_Sql extends DbTestCase
 
     function testDeleteWhereOne()
     {
+        $this->oaTable->createTable('audit');
         $this->oaTable->createTable('acls');
 
         $dg = new DataGenerator();
