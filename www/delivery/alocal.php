@@ -118,8 +118,10 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 // Maximum random number (use default if doesn't exist - eg the case when application is upgraded)
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
-// Always use UTC
+// Always use UTC when outside the installer
+if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
 setTimeZoneUTC();
+}
 }
 function setupServerVariables()
 {
