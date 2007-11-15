@@ -79,7 +79,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $keyword;                         // string(255)  not_null
     var $transparent;                     // int(1)  not_null
     var $parameters;                      // blob(65535)  blob
-    var $oac_banner_id;                   // int(11)  
+    var $oac_banner_id;                   // int(11)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -90,7 +90,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function delete($useWhere = false, $cascade = true, $parentid)
+    function delete($useWhere = false, $cascade = true, $parentid = null)
     {
     	$doBanner = clone($this);
     	$doBanner->find();
