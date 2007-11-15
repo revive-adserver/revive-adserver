@@ -73,8 +73,10 @@ function setupConfigVariables()
     $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
         $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 
-    // Always use UTC
-    setTimeZoneUTC();
+    // Always use UTC when outside the installer
+    if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
+        setTimeZoneUTC();
+    }
 }
 
 /**
