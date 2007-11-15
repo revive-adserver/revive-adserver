@@ -568,7 +568,7 @@ class OA_Dal_Maintenance_Statistics_Common
             }
             $query .= "
                 SELECT
-                    DATE_FORMAT(drad.date_time, '%Y-%m-%d %H:00:00'){$this->dateCastString} AS day_and_hour,
+                    DATE_FORMAT(drad.date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastSting} AS day_and_hour,
                     $operationInterval AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
@@ -664,7 +664,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 $countColumnName
                             )
                         SELECT
-                            DATE_FORMAT(tlo.date_time, '%Y-%m-%d %H:00:00'){$this->dateCastString} AS day_and_hour,
+                            DATE_FORMAT(tlo.date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastString} AS day_and_hour,
                             {$aConf['maintenance']['operationInterval']} AS operation_interval,
                             $operationIntervalID AS operation_interval_id,
                             ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
@@ -1432,7 +1432,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 )
             SELECT
                 diac.data_intermediate_ad_connection_id AS data_intermediate_ad_connection_id,
-                DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00'){$this->dateCastString} AS date_f,
+                DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastString} AS date_f,
                 $operationInterval AS operation_interval,
                 $operationIntervalID AS operation_interval_id,
                 ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') ." AS interval_start,

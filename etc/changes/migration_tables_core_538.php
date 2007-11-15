@@ -275,7 +275,7 @@ class Migration_538 extends Migration
 	    $tableName = $this->oDBH->quoteIdentifier($prefix.$table, true);
 
 	    if ($this->oDBH->dbsyntax == 'pgsql') {
-    	    $query = "UPDATE {$tableName} SET date_time = {$tableName}.day::timestamp + ({$tableName}.hour || ' hours')::interval)";
+    	    $query = "UPDATE {$tableName} SET date_time = {$tableName}.day::timestamp + ({$tableName}.hour || ' hours')::interval";
 	    } else {
     	    $query = "UPDATE {$tableName} SET date_time = DATE_ADD({$tableName}.day, interval {$tableName}.hour hour)";
 	    }

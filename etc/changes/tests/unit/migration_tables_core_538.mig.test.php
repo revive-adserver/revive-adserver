@@ -47,11 +47,45 @@ class Migration_538Test extends MigrationTest
         $tableDia   = $this->oDbh->quoteIdentifier($prefix.'data_intermediate_ad', true);
         $tableDsah  = $this->oDbh->quoteIdentifier($prefix.'data_summary_ad_hourly', true);
 
-        $query = "INSERT INTO {$tableDia} (day, hour, ad_id, zone_id, creative_id, impressions) VALUES ('2007-01-01', 1, 1, 0, 0, 1)";
+        $query = "
+            INSERT INTO {$tableDia} (
+                day,
+                hour,
+                ad_id,
+                zone_id,
+                creative_id,
+                impressions,
+                operation_interval,
+                operation_interval_id
+            ) VALUES (
+                '2007-01-01',
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1
+            )";
         $result = $this->oDbh->exec($query);
         $this->assertTrue($result);
 
-        $query = "INSERT INTO {$tableDsah} (day, hour, ad_id, zone_id, creative_id, impressions) VALUES ('2007-01-01', 1, 1, 0, 0, 1)";
+        $query = "
+            INSERT INTO {$tableDsah} (
+                day,
+                hour,
+                ad_id,
+                zone_id,
+                creative_id,
+                impressions
+            ) VALUES (
+                '2007-01-01',
+                1,
+                1,
+                0,
+                0,
+                1
+            )";
         $result = $this->oDbh->exec($query);
         $this->assertTrue($result);
 
