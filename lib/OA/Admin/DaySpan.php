@@ -394,6 +394,15 @@ class OA_Admin_DaySpan
     }
 
     /**
+     * A method to convert the object's start and end dates into UTC format.
+     */
+    function toUTC()
+    {
+        $this->oStartDate->toUTC();
+        $this->oEndDate->toUTC();
+    }
+
+    /**
      * A private method to set a PEAR::Date object to have the time set to
      * 00:00:00, where the date is at the start of a day.
      *

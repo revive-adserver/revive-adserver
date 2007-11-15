@@ -166,8 +166,7 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = &OA_DB::singleton();
         // Ensure data is retrieved using UTC times
-        $this->_oDaySpan->oStartDate->toUTC();
-        $this->_oDaySpan->oEndDate->toUTC();
+        $this->_oDaySpan->toUTC();
 		// Get the manager account data
 		$query = "
             SELECT
