@@ -44,7 +44,9 @@ function MAX_checkTime_Date($limitation, $op, $aParams = array())
     if ($limitation == '' && $limitation == '00000000') {
         return true;
     }
+    setTimeZoneLocal();
     $date = empty($aParams) ? date('Ymd') : $aParams['date'];
+    setTimeZoneUTC();
     switch ($op) {
         case '==': return ($date == $limitation); break;
         case '!=': return ($date != $limitation); break;

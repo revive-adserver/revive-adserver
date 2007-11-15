@@ -74,7 +74,7 @@ function setupConfigVariables()
         $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 
     // Always use UTC
-    setTimeZoneLocation('UTC');
+    setTimeZoneUTC();
 }
 
 /**
@@ -124,7 +124,7 @@ function setupDeliveryConfigVariables()
  *
  * @param string $location  Time zone location
  */
-function setTimeZoneLocation($location)
+function OA_setTimeZone($location)
 {
     if (version_compare(phpversion(), '5.1.0', '>=')) {
         // Set new time zone
@@ -133,6 +133,29 @@ function setTimeZoneLocation($location)
         // Set new time zone
         putenv("TZ={$location}");
     }
+}
+
+/**
+ * Set the current default timezone to UTC
+ *
+ * @see OA_setTimeZone()
+ */
+function setTimeZoneUTC()
+{
+    OA_setTimeZone('UTC');
+}
+
+/**
+ * Set the current default timezone to local
+ *
+ * @see OA_setTimeZone()
+ */
+function setTimeZoneLocal()
+{
+    $tz = !empty($GLOBALS['_MAX']['CONF']['timezone']['location']) ?
+        $GLOBALS['_MAX']['CONF']['timezone']['location'] :
+        'GMT';
+    OA_setTimeZone($tz);
 }
 
 /**

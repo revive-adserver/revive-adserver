@@ -92,7 +92,7 @@ class OA_Maintenance
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
             // Set UTC timezone
-            setTimeZoneLocation('UTC');
+            setTimeZoneUTC();
             // Update the timestamp for old maintenance code and auto-maintenance
             $this->updateLastRun();
             // Record the current time, and register with the OA_ServiceLocator

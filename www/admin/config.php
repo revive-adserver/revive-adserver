@@ -37,10 +37,8 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/lib/max/Permission.php';
 
-// Set time zone, for more info @see setTimeZoneLocation()
-if (!empty($GLOBALS['_MAX']['CONF']['timezone']['location'])) {
-    setTimeZoneLocation($GLOBALS['_MAX']['CONF']['timezone']['location']);
-}
+// Set time zone to local
+setTimeZoneLocal();
 
 $oDbh = OA_DB::singleton();
 if (PEAR::isError($oDbh))

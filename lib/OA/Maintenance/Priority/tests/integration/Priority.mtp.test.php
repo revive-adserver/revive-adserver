@@ -87,7 +87,7 @@ class Test_Priority extends UnitTestCase
         $aConf =& $GLOBALS['_MAX']['CONF'];
         $aConf['maintenance']['operationInteval'] = 60;
         $aConf['timezone']['location'] = 'GMT';
-        setTimeZoneLocation($aConf['timezone']['location']);
+        setTimeZoneLocal();
 
         // Set up the database handler object
         $this->oDbh =& OA_DB::singleton();
