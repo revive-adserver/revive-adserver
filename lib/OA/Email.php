@@ -333,13 +333,14 @@ class OA_Email
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->selectAdd();
         $doDataSummaryAdHourly->selectAdd("SUM($type) as quantity");
-        $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(day, '$date_format') as t_stamp_f");
+        $doDataSummaryAdHourly->selectAdd("DATE(date_time) AS day");
+        $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(date_time, '$date_format') as t_stamp_f");
         $doDataSummaryAdHourly->ad_id = $adId;
         $doDataSummaryAdHourly->whereAdd('impressions > 0');
         if (!is_null($oStartDate)) {
-            $doDataSummaryAdHourly->whereAdd('day >= ' . $oDbh->quote($oStartDate->format('%Y-%m-%d'), 'timestamp'));
+            $doDataSummaryAdHourly->whereAdd('date_time >= ' . $oDbh->quote($oStartDate->format('%Y-%m-%d 00:00:00'), 'timestamp'));
         }
-        $doDataSummaryAdHourly->whereAdd('day <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d'), 'timestamp'));
+        $doDataSummaryAdHourly->whereAdd('date_time <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d 23:59:59'), 'timestamp'));
         $doDataSummaryAdHourly->groupBy('day');
         $doDataSummaryAdHourly->orderBy('day DESC');
         $doDataSummaryAdHourly->find();

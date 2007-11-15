@@ -74,7 +74,7 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
                 SUM(s.clicks) AS clicks,
                 SUM(s.requests) AS requests,
                 SUM(s.total_revenue) AS revenue,
-                s.day AS day
+                DATE(s.date_time) AS day
             FROM
                 $tableClients AS c,
                 $tableCampaigns AS m,
@@ -90,7 +90,7 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
                 b.bannerid = s.ad_id
                 " . $this->getWhereDate($oStartDate, $oEndDate) . "
             GROUP BY
-                s.day
+                day
         ";
 
         return DBC::NewRecordSet($query);

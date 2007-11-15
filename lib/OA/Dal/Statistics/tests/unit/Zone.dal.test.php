@@ -81,7 +81,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 223;
         $doDataSummaryAdHourly->total_revenue = 433;
         $doDataSummaryAdHourly->clicks        = 9894;
-        $doDataSummaryAdHourly->day           = '2006-06-06';
+        $doDataSummaryAdHourly->date_time     = '2006-06-06';
         $this->generateDataSummaryAdHourlyForZone($doDataSummaryAdHourly, $doZone);
 
         // 1. Get data existing range
@@ -148,7 +148,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 32;
         $doDataSummaryAdHourly->total_revenue = 33;
         $doDataSummaryAdHourly->clicks        = 34;
-        $doDataSummaryAdHourly->day           = '1984-03-04';
+        $doDataSummaryAdHourly->date_time     = '1984-03-04';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -156,7 +156,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->day           = '2007-04-14';
+        $doDataSummaryAdHourly->date_time     = '2007-04-14';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -164,7 +164,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 20;
         $doDataSummaryAdHourly->total_revenue = 30;
         $doDataSummaryAdHourly->clicks        = 40;
-        $doDataSummaryAdHourly->day           = '2000-04-14';
+        $doDataSummaryAdHourly->date_time     = '2000-04-14';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner2, $doZone);
 
         // 1. Get data existing range
@@ -249,7 +249,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 2;
         $doDataSummaryAdHourly->total_revenue = 3;
         $doDataSummaryAdHourly->clicks        = 4;
-        $doDataSummaryAdHourly->day           = '2007-08-08';
+        $doDataSummaryAdHourly->date_time     = '2007-08-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -257,7 +257,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 1;
         $doDataSummaryAdHourly->total_revenue = 2;
         $doDataSummaryAdHourly->clicks        = 3;
-        $doDataSummaryAdHourly->day           = '2007-09-08';
+        $doDataSummaryAdHourly->date_time     = '2007-09-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner2, $doZone);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -265,7 +265,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 10;
         $doDataSummaryAdHourly->total_revenue = 10;
         $doDataSummaryAdHourly->clicks        = 10;
-        $doDataSummaryAdHourly->day           = '2007-09-09';
+        $doDataSummaryAdHourly->date_time     = '2007-09-09';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner3, $doZone);
 
         // 1. Get data existing range
@@ -345,7 +345,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 211;
         $doDataSummaryAdHourly->total_revenue = 311;
         $doDataSummaryAdHourly->clicks        = 411;
-        $doDataSummaryAdHourly->day           = '2007-04-04';
+        $doDataSummaryAdHourly->date_time     = '2007-04-04';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -353,7 +353,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 11;
         $doDataSummaryAdHourly->total_revenue = 12;
         $doDataSummaryAdHourly->clicks        = 13;
-        $doDataSummaryAdHourly->day           = '2007-10-08';
+        $doDataSummaryAdHourly->date_time     = '2007-10-08';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner1, $doZone);
 
         $doDataSummaryAdHourly                = OA_Dal::factoryDO('data_summary_ad_hourly');
@@ -361,7 +361,7 @@ class OA_Dal_Statistics_ZoneTest extends DalStatisticsUnitTestCase
         $doDataSummaryAdHourly->requests      = 1;
         $doDataSummaryAdHourly->total_revenue = 22;
         $doDataSummaryAdHourly->clicks        = 777;
-        $doDataSummaryAdHourly->day           = '2007-09-09';
+        $doDataSummaryAdHourly->date_time     = '2007-09-09';
         $this->generateDataSummaryAdHourlyForBannerAndZone($doDataSummaryAdHourly, $doBanner2, $doZone);
 
         // 1. Get data existing range
