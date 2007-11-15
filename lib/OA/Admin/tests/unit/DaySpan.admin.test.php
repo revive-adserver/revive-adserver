@@ -52,7 +52,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         $oDaySpan = new OA_Admin_DaySpan();
 
         $oTestStartDate = new Date('1987-04-12 15:10:11');
-        $oTestEndDate   = new Date('2004-10-12 23:59:59');
+        $oTestEndDate   = new Date('2004-10-12 23:59:58');
 
         $oDaySpan->setSpanDays($oTestStartDate, $oTestEndDate);
 
@@ -64,9 +64,9 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         $oTestStartDate->setHour(0);
         $oTestStartDate->setMinute(0);
         $oTestStartDate->setSecond(0);
-        $oTestEndDate->setHour(0);
-        $oTestEndDate->setMinute(0);
-        $oTestEndDate->setSecond(0);
+        $oTestEndDate->setHour(23);
+        $oTestEndDate->setMinute(59);
+        $oTestEndDate->setSecond(59);
         $this->assertEqual($oDaySpan->getStartDate(), $oTestStartDate);
         $this->assertEqual($oDaySpan->getEndDate(), $oTestEndDate);
 
