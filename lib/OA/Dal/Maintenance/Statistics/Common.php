@@ -568,7 +568,7 @@ class OA_Dal_Maintenance_Statistics_Common
             }
             $query .= "
                 SELECT
-                    DATE_FORMAT(drad.date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastSting} AS day_and_hour,
+                    DATE_FORMAT(drad.date_time, '%Y-%m-%d %H:00:00'){$this->timestampCastString} AS day_and_hour,
                     $operationInterval AS operation_interval,
                     $operationIntervalID AS operation_interval_id,
                     ". $this->oDbh->quote($aDates['start']->format('%Y-%m-%d %H:%M:%S'), 'timestamp') . $this->timestampCastString ." AS interval_start,
