@@ -324,15 +324,18 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
         $aEntitiesData = array();
 
         if (isset($this->childrendata[$key])) {
-            if ($key == 'placement_id' && !empty($aParams['advertiser_id']) &&
-                isset($this->childrendata['advertiser_id'][$aParams['advertiser_id']]['children'])) {
-                $aEntitiesData = $this->childrendata['advertiser_id'][$aParams['advertiser_id']]['children'];
-            } elseif ($key == 'ad_id' && !empty($aParams['placement_id']) &&
-                isset($this->childrendata['placement_id'][$aParams['placement_id']]['children'])) {
-                $aEntitiesData = $this->childrendata['placement_id'][$aParams['placement_id']]['children'];
-            } elseif ($key == 'zone_id' && !empty($aParams['publisher_id']) &&
-                isset($this->childrendata['publisher_id'][$aParams['publisher_id']]['children'])) {
-                $aEntitiesData = $this->childrendata['publisher_id'][$aParams['publisher_id']]['children'];
+            if ($key == 'placement_id' && !empty($aParams['advertiser_id'])) {
+                if (isset($this->childrendata['advertiser_id'][$aParams['advertiser_id']]['children'])) {
+                    $aEntitiesData = $this->childrendata['advertiser_id'][$aParams['advertiser_id']]['children'];
+                }
+            } elseif ($key == 'ad_id' && !empty($aParams['placement_id'])) {
+                if (isset($this->childrendata['placement_id'][$aParams['placement_id']]['children'])) {
+                    $aEntitiesData = $this->childrendata['placement_id'][$aParams['placement_id']]['children'];
+                }
+            } elseif ($key == 'zone_id' && !empty($aParams['publisher_id'])) {
+                if (isset($this->childrendata['publisher_id'][$aParams['publisher_id']]['children'])) {
+                    $aEntitiesData = $this->childrendata['publisher_id'][$aParams['publisher_id']]['children'];
+                }
             } else {
                 $aEntitiesData = $this->childrendata[$key];
             }
