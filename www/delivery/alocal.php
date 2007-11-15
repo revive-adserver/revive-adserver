@@ -119,7 +119,7 @@ $GLOBALS['_MAX']['HTTP'] = 'http://';
 $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randmax']) ?
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 // Always use UTC
-setTimeZoneLocation('UTC');
+setTimeZoneUTC();
 }
 function setupServerVariables()
 {
@@ -144,7 +144,7 @@ $GLOBALS['_MAX']['CONF'] = parseDeliveryIniFile();
 // Set up the common configuration variables
 setupConfigVariables();
 }
-function setTimeZoneLocation($location)
+function OA_setTimeZone($location)
 {
 if (version_compare(phpversion(), '5.1.0', '>=')) {
 // Set new time zone
@@ -153,6 +153,17 @@ date_default_timezone_set($location);
 // Set new time zone
 putenv("TZ={$location}");
 }
+}
+function setTimeZoneUTC()
+{
+OA_setTimeZone('UTC');
+}
+function setTimeZoneLocal()
+{
+$tz = !empty($GLOBALS['_MAX']['CONF']['timezone']['location']) ?
+$GLOBALS['_MAX']['CONF']['timezone']['location'] :
+'GMT';
+OA_setTimeZone($tz);
 }
 function getHostName()
 {
