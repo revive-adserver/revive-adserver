@@ -44,7 +44,11 @@ class DataObjects_ChannelTest extends DalUnitTestCase
         $this->UnitTestCase();
     }
 
-
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
+    }
+    
     function testDelete()
     {
         $doChannel = OA_Dal::factoryDO('channel');

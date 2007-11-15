@@ -65,6 +65,7 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $doPreference = OA_Dal::staticGetDO('preference', $agencyId);
 
         $this->assertTrue($doPreference->getRowCount(), 1);
+        DataGenerator::cleanUp(array('agency', 'preference'));
     }
 
     function testUpdate()
@@ -95,6 +96,7 @@ class DataObjects_AgencyTest extends DalUnitTestCase
         $this->assertEqual($doPreference->admin_fullname, 'baz');
         $this->assertEqual($doPreference->admin_email, 'quux');
 
+        DataGenerator::cleanUp(array('agency', 'preference'));
 
     }
 

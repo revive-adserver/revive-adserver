@@ -43,6 +43,11 @@ class DataObjects_Acls_channelTest extends DalUnitTestCase
     {
         $this->UnitTestCase();
     }
+    
+    function tearDown()
+    {
+        DataGenerator::cleanUp();
+    }
 
     function testDuplicate()
     {
