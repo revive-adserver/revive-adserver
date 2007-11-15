@@ -535,13 +535,20 @@ class DB_DataObjectCommon extends DB_DataObject
                 $doAffected->find();
                 
                 while ($doAffected->fetch()) {
-                    $id = $this->audit(3, null, $parentid);
+                    $id = $doAffected->audit(3, null, $parentid);
                     // Simulate "ON DELETE CASCADE"
                     $doAffected->deleteCascade($linkedRefs, $primaryKey, $id);
                 }
             }
         } else {
-            $this->audit(3, null, $parentid);
+            // Find all affected tuples
+            $doAffected = clone($this);
+            if (!$useWhere) {
+                // Clear any additional WHEREs if it's not used in delete statement
+                $doAffected->whereAdd();
+            }
+            $doAffected->find();
+            $doAffected->audit(3, null, $parentid);
         }
     
         return  parent::delete($useWhere);

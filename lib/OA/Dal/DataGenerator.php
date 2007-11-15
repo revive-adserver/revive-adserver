@@ -447,6 +447,7 @@ class DataGenerator
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
+        
         if ($aConf['database']['type'] == 'pgsql')
         {
             OA_DB::setCaseSensitive();
@@ -476,6 +477,7 @@ class DataGenerator
         }
         else if ($aConf['database']['type'] == 'mysql')
         {
+            $tableName = $aConf['table']['prefix'].$tableName;
             OA::disableErrorHandling();
             $result = $oDbh->exec("ALTER TABLE {$tableName} AUTO_INCREMENT = 1");
             OA::enableErrorHandling();

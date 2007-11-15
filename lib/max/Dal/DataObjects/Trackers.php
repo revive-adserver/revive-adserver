@@ -61,6 +61,11 @@ class DataObjects_Trackers extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'linkcampaigns' => 'f',
+        'variablemethod' => 'default'
+    );
+    
     function duplicate()
     {
         // Store the current (pre-duplication) tracker ID for use later

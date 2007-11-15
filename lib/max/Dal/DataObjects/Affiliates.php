@@ -67,6 +67,9 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'publiczones' => 'f'
+    );
 
     /**
      * Returns phpAds_Affiliate constant value.

@@ -68,6 +68,11 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'report' => 't',
+        'reportdeactivate' => 't'
+    );
+    
 
     /**
      * Returns phpAds_Client constant value.

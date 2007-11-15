@@ -73,6 +73,11 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'active' => 't',
+        'anonymous' => 'f'
+    );
+    
     function insert()
     {
         $id = parent::insert();

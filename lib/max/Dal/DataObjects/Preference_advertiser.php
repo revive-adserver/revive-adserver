@@ -81,7 +81,6 @@ class DataObjects_Preference_advertiser extends DB_DataObjectCommon
      */
     function _buildAuditArray($actionid, &$aAuditFields)
     {
-        $aAuditFields['key_desc']   = '';
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_INSERT:

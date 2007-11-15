@@ -76,6 +76,10 @@ class DataObjects_Zones extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'forceappend' => 'f'
+    );
+    
     /**
      * ON DELETE CASCADE is handled by parent class but we have
      * to also make sure here that we are handling here:
@@ -87,7 +91,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
      * @return boolean
      * @see DB_DataObjectCommon::delete()
      */
-    function delete($useWhere = false, $cascadeDelete = true)
+    function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
     	// Handle all "appended" zones
     	$doZones = $this->factory('zones');
@@ -115,7 +119,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
 			$doZoneUpdate->update();
     	}
 
-    	return parent::delete($useWhere, $cascadeDelete);
+    	return parent::delete($useWhere, $cascadeDelete, $parentid);
     }
 
     function duplicate()

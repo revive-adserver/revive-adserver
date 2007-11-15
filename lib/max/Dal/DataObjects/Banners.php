@@ -90,6 +90,14 @@ class DataObjects_Banners extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
+    var $defaultValues = array(
+        'active' => 't',
+        'contenttype' => 'gif',
+        'storagetype' => 'sql',
+        'autohtml' => 't',
+        'alt_contenttype' => 'gif'
+    );
+    
     function delete($useWhere = false, $cascade = true, $parentid = null)
     {
     	$doBanner = clone($this);
