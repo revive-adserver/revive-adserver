@@ -37,7 +37,7 @@ class OA_Admin_DaySpan
 {
 
     /**
-     * The current day, ie. "now".
+     * The current date, ie. "now".
      *
      * @var PEAR::Date
      */
@@ -83,10 +83,10 @@ class OA_Admin_DaySpan
     {
         $this->oStartDate = new Date();
         $this->oStartDate->copy($oStartDate);
-        $this->_roundDate($this->oStartDate);
+        $this->_setStartDate($this->oStartDate);
         $this->oEndDate = new Date();
         $this->oEndDate->copy($oEndDate);
-        $this->_roundDate($this->oEndDate);
+        $this->_setEndDate($this->oEndDate);
     }
 
     /**
@@ -353,8 +353,8 @@ class OA_Admin_DaySpan
                 $oDateEnd   = new Date($endDate);
                 break;
         }
-        $this->_roundDate($oDateStart);
-        $this->_roundDate($oDateEnd);
+        $this->_setStartDate($oDateStart);
+        $this->_setEndDate($oDateEnd);
         $aDates = array(
             'start' => $oDateStart,
             'end'   => $oDateEnd
@@ -394,19 +394,34 @@ class OA_Admin_DaySpan
     }
 
     /**
-     * A private method to set a PEAR::Date object to have the hour, minute
-     * and second values set to zero. Helps ensure that day-based dates used
-     * in the span can be more easily compared.
+     * A private method to set a PEAR::Date object to have the time set to
+     * 00:00:00, where the date is at the start of a day.
      *
      * @param PEAR::Date $oDate The date to "round".
      * @return void
      */
-    function _roundDate(&$oDate)
+    function _setStartDate(&$oDate)
     {
         if (is_a($oDate, 'date')) {
             $oDate->setHour(0);
             $oDate->setMinute(0);
             $oDate->setSecond(0);
+        }
+    }
+
+    /**
+     * A private method to set a PEAR::Date object to have the time set to
+     * 23:59:59, where the date is at the end of a day.
+     *
+     * @param PEAR::Date $oDate The date to "round".
+     * @return void
+     */
+    function _setEndDate(&$oDate)
+    {
+        if (is_a($oDate, 'date')) {
+            $oDate->setHour(23);
+            $oDate->setMinute(59);
+            $oDate->setSecond(59);
         }
     }
 

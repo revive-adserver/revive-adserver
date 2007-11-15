@@ -269,10 +269,10 @@ class Plugins_Reports extends MAX_Plugin_Common
             $this->_startDateString = $oDaySpan->getStartDateString($date_format);
             $this->_endDateString   = $oDaySpan->getEndDateString($date_format);
         } else {
-            $oDaySpan               = &new OA_Admin_DaySpan();
-            $startDate              = &new Date('1970-01-01 00:00:00');
-            $endDate                = &new Date();
-            $oDaySpan->setSpanDays($startDate, $endDate);
+            $oDaySpan               = new OA_Admin_DaySpan();
+            $oStartDate             = new Date('1970-01-01 00:00:00');
+            $oEndDate               = new Date();
+            $oDaySpan->setSpanDays($oStartDate, $oEndDate);
             $this->_oDaySpan        = &$oDaySpan;
             $this->_startDateString = MAX_Plugin_Translation::translate('Beginning', $this->module, $this->package);
             $this->_endDateString   = $oDaySpan->getEndDateString($date_format);
