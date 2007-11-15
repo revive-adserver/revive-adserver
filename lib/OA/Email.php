@@ -342,6 +342,7 @@ class OA_Email
         }
         $doDataSummaryAdHourly->whereAdd('date_time <= ' . $oDbh->quote($oEndDate->format('%Y-%m-%d 23:59:59'), 'timestamp'));
         $doDataSummaryAdHourly->groupBy('day');
+        $doDataSummaryAdHourly->groupBy('t_stamp_f');
         $doDataSummaryAdHourly->orderBy('day DESC');
         $doDataSummaryAdHourly->find();
         if ($doDataSummaryAdHourly->getRowCount() > 0) {
