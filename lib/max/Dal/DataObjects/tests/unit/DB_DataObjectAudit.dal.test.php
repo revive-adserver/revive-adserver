@@ -103,6 +103,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['zonename'],$doZone->zonename);
         $this->assertEqual($aAudit['affiliateid'],$doZone->affiliateid);
 
+        $doZone = OA_Dal::staticGetDO('zones', $zoneId);
         $doZone->zonename = 'Zone B';
         $doZone->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -143,6 +144,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['agencyid'],$doChannel->agencyid);
         $this->assertEqual($aAudit['affiliateid'],$doChannel->affiliateid);
 
+        $doChannel = OA_Dal::staticGetDO('channel', $channelId);
         $doChannel->name = 'Channel B';
         $doChannel->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -179,6 +181,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['category_id'],$categoryId);
         $this->assertEqual($aAudit['name'],$doCategory->name);
 
+        $doCategory = OA_Dal::staticGetDO('category', $categoryId);
         $doCategory->name = 'Category B';
         $doCategory->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -215,6 +218,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['clientid'],$clientId);
         $this->assertEqual($aAudit['clientname'],$doClients->clientname);
 
+        $doClients = OA_Dal::staticGetDO('clients', $clientId);
         $doClients->clientname = 'Client B';
         $doClients->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -251,6 +255,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['affiliateid'],$affiliateId);
         $this->assertEqual($aAudit['name'],$doAffiliate->name);
 
+        $doAffiliate = OA_Dal::staticGetDO('affiliates', $affiliateId);
         $doAffiliate->name = 'Client B';
         $doAffiliate->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -325,6 +330,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['clientid'],$doTrackers->clientid);
         $this->assertEqual($aAudit['trackername'],$doTrackers->trackername);
 
+        $doTrackers = OA_Dal::staticGetDO('trackers', $trackerId);
         $doTrackers->trackername = 'Tracker B';
         $doTrackers->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -363,6 +369,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['clientid'],$doCampaigns->clientid);
         $this->assertEqual($aAudit['campaignname'],$doCampaigns->campaignname);
 
+        $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $doCampaigns->campaignname = 'Campaign B';
         $doCampaigns->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -400,6 +407,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['campaignid'],$doCampaignsTrackers->campaignid);
         $this->assertEqual($aAudit['trackerid'],$doCampaignsTrackers->trackerid);
 
+        $doCampaignsTrackers = OA_Dal::staticGetDO('campaigns_trackers', $campaign_trackerId);
         $doCampaignsTrackers->viewwindow = rand(1,360);
         $doCampaignsTrackers->clickwindow = rand(1,360);
         $doCampaignsTrackers->update();
@@ -476,6 +484,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['description'],$doBanners->description);
         $this->assertEqual($aAudit['campaignid'],$doBanners->campaignid);
 
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
         $doBanners->description = 'Banner B';
         $doBanners->update();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
@@ -641,6 +650,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
         // change the agency record
         // audit event 4 & 5
+        $doAgency = OA_Dal::staticGetDO('agency', $agencyId1);
         $doAgency->name = 'Agency Changed';
         $doAgency->language = 'German';
         $doAgency->contact = 'Agency Admin Changed';
