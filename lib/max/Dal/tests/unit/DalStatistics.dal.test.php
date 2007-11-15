@@ -71,6 +71,10 @@ class Dal_TestOfMAX_Dal_Statistics extends UnitTestCase
 
     function _insertDataSummaryAdHourly($aData)
     {
+        $aData['date_time'] = sprintf('%s %02d:00:00', $aData['day'], $aData['hour']);
+        unset($aData['day']);
+        unset($aData['hour']);
+
         foreach ($aData AS $key => $val)
         {
             $this->doDSAH->$key = $val;
