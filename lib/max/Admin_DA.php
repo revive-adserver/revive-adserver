@@ -230,25 +230,26 @@ class Admin_DA
         }
         $aColumns = SqlBuilder::_getColumns($entity, $aParams, $allFields);
         $aTables = SqlBuilder::_getTables($entity, $aParams);
+        $aLeftJoinedTables = array();
         switch ($entity) {
 
-        case 'agency' : $aTables[$conf['table']['prefix'].$conf['table']['clients']] = 'a';
+        case 'agency' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['clients']] = 'a';
             $aGroupBy = $aColumns;
             $aColumns['COUNT(a.clientid)'] = 'num_children';
             break;
 
-        case 'advertiser' : $aTables[$conf['table']['prefix'].$conf['table']['campaigns']] = 'm';
+        case 'advertiser' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['campaigns']] = 'm';
             $aGroupBy = $aColumns;
             $aColumns['COUNT(m.campaignid)'] = 'num_children';
             break;
 
-        case 'placement' : $aTables[$conf['table']['prefix'].$conf['table']['banners']] = 'd';
+        case 'placement' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['banners']] = 'd';
             $aGroupBy = $aColumns;
             $aGroupBy['m.active'] = 'm.active'; // Hack to allow this to work with Postgres
             $aColumns['COUNT(d.bannerid)'] = 'num_children';
             break;
 
-        case 'publisher' : $aTables[$conf['table']['prefix'].$conf['table']['zones']] = 'z';
+        case 'publisher' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['zones']] = 'z';
             $aGroupBy = $aColumns;
             $aColumns['COUNT(z.zoneid)'] = 'num_children';
             break;
@@ -258,8 +259,8 @@ class Admin_DA
         }
         $aLimitations = array_merge(
             SqlBuilder::_getLimitations($entity, $aParams),
-            SqlBuilder::_getTableLimitations($aTables));
-        return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroupBy, $key);
+            SqlBuilder::_getTableLimitations($aTables + $aLeftJoinedTables));
+        return SqlBuilder::_select($aColumns, $aTables, $aLimitations, $aGroupBy, $key, $aLeftJoinedTables);
     }
 
     /**
