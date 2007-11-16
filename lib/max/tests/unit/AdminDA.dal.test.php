@@ -1176,8 +1176,8 @@ class Admin_DaTest extends DalUnitTestCase
         $statsTable = $dbh->quoteIdentifier($conf['table']['prefix'] . 'data_summary_ad_hourly', true);
         for ($hour = 0; $hour < 24; $hour ++) {
             $sql = "INSERT INTO $statsTable
-                (   day,
-                    hour,
+                (
+                    date_time,
                     ad_id,
                     creative_id,
                     zone_id,
@@ -1186,18 +1186,16 @@ class Admin_DaTest extends DalUnitTestCase
                     clicks,
                     conversions,
                     total_basket_value
-                )
-                VALUES(
-                '". OA::getNow() ."',
-                $hour,
-                $this->bannerId,
-                ".rand(1, 999).",
-                $this->zoneId,
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                ".rand(1, 999).",
-                0
+                ) VALUES (
+                    '". sprintf('%s %02d:00:00', substr(OA::getNow(), 0, 10), $hour) ."',
+                    $this->bannerId,
+                    ".rand(1, 999).",
+                    $this->zoneId,
+                    ".rand(1, 999).",
+                    ".rand(1, 999).",
+                    ".rand(1, 999).",
+                    ".rand(1, 999).",
+                    0
                 )";
             $result = $dbh->exec($sql);
         }
