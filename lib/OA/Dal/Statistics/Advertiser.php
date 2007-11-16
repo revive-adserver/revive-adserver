@@ -74,7 +74,7 @@ class OA_Dal_Statistics_Advertiser extends OA_Dal_Statistics
                 SUM(s.clicks) AS clicks,
                 SUM(s.requests) AS requests,
                 SUM(s.total_revenue) AS revenue,
-                DATE(s.date_time) AS day
+                DATE_FORMAT(s.date_time, '%Y-%m-%d') AS day
             FROM
                 $tableClients AS c,
                 $tableCampaigns AS m,

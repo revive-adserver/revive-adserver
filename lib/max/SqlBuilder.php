@@ -132,7 +132,7 @@ class SqlBuilder
             break;
 
         case 'stats' :
-            $aColumns += array('DATE(date_time)' => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
+            $aColumns += array("DATE_FORMAT(date_time, '%Y-%m-%d')" => 'day', 'HOUR(date_time)' => 'hour', 'SUM(s.requests)' => 'sum_requests', 'SUM(s.impressions)' => 'sum_views', 'SUM(s.clicks)' => 'sum_clicks', 'SUM(s.conversions)' => 'sum_conversions');
             break;
 
         case 'stats_by_entity' :
@@ -196,7 +196,7 @@ class SqlBuilder
             break;
 
         case 'history_day' :
-            $aColumns += array('DATE(s.date_time)' => 'day', "DATE_FORMAT(s.date_time, '{$GLOBALS['date_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
+            $aColumns += array("DATE_FORMAT(s.date_time, , '%Y-%m-%d')" => 'day', "DATE_FORMAT(s.date_time, '{$GLOBALS['date_format']}')" => 'date_f') + SqlBuilder::_getColumns('stats_common', $aParams, $allFields);
             break;
 
         case 'history_month' :

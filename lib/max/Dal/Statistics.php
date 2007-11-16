@@ -71,7 +71,7 @@ class MAX_Dal_Statistics extends MAX_Dal_Common
         $dsahTable = $this->oDbh->quoteIdentifier($conf['table']['prefix'] . $conf['table']['data_summary_ad_hourly'],true);
         $query = "
             SELECT
-                DATE(dsah.date_time) AS day,
+                DATE_FORMAT(dsah.date_time, '%Y-%m-%d') AS day,
                 HOUR(dsah.date_time) AS hour
             FROM
                 $adTable AS a,

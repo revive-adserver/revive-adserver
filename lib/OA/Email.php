@@ -333,7 +333,7 @@ class OA_Email
         $doDataSummaryAdHourly = OA_Dal::factoryDO('data_summary_ad_hourly');
         $doDataSummaryAdHourly->selectAdd();
         $doDataSummaryAdHourly->selectAdd("SUM($type) as quantity");
-        $doDataSummaryAdHourly->selectAdd("DATE(date_time) AS day");
+        $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(date_time, '%Y-%m-%d') AS day");
         $doDataSummaryAdHourly->selectAdd("DATE_FORMAT(date_time, '$date_format') as t_stamp_f");
         $doDataSummaryAdHourly->ad_id = $adId;
         $doDataSummaryAdHourly->whereAdd('impressions > 0');

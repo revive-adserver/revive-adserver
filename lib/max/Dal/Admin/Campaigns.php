@@ -236,7 +236,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
            	$query = "
                 SELECT
                     SUM(dia.impressions) AS delivered,
-                    DATE(MIN(dia.date_time)) AS day_of_first
+                    DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
                 FROM
                     {$tableD} AS dia,
                     {$tableB} AS b
@@ -258,7 +258,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
            	$query = "
                 SELECT
                     SUM(dia.clicks) AS delivered,
-                    DATE(MIN(dia.date_time)) AS day_of_first
+                    DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
                 FROM
                     {$tableD} AS dia,
                     {$tableB} AS b
@@ -281,7 +281,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
            	$query = "
                 SELECT
                     SUM(dia.conversions) AS delivered,
-                    DATE(MIN(dia.date_time)) AS day_of_first
+                    DATE_FORMAT(MIN(dia.date_time), '%Y-%m-%d') AS day_of_first
                 FROM
                     {$tableD} AS dia,
                     {$tableB} AS b
