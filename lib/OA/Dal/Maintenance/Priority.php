@@ -1423,9 +1423,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             $aAdZonePriority['requested_impressions'],
                             ($aAdZonePriority['to_be_delivered'] ? 1 : 0),
                             $aAdZonePriority['priority'],
-                            is_null($aAdZonePriority['priority_factor']) ? 'NULL' : $aAdZonePriority['priority_factor'],
+                            $aAdZonePriority['priority_factor'],
                             $aAdZonePriority['priority_factor_limited'] ? 1 : 0,
-                            is_null($aAdZonePriority['past_zone_traffic_fraction']) ? 'NULL' : $aAdZonePriority['past_zone_traffic_fraction'],
+                            $aAdZonePriority['past_zone_traffic_fraction'],
                             $oDate->format('%Y-%m-%d %H:%M:%S'),
                             0
                         );
@@ -1435,7 +1435,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             if (is_array($aValues) && !empty($aValues)) {
                 reset($aValues);
                 $table = $this->_getTablename('data_summary_ad_zone_assoc');
-                $query = "
+                $querycols = "
                     INSERT INTO
                         {$table}
                         (
@@ -1454,30 +1454,18 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                             past_zone_traffic_fraction,
                             created,
                             created_by
-                        )
-                     VALUES
-                        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                $aTypes = array(
-                    'integer',
-                    'integer',
-                    'timestamp',
-                    'timestamp',
-                    'integer',
-                    'integer',
-                    'integer',
-                    'integer',
-                    'integer',
-                    'float',
-                    'float',
-                    'integer',
-                    'float',
-                    'timestamp',
-                    'integer'
-                );
-                $st = $this->oDbh->prepare($query, $aTypes, MDB2_PREPARE_MANIP);
-                while (list(,$aInsertValues) = each($aValues)) {
-                    if (is_array($aInsertValues) && !empty($aInsertValues)) {
-                        $rows = $st->execute($aInsertValues);
+                        )";
+
+                while (list(,$aInsertValues) = each($aValues))
+                {
+                    if (is_array($aInsertValues) && !empty($aInsertValues))
+                    {
+                        $aInsertValues = array_map(array(&$this->oDbh, 'quote'), $aInsertValues);
+
+                        $query = $querycols."
+                             VALUES
+                                (".implode(",",$aInsertValues).")";
+                        $rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             return false;
                         }
@@ -1485,6 +1473,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 }
             }
         }
+
         return true;
     }
 
@@ -1796,110 +1785,10 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             }
         }
         $rc->free();
-        // Prepare SQL statements for use later ONLY if they will be used
+
+        // Get table name
         $table = $this->_getTablename('data_summary_zone_impression_history');
-        if (count($aForecasts)>0)
-        {
-            $sInsertQuery = "
-                INSERT INTO
-                    {$table}
-                    (
-                        zone_id,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        forecast_impressions,
-                        est
-                    )
-                VALUES
-                    (?, ?, ?, ?, ?, ?, ?)";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp',
-                'integer',
-                'integer'
-            );
-            $stInsert = $this->oDbh->prepare($sInsertQuery, $aTypes, MDB2_PREPARE_MANIP);
-            $sInsertWithActualQuery = "
-                INSERT INTO
-                    {$table}
-                    (
-                        zone_id,
-                        operation_interval,
-                        operation_interval_id,
-                        interval_start,
-                        interval_end,
-                        forecast_impressions,
-                        actual_impressions,
-                        est
-                    )
-                VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?)";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp',
-                'integer',
-                'integer',
-                'integer'
-            );
-            $stInsertWithActual = $this->oDbh->prepare($sInsertWithActualQuery, $aTypes, MDB2_PREPARE_MANIP);
-            $sLocateQuery = "
-                SELECT
-                    data_summary_zone_impression_history_id
-                FROM
-                    {$table}
-                WHERE
-                    zone_id = ?
-                    AND
-                    operation_interval = ?
-                    AND
-                    operation_interval_id = ?
-                    AND
-                    interval_start = ?
-                    AND
-                    interval_end = ?";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp'
-            );
-            $stLocate = $this->oDbh->prepare($sLocateQuery, $aTypes, MDB2_PREPARE_RESULT);
-            $sUpdateQuery = "
-                UPDATE
-                    {$table}
-                SET
-                    forecast_impressions = ?,
-                    est = ?
-                WHERE
-                    zone_id = ?
-                    AND
-                    operation_interval = ?
-                    AND
-                    operation_interval_id = ?
-                    AND
-                    interval_start = ?
-                    AND
-                    interval_end = ?";
-            $aTypes = array(
-                'integer',
-                'integer',
-                'integer',
-                'integer',
-                'integer',
-                'timestamp',
-                'timestamp'
-            );
-            $stUpdate = $this->oDbh->prepare($sUpdateQuery, $aTypes, MDB2_PREPARE_MANIP);
-        }
+
         // Does the database in use support transactions?
         if (
                strcasecmp($aConf['database']['type'], 'mysql') === 0
@@ -1916,42 +1805,62 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 reset($aOperationIntervals);
                 while (list($id, $aValues) = each($aOperationIntervals)) {
                     // Does the row already exist?
-                    $aData = array(
-                		$zoneId,
-                		$aConf['maintenance']['operationInterval'],
-                		$id,
-                		$aValues['interval_start'],
-                		$aValues['interval_end']
-            		);
-            		$rc = $stLocate->execute($aData);
+                    $where = "zone_id = ".$this->oDbh->quote($zoneId)." AND
+                            operation_interval = ".$this->oDbh->quote($aConf['maintenance']['operationInterval'])." AND
+                            operation_interval_id = ".$this->oDbh->quote($id)." AND
+                            interval_start = ".$this->oDbh->quote($aValues['interval_start'])." AND
+                            interval_end = ".$this->oDbh->quote($aValues['interval_end'])."
+                    ";
+
+                    $query = "
+                        SELECT
+                            data_summary_zone_impression_history_id
+                        FROM
+                            {$table}
+                        WHERE
+                            {$where}";
+
+                	$rc = $this->oDbh->query($query);
+
                     if ($rc->numRows() > 0) {
                         // Try to update the data
-                        $aData = array(
-                    		$aValues['forecast_impressions'],
-                    		$aValues['est'],
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end']
-                		);
-                		$rows = $stUpdate->execute($aData);
+                        $query = "
+                            UPDATE
+                                {$table}
+                            SET
+                                forecast_impressions = ".$this->oDbh->quote($aValues['forecast_impressions']).",
+                                est = ".$this->oDbh->quote($aValues['est'])."
+                            WHERE
+                                {$where}";
+
+                    	$rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             OA::debug('   - Error trying to update forecast', PEAR_LOG_DEBUG);
                             return;
                         }
                     } else {
                         // Try to insert the data
-                        $aData = array(
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end'],
-                    		$aValues['forecast_impressions'],
-                    		$aValues['est']
-                		);
-                		$rows = $stInsert->execute($aData);
+                        $query = "
+                            INSERT INTO {$table} (
+                                zone_id,
+                                operation_interval,
+                                operation_interval_id,
+                                interval_start,
+                                interval_end,
+                                forecast_impressions,
+                                est
+                            ) VALUES (
+                                ".$this->oDbh->quote($zoneId).",
+                                ".$this->oDbh->quote($aConf['maintenance']['operationInterval']).",
+                                ".$this->oDbh->quote($id).",
+                                ".$this->oDbh->quote($aValues['interval_start']).",
+                                ".$this->oDbh->quote($aValues['interval_end']).",
+                                ".$this->oDbh->quote($aValues['forecast_impressions']).",
+                                ".$this->oDbh->quote($aValues['est'])."
+                            )
+                        ";
+
+                		$rows = $this->oDbh->exec($query);
                         if (PEAR::isError($rows)) {
                             OA::debug('   - Error trying to insert new forecast', PEAR_LOG_DEBUG);
                             return;
@@ -1999,30 +1908,29 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 reset($aOperationIntervals);
                 while (list($id, $aValues) = each($aOperationIntervals)) {
                     // Insert the forecast
-                    if (!is_null($aValues['actual_impressions'])) {
-                        $aData = array(
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end'],
-                    		$aValues['forecast_impressions'],
-                    		$aValues['actual_impressions'],
-                    		$aValues['est']
-                		);
-            		  $rows = $stInsertWithActual->execute($aData);
-                    } else {
-                        $aData = array(
-                    		$zoneId,
-                    		$aConf['maintenance']['operationInterval'],
-                    		$id,
-                    		$aValues['interval_start'],
-                    		$aValues['interval_end'],
-                    		$aValues['forecast_impressions'],
-                    		$aValues['est']
-                		);
-            		  $rows = $stInsert->execute($aData);
-                    }
+                    $query = "
+                        INSERT INTO {$table} (
+                            zone_id,
+                            operation_interval,
+                            operation_interval_id,
+                            interval_start,
+                            interval_end,
+                            actual_impressions,
+                            forecast_impressions,
+                            est
+                        ) VALUES (
+                            ".$this->oDbh->quote($zoneId).",
+                            ".$this->oDbh->quote($aConf['maintenance']['operationInterval']).",
+                            ".$this->oDbh->quote($id).",
+                            ".$this->oDbh->quote($aValues['interval_start']).",
+                            ".$this->oDbh->quote($aValues['interval_end']).",
+                            ".$this->oDbh->quote($aValues['actual_impressions']).",
+                            ".$this->oDbh->quote($aValues['forecast_impressions']).",
+                            ".$this->oDbh->quote($aValues['est'])."
+                        )
+                    ";
+
+                    $rows = $this->oDbh->exec($query);
                     if (PEAR::isError($rows)) {
                         OA::debug('    - Error: Rolling back transaction', PEAR_LOG_DEBUG);
                         $this->oDbh->rollback();
