@@ -823,8 +823,11 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         $aConnections = array();
         $aConf = $GLOBALS['_MAX']['CONF'];
         // Prepare the start and end dates for the conversion range
-        $startDateString = $this->_oDaySpan->getStartDateString() . ' 00:00:00';
-        $endDateString   = $this->_oDaySpan->getEndDateString()   . ' 23:59:59';
+        $oDaySpan = new OA_Admin_DaySpan();
+        $oDaySpan->setSpanDays($this->_oDaySpan->oStartDate, $this->_oDaySpan->oEndDate);
+        $oDaySpan->toUTC();
+        $startDateString = $oDaySpan->getStartDateString('%Y-%m-%d %H:%M:%S');
+        $endDateString   = $oDaySpan->getEndDateString('%Y-%m-%d %H:%M:%S');
         // Prepare the agency/advertiser/publisher limitations
         $agencyId     = $this->_oScope->getAgencyId();
         $advertiserId = $this->_oScope->getAdvertiserId();
@@ -834,7 +837,6 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             SELECT
                 diac.data_intermediate_ad_connection_id AS data_intermediate_ad_connection_id,
                 diac.tracker_date_time AS tracker_date_time,
-                DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS tracker_day,
                 diac.tracker_id AS tracker_id,
                 diac.connection_date_time AS connection_date_time,
                 diac.connection_status AS connection_status,
@@ -934,11 +936,17 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             // It might, due to multiple attached variable values...
             if (!isset($aConnections[$trackerId]['connections'][$connectionId])) {
                 // It's not set, store the connection details
+                $oTrackerDate = new Date($aConversion['tracker_date_time']);
+                $oTrackerDate->setTZbyID('UTC');
+                $oTrackerDate->convertTZ($this->_oDaySpan->oStartDate->tz);
+                $oConnectionDate = new Date($aConversion['connection_date_time']);
+                $oConnectionDate->setTZbyID('UTC');
+                $oConnectionDate->convertTZ($this->_oDaySpan->oStartDate->tz);
                 $aConnections[$trackerId]['connections'][$connectionId] = array (
                     'data_intermediate_ad_connection_id' => $connectionId,
-                    'tracker_date_time'                  => $aConversion['tracker_date_time'],
-                    'tracker_day'                        => $aConversion['tracker_day'],
-                    'connection_date_time'               => $aConversion['connection_date_time'],
+                    'tracker_date_time'                  => $oTrackerDate->format('%Y-%m-%d %H:%M:%S'),
+                    'tracker_day'                        => $oTrackerDate->format('%Y-%m-%d'),
+                    'connection_date_time'               => $oConnectionDate->format('%Y-%m-%d %H:%M:%S'),
                     'connection_status'                  => $aConversion['connection_status'],
                     'connection_channel'                 => $aConversion['connection_channel'],
                     'connection_action'                  => $aConversion['connection_action'],
