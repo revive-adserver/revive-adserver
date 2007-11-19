@@ -862,7 +862,7 @@
    </field>
 
    <index>
-    <name>audit_auditid</name>
+    <name>audit_pkey</name>
     <primary>true</primary>
     <field>
      <name>auditid</name>
