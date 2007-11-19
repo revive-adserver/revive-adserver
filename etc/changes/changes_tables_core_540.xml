@@ -3,7 +3,7 @@
 <instructionset>
   <name>openads</name>
   <version>540</version>
-  <comments>Active to status, plus other</comments>
+  <comments>Active to status and other</comments>
   <constructive>
     <changeset>
       <name>openads</name>
@@ -18,7 +18,7 @@
               <length>11</length>
               <notnull></notnull>
               <default></default>
-              <was>an_banner_id</was>
+              <was>oac_banner_id</was>
             </field>
               <field>
                 <name>as_banner_id</name>
@@ -47,7 +47,7 @@
                     <length>11</length>
                     <notnull></notnull>
                     <default></default>
-                    <was>an_campaign_id</was>
+                    <was>oac_campaign_id</was>
                   </field>
                     <field>
                       <name>as_campaign_id</name>
@@ -75,37 +75,79 @@
                         </field>
                       </add>
                     </table>
-                  </change>
-                </changeset>
-              </constructive>
-              <destructive>
-                <changeset>
-                  <name>openads</name>
-                  <version>540</version>
-                  <change>
-                    <table>
-                      <name>banners</name>
-                    <remove>
-                      <field>
-                        <name>active</name>
-                      </field>
-                        <field>
-                          <name>oac_banner_id</name>
-                        </field>
-                      </remove>
-                    </table>
                       <table>
-                        <name>campaigns</name>
-                      <remove>
-                        <field>
-                          <name>active</name>
-                        </field>
+                        <name>clients</name>
+                        <add>
                           <field>
-                            <name>oac_campaign_id</name>
+                            <name>an_adnetwork_id</name>
+                            <type>openads_int</type>
+                            <length>11</length>
+                            <notnull></notnull>
+                            <default></default>
+                            <was>oac_adnetwork_id</was>
                           </field>
-                        </remove>
-                      </table>
-                    </change>
-                  </changeset>
-                </destructive>
-              </instructionset>
+                            <field>
+                              <name>as_advertiser_id</name>
+                              <type>openads_int</type>
+                              <length>11</length>
+                              <notnull></notnull>
+                              <default></default>
+                              <was>as_advertiser_id</was>
+                            </field>
+                          </add>
+                        </table>
+                          <table>
+                            <name>zones</name>
+                            <add>
+                              <field>
+                                <name>as_zone_id</name>
+                                <type>openads_int</type>
+                                <length>11</length>
+                                <notnull></notnull>
+                                <default></default>
+                                <was>as_zone_id</was>
+                              </field>
+                            </add>
+                          </table>
+                        </change>
+                      </changeset>
+                    </constructive>
+                    <destructive>
+                      <changeset>
+                        <name>openads</name>
+                        <version>540</version>
+                        <change>
+                          <table>
+                            <name>banners</name>
+                          <remove>
+                            <field>
+                              <name>active</name>
+                            </field>
+                              <field>
+                                <name>oac_banner_id</name>
+                              </field>
+                            </remove>
+                          </table>
+                            <table>
+                              <name>campaigns</name>
+                            <remove>
+                              <field>
+                                <name>active</name>
+                              </field>
+                                <field>
+                                  <name>oac_campaign_id</name>
+                                </field>
+                              </remove>
+                            </table>
+                              <table>
+                                <name>clients</name>
+                              <remove>
+                                <field>
+                                  <name>oac_adnetwork_id</name>
+                                </field>
+                              </remove>
+                            </table>
+                          </change>
+                        </changeset>
+                      </destructive>
+                    </instructionset>

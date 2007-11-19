@@ -23,6 +23,12 @@ class Migration_540 extends Migration
 		$this->aTaskList_constructive[] = 'afterAddField__campaigns__status';
 		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__an_status';
 		$this->aTaskList_constructive[] = 'afterAddField__campaigns__an_status';
+		$this->aTaskList_constructive[] = 'beforeAddField__clients__an_adnetwork_id';
+		$this->aTaskList_constructive[] = 'afterAddField__clients__an_adnetwork_id';
+		$this->aTaskList_constructive[] = 'beforeAddField__clients__as_advertiser_id';
+		$this->aTaskList_constructive[] = 'afterAddField__clients__as_advertiser_id';
+		$this->aTaskList_constructive[] = 'beforeAddField__zones__as_zone_id';
+		$this->aTaskList_constructive[] = 'afterAddField__zones__as_zone_id';
 		$this->aTaskList_destructive[] = 'beforeRemoveField__banners__active';
 		$this->aTaskList_destructive[] = 'afterRemoveField__banners__active';
 		$this->aTaskList_destructive[] = 'beforeRemoveField__banners__oac_banner_id';
@@ -31,15 +37,20 @@ class Migration_540 extends Migration
 		$this->aTaskList_destructive[] = 'afterRemoveField__campaigns__active';
 		$this->aTaskList_destructive[] = 'beforeRemoveField__campaigns__oac_campaign_id';
 		$this->aTaskList_destructive[] = 'afterRemoveField__campaigns__oac_campaign_id';
+		$this->aTaskList_destructive[] = 'beforeRemoveField__clients__oac_adnetwork_id';
+		$this->aTaskList_destructive[] = 'afterRemoveField__clients__oac_adnetwork_id';
 
 
-		$this->aObjectMap['banners']['an_banner_id'] = array('fromTable'=>'banners', 'fromField'=>'an_banner_id');
+		$this->aObjectMap['banners']['an_banner_id'] = array('fromTable'=>'banners', 'fromField'=>'oac_banner_id');
 		$this->aObjectMap['banners']['as_banner_id'] = array('fromTable'=>'banners', 'fromField'=>'as_banner_id');
 		$this->aObjectMap['banners']['status'] = array('fromTable'=>'banners', 'fromField'=>'status');
-		$this->aObjectMap['campaigns']['an_campaign_id'] = array('fromTable'=>'campaigns', 'fromField'=>'an_campaign_id');
+		$this->aObjectMap['campaigns']['an_campaign_id'] = array('fromTable'=>'campaigns', 'fromField'=>'oac_campaign_id');
 		$this->aObjectMap['campaigns']['as_campaign_id'] = array('fromTable'=>'campaigns', 'fromField'=>'as_campaign_id');
 		$this->aObjectMap['campaigns']['status'] = array('fromTable'=>'campaigns', 'fromField'=>'status');
 		$this->aObjectMap['campaigns']['an_status'] = array('fromTable'=>'campaigns', 'fromField'=>'an_status');
+		$this->aObjectMap['clients']['an_adnetwork_id'] = array('fromTable'=>'clients', 'fromField'=>'oac_adnetwork_id');
+		$this->aObjectMap['clients']['as_advertiser_id'] = array('fromTable'=>'clients', 'fromField'=>'as_advertiser_id');
+		$this->aObjectMap['zones']['as_zone_id'] = array('fromTable'=>'zones', 'fromField'=>'as_zone_id');
     }
 
 
@@ -114,6 +125,36 @@ class Migration_540 extends Migration
 		return $this->afterAddField('campaigns', 'an_status');
 	}
 
+	function beforeAddField__clients__an_adnetwork_id()
+	{
+		return $this->beforeAddField('clients', 'an_adnetwork_id');
+	}
+
+	function afterAddField__clients__an_adnetwork_id()
+	{
+		return $this->afterAddField('clients', 'an_adnetwork_id');
+	}
+
+	function beforeAddField__clients__as_advertiser_id()
+	{
+		return $this->beforeAddField('clients', 'as_advertiser_id');
+	}
+
+	function afterAddField__clients__as_advertiser_id()
+	{
+		return $this->afterAddField('clients', 'as_advertiser_id');
+	}
+
+	function beforeAddField__zones__as_zone_id()
+	{
+		return $this->beforeAddField('zones', 'as_zone_id');
+	}
+
+	function afterAddField__zones__as_zone_id()
+	{
+		return $this->afterAddField('zones', 'as_zone_id');
+	}
+
 	function beforeRemoveField__banners__active()
 	{
 		return $this->beforeRemoveField('banners', 'active');
@@ -152,6 +193,16 @@ class Migration_540 extends Migration
 	function afterRemoveField__campaigns__oac_campaign_id()
 	{
 		return $this->afterRemoveField('campaigns', 'oac_campaign_id');
+	}
+
+	function beforeRemoveField__clients__oac_adnetwork_id()
+	{
+		return $this->beforeRemoveField('clients', 'oac_adnetwork_id');
+	}
+
+	function afterRemoveField__clients__oac_adnetwork_id()
+	{
+		return $this->afterRemoveField('clients', 'oac_adnetwork_id');
 	}
 
     function migrateBannerStatus()
