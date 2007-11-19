@@ -53,10 +53,11 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     var $publiczones;                     // string(1)  not_null enum
     var $last_accepted_agency_agreement;    // datetime(19)  binary
     var $updated;                         // datetime(19)  not_null binary
-    var $oac_website_id;                  // int(11)  
+    var $an_website_id;                   // int(11)  
     var $oac_country_code;                // string(2)  not_null
     var $oac_language_id;                 // int(11)  
     var $oac_category_id;                 // int(11)  
+    var $as_website_id;                   // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

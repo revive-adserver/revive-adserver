@@ -47,7 +47,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $conversions;                     // int(11)  
     var $expire;                          // date(10)  binary
     var $activate;                        // date(10)  binary
-    var $active;                          // string(1)  not_null enum
     var $priority;                        // int(11)  not_null
     var $weight;                          // int(4)  not_null
     var $target_impression;               // int(11)  not_null
@@ -62,7 +61,10 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $block;                           // int(11)  not_null
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
-    var $oac_campaign_id;                 // int(11)  
+    var $an_campaign_id;                  // int(11)  
+    var $as_campaign_id;                  // int(11)  
+    var $status;                          // int(11)  not_null
+    var $an_status;                       // int(11)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

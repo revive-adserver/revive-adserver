@@ -42,7 +42,6 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $__table = 'banners';                         // table name
     var $bannerid;                        // int(9)  not_null primary_key auto_increment
     var $campaignid;                      // int(9)  not_null multiple_key
-    var $active;                          // string(1)  not_null enum
     var $contenttype;                     // string(4)  not_null enum
     var $pluginversion;                   // int(9)  not_null
     var $storagetype;                     // string(7)  not_null enum
@@ -57,7 +56,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $target;                          // string(16)  not_null
     var $url;                             // blob(65535)  not_null blob
     var $alt;                             // string(255)  not_null
-    var $status;                          // string(255)  not_null
+    var $statustext;                      // string(255)  not_null
     var $bannertext;                      // blob(65535)  not_null blob
     var $description;                     // string(255)  not_null
     var $autohtml;                        // string(1)  not_null enum
@@ -79,7 +78,9 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $keyword;                         // string(255)  not_null
     var $transparent;                     // int(1)  not_null
     var $parameters;                      // blob(65535)  blob
-    var $oac_banner_id;                   // int(11)
+    var $an_banner_id;                    // int(11)  
+    var $as_banner_id;                    // int(11)  
+    var $status;                          // int(11)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
