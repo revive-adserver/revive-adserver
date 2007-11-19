@@ -581,23 +581,52 @@ class Admin_DA
         $oDbh = &OA_DB::singleton();
 
         $where = '';
-        if (!empty($aParams['agency_id'])) {
-            $where .= ' AND c.agencyid='. $oDbh->quote($aParams['agency_id'], 'integer');
+        if (!empty($aParams['day'])) {
+            $aParams['day_begin'] = $aParams['day_end'] = $aParams['day'];
         }
         if (!empty($aParams['day_begin'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")>='. $oDbh->quote($aParams['day_begin'], 'date');
+            $oStart = new Date($aParams['day_begin']);
+            $oStart->setHour(0);
+            $oStart->setMinute(0);
+            $oStart->setSecond(0);
+            $oStart->toUTC();
+            $where .= ' AND ac.tracker_date_time >= '. $oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         }
         if (!empty($aParams['day_end'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")<='. $oDbh->quote($aParams['day_end'], 'date');
-        }
-        if (!empty($aParams['day'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d")='. $oDbh->quote($aParams['day'], 'date');
+            $oEnd = new Date($aParams['day_end']);
+            $oEnd->setHour(23);
+            $oEnd->setMinute(59);
+            $oEnd->setSecond(59);
+            $oEnd->toUTC();
+            $where .= ' AND ac.tracker_date_time <= '. $oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         }
         if (!empty($aParams['month'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m")='. $oDbh->quote($aParams['month'], 'text');
+            $oStart = new Date("{$aParams['month']}-01");
+            $oStart->setHour(0);
+            $oStart->setMinute(0);
+            $oStart->setSecond(0);
+            $oEnd = new Date(Date_Calc::beginOfNextMonth($oStart->getDay(), $oStart->getMonth, $oStart->getYear(), '%Y-%m-%d'));
+            $oEnd->setHour(0);
+            $oEnd->setMinute(0);
+            $oEnd->setSecond(0);
+            $oEnd->subtractSeconds(1);
+            $oStart->toUTC();
+            $oEnd->toUTC();
+            $where .= ' AND ac.tracker_date_time >= '. $oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+            $where .= ' AND ac.tracker_date_time <= '. $oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
         }
         if (!empty($aParams['day_hour'])) {
-            $where .= ' AND DATE_FORMAT(ac.tracker_date_time,"%Y-%m-%d %H")='. $oDbh->quote($aParams['day_hour'], 'text');
+            $oStart = new Date("{$aParams['day_hour']}:00:00");
+            $oStart->setMinute(0);
+            $oStart->setSecond(0);
+            $oEnd = new Date($oStart);
+            $oStart->setMinute(59);
+            $oStart->setSecond(59);
+            $where .= ' AND ac.tracker_date_time >= '. $oDbh->quote($oStart->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+            $where .= ' AND ac.tracker_date_time <= '. $oDbh->quote($oEnd->format('%Y-%m-%d %H:%M:%S'), 'timestamp');
+        }
+        if (!empty($aParams['agency_id'])) {
+            $where .= ' AND c.agencyid='. $oDbh->quote($aParams['agency_id'], 'integer');
         }
         if (!empty($aParams['clientid'])) {
             $where .= ' AND c.clientid='. $oDbh->quote($aParams['clientid'], 'integer');
@@ -660,7 +689,17 @@ class Admin_DA
             ac.tracker_date_time
         $limit";
 
-        return $oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
+        $aStats = $oDbh->queryAll($query, null, MDB2_FETCHMODE_DEFAULT, true);
+
+        $oNow = new Date();
+        foreach (array_keys($aStats) as $k) {
+            $oDate = new Date($aStats[$k]['date_time']);
+            $oDate->setTZbyID('UTC');
+            $oDate->convertTZ($oNow->tz);
+            $aStats[$k]['date_time'] = $oDate->format('%Y-%m-%d %H:%M:%S');
+        }
+
+        return $aStats;
     }
 
     /**
@@ -860,8 +899,15 @@ class Admin_DA
             return Admin_DA::_getEntities($entity, $aParams, false, $name);
         }
 
-        $aStats = array();
-        foreach (Admin_DA::fromCache('getDayHourHistory', $aParams) as $k => $v) {
+        $aStats = Admin_DA::fromCache('getDayHourHistory', $aParams);
+
+        return Admin_DA::_convertStatsArrayToTz($aStats, $aParams, $method, $args, $formatted);
+    }
+
+    function _convertStatsArrayToTz($aStats, $aParams, $method, $args = array(), $formatted = null)
+    {
+        $aResult = array();
+        foreach ($aStats as $k => $v) {
             unset($v['date_time']);
             $oDate = new Date($k);
             $oDate->setTZbyID('UTC');
@@ -872,15 +918,15 @@ class Admin_DA
                 if ($formatted) {
                     $v['date_f'] = $oDate->format($formatted);
                 }
-                $aStats[$key] = $v;
+                $aResult[$key] = $v;
             } else {
                 foreach ($v as $kk => $vv) {
-                    $aStats[$key][$kk] += $vv;
+                    $aResult[$key][$kk] += $vv;
                 }
             }
         }
 
-        return $aStats;
+        return $aResult;
     }
 
     // +---------------------------------------+

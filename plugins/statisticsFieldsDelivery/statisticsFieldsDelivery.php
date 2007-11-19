@@ -402,25 +402,26 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
             $aParams['exclude']['zone_id'] = true;
 
             if ($method == 'getDayHistory') {
-                $aFields[] = "DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d') AS pkey";
+                $tzMethod    = 'format';
+                $tzArgs      = array('%Y-%m-%d');
             } elseif ($method == 'getMonthHistory') {
-                $aFields[] = "DATE_FORMAT(diac.tracker_date_time, '%Y-%m') AS pkey";
+                $tzMethod    = 'format';
+                $tzArgs      = array('%Y-%m');
             } elseif ($method == 'getDayOfWeekHistory') {
-                $aFields[] = "DAYOFWEEK(diac.tracker_date_time) - 1 AS pkey";
+                $tzMethod    = 'getDayOfWeek';
+                $tzArgs      = array();
             } elseif ($method == 'getHourHistory') {
-                $aFields[] = "HOUR(diac.tracker_date_time) AS pkey";
+                $tzMethod    = 'getHour';
+                $tzArgs      = array();
             }
-        }
-
-        if (!count($aFields)) {
-            return;
         }
 
         $aFrom   = array(
             "{$conf['table']['prefix']}{$conf['table']['data_intermediate_ad_connection']} diac"
         );
+        $aFields[] = "DATE_FORMAT(diac.tracker_date_time, '%Y-%m-%d %H:00:00') AS day_and_hour";
         $aWhere   = array("diac.inside_window = 1");
-        $aGroupBy = array('pkey');
+        $aGroupBy = array('day_and_hour');
 
         $aFields[] = "SUM(IF(diac.connection_status = ".MAX_CONNECTION_STATUS_APPROVED.
                         " AND diac.connection_action = ".MAX_CONNECTION_AD_IMPRESSION.",1,0)) AS sum_conversions_".MAX_CONNECTION_AD_IMPRESSION;
@@ -436,6 +437,8 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         if (!empty($aParams['day_begin']) && !empty($aParams['day_end'])) {
             $oStartDate = & new Date("{$aParams['day_begin']} 00:00:00");
             $oEndDate   = & new Date("{$aParams['day_end']} 23:59:59");
+            $oStartDate->toUTC();
+            $oEndDate->toUTC();
             $aWhere[] = "diac.tracker_date_time BETWEEN '".$oStartDate->format('%Y-%m-%d %H:%M:%S')."'".
                         " AND '".$oEndDate->format('%Y-%m-%d %H:%M:%S')."'";
         }
@@ -514,16 +517,18 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
         }
         else
         {
+            foreach ($aResult AS $k => $row) {
+                unset($aResult[$k]);
+                $aResult[$row['day_and_hour']] = $row;
+            }
+            $aResult = Admin_DA::_convertStatsArrayToTz($aResult, $aParams, $tzMethod, $tzArgs);
             foreach ($aResult AS $k => $row)
             {
-                $pkey = $row['pkey'];
-                unset ($row['pkey']);
-
-                if (!isset($aRows[$pkey])) {
-                    $aRows[$pkey] = $emptyRow;
+                if (!isset($aRows[$k])) {
+                    $aRows[$k] = $emptyRow;
                 }
 
-                $aRows[$pkey] = $row + $aRows[$pkey];
+                $aRows[$k] = $row + $aRows[$k];
             }
         }
     }
