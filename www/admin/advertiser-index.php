@@ -242,7 +242,7 @@ foreach (array_keys($clients) as $clientid) {
             $banner = &$campaign['banners'][$bannerid];
 
             $aCount[$isOac]['banners']++;
-            if ($hideinactive && $banner['active'] != 't') {
+            if ($hideinactive && $banner['status'] != OA_ENTITY_STATUS_RUNNING) {
                 unset($campaign['banners'][$bannerid]);
             } else {
                 $aCount[$isOac]['banners_active']++;

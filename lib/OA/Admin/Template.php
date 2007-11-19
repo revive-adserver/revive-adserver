@@ -154,8 +154,8 @@ class OA_Admin_Template extends Smarty
             $type   = 'banner';
             $banner = $aParams['banner'];
 
-            $campaign_active = isset($aParams['campaign']['active']) ? $aParams['campaign']['active'] == 't' : true;
-            $active          = $banner['active'] == 't' && $campaign_active;
+            $campaign_active = isset($aParams['campaign']['status']) ? $aParams['campaign']['status'] == OA_ENTITY_STATUS_RUNNING : false;
+            $active          = $banner['status'] == OA_ENTITY_STATUS_RUNNING && $campaign_active;
 
             switch ($banner['type'])
             {

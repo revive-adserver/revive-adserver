@@ -34,6 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gd.inc.php';
@@ -131,7 +132,7 @@ while ($doBanners->fetch() && $row = $doBanners->toArray()) {
     $banners[$row['bannerid']]['description'] = MAX_getAdName($row['description'], null, null, $campaignAnonymous, $row['bannerid']);
 
     $banners[$row['bannerid']]['expand'] = 0;
-    if ($row['active'] == 't') {
+    if ($row['status'] == OA_ENTITY_STATUS_RUNNING) {
         $countActive++;
     }
 }
@@ -174,7 +175,7 @@ $bannersHidden = 0;
 if (isset($banners) && is_array($banners) && count($banners) > 0) {
     reset ($banners);
     while (list ($key, $banner) = each ($banners)) {
-        if (($hideinactive == true) && ($banner['active'] == 'f')) {
+        if (($hideinactive == true) && ($banner['status'] != OA_ENTITY_STATUS_RUNNING)) {
             $bannersHidden++;
             unset($banners[$key]);
         }
@@ -210,7 +211,7 @@ echo '<td height="25"><b><a href="campaign-banners.php?clientid='.$clientid.'&ca
 
 if ($listorder == "id") {
     if  (($orderdirection == "") || ($orderdirection == "down")) {
-        echo ' <a href="campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
+        echo '<a href="campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=up">';
         echo '<img src="images/caret-ds.gif" border="0" alt="" title="">';
     } else {
         echo ' <a href="campaign-banners.php?clientid='.$clientid.'&campaignid='.$campaignid.'&orderdirection=down">';
@@ -263,7 +264,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
             echo "&nbsp;";
         }
 
-        if ($banners[$bkey]['active'] == 't') {
+        if ($banners[$bkey]['status'] == OA_ENTITY_STATUS_RUNNING) {
             if ($banners[$bkey]['type'] == 'html') {
                 echo "<img src='images/icon-banner-html.gif' align='absmiddle' alt=''>";
             } elseif ($banners[$bkey]['type'] == 'txt') {
@@ -310,11 +311,11 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         if (phpAds_isUser(phpAds_Client) && !MAX_Permission::isAllowed(phpAds_ActivateBanner)) {
             echo "&nbsp;";
         } else {
-            if ($banners[$bkey]["active"] == "t") {
-                echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["active"]."'><img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;";
+            if ($banners[$bkey]["status"] == OA_ENTITY_STATUS_RUNNING) {
+                echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'><img src='images/icon-deactivate.gif' align='absmiddle' border='0'>&nbsp;";
                 echo $strDeActivate;
             } else {
-                echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["active"]."'><img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;";
+                echo "<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]["bannerid"]."&value=".$banners[$bkey]["status"]."'><img src='images/icon-activate.gif' align='absmiddle' border='0'>&nbsp;";
                 echo $strActivate;
             }
             echo "</a>&nbsp;&nbsp;&nbsp;&nbsp;</td>";

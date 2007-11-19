@@ -625,27 +625,6 @@ echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $cam
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
 ?>
 
-<div class="dev-note">
-    <p>
-    <b>Notes to developer:</b><br/>
-    The campaign status should not be visible when new campaign is being added
-    The campaign can be in one of the following states:
-    <ul>
-        <li><span class="sts-awaiting">Awaiting approval</span> - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
-        <li><span class="sts-rejected">Rejected</span> - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
-        <li><span class="sts-accepted">Running</span> - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
-        <li><span class="sts-paused">Paused</span> - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
-        <li><span class="sts-not-started">Not started yet</span> - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
-        <li><span class="sts-finished">Finished</span> - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
-        <li><span class="sts-insufficient">Insufficient impressions</span> - campaign's remaining impressions number is too small to to satisfy the number booked by advertiser -  the local remaining impression number is lower than central remaining impression number. (corresponding CSS class: .sts-insufficient)</li>
-        <li><span class="sts-insufficient">Insufficient clicks</span> - campaign's remaining clicks number is too small to satisfy the number booked by advertiser -  the local remaining click number is lower than central remaining click number.(corresponding CSS class: .sts-insufficient)</li>
-    </ul>
-    The list of possible choices depends on current campaign state e.g Running campaigns can only by paused, paused campaigns can only be restarted<br>
-    Please note that, the Openads remaining clicks/impressions should be visible only for advertiser bought campaigns
-    </p>
-
-</div>
-
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
         <tr>
@@ -735,7 +714,7 @@ echo "<input type='hidden' name='move' value='".(isset($move) ? $move : '')."'>"
 echo "<input type='hidden' name='target_old' value='".(isset($row['target']) ? (int)$row['target'] : 0)."'>"."\n";
 echo "<input type='hidden' name='target_type_old' value='".(isset($target_type) ? $target_type : '')."'>"."\n";
 echo "<input type='hidden' name='weight_old' value='".(isset($row['weight']) ? (int)$row['weight'] : 0)."'>"."\n";
-echo "<input type='hidden' name='active_old' value='".(isset($row['active']) && $row['active'] == 't' ? 't' : 'f')."'>"."\n";
+echo "<input type='hidden' name='active_old' value='".(isset($row['status']) ? (int)$row['status'] : 0)."'>"."\n";
 echo "<input type='hidden' name='previousweight' value='".(isset($row["weight"]) ? $row["weight"] : '')."'>"."\n";
 echo "<input type='hidden' name='previoustarget' value='".(isset($row["target"]) ? $row["target"] : '')."'>"."\n";
 echo "<input type='hidden' name='previousactive' value='".(isset($row["active"]) ? $row["active"] : '')."'>"."\n";
@@ -758,7 +737,7 @@ echo "<tr><td height='25' colspan='3'><a name='inv-det' ></a><b>".$strInventoryD
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>"."\n";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 
-if (isset($row['active']) && $row['active'] == 'f')
+if (isset($row['status']) && $row['status'] != OA_ENTITY_STATUS_RUNNING)
 {
     $activate_ts = mktime(23, 59, 59, $row["activate_month"], $row["activate_dayofmonth"], $row["activate_year"]);
     $expire_ts = mktime(23, 59, 59, $row["expire_month"], $row["expire_dayofmonth"], $row["expire_year"]);

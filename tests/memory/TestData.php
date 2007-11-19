@@ -30,6 +30,7 @@ $Id$
  */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
@@ -123,7 +124,7 @@ class Memory_TestData
         $doCampaigns->conversions    = '-1';                     // int(11)
         $doCampaigns->expire    = OA_Dal::noDateString();
         $doCampaigns->activate  = OA_Dal::noDateString();
-        $doCampaigns->active    = 't';                       // string(1)  not_null enum
+        $doCampaigns->status    = OA_ENTITY_STATUS_RUNNING;     // int(11)  not_null
         $doCampaigns->priority    = '-1';                        // int(11)  not_null
         $doCampaigns->weight    = '1';                          // int(4)  not_null
         $doCampaigns->target_impression    = '';               // int(11)  not_null
@@ -210,7 +211,7 @@ class Memory_TestData
         $doBanners->acls_updated = OA::getNow();
         $doBanners->updated    = OA::getNow();
         $doBanners->campaignid      = $this->campaignId;
-        $doBanners->active          = 't';
+        $doBanners->status          = OA_ENTITY_STATUS_RUNNING;
         $doBanners->contenttype    = '';
         $doBanners->pluginversion    = '0';
         $doBanners->storagetype    = 'html';
@@ -223,7 +224,7 @@ class Memory_TestData
         $doBanners->target    = '_blank';
         $doBanners->url    = '';
         $doBanners->alt    = '';
-        $doBanners->status    = '';
+        $doBanners->statustext    = '';
         $doBanners->bannertext    = '';
         $doBanners->description    = 'Default banner 468*60 ('.$index.')';
         $doBanners->autohtml    = 't';

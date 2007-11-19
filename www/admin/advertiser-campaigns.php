@@ -34,6 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/Permission.php';
@@ -230,7 +231,7 @@ if (isset($banners) && is_array($banners) && count($banners) > 0) {
 	// Add banner to campaigns
 	reset ($banners);
 	while (list ($bkey, $banner) = each ($banners)) {
-		if ($hideinactive == false || $banner['active'] == 't') {
+		if ($hideinactive == false || $banner['status'] == OA_ENTITY_STATUS_RUNNING) {
 			$campaigns[$banner['campaignid']]['banners'][$bkey] = $banner;
 		}
 	}
@@ -243,7 +244,7 @@ if (isset($campaigns) && is_array($campaigns) && count($campaigns) > 0) {
 		if (!isset($campaign['banners'])) {
 			$campaign['banners'] = array();
 		}
-		if ($hideinactive == true && ($campaign['active'] == 'f' || $campaign['active'] == 't' &&
+		if ($hideinactive == true && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || $campaign['status'] == OA_ENTITY_STATUS_RUNNING &&
 			count($campaign['banners']) == 0 && count($campaign['banners']) < $campaign['count'])) {
 			$campaignshidden++;
 			unset($campaigns[$key]);
@@ -258,21 +259,6 @@ if (!phpAds_isUser(phpAds_Client)) {
     echo "<br /><br />";
 }
 ?>
-
-<div class="dev-note">
-    <b>Notes to developer:</b><br/>
-    The campaign can be in one of the following states:
-    <ul>
-        <li><span class="sts-awaiting">Awaiting approval</span> - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
-        <li><span class="sts-rejected">Rejected</span> - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
-        <li><span class="sts-accepted">Running</span> - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
-        <li><span class="sts-paused">Paused</span> - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
-        <li><span class="sts-not-started">Not started yet</span> - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
-        <li><span class="sts-finished">Finished</span> - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
-        <li><span class="sts-insufficient">Insufficient impressions</span> - campaign's remaining impressions number is too small to to satisfy the number booked by advertiser -  the local remaining impression number is lower than central remaining impression number. (corresponding CSS class: .sts-insufficient)</li>
-        <li><span class="sts-insufficient">Insufficient clicks</span> - campaign's remaining clicks number is too small to satisfy the number booked by advertiser -  the local remaining click number is lower than central remaining click number.(corresponding CSS class: .sts-insufficient)</li>
-    </ul>
-</div>
 
 
 <?php
@@ -349,7 +335,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		} else {
 		    echo "<img src='images/spacer.gif' height='16' width='16' align='absmiddle'>&nbsp;";
 		}
-		if ($campaigns[$ckey]['active'] == 't') {
+		if ($campaigns[$ckey]['status'] == OA_ENTITY_STATUS_RUNNING) {
 			echo "<img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;";
 		} else {
 			echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
@@ -414,7 +400,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
 				echo "<td height='25'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 
-				if ($banners[$bkey]['active'] == 't' && $campaigns[$ckey]['active'] == 't') {
+				if ($banners[$bkey]['status'] == OA_ENTITY_STATUS_RUNNING && $campaigns[$ckey]['status'] == OA_ENTITY_STATUS_RUNNING) {
 					if ($banners[$bkey]['type'] == 'html')
 						echo "<img src='images/icon-banner-html.gif' align='absmiddle'>";
 					elseif ($banners[$bkey]['type'] == 'txt')

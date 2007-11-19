@@ -35,6 +35,7 @@ $Id $
  */
 
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 {
@@ -456,7 +457,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -474,7 +475,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -492,7 +493,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -510,7 +511,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -529,7 +530,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2005-01-01';
-        $aCampaigns['active'] = 'f';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -549,7 +550,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2010-01-01';
         $aCampaigns['activate'] = '2006-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -569,7 +570,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -587,7 +588,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -605,7 +606,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -624,7 +625,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['activate'] = '2006-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -644,7 +645,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -664,7 +665,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -684,7 +685,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -706,7 +707,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2006-02-15';
         $aCampaigns['activate'] = '2006-02-15';
-        $aCampaigns['active'] = 'f';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -726,7 +727,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -746,7 +747,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '-1';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -766,7 +767,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -786,7 +787,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -807,7 +808,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2007-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '5';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -827,7 +828,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '-1';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -847,7 +848,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -867,7 +868,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -887,7 +888,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -907,7 +908,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -927,7 +928,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -947,7 +948,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '-1';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -967,7 +968,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -987,7 +988,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1007,7 +1008,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1027,7 +1028,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1047,7 +1048,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1067,7 +1068,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1087,7 +1088,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1107,7 +1108,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1127,7 +1128,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1147,7 +1148,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1167,7 +1168,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1187,7 +1188,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1208,7 +1209,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2006-07-01';
-        $aCampaigns['active'] = 'f';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
         $aCampaigns['priority'] = '5';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1228,7 +1229,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1249,7 +1250,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2007-01-01';
-        $aCampaigns['active'] = 'f';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
         $aCampaigns['priority'] = '10';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1269,7 +1270,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1289,7 +1290,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1309,7 +1310,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1329,7 +1330,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1349,7 +1350,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1369,7 +1370,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1389,7 +1390,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1409,7 +1410,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1429,7 +1430,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1449,7 +1450,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1469,7 +1470,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1489,7 +1490,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1509,7 +1510,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1529,7 +1530,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1549,7 +1550,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1569,7 +1570,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1589,7 +1590,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1609,7 +1610,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1629,7 +1630,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1649,7 +1650,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1670,7 +1671,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2006-11-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '10';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1691,7 +1692,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2006-11-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '10';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1712,7 +1713,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2006-09-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '10';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1732,7 +1733,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1752,7 +1753,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1772,7 +1773,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1792,7 +1793,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1812,7 +1813,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1832,7 +1833,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '0';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1853,7 +1854,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2007-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '5';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1873,7 +1874,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '-1';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1894,7 +1895,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2007-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '5';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1914,7 +1915,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '-1';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1935,7 +1936,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2007-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '5';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -1956,7 +1957,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2007-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '-1';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1976,7 +1977,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['views'] = '-1';
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '-1';
         $aCampaigns['weight'] = '1';
         $aCampaigns['target_impression'] = '0';
@@ -1997,7 +1998,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['clicks'] = '-1';
         $aCampaigns['conversions'] = '-1';
         $aCampaigns['expire'] = '2007-01-01';
-        $aCampaigns['active'] = 't';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
         $aCampaigns['priority'] = '5';
         $aCampaigns['weight'] = '0';
         $aCampaigns['target_impression'] = '0';
@@ -2015,7 +2016,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1';
         $aBanners['campaignid'] = '1';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'sql';
@@ -2052,7 +2053,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '2';
         $aBanners['campaignid'] = '1';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -2089,7 +2090,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '3';
         $aBanners['campaignid'] = '1';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -2126,7 +2127,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '4';
         $aBanners['campaignid'] = '1';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -2163,7 +2164,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '5';
         $aBanners['campaignid'] = '1';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -2200,7 +2201,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '7';
         $aBanners['campaignid'] = '2';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2237,7 +2238,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '8';
         $aBanners['campaignid'] = '2';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2274,7 +2275,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '9';
         $aBanners['campaignid'] = '2';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2311,7 +2312,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '10';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2348,7 +2349,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '11';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2385,7 +2386,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '12';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'sql';
@@ -2422,7 +2423,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '13';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2459,7 +2460,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '14';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2496,7 +2497,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '15';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -2533,7 +2534,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '16';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2570,7 +2571,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '17';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -2607,7 +2608,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '18';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'sql';
@@ -2644,7 +2645,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '19';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -2681,7 +2682,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '20';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -2718,7 +2719,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '21';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -2755,7 +2756,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '22';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -2792,7 +2793,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '23';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -2829,7 +2830,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '24';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -2866,7 +2867,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '25';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -2903,7 +2904,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '26';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -2940,7 +2941,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '27';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -2977,7 +2978,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '28';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -3014,7 +3015,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '29';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'sql';
@@ -3051,7 +3052,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '30';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3088,7 +3089,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '31';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -3125,7 +3126,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '32';
         $aBanners['campaignid'] = '7';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3162,7 +3163,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '33';
         $aBanners['campaignid'] = '7';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3199,7 +3200,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '34';
         $aBanners['campaignid'] = '8';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3236,7 +3237,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '36';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -3273,7 +3274,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '37';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '7';
         $aBanners['storagetype'] = 'web';
@@ -3310,7 +3311,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '38';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -3347,7 +3348,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '40';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -3384,7 +3385,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '41';
         $aBanners['campaignid'] = '8';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3421,7 +3422,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '42';
         $aBanners['campaignid'] = '8';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3458,7 +3459,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '43';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -3495,7 +3496,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '44';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -3532,7 +3533,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '45';
         $aBanners['campaignid'] = '10';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -3569,7 +3570,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '46';
         $aBanners['campaignid'] = '10';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -3606,7 +3607,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '47';
         $aBanners['campaignid'] = '10';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -3643,7 +3644,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '48';
         $aBanners['campaignid'] = '11';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3680,7 +3681,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '49';
         $aBanners['campaignid'] = '11';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3717,7 +3718,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '57';
         $aBanners['campaignid'] = '12';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3754,7 +3755,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '76';
         $aBanners['campaignid'] = '12';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -3791,7 +3792,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '79';
         $aBanners['campaignid'] = '27';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3828,7 +3829,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '80';
         $aBanners['campaignid'] = '27';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -3865,7 +3866,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '81';
         $aBanners['campaignid'] = '27';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -3902,7 +3903,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '82';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -3939,7 +3940,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '83';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -3976,7 +3977,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '86';
         $aBanners['campaignid'] = '29';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4013,7 +4014,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '87';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4050,7 +4051,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '88';
         $aBanners['campaignid'] = '1';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4087,7 +4088,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '89';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4124,7 +4125,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '90';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4161,7 +4162,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '91';
         $aBanners['campaignid'] = '31';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -4198,7 +4199,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '92';
         $aBanners['campaignid'] = '32';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4235,7 +4236,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '93';
         $aBanners['campaignid'] = '32';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4272,7 +4273,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '94';
         $aBanners['campaignid'] = '32';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4309,7 +4310,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '95';
         $aBanners['campaignid'] = '32';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4346,7 +4347,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '96';
         $aBanners['campaignid'] = '33';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4383,7 +4384,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '97';
         $aBanners['campaignid'] = '33';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4420,7 +4421,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '98';
         $aBanners['campaignid'] = '33';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4457,7 +4458,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '99';
         $aBanners['campaignid'] = '33';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4494,7 +4495,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '100';
         $aBanners['campaignid'] = '34';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4531,7 +4532,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '101';
         $aBanners['campaignid'] = '34';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4568,7 +4569,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '102';
         $aBanners['campaignid'] = '34';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4605,7 +4606,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '103';
         $aBanners['campaignid'] = '34';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4642,7 +4643,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '104';
         $aBanners['campaignid'] = '31';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4679,7 +4680,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '105';
         $aBanners['campaignid'] = '35';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -4716,7 +4717,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '106';
         $aBanners['campaignid'] = '36';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '7';
         $aBanners['storagetype'] = 'web';
@@ -4753,7 +4754,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '107';
         $aBanners['campaignid'] = '1';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4790,7 +4791,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '108';
         $aBanners['campaignid'] = '32';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4827,7 +4828,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '109';
         $aBanners['campaignid'] = '37';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4864,7 +4865,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '110';
         $aBanners['campaignid'] = '38';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4901,7 +4902,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '111';
         $aBanners['campaignid'] = '39';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -4938,7 +4939,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '112';
         $aBanners['campaignid'] = '40';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -4975,7 +4976,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '113';
         $aBanners['campaignid'] = '41';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5012,7 +5013,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '114';
         $aBanners['campaignid'] = '42';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5049,7 +5050,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '115';
         $aBanners['campaignid'] = '42';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5086,7 +5087,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '116';
         $aBanners['campaignid'] = '42';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5123,7 +5124,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '117';
         $aBanners['campaignid'] = '42';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5160,7 +5161,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '118';
         $aBanners['campaignid'] = '42';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5197,7 +5198,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '119';
         $aBanners['campaignid'] = '42';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5234,7 +5235,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '120';
         $aBanners['campaignid'] = '42';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5271,7 +5272,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '121';
         $aBanners['campaignid'] = '43';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5308,7 +5309,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '122';
         $aBanners['campaignid'] = '44';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5345,7 +5346,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '123';
         $aBanners['campaignid'] = '46';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -5382,7 +5383,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '124';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -5419,7 +5420,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '125';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -5456,7 +5457,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '126';
         $aBanners['campaignid'] = '47';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5493,7 +5494,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '127';
         $aBanners['campaignid'] = '48';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5530,7 +5531,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '128';
         $aBanners['campaignid'] = '48';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5567,7 +5568,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '129';
         $aBanners['campaignid'] = '48';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5604,7 +5605,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '130';
         $aBanners['campaignid'] = '48';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5641,7 +5642,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '131';
         $aBanners['campaignid'] = '49';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -5678,7 +5679,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '132';
         $aBanners['campaignid'] = '6';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -5714,7 +5715,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '133';
         $aBanners['campaignid'] = '50';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -5750,7 +5751,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '134';
         $aBanners['campaignid'] = '50';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -5786,7 +5787,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '135';
         $aBanners['campaignid'] = '50';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5822,7 +5823,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '136';
         $aBanners['campaignid'] = '50';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5858,7 +5859,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '137';
         $aBanners['campaignid'] = '52';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5894,7 +5895,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '138';
         $aBanners['campaignid'] = '52';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -5931,7 +5932,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '139';
         $aBanners['campaignid'] = '53';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -5968,7 +5969,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '140';
         $aBanners['campaignid'] = '54';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -6004,7 +6005,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '141';
         $aBanners['campaignid'] = '54';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -6040,7 +6041,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '142';
         $aBanners['campaignid'] = '55';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6076,7 +6077,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '143';
         $aBanners['campaignid'] = '55';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6112,7 +6113,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '144';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6148,7 +6149,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '145';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6184,7 +6185,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '146';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6220,7 +6221,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '147';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6256,7 +6257,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '148';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6292,7 +6293,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '149';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6328,7 +6329,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '150';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6364,7 +6365,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '151';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6400,7 +6401,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '152';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6436,7 +6437,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '153';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6472,7 +6473,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '154';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6508,7 +6509,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '155';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6544,7 +6545,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '156';
         $aBanners['campaignid'] = '55';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6580,7 +6581,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '157';
         $aBanners['campaignid'] = '55';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6616,7 +6617,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '158';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6652,7 +6653,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '159';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6688,7 +6689,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '160';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6724,7 +6725,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '161';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6760,7 +6761,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '162';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6796,7 +6797,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '163';
         $aBanners['campaignid'] = '56';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6832,7 +6833,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '164';
         $aBanners['campaignid'] = '54';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -6868,7 +6869,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '165';
         $aBanners['campaignid'] = '57';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -6904,7 +6905,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '166';
         $aBanners['campaignid'] = '58';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -6940,7 +6941,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '167';
         $aBanners['campaignid'] = '58';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -6976,7 +6977,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '168';
         $aBanners['campaignid'] = '59';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -7012,7 +7013,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '169';
         $aBanners['campaignid'] = '60';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -7048,7 +7049,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '170';
         $aBanners['campaignid'] = '61';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -7084,7 +7085,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '171';
         $aBanners['campaignid'] = '62';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -7120,7 +7121,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '172';
         $aBanners['campaignid'] = '62';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -7156,7 +7157,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '173';
         $aBanners['campaignid'] = '63';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7192,7 +7193,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '175';
         $aBanners['campaignid'] = '63';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7228,7 +7229,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '176';
         $aBanners['campaignid'] = '64';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -7264,7 +7265,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '177';
         $aBanners['campaignid'] = '65';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -7300,7 +7301,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '178';
         $aBanners['campaignid'] = '62';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '5';
         $aBanners['storagetype'] = 'web';
@@ -7336,7 +7337,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '179';
         $aBanners['campaignid'] = '62';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -7372,7 +7373,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '180';
         $aBanners['campaignid'] = '62';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -7408,7 +7409,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '181';
         $aBanners['campaignid'] = '66';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -7444,7 +7445,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '182';
         $aBanners['campaignid'] = '62';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'sql';
@@ -7480,7 +7481,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '183';
         $aBanners['campaignid'] = '3';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7516,7 +7517,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '184';
         $aBanners['campaignid'] = '76';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '7';
         $aBanners['storagetype'] = 'web';
@@ -7552,7 +7553,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '185';
         $aBanners['campaignid'] = '77';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -7588,7 +7589,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '187';
         $aBanners['campaignid'] = '79';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7625,7 +7626,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '188';
         $aBanners['campaignid'] = '79';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7662,7 +7663,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '189';
         $aBanners['campaignid'] = '79';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7699,7 +7700,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '190';
         $aBanners['campaignid'] = '79';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7737,7 +7738,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '191';
         $aBanners['campaignid'] = '79';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7774,7 +7775,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '192';
         $aBanners['campaignid'] = '79';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7811,7 +7812,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '193';
         $aBanners['campaignid'] = '79';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7848,7 +7849,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '194';
         $aBanners['campaignid'] = '78';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7885,7 +7886,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '195';
         $aBanners['campaignid'] = '78';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -7923,7 +7924,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '196';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -7959,7 +7960,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '197';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '5';
         $aBanners['storagetype'] = 'web';
@@ -7995,7 +7996,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '198';
         $aBanners['campaignid'] = '9';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '5';
         $aBanners['storagetype'] = 'web';
@@ -8033,7 +8034,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '199';
         $aBanners['campaignid'] = '80';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -8071,7 +8072,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '200';
         $aBanners['campaignid'] = '80';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -8109,7 +8110,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '201';
         $aBanners['campaignid'] = '80';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -8147,7 +8148,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '202';
         $aBanners['campaignid'] = '4';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8183,7 +8184,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '203';
         $aBanners['campaignid'] = '81';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -8219,7 +8220,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '204';
         $aBanners['campaignid'] = '81';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -8255,7 +8256,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '205';
         $aBanners['campaignid'] = '82';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -8291,7 +8292,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '206';
         $aBanners['campaignid'] = '82';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -8327,7 +8328,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1000';
         $aBanners['campaignid'] = '63';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -8363,7 +8364,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1001';
         $aBanners['campaignid'] = '83';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'sql';
@@ -8399,7 +8400,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1002';
         $aBanners['campaignid'] = '83';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -8435,7 +8436,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1003';
         $aBanners['campaignid'] = '83';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'sql';
@@ -8471,7 +8472,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1004';
         $aBanners['campaignid'] = '83';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -8507,7 +8508,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1005';
         $aBanners['campaignid'] = '83';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -8543,7 +8544,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1006';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8579,7 +8580,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1007';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8615,7 +8616,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1008';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8651,7 +8652,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1009';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8687,7 +8688,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1010';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8723,7 +8724,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1011';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8759,7 +8760,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1012';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8795,7 +8796,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1013';
         $aBanners['campaignid'] = '84';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -8831,7 +8832,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1014';
         $aBanners['campaignid'] = '85';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -8867,7 +8868,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1015';
         $aBanners['campaignid'] = '85';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -8903,7 +8904,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1016';
         $aBanners['campaignid'] = '85';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'jpeg';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -8939,7 +8940,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1017';
         $aBanners['campaignid'] = '85';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -8975,7 +8976,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1018';
         $aBanners['campaignid'] = '86';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -9011,7 +9012,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1019';
         $aBanners['campaignid'] = '86';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -9047,7 +9048,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1020';
         $aBanners['campaignid'] = '87';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'sql';
@@ -9083,7 +9084,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1021';
         $aBanners['campaignid'] = '87';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -9119,7 +9120,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1022';
         $aBanners['campaignid'] = '87';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'sql';
@@ -9155,7 +9156,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1023';
         $aBanners['campaignid'] = '87';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -9191,7 +9192,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1024';
         $aBanners['campaignid'] = '87';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -9227,7 +9228,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1025';
         $aBanners['campaignid'] = '88';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'sql';
@@ -9263,7 +9264,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1026';
         $aBanners['campaignid'] = '88';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'web';
@@ -9299,7 +9300,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1027';
         $aBanners['campaignid'] = '88';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'sql';
@@ -9335,7 +9336,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1028';
         $aBanners['campaignid'] = '88';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -9371,7 +9372,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1029';
         $aBanners['campaignid'] = '88';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '6';
         $aBanners['storagetype'] = 'web';
@@ -9407,7 +9408,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1030';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9443,7 +9444,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1031';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9479,7 +9480,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1032';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9515,7 +9516,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1033';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9551,7 +9552,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1034';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9587,7 +9588,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1035';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9623,7 +9624,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1036';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9659,7 +9660,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1037';
         $aBanners['campaignid'] = '89';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9695,7 +9696,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1038';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9731,7 +9732,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1039';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9767,7 +9768,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1040';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9803,7 +9804,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1041';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9839,7 +9840,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1042';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 'f';
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9875,7 +9876,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1043';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9911,7 +9912,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1044';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9947,7 +9948,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1045';
         $aBanners['campaignid'] = '90';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'html';
@@ -9983,7 +9984,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1046';
         $aBanners['campaignid'] = '91';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10019,7 +10020,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1047';
         $aBanners['campaignid'] = '91';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10055,7 +10056,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1048';
         $aBanners['campaignid'] = '91';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'jpeg';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10091,7 +10092,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1049';
         $aBanners['campaignid'] = '91';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10127,7 +10128,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1050';
         $aBanners['campaignid'] = '92';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = '';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10163,7 +10164,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1051';
         $aBanners['campaignid'] = '92';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'gif';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10199,7 +10200,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1052';
         $aBanners['campaignid'] = '92';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'jpeg';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10235,7 +10236,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1053';
         $aBanners['campaignid'] = '92';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'swf';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'url';
@@ -10271,7 +10272,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1054';
         $aBanners['campaignid'] = '93';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -10307,7 +10308,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1055';
         $aBanners['campaignid'] = '93';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -10343,7 +10344,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1056';
         $aBanners['campaignid'] = '94';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';
@@ -10379,7 +10380,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aBanners['bannerid'] = '1057';
         $aBanners['campaignid'] = '94';
-        $aBanners['active'] = 't';
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
         $aBanners['contenttype'] = 'txt';
         $aBanners['pluginversion'] = '0';
         $aBanners['storagetype'] = 'txt';

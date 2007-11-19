@@ -26,6 +26,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/plugins/reports/ReportsScope.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * A plugin to generate a report showing conversion tracking information,
@@ -251,7 +252,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
                 c.campaignid AS campaign_id,
                 c.campaignname AS campaign_name,
                 c.priority AS campaign_priority,
-                c.active AS campaign_is_active,
+                c.status AS campaign_is_active,
                 c.activate AS campaign_start,
                 c.expire AS campaign_end,
                 c.views AS campaign_booked_impressions,
@@ -498,7 +499,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
      */
     function _decodeStatusDescription($isActive)
     {
-        if ($isActive == 't') {
+        if ($isActive == OA_ENTITY_STATUS_RUNNING) {
             $type = MAX_Plugin_Translation::translate('Running', $this->module, $this->package);
         } else {
             $type = MAX_Plugin_Translation::translate('Stopped', $this->module, $this->package);

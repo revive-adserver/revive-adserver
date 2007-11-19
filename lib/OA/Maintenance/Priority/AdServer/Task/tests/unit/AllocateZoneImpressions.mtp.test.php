@@ -243,7 +243,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $aAdverts = array();
         $aAdParams = array(
             'ad_id'  => 1,
-            'active' => 't',
+            'status' => OA_ENTITY_STATUS_RUNNING,
             'type'   => 'sql',
             'weight' => 1
         );
@@ -251,7 +251,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $aAdverts[] = $oAd;
         $aAdParams = array(
             'ad_id'  => 2,
-            'active' => 't',
+            'status' => OA_ENTITY_STATUS_RUNNING,
             'type'   => 'sql',
             'weight' => 1
         );
@@ -259,7 +259,7 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
         $aAdverts[] = $oAd;
         $aAdParams = array(
             'ad_id'  => 3,
-            'active' => 't',
+            'status' => OA_ENTITY_STATUS_RUNNING,
             'type'   => 'sql',
             'weight' => 1
         );
@@ -353,13 +353,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'ad_id'  => 1,
                     'type'   => 'web',
                     'weight' => 1,
-                    'active' => 't'
+                    'status' => OA_ENTITY_STATUS_RUNNING
                 ),
                 array(
                     'ad_id'  => 2,
                     'type'   => 'web',
                     'weight' => 1,
-                    'active' => 't'
+                    'status' => OA_ENTITY_STATUS_RUNNING
                 )
             ),
             array(1)
@@ -370,13 +370,13 @@ class Test_OA_Maintenance_Priority_AdServer_Task_AllocateZoneImpressions extends
                     'ad_id'  => 3,
                     'type'   => 'web',
                     'weight' => 1,
-                    'active' => 't'
+                    'status' => OA_ENTITY_STATUS_RUNNING
                 ),
                 array(
                     'ad_id'  => 4,
                     'type'   => 'web',
                     'weight' => 2,
-                    'active' => 'f'
+                    'status' => OA_ENTITY_STATUS_AWAITING
                 )
             ),
             array(2)

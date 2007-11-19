@@ -79,6 +79,7 @@ phpAds_registerGlobalUnslashed(
     ,'replaceimage'
     ,'replacealtimage'
     ,'status'
+    ,'statustext'
     ,'type'
     ,'submit'
     ,'target'
@@ -133,6 +134,7 @@ if (isset($submit)) {
     $aVariables['imageurl']        = (!empty($imageurl) && $imageurl != 'http://') ? $imageurl : '';
     $aVariables['url']             = (!empty($url) && $url != 'http://') ? $url : '';
     $aVariables['status']          = !empty($status) ? $status : '';
+    $aVariables['statustext']      = !empty($statustext) ? $statustext : '';
     $aVariables['storagetype']     = $type;
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
     $aVariables['contenttype']     = !empty($aBanner['contenttype']) ? $aBanner['contenttype'] : '';
@@ -585,7 +587,7 @@ if ($type == 'sql') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -784,7 +786,7 @@ if ($type == 'web') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -855,7 +857,7 @@ if ($type == 'url') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
     echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
     echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 
@@ -965,7 +967,7 @@ if ($type == 'txt') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strStatusText."</td>";
-    echo "<td><input class='flat' size='35' type='text' name='status' style='width:350px;' value='".phpAds_htmlQuotes($row["status"])."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td><input class='flat' size='35' type='text' name='statustext' style='width:350px;' value='".phpAds_htmlQuotes($row["statustext"])."' tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";

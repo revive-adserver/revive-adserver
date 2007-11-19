@@ -25,6 +25,7 @@ $Id $
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -180,7 +181,7 @@ class OA_Test_Data
         $this->doCampaigns->conversions = -1;
         $this->doCampaigns->expire = OA_Dal::noDateValue();
         $this->doCampaigns->activate = OA_Dal::noDateValue();
-        $this->doCampaigns->active = 't';
+        $this->doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
         $this->doCampaigns->priority = 'l';
         $this->doCampaigns->weight = 1;
         $this->doCampaigns->target_impression = 1;
@@ -199,7 +200,7 @@ class OA_Test_Data
 
     function _insertBanners($aData)
     {
-        $this->doBanners->active='t';
+        $this->doBanners->status=OA_ENTITY_STATUS_RUNNING;
         $this->doBanners->contenttype='';
         $this->doBanners->pluginversion=0;
         $this->doBanners->storagetype='html';
@@ -214,7 +215,7 @@ class OA_Test_Data
         $this->doBanners->target='';
         $this->doBanners->url='http://example.com/';
         $this->doBanners->alt='';
-        $this->doBanners->status='';
+        $this->doBanners->statustext='';
         $this->doBanners->bannertext='';
         $this->doBanners->description='Banner';
         $this->doBanners->autohtml='t';

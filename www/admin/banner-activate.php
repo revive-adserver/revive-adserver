@@ -33,6 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
@@ -66,15 +67,15 @@ if (phpAds_isUser(phpAds_Agency))
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if ($value == "t")
-	$value = "f";
+if ($value == OA_ENTITY_STATUS_RUNNING)
+	$value = OA_ENTITY_STATUS_PAUSED;
 else
-	$value = "t";
+	$value = OA_ENTITY_STATUS_RUNNING;
 
 if (phpAds_isUser(phpAds_Client))
 {
-	if (($value == 'f' && phpAds_isAllowed(phpAds_DisableBanner)) ||
-	    ($value == 't' && phpAds_isAllowed(phpAds_ActivateBanner)))
+	if (($value == OA_ENTITY_STATUS_PAUSED && phpAds_isAllowed(phpAds_DisableBanner)) ||
+	    ($value == OA_ENTITY_STATUS_RUNNING && phpAds_isAllowed(phpAds_ActivateBanner)))
 	{
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
@@ -88,7 +89,7 @@ if (phpAds_isUser(phpAds_Client))
 		else
 		{
 			$campaignid = $doBanners->campaignid;
-            $doBanners->active = $value;
+            $doBanners->status = $value;
             $doBanners->update();
 
 			// Run the Maintenance Priority Engine process
@@ -113,13 +114,13 @@ elseif (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 	{
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
-        $doBanners->active = $value;
+        $doBanners->status = $value;
         $doBanners->update();
 	}
 	elseif (!empty($campaignid))
 	{
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->active = $value;
+        $doBanners->status = $value;
         $doBanners->whereAdd('campaignid = ' . $campaignid);
 
         // Update all the banners
@@ -132,7 +133,6 @@ elseif (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 	// Rebuild cache
 	// require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
 	// phpAds_cacheDelete();
-
 	Header("Location: campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
 }
 

@@ -2664,7 +2664,7 @@ class OA_Dal_Maintenance_Statistics_Common
                 ca.views AS targetimpressions,
                 ca.clicks AS targetclicks,
                 ca.conversions AS targetconversions,
-                ca.active AS active,
+                ca.status AS status,
                 ca.activate AS start,
                 ca.expire AS end
             FROM
@@ -2678,8 +2678,8 @@ class OA_Dal_Maintenance_Statistics_Common
             return MAX::raiseError($rc, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
         }
         while ($aPlacement = $rc->fetchRow()) {
-            if ($aPlacement['active'] == 't') {
-                // The placement is currently active, look at the placement
+            if ($aPlacement['status'] == OA_ENTITY_STATUS_RUNNING) {
+                // The placement is currently status, look at the placement
                 $disableReason = 0;
                 if (($aPlacement['targetimpressions'] > 0) ||
                     ($aPlacement['targetclicks'] > 0) ||
@@ -2737,6 +2737,13 @@ class OA_Dal_Maintenance_Statistics_Common
                         }
                         if ($disableReason) {
                             // One of the placement targets was exceeded, so disable
+                            $query = "
+                                UPDATE
+                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
+                                SET
+                                    status = " . OA_ENTITY_STATUS_RUNNING . "
+                                WHERE
+                                    campaignid = {$aPlacement['campaign_id']}";
                             $message = '- Exceeded a placement quota: Deactivating placement ID ' .
                                        "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                             OA::debug($message, PEAR_LOG_INFO);
@@ -2760,6 +2767,13 @@ class OA_Dal_Maintenance_Statistics_Common
                     $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
                     if ($oDate->after($oEndDate)) {
                         $disableReason |= OA_PLACEMENT_DISABLED_DATE;
+                        $query = "
+                            UPDATE
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
+                            SET
+                                status = " . OA_ENTITY_STATUS_PAUSED . "
+                            WHERE
+                                campaignid = {$aPlacement['campaign_id']}";
                         $message = '- Passed placement end time: Deactivating placement ID ' .
                                    "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);
@@ -2956,6 +2970,13 @@ class OA_Dal_Maintenance_Statistics_Common
                         (($aPlacement['targetclicks']      <= 0) || (($aPlacement['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
                         (($aPlacement['targetconversions'] <= 0) || (($aPlacement['targetconversions'] > 0) && ($remainingConversions > 0))) &&
                         (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
+                        $query = "
+                            UPDATE
+                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
+                            SET
+                                status = ". OA_ENTITY_STATUS_RUNNING . "
+                            WHERE
+                                campaignid = {$aPlacement['campaign_id']}";
                         $mesage = '- Past campaign start time: Activating campaign ID ' .
                                   "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);

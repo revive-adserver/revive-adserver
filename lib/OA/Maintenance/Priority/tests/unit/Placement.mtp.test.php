@@ -179,10 +179,10 @@ class Test_OA_Maintenance_Priority_Placement extends UnitTestCase
     {
         $oError = new PEAR_Error();
         $aAds = array(
-            1 => array('ad_id' => 1, 'type' => 'sql', 'weight' => 2, 'active' => 't',),
-            2 => array('ad_id' => 2, 'type' => 'gif', 'weight' => 1, 'active' => 't',),
-            3 => array('ad_id' => 3, 'type' => 'sql', 'weight' => 2, 'active' => 't',),
-            5 => array('ad_id' => 5, 'type' => 'gif', 'weight' => 3, 'active' => 'f',),
+            1 => array('ad_id' => 1, 'type' => 'sql', 'weight' => 2, 'status' => OA_ENTITY_STATUS_RUNNING,),
+            2 => array('ad_id' => 2, 'type' => 'gif', 'weight' => 1, 'status' => OA_ENTITY_STATUS_RUNNING,),
+            3 => array('ad_id' => 3, 'type' => 'sql', 'weight' => 2, 'status' => OA_ENTITY_STATUS_RUNNING,),
+            5 => array('ad_id' => 5, 'type' => 'gif', 'weight' => 3, 'status' => OA_ENTITY_STATUS_AWAITING,),
         );
         $oServiceLocator =& OA_ServiceLocator::instance();
         $oMaxDalEntities =& $oServiceLocator->get('MAX_Dal_Entities');

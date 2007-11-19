@@ -2023,7 +2023,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                 AND
                 aza.ad_id = b.bannerid
                 AND
-                b.active = 't'
+                b.status = ".OA_ENTITY_STATUS_RUNNING."
             GROUP BY
                 zoneid,
                 zonename,
