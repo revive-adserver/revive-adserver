@@ -503,11 +503,12 @@ class DB_DataObjectCommon extends DB_DataObject
     /**
      * Overwrite DB_DataObject::delete() method and add a "ON DELETE CASCADE"
      *
+     * @param boolean $useWhere
      * @param boolean $cascadeDelete  If true it deletes also referenced tables
      *                                if this behavior is set in DataObject.
      *                                With this parameter it's possible to turn off default behavior
      *                                @see DB_DataObjectCommon:onDeleteCascade
-     * @param boolean $useWhere
+     * @param boolean $parentid The audit ID of the parent object causing the cascade.
      * @return boolean
      * @access protected
      */

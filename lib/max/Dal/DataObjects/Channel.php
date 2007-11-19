@@ -61,7 +61,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    function delete($useWhere = false, $cascade = true)
+    function delete($useWhere = false, $cascade = true, $parentid = null)
     {
     	// Find acls which use this channels
     	$dalAcls = OA_Dal::factoryDAL('acls');
@@ -114,7 +114,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
             $doBanners->update();
     	}
 
-    	return parent::delete($useWhere, $cascade);
+    	return parent::delete($useWhere, $cascade, $parentid);
     }
 
     function duplicate($channelId)
