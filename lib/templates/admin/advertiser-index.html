@@ -53,56 +53,6 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 
 {include file=advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local}
 
-<div class="dev-note">
-    <p>
-    <b>Notes to developer:</b><br/>
-    <ol>
-    <li>
-        The adnetwork campaign can be in the following states:
-        <ul>
-            <li>Pending - adnetwork has not reviewed the publisher site yet (corresponding CSS class: .sts-pending)</li>
-            <li>Rejected - adnetwork has rejected site  (corresponding CSS class: .sts-rejected)</li>
-            <li>Running -  adnetwork has accepted site (corresponding CSS class: .sts-accepted)</li>
-        </ul>
-    </li>
-    <li>
-        Adnetwork campaigns cumulative status row  (the row with adnetwork name) rules (should be shown only if advertiser section is collapsed) :
-        <ul>
-            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit "All" if there is only one campaign, see TradeDoubler and TexLinkAds examples</li>
-            <li>if statuses are different, show the number of sites with the first available of the following statuses "Rejected", "Running", "Pending", see CPX example</li>
-        </ul>
-    </li>
-    <li>The advertiser signed-up campaign can be in one of the following states:
-    <ul>
-        <li><span class="sts-awaiting">Awaiting approval</span> - new campaign, needs user action (corresponding CSS class: .sts-awaiting)</li>
-        <li><span class="sts-rejected">Rejected</span> - campaign has been rejected (corresponding CSS class: .sts-rejected)</li>
-        <li><span class="sts-accepted">Running</span> - campaign has been accepted and is currently running (corresponding CSS class: .sts-accepted)</li>
-        <li><span class="sts-paused">Paused</span> - campaign has been accepted but currently is paused and is not running (corresponding CSS class: .sts-paused)</li>
-        <li><span class="sts-not-started">Not started yet</span> - campaign has been accepted but the start date has not been reached yet (corresponding CSS class: .sts-not-started)</li>
-        <li><span class="sts-finished">Finished</span> - campaign has been accepted and is currently finished (corresponding CSS class: .sts-finished)</li>
-        <li><span class="sts-insufficient">Insufficient impressions</span> - campaign's remaining impressions number is too small to to satisfy the number booked by advertiser -  the local remaining impression number is lower than central remaining impression number. (corresponding CSS class: .sts-insufficient)</li>
-        <li><span class="sts-insufficient">Insufficient clicks</span> - campaign's remaining clicks number is too small to satisfy the number booked by advertiser -  the local remaining click number is lower than central remaining click number.(corresponding CSS class: .sts-insufficient)</li>
-    </ul>
-    </li>
-    <li>
-        Advertiser sign-up campaigns cumulative status row  (the row with advertiser name) rules (should be shown only if advertiser section is collapsed) 
-        <ul>
-            <li>if status is the same for all adnetwork campaigns, show status name prepended with  "All", omit "All" if there is only one campaign. 
-                In case of single "Awaiting approval / Insufficient clicks / Insufficient impressions" the cumulative status should be a link to campaign edit (not the anchor for insufficient). See Coca Cola example, Monster Job, Dell, Ford, Michelin</li>
-            <li>if statuses are different, show the number of sites with the first available of the following statuses "Awaiting approval", "Insufficient impressions", "Insufficient clicks" ,"Running", "Not started yet", "Paused", Rejected", see Blackberry and Nike example</li></li>
-        </ul>
-    </li>
-    
-    
-   </p>
-   <p>
-    <b>Table below is a test table showing possible row states and cumulative status for both adnetwork camapaigns and advertisers campaigns. 
-    <br>Note that the cumulative status should not be shown if the advertiser section is expanded</b>   
-   </p> 
-</div>
-
-{include file=proto-advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local} 	
-
 </div>
 </div>
 
@@ -151,10 +101,10 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 {include file=suggest-adnetwork.html}
 </div>
 </div>
-
-
-
 {*<!-- /Find other networks -->*}
+
+
+
 <div class="section">
 <div class="title">
 <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;Overall

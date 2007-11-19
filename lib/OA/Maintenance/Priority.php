@@ -65,6 +65,7 @@ class OA_Maintenance_Priority
             }
             OA::debug();
         }
+
         // Log the start of the process
         OA::debug('Running Maintenance Priority Engine', PEAR_LOG_INFO);
         // Set longer time out, and ignore user abort
@@ -97,6 +98,7 @@ class OA_Maintenance_Priority
         if ($result === false) {
             return false;
         }
+
         // Release the MPE database-level lock
         $result = $oDal->releasePriorityLock();
         if (PEAR::isError($result)) {

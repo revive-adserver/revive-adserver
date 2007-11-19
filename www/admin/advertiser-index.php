@@ -34,6 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
@@ -231,7 +232,7 @@ for ($i = 0; $i < 3; $i++) {
 foreach (array_keys($clients) as $clientid) {
     $client = &$clients[$clientid];
 
-    $isOac = empty($client['oac_adnetwork_id']) ? 0 : 1;
+    $isOac = empty($client['an_adnetwork_id']) ? 0 : 1;
 
     $aCount[$isOac]['advertisers']++;
     foreach (array_keys($client['campaigns']) as $campaignid) {
@@ -249,9 +250,10 @@ foreach (array_keys($clients) as $clientid) {
             }
         }
 
-        if ($hideinactive && ($campaign['active'] != 't' || !count($campaign['banners']))) {
+        if ($hideinactive && ($campaign['status'] != OA_ENTITY_STATUS_RUNNING || !count($campaign['banners']))) {
             $aCount[$isOac]['banners_active'] -= count($campaign['banners']);
             unset($client['campaigns'][$campaignid]);
+            $aCount[$isOac]['an_hidden']++;
         } else {
             $aCount[$isOac]['campaigns_active']++;
         }

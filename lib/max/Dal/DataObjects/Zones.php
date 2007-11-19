@@ -66,6 +66,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
     var $capping;                         // int(11)  not_null
     var $session_capping;                 // int(11)  not_null
     var $what;                            // blob(65535)  not_null blob
+    var $as_zone_id;                      // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

@@ -36,10 +36,13 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 // Register input variables
 phpAds_registerGlobal ('returnurl');
 
+// Initialise Ad  Networks
+$oAdNetworks = new OA_Central_AdNetworks();
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
@@ -53,6 +56,17 @@ if (!empty($affiliateid))
 {
 	$doAffiliates = OA_Dal::factoryDO('affiliates');
 	$doAffiliates->affiliateid = $affiliateid;
+	
+    // User unsubscribed from adnetworks
+    $doAffiliates->get($affiliateid);
+    $oacWebsiteId = ($doAffiliates->an_website_id) ? $doAffiliates->an_website_id : $doAffiliates->as_website_id;
+    $aPublisher = array(
+        array(
+                'id'            => $affiliateid,
+                'an_website_id' => $oacWebsiteId,
+            )
+        );
+    $oAdNetworks->unsubscribeWebsites($aPublisher);
 	$doAffiliates->delete();
 }
 

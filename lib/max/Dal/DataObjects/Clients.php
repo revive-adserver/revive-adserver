@@ -57,7 +57,8 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $lb_reporting;                    // int(1)  not_null
-    var $oac_adnetwork_id;                // int(11)  
+    var $an_adnetwork_id;                 // int(11)  
+    var $as_advertiser_id;                // int(11)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

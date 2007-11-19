@@ -286,6 +286,77 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
     }
 
     /**
+     * A method to test the GetCampaignStatuses() method.
+     *
+     */
+    function testGetCampaignStatuses()
+    {
+        $this->_setUpAppVars();
+
+        $aCampaigns = array(
+             999 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1000 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1001 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1002 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1003 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1004 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_REJECTED),
+            1005 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+        );
+
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        foreach ($aCampaigns as $campaignId => $aStatuses) {
+            $doCampaign->an_campaign_id = $campaignId;
+            $doCampaign->status = $aStatuses[0];
+            $doCampaign->an_status = $aStatuses[1];
+            DataGenerator::generateOne(clone($doCampaign));
+        }
+
+        $aResponse = array(
+             999 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1000 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1001 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1002 => OA_ENTITY_ADNETWORKS_STATUS_APPROVAL,
+            1003 => OA_ENTITY_ADNETWORKS_STATUS_REJECTED,
+            1004 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+            1005 => OA_ENTITY_ADNETWORKS_STATUS_RUNNING,
+        );
+
+        $oResponse = new XML_RPC_Response(XML_RPC_encode($aResponse));
+
+        $oAdNetworks = $this->_newInstance();
+        $this->_mockSendReference($oAdNetworks, $oResponse);
+
+        $oAdNetworks->getCampaignStatuses();
+
+        $doCampaign = OA_Dal::factoryDO('campaigns');
+        $doCampaign->selectAdd();
+        $doCampaign->selectAdd('an_campaign_id');
+        $doCampaign->selectAdd('status');
+        $doCampaign->selectAdd('an_status');
+        $doCampaign->whereAdd('1 = 1');
+
+        $aResult = $doCampaign->getAll(array(), false, false);
+
+        foreach ($aResult as $aCampaign) {
+            $aCampaigns[$aCampaign['an_campaign_id']] = array($aCampaign['status'], $aCampaign['an_status']);
+        }
+
+        $aExpected = array(
+             999 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1000 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1001 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1002 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_APPROVAL),
+            1003 => array(OA_ENTITY_STATUS_PENDING, OA_ENTITY_ADNETWORKS_STATUS_REJECTED),
+            1004 => array(OA_ENTITY_STATUS_RUNNING, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+            1005 => array(OA_ENTITY_STATUS_PAUSED, OA_ENTITY_ADNETWORKS_STATUS_RUNNING),
+        );
+
+        $this->assertEqual($aCampaigns, $aExpected);
+
+        DataGenerator::cleanUp($this->aCleanupTables);
+    }
+
+    /**
      * A method to test the unsubscribeWebsites() method
      * Note: Using the data inserted by the above test
      */
@@ -344,7 +415,6 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
             $doZones->affiliateid = $aWebsite['id'];
             $doAza->joinAdd($doZones);
             $this->assertEqual($doAza->count(), 0);
-
         }
         DataGenerator::cleanUp($this->aCleanupTables);
     }
@@ -379,7 +449,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
         $this->_mockSendReference($oAdNetworks, $oResponse);
 
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->oac_banner_id = 1000;
+        $doBanners->an_banner_id = 1000;
         $bannerId = DataGenerator::generateOne($doBanners);
         $this->assertTrue($bannerId);
 
@@ -535,6 +605,7 @@ class Test_OA_Central_AdNetworks extends UnitTestCase
                             'name'         => 'Campaign 1',
                             'weight'       => 1,
                             'capping'      => 0,
+                            'status'       => 0,
                             'banners'      => array(
                                 array(
                                     'banner_id' => 3000,
@@ -598,6 +669,7 @@ document.write ("\'><" + "/script>");
                             'name'        => 'Campaign 1',
                             'weight'      => 1,
                             'capping'     => 0,
+                            'status'      => 0,
                             'banners'     => array(
                                 array(
                                     'banner_id' => 3001,

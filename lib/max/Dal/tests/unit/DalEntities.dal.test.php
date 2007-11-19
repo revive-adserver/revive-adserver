@@ -186,7 +186,8 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 2
-        $placementId = 1;
+        $placementId = 0;
+
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $this->assertNull($aResult);
 
@@ -194,7 +195,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $oNow = new Date();
         $aData = array(
             'campaignid'=>$placementId,
-            'active'=>'t',
+            'status'=>1,
             'weight'=>1,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -202,9 +203,9 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $idBanner1 = $this->_insertBanner($aData);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
-            1 => array(
+            $idBanner1 => array(
                 'ad_id'  => $idBanner1,
-                'active' => 't',
+                'status' => 1,
                 'type'   => 'sql',
                 'weight' => 1
             )
@@ -214,7 +215,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         // Test 4
         $aData = array(
             'campaignid'=>$placementId,
-            'active'=>'f',
+            'status'=>0,
             'weight'=>5,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -222,7 +223,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
             'campaignid'=>$placementId+1,
-            'active'=>'t',
+            'status'=>1,
             'weight'=>2,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -230,15 +231,15 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $idBanner3 = $this->_insertBanner($aData);
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $aExpectedResult = array(
-            1 => array(
+            $idBanner1 => array(
                 'ad_id'  => $idBanner1,
-                'active' => 't',
+                'status' => 1,
                 'type'   => 'sql',
                 'weight' => 1
             ),
-            2 => array(
+            $idBanner2 => array(
                 'ad_id'  => $idBanner2,
-                'active' => 'f',
+                'status' => 0,
                 'type'   => 'sql',
                 'weight' => 5
             )

@@ -45,7 +45,7 @@ $Id$
 <br>
 <img src="images/break-el.gif" width="100%" height="1" vspace="8"><span class="install">
 Please add one or more sites where you wish to display advertising managed by Openads. <br/><br/>
-Here you can also choose whether you wish to sign up to Ad Networks. This will allow you to generate revenue immediately from Openads’ partner Networks. 
+Here you can also choose whether you wish to sign up to Ad Networks. This will allow you to generate revenue immediately from Openads’ partner Networks.
 In order to be approved by the Ad Networks you will need to provide the country and language of your site as well as choosing the relevant category which reflects its content.
           </span></td>
 </tr>
@@ -87,7 +87,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
 </div>
 <div class="line-nolabel">
 <input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks{$k}" value="{if $s.adnetworks}true{else}false{/if}" />
-<input type="checkbox" name="aAnCheckbox[]" id="adnetworks{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.adnetworks}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks1" class="cb"{if $s.adnetworks} checked="checked"{/if}>Sign up this site to Ad Networks</label>
+<input type="checkbox" name="aAnCheckbox[]" id="adnetworks{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.adnetworks}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks{$k}" class="cb"{if $s.adnetworks} checked="checked"{/if}>Sign up this site to Ad Networks</label>
 
 <span class="popup-help hide" style="width: 310px; height: 220px; margin-top: -210px; margin-left: 140px">
   <div class="close" style="text-align: right"><span class="link">Close</span></div>
@@ -119,7 +119,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
     </li>
 
     <li>
-      <b>How does Openads make money?</b> Openads makes its revenue by charging advertisers and Ad Networks a fee to seamlessly plug into Openads and use its services. We do not take any revenue from the publishers themselves. You will receive the same percentage share you would have done had you had a separate agreement with each Ad Network 
+      <b>How does Openads make money?</b> Openads makes its revenue by charging advertisers and Ad Networks a fee to seamlessly plug into Openads and use its services. We do not take any revenue from the publishers themselves. You will receive the same percentage share you would have done had you had a separate agreement with each Ad Network
     </li>
   </ol>
   </div>
@@ -128,13 +128,17 @@ In order to be approved by the Ad Networks you will need to provide the country 
 </div>
 <div class="line-nolabel">
   <!-- Probably you'll need to add a hidden field here, just as for the AdNetworks checkbox -->
-  <input type="checkbox" id="selfsignup{$k}" /><label for="selfsignup1" class="cb">Sign up for Advertiser self service and Payment</label>
-  
+
+<input type="hidden" name="aSelfSignup[]" id="hdn-selfsignup{$k}" value="{if $s.selfsignup}true{else}false{/if}" />
+<input type="checkbox" name="aSelfSignupCheckbox[]" id="selfsignup{$k}" {if !$syncEnabled}disabled="true"{/if} {if $s.selfsignup}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="selfsignup1" class="cb"{if $s.selfsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
+
+  <!--input type="checkbox" id="selfsignup{$k}" /><label for="selfsignup1" class="cb">Sign up for Advertiser self service and Payment</label-->
+
   <span class="popup-help hide">
     <div class="close" style="text-align: right"><span class="link">Close</span></div>
     Explanation text Explanation text Explanation text Explanation text Explanation text
   </span>
-  
+
   <span class="link popup-help-link selfsignup-help">(what's this?)</span>
 </div>
 </div>
@@ -205,6 +209,7 @@ In order to be approved by the Ad Networks you will need to provide the country 
 <div class="line-nolabel">
 <input type="hidden" name="aAdnetworks[]" id="hdn-adnetworks" value="false">
 <input type="checkbox" name="aAnCheckbox[]" id="adnetworks" {if !$syncEnabled}disabled="true"{else}checked="checked"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="adnetworks" class="cb">Sign up this site to Ad Networks</label>
+<span class="link popup-help-link adnetworks-help">(what's this?)</span>
 
 <span class="popup-help hide" style="width: 310px; height: 220px; margin-top: -210px; margin-left: 140px">
   <div class="close" style="text-align: right"><span class="link">Close</span></div>
@@ -236,11 +241,15 @@ In order to be approved by the Ad Networks you will need to provide the country 
     </li>
 
     <li>
-      <b>How does Openads make money?</b> Openads makes its revenue by charging advertisers and Ad Networks a fee to seamlessly plug into Openads and use its services. We do not take any revenue from the publishers themselves. You will receive the same percentage share you would have done had you had a separate agreement with each Ad Network 
+      <b>How does Openads make money?</b> Openads makes its revenue by charging advertisers and Ad Networks a fee to seamlessly plug into Openads and use its services. We do not take any revenue from the publishers themselves. You will receive the same percentage share you would have done had you had a separate agreement with each Ad Network
     </li>
   </ol>
   </div>
 </span>
+<br />
+<input type="hidden" name="aSelfSignup[]" id="hdn-selfsignup" value="false">
+<input type="checkbox" name="aSelfSignupCheckbox[]" id="selfsignup" {if !$syncEnabled}disabled="true"{/if} onclick="$('#hdn-'+this.id).get(0).value = this.checked; return true"><label for="selfsignup" class="cb"{if $s.selfsignup} checked="checked"{/if}>Sign up for Advertiser self service and Payment</label>
+
 <span class="link popup-help-link adnetworks-help">(what's this?)</span>
 </div>
 </div>

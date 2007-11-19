@@ -120,15 +120,13 @@ $Id$
         {/if}
         </td>
         <td height="25" class="cntr">
-            <span class="view">{if $affiliate.oac_adnetworks == 'yes'}{t str=Yes}{else}{t str=No}{/if} / No</span>
+            <span class="view">{if $affiliate.oac_adnetworks == 'yes'}{t str=Yes}{else}{t str=No}{/if} / {if $affiliate.oac_advertisersignup == 'yes'}{t str=Yes}{else}{t str=No}{/if}</span>
             <span class="edit">
                 <input type="checkbox" name="adnetworks" class="adn-cb line-cb" id="adnetworks{$affiliate.affiliateid|escape}" value="t"
                     {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes' && $oacEnabled} checked="checked"{/if}
                     {if !$oacEnabled}disabled="disabled"{/if}> /
-                <input type="checkbox" class="ss-cb line-cb" name="selfsignup" id="selfsignup{$affiliate.affiliateid|escape}" />
-                <!-- Add logic for the Advertiser self signup checkbox above -->
-                {if $affiliate.oac_adnetworks == 'yes'}<input type="hidden" name="advsignup" value="1">{/if}
-                <!-- A similar hidden field as above may be needed for the Advertiser self signup checkbox -->
+                <input type="checkbox" class="ss-cb line-cb" name="selfsignup" id="selfsignup{$affiliate.affiliateid|escape}" value="t"
+                    {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_advertisersignup == 'yes'} checked="checked"{/if}>
             </span>
         </td>
         <td height="25">

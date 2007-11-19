@@ -245,7 +245,7 @@ class Admin_DA
 
         case 'placement' : $aLeftJoinedTables[$conf['table']['prefix'].$conf['table']['banners']] = 'd';
             $aGroupBy = $aColumns;
-            $aGroupBy['m.active'] = 'm.active'; // Hack to allow this to work with Postgres
+            $aGroupBy['m.status'] = 'm.status'; // Hack to allow this to work with Postgres
             $aColumns['COUNT(d.bannerid)'] = 'num_children';
             break;
 

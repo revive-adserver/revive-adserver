@@ -160,6 +160,8 @@ class OA_Central_RpcMapper
      * @see R-AN-4: Creation of the Ad Networks Entities
      * @see R-AN-5: Generation of Campaigns and Banners
      *
+     * R2: Introduced {@see OA_Dll status} field for campaigns
+     *
      * The $aWebsites array format is:
      *
      * Array
@@ -214,6 +216,7 @@ class OA_Central_RpcMapper
      *                                     [block] => 0
      *                                     [capping] => 0
      *                                     [session_capping] => 0
+     *                                     [status] => 0
      *                                     [banners] => Array
      *                                         (
      *                                             [0] => Array
@@ -265,6 +268,7 @@ class OA_Central_RpcMapper
      *                                     [block] => 0
      *                                     [capping] => 0
      *                                     [session_capping] => 0
+     *                                     [status] => 2
      *                                     [banners] => Array
      *                                         (
      *                                             [0] => Array
@@ -314,6 +318,29 @@ class OA_Central_RpcMapper
         return $this->oRpc->callNoAuth('unsubscribeWebsites', array(
             XML_RPC_encode($aWebsiteIds)
         ));
+    }
+
+    /**
+     * A method to get updates about subscribed websites
+     *
+     * @see C-AN-2 Website application status
+     *
+     * The returned array format is:
+     *
+     * Array
+     * (
+     *      [10872] => 0
+     *      [10873] => 0
+     *      [10874] => 1
+     *      [10875] => 1
+     * )
+     *
+     * @return mixed The array of campaigns with their statuses, PEAR_Error otherwise
+     *               Key is the OAC campaign Id, value is the {@see OA_Dll remote status}
+     */
+    function getCampaignStatuses()
+    {
+        return $this->oRpc->callNoAuth('getCampaignStatuses');
     }
 
     /**

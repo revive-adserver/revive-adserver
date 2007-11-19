@@ -122,7 +122,7 @@ $Id$
                   'm.clientid' => 'advertiser_id',
                   'm.campaignid' => 'placement_id',
                   'm.campaignname' => 'name',
-                  'm.active' => 'active',
+                  'm.status' => 'active',
                   'm.views' => 'views',
                   'm.clicks' => 'clicks',
                   'm.conversions' => 'conversions',

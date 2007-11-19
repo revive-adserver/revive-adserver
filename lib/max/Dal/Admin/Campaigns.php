@@ -28,6 +28,7 @@ $Id$
 require_once MAX_PATH . '/lib/max/Dal/Common.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
 
@@ -451,15 +452,16 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 campaignid,
                 clientid,
                 campaignname,
-                oac_campaign_id,
-                active
+                an_campaign_id,
+                status,
+                an_status
             FROM
                 {$tableM} " .
             $this->getSqlListOrder($listorder, $orderdirection)
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'oac_campaign_id', 'active'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'an_campaign_id', 'status', 'an_status'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }
@@ -482,7 +484,8 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
                 m.campaignid as campaignid,
                 m.clientid as clientid,
                 m.campaignname as campaignname,
-                m.active as active
+                m.status as active,
+                m.an_status as an_status
             FROM
                 {$tableM} AS m,
                 {$tableC} AS c
@@ -493,7 +496,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         ;
 
         $rsCampaigns = DBC::NewRecordSet($query);
-        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'active'));
+        $aCampaigns = $rsCampaigns->getAll(array('campaignid', 'clientid', 'campaignname', 'status', 'an_status'));
         $aCampaigns = $this->_rekeyCampaignsArray($aCampaigns);
         return $aCampaigns;
     }
@@ -505,7 +508,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
         $tableM = $oDbh->quoteIdentifier($this->getTablePrefix().'campaigns',true);
 
         $query_active_campaigns = "SELECT count(*) AS count".
-            " FROM ".$tableM." WHERE active='t'";
+            " FROM ".$tableM." WHERE status=".OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_campaigns);
     }
 
@@ -526,7 +529,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
             ",".$tableC." AS c".
             " WHERE m.clientid=c.clientid".
             " AND c.agencyid=". DBC::makeLiteral($agency_id) .
-            " AND m.active='t'";
+            " AND m.status=".OA_ENTITY_STATUS_RUNNING;
         return $this->oDbh->queryOne($query_active_campaigns);
     }
 

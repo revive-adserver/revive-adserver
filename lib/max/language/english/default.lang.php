@@ -378,6 +378,26 @@ $GLOBALS['strTargetPerDay']                = "per day.";
 $GLOBALS['strPriorityAutoTargeting']    = "Automatic - Distribute the remaining inventory evenly over the remaining number of days.";
 $GLOBALS['strCampaignWarningNoWeight']     = "The priority of this campaign has been set to low, \nbut the weight is set to zero or it has not been \nspecified. This will cause the campaign to be \ndeactivated and its banners won't be delivered \nuntil the weight has been set to a valid number. \n\nAre you sure you want to continue?";
 $GLOBALS['strCampaignWarningNoTarget']     = "The priority of this campaign has been set to high, \nbut the target number of Impressions are not specified. \nThis will cause the campaign to be deactivated and \nits banners won't be delivered until a valid target \nnumber of Impressions has been set. \n\nAre you sure you want to continue?";
+$GLOBALS['strCampaignStatusRunning']       = "Running";
+$GLOBALS['strCampaignStatusPaused']        = "Paused";
+$GLOBALS['strCampaignStatusAwaiting']      = "Not started yet";
+$GLOBALS['strCampaignStatusExpired']       = "Finished";
+$GLOBALS['strCampaignStatusApproval']      = "Awaiting approval &raquo;";
+$GLOBALS['strCampaignStatusRejected']      = "Rejected";
+$GLOBALS['strCampaignApprove']             = "Approve";
+$GLOBALS['strCampaignApproveDescription']  = "accept this campaign";
+$GLOBALS['strCampaignReject']              = "Reject";
+$GLOBALS['strCampaignRejectDescription']   = "reject this campaign";
+$GLOBALS['strCampaignPause']               = "Pause";
+$GLOBALS['strCampaignPauseDescription']    = "pause this campaign temporarily";
+$GLOBALS['strCampaignRestart']             = "Restart";
+$GLOBALS['strCampaignRestartDescription']  = "restart this campaign";
+$GLOBALS['strCampaignStatus']              = "Campaign status";
+$GLOBALS['strReasonForRejection']          = "Reason for rejection";
+$GLOBALS['strReasonSiteNotLive']           = "Site not live";
+$GLOBALS['strReasonBadCreative']           = "Inappropriate creative";
+$GLOBALS['strReasonBadUrl']                = "Inappropriate destination url";
+$GLOBALS['strReasonBreakTerms']            = "Website againts terms and conditions";
 
 // Tracker
 $GLOBALS['strTracker']                    = "Tracker";

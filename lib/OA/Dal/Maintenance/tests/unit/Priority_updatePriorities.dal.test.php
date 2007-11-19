@@ -379,7 +379,7 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $doCampaigns->conversions = 401;
         $doCampaigns->expire = OA_Dal::noDateString();
         $doCampaigns->activate = OA_Dal::noDateString();
-        $doCampaigns->active = 't';
+        $doCampaigns->active = 1;
         $doCampaigns->priority = '4';
         $doCampaigns->weight = 2;
         $doCampaigns->target_impression = 0;
@@ -390,7 +390,7 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         // Add a banner
         $doBanners   = OA_Dal::factoryDO('banners');
         $doBanners->campaignid=$this->aIds['campaign'];
-        $doBanners->active = 't';
+        $doBanners->active = 1;
         $doBanners->contenttype = 'txt';
         $doBanners->pluginversion = 0;
         $doBanners->storagetype = 'txt';

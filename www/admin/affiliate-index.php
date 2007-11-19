@@ -44,7 +44,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection',
-                               'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'formId');
+                               'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'selfsignup', 'formId');
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
@@ -71,6 +71,7 @@ if (!empty($formId)) {
     $oPublisher->oacLanguageId  = $language;
     $oPublisher->website        = 'http://' . $url;
     $oPublisher->adNetworks     = ($adnetworks == 't') ? true : false;
+    $oPublisher->selfSignup     = ($selfsignup == 't') ? true : false;
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher)) {
         if ($formId == 'add_new_publisher_form') {
@@ -131,7 +132,7 @@ if (MAX_Admin_Preferences::checkBool('updates_enabled', true) && MAX_Permission:
     $aSelectCountries  = $oAdNetworks->getCountriesSelect();
     $aLanguages        = $oAdNetworks->getLanguages();
     $aSelectLanguages  = $oAdNetworks->getLanguagesSelect();
-    
+
     $oTpl->assign('oacEnabled', true);
     $oTpl->assign('categories', $aSelectCategories);
     $oTpl->assign('countries',  $aSelectCountries);
@@ -159,7 +160,8 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
 	$affiliates[$row_affiliates['affiliateid']]['count'] = 0;
 
     $affiliates[$row_affiliates['affiliateid']]['website'] = preg_replace('#^https?://#', '', $row_affiliates['website']);
-    $affiliates[$row_affiliates['affiliateid']]['oac_adnetworks'] = !empty($row_affiliates['oac_website_id']) ? 'yes' : 'no';
+    $affiliates[$row_affiliates['affiliateid']]['oac_adnetworks'] = !empty($row_affiliates['an_website_id']) ? 'yes' : 'no';
+    $affiliates[$row_affiliates['affiliateid']]['oac_advertisersignup'] = !empty($row_affiliates['as_website_id']) ? 'yes' : 'no';
 
     if (!empty($row_affiliates['oac_country_code']) && isset($aCountries[$row_affiliates['oac_country_code']])) {
         $affiliates[$row_affiliates['affiliateid']]['oac_country'] = $aCountries[$row_affiliates['oac_country_code']];
@@ -179,7 +181,6 @@ while ($doAffiliates->fetch() && $row_affiliates = $doAffiliates->toArray())
         $row_affiliates['edit']['oac_adnetworks']   = isset($adnetworks) ? 'yes' : 'no';
     }
 }
-
 $newAffiliate = array();
 
 if (isset($aError['id']) || !empty($oPublisherDll->_errorMessage)) {

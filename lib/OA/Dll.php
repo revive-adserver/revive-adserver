@@ -31,12 +31,33 @@ $Id:$
  *
  */
 
+
 // Required permission class
 require_once MAX_PATH . '/lib/max/Permission.php';
 
 // Required parent class
 require_once MAX_PATH . '/lib/OA/BaseObjectWithErrors.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+
+
+// Standard statuses
+define('OA_ENTITY_STATUS_RUNNING',                0);
+define('OA_ENTITY_STATUS_PAUSED',                 1);
+define('OA_ENTITY_STATUS_AWAITING',               2);
+define('OA_ENTITY_STATUS_EXPIRED',                3);
+
+// Special status which has always to be used when the entity is inactive for a remote reason
+define('OA_ENTITY_STATUS_PENDING',               -1);
+
+// Advertiser signup statuses
+define('OA_ENTITY_STATUS_APPROVAL',              21);
+define('OA_ENTITY_STATUS_REJECTED',              22);
+
+// Adnetworks statuses, used for the an_status field
+define('OA_ENTITY_ADNETWORKS_STATUS_RUNNING',     0);
+define('OA_ENTITY_ADNETWORKS_STATUS_APPROVAL',    1);
+define('OA_ENTITY_ADNETWORKS_STATUS_REJECTED',    2);
+
 
 /**
  *
@@ -45,7 +66,6 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  */
 class OA_Dll extends OA_BaseObjectWithErrors
 {
-
     /**
      * Email Address Validation.
      *
@@ -368,7 +388,6 @@ class OA_Dll extends OA_BaseObjectWithErrors
             return true;
         }
     }
-
 }
 
 ?>

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| Openads v${RELEASE_MAJOR_MINOR}                                           |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -33,6 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
@@ -66,6 +67,7 @@ phpAds_registerGlobalUnslashed(
     ,'revenue'
     ,'revenue_type'
     ,'submit'
+    ,'submit_status'
     ,'target_old'
     ,'target_type_old'
     ,'target_value'
@@ -77,6 +79,8 @@ phpAds_registerGlobalUnslashed(
     ,'weight_old'
     ,'weight'
     ,'clientid'
+    ,'status'
+    ,'an_status'
     ,'previousimpressions'
     ,'previousconversions'
     ,'previousclicks'
@@ -177,23 +181,24 @@ if (isset($submit)) {
             $target_click      = 0;
             $target_conversion = 0;
         }
-        $active = "t";
+        $active = OA_ENTITY_STATUS_RUNNING;
         if ($impressions == 0 || $clicks == 0 || $conversions == 0) {
-            $active = "f";
+            $status = OA_ENTITY_STATUS_PAUSED;
         }
         if ($activateDay != '-' && $activateMonth != '-' && $activateYear != '-') {
             if (time() < mktime(0, 0, 0, $activateMonth, $activateDay, $activateYear)) {
-                $active = "f";
+                $status = OA_ENTITY_STATUS_AWAITING;
             }
         }
         if ($expireDay != '-' && $expireMonth != '-' && $expireYear != '-') {
             if (time() > mktime(23, 59, 59, $expireMonth, $expireDay, $expireYear)) {
-                $active = "f";
+                $status = OA_ENTITY_STATUS_EXPIRED;
             }
         }
+
         // Set campaign inactive if weight and target are both null and autotargeting is disabled
-        if ($active == 't' && !(($target_impression > 0 || $target_click > 0 || $target_conversion > 0) || $weight > 0 || (OA_Dal::isValidDate($expire) && ($impressions > 0 || $clicks > 0 || $conversions > 0)))) {
-            $active = 'f';
+        if ($status == OA_ENTITY_STATUS_RUNNING && !(($target_impression > 0 || $target_click > 0 || $target_conversion > 0) || $weight > 0 || (OA_Dal::isValidDate($expire) && ($impressions > 0 || $clicks > 0 || $conversions > 0)))) {
+            $status = OA_ENTITY_STATUS_PAUSED;
         }
         if ($anonymous != 't') {
             $anonymous = 'f';
@@ -220,7 +225,7 @@ if (isset($submit)) {
         $doCampaigns->conversions = $conversions;
         $doCampaigns->expire = $expire;
         $doCampaigns->activate = $activate;
-        $doCampaigns->active = $active;
+        $doCampaigns->status = $status;
         $doCampaigns->priority = $priority;
         $doCampaigns->weight = $weight;
         $doCampaigns->target_impression = $target_impression;
@@ -264,7 +269,7 @@ if (isset($submit)) {
                 // Run the Maintenance Priority Engine process
                 OA_Maintenance_Priority::scheduleRun();
                 break;
-            case ($active == 't'):
+            case ($active == OA_ENTITY_STATUS_RUNNING):
                 if ((!empty($target_type_variable) && ${$target_type_variable} != $target_old)
                     || (!empty($target_type) && $target_type_old != $target_type)
                     || $weight != $weight_old
@@ -293,6 +298,15 @@ if (isset($submit)) {
 
         MAX_Admin_Redirect::redirect("campaign-zone.php?clientid=$clientid&campaignid=$campaignid");
     }
+}
+
+if (isset($submit_status)) {
+        $doCampaigns = OA_Dal::factoryDO('campaigns');
+        $doCampaigns->campaignid = $campaignid;
+        $doCampaigns->status     = $status;
+        $doCampaigns->update();
+        
+        MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid&campaignid=$campaignid");
 }
 
 /*-------------------------------------------------------*/
@@ -382,7 +396,9 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
         $row['expire_month']        = $oExpireDate->format('%m');
         $row['expire_year']         = $oExpireDate->format('%Y');
     }
-    $row['active']              = $data['active'];
+    $row['status']              = $doCampaigns->status;
+    $row['an_status']              = $doCampaigns->an_status;
+
     if (OA_Dal::isValidDate($data['activate'])) {
         $oActivateDate              = new Date($data['activate']);
         $row['activate_f']          = $oActivateDate->format($date_format);
@@ -497,7 +513,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     $row["impressions"] = '';
     $row["clicks"]         = '';
     $row["conversions"] = '';
-    $row["active"]         = '';
+    $row["status"]         = '';
     $row["expire"]         = '';
     $row["priority"]    = 0;
     $row["anonymous"]    = ($pref['gui_campaign_anonymous'] == 't') ? 't' : '';
@@ -529,7 +545,7 @@ if (!isset($row['conversions']) || (isset($row['conversions']) && $row['conversi
 if (!isset($row['priority']) || (isset($row['priority']) && $row['priority'] == ""))
     $row["priority"] = 5;
 
-if ($row['active'] == 't' && OA_Dal::isValidDate($row['expire']) && $row['impressions'] > 0)
+if ($row['status'] == OA_ENTITY_STATUS_RUNNING && OA_Dal::isValidDate($row['expire']) && $row['impressions'] > 0)
     $delivery = 'auto';
 elseif ($row['target'] > 0)
     $delivery = 'manual';
@@ -577,6 +593,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
 
         echo "<select name='" . $day_id. "' id='" . $day_id . "' onchange=\"phpAds_formDateCheck('".$name."');\" tabindex='".($tabindex++)."'>\n";
         echo "<option value='-'".($day=='-' ? ' selected' : '').">-</option>\n";
+
         for ($i=1;$i<=31;$i++)
             echo "<option value='$i'".($day==$i ? ' selected' : '').">$i</option>\n";
         echo "</select>&nbsp;\n";
@@ -597,6 +614,7 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
         for ($i=$start;$i<=($start+4);$i++)
             echo "<option value='$i'".($year==$i ? ' selected' : '').">$i</option>\n";
         echo "</select>\n";
+
         if ($name == 'activate') {
             echo "&nbsp;" . $strActivationDateComment;
         } elseif ($name == 'expire') {
@@ -617,6 +635,51 @@ function phpAds_showDateEdit($name, $day=0, $month=0, $year=0, $edit=true)
     }
 }
 
+function phpAds_showStatusText($status, $an_status = 0) {
+    global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
+           $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected;
+
+        switch ($status) {
+        	case OA_ENTITY_STATUS_PENDING:
+        	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_APPROVAL) {
+            	    $class = 'sts sts-awaiting';
+            	    $text  = $strCampaignStatusApproval;
+        	    }
+        	    
+        	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
+            	    $class = 'sts sts-rejected';
+            	    $text  = $strCampaignStatusRejected;
+        	    }
+        		break;
+                	case OA_ENTITY_STATUS_RUNNING:
+                	    $class = 'sts sts-accepted';
+                	    $text  = $strCampaignStatusRunning;
+                		break;
+                	case OA_ENTITY_STATUS_PAUSED:
+                	    $class = 'sts sts-paused';
+                	    $text  = $strCampaignStatusPaused;
+                		break;
+                	case OA_ENTITY_STATUS_AWAITING:
+                	    $class = 'sts not-started';
+                	    $text  = $strCampaignStatusAwaiting;
+                		break;
+                	case OA_ENTITY_STATUS_EXPIRED:
+                	    $class = 'sts sts-finished';
+                	    $text  = $strCampaignStatusExpired;
+                		break;
+                	case OA_ENTITY_STATUS_APPROVAL:
+                	    $class = 'sts sts-awaiting';
+                	    $text  = $strCampaignStatusApproval;
+                		break;
+                	case OA_ENTITY_STATUS_REJECTED:
+                	    $class = 'sts sts-rejected';
+                	    $text  = $strCampaignStatusRejected;
+                		break;
+                }
+
+                echo '<span class="'.$class.'">' . $text . '</span>';
+}
+
 $tabindex = 1;
 
 echo "<br /><br />";
@@ -628,7 +691,11 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tbody>
         <tr>
-            <td height="25" colspan="3"><b>Campaign status</b> - <span class="sts-awaiting">Awaiting approval</span></td>
+            <td height="25" colspan="3"><b><?php echo $strCampaignStatus; ?></b> - 
+        <?php
+            phpAds_showStatusText($row['status'], $row['an_status']);
+        ?>
+            </td>
         </tr>
         <tr class="break" >
             <td colspan="3"></td>
@@ -638,25 +705,43 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
         </tr>
         
         <tr>
-            <td width="30"> </td>
-            <td width="200" valign="top">Status</td>
+            <td width="30">&nbsp;</td>
+            <td width="200" valign="top"><?php echo $strStatus; ?></td>
             <td>
                 <table>
-                <tbody><tr>
-                    <td><input type="radio" {tabindex}  value="approve" name="status" id="sts_approve"/></td>
-                    <td><label for="sts_approve">Approve</label></td>
-                    <td><label for="sts_approve">- accept this campaign</label></td>
+                <tbody>
+                <?php
+                    if ($row['status'] == OA_ENTITY_STATUS_APPROVAL) {
+                ?>
+                <tr>
+                    <td><input type="radio" value="0" name="status" id="sts_approve" /></td>
+                    <td><label for="sts_approve"><?php echo $strCampaignApprove; ?></label></td>
+                    <td><label for="sts_approve"> - <?php echo $strCampaignApproveDescription; ?></label></td>
                 </tr>
                 <tr>
-                    <td><input type="radio" {tabindex}  value="reject" name="status" id="sts_reject"/></td>
-                    <td><label for="sts_reject">Reject</label></td>
-                    <td><label for="sts_reject">- reject this campaign</label>
-                    </td>
+                    <td><input type="radio" value="22" name="status" id="sts_reject" /></td>
+                    <td><label for="sts_reject"><?php echo $strCampaignReject; ?></label></td>
+                    <td><label for="sts_reject"> - <?php echo $strCampaignRejectDescription; ?></label></td>
                 </tr>
-                    <td><input type="radio" {tabindex}  value="pause" name="status" id="sts_pause"/></td>
-                    <td><label for="sts_pause">Pause</label></td>
-                    <td><label for="sts_pause">- pause this campaign temporarily</label></td>
+                <?php
+                    } elseif ($row['status'] == OA_ENTITY_STATUS_RUNNING) {
+                ?>
+                <tr>
+                    <td><input type="radio" value="1" name="status" id="sts_pause" /></td>
+                    <td><label for="sts_pause"><?php echo $strCampaignPause; ?></label></td>
+                    <td><label for="sts_pause"> - <?php echo $strCampaignPauseDescription; ?></label></td>
                 </tr>
+                <?php
+                    } elseif ($row['status'] == OA_ENTITY_STATUS_PAUSED) {
+                ?>
+                <tr>
+                    <td><input type="radio" value="0" name="status" id="sts_restart" /></td>
+                    <td><label for="sts_pause"><?php echo $strCampaignRestart; ?></label></td>
+                    <td><label for="sts_pause"> - <?php echo $strCampaignRestartDescription; ?></label></td>
+                </tr>
+                <?php
+                    }
+                ?>
                 </tbody>
                 </table>
             </td>
@@ -678,20 +763,20 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
         
         <tr id="rsn_row2">
             <td width="30"></td>
-            <td width="200" valign="top">Reason for rejection</td>
+            <td width="200" valign="top"><?php echo $strReasonForRejection; ?></td>
             <td>
                 <select name="sts_reject_rsn">
-                    <option value="rsn_not_live">Site not live</option>
-                    <option value="rsn_bad_creative">Inappropriate creative</option>
-                    <option value="rsn_bad_url">Inappropriate destination url</option>
-                    <option value="rsn_break_terms">Website againts terms and conditions</option>
+                    <option value="rsn_not_live"><?php echo $strReasonSiteNotLive; ?></option>
+                    <option value="rsn_bad_creative"><?php echo $strReasonBadCreative; ?></option>
+                    <option value="rsn_bad_url"><?php echo $strReasonBadUrl; ?></option>
+                    <option value="rsn_break_terms"><?php echo $strReasonBreakTerms; ?></option>
                 </select>
             </td>  
         </tr>        
         
         <tr>
             <td height="10" colspan="3">
-            </td>both;"
+            </td>
         </tr>
         <tr class="break" >
             <td colspan="3"></td>
@@ -699,13 +784,11 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
      </tbody>
 </table>
 <div style="width:100%;text-align:left;padding: 15px 0px 0px 0px;margin-bottom: 50px;">
-<input value="Change status" type="submit" {tabindex}>
+<input value="Change status" name='submit_status' type="submit" {tabindex}>
 </div>
 
 <?php
 echo "</form>";
-
-
 echo "<form name='clientform' method='post' action='campaign-edit.php' onSubmit='return (max_formValidate(this) && phpAds_priorityCheck(this) && phpAds_activeRangeCheck(this));'>"."\n";
 echo "<input type='hidden' name='campaignid' value='".(isset($campaignid) ? $campaignid : '')."'>"."\n";
 echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clientid : '')."'>"."\n";
@@ -889,8 +972,6 @@ echo "</tr>"."\n";
     <td width="200" valign="top">Total revenue</td>
     <td>REVENUE VALUE GOES HERE</td>  
 </tr>        
-
-
 <?php
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strPriorityInformation."</b></td></tr>"."\n";

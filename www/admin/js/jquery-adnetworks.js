@@ -269,7 +269,7 @@ function checkAddSiteEnabled()
 {
   var enabled = true;
   $("#sites .site-url").each(function(i) {
-    if ($.trim(this.value).length == 0)
+    if ($.trim(this.value).length == 0 && this.id != 'url')
     {
       enabled = false;
     }
@@ -320,7 +320,7 @@ function isCaptchaRequired()
   var signupRequested = false;
 
   $(":checkbox[id^=adnetworks], :checkbox[id^=selfsignup]", form).each(function() {
-    if (this.checked) {
+    if (this.id != 'adnetworks' && this.id != 'selfsignup' && this.checked) {
       signupRequested = true;
       return false;
     }
@@ -494,15 +494,16 @@ function initRejectedOARows()
 function initCampaignStatus()
 {
     var statusRows = $("[@id^='rsn_row']");
+    statusRows.hide();
     
-    if ($("#sts_reject").get(0).checked == false ) {
-        statusRows.hide();
+    if ($("#sts_reject").get(0).checked == true ) {
+        statusRows.show();
     }
     
     
     
-    $("input[name='status']").change(function(){
-        if (this.value == "reject") {
+    $("input[name='status']").click(function(){
+        if (this.value == "22") {
             statusRows.show();    
         }
         else {

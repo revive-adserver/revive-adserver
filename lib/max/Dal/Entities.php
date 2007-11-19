@@ -61,7 +61,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
      *                  array(
      *                      1 => array(
      *                          'ad_id'  => 1
-     *                          'active' => 't',
+     *                          'status' => 't',
      *                          'type'   => 'sql',
      *                          'weight' => 1
      *                      )
@@ -82,7 +82,7 @@ class MAX_Dal_Entities extends MAX_Dal_Common
         $query = "
             SELECT
                 bannerid AS ad_id,
-                active AS active,
+                status AS status,
                 storagetype AS type,
                 weight AS weight
             FROM

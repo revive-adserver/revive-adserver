@@ -40,6 +40,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
@@ -154,6 +155,16 @@ if (isset($submit))
         $doZones->zoneid = $zoneid;
         $doZones->update();
 
+        // Ad  Networks
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doPublisher->get($affiliateid);
+        $anWebsiteId = ($doPublishers->an_website_id) ? 
+                        $doPublishers->an_website_id : $doPublishers->as_website_id;
+        if ($anWebsiteId) {
+        	$oAdNetworks = new OA_Central_AdNetworks();
+			$oAdNetworks->updateZone($doZones, $anWebsiteId);
+        }
+        
         // Reset append codes which called this zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->appendtype = phpAds_ZoneAppendZone;
@@ -255,6 +266,14 @@ if (isset($submit))
         $doZones->append = '';
 
         $zoneid = $doZones->insert();
+
+        // Ad  Networks
+        $doPublisher = OA_Dal::factoryDO('affiliates');
+        $doPublisher->get($affiliateid);
+        if ($doPublisher->an_website_id) {
+        	$oAdNetworks = new OA_Central_AdNetworks();
+			$oAdNetworks->updateZone($doZones, $doPublisher->an_website_id);
+        }
     }
 
     if (phpAds_isUser(phpAds_Affiliate)) {

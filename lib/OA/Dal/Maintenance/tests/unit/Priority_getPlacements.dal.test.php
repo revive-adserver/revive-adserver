@@ -87,7 +87,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $this->assertTrue(array_key_exists('advertiser_id', $campaign));
         $this->assertTrue(array_key_exists('placement_id', $campaign));
         $this->assertTrue(array_key_exists('name', $campaign));
-        $this->assertTrue(array_key_exists('active', $campaign));
+        $this->assertTrue(array_key_exists('status', $campaign));
         $this->assertTrue(array_key_exists('num_children', $campaign));
 
         // Test 3 getPlacementStats method.
@@ -97,7 +97,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $this->assertTrue(array_key_exists('advertiser_id', $ret));
         $this->assertTrue(array_key_exists('placement_id', $ret));
         $this->assertTrue(array_key_exists('name', $ret));
-        $this->assertTrue(array_key_exists('active', $ret));
+        $this->assertTrue(array_key_exists('status', $ret));
         $this->assertTrue(array_key_exists('num_children', $ret));
         $this->assertTrue(array_key_exists('sum_requests', $ret));
         $this->assertTrue(array_key_exists('sum_views', $ret));
@@ -129,7 +129,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
 
         $doBanners   = OA_Dal::factoryDO('banners');
         // default values
-        $doBanners->active = 't';
+        $doBanners->active = 1;
         $doBanners->contenttype = 'gif';
         $doBanners->pluginversion = 0;
         $doBanners->storagetype = 'sql';
@@ -169,7 +169,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->conversions = 0;
         $doCampaigns->expire = $expiryDate1;
         $doCampaigns->activate = OA_Dal::noDateString();
-        $doCampaigns->active = 't';
+        $doCampaigns->active = 1;
         $doCampaigns->priority = '3';
         $doCampaigns->weight = 1;
         $doCampaigns->target_impression = 0;
@@ -184,7 +184,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->conversions = 400;
         $doCampaigns->expire = OA_Dal::noDateString();
         $doCampaigns->activate = OA_Dal::noDateString();
-        $doCampaigns->active = 't';
+        $doCampaigns->active = 1;
         $doCampaigns->priority = '2';
         $doCampaigns->weight = 1;
         $doCampaigns->target_impression = 0;
@@ -199,7 +199,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->conversions = 0;
         $doCampaigns->expire = $expiryDate2;
         $doCampaigns->activate = OA_Dal::noDateString();
-        $doCampaigns->active = 't';
+        $doCampaigns->active = 1;
         $doCampaigns->priority = '3';
         $doCampaigns->weight = 1;
         $doCampaigns->target_impression = 0;
@@ -214,7 +214,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->conversions = 401;
         $doCampaigns->expire = OA_Dal::noDateString();
         $doCampaigns->activate = OA_Dal::noDateString();
-        $doCampaigns->active = 't';
+        $doCampaigns->active = 1;
         $doCampaigns->priority = '4';
         $doCampaigns->weight = 2;
         $doCampaigns->target_impression = 0;
@@ -229,7 +229,7 @@ class Test_OA_Dal_Maintenance_Priority_getPlacements extends UnitTestCase
         $doCampaigns->conversions = 401;
         $doCampaigns->expire = OA_Dal::noDateString();
         $doCampaigns->activate = OA_Dal::noDateString();
-        $doCampaigns->active = 't';
+        $doCampaigns->active = 1;
         $doCampaigns->priority = '3';
         $doCampaigns->weight = 2;
         $doCampaigns->target_impression = 0;

@@ -442,7 +442,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
         );
 
         if (isset($_POST['aUrls']) && is_array($_POST['aUrls'])) {
-            phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks');
+            phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks', 'aSelfSignup');
 
             $aTplSites = array();
             foreach ($aUrls as $key => $url) {
@@ -451,13 +451,15 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                 }
 
                 $isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
+                $isOas = $aSelfSignup[$key] == 'true' ? 1 : 0;
 
                 $aWebsites[$isOac][] = $aTplSites[count($aTplSites)+1] = array(
                     'url'        => $url,
                     'country'    => $aCountries[$key],
                     'language'   => $aLanguages[$key],
                     'category'   => $aCategories[$key],
-                    'adnetworks' => $isOac
+                    'adnetworks' => $isOac,
+                    'selfsignup' => $isOas
                 );
             }
 
@@ -471,7 +473,8 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     'website'          => 'http://'.$v['url'],
                     'oac_country_code' => $v['country'],
                     'oac_language_id'  => $v['language'],
-                    'oac_category_id'  => $v['category']
+                    'oac_category_id'  => $v['category'],
+                    'as_website_id'    => $v['selfsignup']
                 );
 
                 $doAffiliate->setFrom($publisher);
@@ -516,7 +519,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     $doAffiliates->selectAdd('affiliateid');
                     $doAffiliates->selectAdd('name');
                     $doAffiliates->selectAdd('mnemonic'); // Needed for SPC
-                    $doAffiliates->whereAdd('oac_website_id IS NOT NULL');
+                    $doAffiliates->whereAdd('an_website_id IS NOT NULL');
                     $doAffiliates->orderBy('name');
 
                     $aAffiliates = $doAffiliates->getAll(array(), true, false);

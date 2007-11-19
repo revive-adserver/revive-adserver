@@ -69,13 +69,13 @@ class OA_Dal_Central_AdNetworks extends OA_Dal_Central_Common
     function getBannerIdsFromOacIds($bannerIds)
     {
         $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->whereInAdd('oac_banner_id', $bannerIds);
+        $doBanners->whereInAdd('an_banner_id', $bannerIds);
         $doBanners->orderBy('bannerid');
         $doBanners->find();
 
         $aOacBannerIds = array();
         while ($doBanners->fetch()) {
-            $aOacBannerIds[$doBanners->oac_banner_id] = $doBanners->bannerid;
+            $aOacBannerIds[$doBanners->an_banner_id] = $doBanners->bannerid;
         }
 
         return $aOacBannerIds;

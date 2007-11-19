@@ -25,6 +25,7 @@
 $Id: AdNetworks.php 9095 2007-08-17 15:27:03Z matteo.beccati@openads.org $
 */
 
+require_once MAX_PATH . '/lib/OA/Dll.php';
 require_once MAX_PATH . '/lib/OA/Central/Common.php';
 require_once MAX_PATH . '/lib/OA/Dal/Central/AdNetworks.php';
 
@@ -229,9 +230,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
         $oDbh = OA_DB::singleton();
-
         $aSubscriptions = $this->oMapper->subscribeWebsites($aWebsites);
-
+        
         if (PEAR::isError($aSubscriptions)) {
             return $aSubscriptions;
         }
@@ -254,7 +254,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
         $ok = true;
         foreach ($aSubscriptions['adnetworks'] as $aAdvertiser) {
             $doAdvertisers = OA_Dal::factoryDO('clients');
-            $doAdvertisers->oac_adnetwork_id = $aAdvertiser['adnetwork_id'];
+            $doAdvertisers->an_adnetwork_id = $aAdvertiser['adnetwork_id'];
             $doAdvertisers->find();
 
             if ($doAdvertisers->fetch()) {
@@ -267,7 +267,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     'clientname'       => $advertiserName,
                     'contact'          => $aPref['admin_name'],
                     'email'            => $aPref['admin_email'],
-                    'oac_adnetwork_id' => $aAdvertiser['adnetwork_id']
+                    'an_adnetwork_id'  => $aAdvertiser['adnetwork_id']
                 );
 
                 $doAdvertisers = OA_Dal::factoryDO('clients');
@@ -312,14 +312,25 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     'email'            => $aPref['admin_email'],
                     'oac_country_code' => $aWebsites[$websiteIdx]['country'],
                     'oac_language_id'  => $aWebsites[$websiteIdx]['language'],
-                    'oac_category_id'  => $aWebsites[$websiteIdx]['category']
+                    'oac_category_id'  => $aWebsites[$websiteIdx]['category'],
+                    'as_website_id'  => $aWebsites[$websiteIdx]['selfsignup']
                 );
             }
 
-            $publisher += array(
-                'oac_website_id'   => $aWebsite['website_id'],
-            );
-
+            
+            // an_website_id equal as_website_id
+            if ($aWebsites[$websiteIdx]['adnetworks']) {
+                $publisher += array(
+                    'an_website_id'   => $aWebsite['website_id'],
+                );
+            }
+            
+            if ($aWebsites[$websiteIdx]['selfsignup']) {
+	            $publisher += array(
+	                'as_website_id'   => $aWebsite['website_id'],
+	            );
+            }
+            
             $doPublishers->setFrom($publisher);
 
             if ($existingPublisher) {
@@ -357,6 +368,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 $advertiserName = $aAdNetworks[$aCampaign['adnetwork_id']]['clientname'];
 
                 $campaignName = $this->oDal->getUniqueCampaignName("{$advertiserName} - {$aCampaign['name']} - {$publisherName}");
+                $campaignStatus = !empty($aCampaign['status']) ? OA_ENTITY_STATUS_PENDING : OA_ENTITY_STATUS_RUNNING;
                 $campaign = array(
                     'campaignname'    => $campaignName,
                     'clientid'        => $advertiserId,
@@ -364,7 +376,9 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     'block'           => $aCampaign['block'],
                     'capping'         => $aCampaign['capping'],
                     'session_capping' => $aCampaign['session_capping'],
-                    'oac_campaign_id' => $aCampaign['campaign_id']
+                    'an_campaign_id'  => $aCampaign['campaign_id'],
+                    'status'          => $campaignStatus,
+                    'an_status'       => empty($aCampaign['status']) ? OA_ENTITY_ADNETWORKS_STATUS_RUNNING : $aCampaign['status']
                 );
 
                 $doCampaigns = OA_Dal::factoryDO('campaigns');
@@ -392,7 +406,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                         'contenttype'     => 'html',
                         'htmltemplate'    => $aBanner['html'],
                         'adserver'        => $aBanner['adserver'],
-                        'oac_banner_id'   => $aBanner['banner_id']
+                        'an_banner_id'    => $aBanner['banner_id']
                     );
                     if (!empty($banner['adserver'])) {
                         $banner['autohtml'] = 't';
@@ -443,6 +457,8 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     }
                 }
             }
+            // Add zones to central.
+            $this->updateZones($publisherId);
         }
 
         if (!$ok) {
@@ -471,15 +487,15 @@ class OA_Central_AdNetworks extends OA_Central_Common
             return new PEAR_Error('Cannot start transaction');
         }
 
-        $error = false;
+       $error = false;
         foreach ($aWebsites as $idx => $aWebsite) {
             $publisherId = $aWebsite['id'];
             if (empty($publisherId)) {
                 // No publisher ID found, skip
                 continue;
             }
-            if (!empty($aWebsite['oac_website_id'])) {
-                $aWebsiteIds[] = $aWebsite['oac_website_id'];
+            if (!empty($aWebsite['an_website_id'])) {
+                $aWebsiteIds[] = $aWebsite['an_website_id'];
             }
             // Unlink any Ad Network banners linked to this publisher's zones
             $doZones = OA_Dal::factoryDO('zones');
@@ -487,7 +503,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
             $doBanner = OA_Dal::factoryDO('banners');
 
             $doZones->affiliateid = $publisherId;
-            $doBanner->whereAdd('oac_banner_id IS NOT NULL');
+            $doBanner->whereAdd('an_banner_id IS NOT NULL');
             $doAdZoneAssoc->joinAdd($doBanner);
             $doAdZoneAssoc->joinAdd($doZones);
             $doAdZoneAssoc->find();
@@ -499,6 +515,9 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     break;
                 }
             }
+            
+            // Unsubscribe zones from central.
+            $this->deleteZones($publisherId);
         }
         if ($error) {
             $this->oDal->rollback();
@@ -508,6 +527,125 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
             return $this->oDal->commit();
         }
+    }
+
+    /**
+     * A method to call method updateZone for "subscribe" zone on Ad Networks program
+     *
+     * @param int $publisherId
+     */
+    function updateZones($publisherId)
+    {
+        $aPref = $GLOBALS['_MAX']['PREF'];
+        $oDbh = OA_DB::singleton();
+    	        
+        $doPublishers = OA_Dal::factoryDO('affiliates');
+        $doPublishers->get($publisherId);
+        
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $doPublishers->affiliateid;
+        $doZones->find();
+        $anWebsiteId = ($doPublishers->an_website_id) ? $doPublishers->an_website_id : $doPublishers->as_website_id;
+        while ($doZones->fetch()) {
+        	$this->updateZone($doZones, $anWebsiteId);
+        }
+        
+    }
+    
+    /**
+     * A method to "subscribe" zone on Ad Networks program
+     *
+     * @param DB_DataObjectCommon $doZone
+     * @param int $anWebsiteId
+     */
+    function updateZone(&$doZone, $anWebsiteId)
+    {
+        $aRpcZone = array(
+          	    		  'websiteId'  	=> $anWebsiteId,
+            			  'name' 		=> $doZone->zonename,
+                		  'description' => $doZone->description,
+                		  'width' 		=> $doZone->width,
+            	    	  'height' 		=> $doZone->height,
+                         );
+        $result = $this->oMapper->oRpc->callNoAuth('updateZone', 
+                                                      array(XML_RPC_encode($aRpcZone))
+                                                  );
+        $doZonesUpdate             = OA_Dal::factoryDO('zones');
+        $doZonesUpdate->as_zone_id = (int)$result;
+        $doZonesUpdate->zoneid     = $doZone->zoneid;
+        $doZonesUpdate->update();
+	}
+    
+    /**
+     * A method to call method deleteZone
+     *
+     * @param int $affiliateid
+     */
+    function deleteZones($affiliateid)
+    {
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->affiliateid = $affiliateid;
+        $doZones->find();
+        while ($doZones->fetch()) {
+        	$this->deleteZone($doZones->as_zone_id);
+        }
+    }
+    
+    /**
+     * A method to delete (unsubscribe) zone from Ad Networks program
+     *
+     * @param int $id  as zone id
+     */
+    function deleteZone($id)
+    {
+        $doZones = OA_Dal::factoryDO('zones');
+        $doZones->get('as_zone_id', $id);
+        $r = $doZones->setFrom(
+                                  array('as_zone_id' => 0)
+                              );
+        $doZones->update();
+        
+        $aRpcZone = array(
+            	    	  'id' => $id
+                         );
+        $result = $this->oMapper->oRpc->callNoAuth('deleteZone', 
+                                                      array(XML_RPC_encode($aRpcZone))
+                                                  );
+										          
+    }
+
+    /**
+     * A method to get updates about subscribed websites
+     *
+     * @see C-AN-2 Website application status
+     *
+     * @return mixed True on success, PEAR_Error otherwise
+     */
+    function getCampaignStatuses()
+    {
+        $result = $this->oMapper->getCampaignStatuses();
+
+        if (!PEAR::isError($result)) {
+            foreach ($result as $campaignId => $status) {
+                $doCampaign = OA_Dal::factoryDO('campaigns');
+                $doCampaign->whereAdd('an_campaign_id = '.$campaignId);
+                $doCampaign->find();
+
+                if ($doCampaign->fetch()) {
+                    if ($status != OA_ENTITY_ADNETWORKS_STATUS_RUNNING && $doCampaign->status == OA_ENTITY_STATUS_RUNNING) {
+                        $doCampaign->status = OA_ENTITY_STATUS_PENDING;
+                    } elseif ($status == OA_ENTITY_ADNETWORKS_STATUS_RUNNING && $doCampaign->status == OA_ENTITY_STATUS_PENDING) {
+                        $doCampaign->status = OA_ENTITY_STATUS_RUNNING;
+                    }
+                    $doCampaign->an_status = $status;
+                    $doCampaign->update();
+                }
+            }
+
+            return true;
+        }
+
+        return $result;
     }
 
     /**

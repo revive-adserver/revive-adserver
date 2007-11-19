@@ -400,7 +400,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('advertiser_id', $ret));
         $this->assertTrue(array_key_exists('placement_id', $ret));
         $this->assertTrue(array_key_exists('name', $ret));
-        $this->assertTrue(array_key_exists('active', $ret));
+        $this->assertTrue(array_key_exists('status', $ret));
         $this->assertTrue(array_key_exists('views', $ret));
         $this->assertTrue(array_key_exists('clicks', $ret));
         $this->assertTrue(array_key_exists('conversions', $ret));
@@ -604,7 +604,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(count($ret));
         $this->assertTrue(array_key_exists('ad_id', $ret));
         $this->assertTrue(array_key_exists('placement_id', $ret));
-        $this->assertTrue(array_key_exists('active', $ret));
+        $this->assertTrue(array_key_exists('status', $ret));
         $this->assertTrue(array_key_exists('name', $ret));
         $this->assertTrue(array_key_exists('type', $ret));
         $this->assertTrue(array_key_exists('contenttype', $ret));
@@ -981,7 +981,7 @@ class Admin_DaTest extends DalUnitTestCase
         $this->assertTrue(array_key_exists('advertiser_id', $stats[1]));
         $this->assertTrue(array_key_exists('placement_id', $stats[1]));
         $this->assertTrue(array_key_exists('name', $stats[1]));
-        $this->assertTrue(array_key_exists('active', $stats[1]));
+        $this->assertTrue(array_key_exists('status', $stats[1]));
     }
 
     function testFromCacheGetPlacement()

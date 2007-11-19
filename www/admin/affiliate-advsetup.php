@@ -40,6 +40,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/lib/max/other/html.php';
+require_once MAX_PATH . '/lib/OA/Dal.php';
 
 // Register input variables
 phpAds_registerGlobal ('acl', 'action', 'submit');
@@ -55,6 +56,21 @@ if (!MAX_checkPublisher($affiliateid)) {
     phpAds_Die($strAccessDenied, $strNotAdmin);
 }
 
+$doAffiliates = OA_Dal::factoryDO('affiliates');
+$doAffiliates->get($affiliateid);
+
+$oacXmlRpcUrl         = $conf['oacXmlRpc']['protocol'] . '://' .
+                        $conf['oacXmlRpc']['host'] .
+                        ':' . $conf['oacXmlRpc']['port'];
+$publisherCentralLink = $oacXmlRpcUrl .
+                        $conf['oacXmlRpc']['publihserUrl'] .
+						'?site=' . $doAffiliates->an_website_id;
+$advertiserSignUpLink = $oacXmlRpcUrl .
+                        $conf['oacXmlRpc']['signUpUrl'] .
+						'?site=' . $doAffiliates->an_website_id;
+$advertiserSignUpHTML = '&lt;a href="' . $advertiserSignUpLink . '"&gt;' .
+						$advertiserSignUpLink . '&lt;/a&gt;';
+
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
@@ -68,6 +84,13 @@ MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities);
 /*-------------------------------------------------------*/
 
 ?>
+
+<?php
+if (!$doAffiliates->an_website_id) {
+?>
+This Publisher is not subscribed to Ad Networks.
+<?php
+} else { ?>
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tbody>
@@ -83,7 +106,7 @@ MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities);
    <tr>
       <td width="100%" colspan="3">
          To edit your Advertiser Sign Up options, follow to
-         <a target="_blank" href="#">http://payment.openads.org/site=123</a>
+         <a target="_blank" href="<?php echo $publisherCentralLink?>"><?php echo $publisherCentralLink?></a>
       </td>
    </tr>
 </tbody>
@@ -103,12 +126,15 @@ MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities);
    <tr>
       <td width="100%" colspan="3">
          To add an Advertiser Sign Up link to your site, please copy the HTML below:
-         <pre class="invocation-codes js">HTML code goes here...
-HTML code goes here...</pre>
+         <pre class="invocation-codes js"><?php echo $advertiserSignUpHTML?></pre>
       </td>
    </tr>
 </tbody>
 </table>
+
+<?php
+}
+?>
 
 <script><!--
   $('pre').bind('mouseover', selectElement);

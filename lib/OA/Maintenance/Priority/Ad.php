@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * An entity class used to represent ads for the MPE.
@@ -115,13 +116,11 @@ class OA_Maintenance_Priority_Ad
             $valid = false;
         }
         if (count($aParams) == 4) {
-            if (!is_bool($aParams['active'])) {
-                if ($aParams['active'] === 't') {
+            if (!is_bool($aParams['status'])) {
+                if ($aParams['status'] == OA_ENTITY_STATUS_RUNNING) {
                     $aParams['active'] = true;
-                } else if ($aParams['active'] === 'f') {
-                    $aParams['active'] = false;
                 } else {
-                    $valid = false;
+                    $aParams['active'] = false;
                 }
             }
             if (is_numeric($aParams['weight'])) {

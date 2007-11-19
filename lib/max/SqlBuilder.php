@@ -65,8 +65,8 @@ class SqlBuilder
         switch ($entity) {
 
         case 'ad' :
-            $aColumns += array('d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.active' => 'active', 'd.description' => 'name', 'd.storagetype' => 'type');
-            if ($allFields) $aColumns += array('d.contenttype' => 'contenttype', 'd.pluginversion' => 'pluginversion', 'd.filename' => 'filename', 'd.imageurl' => 'imageurl', 'd.htmltemplate' => 'htmltemplate', 'd.htmlcache' => 'htmlcache', 'd.width' => 'width', 'd.height' => 'height', 'd.weight' => 'weight', 'd.seq' => 'seq', 'd.target' => 'target', 'd.url' => 'url', 'd.alt' => 'alt', 'd.status' => 'status', 'd.bannertext' => 'bannertext', 'd.autohtml' => 'autohtml', 'd.adserver' => 'adserver', 'd.block' => 'block', 'd.capping' => 'capping', 'd.session_capping' => 'session_capping', 'd.compiledlimitation' => 'compiledlimitation', 'd.append' => 'append', 'd.appendtype' => 'appendtype', 'd.bannertype' => 'bannertype', 'd.alt_filename' => 'alt_filename', 'd.alt_imageurl' => 'alt_imageurl', 'd.alt_contenttype' => 'alt_contenttype', 'd.comments' => 'comments', 'd.parameters' => 'parameters', 'd.transparent' => 'transparent');
+            $aColumns += array('d.bannerid' => 'ad_id', 'd.campaignid' => 'placement_id', 'd.status' => 'status', 'd.description' => 'name', 'd.storagetype' => 'type');
+            if ($allFields) $aColumns += array('d.contenttype' => 'contenttype', 'd.pluginversion' => 'pluginversion', 'd.filename' => 'filename', 'd.imageurl' => 'imageurl', 'd.htmltemplate' => 'htmltemplate', 'd.htmlcache' => 'htmlcache', 'd.width' => 'width', 'd.height' => 'height', 'd.weight' => 'weight', 'd.seq' => 'seq', 'd.target' => 'target', 'd.url' => 'url', 'd.alt' => 'alt', 'd.statustext' => 'status', 'd.bannertext' => 'bannertext', 'd.autohtml' => 'autohtml', 'd.adserver' => 'adserver', 'd.block' => 'block', 'd.capping' => 'capping', 'd.session_capping' => 'session_capping', 'd.compiledlimitation' => 'compiledlimitation', 'd.append' => 'append', 'd.appendtype' => 'appendtype', 'd.bannertype' => 'bannertype', 'd.alt_filename' => 'alt_filename', 'd.alt_imageurl' => 'alt_imageurl', 'd.alt_contenttype' => 'alt_contenttype', 'd.comments' => 'comments', 'd.parameters' => 'parameters', 'd.transparent' => 'transparent');
             break;
 
         case 'advertiser' :
@@ -117,7 +117,7 @@ class SqlBuilder
             break;
 
         case 'placement' :
-            $aColumns += array('m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.active' => 'active', 'm.anonymous' => 'anonymous');
+            $aColumns += array('m.clientid' => 'advertiser_id', 'm.campaignid' => 'placement_id', 'm.campaignname' => 'name', 'm.status' => 'status', 'm.anonymous' => 'anonymous');
             if ($allFields) $aColumns += array('m.views' => 'views', 'm.clicks' => 'clicks', 'm.conversions' => 'conversions', 'm.expire' => 'expire', 'm.activate' => 'activate', 'm.priority' => 'priority', 'm.weight' => 'weight', 'm.target_impression' => 'target_impression', 'm.target_click' => 'target_click', 'm.target_conversion' => 'target_conversion', 'm.anonymous' => 'anonymous');
             break;
 
@@ -556,8 +556,8 @@ class SqlBuilder
         if (isset($aParams['ad_width'])) SqlBuilder::_addLimitation($aLimitations, 'ad_width', 'd.width', $aParams['ad_width']);
         if (isset($aParams['ad_height'])) SqlBuilder::_addLimitation($aLimitations, 'ad_height', 'd.height', $aParams['ad_height']);
         if (!empty($aParams['ad_type'])) SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', $aParams['ad_type']);
-        if (!empty($aParams['ad_active'])) SqlBuilder::_addLimitation($aLimitations, 'ad_active', 'd.active', $aParams['ad_active']);
-        if (!empty($aParams['placement_active'])) SqlBuilder::_addLimitation($aLimitations, 'placement_active', 'm.active', $aParams['placement_active']);
+        if (!empty($aParams['ad_active'])) SqlBuilder::_addLimitation($aLimitations, 'ad_active', 'd.status', $aParams['ad_active']);
+        if (!empty($aParams['placement_active'])) SqlBuilder::_addLimitation($aLimitations, 'placement_active', 'm.status', $aParams['placement_active']);
         if (!empty($aParams['placement_anonymous'])) SqlBuilder::_addLimitation($aLimitations, 'placement_anonymous', 'm.anonymous', $aParams['placement_anonymous']);
         if (!empty($aParams['zone_inventory_forecast_type'])) SqlBuilder::_addLimitation($aLimitations, 'zone_inventory_forecast_type', 'z.inventory_forecast_type', $aParams['zone_inventory_forecast_type'], MAX_LIMITATION_BITWISE);
 

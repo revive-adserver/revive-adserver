@@ -127,7 +127,9 @@ class OA_Dal_Central_Rpc
         }
 
         OA::disableErrorHandling();
+        
         $oResponse = $this->oXml->send($oMsg);
+        
         OA::enableErrorHandling();
 
         if (!$oResponse) {

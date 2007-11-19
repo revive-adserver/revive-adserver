@@ -28,6 +28,7 @@ $Id$
 define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 require_once('Date.php');
 
@@ -62,6 +63,7 @@ class OA_Admin_Template extends Smarty
         $this->cache_lifetime = 3600;
 
         $this->register_function('t', array('OA_Admin_Template',  '_function_t'));
+        
         $this->register_function('tabindex', array('OA_Admin_Template',  '_function_tabindex'));
 
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
@@ -71,6 +73,8 @@ class OA_Admin_Template extends Smarty
 
         $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template',  '_function_phpAds_ShowBreak'));
         $this->register_function('phpAds_DelConfirm', array('OA_Admin_Template',  '_function_phpAds_DelConfirm'));
+
+        $this->register_function('showStatusText', array('OA_Admin_Template',  '_function_showStatusText'));
 
         $this->register_block('oa_edit', array('OA_Admin_Template',  '_block_edit'));
 
@@ -141,6 +145,62 @@ class OA_Admin_Template extends Smarty
             return $GLOBALS['key'.$aParams['key']];
         }
         $smarty->trigger_error("t: missing 'str' or 'key' parameters");
+    }
+    
+    function _function_showStatusText($aParams, &$smarty)
+    {
+        global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
+               $strCampaignStatusExpired, $strCampaignStatusApproval, $strCampaignStatusRejected;
+
+        $status = $aParams['status'];
+        $an_status = $aParams['an_status'];
+
+        if (isset($status)) {
+                switch ($status) {
+                	case OA_ENTITY_STATUS_PENDING:
+                	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_APPROVAL) {
+                    	    $class = 'sts sts-awaiting';
+                    	    $text  = $strCampaignStatusApproval;
+                	    }
+                	    
+                	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
+                    	    $class = 'sts sts-rejected';
+                    	    $text  = $strCampaignStatusRejected;
+                	    }
+                		break;
+                	case OA_ENTITY_STATUS_RUNNING:
+                	    $class = 'sts sts-accepted';
+                	    $text  = $strCampaignStatusRunning;
+                		break;
+                	case OA_ENTITY_STATUS_PAUSED:
+                	    $class = 'sts sts-paused';
+                	    $text  = $strCampaignStatusPaused;
+                		break;
+                	case OA_ENTITY_STATUS_AWAITING:
+                	    $class = 'sts not-started';
+                	    $text  = $strCampaignStatusAwaiting;
+                		break;
+                	case OA_ENTITY_STATUS_EXPIRED:
+                	    $class = 'sts sts-finished';
+                	    $text  = $strCampaignStatusExpired;
+                		break;
+                	case OA_ENTITY_STATUS_APPROVAL:
+                	    $class = 'sts sts-awaiting';
+                	    $text  = $strCampaignStatusApproval;
+                		break;
+                	case OA_ENTITY_STATUS_REJECTED:
+                	    $class = 'sts sts-rejected';
+                	    $text  = $strCampaignStatusRejected;
+                		break;
+                }
+                if ($status == OA_ENTITY_STATUS_APPROVAL) {
+                    $text = "<a href='campaign-edit.php?clientid=".$aParams['clientid']."&campaignid=".$aParams['campaignid']."'>" .
+                            $text . "</a>";
+                }
+                return '<span class="'.$class.'">' . $text . '</span>';
+        }
+        
+        $smarty->trigger_error("showStatusText: missing 'status' parameter");
     }
 
     function _function_tabindex($aParams, &$smarty)

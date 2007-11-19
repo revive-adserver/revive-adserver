@@ -30,6 +30,7 @@ require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
 
 /**
  * Definition of how far back in time the DAL will look for
@@ -203,7 +204,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
                                 "$table.clientid AS advertiser_id",
                                 "$table.campaignid AS placement_id",
                                 "$table.campaignname AS name",
-                                "$table.active AS active",
+                                "$table.status AS status",
                                 "COUNT($joinTable.bannerid) AS num_children"
                              );
         $query['wheres']   = array(
@@ -212,7 +213,7 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
         $query['joins']    = array(
                                 array($joinTable, "$table.campaignid = $joinTable.campaignid")
                              );
-        $query['group']    = "advertiser_id, placement_id, name, active";
+        $query['group']    = "advertiser_id, placement_id, name, status";
         return $this->_get($query);
     }
 
@@ -492,9 +493,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             WHERE
                 b.acls_updated >= '" . $aDates['start']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $aDates['end']->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.active = 't'
+                AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
                 AND b.campaignid = c.campaignid
-                AND c.active = 't'";
+                AND c.status = " . OA_ENTITY_STATUS_RUNNING;
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];
@@ -516,9 +517,9 @@ class OA_Dal_Maintenance_Priority extends OA_Dal_Maintenance_Common
             WHERE
                 b.acls_updated >= '" . $aLastRun['start_run']->format('%Y-%m-%d %H:%M:%S') . "'
                 AND b.acls_updated <= '" . $oDate->format('%Y-%m-%d %H:%M:%S') . "'
-                AND b.active = 't'
+                AND b.status = " . OA_ENTITY_STATUS_RUNNING . "
                 AND b.campaignid = c.campaignid
-                AND c.active = 't'";
+                AND c.status = " . OA_ENTITY_STATUS_RUNNING;
         $rc = $this->oDbh->query($query);
         while ($aRow = $rc->fetchRow()) {
             $aAds[$aRow['ad_id']] = $aRow['changed'];

@@ -42,7 +42,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks',
+phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'selfsignup',
                                'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
                                'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
 
@@ -91,6 +91,7 @@ if (isset($formId)) {
 
     // Do I need to handle this?
     $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
+    $oPublisher->selfSignup =   ($selfsignup == 't') ? true : false;
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher)) {
@@ -211,8 +212,10 @@ $oTpl->assign('fieldsTop', array(
                 'template'  => 'adnetworks',
                 'label'     => 'Ad Networks',
                 'vars'      => array(
-                                'checked' => !empty($affiliate['oac_website_id']),
-                                'disabled'  => MAX_Admin_Preferences::checkBool('updates_enabled', false)
+                                'checked'            => !empty($affiliate['an_website_id']),
+                                'checked_selfsignup' => !empty($affiliate['as_website_id']),
+                                'disabled'           => MAX_Admin_Preferences::checkBool('updates_enabled',
+                                                                                         false)
                                     || !MAX_Permission::hasAccess(phpAds_Admin)
                                ),
             ),
@@ -229,7 +232,7 @@ $oTpl->assign('fieldsTop', array(
                 'options'   => $oAdNetworks->getCategoriesSelect(),
                 'value'     => $affiliate['oac_category_id'],
                 'style'     => 'width: 15em',
-                //'disabled'  => !empty($affiliate['oac_website_id'])
+                //'disabled'  => !empty($affiliate['an_website_id'])
             ),
             array(
                 'type'      => 'custom',
@@ -240,7 +243,7 @@ $oTpl->assign('fieldsTop', array(
                                 'country'  => $affiliate['oac_country_code'],
                                 'language' => $affiliate['oac_language_id']
                                ),
-               // 'disabled'  => !empty($affiliate['oac_website_id'])
+               // 'disabled'  => !empty($affiliate['an_website_id'])
             ),
             array(
                 'name'      => 'contact',
@@ -381,7 +384,8 @@ $oTpl->assign('fieldsBottom', array(
     )
 ));
 
-
+//var_dump($oTpl);
+//die();
 $oTpl->display();
 
 ?>

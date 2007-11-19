@@ -178,7 +178,7 @@ while ($doCampaigns->fetch() && $row_campaigns = $doCampaigns->toArray()) {
     }
 	$campaigns[$row_campaigns['campaignid']]['expand'] = 0;
 	$campaigns[$row_campaigns['campaignid']]['count']  = 0;
-	$campaigns[$row_campaigns['campaignid']]['active'] = $row_campaigns['active'];
+	$campaigns[$row_campaigns['campaignid']]['status'] = $row_campaigns['status'];
     $campaigns[$row_campaigns['campaignid']]['anonymous'] = $row_campaigns['anonymous'];
 }
 
@@ -351,10 +351,24 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 		}
 		echo "</td>";
 
-        // status
-        echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";
-		
-		
+    // status
+        if ($campaigns[$ckey]['status'] == -1) {
+            echo "<td class=\"sts sts-pending\">Pending</td>";
+        } elseif ($campaigns[$ckey]['status'] == 0) {
+            echo "<td class=\"sts sts-accepted\">Runing</td>";
+        } elseif ($campaigns[$ckey]['status'] == 1) {
+            echo "<td class=\"sts sts-paused\">Paused</td>";
+        } elseif ($campaigns[$ckey]['status'] == 2) {
+            echo "<td class=\"sts not-started\">Not started yet</td>";
+        } elseif ($campaigns[$ckey]['status'] == 3) {
+            echo "<td class=\"sts sts-finished\">Finished</td>";
+        } elseif ($campaigns[$ckey]['status'] == 21) {
+            echo "<td class=\"sts sts-awaiting\"><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></td>";
+        } elseif ($campaigns[$ckey]['status'] == 22) {
+            echo "<td class=\"sts sts-rejected\">Rejected</td>";
+        }
+
+        //echo "<td height='25'><span class='sts-awaiting'><a href='campaign-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>Awaiting approval &raquo;</a></span></td>";
 		// ID
 		echo "<td height='25'>".$campaigns[$ckey]['campaignid']."</td>";
 

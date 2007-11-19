@@ -167,7 +167,7 @@ class Migration
     /**
      * Logs the MDB2_Error to the error log and returns false.
      *
-     * @param MDB2_Error $error
+     * @param string $error
      * @return boolean Always false
      */
     function _logErrorAndReturnFalse($error)

@@ -81,12 +81,12 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
     {
         // Insert an active campaign
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 't';
+        $doCampaigns->status = 1;
         $activeId = DataGenerator::generateOne($doCampaigns);
 
         // Insert an inactive campaign
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 'f';
+        $doCampaigns->status = 0;
         $inactiveId = DataGenerator::generateOne($doCampaigns);
 
         // Count the active campaigns
@@ -108,13 +108,13 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
         // Insert an active campaign with this client
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 't';
+        $doCampaigns->status = 1;
         $doCampaigns->clientid = $agencyClientId;
         $agencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
 
         // Insert an inactive campaign with this client
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 'f';
+        $doCampaigns->status = 0;
         $doCampaigns->clientid = $agencyClientId;
         $agencyCampaignInactiveId = DataGenerator::generateOne($doCampaigns);
 
@@ -126,7 +126,7 @@ class MAX_Dal_Admin_CampaignsTest extends DalUnitTestCase
 
          // Insert an active campaign with this client
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->active = 't';
+        $doCampaigns->status = 1;
         $doCampaigns->clientid = $noAgencyClientId;
         $noAgencyCampaignIdActive = DataGenerator::generateOne($doCampaigns);
 
