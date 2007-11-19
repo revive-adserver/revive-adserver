@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml-stylesheet type="text/xsl" href="xsl/mdb2_changeset.xsl"?>
+<instructionset>
+  <name>openads</name>
+  <version>539</version>
+  <comments>Status to statustext</comments>
+  <constructive>
+    <changeset>
+      <name>openads</name>
+      <version>539</version>
+      <change>
+        <table>
+          <name>banners</name>
+          <add>
+            <field>
+              <name>statustext</name>
+              <type>openads_varchar</type>
+              <length>255</length>
+              <notnull>1</notnull>
+              <default></default>
+              <was>status</was>
+            </field>
+          </add>
+        </table>
+      </change>
+    </changeset>
+  </constructive>
+  <destructive>
+    <changeset>
+      <name>openads</name>
+      <version>539</version>
+      <change>
+        <table>
+          <name>banners</name>
+        <remove>
+          <field>
+            <name>status</name>
+          </field>
+        </remove>
+      </table>
+    </change>
+  </changeset>
+</destructive>
+</instructionset>

@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>541</version>
+ <version>539</version>
  <status>final</status>
 
  <table>
@@ -428,7 +428,7 @@
    </field>
 
    <field>
-    <name>an_website_id</name>
+    <name>oac_website_id</name>
     <type>openads_int</type>
     <length>11</length>
     <notnull>false</notnull>
@@ -453,14 +453,6 @@
 
    <field>
     <name>oac_category_id</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>as_website_id</name>
     <type>openads_int</type>
     <length>11</length>
     <notnull>false</notnull>
@@ -954,6 +946,14 @@
    </field>
 
    <field>
+    <name>active</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
+   </field>
+
+   <field>
     <name>contenttype</name>
     <type>openads_enum</type>
     <length>'gif','jpeg','png','html','swf','dcr','rpm','mov','txt'</length>
@@ -1231,27 +1231,11 @@
    </field>
 
    <field>
-    <name>an_banner_id</name>
+    <name>oac_banner_id</name>
     <type>openads_int</type>
     <length>11</length>
     <notnull>false</notnull>
     <default></default>
-   </field>
-
-   <field>
-    <name>as_banner_id</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>status</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
    </field>
 
    <index>
@@ -1342,6 +1326,14 @@
     <type>openads_date</type>
     <notnull>false</notnull>
     <default>0000-00-00</default>
+   </field>
+
+   <field>
+    <name>active</name>
+    <type>openads_enum</type>
+    <length>'t','f'</length>
+    <notnull>true</notnull>
+    <default>t</default>
    </field>
 
    <field>
@@ -1455,35 +1447,11 @@
    </field>
 
    <field>
-    <name>an_campaign_id</name>
+    <name>oac_campaign_id</name>
     <type>openads_int</type>
     <length>11</length>
     <notnull>false</notnull>
     <default></default>
-   </field>
-
-   <field>
-    <name>as_campaign_id</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>status</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>an_status</name>
-    <type>openads_int</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
    </field>
 
    <index>

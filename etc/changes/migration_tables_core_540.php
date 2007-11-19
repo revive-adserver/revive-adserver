@@ -1,0 +1,262 @@
+<?php
+
+require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+
+class Migration_540 extends Migration
+{
+
+    function Migration_540()
+    {
+        //$this->__construct();
+
+		$this->aTaskList_constructive[] = 'beforeAddField__banners__an_banner_id';
+		$this->aTaskList_constructive[] = 'afterAddField__banners__an_banner_id';
+		$this->aTaskList_constructive[] = 'beforeAddField__banners__as_banner_id';
+		$this->aTaskList_constructive[] = 'afterAddField__banners__as_banner_id';
+		$this->aTaskList_constructive[] = 'beforeAddField__banners__status';
+		$this->aTaskList_constructive[] = 'afterAddField__banners__status';
+		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__an_campaign_id';
+		$this->aTaskList_constructive[] = 'afterAddField__campaigns__an_campaign_id';
+		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__as_campaign_id';
+		$this->aTaskList_constructive[] = 'afterAddField__campaigns__as_campaign_id';
+		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__status';
+		$this->aTaskList_constructive[] = 'afterAddField__campaigns__status';
+		$this->aTaskList_constructive[] = 'beforeAddField__campaigns__an_status';
+		$this->aTaskList_constructive[] = 'afterAddField__campaigns__an_status';
+		$this->aTaskList_destructive[] = 'beforeRemoveField__banners__active';
+		$this->aTaskList_destructive[] = 'afterRemoveField__banners__active';
+		$this->aTaskList_destructive[] = 'beforeRemoveField__banners__oac_banner_id';
+		$this->aTaskList_destructive[] = 'afterRemoveField__banners__oac_banner_id';
+		$this->aTaskList_destructive[] = 'beforeRemoveField__campaigns__active';
+		$this->aTaskList_destructive[] = 'afterRemoveField__campaigns__active';
+		$this->aTaskList_destructive[] = 'beforeRemoveField__campaigns__oac_campaign_id';
+		$this->aTaskList_destructive[] = 'afterRemoveField__campaigns__oac_campaign_id';
+
+
+		$this->aObjectMap['banners']['an_banner_id'] = array('fromTable'=>'banners', 'fromField'=>'an_banner_id');
+		$this->aObjectMap['banners']['as_banner_id'] = array('fromTable'=>'banners', 'fromField'=>'as_banner_id');
+		$this->aObjectMap['banners']['status'] = array('fromTable'=>'banners', 'fromField'=>'status');
+		$this->aObjectMap['campaigns']['an_campaign_id'] = array('fromTable'=>'campaigns', 'fromField'=>'an_campaign_id');
+		$this->aObjectMap['campaigns']['as_campaign_id'] = array('fromTable'=>'campaigns', 'fromField'=>'as_campaign_id');
+		$this->aObjectMap['campaigns']['status'] = array('fromTable'=>'campaigns', 'fromField'=>'status');
+		$this->aObjectMap['campaigns']['an_status'] = array('fromTable'=>'campaigns', 'fromField'=>'an_status');
+    }
+
+
+
+	function beforeAddField__banners__an_banner_id()
+	{
+		return $this->beforeAddField('banners', 'an_banner_id');
+	}
+
+	function afterAddField__banners__an_banner_id()
+	{
+		return $this->afterAddField('banners', 'an_banner_id');
+	}
+
+	function beforeAddField__banners__as_banner_id()
+	{
+		return $this->beforeAddField('banners', 'as_banner_id');
+	}
+
+	function afterAddField__banners__as_banner_id()
+	{
+		return $this->afterAddField('banners', 'as_banner_id');
+	}
+
+	function beforeAddField__banners__status()
+	{
+		return $this->beforeAddField('banners', 'status');
+	}
+
+	function afterAddField__banners__status()
+	{
+		return $this->migrateBannerStatus() && $this->afterAddField('banners', 'status');
+	}
+
+	function beforeAddField__campaigns__an_campaign_id()
+	{
+		return $this->beforeAddField('campaigns', 'an_campaign_id');
+	}
+
+	function afterAddField__campaigns__an_campaign_id()
+	{
+		return $this->afterAddField('campaigns', 'an_campaign_id');
+	}
+
+	function beforeAddField__campaigns__as_campaign_id()
+	{
+		return $this->beforeAddField('campaigns', 'as_campaign_id');
+	}
+
+	function afterAddField__campaigns__as_campaign_id()
+	{
+		return $this->afterAddField('campaigns', 'as_campaign_id');
+	}
+
+	function beforeAddField__campaigns__status()
+	{
+		return $this->beforeAddField('campaigns', 'status');
+	}
+
+	function afterAddField__campaigns__status()
+	{
+		return $this->migrateCampaignStatus() && $this->afterAddField('campaigns', 'status');
+	}
+
+	function beforeAddField__campaigns__an_status()
+	{
+		return $this->beforeAddField('campaigns', 'an_status');
+	}
+
+	function afterAddField__campaigns__an_status()
+	{
+		return $this->afterAddField('campaigns', 'an_status');
+	}
+
+	function beforeRemoveField__banners__active()
+	{
+		return $this->beforeRemoveField('banners', 'active');
+	}
+
+	function afterRemoveField__banners__active()
+	{
+		return $this->afterRemoveField('banners', 'active');
+	}
+
+	function beforeRemoveField__banners__oac_banner_id()
+	{
+		return $this->beforeRemoveField('banners', 'oac_banner_id');
+	}
+
+	function afterRemoveField__banners__oac_banner_id()
+	{
+		return $this->afterRemoveField('banners', 'oac_banner_id');
+	}
+
+	function beforeRemoveField__campaigns__active()
+	{
+		return $this->beforeRemoveField('campaigns', 'active');
+	}
+
+	function afterRemoveField__campaigns__active()
+	{
+		return $this->afterRemoveField('campaigns', 'active');
+	}
+
+	function beforeRemoveField__campaigns__oac_campaign_id()
+	{
+		return $this->beforeRemoveField('campaigns', 'oac_campaign_id');
+	}
+
+	function afterRemoveField__campaigns__oac_campaign_id()
+	{
+		return $this->afterRemoveField('campaigns', 'oac_campaign_id');
+	}
+
+    function migrateBannerStatus()
+	{
+	    $this->_log("Migrating statuses for: banners");
+
+	    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+	    $tblBanners = $this->oDBH->quoteIdentifier($prefix.'banners', true);
+
+	    $query = "
+            SELECT
+	           bannerid,
+	           active
+            FROM
+                {$tblBanners}
+            ORDER BY
+                bannerid
+            ";
+        $aBanners = $this->oDBH->getAssoc($query);
+
+        if (PEAR::isError($aBanners)) {
+            return $this->_logErrorAndReturnFalse("Cannot retrieve banners");
+        }
+
+        $oUpdate = $this->oDBH->prepare("UPDATE {$tblBanners} SET status = ? WHERE bannerid = ?");
+
+        if (PEAR::isError($oUpdate)) {
+            return $this->_logErrorAndReturnFalse("Cannot prepare banners query");
+        }
+
+        foreach ($aBanners as $bannerId => $row)
+        {
+            if ($row['active'] == 't') {
+                $status = OA_ENTITY_STATUS_RUNNING;
+            } else {
+                $status = OA_ENTITY_STATUS_PAUSED;
+            }
+
+            $result = $oUpdate->execute(array($status, $bannerId));
+
+            if (PEAR::isError($result)) {
+                return $this->_logErrorAndReturnFalse("Cannot execute banners query");
+            }
+        }
+
+        return true;
+	}
+
+	function migrateCampaignStatus()
+	{
+	    $this->_log("Migrating statuses for: campaigns");
+
+	    $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+	    $tblCampaigns = $this->oDBH->quoteIdentifier($prefix.'campaigns', true);
+
+	    $query = "
+	       SELECT
+	           campaignid,
+	           active,
+	           activate,
+	           expire,
+	           views,
+	           clicks,
+	           conversions
+	       FROM
+	           {$tblCampaigns}
+	       ORDER BY
+	           campaignid
+           ";
+        $aCampaigns = $this->oDBH->getAssoc($query);
+
+        if (PEAR::isError($aCampaigns)) {
+            return $this->_logErrorAndReturnFalse("Cannot retrieve campaign list");
+        }
+
+        $oUpdate = $this->oDBH->prepare("UPDATE {$tblCampaigns} SET status = ? WHERE campaignid = ?");
+
+        if (PEAR::isError($oUpdate)) {
+            return $this->_logErrorAndReturnFalse("Cannot prepare campaign query");
+        }
+
+        foreach ($aCampaigns as $campaignId => $row)
+        {
+            if ($row['active'] == 't') {
+                $status = OA_ENTITY_STATUS_RUNNING;
+            } elseif ($row['expire'] > 0 && strtotime($row['expire']) < time()) {
+                $status = OA_ENTITY_STATUS_EXPIRED;
+            } elseif ($row['activate'] > 0 && strtotime($row['activate']) >= time()) {
+                $status = OA_ENTITY_STATUS_AWAITING;
+            } elseif ($row['views'] >= 0 || $row['clicks'] >= 0 || $row['conversions'] >= 0) {
+                $status = OA_ENTITY_STATUS_EXPIRED;
+            } else {
+                $status = OA_ENTITY_STATUS_PAUSED;
+            }
+
+            $result = $oUpdate->execute(array($status, $campaignId));
+
+            if (PEAR::isError($result)) {
+                return $this->_logErrorAndReturnFalse("Cannot execute campaign query");
+            }
+        }
+
+        return true;
+	}
+
+}
+
+?>
