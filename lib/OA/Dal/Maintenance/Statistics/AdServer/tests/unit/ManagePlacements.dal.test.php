@@ -198,7 +198,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
             'campaignname'=>'Test Campaign 7',
             'clientid'=>$idClient1,
             'activate'=>'2004-06-06',
-            'status'=>OA_ENTITY_STATUS_PAUSED
+            'status'=>OA_ENTITY_STATUS_AWAITING
         );
         $idCampaign7 = $this->_insertCampaign($aData);
 
@@ -296,7 +296,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], '2004-06-06');
         $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
-        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_PAUSED);
+        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_EXPIRED);
 
         $aRow = $this->_getCampaignByCampaignId($idCampaign7);
         $this->assertEqual($aRow['views'], -1);
@@ -405,7 +405,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
-        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_RUNNING);
+        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_EXPIRED);
 
         $aRow = $this->_getCampaignByCampaignId($idCampaign3);
         $this->assertEqual($aRow['views'], -1);
@@ -421,7 +421,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->assertEqual($aRow['conversions'], 10);
         $this->assertEqual($aRow['expire'], OA_Dal::noDateValue());
         $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
-        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_RUNNING);
+        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_EXPIRED);
 
         $aRow = $this->_getCampaignByCampaignId($idCampaign5);
         $this->assertEqual($aRow['views'], 10);
@@ -437,7 +437,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], '2004-06-06');
         $this->assertEqual($aRow['activate'], OA_Dal::noDateValue());
-        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_PAUSED);
+        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_EXPIRED);
 
         $aRow = $this->_getCampaignByCampaignId($idCampaign7);
         $this->assertEqual($aRow['views'], -1);
@@ -459,7 +459,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
                         'conversions'=>-1,
                         'expire'=>'2005-12-09',
                         'activate'=>'2005-12-07',
-                        'status'=>OA_ENTITY_STATUS_PAUSED
+                        'status'=>OA_ENTITY_STATUS_EXIPRED
                       );
         $idCampaign1 = $this->_insertCampaign($aData);
 
@@ -495,7 +495,7 @@ class Test_OA_Dal_Maintenance_Statistics_AdServer_ManagePlacements extends UnitT
         $this->assertEqual($aRow['conversions'], -1);
         $this->assertEqual($aRow['expire'], '2005-12-09');
         $this->assertEqual($aRow['activate'], '2005-12-07');
-        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_PAUSED);
+        $this->assertEqual($aRow['status'], OA_ENTITY_STATUS_EXPIRED);
         DataGenerator::cleanUp();
         TestEnv::restoreConfig();
     }

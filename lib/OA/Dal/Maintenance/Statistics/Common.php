@@ -2737,13 +2737,6 @@ class OA_Dal_Maintenance_Statistics_Common
                         }
                         if ($disableReason) {
                             // One of the placement targets was exceeded, so disable
-                            $query = "
-                                UPDATE
-                                    ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
-                                SET
-                                    status = " . OA_ENTITY_STATUS_RUNNING . "
-                                WHERE
-                                    campaignid = {$aPlacement['campaign_id']}";
                             $message = '- Exceeded a placement quota: Deactivating placement ID ' .
                                        "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                             OA::debug($message, PEAR_LOG_INFO);
@@ -2752,7 +2745,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             $doCampaigns->campaignid = $aPlacement['campaign_id'];
                             $doCampaigns->find();
                             $doCampaigns->fetch();
-                            $doCampaigns->active = 'f';
+                            $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                             $result = $doCampaigns->update();
                             if ($result == false) {
                                 return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2767,13 +2760,6 @@ class OA_Dal_Maintenance_Statistics_Common
                     $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
                     if ($oDate->after($oEndDate)) {
                         $disableReason |= OA_PLACEMENT_DISABLED_DATE;
-                        $query = "
-                            UPDATE
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
-                            SET
-                                status = " . OA_ENTITY_STATUS_PAUSED . "
-                            WHERE
-                                campaignid = {$aPlacement['campaign_id']}";
                         $message = '- Passed placement end time: Deactivating placement ID ' .
                                    "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);
@@ -2782,7 +2768,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         $doCampaigns->campaignid = $aPlacement['campaign_id'];
                         $doCampaigns->find();
                         $doCampaigns->fetch();
-                        $doCampaigns->active = 'f';
+                        $doCampaigns->status = OA_ENTITY_STATUS_EXPIRED;
                         $result = $doCampaigns->update();
                         if ($result == false) {
                             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
@@ -2970,13 +2956,6 @@ class OA_Dal_Maintenance_Statistics_Common
                         (($aPlacement['targetclicks']      <= 0) || (($aPlacement['targetclicks']      > 0) && ($remainingClicks      > 0))) &&
                         (($aPlacement['targetconversions'] <= 0) || (($aPlacement['targetconversions'] > 0) && ($remainingConversions > 0))) &&
                         (is_null($oEndDate) || (($oEndDate->format('%Y-%m-%d') != OA_Dal::noDateValue()) && (Date::compare($oDate, $oEndDate) < 0)))) {
-                        $query = "
-                            UPDATE
-                                ".$this->oDbh->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['campaigns'],true)."
-                            SET
-                                status = ". OA_ENTITY_STATUS_RUNNING . "
-                            WHERE
-                                campaignid = {$aPlacement['campaign_id']}";
                         $mesage = '- Past campaign start time: Activating campaign ID ' .
                                   "{$aPlacement['campaign_id']}: {$aPlacement['campaign_name']}";
                         OA::debug($message, PEAR_LOG_INFO);
@@ -2985,7 +2964,7 @@ class OA_Dal_Maintenance_Statistics_Common
                         $doCampaigns->campaignid = $aPlacement['campaign_id'];
                         $doCampaigns->find();
                         $doCampaigns->fetch();
-                        $doCampaigns->active = 't';
+                        $doCampaigns->status = OA_ENTITY_STATUS_RUNNING;
                         $result = $doCampaigns->update();
                         if ($result == false) {
                             return MAX::raiseError($rows, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
