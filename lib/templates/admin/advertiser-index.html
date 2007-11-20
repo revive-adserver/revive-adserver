@@ -56,55 +56,6 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 </div>
 </div>
 
-<!-- Find other networks -->
-<div class="section">
-<div class="title">
-    <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;
-        Find other ad networks <span class="link" help="help-adnetworks">(what's this?)</span>
-</div>
- <div id="help-adnetworks" class="hide" style="height: auto; width: 290px;">
-    The networks that you see here are the most popular networks that have been suggested by your fellow Openads community members. 
-    If you would like to try these networks, click on the link and you will be directed to the sign up page for the ad network. 
-    Once you have signed up, place the tags from the network into a new Openads banner.            
-</div>
-            
-<div class="content oa">
-<div  id="find-adnetworks-body">
-	<table>
-		<tr>
-			<td style="vertical-align: top">
-			<form style="width: 230px" id="findnetworksform" class="new-form">
-			
-			<div class="line">
-			<label for="country" class="left" style="width: 70px; line-height: 20px">Country</label><select style="width: 11em;margin-left: 5px;" name="country" id="country" class="inline flat">
-			    {html_options options=$aCountries}
-			</select>
-			<br>
-			</div>
-			<div class="line">
-			<label for="language" class="left" style="width: 70px; line-height: 20px">Language</label><select style="width: 11em;margin-left: 5px;" name="language" id="language" class="inline flat">
-			    {html_options options=$aLanguages}
-			</select>
-			
-			</div>
-			</form>
-			<div ><a href="" class="suggest-adnetwork-show">Suggest another Ad Network</a></div>
-			</td>
-			<td style="vertical-align: top; padding-top: 14px">
-			<span id="other-networks-table">
-			  {include file=ajax/find-other-networks.html}
-			</span>
-			</td>
-		</tr>
-	</table>
-</div>
-{include file=suggest-adnetwork.html}
-</div>
-</div>
-{*<!-- /Find other networks -->*}
-
-
-
 <div class="section">
 <div class="title">
 <a href="#"><img src="images/triangle-d.gif" align="absmiddle" border="0"></a>&nbsp;Overall
