@@ -28,7 +28,8 @@ $Id$
 require_once MAX_PATH . '/lib/Max.php';
 
 require_once MAX_PATH . '/lib/OA.php';
-require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed.php';
+require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
+require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/DB/AdvisoryLock.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -61,7 +62,14 @@ class OA_Maintenance_Distributed
             // Attempt to increase PHP memory
             increaseMemoryLimit($GLOBALS['_MAX']['REQUIRED_MEMORY']['MAINTENANCE']);
 
-            $oDal = new OA_Dal_Maintenance_Distributed();
+            $oDbh      = OA_DB::singleton();
+            $dbType    = strtolower($oDbh->dbsyntax);
+            $fileName  = MAX_PATH . '/lib/OA/Dal/Maintenance/Distributed/'.$dbType.'.php';
+            $className = "OA_Dal_Maintenance_Distributed_{$dbType}";
+
+            require $fileName;
+
+            $oDal = new $className();
 
             $oStart = $oDal->getMaintenanceDistributedLastRunInfo();
 

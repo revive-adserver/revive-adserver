@@ -25,10 +25,9 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Dal/Common.php';
-
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Common.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
 require_once MAX_PATH . '/lib/OA/DB/Distributed.php';
 require_once MAX_PATH . '/lib/pear/Date.php';
@@ -41,7 +40,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
  * @subpackage Maintenance
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
-class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
+class OA_Dal_Maintenance_Distributed extends OA_Dal_Maintenance_Common
 {
     var $aTables;
 
@@ -59,7 +58,6 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
             $aConf['table']['data_raw_ad_impression'],
             $aConf['table']['data_raw_ad_click'],
             $aConf['table']['data_raw_tracker_impression'],
-            $aConf['table']['data_raw_tracker_click'],
             $aConf['table']['data_raw_tracker_variable_value'],
         );
     }
@@ -122,7 +120,7 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     }
 
     /**
-     * A private method to process a table and copy data to the main database.
+     * A private DB-Specific method to process a table and copy data to the main database.
      *
      * @param string $sTableName The table to process
      * @param Date $oStart A PEAR_Date instance, starting timestamp
@@ -130,46 +128,8 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
      */
     function _processTable($sTableName, $oStart, $oEnd)
     {
-        OA::debug(' - Copying '.$sTableName.' from '.$oStart->format('%Y-%m-%d %H:%M:%S').' to '.$oEnd->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
-
-        //$prefix = $this->getTablePrefix();
-        $sTableName = $this->_getTablename($sTableName);
-        $oMainDbh =& OA_DB_Distributed::singleton();
-
-        if (PEAR::isError($oMainDbh)) {
-            MAX::raiseError($oMainDbh, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-        }
-
-        $rsData =& $this->_getDataRawTableContent($sTableName, $oStart, $oEnd);
-        $oStatement = null;
-
-        OA::debug('   '.$rsData->getRowCount().' records found', PEAR_LOG_INFO);
-
-        while ($rsData->fetch()) {
-            $aRow = $rsData->toArray();
-            if (is_null($oStatement)) {
-                $aFields = array();
-                $aValues = array();
-                foreach (array_keys($aRow) as $sFieldName) {
-                    $aFields[] = $oMainDbh->quoteIdentifier($sFieldName);
-                    $aBindings[] = '?';
-                }
-                $oStatement = $oMainDbh->prepare("
-                    INSERT INTO
-                        {$sTableName} (".
-                            join(', ', $aFields).
-                        ") VALUES (".
-                            join(', ', $aBindings)."
-                        )", null, MDB2_PREPARE_MANIP);
-                if (PEAR::isError($oStatement)) {
-                    MAX::raiseError($oStatement, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-                }
-            }
-            $oInsert = $oStatement->execute(array_values($aRow));
-            if (PEAR::isError($oInsert)) {
-                MAX::raiseError($oInsert, MAX_ERROR_DBFAILURE, PEAR_ERROR_DIE);
-            }
-        }
+        OA::debug("Base class cannot be called directly", PEAR_LOG_ERR);
+        exit;
     }
 
     /**
@@ -190,7 +150,6 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
 
         OA::debug(' - Pruning '.$sTableName.' until '.$oTimestamp->format('%Y-%m-%d %H:%M:%S'), PEAR_LOG_INFO);
 
-        //$prefix = $this->getTablePrefix();
         $sTableName = $this->_getTablename($sTableName);
         $query = "
               DELETE FROM
@@ -240,8 +199,6 @@ class OA_Dal_Maintenance_Distributed extends MAX_Dal_Common
     {
         $oEnd->subtractSeconds(1);
 
-        //$prefix = $this->getTablePrefix();
-        $sTableName = $this->_getTablename($sTableName);
         $query = "
               SELECT
                 *
