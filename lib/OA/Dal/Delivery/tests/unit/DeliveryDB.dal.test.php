@@ -55,7 +55,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->prefix = $aConf['table']['prefix'];
         TestEnv::restoreEnv();
         $error = TestEnv::loadData('0.3.27_delivery', 'insert');
-        
+
     }
 
     function before()
@@ -217,7 +217,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $search     = 'foo';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
-        $this->assertEqual($aReturn['count_active'], 2);
+        $this->assertEqual($aReturn['count_active'], 1);
 
         $search     = 'foo,+bar';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
@@ -237,7 +237,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $search     = 'textad';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
-        $this->assertEqual($aReturn['count_active'], 13);
+        $this->assertEqual($aReturn['count_active'], 12);
 	}
 
     /**
