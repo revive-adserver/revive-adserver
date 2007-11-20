@@ -314,9 +314,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
           AND
             c.campaignid = d.campaignid
           AND
-            d.active = 0
+            d.status = 0
           AND
-            c.active = 0
+            c.status = 0
     ";
 
     $rAds = OA_Dal_Delivery_query($query);
