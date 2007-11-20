@@ -260,7 +260,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
         SELECT
             d.bannerid AS ad_id,
             d.campaignid AS placement_id,
-            d.active AS active,
+            d.status AS status,
             d.description AS name,
             d.storagetype AS type,
             d.contenttype AS contenttype,
@@ -276,7 +276,7 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
             d.target AS target,
             d.url AS url,
             d.alt AS alt,
-            d.status AS status,
+            d.statustext AS statustext,
             d.bannertext AS bannertext,
             d.autohtml AS autohtml,
             d.adserver AS adserver,
@@ -314,9 +314,9 @@ function OA_Dal_Delivery_getZoneLinkedAds($zoneid) {
           AND
             c.campaignid = d.campaignid
           AND
-            d.active = 't'
+            d.active = 0
           AND
-            c.active = 't'
+            c.active = 0
     ";
 
     $rAds = OA_Dal_Delivery_query($query);
@@ -488,7 +488,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         SELECT
         d.bannerid AS ad_id,
         d.campaignid AS placement_id,
-        d.active AS active,
+        d.status AS status,
         d.description AS name,
         d.storagetype AS type,
         d.contenttype AS contenttype,
@@ -504,7 +504,7 @@ function OA_Dal_Delivery_getAd($ad_id) {
         d.target AS target,
         d.url AS url,
         d.alt AS alt,
-        d.status AS status,
+        d.statustext AS statustext,
         d.bannertext AS bannertext,
         d.autohtml AS autohtml,
         d.adserver AS adserver,
@@ -1118,7 +1118,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
     $aColumns = array(
             'd.bannerid AS ad_id',
             'd.campaignid AS placement_id',
-            'd.active AS active',
+            'd.status AS status',
             'd.description AS name',
             'd.storagetype AS type',
             'd.contenttype AS contenttype',
@@ -1134,7 +1134,7 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
             'd.target AS target',
             'd.url AS url',
             'd.alt AS alt',
-            'd.status AS status',
+            'd.statustext AS statustext',
             'd.bannertext AS bannertext',
             'd.autohtml AS autohtml',
             'd.adserver AS adserver',
@@ -1168,13 +1168,12 @@ function OA_Dal_Delivery_buildQuery($part, $lastpart, $precondition)
         '"'.$conf['table']['prefix'].$conf['table']['campaigns'] . '" AS m',
         '"'.$conf['table']['prefix'].$conf['table']['ad_zone_assoc'] .'" AS az'
     );
-
     $select = "
         d.bannerid=az.ad_id
       AND az.zone_id=0
       AND d.campaignid=m.campaignid
-      AND m.active='t'
-      AND d.active='t'";
+      AND m.status=0
+      AND d.status=0";
 
     // Add preconditions to query
     if ($precondition != '')

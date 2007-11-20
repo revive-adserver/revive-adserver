@@ -93,15 +93,7 @@ function OA_Dal_Delivery_query($query, $database = 'database') {
         $GLOBALS['_MAX'][$dbName] = OA_Dal_Delivery_connect($database);
     }
     if (is_resource($GLOBALS['_MAX'][$dbName])) {
-        $res = @mysql_query($query, $GLOBALS['_MAX'][$dbName]);
-        if (!$res) {
-            echo('<pre>');
-//            var_dump($query);
-//            var_dump(mysql_error());
-            var_dump(debug_backtrace());
-            die();
-        }
-        return $res;
+        return @mysql_query($query, $GLOBALS['_MAX'][$dbName]);
     } else {
         return false;
     }
