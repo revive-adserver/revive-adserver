@@ -1,5 +1,6 @@
 <?php
 
+require_once(MAX_PATH.'/lib/OA/Dll.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 
 class Migration_540 extends Migration
