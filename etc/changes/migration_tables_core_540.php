@@ -1,7 +1,7 @@
 <?php
 
-require_once(MAX_PATH.'/lib/OA/Dll.php');
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH.'/lib/OA/Dll.php');
 
 class Migration_540 extends Migration
 {
@@ -228,12 +228,6 @@ class Migration_540 extends Migration
             return $this->_logErrorAndReturnFalse("Cannot retrieve banners");
         }
 
-        $oUpdate = $this->oDBH->prepare("UPDATE {$tblBanners} SET status = ? WHERE bannerid = ?");
-
-        if (PEAR::isError($oUpdate)) {
-            return $this->_logErrorAndReturnFalse("Cannot prepare banners query");
-        }
-
         foreach ($aBanners as $bannerId => $row)
         {
             if ($row['active'] == 't') {
@@ -242,7 +236,14 @@ class Migration_540 extends Migration
                 $status = OA_ENTITY_STATUS_PAUSED;
             }
 
-            $result = $oUpdate->execute(array($status, $bannerId));
+            $result = $this->oDBH->exec("
+                UPDATE
+                    {$tblBanners}
+                SET
+                    status = ".$this->oDBH->quote($status, 'integer')."
+                WHERE
+                    bannerid = ".$this->oDBH->quote($bannerId, 'integer')."
+            ");
 
             if (PEAR::isError($result)) {
                 return $this->_logErrorAndReturnFalse("Cannot execute banners query");
@@ -279,12 +280,6 @@ class Migration_540 extends Migration
             return $this->_logErrorAndReturnFalse("Cannot retrieve campaign list");
         }
 
-        $oUpdate = $this->oDBH->prepare("UPDATE {$tblCampaigns} SET status = ? WHERE campaignid = ?");
-
-        if (PEAR::isError($oUpdate)) {
-            return $this->_logErrorAndReturnFalse("Cannot prepare campaign query");
-        }
-
         foreach ($aCampaigns as $campaignId => $row)
         {
             if ($row['active'] == 't') {
@@ -299,7 +294,14 @@ class Migration_540 extends Migration
                 $status = OA_ENTITY_STATUS_PAUSED;
             }
 
-            $result = $oUpdate->execute(array($status, $campaignId));
+            $result = $this->oDBH->exec("
+                UPDATE
+                    {$tblCampaigns}
+                SET
+                    status = ".$this->oDBH->quote($status, 'integer')."
+                WHERE
+                    campaignid = ".$this->oDBH->quote($campaignId, 'integer')."
+            ");
 
             if (PEAR::isError($result)) {
                 return $this->_logErrorAndReturnFalse("Cannot execute campaign query");
