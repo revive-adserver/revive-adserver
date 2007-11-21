@@ -846,11 +846,13 @@ function phpAds_ShowBreak($print = true, $imgPath = '')
 function phpAds_sqlDie()
 {
     global $phpAds_last_query;
-    $error = phpAds_dbError();
+    $connection = DBC::getCurrentConnection();
+
     $corrupt = false;
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
-        $errornumber = phpAds_dbErrorNo();
+        $error = mysql_error($connection);
+        $errornumber = mysql_errno($connection);
         if ($errornumber == 1027 || $errornumber == 1039) {
             $corrupt = true;
         }
@@ -868,8 +870,10 @@ function phpAds_sqlDie()
 
         $dbmsName = 'MySQL';
     } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
+        $error = pg_errormessage($connection);
         $dbmsName = 'PostgreSQL';
     } else {
+        $error = '';
         $dbmsName = 'Unknown';
     }
     if ($corrupt) {
@@ -886,7 +890,6 @@ function phpAds_sqlDie()
         if ((phpAds_isLoggedIn() && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))) || defined('phpAds_installing')) {
 
             // Get the DB server version
-            $connection = DBC::getCurrentConnection();
             $connectionId = $connection->getConnectionId();
             $aVersion = $connectionId->getServerVersion();
             $dbVersion = $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
