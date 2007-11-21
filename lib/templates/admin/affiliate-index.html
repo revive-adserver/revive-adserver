@@ -23,15 +23,13 @@
 | You should have received a copy of the GNU General Public License         |
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
----------------------------------------------------------------------------+
++---------------------------------------------------------------------------+
 $Id$
 
 -->*}
 
-<img src="images/icon-affiliate-new.gif" border="0" align="absmiddle">&nbsp;
-<!-- TODO: Add a link pointing to the screen for creating new publishers -->
-<a href="#" accesskey="{t key=AddNew}">{t str=AddNewAffiliate_Key}</a>&nbsp;&nbsp;
-
+<img src='images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;
+<a href='affiliate-edit.php' accesskey=".$keyAddNew.">{t str=AddNewAffiliate_Key}</a>&nbsp;&nbsp;
 {phpAds_ShowBreak}
 
 {if $error!=''}
@@ -46,3 +44,27 @@ $Id$
 <br>
 
 {include file=affiliate-index-list.html from=$affiliates}
+
+<br /><br /><br /><br />
+
+{* Total number of clients *}
+<table width='100%' border='0' align='center' cellspacing='0' cellpadding='0'>
+<tr>
+    <td height='25' colspan='2'>&nbsp;&nbsp;<b>{t str=Overall}</b></td>
+
+</tr>
+<tr height='1'>
+    <td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+</tr>
+
+<tr>
+    <td height='25'>&nbsp;&nbsp;{t str=TotalZones}: <b>{$countZone}</b></td>
+    <td height='25'>{t str=TotalAffiliates}: <b>{$countAffiliate}</b></td>
+</tr>
+
+<tr height='1'>
+    <td colspan='2' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td>
+</tr>
+
+</table>
+<br /><br />
