@@ -3,11 +3,11 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Nov 05, 2007 at 02:54 PM
+-- Generation Time: Nov 21, 2007 at 11:23 AM
 -- Server version: 5.0.22
--- PHP Version: 4.4.7
+-- PHP Version: 5.2.5
 -- 
--- Database: `oap_canoo`
+-- Database: `canoo`
 -- 
 
 -- --------------------------------------------------------
@@ -126,12 +126,12 @@ CREATE TABLE `oa_affiliates` (
   `publiczones` enum('t','f') NOT NULL default 'f',
   `last_accepted_agency_agreement` datetime default NULL,
   `updated` datetime default NULL,
-  `oac_website_id` int(11) default NULL,
+  `an_website_id` int(11) default NULL,
   `oac_country_code` char(2) NOT NULL default '',
   `oac_language_id` int(11) default NULL,
   `oac_category_id` int(11) default NULL,
+  `as_website_id` int(11) default NULL,
   PRIMARY KEY  (`affiliateid`),
-  KEY `affiliates_agencyid` (`agencyid`),
   KEY `oa_affiliates_agencyid` (`agencyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
@@ -139,8 +139,8 @@ CREATE TABLE `oa_affiliates` (
 -- Dumping data for table `oa_affiliates`
 -- 
 
-INSERT INTO `oa_affiliates` (`affiliateid`, `agencyid`, `name`, `mnemonic`, `comments`, `contact`, `email`, `website`, `username`, `password`, `permissions`, `language`, `publiczones`, `last_accepted_agency_agreement`, `updated`, `oac_website_id`, `oac_country_code`, `oac_language_id`, `oac_category_id`) VALUES (1, 0, 'Publisher 1', '', '', 'Andrew Hill', 'andrew.hill@openads.org', 'http://www.fornax.net/blog/', 'publisher', '5f4dcc3b5aa765d61d8327deb882cf99', 0, '', 'f', NULL, '2007-05-15 13:29:57', NULL, '', NULL, NULL),
-(2, 1, 'Agency Publisher 1', '', '', 'Andrew Hill', 'andrew.hill@openads.org', 'http://fornax.net', NULL, '', 0, NULL, 'f', NULL, '2007-05-15 13:41:40', NULL, '', NULL, NULL);
+INSERT INTO `oa_affiliates` (`affiliateid`, `agencyid`, `name`, `mnemonic`, `comments`, `contact`, `email`, `website`, `username`, `password`, `permissions`, `language`, `publiczones`, `last_accepted_agency_agreement`, `updated`, `an_website_id`, `oac_country_code`, `oac_language_id`, `oac_category_id`, `as_website_id`) VALUES (1, 0, 'Publisher 1', '', '', 'Andrew Hill', 'andrew.hill@openads.org', 'http://www.fornax.net/blog/', 'publisher', '5f4dcc3b5aa765d61d8327deb882cf99', 0, '', 'f', NULL, '2007-05-15 13:29:57', NULL, '', NULL, NULL, NULL),
+(2, 1, 'Agency Publisher 1', '', '', 'Andrew Hill', 'andrew.hill@openads.org', 'http://fornax.net', NULL, '', 0, NULL, 'f', NULL, '2007-05-15 13:41:40', NULL, '', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -226,20 +226,49 @@ INSERT INTO `oa_application_variable` (`name`, `value`) VALUES ('oa_version', '2
 -- --------------------------------------------------------
 
 -- 
+-- Table structure for table `oa_audit`
+-- 
+
+CREATE TABLE `oa_audit` (
+  `auditid` mediumint(9) NOT NULL auto_increment,
+  `actionid` mediumint(9) NOT NULL,
+  `context` varchar(255) NOT NULL default '',
+  `contextid` mediumint(9) default NULL,
+  `parentid` mediumint(9) default NULL,
+  `details` text NOT NULL,
+  `userid` mediumint(9) NOT NULL default '0',
+  `username` varchar(64) default NULL,
+  `usertype` tinyint(4) NOT NULL default '0',
+  `updated` datetime default NULL,
+  PRIMARY KEY  (`auditid`),
+  KEY `oa_audit_parentid_contextid` (`parentid`,`contextid`),
+  KEY `oa_audit_updated` (`updated`),
+  KEY `oa_audit_usertype` (`usertype`),
+  KEY `oa_audit_username` (`username`),
+  KEY `oa_audit_context_actionid` (`context`,`actionid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- 
+-- Dumping data for table `oa_audit`
+-- 
+
+
+-- --------------------------------------------------------
+
+-- 
 -- Table structure for table `oa_banners`
 -- 
 
 CREATE TABLE `oa_banners` (
   `bannerid` mediumint(9) NOT NULL auto_increment,
   `campaignid` mediumint(9) NOT NULL default '0',
-  `active` enum('t','f') NOT NULL default 't',
   `contenttype` enum('gif','jpeg','png','html','swf','dcr','rpm','mov','txt') NOT NULL default 'gif',
   `pluginversion` mediumint(9) NOT NULL default '0',
   `storagetype` enum('sql','web','url','html','network','txt') NOT NULL default 'sql',
   `filename` varchar(255) NOT NULL default '',
   `imageurl` varchar(255) NOT NULL default '',
-  `htmltemplate` longblob NOT NULL,
-  `htmlcache` longblob NOT NULL,
+  `htmltemplate` text NOT NULL,
+  `htmlcache` text NOT NULL,
   `width` smallint(6) NOT NULL default '0',
   `height` smallint(6) NOT NULL default '0',
   `weight` tinyint(4) NOT NULL default '1',
@@ -247,40 +276,42 @@ CREATE TABLE `oa_banners` (
   `target` varchar(16) NOT NULL default '',
   `url` text NOT NULL,
   `alt` varchar(255) NOT NULL default '',
-  `status` varchar(255) NOT NULL default '',
-  `bannertext` longblob NOT NULL,
+  `statustext` varchar(255) NOT NULL default '',
+  `status` int(11) NOT NULL default '0',
+  `bannertext` text NOT NULL,
   `description` varchar(255) NOT NULL default '',
   `autohtml` enum('t','f') NOT NULL default 't',
   `adserver` varchar(50) NOT NULL default '',
   `block` int(11) NOT NULL default '0',
   `capping` int(11) NOT NULL default '0',
   `session_capping` int(11) NOT NULL default '0',
-  `compiledlimitation` longblob NOT NULL,
-  `acl_plugins` text NOT NULL,
-  `append` longblob NOT NULL,
+  `compiledlimitation` text NOT NULL,
+  `acl_plugins` text,
+  `append` text NOT NULL,
   `appendtype` tinyint(4) NOT NULL default '0',
   `bannertype` tinyint(4) NOT NULL default '0',
   `alt_filename` varchar(255) NOT NULL default '',
   `alt_imageurl` varchar(255) NOT NULL default '',
-  `alt_contenttype` enum('gif','jpg','png') NOT NULL default 'gif',
+  `alt_contenttype` enum('gif','jpeg','png') NOT NULL default 'gif',
   `comments` text,
-  `updated` datetime default NULL,
+  `updated` datetime NOT NULL,
   `acls_updated` datetime NOT NULL default '0000-00-00 00:00:00',
   `keyword` varchar(255) NOT NULL default '',
-  `transparent` tinyint(4) NOT NULL default '0',
-  `parameters` text NOT NULL,
-  `oac_banner_id` int(11) default NULL,
+  `transparent` tinyint(1) NOT NULL default '0',
+  `parameters` text,
+  `an_banner_id` int(11) default NULL,
+  `as_banner_id` int(11) default NULL,
   PRIMARY KEY  (`bannerid`),
-  KEY `banners_campaignid` (`campaignid`)
+  KEY `oa_banners_campaignid` (`campaignid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- 
 -- Dumping data for table `oa_banners`
 -- 
 
-INSERT INTO `oa_banners` (`bannerid`, `campaignid`, `active`, `contenttype`, `pluginversion`, `storagetype`, `filename`, `imageurl`, `htmltemplate`, `htmlcache`, `width`, `height`, `weight`, `seq`, `target`, `url`, `alt`, `status`, `bannertext`, `description`, `autohtml`, `adserver`, `block`, `capping`, `session_capping`, `compiledlimitation`, `acl_plugins`, `append`, `appendtype`, `bannertype`, `alt_filename`, `alt_imageurl`, `alt_contenttype`, `comments`, `updated`, `acls_updated`, `keyword`, `transparent`, `parameters`, `oac_banner_id`) VALUES (1, 1, 't', 'html', 0, 'html', '', '', 0x546573742048544d4c2042616e6e657221, 0x546573742048544d4c2042616e6e657221, 468, 60, 1, 0, '', '', '', '', '', '', 't', '', 0, 0, 0, 0x284d41585f636865636b536974655f4368616e6e656c282737272c20273d7e272929, 'Site:Channel', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '2007-05-15 15:01:43', '', 0, 'N;', NULL),
-(2, 2, 't', 'html', 0, 'html', '', '', 0x68746d6c20746573742062616e6e6572, 0x3c6120687265663d227b636c69636b75726c7d22207461726765743d227b7461726765747d223e68746d6c20746573742062616e6e65723c2f613e, 468, 60, 1, 0, '', 'http://www.example.com', '', '', '', 'test banner', 't', 'max', 0, 0, 0, '', '', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '0000-00-00 00:00:00', '', 0, 'N;', NULL),
-(3, 3, 't', 'gif', 0, 'sql', '468x60.gif', '', '', '', 468, 60, 1, 0, '', 'http://www.example.com', 'alt text', '', '', 'sample gif banner', 'f', '', 0, 0, 0, '', '', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '0000-00-00 00:00:00', '', 0, 'N;', NULL);
+INSERT INTO `oa_banners` (`bannerid`, `campaignid`, `contenttype`, `pluginversion`, `storagetype`, `filename`, `imageurl`, `htmltemplate`, `htmlcache`, `width`, `height`, `weight`, `seq`, `target`, `url`, `alt`, `statustext`, `status`, `bannertext`, `description`, `autohtml`, `adserver`, `block`, `capping`, `session_capping`, `compiledlimitation`, `acl_plugins`, `append`, `appendtype`, `bannertype`, `alt_filename`, `alt_imageurl`, `alt_contenttype`, `comments`, `updated`, `acls_updated`, `keyword`, `transparent`, `parameters`, `an_banner_id`, `as_banner_id`) VALUES (1, 1, 'html', 0, 'html', '', '', 'Test HTML Banner!', 'Test HTML Banner!', 468, 60, 1, 0, '', '', '', '', 0, '', '', 't', '', 0, 0, 0, '(MAX_checkSite_Channel(''7'', ''=~''))', 'Site:Channel', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '2007-05-15 15:01:43', '', 0, 'N;', NULL, NULL),
+(2, 2, 'html', 0, 'html', '', '', 'html test banner', '<a href="{clickurl}" target="{target}">html test banner</a>', 468, 60, 1, 0, '', 'http://www.example.com', '', '', 0, '', 'test banner', 't', 'max', 0, 0, 0, '', '', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '0000-00-00 00:00:00', '', 0, 'N;', NULL, NULL),
+(3, 3, 'gif', 0, 'sql', '468x60.gif', '', '', '', 468, 60, 1, 0, '', 'http://www.example.com', 'alt text', '', 0, '', 'sample gif banner', 'f', '', 0, 0, 0, '', '', '', 0, 0, '', '', 'gif', '', '2007-08-29 14:38:32', '0000-00-00 00:00:00', '', 0, 'N;', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -297,7 +328,6 @@ CREATE TABLE `oa_campaigns` (
   `conversions` int(11) default '-1',
   `expire` date default '0000-00-00',
   `activate` date default '0000-00-00',
-  `active` enum('t','f') NOT NULL default 't',
   `priority` int(11) NOT NULL default '0',
   `weight` tinyint(4) NOT NULL default '1',
   `target_impression` int(11) NOT NULL default '0',
@@ -312,18 +342,21 @@ CREATE TABLE `oa_campaigns` (
   `block` int(11) NOT NULL default '0',
   `capping` int(11) NOT NULL default '0',
   `session_capping` int(11) NOT NULL default '0',
-  `oac_campaign_id` int(11) default NULL,
+  `an_campaign_id` int(11) default NULL,
+  `as_campaign_id` int(11) default NULL,
+  `status` int(11) NOT NULL default '0',
+  `an_status` int(11) NOT NULL default '0',
   PRIMARY KEY  (`campaignid`),
-  KEY `campaigns_clientid` (`clientid`)
+  KEY `oa_campaigns_clientid` (`clientid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- 
 -- Dumping data for table `oa_campaigns`
 -- 
 
-INSERT INTO `oa_campaigns` (`campaignid`, `campaignname`, `clientid`, `views`, `clicks`, `conversions`, `expire`, `activate`, `active`, `priority`, `weight`, `target_impression`, `target_click`, `target_conversion`, `anonymous`, `companion`, `comments`, `revenue`, `revenue_type`, `updated`, `block`, `capping`, `session_capping`, `oac_campaign_id`) VALUES (1, 'Advertiser 1 - Default Campaign', 1, 100000000, -1, -1, '2007-07-01', '0000-00-00', 't', 10, 0, 0, 0, 0, 'f', 0, '', NULL, NULL, '2007-05-15 09:54:06', 0, 0, 0, NULL),
-(2, 'test campaign', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', -1, 1, 0, 0, 0, 't', 0, '', NULL, NULL, '2007-05-16 12:55:24', 0, 0, 0, NULL),
-(3, 'campaign 2 (gif)', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 't', 0, 1, 0, 0, 0, 't', 0, '', NULL, NULL, '2007-05-17 13:14:43', 0, 0, 0, NULL);
+INSERT INTO `oa_campaigns` (`campaignid`, `campaignname`, `clientid`, `views`, `clicks`, `conversions`, `expire`, `activate`, `priority`, `weight`, `target_impression`, `target_click`, `target_conversion`, `anonymous`, `companion`, `comments`, `revenue`, `revenue_type`, `updated`, `block`, `capping`, `session_capping`, `an_campaign_id`, `as_campaign_id`, `status`, `an_status`) VALUES (1, 'Advertiser 1 - Default Campaign', 1, 100000000, -1, -1, '2007-07-01', '0000-00-00', 10, 0, 0, 0, 0, 'f', 0, '', NULL, NULL, '2007-05-15 09:54:06', 0, 0, 0, NULL, NULL, 0, 0),
+(2, 'test campaign', 1, -1, -1, -1, '0000-00-00', '0000-00-00', -1, 1, 0, 0, 0, 't', 0, '', NULL, NULL, '2007-05-16 12:55:24', 0, 0, 0, NULL, NULL, 0, 0),
+(3, 'campaign 2 (gif)', 1, -1, -1, -1, '0000-00-00', '0000-00-00', 0, 1, 0, 0, 0, 't', 0, '', NULL, NULL, '2007-05-17 13:14:43', 0, 0, 0, NULL, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -414,18 +447,19 @@ CREATE TABLE `oa_clients` (
   `reportlastdate` date NOT NULL default '0000-00-00',
   `reportdeactivate` enum('t','f') NOT NULL default 't',
   `comments` text,
-  `updated` datetime default NULL,
-  `lb_reporting` enum('t','f') NOT NULL default 'f',
-  `oac_adnetwork_id` int(11) default NULL,
+  `updated` datetime NOT NULL,
+  `lb_reporting` tinyint(1) NOT NULL default '0',
+  `an_adnetwork_id` int(11) default NULL,
+  `as_advertiser_id` int(11) default NULL,
   PRIMARY KEY  (`clientid`),
-  KEY `clients_agencyid` (`agencyid`)
+  KEY `oa_clients_agencyid` (`agencyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- 
 -- Dumping data for table `oa_clients`
 -- 
 
-INSERT INTO `oa_clients` (`clientid`, `agencyid`, `clientname`, `contact`, `email`, `clientusername`, `clientpassword`, `permissions`, `language`, `report`, `reportinterval`, `reportlastdate`, `reportdeactivate`, `comments`, `updated`, `lb_reporting`, `oac_adnetwork_id`) VALUES (1, 0, 'Advertiser 1', 'advertiser', 'example@example.com', 'advertiser1', 'fe1f4b7940d69cf3eb289fad37c3ae40', 0, '', 'f', 7, '2007-04-27', 't', '', '2007-05-16 12:54:09', 'f', NULL);
+INSERT INTO `oa_clients` (`clientid`, `agencyid`, `clientname`, `contact`, `email`, `clientusername`, `clientpassword`, `permissions`, `language`, `report`, `reportinterval`, `reportlastdate`, `reportdeactivate`, `comments`, `updated`, `lb_reporting`, `an_adnetwork_id`, `as_advertiser_id`) VALUES (1, 0, 'Advertiser 1', 'advertiser', 'example@example.com', 'advertiser1', 'fe1f4b7940d69cf3eb289fad37c3ae40', 0, '', 'f', 7, '2007-04-27', 't', '', '2007-05-16 12:54:09', 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -435,8 +469,7 @@ INSERT INTO `oa_clients` (`clientid`, `agencyid`, `clientname`, `contact`, `emai
 
 CREATE TABLE `oa_data_intermediate_ad` (
   `data_intermediate_ad_id` bigint(20) NOT NULL auto_increment,
-  `day` date NOT NULL,
-  `hour` int(10) unsigned NOT NULL,
+  `date_time` datetime NOT NULL,
   `operation_interval` int(10) unsigned NOT NULL,
   `operation_interval_id` int(10) unsigned NOT NULL,
   `interval_start` datetime NOT NULL,
@@ -452,10 +485,10 @@ CREATE TABLE `oa_data_intermediate_ad` (
   `total_num_items` int(11) NOT NULL default '0',
   `updated` datetime NOT NULL,
   PRIMARY KEY  (`data_intermediate_ad_id`),
-  KEY `data_intermediate_ad_day` (`day`),
-  KEY `data_intermediate_ad_operation_interval_id` (`operation_interval_id`),
-  KEY `data_intermediate_ad_ad_id` (`ad_id`),
-  KEY `data_intermediate_ad_zone_id` (`zone_id`)
+  KEY `oa_data_intermediate_ad_ad_id_date_time` (`ad_id`,`date_time`),
+  KEY `oa_data_intermediate_ad_zone_id_date_time` (`zone_id`,`date_time`),
+  KEY `oa_data_intermediate_ad_date_time` (`date_time`),
+  KEY `oa_data_intermediate_ad_interval_start` (`interval_start`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
@@ -740,12 +773,12 @@ CREATE TABLE `oa_data_raw_tracker_impression` (
 -- Dumping data for table `oa_data_raw_tracker_impression`
 -- 
 
-INSERT INTO `oa_data_raw_tracker_impression` (`server_raw_tracker_impression_id`, `server_raw_ip`, `viewer_id`, `viewer_session_id`, `date_time`, `tracker_id`, `channel`, `channel_ids`, `language`, `ip_address`, `host_name`, `country`, `https`, `domain`, `page`, `query`, `referer`, `search_term`, `user_agent`, `os`, `browser`, `max_https`, `geo_region`, `geo_city`, `geo_postal_code`, `geo_latitude`, `geo_longitude`, `geo_dma_code`, `geo_area_code`, `geo_organisation`, `geo_netspeed`, `geo_continent`) VALUES (1, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:13:26', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', '0.0000', '0.0000', '', '', '', '', ''),
-(2, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:13:37', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', '0.0000', '0.0000', '', '', '', '', ''),
-(3, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:23:06', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', '0.0000', '0.0000', '', '', '', '', ''),
-(4, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:23:07', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', '0.0000', '0.0000', '', '', '', '', ''),
-(5, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:24:37', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', '0.0000', '0.0000', '', '', '', '', ''),
-(6, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:25:53', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', '0.0000', '0.0000', '', '', '', '', '');
+INSERT INTO `oa_data_raw_tracker_impression` (`server_raw_tracker_impression_id`, `server_raw_ip`, `viewer_id`, `viewer_session_id`, `date_time`, `tracker_id`, `channel`, `channel_ids`, `language`, `ip_address`, `host_name`, `country`, `https`, `domain`, `page`, `query`, `referer`, `search_term`, `user_agent`, `os`, `browser`, `max_https`, `geo_region`, `geo_city`, `geo_postal_code`, `geo_latitude`, `geo_longitude`, `geo_dma_code`, `geo_area_code`, `geo_organisation`, `geo_netspeed`, `geo_continent`) VALUES (1, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:13:26', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
+(2, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:13:37', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
+(3, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:23:06', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
+(4, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:23:07', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
+(5, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:24:37', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', ''),
+(6, 'singleDB', '6e8928c9063f85e75c8a457b42f50257', '', '2007-06-01 15:25:53', 1, '', '', 'en-us,en;q=0.5', '127.0.0.1', '127.0.0.1', '', 0, '', '', '', '', '', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070312 Firefox/1.5.0.11', '', '', 0, '', '', '', 0.0000, 0.0000, '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -787,8 +820,7 @@ INSERT INTO `oa_data_raw_tracker_variable_value` (`server_raw_tracker_impression
 
 CREATE TABLE `oa_data_summary_ad_hourly` (
   `data_summary_ad_hourly_id` bigint(20) NOT NULL auto_increment,
-  `day` date NOT NULL,
-  `hour` int(10) unsigned NOT NULL,
+  `date_time` datetime NOT NULL,
   `ad_id` int(10) unsigned NOT NULL,
   `creative_id` int(10) unsigned NOT NULL,
   `zone_id` int(10) unsigned NOT NULL,
@@ -803,10 +835,9 @@ CREATE TABLE `oa_data_summary_ad_hourly` (
   `total_techcost` decimal(10,4) default NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY  (`data_summary_ad_hourly_id`),
-  KEY `data_summary_ad_hourly_day` (`day`),
-  KEY `data_summary_ad_hourly_hour` (`hour`),
-  KEY `data_summary_ad_hourly_ad_id` (`ad_id`),
-  KEY `data_summary_ad_hourly_zone_id` (`zone_id`)
+  KEY `oa_data_summary_ad_hourly_date_time` (`date_time`),
+  KEY `oa_data_summary_ad_hourly_ad_id_date_time` (`ad_id`,`date_time`),
+  KEY `oa_data_summary_ad_hourly_zone_id_date_time` (`zone_id`,`date_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- 
@@ -1277,7 +1308,6 @@ CREATE TABLE `oa_preference` (
   `gui_column_ecpc` text,
   `gui_column_ecps` text,
   `gui_column_epps` text,
-  `instance_id` varchar(64) default NULL,
   `maintenance_cron_timestamp` int(11) default NULL,
   `warn_limit_days` smallint(6) NOT NULL default '1',
   PRIMARY KEY  (`agencyid`)
@@ -1287,8 +1317,8 @@ CREATE TABLE `oa_preference` (
 -- Dumping data for table `oa_preference`
 -- 
 
-INSERT INTO `oa_preference` (`agencyid`, `config_version`, `my_header`, `my_footer`, `my_logo`, `language`, `name`, `company_name`, `override_gd_imageformat`, `begin_of_week`, `percentage_decimals`, `type_sql_allow`, `type_url_allow`, `type_web_allow`, `type_html_allow`, `type_txt_allow`, `banner_html_auto`, `admin`, `admin_pw`, `admin_fullname`, `admin_email`, `warn_admin`, `warn_agency`, `warn_client`, `warn_limit`, `admin_email_headers`, `admin_novice`, `default_banner_weight`, `default_campaign_weight`, `default_banner_url`, `default_banner_destination`, `client_welcome`, `client_welcome_msg`, `publisher_welcome`, `publisher_welcome_msg`, `content_gzip_compression`, `userlog_email`, `gui_show_campaign_info`, `gui_show_campaign_preview`, `gui_campaign_anonymous`, `gui_show_banner_info`, `gui_show_banner_preview`, `gui_show_banner_html`, `gui_show_matching`, `gui_show_parents`, `gui_hide_inactive`, `gui_link_compact_limit`, `gui_header_background_color`, `gui_header_foreground_color`, `gui_header_active_tab_color`, `gui_header_text_color`, `gui_invocation_3rdparty_default`, `qmail_patch`, `updates_enabled`, `updates_cache`, `updates_timestamp`, `updates_last_seen`, `allow_invocation_plain`, `allow_invocation_plain_nocookies`, `allow_invocation_js`, `allow_invocation_frame`, `allow_invocation_xmlrpc`, `allow_invocation_local`, `allow_invocation_interstitial`, `allow_invocation_popup`, `allow_invocation_clickonly`, `auto_clean_tables`, `auto_clean_tables_interval`, `auto_clean_userlog`, `auto_clean_userlog_interval`, `auto_clean_tables_vacuum`, `autotarget_factor`, `maintenance_timestamp`, `compact_stats`, `statslastday`, `statslasthour`, `default_tracker_status`, `default_tracker_type`, `default_tracker_linkcampaigns`, `publisher_agreement`, `publisher_agreement_text`, `publisher_payment_modes`, `publisher_currencies`, `publisher_categories`, `publisher_help_files`, `publisher_default_tax_id`, `publisher_default_approved`, `more_reports`, `gui_column_id`, `gui_column_requests`, `gui_column_impressions`, `gui_column_clicks`, `gui_column_ctr`, `gui_column_conversions`, `gui_column_conversions_pending`, `gui_column_sr_views`, `gui_column_sr_clicks`, `gui_column_revenue`, `gui_column_cost`, `gui_column_bv`, `gui_column_num_items`, `gui_column_revcpc`, `gui_column_costcpc`, `gui_column_technology_cost`, `gui_column_income`, `gui_column_income_margin`, `gui_column_profit`, `gui_column_margin`, `gui_column_erpm`, `gui_column_erpc`, `gui_column_erps`, `gui_column_eipm`, `gui_column_eipc`, `gui_column_eips`, `gui_column_ecpm`, `gui_column_ecpc`, `gui_column_ecps`, `gui_column_epps`, `instance_id`, `maintenance_cron_timestamp`, `warn_limit_days`) VALUES (0, '0.000', NULL, NULL, NULL, 'english', NULL, 'www.openads.org', NULL, 0, 2, 't', 't', 'f', 't', 't', 't', 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'Andrew Hill', 'andrew.hill@openads.org', 't', 't', 't', 100, NULL, 't', 1, 1, NULL, NULL, 't', NULL, 't', NULL, 'f', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 50, NULL, NULL, NULL, NULL, '0', 'f', 't', 'b:0;', 1188468357, '0.000', 'f', 't', 't', 'f', 'f', 't', 't', 't', 't', 'f', 5, 'f', 5, 't', -1, 1180706838, 't', '0000-00-00', 0, 1, 1, 'f', 'f', NULL, '', '', '', '', 't', 't', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1),
-(1, '0.000', NULL, NULL, NULL, '', 'Test Agency', 'www.openads.org', NULL, 0, 2, 't', 't', 'f', 't', 't', 't', 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'Andrew Hill', 'andrew.hill@openads.org', 't', 't', 't', 100, NULL, 't', 1, 1, NULL, NULL, 't', NULL, 't', NULL, 'f', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 50, NULL, NULL, NULL, NULL, '0', 'f', 't', NULL, 0, NULL, 'f', 't', 't', 'f', 'f', 't', 't', 't', 't', 'f', 5, 'f', 5, 't', -1, 1180706838, 't', '0000-00-00', 0, 1, 1, 'f', 'f', NULL, '', '', '', '', 't', 't', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1179299106, 1);
+INSERT INTO `oa_preference` (`agencyid`, `config_version`, `my_header`, `my_footer`, `my_logo`, `language`, `name`, `company_name`, `override_gd_imageformat`, `begin_of_week`, `percentage_decimals`, `type_sql_allow`, `type_url_allow`, `type_web_allow`, `type_html_allow`, `type_txt_allow`, `banner_html_auto`, `admin`, `admin_pw`, `admin_fullname`, `admin_email`, `warn_admin`, `warn_agency`, `warn_client`, `warn_limit`, `admin_email_headers`, `admin_novice`, `default_banner_weight`, `default_campaign_weight`, `default_banner_url`, `default_banner_destination`, `client_welcome`, `client_welcome_msg`, `publisher_welcome`, `publisher_welcome_msg`, `content_gzip_compression`, `userlog_email`, `gui_show_campaign_info`, `gui_show_campaign_preview`, `gui_campaign_anonymous`, `gui_show_banner_info`, `gui_show_banner_preview`, `gui_show_banner_html`, `gui_show_matching`, `gui_show_parents`, `gui_hide_inactive`, `gui_link_compact_limit`, `gui_header_background_color`, `gui_header_foreground_color`, `gui_header_active_tab_color`, `gui_header_text_color`, `gui_invocation_3rdparty_default`, `qmail_patch`, `updates_enabled`, `updates_cache`, `updates_timestamp`, `updates_last_seen`, `allow_invocation_plain`, `allow_invocation_plain_nocookies`, `allow_invocation_js`, `allow_invocation_frame`, `allow_invocation_xmlrpc`, `allow_invocation_local`, `allow_invocation_interstitial`, `allow_invocation_popup`, `allow_invocation_clickonly`, `auto_clean_tables`, `auto_clean_tables_interval`, `auto_clean_userlog`, `auto_clean_userlog_interval`, `auto_clean_tables_vacuum`, `autotarget_factor`, `maintenance_timestamp`, `compact_stats`, `statslastday`, `statslasthour`, `default_tracker_status`, `default_tracker_type`, `default_tracker_linkcampaigns`, `publisher_agreement`, `publisher_agreement_text`, `publisher_payment_modes`, `publisher_currencies`, `publisher_categories`, `publisher_help_files`, `publisher_default_tax_id`, `publisher_default_approved`, `more_reports`, `gui_column_id`, `gui_column_requests`, `gui_column_impressions`, `gui_column_clicks`, `gui_column_ctr`, `gui_column_conversions`, `gui_column_conversions_pending`, `gui_column_sr_views`, `gui_column_sr_clicks`, `gui_column_revenue`, `gui_column_cost`, `gui_column_bv`, `gui_column_num_items`, `gui_column_revcpc`, `gui_column_costcpc`, `gui_column_technology_cost`, `gui_column_income`, `gui_column_income_margin`, `gui_column_profit`, `gui_column_margin`, `gui_column_erpm`, `gui_column_erpc`, `gui_column_erps`, `gui_column_eipm`, `gui_column_eipc`, `gui_column_eips`, `gui_column_ecpm`, `gui_column_ecpc`, `gui_column_ecps`, `gui_column_epps`, `maintenance_cron_timestamp`, `warn_limit_days`) VALUES (0, 0.000, NULL, NULL, NULL, 'english', NULL, 'www.openads.org', NULL, 0, 2, 't', 't', 'f', 't', 't', 't', 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'Andrew Hill', 'andrew.hill@openads.org', 't', 't', 't', 100, NULL, 't', 1, 1, NULL, NULL, 't', NULL, 't', NULL, 'f', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 50, NULL, NULL, NULL, NULL, '0', 'f', 't', 'b:0;', 1188468357, 0.000, 'f', 't', 't', 'f', 'f', 't', 't', 't', 't', 'f', 5, 'f', 5, 't', -1, 1180706838, 't', '0000-00-00', 0, 1, 1, 'f', 'f', NULL, '', '', '', '', 't', 't', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1),
+(1, 0.000, NULL, NULL, NULL, '', 'Test Agency', 'www.openads.org', NULL, 0, 2, 't', 't', 'f', 't', 't', 't', 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', 'Andrew Hill', 'andrew.hill@openads.org', 't', 't', 't', 100, NULL, 't', 1, 1, NULL, NULL, 't', NULL, 't', NULL, 'f', 't', 't', 't', 't', 't', 't', 't', 't', 't', 't', 50, NULL, NULL, NULL, NULL, '0', 'f', 't', NULL, 0, NULL, 'f', 't', 't', 'f', 'f', 't', 't', 't', 't', 'f', 5, 'f', 5, 't', -1, 1180706838, 't', '0000-00-00', 0, 1, 1, 'f', 'f', NULL, '', '', '', '', 't', 't', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1179299106, 1);
 
 -- --------------------------------------------------------
 
@@ -1535,31 +1565,32 @@ CREATE TABLE `oa_zones` (
   `width` smallint(6) NOT NULL default '0',
   `height` smallint(6) NOT NULL default '0',
   `ad_selection` text NOT NULL,
-  `chain` longblob NOT NULL,
-  `prepend` longblob NOT NULL,
-  `append` longblob NOT NULL,
+  `chain` text NOT NULL,
+  `prepend` text NOT NULL,
+  `append` text NOT NULL,
   `appendtype` tinyint(4) NOT NULL default '0',
   `forceappend` enum('t','f') default 'f',
   `inventory_forecast_type` smallint(6) NOT NULL default '0',
   `comments` text,
   `cost` decimal(10,4) default NULL,
   `cost_type` smallint(6) default NULL,
-  `cost_variable_id` varchar(255) NOT NULL default '',
+  `cost_variable_id` varchar(255) default NULL,
   `technology_cost` decimal(10,4) default NULL,
   `technology_cost_type` smallint(6) default NULL,
-  `updated` datetime default NULL,
+  `updated` datetime NOT NULL,
   `block` int(11) NOT NULL default '0',
   `capping` int(11) NOT NULL default '0',
   `session_capping` int(11) NOT NULL default '0',
-  `what` longblob NOT NULL,
+  `what` text NOT NULL,
+  `as_zone_id` int(11) default NULL,
   PRIMARY KEY  (`zoneid`),
-  KEY `zonenameid` (`zonename`,`zoneid`),
-  KEY `affiliateid` (`affiliateid`)
+  KEY `oa_zones_zonenameid` (`zonename`,`zoneid`),
+  KEY `oa_zones_affiliateid` (`affiliateid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- 
 -- Dumping data for table `oa_zones`
 -- 
 
-INSERT INTO `oa_zones` (`zoneid`, `affiliateid`, `zonename`, `description`, `delivery`, `zonetype`, `category`, `width`, `height`, `ad_selection`, `chain`, `prepend`, `append`, `appendtype`, `forceappend`, `inventory_forecast_type`, `comments`, `cost`, `cost_type`, `cost_variable_id`, `technology_cost`, `technology_cost_type`, `updated`, `block`, `capping`, `session_capping`, `what`) VALUES (1, 1, 'Publisher 1 - Default', '', 0, 3, '', 468, 60, '', '', '', '', 0, 'f', 0, '', NULL, NULL, '', NULL, NULL, '2007-04-27 15:37:19', 0, 0, 0, ''),
-(2, 2, 'Agency Publisher 1 - Default', '', 0, 3, '', 468, 60, '', '', '', '', 0, 'f', 0, '', NULL, NULL, '', NULL, NULL, '2007-05-15 13:41:44', 0, 0, 0, '');
+INSERT INTO `oa_zones` (`zoneid`, `affiliateid`, `zonename`, `description`, `delivery`, `zonetype`, `category`, `width`, `height`, `ad_selection`, `chain`, `prepend`, `append`, `appendtype`, `forceappend`, `inventory_forecast_type`, `comments`, `cost`, `cost_type`, `cost_variable_id`, `technology_cost`, `technology_cost_type`, `updated`, `block`, `capping`, `session_capping`, `what`, `as_zone_id`) VALUES (1, 1, 'Publisher 1 - Default', '', 0, 3, '', 468, 60, '', '', '', '', 0, 'f', 0, '', NULL, NULL, '', NULL, NULL, '2007-04-27 15:37:19', 0, 0, 0, '', NULL),
+(2, 2, 'Agency Publisher 1 - Default', '', 0, 3, '', 468, 60, '', '', '', '', 0, 'f', 0, '', NULL, NULL, '', NULL, NULL, '2007-05-15 13:41:44', 0, 0, 0, '', NULL);
