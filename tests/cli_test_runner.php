@@ -66,13 +66,15 @@ foreach ($aLayer as $layer) {
     foreach ($aTestFiles as $subLayer => $aDirectories) {
         $oReporter->paintGroupStart("Sublayer $subLayer", count($aDirectories));
         foreach ($aDirectories as $dirName => $aFiles) {
-            $oReporter->paintCaseStart("Directory $dirName ($testName)");
+            $oReporter->paintGroupStart("Directory $dirName ($testName)", count($aFiles));
             foreach ($aFiles as $fileName) {
-                // Drop database on PgSQL before starting
+            	$oReporter->paintCaseStart("File $fileName ($testName)");	
+            	// Drop database on PgSQL before starting
                 if (strcasecmp($GLOBALS['_MAX']['CONF']['database']['type'], 'pgsql') === 0)
                 {
                     OA_DB::dropDatabase($GLOBALS['_MAX']['CONF']['database']['name']);
                 }
+                
                 $oReporter->paintMethodStart($fileName);
                 $returncode = -1;
                 $output_lines = '';
@@ -89,8 +91,9 @@ foreach ($aLayer as $layer) {
                     default: $oReporter->paintFail('Unexpected Error:'.$returncode.' => '.$message);
                 }
                 $oReporter->paintMethodEnd($fileName);
+                $oReporter->paintCaseEnd("File $fileName");
             }
-            $oReporter->paintCaseEnd("Directory $dirName");
+            $oReporter->paintGroupEnd("Directory $dirName");
         }
         $oReporter->paintGroupEnd("Sublayer $subLayer");
     }
