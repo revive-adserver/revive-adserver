@@ -63,7 +63,7 @@ class OA_Admin_Template extends Smarty
         $this->cache_lifetime = 3600;
 
         $this->register_function('t', array('OA_Admin_Template',  '_function_t'));
-        
+
         $this->register_function('tabindex', array('OA_Admin_Template',  '_function_tabindex'));
 
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
@@ -146,7 +146,7 @@ class OA_Admin_Template extends Smarty
         }
         $smarty->trigger_error("t: missing 'str' or 'key' parameters");
     }
-    
+
     function _function_showStatusText($aParams, &$smarty)
     {
         global $strCampaignStatusRunning, $strCampaignStatusPaused, $strCampaignStatusAwaiting,
@@ -162,7 +162,7 @@ class OA_Admin_Template extends Smarty
                     	    $class = 'sts sts-awaiting';
                     	    $text  = $strCampaignStatusApproval;
                 	    }
-                	    
+
                 	    if ($an_status == OA_ENTITY_ADNETWORKS_STATUS_REJECTED) {
                     	    $class = 'sts sts-rejected';
                     	    $text  = $strCampaignStatusRejected;
@@ -199,7 +199,7 @@ class OA_Admin_Template extends Smarty
                 }
                 return '<span class="'.$class.'">' . $text . '</span>';
         }
-        
+
         $smarty->trigger_error("showStatusText: missing 'status' parameter");
     }
 
@@ -224,13 +224,25 @@ class OA_Admin_Template extends Smarty
                 case 'url':  $flavour = '-url'; break;
                 default:     $flavour = '-stored'; break;
             }
+        } elseif (!empty($aParams['campaign']) && is_array($aParams['campaign'])) {
+            $type     = 'campaign';
+            $campaign = $aParams['campaign'];
+
+            $active = $campaign['status'] == OA_ENTITY_STATUS_RUNNING;
+            $flavour = '';
+        } elseif (!empty($aParams['advertiser']) && is_array($aParams['advertiser'])) {
+            $type     = 'advertiser';
+            $campaign = $aParams['advertiser'];
+
+            $active = true;
+            $flavour = '';
         }
 
         if (!empty($type)) {
             return 'images/icon-'.$type.$flavour.($active ? '' : '-d').'.gif';
         }
 
-        $smarty->trigger_error("t: missing 'banner' parameter");
+        $smarty->trigger_error("t: missing parameter(s)");
     }
 
     function _function_oa_title_sort($aParams, &$smarty)

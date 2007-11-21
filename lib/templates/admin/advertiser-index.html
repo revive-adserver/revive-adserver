@@ -24,16 +24,16 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
+$Id$
 
 -->*}
 {literal}
 <script>
 <!--
-  $(document).ready(function() { 
+  $(document).ready(function() {
     initFindOtherNetworks();
   });
-//-->  
+//-->
 </script>
 {/literal}
 
@@ -51,7 +51,7 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
   Advertisers</div>
 <div class="content">
 
-{include file=advertiser-index-list.html from=$aOapAdvertisers aCount=$aCount.Local}
+{include file=advertiser-index-list.html from=$aAdvertisers aCount=$aCount}
 
 </div>
 </div>
@@ -63,9 +63,9 @@ $Id: advertiser-index.php 9309 2007-08-31 08:04:17Z matteo.beccati@openads.org $
 <div class="content">
 <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
   <tr>
-    <td height="25"><b>{$aCount.Total.advertisers}</b> advertiser(s)</td>
-    <td height="25"><b>{$aCount.Total.campaigns}</b> campaign(s) (<i>{$aCount.Total.campaigns_active} active</i>)</td>
-    <td height="25"><b>{$aCount.Total.banners}</b> banner(s) (<i>{$aCount.Total.banners_active} active</i>)</td>
+    <td height="25"><b>{$aCount.advertisers}</b> advertiser(s)</td>
+    <td height="25"><b>{$aCount.campaigns}</b> campaign(s) (<i>{$aCount.campaigns_active} active</i>)</td>
+    <td height="25"><b>{$aCount.banners}</b> banner(s) (<i>{$aCount.banners_active} active</i>)</td>
   </tr>
   <tr class="break">
       <td colspan="3"></td>
