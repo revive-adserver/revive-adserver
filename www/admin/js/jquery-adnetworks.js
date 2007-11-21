@@ -4,157 +4,11 @@
  * Important: this code depends on jQuery.
  */
 
-function initInlineEdit()
-{
-  $("span.start-edit").click(startInlineEdit);
-  $("span.cancel-edit").click(cancelInlineEdit);
-  $("span.cancel-add").click(cancelInlineAdd);
-  $("#start-add").click(startInlineAdd);
-  $("form[@id^='pub_form']").submit(submitInlineEdit);
-}
-
-function startInlineEdit()
-{
-  if (!$(this).is(".start-edit"))
-  {
-    return;
-  }
-  $("span.start-edit").not(this).removeClass("start-edit link").addClass("start-edit-disabled");
-  $(this).parents("tr.inline-edit").removeClass("view").addClass("edit");
-}
-
-function cancelInlineEdit()
-{
-  $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
-  $(this).parents("tr.inline-edit").removeClass("edit").addClass("view");
-
-  // Clear validation
-  $("#url-empty").hide();
-  $("#required-missing").hide();
-}
-
-function startInlineAdd()
-{
-  $(".inline-add").show();
-  $("#urln").focus();
-}
-
-function cancelInlineAdd()
-{
-  $(".inline-add").hide();
-
-  // Clear validation
-  $("#url-empty").hide();
-  $("#required-missing").hide();
-}
-
-function submitInlineEdit()
-{
-  var pubId = this.pubid.value;
-  if (validatePublisher(this, "", pubId, ""))
-  {
-    if (!$("#adnetworks" + pubId).get(0).checked) {
-      $("#adnetworks_hidden_" + pubId).get(0).value = 'f';
-    }
-    $("span.start-edit-disabled").removeClass("start-edit-disabled").addClass("start-edit link");
-    if (adnetworksSettingsChanged(this)) {
-      $("#adnetworks-signup-dialog_" + this.id).jqmShow();
-    }
-    else {
-      return true; //allow submit
-    }
-  }
-  return false; //bad form, stop submit
-}
-
 // Reimplement using jQuery validation plugin!
 function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
 {
-  $("#url-empty" + suffix + errorSuffix).hide();
-  $("#required-missing" + suffix + errorSuffix).hide();
-
-  if ($("#url" + fieldSuffix).get(0).value.length == 0)
-  {
-    $("#url" + fieldSuffix).addClass("inerror");
-    $("#url-empty" + suffix + errorSuffix).show();
-  }
-  else
-  {
-    $("#url" + fieldSuffix).removeClass("inerror");
-  }
-
-  if ($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked)
-  {
-    if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
-    {
-      $("#category" + fieldSuffix).addClass("inerror");
-      $("#required-missing" + suffix + errorSuffix).show();
-    }
-    else
-    {
-      $("#category" + fieldSuffix).removeClass("inerror");
-    }
-
-    if ($("#language" + fieldSuffix).get(0).selectedIndex == 0)
-    {
-      $("#language" + fieldSuffix).addClass("inerror");
-      $("#required-missing" + suffix + errorSuffix).show();
-    }
-    else
-    {
-      $("#language" + fieldSuffix).removeClass("inerror");
-    }
-
-    if ($("#country" + fieldSuffix).get(0).selectedIndex == 0)
-    {
-      $("#country" + fieldSuffix).addClass("inerror");
-      $("#required-missing" + suffix + errorSuffix).show();
-    }
-    else
-    {
-      $("#country" + fieldSuffix).removeClass("inerror");
-    }
-  }
-  else
-  {
-    $("#country" + fieldSuffix).removeClass("inerror");
-    $("#language" + fieldSuffix).removeClass("inerror");
-    $("#category" + fieldSuffix).removeClass("inerror");
-    $("#required-missing" + suffix + errorSuffix).hide();
-  }
-
-  if (customAction)
-  {
-    customAction(form, suffix, fieldSuffix);
-  }
-
-  var result = ($("#url" + fieldSuffix).get(0).value.length > 0) &&
-         ( !($("#adnetworks" + fieldSuffix).get(0).checked || $("#selfsignup" + fieldSuffix).get(0).checked) || (
-         $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
-         $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
-         $("#country" + fieldSuffix).get(0).selectedIndex > 0));
-
-  return result;
-}
-
-function initPublisherAdd()
-{
-  $("#add_new_publisher_form").submit(validateNewPublisher);
-}
-
-
-function validateNewPublisher()
-{
-  if (validatePublisher(this, "", "n", ""))
-  {
-    if(this.adnetworks.checked) {
-      $("#adnetworks-signup-dialog_" + this.id).jqmShow();
-    }
-    else {
-      return true;
-    }
-  }
-  return false;
+  // For now, we only need to check URL, which is optional so we can return true
+  return true;
 }
 
 function initCaptchaDialog(dialogId, formId, captchaURL)
@@ -238,7 +92,6 @@ function installerAddNewSite()
   $("#sites").append(clone).removeClass("one-site");
 
   $("#url-empty", clone).get(0).id += maxId.value;
-  $("#required-missing", clone).get(0).id += maxId.value;
   $(":input", clone).each(function () {
     if ($.trim(this.id).length > 0)
     {
@@ -316,6 +169,7 @@ function installerValidateSites()
 
 function isCaptchaRequired()
 {
+  /*
   var form = $("#frmOpenads").get(0);
   var signupRequested = false;
 
@@ -327,6 +181,8 @@ function isCaptchaRequired()
   });
 
   return signupRequested;
+  */
+  return false; // not required for the time being
 }
 
 
@@ -388,7 +244,7 @@ function initHelp()
 
 function showHelp()
 {
-  $(".popup-help").fadeOut("fast");
+  $(".popup-help").hide();
 
   var $help = $(this).prev();
   if ($(this).attr("help") != undefined) {
@@ -426,56 +282,13 @@ function selectElement()
   }
 }
 
-function adnetworksSettingsStore(form)
-{
-  if (document.adnetworks == undefined) {
-    document.adnetworks = new Array();
-  }
-  var adnetworks = document.adnetworks;
-  var formSettings = new Array();
-  if (form.adnetworks) {
-    formSettings["adnetworks"] =  form.adnetworks.checked;
-  }
-  if (form.selfsignup) {
-    formSettings["selfsignup"] =  form.selfsignup.checked;
-  }
-  if (form.country) {
-   formSettings["country"] =  form.country.value;
-  }
-  if (form.language) {
-   formSettings["language"] =  form.language.value;
-  }
-  if (form.category) {
-   formSettings["category"] =  form.category.value;
-  }
-
-  adnetworks[form.id] = formSettings;
-  document.adnetworks = adnetworks;
-}
-
-
 function adnetworksSettingsChanged(form)
 {
   if (document.adnetworks == undefined || document.adnetworks[form.id] == undefined ) {
     return false;
   }
 
-  var formSettings = document.adnetworks[form.id];
-  var result = false;  
-  //show captcha if 
-  // 1) signing  up
-  result = (form.adnetworks && 
-    formSettings["adnetworks"] == false && form.adnetworks.checked);
-    
-  // 2) already signed up and changed cat/lang/cntry
-  result = result || (form.adnetworks && formSettings["adnetworks"] == true &&  
-    form.adnetworks.checked) &&  
-    ((form.country && formSettings["country"] !=  form.country.value)
-      || (form.language  && formSettings["language"] !=  form.language.value)
-      || (form.category && formSettings["category"] !=  form.category.value));
-      
-  //when unsigning or signed up and no changes do nothing
-  return result;    
+  return false;
 }
 
 /** Advertisers and campaigns **/

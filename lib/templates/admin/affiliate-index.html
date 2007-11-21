@@ -29,16 +29,10 @@ $Id$
 -->*}
 
 <img src="images/icon-affiliate-new.gif" border="0" align="absmiddle">&nbsp;
-<a href="#" id="start-add" accesskey="{t key=AddNew}">{t str=AddNewAffiliate_Key}</a>&nbsp;&nbsp;
+<!-- TODO: Add a link pointing to the screen for creating new publishers -->
+<a href="#" accesskey="{t key=AddNew}">{t str=AddNewAffiliate_Key}</a>&nbsp;&nbsp;
 
 {phpAds_ShowBreak}
-
-{if $captchaErrorFormId}
-<script language="javascript">
-  var captchaInError = true;
-  var captchaFormId = '{$captchaErrorFormId}';
-</script>
-{/if}
 
 {if $error!=''}
     <div class='errormessage' id='errors'>
@@ -52,11 +46,3 @@ $Id$
 <br>
 
 {include file=affiliate-index-list.html from=$affiliates}
-
-{include file=affiliate-delete-dialog.html}
-<script>
-<!--
-      initInlineEdit();
-      initPublisherAdd();
-//-->
-</script>

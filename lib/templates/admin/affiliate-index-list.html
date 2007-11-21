@@ -28,17 +28,6 @@ $Id$
 
 -->*}
 
-<div id="testplace">
-</div>
-
-<div style="text-align: center">
-<div id="required-missing" class="error-box hide" style="margin-bottom: 10px">
-        To activate Ad Networks or Advertiser self service,<br />please pick Category, Country and Language.
-      </div>
-<div id="url-empty" class="error-box hide" style="margin-bottom: 10px">
-        Please provide website URL
-      </div>
-</div>
 {if $formError && $formError.id > 0 && $formError.message}
 <div class="error-box" style="margin-bottom: 10px">
         {$formError.message|escape}
@@ -49,112 +38,124 @@ $Id$
 <div style="min-width: 750px">
 <table border="0" width="100%" cellpadding="0" cellspacing="0" class="data-grid">
     <tr height="30">
-        <td height="25" width="23%" colspan="2">
+        <td height="25" style="width: auto">
             <b>{oa_title_sort str=Website item=website order=down default=1 url=affiliate-index.php}</b>
         </td>
-        <td height="25" width="18%">
-            <b>Category</b>
-        </td>
-        <td height="25" width="18%" style="padding-right: 5px">
-            <b>Country/Language</b>
-        </td>
-        <td height="25" class="cntr">
-            <b>Ad Networks /<br />Advertiser Sign Up</b>
-        </td>
-        <td height="25">&nbsp;</td>
-        <td height="25">&nbsp;</td>
-        <td height="25">&nbsp;</td>
 
-</tr>
+        <td height="25" width="5%">
+          <!-- TODO: 2.4.1 has sorting by ID bound to the link below -->
+          <b><a href="#">ID</a></b>
+        </td>        
+
+        <td height="25" width="12%" style="text-align: center"><b>Advertiser<br />Sign Up</b></td>
+        <td height="25" width="12%">&nbsp;</td>
+        <td height="25" width="12%">&nbsp;</td>
+        <td height="25" width="17%">&nbsp;</td>
+        <td height="25" width="12%">&nbsp;</td>
+    </tr>
 <tr height="1">
-<td colspan="9" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
+<td colspan="7" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
 </tr>
-
-{include file=affiliate-index-add-row.html}
 
 {cycle name=bgcolor values="#FFFFFF,#F6F6F6" assign=bgColor reset=1}
 {foreach key=key item=affiliate from=$from}
 	{cycle name=bgcolor assign=bgColor}
-<tr height="25" class="data inline-edit {if $formError && $formError.id == $affiliate.affiliateid}edit{else}view{/if}" bgcolor="{$bgColor}">
-    <form action="" id="pub_form_{$affiliate.affiliateid|escape}" class="inline-edit" method="POST">
+<tr height="25" bgcolor="{$bgColor}">
+  <td>
+    <!-- TODO: restore showing/collapsing of zones -->
+    <a href="affiliate-index.php?collapse=3"><img border="0" align="absmiddle" src="images/triangle-d.gif"/></a>
+    <a href="affiliate-edit.php?affiliateid={$affiliate.affiliateid|escape}"><img border="0" src="images/icon-affiliate.gif" align="absmiddle">&nbsp;{$affiliate.website|escape}</a>
+  </td>
 
-        <input type="hidden" name="formId" value="pub_form_{$affiliate.affiliateid|escape}" />
-        <input type="hidden" name="pubid" value="{$affiliate.affiliateid|escape}">
-        <input type="hidden" name="websiteUrl" value="{$affiliate.website|escape}">
+  <td>
+    {$affiliate.affiliateid|escape}
+  </td>
 
-        <td height="25" colspan="2" style="padding-left: 4px">
-            <span class="view"><img src="images/icon-affiliate.gif" align="absmiddle">&nbsp;<a href="affiliate-edit.php?affiliateid={$affiliate.affiliateid|escape}">http://{$affiliate.website|escape}</a></span>
-            <span class="edit"><img src="images/icon-affiliate.gif" align="absmiddle">&nbsp;http://<input id="url{$affiliate.affiliateid|escape}" type="text" name="url" value="{$affiliate.edit.website|default:$affiliate.website|escape}" class="flat" style="width: 9em"></span>
-        </td>
-        <td height="25">
-        {if $oacEnabled!=''}
-            <span class="view">{$affiliate.oac_category|escape|default:"&nbsp;"}</span>
-            <span class="edit"><select style="width: 11em" name="category" class="inline flat" id="category{$affiliate.affiliateid|escape}">
-                {html_options options=$categories selected=$affiliate.edit.oac_category_id|default:$affiliate.oac_category_id}
-            </select></span>
-        {else}
-            <span class="view" style="color: grey">
-                no category
-            </span>
-        {/if}
-        </td>
-        <td height="25">
-       {if $oacEnabled!=''}
-            <span class="view">
-                {$affiliate.oac_country|escape|default:"&nbsp;"}<br />
-                {$affiliate.oac_language|escape|default:"&nbsp;"}
-            </span>
-            <span class="edit">
-                <select style="width: 11em" name="country" class="inline flat" id="country{$affiliate.affiliateid|escape}">
-                    {html_options options=$countries selected=$affiliate.edit.oac_country_code|default:$affiliate.oac_country_code}
-                </select>
-                <br />
-                <select style="width: 11em" name="language" class="inline flat" id="language{$affiliate.affiliateid|escape}">
-                    {html_options options=$languages selected=$affiliate.edit.oac_language_id|default:$affiliate.oac_language_id}
-                </select>
-            </span>
-        {else}
-            <span class="view" style="color: grey">
-                no country/language
-            </span>
-        {/if}
-        </td>
-        <td height="25" class="cntr">
-            <span class="view">{if $affiliate.oac_adnetworks == 'yes'}{t str=Yes}{else}{t str=No}{/if} / {if $affiliate.oac_advertisersignup == 'yes'}{t str=Yes}{else}{t str=No}{/if}</span>
-            <span class="edit">
-                <input type="checkbox" name="adnetworks" class="adn-cb line-cb" id="adnetworks{$affiliate.affiliateid|escape}" value="t"
-                    {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_adnetworks == 'yes' && $oacEnabled} checked="checked"{/if}
-                    {if !$oacEnabled}disabled="disabled"{/if}> /
-                <input type="checkbox" class="ss-cb line-cb" name="selfsignup" id="selfsignup{$affiliate.affiliateid|escape}" value="t"
-                    {if $affiliate.edit.oac_adnetworks|default:$affiliate.oac_advertisersignup == 'yes'} checked="checked"{/if}>
-            </span>
-        </td>
-        <td height="25">
-            <span class="view">
-                <a href="affiliate-invocation.php?affiliateid={$affiliate.affiliateid|escape}"><img src="images/icon-generatecode.gif" border="0" align="absmiddle" alt="Tags" title="Tags">&nbsp;Tags</a>
-            </span>
-        </td>
-        <td height="25">
-            <span class="view"><span class="link start-edit">{t str=Edit}</span></span>
-            <span class="edit"><input type="submit" value="Save" class="accept flat" /></span>
-            <span class="dialog-placeholder" />
-        </td>
-        <td height="25">
-            <span class="view">
-              <span class="link ad-delete-show"><span class="hide affId">{$affiliate.affiliateid|escape}</span><img src="images/icon-recycle.gif" align="absmiddle" alt="{t str=Delete}" title="{t str=Delete}">&nbsp;Delete</span>
-            </span>
-            <span class="edit"><span class="link cancel-edit" id="{$affiliate.affiliateid|escape}">Cancel</span></span>
+  <!-- TODO: Insert Advertiser sign up status here -->
+  <td height="25" style="text-align: center">yes</td>
 
-            {include file=adnetworks-signup-dialog.html formId='pub_form_'|cat:$affiliate.affiliateid}
-        </td>
-    </form>
-    <script type="text/javascript">
-      adnetworksSettingsStore($("#pub_form_{$affiliate.affiliateid|escape}").get(0));
-    </script>
+  <td height="25">
+    <a href="zone-edit.php?affiliateid=3"><img border="0" align="absmiddle" alt="Create" src="images/icon-zone-new.gif"/> Create</a>
+  </td>
+
+  <td height="25">
+    <!-- TODO: restore link to zones -->
+    <a href="affiliate-zones.php?affiliateid=3"><img border="0" align="absmiddle" alt="Zones" src="images/icon-zone.gif"/> Zones</a>
+  </td>
+
+  <td height="25">
+    <!-- TODO: restore link to Channels -->
+    <a href="affiliate-channels.php?affiliateid=3"><img border="0" align="absmiddle" alt="Channels" src="images/icon-channel.gif"/> Channels</a>
+  </td>
+
+  <td height="25">
+    <a onclick="return confirm('Do you really want to delete this publisher?')" href="affiliate-delete.php?affiliateid=3&returnurl=affiliate-index.php"><img border="0" align="absmiddle" alt="Delete" src="images/icon-recycle.gif"/> Delete</a>
+  </td>
 </tr>
+
+<!-- TODO: Iterate over the publisher's zones and display them here -->
 <tr height="1">
-    <td colspan="11" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
+  <td bgcolor="#f6f6f6"><img width="1" height="1" src="images/spacer.gif"/></td>
+  <td bgcolor="#888888" colspan="6"><img width="100%" height="1" src="images/break-l.gif"/></td>
+</tr>
+
+<tr height="25" bgcolor="{$bgColor}">
+  <td height="25">
+    <img width="16" height="16" align="absmiddle" src="images/spacer.gif"/> <img align="absmiddle" src="images/icon-zone.gif"/> <a href="zone-edit.php?affiliateid=3&zoneid=14">Localisation email zone</a>
+  </td>
+  
+  <!-- TODO: Insert Zone id here -->
+  <td height="25">14</td>
+
+  <td height="25"></td>
+  <td height="25"></td>
+  
+  <td height="25"></td>
+  
+  <td height="25">
+    <!-- TODO: Insert a link to banners here -->
+    <a href="zone-include.php?affiliateid=3&zoneid=14"><img border="0" align="absmiddle" alt="Linked banners" src="images/icon-zone-linked.gif"/> Linked banners</a>
+  </td>
+  
+  <!-- TODO: Insert a link to deleting the zone here -->
+  <td height="25"><a onclick="return confirm('Do you really want to delete this zone?')" href="zone-delete.php?affiliateid=3&zoneid=14&returnurl=affiliate-index.php"><img border="0" align="absmiddle" alt="Delete" src="images/icon-recycle.gif"/> Delete</a>
+  </td>
+</tr>
+
+<tr height="1">
+    <td colspan="7" bgcolor="#888888"><img src="images/break.gif" height="1" width="100%"></td>
 </tr>
 {/foreach}
+
+<!-- TODO: restore the Expand all/Collapse all functionality -->
+<tr>
+  <td height="25" align="right" colspan="7">
+    <img border="0" align="absmiddle" src="images/triangle-d.gif"/> <a accesskey="e" href="affiliate-index.php?expand=all"><u>E</u>xpand all</a> |
+    <img border="0" align="absmiddle" src="images/ltr/triangle-l.gif"/> <a accesskey="c" href="affiliate-index.php?expand=none"><u>C</u>ollapse all</a>
+  </td>
+</tr>
 </table>
+
+<br />
+<br />
+<br />
+
+<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+  <tbody><tr>
+    <td height="25" colspan="3"><b>Overall</b></td>
+  </tr>
+  <tr height="1">
+    <td bgcolor="#888888" colspan="4"><img width="100%" height="1" src="images/break.gif"/></td>
+  </tr>
+  <tr>
+    <!-- TODO: insert actual counts here -->
+    <td height="25">Total zones: <b>7</b></td>
+    <td height="25">Total publishers: <b>1</b></td>
+  </tr>
+  <tr height="1">
+    <td bgcolor="#888888" colspan="3"><img width="100%" height="1" src="images/break.gif"/></td>
+  </tr>
+  </tbody>
+</table>
+
 </div>
