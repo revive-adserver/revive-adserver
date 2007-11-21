@@ -48,20 +48,24 @@ class CCConfigWriter
         $sectionDatabase->setDirective('username', $username);
         $sectionDatabase->setDirective('password', $password);
         $sectionDatabase->setDirective('name', $name);
-        
+
         $tableType = trim($tableType);
         $sectionTable = &$configContainer->getItem('section', 'table');
         $sectionTable->setDirective('type', $tableType);
-        
+
+        // Nightly builds can take a lot of time... use 30 minutes
+        $sectionTable = &$configContainer->getItem('section', 'maintenance');
+        $sectionTable->setDirective('timeLimitScripts', 60 * 30);
+
         $config->writeConfig(CONFIG_PATH, 'inifile');
     }
-    
-    
+
+
     function configureTestFromArray($aConfigurationEntries, $configFilename)
     {
         $config = new Config();
         $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
-        
+
         foreach($aConfigurationEntries as $configurationEntry) {
             $aConfigurationEntry = explode("=", $configurationEntry);
             list($configurationKey, $configurationValue) = $aConfigurationEntry;
@@ -69,7 +73,7 @@ class CCConfigWriter
             $section = &$configContainer->getItem('section', $sectionName);
             $section->setDirective($variableName, $configurationValue);
         }
-        
+
         $config->writeConfig($configFilename, 'inifile');
     }
 }
