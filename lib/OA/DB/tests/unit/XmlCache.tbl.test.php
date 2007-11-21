@@ -63,6 +63,8 @@ class Test_OA_DB_XmlCache extends UnitTestCase
             $cache  = $this->oCache->get($fileName);
             $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
             $this->assertEqual($result, $cache, 'FILE: '.$fileName);
+
+            $this->_testPrimaryKey($result);
         }
 
     }
@@ -80,6 +82,8 @@ class Test_OA_DB_XmlCache extends UnitTestCase
             $cache  = $this->oCache->get($fileName);
             $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
             $this->assertEqual($result, $cache, 'FILE: '.$fileName);
+
+            $this->_testPrimaryKey($result);
         }
     }
 
@@ -92,6 +96,17 @@ class Test_OA_DB_XmlCache extends UnitTestCase
             $cache  = $this->oCache->get($fileName);
             $this->assertIsA($cache,'array','cached definition is not an array: '.$fileName);
             $this->assertEqual($result, $cache, 'FILE: '.$fileName);
+        }
+    }
+
+    function _testPrimaryKey($aSchema)
+    {
+        foreach ($aSchema['tables'] as $tableName => $aTable) {
+            foreach ($aTable['indexes'] as $indexName => $aIndex) {
+                if (!empty($aIndex['primary'])) {
+                    $this->assertEqual("{$tableName}_pkey", $indexName);
+                }
+            }
         }
     }
 
