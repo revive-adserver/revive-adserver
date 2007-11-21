@@ -95,6 +95,10 @@ class SqlBuilder
                 );
             break;
 
+        case 'campaign' :
+            $aColumns += array('cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.active' => 'active', 'cam.anonymous' => 'anonymous', 'cam.oac_campaign_id' => 'oac_campaign_id');
+            if ($allFields) $aColumns += array('cam.campaignid' => 'campaign_id', 'cam.campaignname' => 'campaignname', 'cam.clientid' => 'client_id', 'cam.views' => 'views', 'cam.clicks' => 'clicks', 'cam.conversions' => 'conversions', 'cam.expire' => 'expire', 'cam.activate' => 'activate', 'cam.active' => 'active', 'cam.priority' => 'priority', 'cam.weight' => 'weight', 'cam.target_impression' => 'target_impression', 'cam.target_click' => 'target_click', 'cam.target_conversion' => 'target_conversion', 'cam.anonymous' => 'anonymous', 'cam.companion' => 'companion', 'cam.comments' => 'comments', 'cam.revenue' => 'revenue', 'cam.revenue_type' => 'revenue_type', 'cam.updated' => 'updated', 'cam.block' => 'block', 'cam.capping' => 'capping', 'cam.session_capping' => 'session_capping', 'cam.oac_campaign_id' => 'oac_campaign_id');
+            break;
         case 'category' :
             $aColumns += array('cat.category_id' => 'category_id', 'cat.name' => 'name');
             break;
@@ -353,6 +357,9 @@ class SqlBuilder
             if ($includeStats) $aTables += array($conf['table']['prefix'].$conf['table']['data_summary_ad_hourly'] => 's', $conf['table']['prefix'].$conf['table']['banners'] => 'd', $conf['table']['prefix'].$conf['table']['campaigns'] => 'm', $conf['table']['prefix'].$conf['table']['clients'] => 'a', $conf['table']['prefix'].$conf['table']['affiliates'] => 'p', $conf['table']['prefix'].$conf['table']['zones'] => 'z');
             break;
 
+        case 'campaign' :
+            $aTables += array($conf['table']['prefix'].$conf['table']['campaigns'] => 'cam');
+
         case 'category' :
             $aTables += array($conf['table']['prefix'].$conf['table']['category'] => 'cat');
             break;
@@ -605,6 +612,10 @@ class SqlBuilder
             if (!empty($aParams['ad_id'])) SqlBuilder::_addLimitation($aLimitations, 'ad_id', 'd.bannerid', $aParams['ad_id']);
             if (!empty($aParams['publisher_id'])) SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'p.affiliateid', $aParams['publisher_id']);
             if (!empty($aParams['zone_id'])) SqlBuilder::_addLimitation($aLimitations, 'zone_id', 'z.zoneid', $aParams['zone_id']);
+            break;
+
+        case 'campaign' :
+            if (!empty($aParams['client_id'])) SqlBuilder::_addLimitation($aLimitations, 'client_id', 'cam.clientid', $aParams['client_id']);
             break;
 
         case 'category' :
@@ -1241,6 +1252,8 @@ class SqlBuilder
         {
             return false;
         }
+
+
         foreach ($aResult AS $k => $dataEntity)
         {
             $aDataEntities[$dataEntity[$primaryKey]] = $dataEntity;

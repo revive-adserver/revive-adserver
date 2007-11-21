@@ -99,4 +99,62 @@ function phpAds_userlogSetUser ($usertype)
 	$phpAds_Usertype = $usertype;
 }
 
+function phpAds_UserlogSelection($subSection, $mainSection='userlog')
+{
+    global
+         $phpAds_TextDirection
+        ,$strBanners
+        ,$strCache
+        ,$strChooseSection
+        ,$strPriority
+        ,$strSourceEdit
+        ,$strStats
+        ,$strStorage
+        ,$strMaintenance
+        ,$strCheckForUpdates
+        ,$strViewPastUpdates
+    ;
+
+require_once MAX_PATH . '/lib/max/language/Settings.php';
+require_once MAX_PATH . '/lib/max/language/Userlog.php';
+
+Language_Settings::load();
+Language_Default::load();
+Language_Userlog::load();
+
+?>
+<script language="JavaScript">
+<!--
+function audit_goto_section()
+{
+    s = document.audit_selection.section.selectedIndex;
+
+    s = document.audit_selection.section.options[s].value;
+    document.location = '<?php echo $mainSection; ?>-' + s + '.php';
+}
+// -->
+</script>
+<?php
+    $conf =& $GLOBALS['_MAX']['CONF'];
+    $pref =& $GLOBALS['_MAX']['PREF'];
+
+    echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
+    echo "<tr><form name='audit_selection'><td height='35'>";
+    echo "<b>".$strChooseSection.":&nbsp;</b>";
+    echo "<select name='section' onChange='audit_goto_section();'>";
+
+    if (phpAds_isUser(phpAds_Admin)) {
+            echo "<option value='index'".($subSection == 'index' ? ' selected' : '').">". $GLOBALS['strAuditTrail'] ."</option>";
+            echo "<option value='maintenance'".($subSection == 'maintenance' ? ' selected' : '').">". $GLOBALS['strMaintenanceLog'] ."</option>";
+    }
+
+    echo "</select>&nbsp;<a href='javascript:void(0)' onClick='audit_goto_section();'>";
+    echo "<img src='images/".$phpAds_TextDirection."/go_blue.gif' border='0'></a>";
+    echo "</td></form></tr>";
+    echo "</table>";
+
+    phpAds_ShowBreak();
+}
+
+
 ?>

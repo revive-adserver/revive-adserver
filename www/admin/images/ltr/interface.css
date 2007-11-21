@@ -595,6 +595,9 @@ table.data-grid th {
   text-align: left;
 }
 
+table.data-grid img {
+  border:0;
+}
 table.data-grid tr.data:hover {
   background-color: #fffccd;
 }
@@ -620,6 +623,45 @@ table.data-grid td.cntr {
   text-align: center;
 }
 
+table.data-grid {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid #cdcdcd;
+  width: 100%;
+}
+
+table.data-grid tr.header {
+  background-image: url('../table-bg.gif');
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  height: 35px;
+}
+
+table.data-grid th {
+  padding: 2px;
+  border-bottom: 1px solid #cdcdcd;
+}
+
+table.data-grid tr:hover, table.data-grid tr.odd:hover {
+  background-color: #ffedc7;
+}
+
+table.data-grid tr.odd {
+  background-color: #FFFFFF;
+}
+
+table.data-grid td.url {
+  text-align: left;
+  text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div.filters {
+  text-align: right;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
 .hide {
   display: none;
 }

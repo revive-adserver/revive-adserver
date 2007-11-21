@@ -1233,6 +1233,11 @@ class Admin_DA
         return Admin_DA::_addEntity('campaigns', $aParams);
     }
 
+    function getCampaigns($aParams, $allFields = false)
+    {
+        return Admin_DA::_getEntities('campaign', $aParams, $allFields);
+    }
+
     function getPlacement($placementId)
     {
         return Admin_DA::_getDataRowFromId('placement', 'campaignid', $placementId);

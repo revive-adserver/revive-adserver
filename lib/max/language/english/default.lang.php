@@ -730,6 +730,8 @@ $GLOBALS['strSelectCampaignToLink']        = "Select the campaign you would like
 $GLOBALS['strSelectAdvertiser']         = 'Select Advertiser';
 $GLOBALS['strSelectPlacement']          = 'Select Campaign';
 $GLOBALS['strSelectAd']                 = 'Select Banner';
+$GLOBALS['strSelectPublisher']          = "Select Publisher";
+$GLOBALS['strSelectZone']               = "Select Zone";
 $GLOBALS['strTrackerCode']              = 'Append the following code to each Javascript tracker impression';
 $GLOBALS['strTrackerCodeSubject']          = 'Append tracker code';
 $GLOBALS['strAppendTrackerNotPossible']    = 'It is not possible to append that tracker.';
@@ -1030,8 +1032,6 @@ $GLOBALS['strPwdRecEnterPassword']    = "Enter your new password address below";
 $GLOBALS['strPwdRecResetLink']        = "Password reset link";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
 $GLOBALS['strProceed']                = "Proceed &gt;";
-
-
 
 /*-------------------------------------------------------*/
 /* Keyboard shortcut assignments                         */

@@ -1,0 +1,54 @@
+{literal}
+<style type="text/css">
+.tableTitle {
+    font-weight: bold;
+    font-size: 9pt;
+    margin-bottom: 0;
+}
+</style>
+{/literal}
+<div>
+    <p class="tableTitle">Event Details</p>
+    <table class="data-grid table">
+        <tbody>
+            <tr>
+                <td style="width: 30%;">{t str=Type}</td>
+                <td style="text-align:left;">{$aAuditDetail.context}</td>
+            </tr>
+            <tr class="even">
+                <td style="width: 30%">{t str=ID}</td>
+                <td>#{$aAuditDetail.contextid}</td>
+            <tr>
+                <td class="label">{t str=Action}</td>
+                <td style="text-align:left;">{$aAuditDetail.action}</td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="tableTitle">Event History</p>
+    <table class="data-grid table">
+	    <thead>
+	        <tr class="header">
+	            <th>{t str=Parameter}</th>
+	            <th>{t str=Value}</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+            {foreach from=$aAuditDetail.details key=key item=value name=details}
+            {cycle values='odd,even' assign=rowClass} 
+                {if is_array($value)}
+            <tr class="{$rowClass}">
+                <td>{$key}</td>
+                <td>{$value.was}&rarr;{$value.is}</td>
+            </tr>
+
+                {else}
+            <tr class="{$rowClass}">
+                <td>{$key}</td>
+                <td>{$value}</td>
+            </tr>
+                {/if}
+            {/foreach}
+	    </tbody>
+    </table>    
+    <input type="Button" name="" value="{t str=ReturnAuditTrail}" onclick="document.location='userlog-index.php';" />
+</div>
