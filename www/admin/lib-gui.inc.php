@@ -454,7 +454,12 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/formValidation.php'></script>\n";
     }
     if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
-        $xajax->printJavascript('./', 'js/xajax.js');
+        /**
+         * @todo $xajax should exists! What is happening here?
+         */
+        if (isset($xajax)) {
+            $xajax->printJavascript('./', 'js/xajax.js');
+        }
     }
 
     echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar.js'></script>\n";
