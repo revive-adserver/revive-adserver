@@ -36,7 +36,7 @@ define('CONFIG_PATH', MAX_PATH . '/var/test.conf.php');
  */
 class CCConfigWriter
 {
-    function configureTest($type, $host, $port, $username, $password, $name, $tableType)
+    function configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled)
     {
         $config = new Config();
         $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
@@ -54,8 +54,11 @@ class CCConfigWriter
         $sectionTable->setDirective('type', $tableType);
 
         // Nightly builds can take a lot of time... use 30 minutes
-        $sectionTable = &$configContainer->getItem('section', 'maintenance');
-        $sectionTable->setDirective('timeLimitScripts', 60 * 30);
+        $sectionMaintenance = &$configContainer->getItem('section', 'maintenance');
+        $sectionMaintenance->setDirective('timeLimitScripts', 60 * 30);
+        
+        $sectionAudit = &$configContainer->getItem('section', 'audit');
+        $sectionAudit->setDirective('enabled', $auditEnabled);
 
         $config->writeConfig(CONFIG_PATH, 'inifile');
     }

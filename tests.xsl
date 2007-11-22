@@ -17,6 +17,7 @@
         <attribute name="db.password"/>
         <attribute name="db.name"/>
         <attribute name="db.table.type"/>
+        <attribute name="audit.enabled"/>
         <sequential>
           <echo message="fulltest for @{{test.name}} using @{{php}}"/>
           <echo>before config</echo>
@@ -29,6 +30,7 @@
             <arg value="@{{db.password}}" />
             <arg value="@{{db.name}}" />
             <arg value="@{{db.table.type}}" />
+            <arg value="@{{audit.enabled}}" />
           </exec>
           <echo>after config</echo>
           <fail message="Can't create configuration file for test: @{{test.name}}! Reason: ${{test.@{test.name}.error}}">
@@ -59,28 +61,42 @@
               <equals arg1="0" arg2="${{test.@{{test.name}}.result}}"/>
             </not>
           </condition>
+          <!--
+          
+          disabled since they are not failing anyway and their result is not taken into accound since failonerror="false" 
+           
           <echo>before MDB2 tests</echo>
           <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/MDB2-@{{test.name}}.html">
             <arg value="run.php" />
-            <arg value="--type=phpunit" />
-            <arg value="--dir=../lib/pear/MDB2/tests/" />
+            <arg value=" - - type=phpunit" />
+            <arg value=" - - dir=../lib/pear/MDB2/tests/" />
           </exec>
           <echo>after MDB2 tests</echo>
           <echo>before MDB2 schema tests</echo>
           <exec dir="tests" executable="@{{php}}" failonerror="false" output="build/test-results/MDB2_Schema-@{{test.name}}.html">
             <arg value="run.php" />
-            <arg value="--type=phpunit" />
-            <arg value="--dir=../lib/pear/MDB2_Schema/tests/" />
+            <arg value=" - - type=phpunit" />
+            <arg value=" - - dir=../lib/pear/MDB2_Schema/tests/" />
           </exec>
           <echo>after MDB2 schema tests</echo>
+          
+           -->
         </sequential>
       </macrodef>
 
       <target name="test">
-        <xsl:for-each select="tests/php/version">
-          <xsl:call-template name="fulltest">
-            <xsl:with-param name="php" select="."/>
-          </xsl:call-template>
+      
+      	<xsl:for-each select="/tests/audit/settings">
+      
+      		<xsl:variable name="auditsettings" select="."/>
+      		
+	        <xsl:for-each select="/tests/php/version">
+	          <xsl:call-template name="fulltest">
+	            <xsl:with-param name="php" select="."/>
+	            <xsl:with-param name="auditsettings" select="$auditsettings"/>
+	          </xsl:call-template>
+	        </xsl:for-each>
+        
         </xsl:for-each>
 
         <!-- Fail the build if there was test failure -->
@@ -96,6 +112,7 @@
 
   <xsl:template name="fulltest">
     <xsl:param name="php" select="."/>
+    <xsl:param name="auditsettings"/>
     <xsl:for-each select="/tests/database/version">
       <xsl:variable name="db.table.type.trimmed"><xsl:value-of select="normalize-space(@db.table.type)"/></xsl:variable>
       <xsl:variable name="db.name.suffix"><xsl:if test="$db.table.type.trimmed != ''">_<xsl:value-of select="$db.table.type.trimmed"/></xsl:if></xsl:variable>
@@ -107,8 +124,18 @@
         <xsl:attribute name="db.port"><xsl:value-of select="@db.port"/></xsl:attribute>
         <xsl:attribute name="db.username"><xsl:value-of select="@db.username"/></xsl:attribute>
         <xsl:attribute name="db.password"><xsl:value-of select="@db.password"/></xsl:attribute>
-        <xsl:attribute name="db.name"><xsl:value-of select="@db.name"/>_<xsl:value-of select="$php/@name"/><xsl:value-of select="$db.name.suffix"/></xsl:attribute>
+        <xsl:attribute name="db.name">
+        	<xsl:choose>
+        		<xsl:when test="$auditsettings/@enabled &gt; 0">
+        			<xsl:value-of select="@db.name"/>_<xsl:value-of select="$php/@name"/><xsl:value-of select="$db.name.suffix"/>_<xsl:text>audit</xsl:text>
+        		</xsl:when>
+        		<xsl:otherwise>
+        			<xsl:value-of select="@db.name"/>_<xsl:value-of select="$php/@name"/><xsl:value-of select="$db.name.suffix"/>
+        		</xsl:otherwise>
+        	</xsl:choose>
+        </xsl:attribute>
         <xsl:attribute name="db.table.type"><xsl:value-of select="@db.table.type"/></xsl:attribute>
+        <xsl:attribute name="audit.enabled"><xsl:value-of select="$auditsettings/@enabled"/></xsl:attribute>
       </xsl:element>
     </xsl:for-each>
   </xsl:template>
