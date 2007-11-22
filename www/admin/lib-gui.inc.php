@@ -440,6 +440,8 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     // Send header with charset info
     header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
     // Head
+    echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
+
     echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
     echo "\t<head>\n";
     echo "\t\t<title>".$pagetitle."</title>\n";
