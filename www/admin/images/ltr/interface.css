@@ -564,24 +564,6 @@ a.time:before
     padding: 5px 0px 10px 15px;
 }
 
-.adnetworks-section {
-   border: 1px solid #CFCFCF;  
-   padding-bottom: 10px;
-}
-
-.adnetworks-section .title {
-   background-color: #545496;
-   color: white;
-}
-
-.adnetworks-section .content {
-   padding-right: 15px;
-}
-
-.adnetworks-filled-section {
-   background-color: #F6F6E6; /*#F1F7E2;*/
-}
-
 .even {
   background-color: #F6F6F6;
 }
