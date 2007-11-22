@@ -495,7 +495,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 continue;
             }
             if (!empty($aWebsite['an_website_id'])) {
-                $aWebsiteIds[] = $aWebsite['an_website_id'];
+                $aWebsiteIds[] = (int)$aWebsite['an_website_id'];
             }
             // Unlink any Ad Network banners linked to this publisher's zones
             $doZones = OA_Dal::factoryDO('zones');
@@ -567,6 +567,11 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 		  'width' 		=> $doZone->width,
             	    	  'height' 		=> $doZone->height,
                          );
+                         
+        if ($doZone->as_zone_id) {
+            $aRpcZone += array('id' => $doZone->as_zone_id);
+        }
+        
         $result = $this->oMapper->oRpc->callNoAuth('updateZone', 
                                                       array(XML_RPC_encode($aRpcZone))
                                                   );

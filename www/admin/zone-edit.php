@@ -158,10 +158,11 @@ if (isset($submit))
         // Ad  Networks
         $doPublisher = OA_Dal::factoryDO('affiliates');
         $doPublisher->get($affiliateid);
-        $anWebsiteId = ($doPublishers->an_website_id) ? 
-                        $doPublishers->an_website_id : $doPublishers->as_website_id;
+        $anWebsiteId = ($doPublisher->an_website_id) ? 
+                        $doPublisher->an_website_id : $doPublisher->as_website_id;
         if ($anWebsiteId) {
         	$oAdNetworks = new OA_Central_AdNetworks();
+            $doZones->get($zoneid);
 			$oAdNetworks->updateZone($doZones, $anWebsiteId);
         }
         

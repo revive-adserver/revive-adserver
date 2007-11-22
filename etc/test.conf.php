@@ -341,7 +341,7 @@ port        = 443
 path        = /oac/xmlrpc
 captcha     = /oac/captcha
 signUpUrl   = /oac/advertiser/signup
-publihserUrl= /oac/publisher/setupe
+publihserUrl= /oac/advertiser/defzone
 
 [oacDashboard]
 protocol    = https
