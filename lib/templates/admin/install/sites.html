@@ -89,16 +89,31 @@ Please add one or more sites where you wish to display advertising managed by Op
 
       $(document).ready(function() {
         $("#frmOpenads").submit(function() {
-          return installerValidateSites();
+          if (installerValidateSites())
+          {
+            if (isCaptchaRequired())
+            {
+              $("#captcha-dialog-" + this.id).jqmShow();
+            }
+            else
+            {
+              return true;
+            }
+          }
+          return false;
         });
       });
 //-->{/literal}
     </script>
 
+{include file=advertiser-signup-dialog.html formId=frmOpenads}
+
+
 <br>
 <br>
 <br>
-<img width="100%" vspace="5" height="1" src="images/break-el.gif"><input type="submit" class="button" name="btn_tagssetup" value="Continue &raquo;"{tabindex}>
+<img width="100%" vspace="5" height="1" src="images/break-el.gif">
+<input type="submit" class="button" name="btn_tagssetup" value="Continue &raquo;"{tabindex}>
 <input type="hidden" name="dirPage" id="dirPage" value="">
 </form>
 

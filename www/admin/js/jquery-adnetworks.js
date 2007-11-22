@@ -1,6 +1,4 @@
 /**
- * Javascript required for Ad Networks screens
- *
  * Important: this code depends on jQuery.
  */
 
@@ -155,20 +153,17 @@ function installerValidateSites()
 
 function isCaptchaRequired()
 {
-  /*
   var form = $("#frmOpenads").get(0);
   var signupRequested = false;
 
-  $(":checkbox[id^=adnetworks], :checkbox[id^=selfsignup]", form).each(function() {
-    if (this.id != 'adnetworks' && this.id != 'selfsignup' && this.checked) {
+  $(":checkbox[id^=selfsignup]", form).each(function() {
+    if (this.id != 'selfsignup' && this.checked) {
       signupRequested = true;
       return false;
     }
   });
 
   return signupRequested;
-  */
-  return false; // not required for the time being
 }
 
 
@@ -227,7 +222,7 @@ function siteChanged()
 
 function initHelp() 
 {
-  $(".adnetworks-help").add(".selfsignup-help").add(".popup-help-link").click(showHelp);
+  $(".selfsignup-help").add(".popup-help-link").click(showHelp);
   $(".popup-help").click(hideOaHelp);
 }
 
@@ -274,28 +269,28 @@ function selectElement()
   }
 }
 
-function adnetworksSettingsStore(form)
+function formStateStore(form)
 {
-  if (document.adnetworks == undefined) {
-    document.adnetworks = new Array();
+  if (document.formState == undefined) {
+    document.formState = new Array();
   }
-  var adnetworks = document.adnetworks;
+  var formState = document.formState;
   var formSettings = new Array();
   if (form.selfsignup) {
     formSettings["selfsignup"] =  form.selfsignup.checked;
   }
 
-  adnetworks[form.id] = formSettings;
-  document.adnetworks = adnetworks;
+  formState[form.id] = formSettings;
+  document.formState = formState;
 }
 
-function adnetworksSettingsChanged(form)
+function formStateChanged(form)
 {
-  if (document.adnetworks == undefined || document.adnetworks[form.id] == undefined ) {
+  if (document.formState == undefined || document.formState[form.id] == undefined ) {
     return false;
   }
 
-  var formSettings = document.adnetworks[form.id];
+  var formSettings = document.formState[form.id];
   var result = false;  
   // show captcha if 
   // 1) enabling advertiser singup

@@ -47,10 +47,10 @@ $Id$
 <script language="javascript">
 <!--{literal}
     $(document).ready(function() {
-    adnetworksSettingsStore($("#affiliateform").get(0));
+    formStateStore($("#affiliateform").get(0));
     $("#affiliateform").submit(function() {
         if (max_formValidate(this)) {
-          if(adnetworksSettingsChanged(this)) {
+          if(formStateChanged(this)) {
             $("#captcha-dialog-" + this.id).jqmShow();
           }
           else {
