@@ -846,13 +846,12 @@ function phpAds_ShowBreak($print = true, $imgPath = '')
 function phpAds_sqlDie()
 {
     global $phpAds_last_query;
-    $connection = DBC::getCurrentConnection();
 
     $corrupt = false;
     $aConf = $GLOBALS['_MAX']['CONF'];
     if (strcasecmp($aConf['database']['type'], 'mysql') === 0) {
-        $error = mysql_error($connection);
-        $errornumber = mysql_errno($connection);
+        $error = mysql_error();
+        $errornumber = mysql_errno();
         if ($errornumber == 1027 || $errornumber == 1039) {
             $corrupt = true;
         }
@@ -870,7 +869,7 @@ function phpAds_sqlDie()
 
         $dbmsName = 'MySQL';
     } elseif (strcasecmp($aConf['database']['type'], 'pgsql') === 0) {
-        $error = pg_errormessage($connection);
+        $error = pg_errormessage();
         $dbmsName = 'PostgreSQL';
     } else {
         $error = '';
@@ -890,6 +889,7 @@ function phpAds_sqlDie()
         if ((phpAds_isLoggedIn() && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))) || defined('phpAds_installing')) {
 
             // Get the DB server version
+            $connection = DBC::getCurrentConnection();
             $connectionId = $connection->getConnectionId();
             $aVersion = $connectionId->getServerVersion();
             $dbVersion = $aVersion['major'] . '.' . $aVersion['minor'] . '.' . $aVersion['patch'] . '-' . $aVersion['extra'];
@@ -897,7 +897,7 @@ function phpAds_sqlDie()
             $message .= $GLOBALS['strErrorDBSubmitBug'];
             $last_query = $phpAds_last_query;
             $message .= "<br><br><table cellpadding='0' cellspacing='0' border='0'>";
-            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".MAX_PRODUCT_NAME." v".OA_VERSION.")</td></tr>";
+            $message .= "<tr><td valign='top' nowrap><b>Version:</b>&nbsp;&nbsp;&nbsp;</td><td>".MAX_PRODUCT_NAME." v".OA_VERSION."</td></tr>";
             $message .= "<tr><td valien='top' nowrap><b>PHP/DB:</b></td><td>PHP ".phpversion()." / ".$dbmsName." " . $dbVersion . "</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Page:</b></td><td>".$_SERVER['PHP_SELF']."</td></tr>";
             $message .= "<tr><td valign='top' nowrap><b>Error:</b></td><td>".$error."</td></tr>";
