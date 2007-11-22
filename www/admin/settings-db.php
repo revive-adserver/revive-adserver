@@ -92,7 +92,7 @@ $settings = array (
                 'type'       => 'select',
                 'name'       => 'database_type',
                 'text'       => $strDbType,
-                'items'   => Max_Admin_DB::getServerTypes()
+                'items'      => array($GLOBALS['_MAX']['CONF']['database']['type'] => $GLOBALS['_MAX']['CONF']['database']['type'])
             ),
             array (
                 'type'    => 'break'
