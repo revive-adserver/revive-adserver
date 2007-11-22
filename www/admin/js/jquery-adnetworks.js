@@ -57,22 +57,6 @@ function badCaptcha(myFormId)
 }
 
 
-function initFindOtherNetworks()
-{
-  $("#findnetworksform select").change(function() {
-    var country = $("select#country").attr("value");
-    var language = $("select#language").attr("value");
-    $("#other-networks-table").fadeOut("slow");
-    $.get("./ajax/ajax-response-find-other-networks.php",
-      { country: country, language: language },
-      function(html) {
-        $("#other-networks-table").empty().append(html);
-	      $("#other-networks-table").fadeIn("slow");
-      }
-    );
-  });
-}
-
 function initInstallerSites()
 {
   $("#add-new-site").click(installerAddNewSite);
@@ -81,6 +65,7 @@ function initInstallerSites()
   initHelp();
   checkAddSiteEnabled();
 }
+
 
 function installerAddNewSite()
 {
@@ -117,6 +102,7 @@ function installerRemoveSite()
   }
   checkAddSiteEnabled();
 }
+
 
 function checkAddSiteEnabled()
 {
@@ -194,6 +180,7 @@ function initInstallerTags()
   $('pre').bind('mouseover', selectElement);
 }
 
+
 function tagTypeChanged()
 {
   if (this.value == "js")
@@ -209,6 +196,7 @@ function tagTypeChanged()
   $("pre.invocation-codes").filter("." + this.value).show();
 }
 
+
 function adSizeChanged()
 {
   if (this.value == "*")
@@ -221,6 +209,7 @@ function adSizeChanged()
     $("." + this.value).show();
   }
 }
+
 
 function siteChanged()
 {
@@ -242,6 +231,7 @@ function initHelp()
   $(".popup-help").click(hideOaHelp);
 }
 
+
 function showHelp()
 {
   $(".popup-help").hide();
@@ -253,10 +243,12 @@ function showHelp()
   $help.fadeIn("fast").css("display", "inline");
 }
 
+
 function hideOaHelp()
 {
   $(this).fadeOut("fast");
 }
+
 
 function selectElement()
 {
@@ -282,6 +274,7 @@ function selectElement()
   }
 }
 
+
 function adnetworksSettingsChanged(form)
 {
   if (document.adnetworks == undefined || document.adnetworks[form.id] == undefined ) {
@@ -290,6 +283,7 @@ function adnetworksSettingsChanged(form)
 
   return false;
 }
+
 
 /** Advertisers and campaigns **/
 function initRejectedOARows()
@@ -303,6 +297,7 @@ function initRejectedOARows()
     });
 	});
 }
+
 
 function initCampaignStatus()
 {
@@ -325,6 +320,7 @@ function initCampaignStatus()
     });
 }
 
+
 /** Affiliate delete dialog */
 function initAffiliateDeleteDialog()
 {
@@ -345,121 +341,9 @@ function initAffiliateDeleteDialog()
 }
 
 
-function initSuggestAdnetworks()
-{
-  var $suggestPane = $("#adnetwork-suggest");
-  
-  $(".suggest-adnetwork-show").click(function() {
-    $("#find-adnetworks-body").hide();
-    $suggestPane.fadeIn("fast", function() {
-      $(":input:visible:first", $suggestPane).get(0).focus();
-    });
-    return false;
-  });
-
-  $(".suggest-adnetwork-cancel").click(function() {
-    $suggestPane.hide();
-    $("#find-adnetworks-body").fadeIn("fast");
-    return false;
-  });
-  
-  
-  $("#suggestAdnetworksForm").submit(function() {
-    if (max_formValidate(this)) {
-        $("#captcha-dialog-" + this.id).jqmShow();
-    }
-    return false;
-  });
-  
-  
-  $(".remove-row", $suggestPane).click(function() {
-    $(this).parent("[id^='o-network']").remove();
-	  checkAddNetworkEnabled();
-	  checkRemoveNetworkEnabled();
-  });  
-  
-  $("#add-new-adnetwork", $suggestPane).click(addNewAdnetwork);
-
-  $(":input", $suggestPane).keyup(checkAddNetworkEnabled)
-    .mouseup(checkAddNetworkEnabled);
- 
-  //copy validation constraints from proto to alreadt visible rows         
-  var $proto =$(".proto", $suggestPane);
-  $(":input", $proto).each(function () {
-    var protoInput = this; 
-    $(".networks [id^='" + this.id + "']", $suggestPane).each(function() {
-      copyValidationConstraints(protoInput, this);
-    })
-  });
-    
-  checkAddNetworkEnabled();
-  checkRemoveNetworkEnabled();
-}
-
-
-function addNewAdnetwork()
-{
-  var $suggestPane = $("#adnetwork-suggest");
-
-  var maxId = $("#max-id", $suggestPane).get(0);
-  maxId.value = parseInt(maxId.value) + 1;
-  var $proto =$(".proto", $suggestPane);
-  var $clone = $(".proto", $suggestPane).clone(true);
-  $clone.removeClass("hide proto");
-  $clone.get(0).id = "o-network" + maxId.value;
-  $(".networks", $suggestPane).append($clone);
-
-  $(":input", $clone).each(function () {
-    copyValidationConstraints($("#" +  this.id, $proto).get(0), this);
-  
-    if ($.trim(this.id).length > 0)
-    {
-      this.id = this.id + maxId.value;
-    }
-
-  });
-  $("label", $clone).each(function () {
-    if ($.trim(this.htmlFor).length > 0)
-    {
-      this.htmlFor += maxId.value;
-    }
-  });
-
-  checkAddNetworkEnabled();
-  checkRemoveNetworkEnabled();
-}
-
-
 function copyValidationConstraints(fromObj, toObj)
 {
   toObj.validateCheck = fromObj.validateCheck;
   toObj.validateReq = fromObj.validateReq;
   toObj.validateDescr = fromObj.validateDescr;
 }
-
-
-function checkRemoveNetworkEnabled()
-{
-  var $buttons = $("#adnetwork-suggest").find(".networks").find(".remove-row");
-  $buttons.length == 1 ? $buttons.addClass("hide") : $buttons.removeClass("hide");
-}
-
-
-function checkAddNetworkEnabled()
-{
-  var $suggestPane = $("#adnetwork-suggest");
-  var $adnetworks = $(".networks", $suggestPane);
-  var enabled = true;
-
-  $(":input:not(:hidden)", $adnetworks).each(function(i) {
-    if ($.trim(this.value).length == 0)
-    {
-      enabled = false;
-    }
-  });
-
-  $("#add-new-adnetwork", $suggestPane).get(0).disabled = !enabled;
-  enabled ? $("#add-new-info", $suggestPane).fadeOut("fast") 
-                : $("#add-new-info", $suggestPane).fadeIn("fast");
-}
-
