@@ -47,12 +47,23 @@ $Id$
 <script language="javascript">
 <!--{literal}
     $(document).ready(function() {
+    adnetworksSettingsStore($("#affiliateform").get(0));
     $("#affiliateform").submit(function() {
-        return max_formValidate(this);
+        if (max_formValidate(this)) {
+          if(adnetworksSettingsChanged(this)) {
+            $("#captcha-dialog-" + this.id).jqmShow();
+          }
+          else {
+            return true;
+          }
+        }
+        return false;
       });
     });
 //-->{/literal}
 </script>
+
+{include file=advertiser-signup-dialog.html formId=affiliateform}
 
 <br /><br />
 

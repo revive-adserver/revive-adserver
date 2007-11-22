@@ -274,6 +274,20 @@ function selectElement()
   }
 }
 
+function adnetworksSettingsStore(form)
+{
+  if (document.adnetworks == undefined) {
+    document.adnetworks = new Array();
+  }
+  var adnetworks = document.adnetworks;
+  var formSettings = new Array();
+  if (form.selfsignup) {
+    formSettings["selfsignup"] =  form.selfsignup.checked;
+  }
+
+  adnetworks[form.id] = formSettings;
+  document.adnetworks = adnetworks;
+}
 
 function adnetworksSettingsChanged(form)
 {
@@ -281,7 +295,13 @@ function adnetworksSettingsChanged(form)
     return false;
   }
 
-  return false;
+  var formSettings = document.adnetworks[form.id];
+  var result = false;  
+  // show captcha if 
+  // 1) enabling advertiser singup
+  result = form.selfsignup && !formSettings["selfsignup"] && form.selfsignup.checked;
+    
+  return result;    
 }
 
 
