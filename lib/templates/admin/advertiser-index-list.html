@@ -27,7 +27,8 @@
 $Id$
 
 -->*}
-<table border="0" width="100%" cellpadding="0" cellspacing="0" class="data-grid">
+<table border="0" width="100%" cellpadding="0" cellspacing="0" >
+  <thead>
     <tr height="25">
         <th height="25" width="40%">
             <b>&nbsp;&nbsp;{oa_title_sort str=Name item=name order=down default=1 url=advertiser-index.php}</b>
@@ -40,8 +41,10 @@ $Id$
     <tr class="break">
         <td colspan="6"></td>
     </tr>
+  </thead>
 
 {if !$from|@count}
+  <tbody class="even">
     <tr height='25' bgcolor='#F6F6F6'>
         <td height='25' colspan='5'>&nbsp;&nbsp;{t str=$listEmptyStr|default:"NoClients"}</td>
     </tr>
@@ -49,12 +52,13 @@ $Id$
     <tr class="break">
         <td colspan="6"></td>
     </tr>
+  </tbody>    
 {else}
     {cycle name=bgcolor values="odd,even" assign=bgColor reset=1}
     {foreach key=clientId item=client from=$from}
         {cycle name=bgcolor assign=bgColor}
     <tbody class="{$bgColor}">
-    	<tr height="25" class="data">
+    	<tr height="25">
     		<td height='25'>
           <div style="float:left;padding-right: 5px;">
     		{if $client.campaigns}

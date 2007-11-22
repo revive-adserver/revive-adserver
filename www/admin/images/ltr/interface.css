@@ -275,9 +275,9 @@ table.targeting {
 
 /* Cell formatting */
 
-thead td {
+thead td, thead th {
     font-weight: bold;
-    text-align: center;
+    text-align: left;
 }
 
 td.date,
@@ -590,39 +590,6 @@ a.time:before
   background-color: #FFFFFF;
 }
 
-table.data-grid th {
-  font-weight: bold;
-  text-align: left;
-}
-
-table.data-grid img {
-  border:0;
-}
-table.data-grid tr.data:hover {
-  background-color: #fffccd;
-}
-
-table.data-grid tr.data.edit, table.data-grid tr.data.edit:hover {
-  background-color: #dce9f5;
-}
-
-table.data-grid tr.data td {
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
-
-table.data-grid tr.edit span.view {
-  display: none;
-}
-
-table.data-grid tr.view span.edit {
-  display: none;
-}
-
-table.data-grid td.cntr {
-  text-align: center;
-}
-
 table.data-grid {
   table-layout: fixed;
   border-collapse: collapse;
@@ -640,9 +607,11 @@ table.data-grid tr.header {
 table.data-grid th {
   padding: 2px;
   border-bottom: 1px solid #cdcdcd;
+  font-weight: bold;
+  text-align: left;
 }
 
-table.data-grid tr:hover, table.data-grid tr.odd:hover {
+table.data-grid tr:hover {
   background-color: #ffedc7;
 }
 
@@ -653,8 +622,12 @@ table.data-grid tr.odd {
 table.data-grid td.url {
   text-align: left;
   text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+table.data-grid img {
+  border:0;
 }
 
 div.filters {
