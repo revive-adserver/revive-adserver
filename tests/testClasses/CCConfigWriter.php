@@ -36,7 +36,7 @@ define('CONFIG_PATH', MAX_PATH . '/var/test.conf.php');
  */
 class CCConfigWriter
 {
-    function configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled)
+    function configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled, $loadBalancingEnabled, $loadBalancingName)
     {
         $config = new Config();
         $configContainer = &$config->parseConfig(CONFIG_TEMPLATE, 'inifile');
@@ -48,6 +48,15 @@ class CCConfigWriter
         $sectionDatabase->setDirective('username', $username);
         $sectionDatabase->setDirective('password', $password);
         $sectionDatabase->setDirective('name', $name);
+        
+        $sectionLoadBalancing = &$configContainer->getItem('section', 'lb');
+        $sectionLoadBalancing->setDirective('enabled', $loadBalancingEnabled); 
+        $sectionLoadBalancing->setDirective('type', $type);
+        $sectionLoadBalancing->setDirective('host', $host);
+        $sectionLoadBalancing->setDirective('port', $port);
+        $sectionLoadBalancing->setDirective('username', $username);
+        $sectionLoadBalancing->setDirective('password', $password);
+        $sectionLoadBalancing->setDirective('name', $loadBalancingName);
 
         $tableType = trim($tableType);
         $sectionTable = &$configContainer->getItem('section', 'table');

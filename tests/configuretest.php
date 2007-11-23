@@ -33,8 +33,8 @@ require_once(MAX_PATH . '/tests/testClasses/MDB2ConfigWriter.php');
  * This script configures test according to parameters passed on the command line.
  */
 
-if ($_SERVER['argc'] != 9) {
-    echo "The program expects 8 arguments!";
+if ($_SERVER['argc'] != 11) {
+    echo "The program expects 10 arguments!";
     exit(1);
 }
 
@@ -46,9 +46,11 @@ $password = $_SERVER['argv'][5];
 $name = strtolower($_SERVER['argv'][6]);
 $tableType = $_SERVER['argv'][7];
 $auditEnabled = $_SERVER['argv'][8];
+$loadBalancingEnabled = $_SERVER['argv'][9];
+$loadBalancingName = $_SERVER['argv'][10];
 
 $ccConfigWriter = new CCConfigWriter();
-$ccConfigWriter->configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled);
+$ccConfigWriter->configureTest($type, $host, $port, $username, $password, $name, $tableType, $auditEnabled, $loadBalancingEnabled, $loadBalancingName);
 
 //MDB2 tests disabled
 //$mdb2ConfigWriter = new MDB2ConfigWriter();

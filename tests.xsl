@@ -31,6 +31,8 @@
             <arg value="@{{db.name}}" />
             <arg value="@{{db.table.type}}" />
             <arg value="@{{audit.enabled}}" />
+            <arg value="false" /> <!-- loadBalancingEnabled - see OAP-19 -->
+            <arg value="@{{db.name}}" /> <!-- loadBalancingName see OAP-19 -->
           </exec>
           <echo>after config</echo>
           <fail message="Can't create configuration file for test: @{{test.name}}! Reason: ${{test.@{test.name}.error}}">
