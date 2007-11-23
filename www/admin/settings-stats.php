@@ -45,7 +45,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('logging_adRequests', 'logging_adImpressions',
                           'logging_adClicks','logging_trackerImpressions',
                           'logging_reverseLookup', 'logging_proxyLookup', 'logging_sniff',
-                          'ignoreHosts',
+                          'logging_ignoreHosts',
                           'maintenance_blockAdImpressions', 'maintenance_blockAdClicks',
                           'maintenance_operationInterval',
                           'maintenance_compactStats', 'maintenance_compactStatsGrace',
@@ -78,17 +78,17 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $config->setConfigChange('maintenance', 'blockAdClicks', $maintenance_blockAdClicks);
         }
     }
-    if (isset($ignoreHosts)) {
-        // Split the list of hosts to ignore on a space, comma, or semicolon
-        $ignoreHostsArray = preg_split('/ |,|;/', $ignoreHosts);
-        // Remove any empty string hosts
-        $emptyKeys = array_keys($ignoreHostsArray, '');
-        $counter = -1;
-        foreach ($emptyKeys as $key) {
-            $counter++;
-            array_splice($ignoreHostsArray, $key - $counter, 1);
+    if (isset($logging_ignoreHosts)) {
+        // Split the list of hosts to ignore on a space, comma, or semicolon and newlines
+        $ignoreHostsArray = preg_split('/ |,|;|\n/', $logging_ignoreHosts);
+        foreach ($ignoreHostsArray as $key => $value) {
+            if (empty($value)) {
+                unset($ignoreHostsArray[$key]);
+            } else {
+                $ignoreHostsArray[$key] = trim($ignoreHostsArray[$key]);
+            }
         }
-        $config->setBulkConfigChange('ignoreHosts', $ignoreHostsArray);
+        $config->setConfigChange('logging', 'ignoreHosts', implode(',', $ignoreHostsArray));
     }
     if (isset($maintenance_operationInterval)) {
         if ((!is_numeric($maintenance_operationInterval)) ||
@@ -175,7 +175,7 @@ phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
 phpAds_SettingsSelection("stats");
 
 // Change ignore_hosts into a string, so the function handles it good
-$conf['ignoreHosts'] = join("\n", $conf['ignoreHosts']);
+$GLOBALS['_MAX']['CONF']['logging']['ignoreHosts'] = implode(",\n", explode(',', $GLOBALS['_MAX']['CONF']['logging']['ignoreHosts']));
 
 $settings = array (
     array (
@@ -226,7 +226,7 @@ $settings = array (
         'items' => array (
             array (
                 'type'    => 'textarea',
-                'name'    => 'ignoreHosts',
+                'name'    => 'logging_ignoreHosts',
                 'text'    => $strIgnoreHosts
             ),
             array (
