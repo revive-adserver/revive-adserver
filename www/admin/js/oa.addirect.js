@@ -319,7 +319,7 @@ function initCampaignStatus()
     var statusRows = $("[@id^='rsn_row']");
     statusRows.hide();
     
-    if ($("#sts_reject").get(0).checked == true ) {
+    if ($("#sts_reject").attr("checked") == true ) {
         statusRows.show();
     }
     
