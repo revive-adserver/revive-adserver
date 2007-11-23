@@ -44,7 +44,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection',
-                               'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'selfsignup', 'formId');
+                               'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'advsignup', 'formId');
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);

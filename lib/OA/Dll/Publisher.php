@@ -227,7 +227,7 @@ class OA_Dll_Publisher extends OA_Dll
         $publisherData['oac_language_id'] = $oPublisher->oacLanguageId;
         $publisherData['oac_country_code'] = $oPublisher->oacCountryCode;
         $publisherData['an_website_id'] = (!$oPublisher->adNetworks) ? '' : null;
-        $publisherData['as_website_id'] = (!$oPublisher->selfSignup) ? '' : null;
+        $publisherData['as_website_id'] = (!$oPublisher->advSignup)  ? '' : null;
 
         if (isset($publisherData['password']) && (!is_null($publisherData['password'])) && ($publisherData['password'] != '********')) {
             $publisherData['password'] = md5($oPublisher->password);
@@ -252,7 +252,7 @@ class OA_Dll_Publisher extends OA_Dll
             }
             $oAdNetworks = new OA_Central_AdNetworks();
             // Initiate a call to Openads Central if adnetworks are enabled or if OAC values are changed.
-            if ($oPublisher->adNetworks || $oPublisher->selfSignup) {
+            if ($oPublisher->adNetworks || $oPublisher->advSignup) {
                 // If adNetworks was not previously selected...
                 if (empty($publisherPrevData['an_website_id']) && 
                     empty($publisherPrevData['as_website_id'])) {
@@ -263,7 +263,7 @@ class OA_Dll_Publisher extends OA_Dll
 	                            'country'    => $oPublisher->oacCountryCode,
 	                            'language'   => $oPublisher->oacLanguageId,
 	                            'category'   => $oPublisher->oacCategoryId,
-	                            'selfsignup' => $oPublisher->selfSignup,
+	                            'advsignup' => $oPublisher->advSignup,
 	                            'adnetworks' => $oPublisher->adNetworks,
 	                    )
                     );
@@ -290,7 +290,7 @@ class OA_Dll_Publisher extends OA_Dll
 		                            'country'    => $oPublisher->oacCountryCode,
 		                            'language'   => $oPublisher->oacLanguageId,
 		                            'category'   => $oPublisher->oacCategoryId,
-		                            'selfsignup' => $oPublisher->selfSignup,
+		                            'advsignup'  => $oPublisher->advSignup,
 		                            'adnetworks' => $oPublisher->adNetworks,
 		                    )
 	                    );

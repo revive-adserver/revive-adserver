@@ -42,7 +42,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'selfsignup',
+phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
                                'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
                                'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
 
@@ -91,7 +91,7 @@ if (isset($formId)) {
 
     // Do I need to handle this?
     $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
-    $oPublisher->selfSignup =   ($selfsignup == 't') ? true : false;
+    $oPublisher->advSignup  =   ($advsignup == 't') ? true : false;
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher)) {
@@ -212,9 +212,9 @@ $oTpl->assign('fieldsTop', array(
                 'template'  => 'adnetworks',
                 'label'     => 'Ad Networks',
                 'vars'      => array(
-                                'checked'            => !empty($affiliate['an_website_id']),
-                                'checked_selfsignup' => !empty($affiliate['as_website_id']),
-                                'disabled'           => MAX_Admin_Preferences::checkBool('updates_enabled',
+                                'checked'           => !empty($affiliate['an_website_id']),
+                                'checked_advsignup' => !empty($affiliate['as_website_id']),
+                                'disabled'          => MAX_Admin_Preferences::checkBool('updates_enabled',
                                                                                          false)
                                     || !MAX_Permission::hasAccess(phpAds_Admin)
                                ),

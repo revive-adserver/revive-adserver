@@ -442,7 +442,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
         );
 
         if (isset($_POST['aUrls']) && is_array($_POST['aUrls'])) {
-            phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks', 'aSelfSignup');
+            phpAds_registerGlobalUnslashed('aUrls', 'aCountries', 'aLanguages', 'aCategories', 'aAdnetworks', 'aAdvSignup');
 
             $aTplSites = array();
             foreach ($aUrls as $key => $url) {
@@ -451,7 +451,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                 }
 
                 $isOac = $aAdnetworks[$key] == 'true' ? 1 : 0;
-                $isOas = $aSelfSignup[$key] == 'true' ? 1 : 0;
+                $isOas = $aAdvSignup[$key] == 'true' ? 1 : 0;
 
                 $aWebsites[$isOac][] = $aTplSites[count($aTplSites)+1] = array(
                     'url'        => $url,
@@ -459,7 +459,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     'language'   => $aLanguages[$key],
                     'category'   => $aCategories[$key],
                     'adnetworks' => $isOac,
-                    'selfsignup' => $isOas
+                    'advsignup' => $isOas
                 );
             }
 
@@ -474,7 +474,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     'oac_country_code' => $v['country'],
                     'oac_language_id'  => $v['language'],
                     'oac_category_id'  => $v['category'],
-                    'as_website_id'    => $v['selfsignup']
+                    'as_website_id'    => $v['advsignup']
                 );
 
                 $doAffiliate->setFrom($publisher);

@@ -13,17 +13,17 @@ function initCaptchaDialog(dialogId, formId, captchaURL)
 {
   var form = $(formId);
   var signupDialog = $("#" + dialogId);
-  
+
   var onShow = function(hash)
-  { 
+  {
     var captcha = $("#captcha", hash.w);
     var time = new Date().getTime();
     $("#captcha-random").attr("value", time);
     captcha.attr("src", captchaURL + '&t=' +  time);
     hash.w.fadeIn("fast");
-    $("input[@name='captcha-value']", signupDialog).get(0).focus(); 
-  };  
-  
+    $("input[@name='captcha-value']", signupDialog).get(0).focus();
+  };
+
   signupDialog.jqm(
    { modal: true,
       overlay: 40,
@@ -156,8 +156,8 @@ function isCaptchaRequired()
   var form = $("#frmOpenads").get(0);
   var signupRequested = false;
 
-  $(":checkbox[id^=selfsignup]", form).each(function() {
-    if (this.id != 'selfsignup' && this.checked) {
+  $(":checkbox[id^=advsignup]", form).each(function() {
+    if (this.id != 'advsignup' && this.checked) {
       signupRequested = true;
       return false;
     }
@@ -220,9 +220,9 @@ function siteChanged()
 }
 
 
-function initHelp() 
+function initHelp()
 {
-  $(".selfsignup-help").add(".popup-help-link").click(showHelp);
+  $(".advsignup-help").add(".popup-help-link").click(showHelp);
   $(".popup-help").click(hideOaHelp);
 }
 
@@ -250,7 +250,7 @@ function selectElement()
   if (window.getSelection)
   {
 
-  
+
     var r = document.createRange();
     r.selectNodeContents($(this)[0]);
     var s = window.getSelection();
@@ -276,8 +276,8 @@ function formStateStore(form)
   }
   var formState = document.formState;
   var formSettings = new Array();
-  if (form.selfsignup) {
-    formSettings["selfsignup"] =  form.selfsignup.checked;
+  if (form.advsignup) {
+    formSettings["advsignup"] =  form.advsignup.checked;
   }
 
   formState[form.id] = formSettings;
@@ -291,12 +291,12 @@ function formStateChanged(form)
   }
 
   var formSettings = document.formState[form.id];
-  var result = false;  
-  // show captcha if 
+  var result = false;
+  // show captcha if
   // 1) enabling advertiser singup
-  result = form.selfsignup && !formSettings["selfsignup"] && form.selfsignup.checked;
-    
-  return result;    
+  result = form.advsignup && !formSettings["advsignup"] && form.advsignup.checked;
+
+  return result;
 }
 
 
@@ -305,10 +305,10 @@ function initRejectedOARows()
 {
 	$(".oa td.sts:contains('Rejected')").each(function() {
     var cell = $(this);
-    var statusRow = cell.parents("tr").next("tr").hide();     
+    var statusRow = cell.parents("tr").next("tr").hide();
 
     cell.css("color", "green").click(function() {
-      statusRow.show();    	
+      statusRow.show();
     });
 	});
 }
@@ -318,16 +318,16 @@ function initCampaignStatus()
 {
     var statusRows = $("[@id^='rsn_row']");
     statusRows.hide();
-    
+
     if ($("#sts_reject").attr("checked") == true ) {
         statusRows.show();
     }
-    
-    
-    
+
+
+
     $("input[name='status']").click(function(){
         if (this.value == "22") {
-            statusRows.show();    
+            statusRows.show();
         }
         else {
             statusRows.hide();
@@ -351,7 +351,7 @@ function initAffiliateDeleteDialog()
         delForm.affiliateid.value = pubId;
         delForm.deleteall.checked = false;
         hash.w.fadeIn("fast");
-      } 
+      }
   }).jqmAddClose("#ad-cancel");
 }
 

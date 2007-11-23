@@ -313,7 +313,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                     'oac_country_code' => $aWebsites[$websiteIdx]['country'],
                     'oac_language_id'  => $aWebsites[$websiteIdx]['language'],
                     'oac_category_id'  => $aWebsites[$websiteIdx]['category'],
-                    'as_website_id'  => $aWebsites[$websiteIdx]['selfsignup']
+                    'as_website_id'    => $aWebsites[$websiteIdx]['advsignup']
                 );
             }
 
@@ -325,7 +325,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
                 );
             }
             
-            if ($aWebsites[$websiteIdx]['selfsignup']) {
+            if ($aWebsites[$websiteIdx]['advsignup']) {
 	            $publisher += array(
 	                'as_website_id'   => $aWebsite['website_id'],
 	            );
@@ -531,6 +531,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
 
     /**
      * A method to call method updateZone for "subscribe" zone on Ad Networks program
+     * All zones where belonging publihser.
      *
      * @param int $publisherId
      */
@@ -556,7 +557,7 @@ class OA_Central_AdNetworks extends OA_Central_Common
      * A method to "subscribe" zone on Ad Networks program
      *
      * @param DB_DataObjectCommon $doZone
-     * @param int $anWebsiteId
+     * @param int $anWebsiteId  website id into Ad Networks program
      */
     function updateZone(&$doZone, $anWebsiteId)
     {
@@ -572,17 +573,23 @@ class OA_Central_AdNetworks extends OA_Central_Common
             $aRpcZone += array('id' => $doZone->as_zone_id);
         }
         
-        $result = $this->oMapper->oRpc->callNoAuth('updateZone', 
-                                                      array(XML_RPC_encode($aRpcZone))
-                                                  );
+        $result = $this->oMapper->updateZone($aRpcZone);
+        
+        if (is_object($result)) {
+            $as_zone_id = 0;
+        } else {
+            $as_zone_id = (int)$result;
+        }
+        
         $doZonesUpdate             = OA_Dal::factoryDO('zones');
-        $doZonesUpdate->as_zone_id = (int)$result;
+        $doZonesUpdate->as_zone_id = $as_zone_id;
         $doZonesUpdate->zoneid     = $doZone->zoneid;
         $doZonesUpdate->update();
 	}
     
     /**
-     * A method to call method deleteZone
+     * A method to call method deleteZone for "subscribe" zone on Ad Networks program
+     * All zones where belonging publihser.
      *
      * @param int $affiliateid
      */
@@ -597,26 +604,22 @@ class OA_Central_AdNetworks extends OA_Central_Common
     }
     
     /**
-     * A method to delete (unsubscribe) zone from Ad Networks program
+     * A method to delete zone from Ad Networks program
      *
-     * @param int $id  as zone id
+     * @param int $zoneId  into Ad Networks
      */
-    function deleteZone($id)
+    function deleteZone($zoneId)
     {
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->get('as_zone_id', $id);
+        $doZones->get('as_zone_id', $zoneId);
+        
         $r = $doZones->setFrom(
                                   array('as_zone_id' => 0)
                               );
         $doZones->update();
         
-        $aRpcZone = array(
-            	    	  'id' => $id
-                         );
-        $result = $this->oMapper->oRpc->callNoAuth('deleteZone', 
-                                                      array(XML_RPC_encode($aRpcZone))
-                                                  );
-										          
+        $result = $this->oMapper->deleteZone((int)$zoneId);
+        
     }
 
     /**

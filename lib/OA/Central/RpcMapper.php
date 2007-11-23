@@ -319,6 +319,55 @@ class OA_Central_RpcMapper
             XML_RPC_encode($aWebsiteIds)
         ));
     }
+    
+    /**
+     * A method to update or add zone.
+     *
+     * The $aZone array format is (for add):
+     *
+     * Array
+     * (
+     *      [websiteId]   => 5
+     *      [name]        => Test Zone
+     *      [description] => My description
+     *      [width]       => 60
+     *      [height]      => 70
+     * )
+     * 
+     * 
+     * The $aZone array format is (for update):
+     *
+     * Array
+     * (
+     *      [id]          => 121
+     *      [websiteId]   => 5
+     *      [name]        => Test Zone
+     *      [description] => My description
+     *      [width]       => 60
+     *      [height]      => 70
+     * )
+     *
+     * 
+     * @param array $aZone
+     * @param int  zone id
+     */
+    function updateZone($aZone) {
+        return $this->oRpc->callNoAuth('updateZone', 
+                                       array(XML_RPC_encode($aZone)));
+    }
+    
+    
+    /**
+     * A method to delete zone from Ad Networks
+     *
+     * @param int $zoneId  zone id into Ad Networks
+     */
+    function deleteZone($zoneId) {
+        $aId = array('id' => $zoneId);
+        return $this->oRpc->callNoAuth('deleteZone', 
+                                       array(XML_RPC_encode($aId))
+                                      );
+    }
 
     /**
      * A method to get updates about subscribed websites

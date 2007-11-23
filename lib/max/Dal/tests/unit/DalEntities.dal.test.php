@@ -186,7 +186,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $this->assertNull($aResult);
 
         // Test 2
-        $placementId = 0;
+        $placementId = 1;
 
         $aResult = $oDal->getAdsByPlacementId($placementId);
         $this->assertNull($aResult);
@@ -195,7 +195,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $oNow = new Date();
         $aData = array(
             'campaignid'=>$placementId,
-            'status'=>1,
+            'status'=>OA_ENTITY_STATUS_RUNNING,
             'weight'=>1,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -205,7 +205,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aExpectedResult = array(
             $idBanner1 => array(
                 'ad_id'  => $idBanner1,
-                'status' => 1,
+                'status' => OA_ENTITY_STATUS_RUNNING,
                 'type'   => 'sql',
                 'weight' => 1
             )
@@ -215,7 +215,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         // Test 4
         $aData = array(
             'campaignid'=>$placementId,
-            'status'=>0,
+            'status'=>OA_ENTITY_STATUS_PAUSED,
             'weight'=>5,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -223,7 +223,7 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $idBanner2 = $this->_insertBanner($aData);
         $aData = array(
             'campaignid'=>$placementId+1,
-            'status'=>1,
+            'status'=>OA_ENTITY_STATUS_RUNNING,
             'weight'=>2,
             'updated'=>$oNow->format('%Y-%m-%d %H:%M:%S'),
             'acls_updated'=>$oNow->format('%Y-%m-%d %H:%M:%S')
@@ -233,13 +233,13 @@ class Dal_TestOfMAX_Dal_Entities extends UnitTestCase
         $aExpectedResult = array(
             $idBanner1 => array(
                 'ad_id'  => $idBanner1,
-                'status' => 1,
+                'status' => OA_ENTITY_STATUS_RUNNING,
                 'type'   => 'sql',
                 'weight' => 1
             ),
             $idBanner2 => array(
                 'ad_id'  => $idBanner2,
-                'status' => 0,
+                'status' => OA_ENTITY_STATUS_PAUSED,
                 'type'   => 'sql',
                 'weight' => 5
             )
