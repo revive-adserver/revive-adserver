@@ -540,7 +540,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
         $this->assertEqual($oAudit->contextid,$bannerId);
-        $this->assertEqual($aAudit['key_desc'],$doAcls->description);
+        $this->assertEqual($aAudit['key_desc'],$doAcls->type);
         $this->assertEqual($aAudit['bannerid'],$bannerId);
         $this->assertEqual($aAudit['logical'],$doAcls->logical);
         $this->assertEqual($aAudit['type'],$doAcls->type);
@@ -550,24 +550,21 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
         $doAcls = OA_Dal::staticGetDO('acls', $bannerId);
         $doAcls->data = 'AX,EZ,AZ';
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $doAcls->update();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
         $this->assertEqual($oAudit->contextid,$bannerId);
-        $this->assertEqual($aAudit['key_desc'],$doAcls->description);
-        $this->assertEqual($aAudit['bannerid'],$bannerId);
-        $this->assertEqual($aAudit['logical'],$doAcls->logical);
-        $this->assertEqual($aAudit['type'],$doAcls->type);
-        $this->assertEqual($aAudit['comparison'],$doAcls->comparison);
-        $this->assertEqual($aAudit['data'],$doAcls->data);
-        $this->assertEqual($aAudit['executionorder'],$doAcls->executionorder);
+        $this->assertEqual($aAudit['key_desc'],$doAcls->type);
+        $this->assertEqual($aAudit['data']['is'],$doAcls->data);
+        $this->assertEqual($aAudit['data']['was'],'AF,DZ,AD');
 
         $doAcls->delete();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
         $this->assertEqual($oAudit->contextid,$bannerId);
-        $this->assertEqual($aAudit['key_desc'],$doAcls->description);
+        $this->assertEqual($aAudit['key_desc'],$doAcls->type);
         $this->assertEqual($aAudit['bannerid'],$bannerId);
         $this->assertEqual($aAudit['logical'],$doAcls->logical);
         $this->assertEqual($aAudit['type'],$doAcls->type);
@@ -742,11 +739,11 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $clientId = DataGenerator::generateOne($doClients);
 
         // delete the agency record
-        // audit event 7 & 8 & 9, 10 (1 agency, 1 client, 2 prefs)
+        // audit event 7 & 8 & 9 (1 agency, 1 client, 1 pref)
         $doAgency->delete();
 
         $aAudit = $this->_fetchAuditArrayAll();
-        $this->assertEqual(count($aAudit), 10,'wrong number of audit records');
+        $this->assertEqual(count($aAudit), 9,'wrong number of audit records');
 
         // test 1: default agency preference insert audited
         $this->assertTrue(isset($aAudit[1]));
@@ -885,26 +882,11 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['clientname'],'Client A');
         $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
 
-        // test 9: new agency advertiser preference delete audited
+        // test 9: new agency preference delete audited
         $this->assertTrue(isset($aAudit[9]));
         $aEvent = $aAudit[9];
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],9);
-        $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
-        $this->assertEqual($aEvent['context'],'Advertiser Preference');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
-        $this->assertEqual($aEvent['username'],$session['username']);
-        $this->assertEqual($aEvent['contextid'],$agencyId1);
-        $this->assertIsA($aEvent['array'], 'array');
-        $this->assertEqual($aEvent['array']['key_desc'],'');
-        $this->assertEqual($aEvent['array']['advertiser_id'],$clientId);
-
-        // test 10: new agency preference delete audited
-        $this->assertTrue(isset($aAudit[10]));
-        $aEvent = $aAudit[10];
-        $this->assertIsA($aEvent, 'array');
-        $this->assertEqual($aEvent['auditid'],10);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aEvent['context'],'Preference');
         $this->assertEqual($aEvent['userid'],$session['userid']);
