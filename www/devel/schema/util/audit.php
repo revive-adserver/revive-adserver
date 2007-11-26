@@ -36,9 +36,9 @@ else if (array_key_exists('banner', $_POST))
 {
     $aData = $obj->auditBanner();
 }
-else if (array_key_exists('set', $_POST))
+else if (array_key_exists('adzone', $_POST))
 {
-    $aData = $obj->auditSet();
+    $aData = $obj->auditAdZoneAssoc();
 }
 else if (array_key_exists('dummy', $_POST))
 {

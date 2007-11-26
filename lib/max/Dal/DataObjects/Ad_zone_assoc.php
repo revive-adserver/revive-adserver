@@ -39,9 +39,9 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
     var $ad_zone_assoc_id;                // int(9)  not_null primary_key auto_increment
     var $zone_id;                         // int(9)  multiple_key
     var $ad_id;                           // int(9)  multiple_key
-    var $priority;                        // real(22)  
+    var $priority;                        // real(22)
     var $link_type;                       // int(6)  not_null
-    var $priority_factor;                 // real(22)  
+    var $priority_factor;                 // real(22)
     var $to_be_delivered;                 // int(1)  not_null
 
     /* ZE2 compatibility trick*/
@@ -52,6 +52,53 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->ad_zone_assoc_id;
+    }
+
+    function _getContext()
+    {
+        return 'Ad Zone Association';
+    }
+
+    /**
+     * build an agency specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = 'Ad #'.$this->ad_id.' -> Zone #'.$this->zone_id;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        $aAuditFields['to_be_delivered']     = $this->_formatValue('to_be_delivered');
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            case 'to_be_delivered':
+                return $this->_boolToStr($this->$field);
+            default:
+                return $this->$field;
+        }
+    }
 }
 
 ?>

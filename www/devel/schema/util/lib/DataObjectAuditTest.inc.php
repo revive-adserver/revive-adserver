@@ -79,7 +79,6 @@ class DataObjectAuditTest
         $aResult[$idx]['userid']    = $this->doAudit->userid;
         $aResult[$idx]['updated']   = $this->doAudit->updated;
         $array     = unserialize($this->doAudit->details);
-        //$aResult[$idx]['key_field'] = $array['key_field'];
         $aResult[$idx]['key_desc']  = $array['key_desc'];
     }
 
@@ -98,8 +97,6 @@ class DataObjectAuditTest
         {
             $aResult = unserialize($doAudit->details);
             $aResult['actionid']  = $doAudit->actionid;
-            //unset($aResult[$aResult['key_field']]);
-            //unset($aResult['key_field']);
             unset($aResult['key_desc']);
         }
         return $aResult;
@@ -121,7 +118,6 @@ class DataObjectAuditTest
             $idx = $aRow['auditid'];
             $aResult[$idx] = $aRow;
             $array     = unserialize($aRow['details']);
-            //$aResult[$idx]['key_field'] = $array['key_field'];
             $aResult[$idx]['key_desc']  = $array['key_desc'];
         }
     }
@@ -141,16 +137,13 @@ class DataObjectAuditTest
         $doCampaigns->campaignname = 'My New Campaign';
         $doCampaigns->activate = OA::getNow('Y-m-d');
         $campaignId = DataGenerator::generateOne($doCampaigns);
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_INSERT);
 
         $doCampaigns->campaignname = 'My Changed Campaign';
         $doCampaigns->active = 'f';
         $doCampaigns->expire = OA::getNow('Y-m-d');
         $doCampaigns->update();
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_UPDATE);
 
-        $doCampaigns->deleteById($campaignId);
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_DELETE);
+        $doCampaigns->delete();
 
         $this->_fetchAuditArrayAll($aResult);
 
@@ -171,19 +164,16 @@ class DataObjectAuditTest
 
         $doBanners->campaignid = rand(20,30);
         $doBanners->description = 'My New Banner';
-        $doBanners->contenttype = 'gif';
+        $doBanners->contenttype = 'jpeg';
         $doBanners->storagetype = 'sql';
-        $doBanners->alt_contenttype = 'txt';
+        $doBanners->alt_contenttype = 'gif';
         $bannerId = DataGenerator::generateOne($doBanners);
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_INSERT);
 
         $doBanners->description = 'My Changed Banner';
         $doBanners->active = 'f';
         $doBanners->update();
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_UPDATE);
 
-        $doBanners->deleteById($bannerId);
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_DELETE);
+        $doBanners->delete();
 
         $this->_fetchAuditArrayAll($aResult);
 
@@ -204,14 +194,58 @@ class DataObjectAuditTest
         $doZone->affiliateid = rand(20,30);
         $doZone->zonename = 'Zone A';
         $zoneId = DataGenerator::generateOne($doZone);
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_INSERT);
 
         $doZone->zonename = 'Zone B';
         $doZone->update();
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_UPDATE);
 
         $doZone->delete();
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_DELETE);
+
+        $this->_fetchAuditArrayAll($aResult);
+
+        return $aResult;
+    }
+
+    function auditAdZoneAssoc()
+    {
+        global $session;
+        $session['username'] = 'Fred Doe';
+        $session['userid']   = rand(11-20);
+        $session['usertype'] =  rand(1-10);
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $aResult = array();
+        $context = 'Banner';
+
+        $doBanners->campaignid = rand(20,30);
+        $doBanners->description = 'My New Banner';
+        $doBanners->contenttype = 'jpeg';
+        $doBanners->storagetype = 'sql';
+        $doBanners->alt_contenttype = 'gif';
+        $bannerId = DataGenerator::generateOne($doBanners);
+
+
+        $doZone = OA_Dal::factoryDO('zones');
+        $aResult = array();
+        $context = 'Zone';
+
+        $doZone->agencyid = rand(20,30);
+        $doZone->affiliateid = rand(20,30);
+        $doZone->zonename = 'Zone A';
+        $zoneId = DataGenerator::generateOne($doZone);
+
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+        $context = 'Ad Zone Association';
+
+        $doAdZoneAssoc->ad_id = $bannerId;
+        $doAdZoneAssoc->zone_id = $zoneId;
+        $doAdZoneAssoc->link_type = 99;
+        $doAdZoneAssoc->priority = 1;
+        $doAdZoneAssoc->priority_factor = 2;
+        $doAdZoneAssoc->to_be_delivered = 1;
+        $doAdZoneAssoc->insert();
+
+        $doZone->delete();
+        $doBanners->delete();
 
         $this->_fetchAuditArrayAll($aResult);
 
@@ -234,85 +268,17 @@ class DataObjectAuditTest
         $doClients->clientusername = 'client user';
         $doClients->contact = 'Mr User';
         $clientId = DataGenerator::generateOne($doClients);
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_INSERT);
 
         $doClients->clientname = 'My Changed Client';
         $doClients->contact = 'Ms User';
         $doClients->update();
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_UPDATE);
 
-        $doClients->deleteById($clientId);
-        //$this->_fetchAuditArray($aResult, $context, OA_AUDIT_ACTION_DELETE);
+        $doClients->delete();
 
         $this->_fetchAuditArrayAll($aResult);
 
         return $aResult;
     }
-
-/*    function auditSet()
-    {
-        $this->createTable();
-        global $session;
-        $session['username'] = 'Joe Agency';
-        $session['userid']   =  rand(11-20);
-        $session['usertype'] =  rand(1-10);
-        $aResult = array();
-
-        // insert a client
-        $doClients = OA_Dal::factoryDO('clients');
-
-        $doClients->agencyid = 0;
-        $doClients->clientname = 'My New Client';
-        $doClients->clientusername = 'client user';
-        $doClients->contact = 'Mr User';
-        $clientId = DataGenerator::generateOne($doClients);
-
-        // insert a campaign
-        $doCampaigns = OA_Dal::factoryDO('campaigns');
-
-        $doCampaigns->clientid = $clientId;
-        $doCampaigns->campaignname = 'My New Campaign';
-        $doCampaigns->activate = OA::getNow('Y-m-d');
-        $campaignId = DataGenerator::generateOne($doCampaigns);
-
-        // insert a banner
-        $doBanners = OA_Dal::factoryDO('banners');
-
-        $doBanners->campaignid = $campaignId;
-        $doBanners->description = 'My New Banner';
-        $doBanners->contenttype = 'gif';
-        $doBanners->storagetype = 'sql';
-        $doBanners->alt_contenttype = 'txt';
-        $bannerId = DataGenerator::generateOne($doBanners);
-
-        // change the client
-        $doClients->clientname = 'My Changed Client';
-        $doClients->contact = 'Ms User';
-        $doClients->update();
-
-
-        // change the campaign
-        $doCampaigns->campaignname = 'My Changed Campaign';
-        $doCampaigns->active = 'f';
-        $doCampaigns->expire = OA::getNow('Y-m-d');
-        $doCampaigns->update();
-
-        // change the banner
-        $doBanners->description = 'My Changed Banner';
-        $doBanners->active = 'f';
-        $doBanners->update();
-
-        $doBanners->deleteById($bannerId);
-
-        $doCampaigns->deleteById($campaignId);
-
-        $doClients->deleteById($clientId);
-
-        $aResult = array();
-        $this->_fetchAuditArrayAll($aResult);
-        return $aResult;
-    }
-*/
 
     function auditAgency()
     {
@@ -332,7 +298,7 @@ class DataObjectAuditTest
         $agencyId0 = DataGenerator::generateOne($doPreference);
 
         // insert an agency record
-        // audit event 2 & 3
+        // audit event 2 (agency) & 3 (agency preference)
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name = 'Agency A';
         $doAgency->language = 'French';
@@ -341,7 +307,7 @@ class DataObjectAuditTest
         $agencyId1 = DataGenerator::generateOne($doAgency);
 
         // change the agency record
-        // audit event 4 & 5
+        // audit event 4 (agency) & 5 (agency preference)
         $doAgency->name = 'Agency B';
         $doAgency->language = 'German';
         $doAgency->contact = 'Agency Admin B';
@@ -349,7 +315,7 @@ class DataObjectAuditTest
         $doAgency->update();
 
         // add some clients for this agency
-        // audit event 6 & 7
+        // audit event 6 (client) & 7 (advertiser preference)
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId1;
         $doClients->clientname = 'Client A';
@@ -358,7 +324,10 @@ class DataObjectAuditTest
 
         $doAgency->onDeleteCascade = true;
         // delete the agency record
-        // audit event 8 & 9
+        // audit event 8 (agency)
+        // audit event 9 (client)
+        // audit event 10 (advertiser preference)
+        // audit event 11 (agency preference)
         $doAgency->delete();
 
         $aResult = array();

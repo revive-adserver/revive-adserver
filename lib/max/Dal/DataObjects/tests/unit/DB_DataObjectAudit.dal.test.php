@@ -60,10 +60,22 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doAudit = OA_Dal::factoryDO('audit');
         $doAudit->context = $context;
         $doAudit->actionid = $actionid;
-        $doAudit->find();
+        $n = $doAudit->find();
         $result = $doAudit->fetch();
         $this->assertEqual($doAudit->context, $context);
         $this->assertEqual($doAudit->actionid, $actionid);
+        if ($n>1)
+        {
+            $aAudit[1] = clone($doAudit);
+            for ($i=2;$i<=$n;$i++)
+            {
+                $result = $doAudit->fetch();
+                $this->assertEqual($doAudit->context, $context);
+                $this->assertEqual($doAudit->actionid, $actionid);
+                $aAudit[$i] = clone($doAudit);
+            }
+            return $aAudit;
+        }
         return $doAudit;
     }
 
@@ -791,7 +803,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
         $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
         $this->assertEqual($aEvent['array']['name'],'Agency Changed');
-        
+
         // test 8: new agency client delete audited
         $this->assertTrue(isset($aAudit[8]));
         $aEvent = $aAudit[8];
@@ -836,13 +848,14 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
-        $this->assertEqual($aEvent['array']['key_desc'],'');
+        $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
         $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
-        
+        $this->assertEqual($aEvent['array']['name'],'Agency Changed');
+
 
         DataGenerator::cleanUp(array('agency', 'preference', 'audit'));
     }
-    
+
     function testAuditParentId()
     {
         // Insert a banner with parents
@@ -854,21 +867,114 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doBanners->description = 'Banner A';
         $bannerId = DataGenerator::generateOne($doBanners, true);
         $campaignId = DataGenerator::getReferenceId('campaigns');
-        
+
         // Delete the campaign
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
         $doCampaigns->delete();
-        
+
         // Test the campaign auditid == banner parentid
         $oAuditCampaign = $this->_fetchAuditRecord('Campaign', OA_AUDIT_ACTION_DELETE);
         $this->assertNull($oAuditCampaign->parentid);
-        
+
         $oAuditBanner = $this->_fetchAuditRecord('Banner', OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($oAuditCampaign->auditid, $oAuditBanner->parentid);
 
         DataGenerator::cleanUp(array('campaigns', 'banners', 'audit'));
-        
+
     }
+
+    function testAuditAdZoneAssoc()
+    {
+        global $session;
+        $session['username'] = 'a user';
+        $session['userid']   = rand(11,20);
+        $session['usertype'] =  rand(1,10);
+
+        $doBanners = OA_Dal::factoryDO('banners');
+        $context = 'Banner';
+
+        // insert a banner
+        $doBanners->campaignid = rand(20,30);
+        $doBanners->description = 'Banner A';
+        $bannerId = DataGenerator::generateOne($doBanners);
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$bannerId);
+        $this->assertEqual($aAudit['key_desc'],$doBanners->description);
+        $this->assertEqual($aAudit['bannerid'],$bannerId);
+        $this->assertEqual($aAudit['description'],$doBanners->description);
+        $this->assertEqual($aAudit['campaignid'],$doBanners->campaignid);
+
+        // banner insert triggers default association to zone 0
+        // test the default (first) audit result
+        $oAudit = $this->_fetchAuditRecord('Ad Zone Association', OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['ad_id'],$bannerId);
+        $this->assertEqual($aAudit['zone_id'],0);
+        $this->assertEqual($aAudit['link_type'],0);
+        $this->assertNull($aAudit['priority']);
+        $this->assertNull($aAudit['priority_factor']);
+        $this->assertNull($aAudit['to_be_delivered']);
+
+        $doZone = OA_Dal::factoryDO('zones');
+        $context = 'Zone';
+
+        // insert a zone
+        $doZone->affiliateid = rand(20,30);
+        $doZone->zonename = 'Zone A';
+        $zoneId = DataGenerator::generateOne($doZone);
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$zoneId);
+        $this->assertEqual($aAudit['key_desc'],$doZone->zonename);
+        $this->assertEqual($aAudit['zoneid'],$zoneId);
+        $this->assertEqual($aAudit['zonename'],$doZone->zonename);
+        $this->assertEqual($aAudit['affiliateid'],$doZone->affiliateid);
+
+        $doAdZoneAssoc = OA_Dal::factoryDO('ad_zone_assoc');
+        $context = 'Ad Zone Association';
+
+        // link the banner and the zone
+        $doAdZoneAssoc->ad_id = $bannerId;
+        $doAdZoneAssoc->zone_id = $zoneId;
+        $doAdZoneAssoc->link_type = 99;
+        $doAdZoneAssoc->priority = 1;
+        $doAdZoneAssoc->priority_factor = 2;
+        $doAdZoneAssoc->to_be_delivered = 1;
+        $adZoneAssocId = $doAdZoneAssoc->insert();
+
+        // two recs will be returned (default zone and our zone)
+        // test the non-default (second) audit result
+        $aResult = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $oAudit = $aResult[2];
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$adZoneAssocId);
+        $this->assertEqual($aAudit['ad_id'],$bannerId);
+        $this->assertEqual($aAudit['zone_id'],$zoneId);
+        $this->assertEqual($aAudit['link_type'], 99);
+        $this->assertEqual($aAudit['priority'],   1);
+        $this->assertEqual($aAudit['priority_factor'], 2);
+        $this->assertEqual($aAudit['to_be_delivered'],'true');
+
+        $doZone->delete();
+        $oAudit = $this->_fetchAuditRecord('Zone', OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['zoneid'],$zoneId);
+
+        $doBanners->delete();
+        $oAudit = $this->_fetchAuditRecord('Banner', OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['bannerid'],$bannerId);
+
+        DataGenerator::cleanUp(array('banners', 'zones', 'ad_zone_assoc', 'audit'));
+    }
+
 
 }
 ?>
