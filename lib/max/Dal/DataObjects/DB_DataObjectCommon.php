@@ -516,6 +516,14 @@ class DB_DataObjectCommon extends DB_DataObject
     {
         $this->_addPrefixToTableName();
 
+        // clone this object and retrieve current values for auditing
+        $doAffected = clone($this);
+        if (!$useWhere) {
+            // Clear any additional WHEREs if it's not used in delete statement
+            $doAffected->whereAdd();
+        }
+        $doAffected->find();
+
         if ($this->onDeleteCascade && $cascadeDelete) {
             $aKeys = $this->keys();
 
@@ -528,31 +536,24 @@ class DB_DataObjectCommon extends DB_DataObject
                 $linkedRefs = $this->_collectRefs($primaryKey);
 
                 // Find all affected tuples
-                $doAffected = clone($this);
-                if (!$useWhere) {
-                    // Clear any additional WHEREs if it's not used in delete statement
-                    $doAffected->whereAdd();
-                }
-                $doAffected->find();
-
-                while ($doAffected->fetch()) {
+                while ($doAffected->fetch())
+                {
                     $id = $doAffected->audit(3, null, $parentid);
                     // Simulate "ON DELETE CASCADE"
                     $doAffected->deleteCascade($linkedRefs, $primaryKey, $id);
                 }
             }
-        } else {
-            // Find all affected tuples
-            $doAffected = clone($this);
-            if (!$useWhere) {
-                // Clear any additional WHEREs if it's not used in delete statement
-                $doAffected->whereAdd();
-            }
-            $doAffected->find(true);
-            $doAffected->audit(3, null, $parentid);
         }
-
-        return  parent::delete($useWhere);
+        if (parent::delete($useWhere))
+        {
+            if (is_null($id))
+            {
+                $doAffected->fetch();
+                $doAffected->audit(3, null, $parentid);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**

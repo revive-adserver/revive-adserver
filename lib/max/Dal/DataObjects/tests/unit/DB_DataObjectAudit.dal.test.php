@@ -102,7 +102,6 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doZone = OA_Dal::factoryDO('zones');
         $context = 'Zone';
 
-//        $doZone->agencyid = rand(20,30);
         $doZone->affiliateid = rand(20,30);
         $doZone->zonename = 'Zone A';
         $zoneId = DataGenerator::generateOne($doZone);
@@ -512,6 +511,71 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aAudit['bannerid'],$bannerId);
 
         DataGenerator::cleanUp(array('banners', 'audit'));
+    }
+
+    function testAuditAcls()
+    {
+        global $session;
+        $session['username'] = 'acls user';
+        $session['userid']   = rand(11,20);
+        $session['usertype'] =  rand(1,10);
+        $doBanners = OA_Dal::factoryDO('acls');
+        $context = 'Delivery Limitation';
+
+        $doAcls = OA_Dal::factoryDO('acls');
+        $aResult = array();
+        $context = 'Delivery Limitation';
+
+        $bannerId = 99;
+
+        $doAcls->bannerid = $bannerId;
+        $doAcls->logical = 'and';
+        $doAcls->type = 'Geo:Country';
+        $doAcls->comparison = '==';
+        $doAcls->data = 'AF,DZ,AD';
+        $doAcls->executionorder = 0;
+
+        $aclsId = DataGenerator::generateOne($doAcls);
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$bannerId);
+        $this->assertEqual($aAudit['key_desc'],$doAcls->description);
+        $this->assertEqual($aAudit['bannerid'],$bannerId);
+        $this->assertEqual($aAudit['logical'],$doAcls->logical);
+        $this->assertEqual($aAudit['type'],$doAcls->type);
+        $this->assertEqual($aAudit['comparison'],$doAcls->comparison);
+        $this->assertEqual($aAudit['data'],$doAcls->data);
+        $this->assertEqual($aAudit['executionorder'],$doAcls->executionorder);
+
+        $doAcls = OA_Dal::staticGetDO('acls', $bannerId);
+        $doAcls->data = 'AX,EZ,AZ';
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$bannerId);
+        $this->assertEqual($aAudit['key_desc'],$doAcls->description);
+        $this->assertEqual($aAudit['bannerid'],$bannerId);
+        $this->assertEqual($aAudit['logical'],$doAcls->logical);
+        $this->assertEqual($aAudit['type'],$doAcls->type);
+        $this->assertEqual($aAudit['comparison'],$doAcls->comparison);
+        $this->assertEqual($aAudit['data'],$doAcls->data);
+        $this->assertEqual($aAudit['executionorder'],$doAcls->executionorder);
+
+        $doAcls->delete();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$bannerId);
+        $this->assertEqual($aAudit['key_desc'],$doAcls->description);
+        $this->assertEqual($aAudit['bannerid'],$bannerId);
+        $this->assertEqual($aAudit['logical'],$doAcls->logical);
+        $this->assertEqual($aAudit['type'],$doAcls->type);
+        $this->assertEqual($aAudit['comparison'],$doAcls->comparison);
+        $this->assertEqual($aAudit['data'],$doAcls->data);
+        $this->assertEqual($aAudit['executionorder'],$doAcls->executionorder);
+
+        DataGenerator::cleanUp(array('acls', 'audit'));
     }
 
     function testAuditPreference()

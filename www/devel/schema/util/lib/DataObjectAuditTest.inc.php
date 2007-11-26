@@ -173,6 +173,18 @@ class DataObjectAuditTest
         $doBanners->active = 'f';
         $doBanners->update();
 
+        $doAcls = OA_Dal::factoryDO('acls');
+        $aResult = array();
+        $context = 'Delivery Limitation';
+
+        $doAcls->bannerid = $bannerId;
+        $doAcls->logical = 'and';
+        $doAcls->type = 'Geo:Country';
+        $doAcls->comparison = '==';
+        $doAcls->data = 'AF,DZ,AD';
+        $doAcls->executionorder = 0;
+        $aclsId = DataGenerator::generateOne($doAcls);
+
         $doBanners->delete();
 
         $this->_fetchAuditArrayAll($aResult);
