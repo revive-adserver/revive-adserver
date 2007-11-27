@@ -60,6 +60,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doAudit = OA_Dal::factoryDO('audit');
         $doAudit->context = $context;
         $doAudit->actionid = $actionid;
+        $doAudit->orderBy('auditid');
         $n = $doAudit->find();
         $result = $doAudit->fetch();
         $this->assertEqual($doAudit->context, $context);
