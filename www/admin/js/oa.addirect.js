@@ -5,9 +5,73 @@
 // Reimplement using jQuery validation plugin!
 function validatePublisher(form, suffix, fieldSuffix, errorSuffix, customAction)
 {
-  // For now, we only need to check URL, which is optional so we can return true
-  return true;
+  $("#url-empty" + suffix + errorSuffix).hide();
+  $("#required-missing" + suffix + errorSuffix).hide();
+
+  if ($("#url" + fieldSuffix).get(0).value.length == 0)
+  {
+    $("#url" + fieldSuffix).addClass("inerror");
+    $("#url-empty" + suffix + errorSuffix).show();
+  }
+  else
+  {
+    $("#url" + fieldSuffix).removeClass("inerror");
+  }
+
+  if ($("#advsignup" + fieldSuffix).get(0).checked)
+  {
+    if ($("#category" + fieldSuffix).get(0).selectedIndex == 0)
+    {
+      $("#category" + fieldSuffix).addClass("inerror");
+      $("#required-missing" + suffix + errorSuffix).show();
+    }
+    else
+    {
+      $("#category" + fieldSuffix).removeClass("inerror");
+    }
+
+    if ($("#language" + fieldSuffix).get(0).selectedIndex == 0)
+    {
+      $("#language" + fieldSuffix).addClass("inerror");
+      $("#required-missing" + suffix + errorSuffix).show();
+    }
+    else
+    {
+      $("#language" + fieldSuffix).removeClass("inerror");
+    }
+
+    if ($("#country" + fieldSuffix).get(0).selectedIndex == 0)
+    {
+      $("#country" + fieldSuffix).addClass("inerror");
+      $("#required-missing" + suffix + errorSuffix).show();
+    }
+    else
+    {
+      $("#country" + fieldSuffix).removeClass("inerror");
+    }
+  }
+  else
+  {
+    $("#country" + fieldSuffix).removeClass("inerror");
+    $("#language" + fieldSuffix).removeClass("inerror");
+    $("#category" + fieldSuffix).removeClass("inerror");
+    $("#required-missing" + suffix + errorSuffix).hide();
+  }
+
+  if (customAction)
+  {
+    customAction(form, suffix, fieldSuffix);
+  }
+
+  var result = ($("#url" + fieldSuffix).get(0).value.length > 0) &&
+         ( !($("#advsignup" + fieldSuffix).get(0).checked) || (
+         $("#category" + fieldSuffix).get(0).selectedIndex > 0 &&
+         $("#language" + fieldSuffix).get(0).selectedIndex > 0 &&
+         $("#country" + fieldSuffix).get(0).selectedIndex > 0));
+
+  return result;
 }
+
 
 function initCaptchaDialog(dialogId, formId, captchaURL)
 {
@@ -75,6 +139,7 @@ function installerAddNewSite()
   $("#sites").append(clone).removeClass("one-site");
 
   $("#url-empty", clone).get(0).id += maxId.value;
+  $("#required-missing", clone).get(0).id += maxId.value;
   $(":input", clone).each(function () {
     if ($.trim(this.id).length > 0)
     {
@@ -279,6 +344,15 @@ function formStateStore(form)
   if (form.advsignup) {
     formSettings["advsignup"] =  form.advsignup.checked;
   }
+  if (form.country) {
+   formSettings["country"] =  form.country.value;
+  }
+  if (form.language) {
+   formSettings["language"] =  form.language.value;
+  }
+  if (form.category) {
+   formSettings["category"] =  form.category.value;
+  }  
 
   formState[form.id] = formSettings;
   document.formState = formState;
@@ -295,6 +369,16 @@ function formStateChanged(form)
   // show captcha if
   // 1) enabling advertiser singup
   result = form.advsignup && !formSettings["advsignup"] && form.advsignup.checked;
+
+  // 2) already signed up and changed cat/lang/cntry
+  result = result || (form.advsignup && formSettings["advsignup"] == true &&  
+    form.advsignup.checked) &&  
+    ((form.country && formSettings["country"] !=  form.country.value)
+      || (form.language  && formSettings["language"] !=  form.language.value)
+      || (form.category && formSettings["category"] !=  form.category.value));
+      
+  //when unsigning or signed up and no changes do nothing
+  return result; 
 
   return result;
 }

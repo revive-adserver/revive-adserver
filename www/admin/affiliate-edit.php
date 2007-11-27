@@ -226,6 +226,26 @@ $oTpl->assign('fieldsTop', array(
                 'freezed'   => phpAds_isUser(phpAds_Affiliate)
             ),
             array(
+                'name'      => 'category',
+                'label'     => $strCategory,
+                'type'      => 'select',
+                'options'   => $oAdNetworks->getCategoriesSelect(),
+                'value'     => $affiliate['oac_category_id'],
+                'style'     => 'width: 15em',
+                //'disabled'  => !empty($affiliate['an_website_id'])
+            ),
+            array(
+                'type'      => 'custom',
+                'template'  => 'country-language',
+                'vars'      => array(
+                                'aCountries'  => $oAdNetworks->getCountriesSelect(),
+                                'aLanguages' => $oAdNetworks->getLanguagesSelect(),
+                                'country'  => $affiliate['oac_country_code'],
+                                'language' => $affiliate['oac_language_id']
+                               ),
+               // 'disabled'  => !empty($affiliate['an_website_id'])
+            ),
+            array(
                 'name'      => 'contact',
                 'label'     => $strContact,
                 'value'     => $affiliate['contact']
@@ -376,9 +396,9 @@ $oTpl->display();
     max_formSetRequirements('category', '<?php echo addslashes($strCategory); ?>', true, 'present');
     max_formSetRequirements('country', '<?php echo addslashes($strCountry); ?>', true, 'present');
     max_formSetRequirements('language', '<?php echo addslashes($strLanguage); ?>', true, 'present');
-    max_formSetConditionalValidate('category', '$("#adnetworks").get(0).checked==true');
-    max_formSetConditionalValidate('country', '$("#adnetworks").get(0).checked==true');
-    max_formSetConditionalValidate('language', '$("#adnetworks").get(0).checked==true');
+    max_formSetConditionalValidate('category', '$("#advsignup").get(0).checked==true');
+    max_formSetConditionalValidate('country', '$("#advsignup").get(0).checked==true');
+    max_formSetConditionalValidate('language', '$("#advsignup").get(0).checked==true');
 
 <?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
