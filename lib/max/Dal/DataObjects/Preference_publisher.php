@@ -85,8 +85,6 @@ class DataObjects_Preference_publisher extends DB_DataObjectCommon
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_INSERT:
-                        $aAuditFields['preference'] = $this->preference;
-                        $aAuditFields['value']   = $this->value;
                         break;
             case OA_AUDIT_ACTION_UPDATE:
                         break;

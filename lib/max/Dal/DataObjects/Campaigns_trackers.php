@@ -79,11 +79,10 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_INSERT:
+            case OA_AUDIT_ACTION_DELETE:
                         $aAuditFields['status']     = $this->_formatValue('status');
                         break;
             case OA_AUDIT_ACTION_UPDATE:
-                        break;
-            case OA_AUDIT_ACTION_DELETE:
                         break;
         }
     }

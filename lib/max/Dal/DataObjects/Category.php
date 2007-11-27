@@ -38,7 +38,7 @@ class DataObjects_Category extends DB_DataObjectCommon
 
     var $__table = 'category';                        // table name
     var $category_id;                     // int(10)  not_null primary_key unsigned auto_increment
-    var $name;                            // string(255)  
+    var $name;                            // string(255)
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -72,8 +72,6 @@ class DataObjects_Category extends DB_DataObjectCommon
      */
     function _buildAuditArray($actionid, &$aAuditFields)
     {
-//        $context                    = 'Category';
-//        $aAuditFields['key_field']  = $this->category_id;
         $aAuditFields['key_desc']   = $this->name;
         switch ($actionid)
         {

@@ -65,7 +65,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
         'linkcampaigns' => 'f',
         'variablemethod' => 'default'
     );
-    
+
     function duplicate()
     {
         // Store the current (pre-duplication) tracker ID for use later
@@ -128,8 +128,6 @@ class DataObjects_Trackers extends DB_DataObjectCommon
      */
     function _buildAuditArray($actionid, &$aAuditFields)
     {
-//        $context                      = 'Tracker';
-//        $aAuditFields['key_field']    = $this->trackerid;
         $aAuditFields['key_desc']     = $this->trackername;
         switch ($actionid)
         {
