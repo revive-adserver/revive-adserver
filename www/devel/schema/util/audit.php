@@ -16,6 +16,10 @@ if (array_key_exists('clean', $_POST))
 {
     $aData = $obj->createTable();
 }
+else if (array_key_exists('view', $_POST))
+{
+    $obj->_fetchAuditArrayAll($aData);
+}
 else if (array_key_exists('agency', $_POST))
 {
     $aData = $obj->auditAgency();

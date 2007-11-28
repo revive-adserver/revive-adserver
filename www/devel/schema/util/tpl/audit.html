@@ -34,7 +34,8 @@
         <tr>
         <th>id</th>
         <th>event</th>
-        <th>rec</th>
+        <th>record id</th>
+        <th>parent id</th>
         <th>ident</th>
         <th>data</th>
         </tr>
@@ -58,6 +59,7 @@
 
             echo '<td>'.sprintf($aFormats[$aRow['actionid']],$aRow['context'],$aRow['username'],$aRow['updated']).'</td>';
             echo '<td>'.$aRow['contextid'].'</td>';
+            echo '<td>'.$aRow['parentid'].'</td>';
             echo '<td>'.$aRow['key_desc'].'</td>';
 
     ?>
@@ -81,6 +83,7 @@
     <table class="tablemain" style="border:1px black double;margin-top:10px;">
         <tr style="text-align:center">
             <td><button name="clean">Clean Up</td>
+            <td><button name="view">View Current Audit Trail</td>
         </tr>
     </table>
     </form>
