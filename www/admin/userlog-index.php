@@ -155,7 +155,7 @@ foreach ($aAllowdParams as $key) {
 }
 
 $aUrlParam['listorder']         = "listorder=$listorder";
-$aUrlParam['$orderdirection']   = "orderdirection=$orderdirection";
+$aUrlParam['$orderdirection']   = ($orderdirection == 'down') ? "orderdirection=up" : "orderdirection=down";
 
 $urlParam = implode('&', $aUrlParam);
 

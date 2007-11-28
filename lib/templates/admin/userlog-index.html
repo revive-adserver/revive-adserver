@@ -82,7 +82,7 @@
             {foreach from=$aAuditData key=key item=aValue name=info}
             {cycle values='odd,even' assign=rowClass} 
             <tr class="{$rowClass}">
-                <td>{$aValue.updated|date_format:"%Y-%m-%d"}</td>
+                <td>{$aValue.updated}</td>
                 <td>
                     {$aValue.username} has {$aValue.action} {$aValue.context} (#{$aValue.contextid})
                     {if !empty($aValue.parentcontext)}
