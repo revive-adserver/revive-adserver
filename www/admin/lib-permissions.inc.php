@@ -321,7 +321,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
-    global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername, $strNoAdminInteface, $strForgotPassword;
+    global $strUsername, $strPassword, $strLogin, $strWelcomeTo, $strEnterUsername, $strNoAdminInterface, $strForgotPassword;
     if (!$inLineLogin) {
         phpAds_PageHeader(phpAds_Login);
     }
@@ -381,7 +381,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
     } else {
         phpAds_ShowBreak();
         echo "<br /><img src='images/info.gif' align='absmiddle'>&nbsp;";
-        echo $strNoAdminInteface;
+        echo $strNoAdminInterface;
     }
     phpAds_PageFooter();
     exit;

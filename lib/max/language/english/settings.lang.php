@@ -60,7 +60,7 @@ $GLOBALS['strBtnAgree']                     = "I Agree &raquo;";
 $GLOBALS['strBtnDontAgree']                 = "&laquo; I Don't Agree";
 $GLOBALS['strBtnRetry']                     = "Retry";
 $GLOBALS['strUpdateDatabaseError']          = "Due to unknown reasons the update of the database structure wasn't succesful. The recommended way to proceed is to click <b>Retry updating</b> to try to correct these potential problems. If you are sure these errors won't affect the functionality of ".MAX_PRODUCT_NAME." you can click <b>Ignore errors</b> to continue. Ignoring these errors may cause serious problems and is not recommended!";
-$GLOBALS['strAlreadyInstalled']             = MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to <a href='settings-index.php'>settings interface</a>";
+$GLOBALS['strAlreadyInstalled']             = MAX_PRODUCT_NAME." is already installed on this system. If you want to configure it go to the <a href='account-index.php'>settings interface</a>";
 $GLOBALS['strCouldNotConnectToDB']          = "Could not connect to database, please recheck the settings you specified";
 $GLOBALS['strCreateTableTestFailed']        = "The user you specified doesn't have permission to create or update the database structure, please contact the database administrator.";
 $GLOBALS['strUpdateTableTestFailed']        = "The user you specified doesn't have permission to update the database structure, please contact the database administrator.";
@@ -172,7 +172,7 @@ $GLOBALS['strImageDirLockedDetected']	             = "The supplied <b>Images Fol
 
 // Configuration Settings
 $GLOBALS['strConfigurationSetup']                    = 'Configuration Setup';
-$GLOBALS['strConfigurationSettings']                    = 'Configuration settings';
+$GLOBALS['strConfigurationSettings']                 = 'Configuration settings';
 
 // Administrator Settings
 $GLOBALS['strAdministratorSettings']                 = 'Administrator Settings';
@@ -183,8 +183,8 @@ $GLOBALS['strAdminPassword']                         = 'Administrator  Password'
 $GLOBALS['strInvalidUsername']                       = 'Invalid Username';
 $GLOBALS['strBasicInformation']                      = 'Basic Information';
 $GLOBALS['strAdminFullName']                         = 'Admin\'s Full Name';
-$GLOBALS['strAdminEmail']                            = 'Admin\'s Email Address';
-$GLOBALS['strAdministratorEmail']                            = 'Administrator Email Address';
+$GLOBALS['strAdminEmail']                            = 'Admin\'s E-mail Address';
+$GLOBALS['strAdministratorEmail']                    = 'Administrator E-mail Address';
 $GLOBALS['strCompanyName']                           = 'Company Name';
 $GLOBALS['strAdminCheckUpdates']                     = 'Check for Updates';
 $GLOBALS['strAdminCheckEveryLogin']                  = 'Every Login';
@@ -193,9 +193,8 @@ $GLOBALS['strAdminCheckWeekly']                      = 'Weekly';
 $GLOBALS['strAdminCheckMonthly']                     = 'Monthly';
 $GLOBALS['strAdminCheckNever']                       = 'Never';
 $GLOBALS['strAdminNovice']                           = 'Admin\'s delete actions need confirmation for safety';
-$GLOBALS['strUserlogEmail']                          = 'Log all outgoing email messages';
+$GLOBALS['strUserlogEmail']                          = 'Log all outgoing e-mail messages';
 $GLOBALS['strEnableDashboard']                       = "Enable dashboard";
-$GLOBALS['strTimezoneInformation']                   = "Timezone Information (Modifying the timezone will affect statistics)";
 $GLOBALS['strTimezone']                              = "Timezone";
 $GLOBALS['strTimezoneEstimated']                     = "Estimated Timezone";
 $GLOBALS['strTimezoneGuessedValue']                  = "Server timezone not correctly set in PHP";
@@ -204,34 +203,19 @@ $GLOBALS['strTimezoneDocumentation']                 = "documentation";
 $GLOBALS['strLoginSettingsTitle']                    = "Administrator Login";
 $GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the admnistrator user to continue with the upgrade process.";
 $GLOBALS['strAdminSettingsTitle']                    = "Your Administrator Account";
-$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
-$GLOBALS['strConfigSettingsIntro']                    = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of " . MAX_PRODUCT_NAME;
+$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and e-mail address of the administrator.";
+$GLOBALS['strConfigSettingsIntro']                   = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of " . MAX_PRODUCT_NAME;
 
 $GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
 
 // Openads ID Settings
 $GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Username";
 $GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Password";
-$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " Email";
-
-// Banner Settings
-$GLOBALS['strBannerSettings']                        = 'Banner Settings';
-$GLOBALS['strDefaultBanners']                        = 'Default Banners';
-$GLOBALS['strDefaultBannerUrl']                      = 'Default Image URL';
-$GLOBALS['strDefaultBannerDestination']              = 'Default Destination URL';
-$GLOBALS['strAllowedBannerTypes']                    = 'Allowed Banner Types';
-$GLOBALS['strTypeSqlAllow']                          = 'Allow SQL Local Banners';
-$GLOBALS['strTypeWebAllow']                          = 'Allow Webserver Local Banners';
-$GLOBALS['strTypeUrlAllow']                          = 'Allow External Banners';
-$GLOBALS['strTypeHtmlAllow']                         = 'Allow HTML Banners';
-$GLOBALS['strTypeTxtAllow']                          = 'Allow Text Ads';
-$GLOBALS['strTypeHtmlSettings']                      = 'HTML Banner Options';
-$GLOBALS['strTypeHtmlAuto']                          = 'Automatically alter HTML banners in order to force click tracking';
-$GLOBALS['strTypeHtmlPhp']                           = 'Allow PHP expressions to be executed from within a HTML banner';
+$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " E-mail";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings']                      = 'Database Settings';
-$GLOBALS['strDatabaseServer']                        = 'Global Database Server Settings';
+$GLOBALS['strDatabaseServer']                        = 'Database Server Settings';
 $GLOBALS['strDbLocal']                               = 'Connect to local server using sockets'; // Pg only
 $GLOBALS['strDbType']                                = 'Database Type';
 $GLOBALS['strDbHost']                                = 'Database Hostname';
@@ -239,15 +223,21 @@ $GLOBALS['strDbPort']                                = 'Database Port Number';
 $GLOBALS['strDbUser']                                = 'Database Username';
 $GLOBALS['strDbPassword']                            = 'Database Password';
 $GLOBALS['strDbName']                                = 'Database Name';
-$GLOBALS['strDatabaseOptimalisations']               = 'Global Database Optimisation Settings';
+$GLOBALS['strDatabaseOptimalisations']               = 'Database Optimisation Settings';
 $GLOBALS['strPersistentConnections']                 = 'Use Persistent Connections';
 $GLOBALS['strCantConnectToDb']                       = 'Can\'t Connect to Database';
 $GLOBALS['strDemoDataInstall']                       = 'Install Demo Data';
 $GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into ' . MAX_PRODUCT_NAME . ' to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
 
+// Email Settings
+$GLOBALS['strEmailSettings']                         = 'E-mail Settings';
+$GLOBALS['strQmailPatch']                            = 'qmail patch';
+$GLOBALS['strEnableQmailPatch']                      = 'Enable qmail patch';
+$GLOBALS['strEmailHeader']                           = 'E-mail headers';
+$GLOBALS['strEmailLog']                           = 'E-mail log';
+
 // Debug Logging Settings
-$GLOBALS['strDebugSettings']                         = 'Debug Logging';
-$GLOBALS['strDebug']                                 = 'Global Debug Logging Settings';
+$GLOBALS['strDebug']                                 = 'Debug Logging Settings';
 $GLOBALS['strProduction']                            = 'Production server';
 $GLOBALS['strEnableDebug']                           = 'Enable Debug Logging';
 $GLOBALS['strDebugMethodNames']                      = 'Include method names in debug log';
@@ -273,14 +263,14 @@ $GLOBALS['strDebugPassword']                         = 'mCal, SQL Server Passwor
 
 // Delivery Settings
 $GLOBALS['strDeliverySettings']                      = 'Delivery Settings';
-$GLOBALS['strWebPath']                               = 'Global ' . MAX_PRODUCT_NAME . ' Server Access Paths';
+$GLOBALS['strWebPath']                               =  MAX_PRODUCT_NAME . ' Server Access Paths';
 $GLOBALS['strWebPathSimple']                         = 'Web path';
 $GLOBALS['strDeliveryPath']                          = 'Delivery path';
 $GLOBALS['strImagePath']                             = 'Images path';
 $GLOBALS['strDeliverySslPath']                       = 'Delivery SSL path';
 $GLOBALS['strImageSslPath']                          = 'Images SSL path';
 $GLOBALS['strImageStore']                            = 'Images folder';
-$GLOBALS['strTypeWebSettings']                       = 'Global Webserver Local Banner Storage Settings';
+$GLOBALS['strTypeWebSettings']                       = 'Webserver Local Banner Storage Settings';
 $GLOBALS['strTypeWebMode']                           = 'Storing Method';
 $GLOBALS['strTypeWebModeLocal']                      = 'Local Directory';
 $GLOBALS['strTypeDirError']                          = 'The local directory cannot be written to by the web server';
@@ -294,7 +284,7 @@ $GLOBALS['strTypeFTPPassive']                        = 'Use passive FTP';
 $GLOBALS['strTypeFTPErrorDir']                       = 'The FTP Host Directory does not exist';
 $GLOBALS['strTypeFTPErrorConnect']                   = 'Could not connect to the FTP Server, the Login or Password is not correct';
 $GLOBALS['strTypeFTPErrorHost']                      = 'The FTP Host is not correct';
-$GLOBALS['strDeliveryFilenames']                     = 'Global Delivery File Names';
+$GLOBALS['strDeliveryFilenames']                     = 'Delivery File Names';
 $GLOBALS['strDeliveryFilenamesAdClick']              = 'Ad Click';
 $GLOBALS['strDeliveryFilenamesAdConversionVars']     = 'Ad Conversion Variables';
 $GLOBALS['strDeliveryFilenamesAdContent']            = 'Ad Content';
@@ -311,12 +301,8 @@ $GLOBALS['strDeliveryFilenamesXMLRPC']               = 'XML RPC Invocation';
 $GLOBALS['strDeliveryFilenamesLocal']                = 'Local Invocation';
 $GLOBALS['strDeliveryFilenamesFrontController']      = 'Front Controller';
 $GLOBALS['strDeliveryFilenamesFlash']                = 'Flash Include (Can be a full URL)';
-$GLOBALS['strDeliveryCaching']                       = 'Global Delivery Caching Settings';
-$GLOBALS['strDeliveryCacheEnable']                   = 'Enable Delivery Caching';
-$GLOBALS['strDeliveryCacheType']                     = 'Delivery Cache Type';
-$GLOBALS['strCacheFiles']                            = 'File';
-$GLOBALS['strCacheDatabase']                         = 'Database';
-$GLOBALS['strDeliveryCacheLimit']                    = 'Time Between Cache Updates (seconds)';
+$GLOBALS['strDeliveryCaching']                       = 'Banner Delivery Cache Settings';
+$GLOBALS['strDeliveryCacheLimit']                    = 'Time Between Banner Cache Updates (seconds)';
 
 $GLOBALS['strOrigin']                                = 'Use remote origin server';
 $GLOBALS['strOriginType']                            = 'Origin server type';
@@ -327,12 +313,11 @@ $GLOBALS['strOriginTypeXMLRPC']                      = 'XMLRPC';
 $GLOBALS['strOriginTimeout']                         = 'Origin timeout (seconds)';
 $GLOBALS['strOriginProtocol']                        = 'Origin server protocol';
 
-$GLOBALS['strDeliveryBanner']                        = 'Global Banner Delivery Settings';
 $GLOBALS['strDeliveryAcls']                          = 'Evaluate banner delivery limitations during delivery';
 $GLOBALS['strDeliveryObfuscate']                     = 'Obfuscate channel when delivering ads';
 $GLOBALS['strDeliveryExecPhp']                       = 'Allow PHP code in ads to be executed<br />(Warning: Security risk)';
 $GLOBALS['strDeliveryCtDelimiter']                   = '3rd Party Click Tracking Delimiter';
-$GLOBALS['strP3PSettings']                           = 'Global P3P Privacy Policies';
+$GLOBALS['strP3PSettings']                           = 'P3P Privacy Policies';
 $GLOBALS['strUseP3P']                                = 'Use P3P Policies';
 $GLOBALS['strP3PCompactPolicy']                      = 'P3P Compact Policy';
 $GLOBALS['strP3PPolicyLocation']                     = 'P3P Policy Location';
@@ -341,12 +326,10 @@ $GLOBALS['strP3PPolicyLocation']                     = 'P3P Policy Location';
 $GLOBALS['generalSettings']                          = 'Global General System Settings';
 $GLOBALS['uiEnabled']                                = 'User Interface Enabled';
 $GLOBALS['defaultLanguage']                          = 'Default System Language<br />(Each user can select their own language)';
-$GLOBALS['requireSSL']                               = 'Force SSL Access on User Interface';
-$GLOBALS['sslPort']                                  = 'SSL Port Used by Web Server';
 
 // Geotargeting Settings
 $GLOBALS['strGeotargetingSettings']                  = 'Geotargeting Settings';
-$GLOBALS['strGeotargeting']                          = 'Global Geotargeting Settings';
+$GLOBALS['strGeotargeting']                          = 'Geotargeting Settings';
 $GLOBALS['strGeotargetingType']                      = 'Geotargeting Module Type';
 $GLOBALS['strGeotargetingUseBundledCountryDb']       = 'Use the bundled MaxMind GeoLiteCountry database';
 $GLOBALS['strGeotargetingGeoipCountryLocation']      = 'MaxMind GeoIP Country Database Location';
@@ -369,7 +352,6 @@ $GLOBALS['strGeotrackingGeoipIspLocationError']      = 'The MaxMind GeoIP ISP Da
 $GLOBALS['strGeotrackingGeoipNetspeedLocationError'] = 'The MaxMind GeoIP Netspeed Database does not exist in the location specified';
 
 // Interface Settings
-$GLOBALS['strInterfaceDefaults']                     = 'Interface Defaults';
 $GLOBALS['strInventory']                             = 'Inventory';
 $GLOBALS['strUploadConversions']                     = 'Upload Conversions';
 $GLOBALS['strShowCampaignInfo']                      = 'Show extra campaign info on <i>Campaign overview</i> page';
@@ -389,6 +371,7 @@ $GLOBALS['strDefaultBannerWeight']                   = 'Default Banner Weight';
 $GLOBALS['strDefaultCampaignWeight']                 = 'Default Campaign Weight';
 $GLOBALS['strDefaultBannerWErr']                     = 'Default banner weight should be a positive integer';
 $GLOBALS['strDefaultCampaignWErr']                   = 'Default campaign weight should be a positive integer';
+$GLOBALS['strAdminConfirmationUI']                   = 'Admin Confirmation in User Interface';
 
 $GLOBALS['strPublisherDefaults']                     = 'Publisher defaults';
 $GLOBALS['strModesOfPayment']                        = 'Modes of payment';
@@ -413,54 +396,62 @@ $GLOBALS['strIncludeSampleRow']                      = 'Include Sample Row';
 $GLOBALS['strCSVTemplateAdvanced']                   = 'Advanced Template';
 $GLOBALS['strCSVTemplateIncVariables']               = 'Include Tracker Variables';
 
+/**
+ * @todo remove strBannerSettings if banner is only configurable as a preference
+ *       rename // Banner Settings to  // Banner Preferences
+ */
 // Invocation Settings
-$GLOBALS['strInvocationAndDelivery']                 = 'Invocation Settings';
 $GLOBALS['strAllowedInvocationTypes']                = 'Allowed Invocation Types';
 $GLOBALS['strIncovationDefaults']                    = 'Incovation Defaults';
 $GLOBALS['strEnable3rdPartyTrackingByDefault']       = 'Enable 3rd Party Clicktracking by Default';
 
-// Statistics & Maintenance Settings
-$GLOBALS['strStatisticsSettings']                    = 'Statistics & Maintenance Settings';
-$GLOBALS['strStatisticsLogging']                     = 'Global Statistics Logging Settings';
-$GLOBALS['strCsvImport']                             = 'Allow upload of offline conversions';
-$GLOBALS['strLogAdRequests']                         = 'Log an Ad Request every time an advertisement is requested';
-$GLOBALS['strLogAdImpressions']                      = 'Log an Ad Impression every time an advertisement is viewed';
-$GLOBALS['strLogAdClicks']                           = 'Log an Ad Click every time a viewer clicks on an advertisement';
-$GLOBALS['strLogTrackerImpressions']                 = 'Log a Tracker Impression every time a tracker beacon viewed';
+// Banner Delivery Settings
+$GLOBALS['strBannerDelivery']                         = 'Banner Delivery Settings';
+
+// Banner Logging Settings
+$GLOBALS['strBannerLogging']                         = 'Banner Logging Settings';
+$GLOBALS['strLogAdRequests']                         = 'Log a request every time a banner is requested';
+$GLOBALS['strLogAdImpressions']                      = 'Log an impression every time a banner is viewed';
+$GLOBALS['strLogAdClicks']                           = 'Log a click every time a viewer clicks on a banner';
+$GLOBALS['strLogTrackerImpressions']                 = 'Log a tracker impression every time a tracker beacon is viewed';
 $GLOBALS['strReverseLookup']                         = 'Reverse lookup the hostnames of viewers when not supplied';
 $GLOBALS['strProxyLookup']                           = 'Try to determine the real IP address of viewers behind a proxy server';
-$GLOBALS['strSniff']                                 = 'Extract the viewer\'s O/S and web browser using phpSniff';
-$GLOBALS['strPreventLogging']                        = 'Global Prevent Statistics Logging Settings';
-$GLOBALS['strIgnoreHosts']                           = 'Don\'t store statistics for viewers using one of the following IP addresses or hostnames';
+$GLOBALS['strSniff']                                 = 'Extract the viewer\'s operating system and web browser information using phpSniff';
+$GLOBALS['strPreventLogging']                        = 'Block Banner Logging Settings';
+$GLOBALS['strIgnoreHosts']                           = 'Don\'t log any statistics for viewers using any of the following IP addresses or hostnames';
+
+// Banner Storage Settings
+$GLOBALS['strBannerStorage']                         = 'Banner Storage Settings';
+
+// Statistics & Maintenance Settings
+$GLOBALS['strMaintenanceSettings']                   = 'Maintenance Settings';
+$GLOBALS['strCsvImport']                             = 'Allow upload of offline conversions';
 $GLOBALS['strBlockAdViews']                          = 'Don\'t count Ad Impressions if the viewer has seen the same ad/zone pair within the specified time (seconds)';
 $GLOBALS['strBlockAdViewsError']                     = 'Ad Impression block value must be a non-negative integer';
 $GLOBALS['strBlockAdClicks']                         = 'Don\'t count Ad Clicks if the viewer has clicked on the same ad/zone pair within the specified time (seconds)';
 $GLOBALS['strBlockAdClicksError']                    = 'Ad Click block value must be a non-negative integer';
-$GLOBALS['strMaintenaceSettings']                    = 'Global Maintenance Settings';
 $GLOBALS['strMaintenanceOI']                         = 'Maintenance Operation Interval (minutes)';
 $GLOBALS['strMaintenanceOIError']                    = 'The Maintenace Operation Interval is not valid - see documentation for valid values';
 $GLOBALS['strMaintenanceCompactStats']               = 'Delete raw statistics after processing?';
 $GLOBALS['strMaintenanceCompactStatsGrace']          = 'Grace period before deleting processed statistics (seconds)';
-$GLOBALS['strPrioritySettings']                      = 'Global Priority Settings';
+$GLOBALS['strPrioritySettings']                      = 'Priority Settings';
 $GLOBALS['strPriorityInstantUpdate']                 = 'Update advertisement priorities immediately when changes made in the UI';
 $GLOBALS['strWarnCompactStatsGrace']                 = 'The Compact Stats Grace period must be a positive integer';
 $GLOBALS['strDefaultImpConWindow']                   = 'Default Ad Impression Connection Window (seconds)';
 $GLOBALS['strDefaultImpConWindowError']              = 'If set, the Default Ad Impression Connection Window must be a positive integer';
 $GLOBALS['strDefaultCliConWindow']                   = 'Default Ad Click Connection Window (seconds)';
 $GLOBALS['strDefaultCliConWindowError']              = 'If set, the Default Ad Click Connection Window must be a positive integer';
-$GLOBALS['strEmailWarnings']                         = 'E-mail Warnings';
 $GLOBALS['strAdminEmailHeaders']                     = 'Add the following headers to each e-mail message sent by ' . MAX_PRODUCT_NAME;
 $GLOBALS['strWarnLimit']                             = 'Send a warning when the number of impressions left are less than specified here';
 $GLOBALS['strWarnLimitErr']                          = 'Warn Limit must be a positive integer';
 $GLOBALS['strWarnLimitDays']                         = 'Send a warning when the days left are less than specified here';
 $GLOBALS['strWarnLimitDaysErr']                      = 'Warn Limit Days should be a positive number';
 $GLOBALS['strAllowEmail']                            = 'Globally allow sending of e-mails';
-$GLOBALS['strEmailAddress']                          = 'E-mail address to send reports FROM';
+$GLOBALS['strEmailAddressFrom']                      = 'E-mail address to send reports FROM';
 $GLOBALS['strEmailAddressName']                      = 'Company or personal name to sign off e-mail with';
 $GLOBALS['strWarnAdmin']                             = 'Send a warning to the administrator every time a campaign is almost expired';
 $GLOBALS['strWarnClient']                            = 'Send a warning to the advertiser every time a campaign is almost expired';
 $GLOBALS['strWarnAgency']                            = 'Send a warning to the agency every time a campaign is almost expired';
-$GLOBALS['strQmailPatch']                            = 'Enable qmail patch';
 
 // UI Settings
 $GLOBALS['strGuiSettings']                           = 'User Interface Settings';
@@ -472,6 +463,9 @@ $GLOBALS['strMyFooter']                              = 'Footer File Location';
 $GLOBALS['strMyFooterError']                         = 'The footer file does not exist in the location you specified';
 $GLOBALS['strDefaultTrackerStatus']                  = 'Default tracker status';
 $GLOBALS['strDefaultTrackerType']                    = 'Default tracker type';
+$GLOBALS['strSSLSettings']                           = 'SSL Settings';
+$GLOBALS['requireSSL']                               = 'Force SSL Access on User Interface';
+$GLOBALS['sslPort']                                  = 'SSL Port Used by Web Server';
 
 $GLOBALS['strMyLogo']                                = 'Name of custom logo file';
 $GLOBALS['strMyLogoError']                           = 'The logo file does not exist in the admin/images directory';

@@ -1,0 +1,8 @@
+<tr>
+    <td>&nbsp;</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.enabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}</td>
+    <td width='100%' valign='top'>
+        <input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='{$aItem.name}' id='{$aItem.name}' {if $aItem.enabled}disabled="disabled"{/if} size='{$aItem.size}' maxlength='{$aItem.maxlength}' value="{$aItem.value}" tabindex='{$aItem.tabindex++}' {if $aItem.autooff}autocomplete="off"{/if}>
+    </td>
+    <td>{$this->_showPadLock($aParams)}</td>
+</tr>

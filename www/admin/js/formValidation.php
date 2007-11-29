@@ -40,11 +40,11 @@ if (!defined('phpAds_installing')) {
     require_once '../../../init.php';
 
     // Required files
-    require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+    require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
     require_once MAX_PATH . '/lib/max/language/Default.php';
 
     // Load the user preferences from the database
-    $pref = MAX_Admin_Preferences::loadPrefs();
+    $pref = OA_Admin_Preferences::loadPrefs();
 
     // Load the required language files
     Language_Default::load();
@@ -186,7 +186,7 @@ function max_formValidateElement(obj)
   if (obj.valCondition && !eval(obj.valCondition)) {
     return false;
   }
-                      
+
 	if (obj.validateCheck || obj.validateReq) {
 		err = false;
 		val = obj.value;
@@ -336,8 +336,8 @@ function max_formValidate(f)
 			   '\n');
 
 		// Select field with first error
-    if (f.elements[first].nodeName.toLowerCase() != "select") { //selects don't have text to select 
-      f.elements[first].select(); 
+    if (f.elements[first].nodeName.toLowerCase() != "select") { //selects don't have text to select
+      f.elements[first].select();
     }
 		f.elements[first].focus();
 	}
@@ -355,7 +355,7 @@ function getObj(name)
   if (document.getElementById)
   {
   	this.obj = document.getElementById(name);
-   if (this.obj) 
+   if (this.obj)
    {
 	   this.style = document.getElementById(name).style;
    }

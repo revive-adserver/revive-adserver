@@ -25,15 +25,16 @@
 $Id$
 */
 
-require_once 'Config.php';
+require_once MAX_PATH . '/lib/pear/Config.php';
 
 /**
- * A configuration management class for the Openads administration interface.
+ * A class for managing the Openads settings configuration file(s).
  *
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
-class OA_Admin_Config
+class OA_Admin_Settings
 {
+
     var $conf;
     var $backupFilename;
 
@@ -41,7 +42,7 @@ class OA_Admin_Config
      * The constructor method. Stores the current parse result of the
      * configuration .ini file so that it can be (locally) modified.
      */
-    function OA_Admin_Config($isNewConfig = false)
+    function OA_Admin_Settings($isNewConfig = false)
     {
         if($isNewConfig) {
             $this->conf = array();
@@ -149,7 +150,7 @@ class OA_Admin_Config
         $newDeliverySslHost = $url['host'];
         // Write out the new main configuration file
         $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
-        if (!OA_Admin_Config::isConfigWritable($mainConfigFile)) {
+        if (!OA_Admin_Settings::isConfigWritable($mainConfigFile)) {
             return false;
         }
         $c = new Config();
@@ -163,7 +164,7 @@ class OA_Admin_Config
         if ($newAdminHost != $newDeliveryHost) {
             // Write out the new "fake" configuration file
             $file = $configPath . '/' . $newAdminHost . $configFile . '.conf.php';
-            if (!OA_Admin_Config::isConfigWritable($file)) {
+            if (!OA_Admin_Settings::isConfigWritable($file)) {
                 return false;
             }
             $config = array('realConfig' => $newDeliveryHost);
@@ -179,7 +180,7 @@ class OA_Admin_Config
         if ($newDeliverySslHost != $newDeliveryHost) {
             // Write out the new "fake" configuration file
             $file = $configPath . '/' . $newDeliverySslHost . $configFile . '.conf.php';
-            if (!OA_Admin_Config::isConfigWritable($file)) {
+            if (!OA_Admin_Settings::isConfigWritable($file)) {
                 return false;
             }
             $config = array('realConfig' => $newDeliveryHost);
@@ -219,7 +220,7 @@ class OA_Admin_Config
         $aOtherConfigFiles = $this->findOtherConfigFiles($configPath, $configFile);
         if (empty($aOtherConfigFiles)) {
             $file = $configPath . '/default' . $configFile . '.conf.php';
-            if (!OA_Admin_Config::isConfigWritable($file)) {
+            if (!OA_Admin_Settings::isConfigWritable($file)) {
                 return false;
             }
             $config = array('realConfig' => $newDeliveryHost);

@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
@@ -807,7 +807,7 @@ class OA_Email
     {
         $aPref = $GLOBALS['_MAX']['PREF'];
         if (is_null($aPref)) {
-            $aPref = MAX_Admin_Preferences::loadPrefs();
+            $aPref = OA_Admin_Preferences::loadPrefs();
         }
         return $aPref;
     }
@@ -971,7 +971,7 @@ class OA_Email
 
         $aPref = $GLOBALS['_MAX']['PREF'];
         if (is_null($aPref)) {
-            $aPref = MAX_Admin_Preferences::loadPrefs();
+            $aPref = OA_Admin_Preferences::loadPrefs();
         }
 
     	global $phpAds_CharSet;

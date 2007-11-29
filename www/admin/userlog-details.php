@@ -43,8 +43,8 @@ MAX_Permission::checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.2.1");
-phpAds_ShowSections(array("5.2.1"));
+phpAds_PageHeader("5.3.1");
+phpAds_ShowSections(array("5.3.1"));
 
 // Load the required language files
 Language_Userlog::load();

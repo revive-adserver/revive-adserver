@@ -53,12 +53,12 @@ if (phpAds_isUser(phpAds_Admin)) {
 
 	if (!$agencyId) {
 		// Admin channels
-		phpAds_PageHeader("5.6");
-		phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+		phpAds_PageHeader("5.7");
+		phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 	} else {
 		// Agency channels
-		phpAds_PageHeader("5.5.3");
-		phpAds_ShowSections(array("5.5.2", "5.5.3"));
+		phpAds_PageHeader("5.6.3");
+		phpAds_ShowSections(array("5.6.2", "5.6.3"));
 	}
 } else {
 	$agencyId = phpAds_getAgencyID();
@@ -67,8 +67,8 @@ if (phpAds_isUser(phpAds_Admin)) {
 		phpAds_Die($strAccessDenied, $strNotAdmin);
 	}
 
-	phpAds_PageHeader("5.2");
-	phpAds_ShowSections(array("5.1", "5.2"));
+	phpAds_PageHeader("5.3");
+	phpAds_ShowSections(array("5.2", "5.3"));
 }
 
 /*-------------------------------------------------------*/

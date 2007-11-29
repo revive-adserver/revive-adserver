@@ -48,8 +48,8 @@ MAX_Permission::checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.5");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_PageHeader("5.6");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 
 
 /*-------------------------------------------------------*/

@@ -29,7 +29,7 @@ $Id$
 */
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
@@ -49,7 +49,7 @@ if (PEAR::isError($oDbh))
         phpAds_PageHeader(phpAds_Login);
         phpAds_ShowBreak();
         echo "<br /><img src='images/info.gif' align='absmiddle'>&nbsp;";
-        echo $strNoAdminInteface;
+        echo $strNoAdminInterface;
         phpAds_PageFooter();
         exit;
     }
@@ -66,7 +66,7 @@ if (PEAR::isError($oDbh))
 }
 
 // Load the user preferences from the database
-$pref = MAX_Admin_Preferences::loadPrefs();
+$pref = OA_Admin_Preferences::loadPrefs();
 
 // First thing to do is clear the $session variable to
 // prevent users from pretending to be logged in.
@@ -78,11 +78,11 @@ phpAds_Start();
 if (!phpAds_isUser(phpAds_Admin)) {
     // Reload user preferences from the database because we are using
     // agency/advertiser/publisher settings
-    $pref = MAX_Admin_Preferences::loadPrefs(phpAds_getAgencyID());
+    $pref = OA_Admin_Preferences::loadPrefs(phpAds_getAgencyID());
 }
 
 // Rewrite column preferences
-$pref = MAX_Admin_Preferences::expandColumnPrefs();
+$pref = OA_Admin_Preferences::expandColumnPrefs();
 
 // Load the required language files
 Language_Default::load();
@@ -212,23 +212,24 @@ function MMM_buildNavigation()
                 "4.2.5"                 =>  array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strAffiliateInvocation']),
                 "4.2.6"                 =>  array("affiliate-advsetup.php?affiliateid=$affiliateid" => $GLOBALS['strAdvertiserSetup']),
               "4.3"                     =>  array("admin-generate.php" => $GLOBALS['strGenerateBannercode']),
-            "5"                         =>  array("settings-index.php" => $GLOBALS['strSettings']),
-              "5.1"                     =>  array("settings-index.php" => $GLOBALS['strMainSettings']),
-              "5.2"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
-                "5.2.1"                 =>  array("userlog-details.php?userlogid=$userlogid" => $GLOBALS['strUserLogDetails']),
-              "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance']),
-              "5.4"                     =>  array("updates-product.php" => $GLOBALS['strProductUpdates']),
-              "5.5"                     =>  array("agency-index.php" => $GLOBALS['strAgencyManagement']),
-                "5.5.1"                 =>  array("agency-edit.php" => $GLOBALS['strAddAgency']),
-                "5.5.2"                 =>  array("agency-edit.php?agencyid=$agencyid" => $GLOBALS['strAgencyProperties']),
-                "5.5.3"                 =>  array("channel-index.php?agencyid=$agencyid" => $GLOBALS['strChannelOverview']),
-                  "5.5.3.1"             =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
-                  "5.5.3.2"             =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
-                  "5.5.3.3"             =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations']),
-              "5.6"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
-                "5.6.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
-                "5.6.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
-                "5.6.3"                 =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations'])
+            "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
+              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences']),
+              "5.2"                     =>  array("account-settings-index.php" => $GLOBALS['strGlobalSettings']),
+              "5.3"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
+                "5.3.1"                 =>  array("userlog-details.php?userlogid=$userlogid" => $GLOBALS['strUserLogDetails']),
+              "5.4"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance']),
+              "5.5"                     =>  array("updates-product.php" => $GLOBALS['strProductUpdates']),
+              "5.6"                     =>  array("agency-index.php" => $GLOBALS['strAgencyManagement']),
+                "5.6.1"                 =>  array("agency-edit.php" => $GLOBALS['strAddAgency']),
+                "5.6.2"                 =>  array("agency-edit.php?agencyid=$agencyid" => $GLOBALS['strAgencyProperties']),
+                "5.6.3"                 =>  array("channel-index.php?agencyid=$agencyid" => $GLOBALS['strChannelOverview']),
+                  "5.6.3.1"             =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
+                  "5.6.3.2"             =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
+                  "5.6.3.3"             =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations']),
+              "5.7"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
+                "5.7.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
+                "5.7.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
+                "5.7.3"                 =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations'])
         ),
 
         "agency"    => array (
@@ -321,7 +322,7 @@ function MMM_buildNavigation()
                 "4.2.5"                 =>  array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strAffiliateInvocation']),
                 "4.2.6"                 =>  array("affiliate-advsetup.php?affiliateid=$affiliateid" => $GLOBALS['strAdvertiserSetup']),
               "4.3"                     =>  array("admin-generate.php" => $GLOBALS['strGenerateBannercode']),
-            "5"                         =>  array("settings-index.php" => $GLOBALS['strSettings']),
+            "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
               "5.1"                     =>  array("settings-index.php" => $GLOBALS['strMainSettings']),
               "5.2"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
               "5.2.1"                   =>  array("channel-edit.php" => $GLOBALS['strAddNewChannel']),

@@ -61,8 +61,8 @@ phpAds_checkAccess(phpAds_Admin);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.4");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+phpAds_PageHeader("5.5");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 phpAds_MaintenanceSelection("history", "updates");
 
 /*-------------------------------------------------------*/
@@ -199,7 +199,7 @@ if (count($aMessages)>0)
                 asort($aAudit);
                 foreach ($aAudit AS $k => $v)
                 {
-                    if (($v['backups'] || !empty($v['logfile']) || !empty($v['confbackup'])) && $v['logfile'] != 'cleaned by user' && $v['logfile'] != 'file not found'&& $v['confbackup'] != 'cleaned by user' && $v['confbackup'] != 'file not found') 
+                    if (($v['backups'] || !empty($v['logfile']) || !empty($v['confbackup'])) && $v['logfile'] != 'cleaned by user' && $v['logfile'] != 'file not found'&& $v['confbackup'] != 'cleaned by user' && $v['confbackup'] != 'file not found')
                     {
                         $v['backupsExist'] = true;
                     }
@@ -268,12 +268,12 @@ if (count($aMessages)>0)
                             Backup database tables:
                             </td>
                             <td width="100" colspan="2">
-                            <?php echo $v['backups']; 
+                            <?php echo $v['backups'];
                             if ($v['backups']) {
                             ?>
                             <a href="#" onclick="return false;" title="Toggle data backup details"><img id="info_expand_<?php echo $v['upgrade_action_id']; ?>" src="images/info.gif" alt="click to view backup details" onclick="xajax_expandOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /><img id="info_collapse_<?php echo $v['upgrade_action_id']; ?>" src="images/info.gif" style="display:none" alt="click to hide backup details" onclick="xajax_collapseOSURow('<?php echo $v['upgrade_action_id']; ?>');" border="0" /></a>
                             <?php
-                            }                            
+                            }
                             ?>
                             </td>
                         </tr>

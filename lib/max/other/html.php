@@ -29,7 +29,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 function MAX_getDisplayName($name, $length = 60, $append = '...')
 {
-    $displayName = strlen($name) > $length ? rtrim(substr($name, 0, $maxLen-strlen($append))) . $append : $name;
+    $displayName = strlen($name) > $length ? rtrim(substr($name, 0, $length-strlen($append))) . $append : $name;
     if (empty($displayName)) {
         $displayName = $GLOBALS['strUntitled'];
     }
@@ -987,23 +987,23 @@ function MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublish
         if (phpAds_isUser(phpAds_Admin)) {
             if ($channelType == 'agency') {
                 switch ($pageName) {
-                    case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.5.3.2' : '5.5.3.1'; break;
-                    case 'channel-acl.php' : $tabValue = '5.5.3.3'; break;
+                    case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.6.3.2' : '5.6.3.1'; break;
+                    case 'channel-acl.php' : $tabValue = '5.6.3.3'; break;
                 }
-                $tabSections = (!empty($channelId)) ? array('5.5.3.2', '5.5.3.3') : array('5.5.3.1');
+                $tabSections = (!empty($channelId)) ? array('5.6.3.2', '5.6.3.3') : array('5.6.3.1');
             } else {
                 switch ($pageName) {
-                    case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.6.2' : '5.6.1'; break;
-                    case 'channel-acl.php' : $tabValue = '5.6.3'; break;
+                    case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.7.2' : '5.7.1'; break;
+                    case 'channel-acl.php' : $tabValue = '5.7.3'; break;
                 }
-                $tabSections = (!empty($channelId)) ? array('5.6.2', '5.6.3') : array('5.6.1');
+                $tabSections = (!empty($channelId)) ? array('5.7.2', '5.7.3') : array('5.7.1');
             }
         } else {
             switch ($pageName) {
-                case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.2.2' : '5.2.1'; break;
-                case 'channel-acl.php' : $tabValue = '5.2.3'; break;
+                case 'channel-edit.php' : $tabValue = (!empty($channelId)) ? '5.3.2' : '5.3.1'; break;
+                case 'channel-acl.php' : $tabValue = '5.3.3'; break;
             }
-            $tabSections = (!empty($channelId)) ? array('5.2.2', '5.2.3') : array('5.2.1');
+            $tabSections = (!empty($channelId)) ? array('5.3.2', '5.3.3') : array('5.3.1');
         }
     }
 

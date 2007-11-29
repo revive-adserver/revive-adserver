@@ -52,8 +52,8 @@ phpAds_registerGlobal('zoneid', 'cost', 'cost_type', 'cost_variable_id', 'cost_v
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-//phpAds_PageHeader("5.3");
-//phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+//phpAds_PageHeader("5.4");
+//phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

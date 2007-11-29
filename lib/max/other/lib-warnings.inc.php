@@ -29,7 +29,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Email.php';
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 
 /*-------------------------------------------------------*/
 /* Mail warning - preset is reached						 */
@@ -52,7 +52,7 @@ function phpAds_warningMail($campaign)
             // Load config from the database
             if (!isset($GLOBALS['_MAX']['PREF'])) {
                 //phpAds_LoadDbConfig();
-                $pref = MAX_Admin_Preferences::loadPrefs();
+                $pref = OA_Admin_Preferences::loadPrefs();
             } else {
 	           $pref = $GLOBALS['_MAX']['PREF'];
             }

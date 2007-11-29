@@ -11,7 +11,7 @@
 
 <?php
 			$isEnabled = (isset($_SESSION['updates_enabled'])) ? $_SESSION['updates_enabled'] : true;
-            phpAds_ShowSettings(array (
+            $options->show(array (
                 array (
                     'text'    => $GLOBALS['strSpecifySyncSettings'],
                     'items'   => array (

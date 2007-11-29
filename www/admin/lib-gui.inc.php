@@ -191,7 +191,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     global $phpAds_nav, $pages;
     global $phpAds_CharSet;
     global $strLogout, $strNavigation, $strShortcuts;
-    global $strAuthentification, $strSearch, $strHelp, $strStartOver;
+    global $strAuthentification, $strSearch, $strHelp, $strStartOver, $strMyAccount;
     global $keyHome, $keyUp, $keyNextItem, $keyPreviousItem, $keySearch, $session;
     global $breakdown, $xajax;
     $phpAds_GUIDone = true;
@@ -525,7 +525,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         echo "\t\t\t</td>\n";
     }
     echo "\t\t\t<td align='".$phpAds_TextAlignRight."' valign='middle' nowrap>";
-    // Show currently logged on user and IP
+    // Show currently logged on user and IP address
     if (phpAds_isLoggedIn()) {
         echo "<span style='color:#$headerTextColor'><b>" . $session['username'] . "</b>&nbsp;[" . $_SERVER['REMOTE_ADDR']. "]</span>&nbsp;&nbsp;&nbsp;\n";
     }

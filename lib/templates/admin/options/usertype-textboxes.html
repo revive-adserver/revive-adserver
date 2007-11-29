@@ -1,0 +1,50 @@
+{if isset($aItem.show_headers) && $aItem.show_headers}
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td width='100%'>
+		<table border='0' cellpadding='2' cellspacing='0'>
+			<tr align='center'>
+				{if phpAds_isUser($phpAds_Admin)}
+				    <td width='100'><b>{$GLOBALS.strAdmin}</b></td>
+				{/if}
+				<td width='100'><b>{$GLOBALS.strAgency}</b></td>
+				<td width='100'><b>{$GLOBALS.strClient}</b></td>
+				<td width='100'><b>{$GLOBALS.strAffiliate}</b></td>
+			</tr>
+		</table>
+	</td>
+</tr>
+{/if}
+
+<tr>
+    <td>&nbsp;</td>
+	<td id='cell_{$aItem.name}' class='{if $aItem.enabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
+	<td width='100%'>
+		<table border='0' cellpadding='2' cellspacing='0'><tr align='center'>
+            <tr>
+			{if phpAds_isUser($phpAds_Admin)}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Admin}]'
+			     value='{if isset($aItem.value.$phpAds_Admin)}{$aItem.value.$phpAds_Admin}{/if}'
+			     tabindex='{$aItem.tabindex++}'>
+			{/if}
+			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency)}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Agency}]'
+			     value='{if isset($aItem.value.$phpAds_Agency)}{$aItem.value.$phpAds_Agency}{/if}'
+			     tabindex='{$aItem.tabindex++}'>
+			{/if}
+			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency) || phpAds_isUser($phpAds_Client)}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Client}]'
+			     value='{if isset($aItem.value.$phpAds_Client)}{$aItem.value.$phpAds_Client}{/if}'
+			     tabindex='{$aItem.tabindex++}'>
+			{/if}
+			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency) || phpAds_isUser($phpAds_Affiliate)}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Affiliate}]'
+			     value='{if isset($aItem.value.$phpAds_Affiliate)}{$aItem.value.$phpAds_Affiliate}{/if}'
+			     tabindex='{$aItem.tabindex++}'>
+            {/if}
+                </td>
+            </tr>
+        </table>
+
+</td><td>{$this->_showPadLock($aItem)}</td></tr>

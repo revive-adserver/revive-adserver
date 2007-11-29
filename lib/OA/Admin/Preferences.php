@@ -40,7 +40,7 @@ define('MAX_PREFERENCE_FALSE', 'f');
  * @TODO Class needs to be updated so that it will load the admin
  * preferences for items that are not set in the agency preferences.
  */
-class MAX_Admin_Preferences
+class OA_Admin_Preferences
 {
     var $prefSql;
 
@@ -48,15 +48,15 @@ class MAX_Admin_Preferences
      * The constructor method. Creates an array so that updates to
      * agency preferences can be (locally) stored.
      */
-    function MAX_Admin_Preferences()
+    function OA_Admin_Preferences()
     {
         $this->prefSql = array();
     }
-    
+
     /**
      * Check whether preference is not empty and is equal expected variable
      *
-     * @static 
+     * @static
      * @param string $name
      * @param mixed $expectedValue
      * @return boolean
@@ -64,7 +64,7 @@ class MAX_Admin_Preferences
     function check($name, $expectedValue)
     {
         if (!isset($GLOBALS['_MAX']['PREF'])) {
-            MAX_Admin_Preferences::loadPrefs();
+            OA_Admin_Preferences::loadPrefs();
         }
         $pref = $GLOBALS['_MAX']['PREF'];
         return (isset($pref[$name]) && $pref[$name] == $expectedValue);
@@ -73,7 +73,7 @@ class MAX_Admin_Preferences
     /**
      * Check whether preference is not empty and is equal expected boolean variable
      *
-     * @static 
+     * @static
      * @param string $name
      * @param mixed $expectedValue
      * @return boolean
@@ -81,7 +81,7 @@ class MAX_Admin_Preferences
     function checkBool($name, $expectedValue)
     {
         $expected = ($expectedValue == MAX_PREFERENCE_TRUE) ? 't' : 'f';
-        return MAX_Admin_Preferences::check($name, $expected);
+        return OA_Admin_Preferences::check($name, $expected);
     }
 
     /**
@@ -127,9 +127,9 @@ class MAX_Admin_Preferences
             }
 
             if (phpAds_isUser(phpAds_Client)) {
-                MAX_Admin_Preferences::loadEntityPrefs('advertiser');
+                OA_Admin_Preferences::loadEntityPrefs('advertiser');
             } elseif (phpAds_isUser(phpAds_Affiliate)) {
-                MAX_Admin_Preferences::loadEntityPrefs('publisher');
+                OA_Admin_Preferences::loadEntityPrefs('publisher');
             }
 
             return $GLOBALS['_MAX']['PREF'];
@@ -167,7 +167,7 @@ class MAX_Admin_Preferences
             break;
 
         default:
-            MAX::raiseError("The MAX_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
+            MAX::raiseError("The OA_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
         }
 
         $oDbh =& OA_DB::singleton();
@@ -225,7 +225,7 @@ class MAX_Admin_Preferences
                 break;
 
             default:
-                MAX::raiseError("The MAX_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
+                MAX::raiseError("The OA_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
             }
             $table_name = $oDbh->quoteIdentifier($table_name,true);
             $query = "
@@ -305,9 +305,9 @@ class MAX_Admin_Preferences
             }
 
             if (phpAds_isUser(phpAds_Client)) {
-                return MAX_Admin_Preferences::writeEntityPrefs('advertiser');
+                return OA_Admin_Preferences::writeEntityPrefs('advertiser');
             } elseif (phpAds_isUser(phpAds_Affiliate)) {
-                return MAX_Admin_Preferences::writeEntityPrefs('publisher');
+                return OA_Admin_Preferences::writeEntityPrefs('publisher');
             } else {
                 $agencyId   = phpAds_isUser(phpAds_Agency) ? phpAds_getUserID() : 0;
             }

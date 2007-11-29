@@ -25,13 +25,13 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Admin/Config.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-Class Test_OA_Admin_Config extends UnitTestCase
+Class Test_OA_Admin_Settings extends UnitTestCase
 {
     function testIsConfigWritable()
     {
-        $oConf = new OA_Admin_Config(true);
+        $oConf = new OA_Admin_Settings(true);
 
         // 1) Test we can write to an existing file.
         $path = '/tmp';
@@ -67,7 +67,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
 
     function testSetBulkConfigChange()
     {
-        $oConf = new OA_Admin_Config(true);
+        $oConf = new OA_Admin_Settings(true);
         $oConf->setBulkConfigChange('foo', array('one' => 'bar', 'two' => 'baz'));
         $expected = array('foo' => array('one' => 'bar', 'two' => 'baz'));
         $this->assertEqual($expected, $oConf->conf);
@@ -75,7 +75,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
 
     function testSetConfigChange()
     {
-        $oConf = new OA_Admin_Config(true);
+        $oConf = new OA_Admin_Settings(true);
         $oConf->setConfigChange('group', 'item', 'value');
         $expected = array('group' => array('item' => 'value'));
         $this->assertEqual($expected, $oConf->conf);
@@ -88,7 +88,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
     function testWriteConfigChange()
     {
         // Test 1.
-        $oConf = new OA_Admin_Config(true);
+        $oConf = new OA_Admin_Settings(true);
 
         // Build the local conf array manually.
         $oConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz');
@@ -99,7 +99,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         $this->assertTrue($oConf->writeConfigChange('/tmp', $filename), 'Error writing config file');
 
         // The new config file will have been reparsed so global conf should have correct values.
-        $oNewConf = new OA_Admin_Config();
+        $oNewConf = new OA_Admin_Settings();
         $this->assertEqual($oConf->conf, $oNewConf->conf);
 
         // Clean up
@@ -108,7 +108,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
 
         // Test 2.
         // Write out a new "single host" config file
-        $oConf = new OA_Admin_Config(true);
+        $oConf = new OA_Admin_Settings(true);
 
         // Build the local conf array manually.
         $oConf->conf['webpath']['admin'] = 'dummy';
@@ -166,7 +166,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
     function test_findOtherConfigFiles()
     {
         // Test 1.
-        $oConf = new OA_Admin_Config(true);
+        $oConf = new OA_Admin_Settings(true);
 
         // Build the local conf array manually.
         $oConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz');
@@ -201,7 +201,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
     function testMergeConfigChanges()
     {
         // Build a test dist.conf.php
-        $oDistConf = new OA_Admin_Config(true);
+        $oDistConf = new OA_Admin_Settings(true);
 
         $oDistConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz', 'new' => 'additional_value');
         $oDistConf->conf['webpath']['admin'] = 'disthost';
@@ -213,7 +213,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         $this->assertTrue($oDistConf->writeConfigChange('/tmp', $distFilename, false), 'Error writing config file');
 
         // Build a test user conf
-        $oUserConf = new OA_Admin_Config(true);
+        $oUserConf = new OA_Admin_Settings(true);
 
         $oUserConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz', 'old' => 'old_value');
         $oUserConf->conf['deprecated'] = array('old_key' => 'old_value');
@@ -238,7 +238,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         // Clean up
         unlink('/tmp/disthost.' . $distFilename . '.conf.php');
         unlink('/tmp/localhost.' . $userFilename . '.conf.php');
-        @unlink('/tmp/default.' . $distFilename . '.conf.php'); // File may have been created
+        unlink('/tmp/default.' . $distFilename . '.conf.php'); // File may have been created
     }
 
     /**
@@ -247,7 +247,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
      */
     function testBackupConfig()
     {
-        $oConfig = new OA_Admin_Config(true);
+        $oConfig = new OA_Admin_Settings(true);
 
         $originalFilename = 'oa_test_' . rand() . '.conf.php';
         $directory = '/tmp';
@@ -298,7 +298,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         $now = date("Ymd");
         touch($directory . '/' . $originalFilename);
         $expected = $now.'_old.' . $originalFilename;
-        $this->assertEqual($expected, OA_Admin_Config::_getBackupFilename($directory . '/' . $originalFilename),
+        $this->assertEqual($expected, OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
             'Filenames don\'t match');
 
         // Test when backup filename already exists.
@@ -306,7 +306,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         touch($directory . '/' . $existingBackupFile);
         //$expected = $existingBackupFile . '_0';
         $expected0 = $now.'_0_old.' . $originalFilename;
-        $this->assertEqual($expected0, OA_Admin_Config::_getBackupFilename($directory . '/' . $originalFilename),
+        $this->assertEqual($expected0, OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
             'Filenames don\'t match');
 
          // Clean up
@@ -320,7 +320,7 @@ Class Test_OA_Admin_Config extends UnitTestCase
         $now = date("Ymd");
         touch($directory . '/' . $originalFilename);
         $expected = $now.'_old.' . $originalFilename.'.php';
-        $this->assertEqual($expected, OA_Admin_Config::_getBackupFilename($directory . '/' . $originalFilename),
+        $this->assertEqual($expected, OA_Admin_Settings::_getBackupFilename($directory . '/' . $originalFilename),
             'Filenames don\'t match');
 
          // Clean up

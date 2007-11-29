@@ -36,9 +36,9 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
-// Redirect to admin settings page
+// Redirect to the appropriate "My Account" page
 if (phpAds_isUser(phpAds_Admin)) {
-    MAX_Admin_Redirect::redirect('settings-admin.php');
+    MAX_Admin_Redirect::redirect('account-preferences-index.php');
 } elseif (phpAds_isUser(phpAds_Agency)) {
     MAX_Admin_Redirect::redirect('settings-banner.php');
 } elseif (phpAds_isUser(phpAds_Client)) {

@@ -50,11 +50,11 @@ MAX_Permission::checkAccess(0);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("5.3");
+phpAds_PageHeader("5.4");
 if (phpAds_isUser(phpAds_Agency)) {
-	phpAds_ShowSections(array("5.1", "5.3", "5.2"));
+	phpAds_ShowSections(array("5.2", "5.4", "5.3"));
 } else {
-	phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+	phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 }
 phpAds_MaintenanceSelection("finance");
 

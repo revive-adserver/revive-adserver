@@ -32,7 +32,6 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/max/Delivery/common.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';

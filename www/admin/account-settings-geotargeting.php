@@ -32,17 +32,18 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/lib/max/Admin/Geotargeting.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 
 require_once 'Config.php';
+
+$oOptions = new OA_Admin_Option('settings');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
-$errormessage = array();
+$aErrormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('geotargeting_type',
-                          'geotargeting_useBundledCountryDatabase',
                           'geotargeting_geoipCountryLocation',
                           'geotargeting_geoipRegionLocation',
                           'geotargeting_geoipCityLocation',
@@ -54,114 +55,113 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'geotargeting_saveStats',
                           'geotargeting_showUnavailable');
     // Set up the top level geotargeting configuration file
-    $config = new OA_Admin_Config();
-    $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
-    $config->setConfigChange('geotargeting', 'saveStats', isset($geotargeting_saveStats));
-    $config->setConfigChange('geotargeting', 'useBundledCountryDatabase', isset($geotargeting_useBundledCountryDatabase));
-    $config->setConfigChange('geotargeting', 'showUnavailable', isset($geotargeting_showUnavailable));
-    if (!$config->writeConfigChange()) { //MAX_Plugin::writePluginConfig($config->conf, 'geotargeting')) {
+    $oConfig = new OA_Admin_Settings();
+    $oConfig->setConfigChange('geotargeting', 'type', $geotargeting_type);
+    $oConfig->setConfigChange('geotargeting', 'saveStats', $geotargeting_saveStats);
+    $oConfig->setConfigChange('geotargeting', 'showUnavailable', $geotargeting_showUnavailable);
+    if (!$oConfig->writeConfigChange()) { //MAX_Plugin::writePluginConfig($oConfig->conf, 'geotargeting')) {
         // Unable to write the config file out
-        $errormessage[0][] = $strUnableToWriteConfig;
+        $aErrormessage[0][] = $strUnableToWriteConfig;
     }
 
     // Set up the geotargting type configuration file, if required
-    $config = new OA_Admin_Config();
-    $config->setConfigChange('geotargeting', 'type', $geotargeting_type);
+    $oConfig = new OA_Admin_Settings();
+    $oConfig->setConfigChange('geotargeting', 'type', $geotargeting_type);
     if ($geotargeting_type != 'none') {
         // Test the supplied files
         if (isset($geotargeting_geoipCountryLocation) && ($geotargeting_geoipCountryLocation != '')) {
             if (is_readable($geotargeting_geoipCountryLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipCountryLocation', $geotargeting_geoipCountryLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipCountryLocation', $geotargeting_geoipCountryLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipCountryLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipCountryLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipCountryLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipCountryLocation', '');
         }
         if (isset($geotargeting_geoipRegionLocation) && ($geotargeting_geoipRegionLocation != '')) {
             if (is_readable($geotargeting_geoipRegionLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipRegionLocation', $geotargeting_geoipRegionLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipRegionLocation', $geotargeting_geoipRegionLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipRegionLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipRegionLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipRegionLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipRegionLocation', '');
         }
         if (isset($geotargeting_geoipCityLocation) && ($geotargeting_geoipCityLocation != '')) {
             if (is_readable($geotargeting_geoipCityLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipCityLocation', $geotargeting_geoipCityLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipCityLocation', $geotargeting_geoipCityLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipCityLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipCityLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipCityLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipCityLocation', '');
         }
         if (isset($geotargeting_geoipAreaLocation) && ($geotargeting_geoipAreaLocation != '')) {
             if (is_readable($geotargeting_geoipAreaLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipAreaLocation', $geotargeting_geoipAreaLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipAreaLocation', $geotargeting_geoipAreaLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipAreaLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipAreaLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipAreaLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipAreaLocation', '');
         }
         if (isset($geotargeting_geoipDmaLocation) && ($geotargeting_geoipDmaLocation != '')) {
             if (is_readable($geotargeting_geoipDmaLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipDmaLocation', $geotargeting_geoipDmaLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipDmaLocation', $geotargeting_geoipDmaLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipDmaLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipDmaLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipDmaLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipDmaLocation', '');
         }
         if (isset($geotargeting_geoipOrgLocation) && ($geotargeting_geoipOrgLocation != '')) {
             if (is_readable($geotargeting_geoipOrgLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipOrgLocation', $geotargeting_geoipOrgLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipOrgLocation', $geotargeting_geoipOrgLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipOrgLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipOrgLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipOrgLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipOrgLocation', '');
         }
         if (isset($geotargeting_geoipIspLocation) && ($geotargeting_geoipIspLocation != '')) {
             if (is_readable($geotargeting_geoipIspLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipIspLocation', $geotargeting_geoipIspLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipIspLocation', $geotargeting_geoipIspLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipIspLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipIspLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipIspLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipIspLocation', '');
         }
         if (isset($geotargeting_geoipNetspeedLocation) && ($geotargeting_geoipNetspeedLocation != '')) {
             if (is_readable($geotargeting_geoipNetspeedLocation)) {
-                $config->setConfigChange('geotargeting', 'geoipNetspeedLocation', $geotargeting_geoipNetspeedLocation);
+                $oConfig->setConfigChange('geotargeting', 'geoipNetspeedLocation', $geotargeting_geoipNetspeedLocation);
             } else {
-                $errormessage[0][] = $strGeotrackingGeoipNetspeedLocationError;
+                $aErrormessage[0][] = $strGeotrackingGeoipNetspeedLocationError;
             }
         } else {
-            $config->setConfigChange('geotargeting', 'geoipNetspeedLocation', '');
+            $oConfig->setConfigChange('geotargeting', 'geoipNetspeedLocation', '');
         }
     }
-    if (!count($errormessage)) {
-        $configFileName = MAX_Plugin::getConfigFileName('geotargeting', $geotargeting_type);
-        if (!file_exists($configFileName)) {
+    if (!count($aErrormessage)) {
+        $oConfigFileName = MAX_Plugin::getConfigFileName('geotargeting', $geotargeting_type);
+        if (!file_exists($oConfigFileName)) {
             MAX_Plugin::copyDefaultConfig('geotargeting', $geotargeting_type);
         }
         if ($geotargeting_type != 'none' &&
-            !$config->writeConfigChange()) { //!MAX_Plugin::writePluginConfig($config->conf, 'geotargeting', $geotargeting_type)) {
+            !$oConfig->writeConfigChange()) { //!MAX_Plugin::writePluginConfig($oConfig->conf, 'geotargeting', $geotargeting_type)) {
             // Unable to write the config file out
-            $errormessage[0][] = $strUnableToWriteConfig;
+            $aErrormessage[0][] = $strUnableToWriteConfig;
         } else {
-            MAX_Admin_Redirect::redirect('settings-defaults.php');
+            MAX_Admin_Redirect::redirect('account-settings-maintenance.php');
         }
     }
 }
 
-phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
-phpAds_SettingsSelection("geotargeting");
+phpAds_PageHeader("5.2");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+$oOptions->selection("geotargeting");
 
-$settings = array (
+$aSettings = array (
     array (
         'text'  => $strGeotargeting,
         'items' => array (
@@ -175,20 +175,11 @@ $settings = array (
                 'type'    => 'break'
             ),
             array (
-                'type'    => 'checkbox',
-                'name'    => 'geotargeting_useBundledCountryDatabase',
-                'text'    => $strGeotargetingUseBundledCountryDb,
-                'depends' => 'geotargeting_type==1'
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
                 'type'    => 'text',
                 'name'    => 'geotargeting_geoipCountryLocation',
                 'text'    => $strGeotargetingGeoipCountryLocation,
                 'size'    => 35,
-                'depends' => 'geotargeting_type==1 && geotargeting_useBundledCountryDatabase==0'
+                'depends' => 'geotargeting_type==1'
             ),
             array (
                 'type'    => 'break'
@@ -282,7 +273,7 @@ $settings = array (
     )
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$oOptions->show($aSettings, $aErrormessage);
 phpAds_PageFooter();
 
 ?>

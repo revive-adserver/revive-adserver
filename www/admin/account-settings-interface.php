@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -32,139 +29,147 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$oOptions = new OA_Admin_Option('settings');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
 
-$errormessage = array();
+$aErrormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
-    phpAds_registerGlobal('name', 'my_header', 'my_footer', 'my_logo',
+    phpAds_registerGlobal('max_uiEnabled','name', 'my_header', 'my_footer', 'my_logo',
                           'gui_header_foreground_color', 'gui_header_background_color',
                           'gui_header_active_tab_color', 'gui_header_text_color',
                           'client_welcome', 'client_welcome_msg',
                           'publisher_welcome', 'publisher_welcome_msg',
-                          'content_gzip_compression', 'default_tracker_status',
-                          'default_tracker_type', 'default_tracker_linkcampaigns',
-                          'publisher_agreement', 'publisher_agreement_text', 'more_reports');
+                          'content_gzip_compression', 'publisher_agreement',
+                          'publisher_agreement_text', 'more_reports',
+                          'max_requireSSL', 'max_sslPort', 'admin_novice');
+
+    $oConfig = new OA_Admin_Settings();
+    $oConfig->setConfigChange('max', 'requireSSL',   $max_requireSSL);
+    $oConfig->setConfigChange('max', 'uiEnabled',    $max_uiEnabled);
+    $oConfig->setConfigChange('max', 'sslPort',      $max_sslPort);
+
+
     // Set up the preferences object
-    $preferences = new MAX_Admin_Preferences();
+    $oPreferences = new OA_Admin_Preferences();
     if (isset($name)) {
-        $preferences->setPrefChange('name', $name);
-    }
-    if (isset($default_tracker_status)) {
-        $preferences->setPrefChange('default_tracker_status', $default_tracker_status);
-    }
-    if (isset($default_tracker_type)) {
-        $preferences->setPrefChange('default_tracker_type', $default_tracker_type);
+        $oPreferences->setPrefChange('name', $name);
     }
 
-    $preferences->setPrefChange('more_reports', $more_reports);
+    $oPreferences->setPrefChange('admin_novice', isset($admin_novice));
 
-    $preferences->setPrefChange('default_tracker_linkcampaigns', isset($default_tracker_linkcampaigns));
+
+    $oPreferences->setPrefChange('more_reports', $more_reports);
 
     if (isset($my_header)) {
         if (file_exists($my_header) || $my_header == '') {
-            $preferences->setPrefChange('my_header', $my_header);
+            $oPreferences->setPrefChange('my_header', $my_header);
         } else {
-            $errormessage[0][] = $strMyHeaderError;
+            $aErrormessage[0][] = $strMyHeaderError;
         }
     }
     if (isset($my_footer)) {
         if (file_exists($my_footer) || $my_footer == '') {
-            $preferences->setPrefChange('my_footer', $my_footer);
+            $oPreferences->setPrefChange('my_footer', $my_footer);
         } else {
-            $errormessage[0][] = $strMyFooterError;
+            $aErrormessage[0][] = $strMyFooterError;
         }
     }
     if (isset($my_logo)) {
         if (file_exists("./images/$my_logo") || $my_logo == '') {
-            $preferences->setPrefChange('my_logo', $my_logo);
+            $oPreferences->setPrefChange('my_logo', $my_logo);
         } else {
-            $errormessage[0][] = $strMyLogoError;
+            $aErrormessage[0][] = $strMyLogoError;
         }
     }
     if (isset($gui_header_background_color))  {
         if ($gui_header_background_color == '' || preg_match('/[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]/', $gui_header_background_color)) {
-            $preferences->setPrefChange('gui_header_background_color', $gui_header_background_color);
+            $oPreferences->setPrefChange('gui_header_background_color', $gui_header_background_color);
         } else {
-            $errormessage[0][] = $strColorError;
+            $aErrormessage[0][] = $strColorError;
         }
     }
     if (isset($gui_header_foreground_color)) {
         if ($gui_header_foreground_color == '' || preg_match('/[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]/', $gui_header_foreground_color)) {
-            $preferences->setPrefChange('gui_header_foreground_color', $gui_header_foreground_color);
+            $oPreferences->setPrefChange('gui_header_foreground_color', $gui_header_foreground_color);
         } else {
-            $errormessage[0][] = $strColorError;
+            $aErrormessage[0][] = $strColorError;
         }
     }
     if (isset($gui_header_active_tab_color)) {
         if ($gui_header_active_tab_color == '' || preg_match('/[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]/', $gui_header_active_tab_color)) {
-            $preferences->setPrefChange('gui_header_active_tab_color', $gui_header_active_tab_color);
+            $oPreferences->setPrefChange('gui_header_active_tab_color', $gui_header_active_tab_color);
         } else {
-            $errormessage[0][] = $strColorError;
+            $aErrormessage[0][] = $strColorError;
         }
     }
     if (isset($gui_header_text_color)) {
         if ($gui_header_text_color == '' || preg_match('/[0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f][0-9A-Fa-f]/', $gui_header_text_color)) {
-            $preferences->setPrefChange('gui_header_text_color', $gui_header_text_color);
+            $oPreferences->setPrefChange('gui_header_text_color', $gui_header_text_color);
         } else {
-            $errormessage[0][] = $strColorError;
+            $aErrormessage[0][] = $strColorError;
         }
     }
-    $preferences->setPrefChange('content_gzip_compression', isset($content_gzip_compression));
-    $preferences->setPrefChange('client_welcome', isset($client_welcome));
+    $oPreferences->setPrefChange('content_gzip_compression', isset($content_gzip_compression));
+    $oPreferences->setPrefChange('client_welcome', isset($client_welcome));
     if (isset($client_welcome_msg)) {
-        $preferences->setPrefChange('client_welcome_msg', $client_welcome_msg);
+        $oPreferences->setPrefChange('client_welcome_msg', $client_welcome_msg);
     }
-    $preferences->setPrefChange('publisher_welcome', isset($publisher_welcome));
+    $oPreferences->setPrefChange('publisher_welcome', isset($publisher_welcome));
     if (isset($publisher_welcome_msg)) {
-        $preferences->setPrefChange('publisher_welcome_msg', $publisher_welcome_msg);
+        $oPreferences->setPrefChange('publisher_welcome_msg', $publisher_welcome_msg);
     }
 
-    $preferences->setPrefChange('publisher_agreement', isset($publisher_agreement));
+    $oPreferences->setPrefChange('publisher_agreement', isset($publisher_agreement));
     if (isset($publisher_agreement_text)) {
-        $preferences->setPrefChange('publisher_agreement_text', $publisher_agreement_text);
+        $oPreferences->setPrefChange('publisher_agreement_text', $publisher_agreement_text);
     } else {
-        $preferences->setPrefChange('publisher_agreement_text', '');
+        $oPreferences->setPrefChange('publisher_agreement_text', '');
     }
 
-    if (!count($errormessage)) {
-        if (!$preferences->writePrefChange()) {
-            // Unable to update the preferences
-            $errormessage[0][] = $strUnableToWritePrefs;
+     if (!count($aErrormessage)) {
+        if (!$oConfig->writeConfigChange()) {
+            // Unable to write the config file out
+            $aErrormessage[0][] = $strUnableToWriteConfig;
         } else {
-            MAX_Admin_Redirect::redirect('settings-index.php');
+            if (!$oPreferences->writePrefChange()) {
+                // Unable to update the preferences
+                $aErrormessage[0][] = $strUnableToWritePrefs;
+            } else {
+                MAX_Admin_Redirect::redirect('account-settings-maintenance.php');
+            }
         }
     }
+
 }
 
-phpAds_PageHeader("5.1");
+phpAds_PageHeader("5.2");
 if (phpAds_isUser(phpAds_Admin)) {
-    phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 } elseif (phpAds_isUser(phpAds_Agency)) {
-//    phpAds_ShowSections(array("5.1", "5.3", "5.2"));
-    phpAds_ShowSections(array("5.1", "5.2"));
+//    phpAds_ShowSections(array("5.2", "5.4", "5.3"));
+    phpAds_ShowSections(array("5.2", "5.3"));
 }
-phpAds_SettingsSelection("interface");
+$oOptions->selection("interface");
 
-$statuses = array();
-foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusName) {
-    $statuses[$statusId] = $GLOBALS[$statusName];
-}
-
-$trackerTypes = array();
-foreach($GLOBALS['_MAX']['CONN_TYPES'] as $typeId => $typeName) {
-    $trackerTypes[$typeId] = $GLOBALS[$typeName];
-}
-
-$settings = array (
+$aSettings = array (
     array (
         'text'  => $strGeneralSettings,
         'items' => array (
+            array (
+                'type'  => 'checkbox',
+                'name'  => 'max_uiEnabled',
+                'text'  => $uiEnabled
+            ),
+            array (
+                'type'    => 'break'
+            ),
             array (
                 'type'    => 'text',
                 'name'    => 'name',
@@ -300,34 +305,7 @@ $settings = array (
             )
         )
     ),*/
-    array (
-        'text'  => $strTracker,
-        'items' => array (
-            array (
-                'type'    => 'select',
-                'name'    => 'default_tracker_status',
-                'text'    => $strDefaultTrackerStatus,
-                'items'   => $statuses
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'select',
-                'name'    => 'default_tracker_type',
-                'text'    => $strDefaultTrackerType,
-                'items'   => $trackerTypes
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'default_tracker_linkcampaigns',
-                'text'    => $strLinkCampaignsByDefault
-            )
-        )
-    ),
+
     // This setting has no effect at the moment so it is removed from the interface.
     /*array (
         'text'  => $strReportsInterface,
@@ -339,9 +317,38 @@ $settings = array (
             )
         )
     )*/
+    array (
+        'text'  => $strSSLSettings,
+        'items' => array (
+            array (
+                'type'  => 'checkbox',
+                'name'  => 'max_requireSSL',
+                'text'  => $requireSSL
+            ),
+            array (
+                'type'  => 'break'
+            ),
+            array (
+                'type'  => 'text',
+                'name'  => 'max_sslPort',
+                'text'  => $sslPort
+            ),
+        )
+    ),
+    array (
+        'text'  => $strAdminConfirmationUI,
+        'items' => array (
+             array (
+                'type'    => 'checkbox',
+                'name'    => 'admin_novice',
+                'text'    => $strAdminNovice
+            ),
+        )
+    )
+
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$oOptions->show($aSettings, $aErrormessage);
 phpAds_PageFooter();
 
 ?>

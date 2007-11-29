@@ -118,7 +118,7 @@ Klicken Sie nun auf Weiter, um mit der Konfiguration fortzufahren.";
 
 $GLOBALS['strInstallNotSuccessful']		= "<b>Die Installation von ".MAX_PRODUCT_NAME." war nicht erfolgreich</b><br /><br />
 Teile des Installationsprozesses wurden nicht beendet. Das Problem ist m&ouml;glicherweise nur tempor&auml;r. In diesem Fall dr&uuml;cken Sie <b> Weiter</b> und beginnen Sie den Installationsproze&szlig; von Neuem. N&auml;heres zu Fehlermeldungen und -behebung findet sich im Handbuch.";
-$GLOBALS['strSystemCheck']                  = "System Überprüfung";
+$GLOBALS['strSystemCheck']                  = "System ï¿½berprï¿½fung";
 $GLOBALS['strSystemCheckIntro']             = MAX_PRODUCT_NAME . " setzt einige Dinge voraus, welche nun gepr&uuml;ft werden. Sie erhalten eine Meldung, sollte etwas nicht stimmen.";
 $GLOBALS['strDbSuccessIntro']               = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde erstellt. Bitte dr&uuml;cken Sie nun auf Weiter, um die Openads Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";
 $GLOBALS['strDbSuccessIntroUpgrade']        = "Die " . MAX_PRODUCT_NAME . " Datenbank wurde aktualisiert. Bitte dr&uuml;cken Sie nun auf Weiter, um die Openads Administrations- und Auslieferungseinstellungen zu t&auml;tigen.";

@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id: settings-admin.php 12637 2007-11-20 19:02:36Z miguel.correa@openads.org $
 */
 
 /**
@@ -42,82 +42,61 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$oOptions = new OA_Admin_Option('preferences');
 
 // Security check
 MAX_Permission::checkAccess(phpAds_Admin);
 
-$errormessage = array();
+$aErrormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobalUnslashed('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
-                                   'company_name', 'language', 'updates_enabled', 'admin_novice',
-                                   'userlog_email', 'timezone_location', 'maintenance_autoMaintenance');
-
-    // Set up the config object
-    $config = new OA_Admin_Config();
-
-    //  Update config with timezone changes
-    if (isset($timezone_location)) {
-        $timezone_location = OA_Admin_Timezones::getConfigTimezoneValue($timezone_location, $aTimezone);
-        $config->setConfigChange('timezone', 'location', $timezone_location);
-    }
-
-    $config->setConfigChange('maintenance', 'autoMaintenance', isset($maintenance_autoMaintenance));
-
-    if (!$config->writeConfigChange()) {
-        // Unable to write the config file out
-        $errormessage[0][] = $strUnableToWriteConfig;
-    }
+                                   'company_name');
 
     // Set up the preferences object
-    $preferences = new MAX_Admin_Preferences();
+    $oPreferences = new OA_Admin_Preferences();
     if (isset($admin)) {
         if (!strlen($admin)) {
-            $errormessage[0][] = $strInvalidUsername;
+            $aErrormessage[0][] = $strInvalidUsername;
         } elseif (!MAX_Permission::isUsernameAllowed($pref['admin'], $admin)) {
-            $errormessage[0][] = $strDuplicateClientName;
+            $aErrormessage[0][] = $strDuplicateClientName;
         } else {
-            $preferences->setPrefChange('admin', $admin);
+            $oPreferences->setPrefChange('admin', $admin);
         }
     }
     if (isset($pwold) && strlen($pwold) || isset($pw) && strlen($pw) || isset($pw2) && strlen($pw2)) {
         $pref = $GLOBALS['_MAX']['PREF'];
         if (md5($pwold) != $pref['admin_pw']) {
-            $errormessage[0][] = $strPasswordWrong;
+            $aErrormessage[0][] = $strPasswordWrong;
         } elseif (!strlen($pw)  || strstr("\\", $pw)) {
-            $errormessage[0][] = $strInvalidPassword;
+            $aErrormessage[0][] = $strInvalidPassword;
         } elseif (strcmp($pw, $pw2)) {
-            $errormessage[0][] = $strNotSamePasswords;
+            $aErrormessage[0][] = $strNotSamePasswords;
         } else {
             $admin_pw = $pw;
-            $preferences->setPrefChange('admin_pw', md5($admin_pw));
+            $oPreferences->setPrefChange('admin_pw', md5($admin_pw));
         }
     }
     if (isset($admin_fullname)) {
-        $preferences->setPrefChange('admin_fullname', $admin_fullname);
+        $oPreferences->setPrefChange('admin_fullname', $admin_fullname);
     }
     if (isset($admin_email)) {
-        $preferences->setPrefChange('admin_email', $admin_email);
+        $oPreferences->setPrefChange('admin_email', $admin_email);
     }
     if (isset($company_name)) {
-        $preferences->setPrefChange('company_name', $company_name);
+        $oPreferences->setPrefChange('company_name', $company_name);
     }
-    if (isset($language)) {
-        $preferences->setPrefChange('language', $language);
-    }
-    $preferences->setPrefChange('updates_enabled', isset($updates_enabled));
-    $preferences->setPrefChange('admin_novice', isset($admin_novice));
-    $preferences->setPrefChange('userlog_email', isset($userlog_email));
 
-    if (!count($errormessage)) {
-        if (!$preferences->writePrefChange()) {
+    if (!count($aErrormessage)) {
+        if (!$oPreferences->writePrefChange()) {
             // Unable to update the preferences
-            $errormessage[0][] = $strUnableToWritePrefs;
+            $aErrormessage[0][] = $strUnableToWritePrefs;
         } else {
-            MAX_Admin_Redirect::redirect('settings-banner.php');
+            MAX_Admin_Redirect::redirect('account-preferences-banner.php');
         }
     }
 
@@ -127,34 +106,18 @@ if (isset($message)) {
     phpAds_ShowMessage($message);
 }
 phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
-phpAds_SettingsSelection("admin");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+$oOptions->selection("account");
 
-$unique_users   = MAX_Permission::getUniqueUserNames($pref['admin']);
 
-$aTimezones = OA_Admin_Timezones::availableTimezones(true);
-$configTimezone = trim($GLOBALS['_MAX']['CONF']['timezone']['location']);
-if (empty($configTimezone)) {
-    // There is no value stored in the configuration file, as it
-    // is not required (ie. the TZ comes from the environment) -
-    // so set that environment value in the config file now
-    $GLOBALS['_MAX']['CONF']['timezone']['location'] = $aTimezone['tz'];
-}
-// What display string do we need to show for the timezone?
-if (empty($configTimezone) && $aTimezone['calculated']) {
-    $strTimezoneToDisplay = $strTimezoneEstimated . '<br />' . $strTimezoneGuessedValue;
-} else {
-    $strTimezoneToDisplay = $strTimezone;
-}
-
-$settings = array (
+$aSettings = array (
     array (
         'text'  => $strLoginCredentials,
         'items' => array (
             array (
                 'type'    => 'text',
                 'name'    => 'admin',
-                'text'    => $strAdminUsername,
+                'text'    => $strUsername,
                 'check'   => 'unique',
                 'unique'  => $unique_users
             ),
@@ -188,12 +151,12 @@ $settings = array (
         )
     ),
     array (
-        'text'  => $strBasicInformation,
+        'text'  => $strUserDetails,
         'items' => array (
             array (
                 'type'    => 'text',
                 'name'    => 'admin_fullname',
-                'text'    => $strAdminFullName,
+                'text'    => $strFullName,
                 'size'    => 35
             ),
             array (
@@ -202,7 +165,7 @@ $settings = array (
             array (
                 'type'    => 'text',
                 'name'    => 'admin_email',
-                'text'    => $strAdminEmail,
+                'text'    => $strEmailAddress,
                 'size'    => 35,
                 'check'   => 'email'
             ),
@@ -216,66 +179,10 @@ $settings = array (
                 'size'    => 35
             )
         )
-    ),
-    array (
-        'text'  => $strPreferences,
-        'items' => array (
-            array (
-                'type'    => 'select',
-                'name'    => 'language',
-                'text'    => $strLanguage,
-                'items'   => MAX_Admin_Languages::AvailableLanguages()
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'admin_novice',
-                'text'    => $strAdminNovice
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'userlog_email',
-                'text'    => $strUserlogEmail
-            ),
-            array (
-                'type'    => 'break'
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'maintenance_autoMaintenance',
-                'text'	  => $strEnableAutoMaintenance
-            ),
-        )
-    ),
-    array (
-        'text'    => $GLOBALS['strSyncSettings'],
-        'items'   => array (
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'updates_enabled',
-                'text'    => $strAdminCheckUpdates,
-            )
-        )
-    ),
-    array (
-        'text'  => $strTimezoneInformation,
-        'items' => array (
-            array (
-                'type'    => 'select',
-                'name'    => 'timezone_location',
-                'text'    => $strTimezoneToDisplay,
-                'items'   => $aTimezones
-            )
-        )
     )
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$oOptions->show($aSettings, $aErrormessage);
 phpAds_PageFooter();
 
 ?>

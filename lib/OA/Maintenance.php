@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/ServiceLocator.php';
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 
 require_once 'Date.php';
 
@@ -62,7 +62,7 @@ class OA_Maintenance
     {
         $this->aConf = $GLOBALS['_MAX']['CONF'];
 
-        MAX_Admin_Preferences::loadPrefs();
+        OA_Admin_Preferences::loadPrefs();
         $this->aPref = $GLOBALS['_MAX']['PREF'];
 
         // Get a connection to the datbase

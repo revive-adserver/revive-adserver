@@ -47,7 +47,7 @@ class OA_Dashboard_Widget_Index extends OA_Dashboard_Widget
         $oTpl = new OA_Admin_Template('dashboard/main.html');
 
         $oDashboard = new OA_Central_Dashboard();
-        if (MAX_Admin_Preferences::checkBool('updates_enabled', false) || !$oDashboard->oMapper->oRpc->oXml->canUseSSL()) {
+        if (OA_Admin_Preferences::checkBool('updates_enabled', false) || !$oDashboard->oMapper->oRpc->oXml->canUseSSL()) {
             $dashboardUrl = MAX::constructURL(MAX_URL_ADMIN, 'dashboard.php?widget=Disabled');
         } else {
             if ($this->ssoAdmin) {

@@ -247,7 +247,7 @@ class MAX_Admin_PasswordRecovery
 
         $sent = 0;
         foreach ($agencies as $agencyId => $emails) {
-            $pref = MAX_Admin_Preferences::loadPrefs($agencyId);
+            $pref = OA_Admin_Preferences::loadPrefs($agencyId);
             Language_Default::load();
 
             foreach ($emails as $email => $users) {

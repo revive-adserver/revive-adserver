@@ -31,7 +31,7 @@ $Id$
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
 
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
@@ -2820,8 +2820,8 @@ class OA_Dal_Maintenance_Statistics_Common
                     // advertiser
                     $aCurrentPrefs = $GLOBALS['_MAX']['PREF'];
                     unset($GLOBALS['_MAX']['PREF']);
-                    MAX_Admin_Preferences::loadPrefs($aPlacement['agency_id']);
-                    MAX_Admin_Preferences::loadEntityPrefs('advertiser', $aPlacement['advertiser_id']);
+                    OA_Admin_Preferences::loadPrefs($aPlacement['agency_id']);
+                    OA_Admin_Preferences::loadEntityPrefs('advertiser', $aPlacement['advertiser_id']);
                     // Does a warning need to be send for this placement?
                     $aPrefs = $GLOBALS['_MAX']['PREF'];
                     if ($aPrefs['warn_admin'] == 't' || $aPrefs['warn_agency'] == 't' || $aPrefs['warn_client'] == 't') {

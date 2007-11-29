@@ -98,7 +98,7 @@ $GLOBALS['strKiloByte']						= "KB";
 $GLOBALS['strExpandAll']					= "Expandir todo";
 $GLOBALS['strCollapseAll']					= "Contraer todo";
 $GLOBALS['strShowAll']						= "Ver todo";
-$GLOBALS['strNoAdminInteface']				= "Servicio no disponible...";
+$GLOBALS['strNoAdminInterface']				= "Servicio no disponible...";
 $GLOBALS['strFilterBySource']				= "filtrar por fuente";
 $GLOBALS['strDelimiter']			= "Delimitador";
 

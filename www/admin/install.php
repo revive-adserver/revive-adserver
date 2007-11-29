@@ -75,8 +75,10 @@ if (!$oSystemMgr->checkMemory()) {
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$options = new OA_Admin_Option('settings');
 
 // clear the $session variable to prevent users pretending to be logged in.
 unset($session);
@@ -167,8 +169,8 @@ function checkLogin()
     if ($openadsDetected || $panDetected || $maxDetected || $max01Detected) {
         if ($openadsDetected) {
             // Openads 2.3+ - Load admin username and password using the preference DAL
-            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-            MAX_Admin_Preferences::loadPrefs();
+            require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+            OA_Admin_Preferences::loadPrefs();
         } else {
             // Old versions - Load admin username and password using hardcoded queries
             $prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
@@ -497,8 +499,8 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     // We need to pass back the submitted values to the form
                     $oTpl->assign('aSites', $aTplSites);
 
-                    require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-                    $oTpl->assign('syncEnabled', MAX_Admin_Preferences::checkBool('updates_enabled', true));
+                    require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+                    $oTpl->assign('syncEnabled', OA_Admin_Preferences::checkBool('updates_enabled', true));
 
                     $oTpl->assign('captchaErrorFormId', 'frmOpenads');
                     if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
@@ -601,8 +603,8 @@ else if (array_key_exists('btn_sitessetup', $_POST))
             $oTpl->assign('aSelectLanguages',  $oAdNetworks->getLanguagesSelect());
 
             $aUrl = parse_url('http://'.$conf['webpath']['admin']);
-            
-            $isOac = MAX_Admin_Preferences::checkBool('updates_enabled', true);
+
+            $isOac = OA_Admin_Preferences::checkBool('updates_enabled', true);
             $oTpl->assign('aSites', array(
                 1 => array(
                 	'url' => $aUrl['host'],
@@ -610,7 +612,7 @@ else if (array_key_exists('btn_sitessetup', $_POST))
                 	)
             ));
 
-            require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+            require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
             $oTpl->assign('syncEnabled', $isOac);
 
             $action = OA_UPGRADE_SITESSETUP;
@@ -667,8 +669,8 @@ if ($action == OA_UPGRADE_FINISH)
     if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
     {
         // Log the user in
-        require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
-        MAX_Admin_Preferences::loadPrefs();
+        require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+        OA_Admin_Preferences::loadPrefs();
         phpAds_SessionStart();
         phpAds_SessionDataRegister(MAX_Permission_User::getAAdminData($GLOBALS['_MAX']['PREF']['admin']));
         phpAds_SessionDataStore();

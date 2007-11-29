@@ -1,6 +1,6 @@
 <?php
 
-require_once MAX_PATH . '/lib/OA/Admin/Config.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
 class OA_Upgrade_Config
 {
@@ -12,9 +12,9 @@ class OA_Upgrade_Config
 
     function OA_Upgrade_Config()
     {
-        $this->oConfig = new OA_Admin_Config();
+        $this->oConfig = new OA_Admin_Settings();
         $this->aConfig =& $this->oConfig->conf;
-        if (!OA_Admin_Config::isConfigWritable())
+        if (!OA_Admin_Settings::isConfigWritable())
         {
             return false;
         }

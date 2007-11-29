@@ -33,7 +33,9 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$options = new OA_Admin_Option('settings');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
@@ -46,7 +48,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'type_html_allow', 'type_txt_allow',
                           'banner_html_auto');
     // Set up the preferences object
-    $preferences = new MAX_Admin_Preferences();
+    $preferences = new OA_Admin_Preferences();
     if (isset($default_banner_url)) {
         $preferences->setPrefChange('default_banner_url', $default_banner_url);
     }
@@ -64,21 +66,20 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $errormessage[0][] = $strUnableToWritePrefs;
     } else {
        if (phpAds_isUser(phpAds_Admin)) {
-            MAX_Admin_Redirect::redirect('settings-db.php');
+            MAX_Admin_Redirect::redirect('account-settings-database.php');
         } else {
           MAX_Admin_Redirect::redirect('settings-defaults.php');
        }
     }
 }
 
-phpAds_PageHeader("5.1");
+phpAds_PageHeader("5.2");
 if (phpAds_isUser(phpAds_Admin)) {
-	phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+	phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 } elseif (phpAds_isUser(phpAds_Agency)) {
-//    phpAds_ShowSections(array("5.1", "5.3", "5.2"));
-    phpAds_ShowSections(array("5.1", "5.2"));
+    phpAds_ShowSections(array("5.2", "5.3"));
 }
-phpAds_SettingsSelection("banner");
+$options->selection("banner");
 
 $settings = array (
     array (
@@ -146,7 +147,7 @@ $settings = array (
     )
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$options->show($settings, $errormessage);
 phpAds_PageFooter();
 
 ?>

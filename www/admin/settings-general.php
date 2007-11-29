@@ -31,7 +31,9 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$options = new OA_Admin_Option('settings');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
@@ -40,7 +42,7 @@ $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('max_uiEnabled', 'max_language', 'max_requireSSL', 'max_sslPort', 'debug_production');
     // Set up the configuration .ini file
-    $config = new OA_Admin_Config();
+    $config = new OA_Admin_Settings();
     $config->setConfigChange('max', 'uiEnabled',    $max_uiEnabled);
     $config->setConfigChange('max', 'language',     $max_language);
     $config->setConfigChange('max', 'requireSSL',   $max_requireSSL);
@@ -54,9 +56,9 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
-phpAds_SettingsSelection("general");
+phpAds_PageHeader("5.2");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+$options->selection("general");
 
 $settings = array (
     array (
@@ -104,7 +106,7 @@ $settings = array (
     )
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$options->show($settings, $errormessage);
 phpAds_PageFooter();
 
 ?>

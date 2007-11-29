@@ -33,9 +33,11 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 
 require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$options = new OA_Admin_Option('settings');
 $invocationTags = MAX_Plugin::getPlugins('invocationTags');
 $invocationSettings = MAX_Plugin::callOnPlugins($invocationTags, 'getPreferenceCode');
 foreach($invocationSettings as $invocationSettingKey => $invocationSettingVal) {
@@ -51,7 +53,7 @@ $errormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     // Set up the preferences object
-    $preferences = new MAX_Admin_Preferences();
+    $preferences = new OA_Admin_Preferences();
     foreach($invocationSettings as $invocationCode) {
     	$preferences->setPrefChange($invocationCode, isset($_POST[$invocationCode]));
     }
@@ -69,14 +71,15 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 }
 
-phpAds_PageHeader("5.1");
+phpAds_PageHeader("5.2");
 if (phpAds_isUser(phpAds_Admin)) {
-	phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+	phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 } elseif (phpAds_isUser(phpAds_Agency)) {
-//    phpAds_ShowSections(array("5.1", "5.3", "5.2"));
-    phpAds_ShowSections(array("5.1", "5.2"));
+//    phpAds_ShowSections(array("5.2", "5.4", "5.3"));
+    phpAds_ShowSections(array("5.2", "5.3"));
 }
-phpAds_SettingsSelection("invocation");
+$options->selection("invocation");
+
 
 include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 
@@ -127,7 +130,7 @@ $settings[1]['items'][] = array(
     'items' => $availableOutputAdServerNames,
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$options->show($settings, $errormessage);
 phpAds_PageFooter();
 
 ?>

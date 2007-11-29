@@ -32,10 +32,12 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$options = new OA_Admin_Option('settings');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
@@ -73,7 +75,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     }
 
     // Set up the preferences object
-    $preferences = new MAX_Admin_Preferences();
+    $preferences = new OA_Admin_Preferences();
     if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
     {
         $preferences->setPrefChange('gui_show_campaign_info',       isset($gui_show_campaign_info));
@@ -168,12 +170,12 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 }
 
 if (phpAds_isUser(phpAds_Admin)) {
-    phpAds_PageHeader("5.1");
-    phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+    phpAds_PageHeader("5.2");
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 } elseif (phpAds_isUser(phpAds_Agency)) {
-    phpAds_PageHeader("5.1");
-//    phpAds_ShowSections(array("5.1", "5.3", "5.2"));
-    phpAds_ShowSections(array("5.1", "5.2"));
+    phpAds_PageHeader("5.2");
+//    phpAds_ShowSections(array("5.2", "5.4", "5.3"));
+    phpAds_ShowSections(array("5.2", "5.3"));
 } elseif (phpAds_isUser(phpAds_Client)) {
     phpAds_PageHeader("4.1");
     phpAds_ShowSections(array("4.1"));
@@ -186,7 +188,7 @@ if (phpAds_isUser(phpAds_Admin)) {
     phpAds_PageHeader('4.1');
     phpAds_ShowSections($sections);
 }
-phpAds_SettingsSelection("defaults");
+$options->selection("defaults");
 
 $admin_settings = phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency);
 
@@ -454,7 +456,7 @@ foreach ($invPlugins as $plugin) {
     $plugin->addSettings($settings);
 }
 
-phpAds_ShowSettings($settings, $errormessage);
+$options->show($settings, $errormessage);
 phpAds_PageFooter();
 
 ?>

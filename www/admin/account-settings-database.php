@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -34,13 +31,15 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Admin/DB.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$oOptions = new OA_Admin_Option('settings');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
-$errormessage = array();
+$aErrormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('database_type', 'database_host', 'database_port', 'database_username',
                           'database_password', 'database_name', 'database_persistent');
@@ -57,34 +56,33 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $GLOBALS['_MAX']['CONF']['database']['password']    = $database_password;
         $GLOBALS['_MAX']['CONF']['database']['name']        = $database_name;
         $GLOBALS['_MAX']['CONF']['database']['persistent']  = isset($database_persistent) ? true : false;
-        $oDbh = OA_DB::singleton();
-        if (PEAR::isError($oDbh)) {
-            $errormessage[0][] = $strCantConnectToDb;
+        if (!phpAds_dbConnect()) {
+            $aErrormessage[0][] = $strCantConnectToDb;
         } else {
             // Set up the configuration .ini file
-            $config = new OA_Admin_Config();
-            $config->setConfigChange('database', 'type',       $database_type);
-            $config->setConfigChange('database', 'host',       $database_host);
-            $config->setConfigChange('database', 'port',       $database_port);
-            $config->setConfigChange('database', 'username',   $database_username);
-            $config->setConfigChange('database', 'password',   $database_password);
-            $config->setConfigChange('database', 'name',       $database_name);
-            $config->setConfigChange('database', 'persistent', $GLOBALS['_MAX']['CONF']['database']['persistent']);
-            if (!$config->writeConfigChange()) {
+            $oConfig = new OA_Admin_Settings();
+            $oConfig->setConfigChange('database', 'type',       $database_type);
+            $oConfig->setConfigChange('database', 'host',       $database_host);
+            $oConfig->setConfigChange('database', 'port',       $database_port);
+            $oConfig->setConfigChange('database', 'username',   $database_username);
+            $oConfig->setConfigChange('database', 'password',   $database_password);
+            $oConfig->setConfigChange('database', 'name',       $database_name);
+            $oConfig->setConfigChange('database', 'persistent', $GLOBALS['_MAX']['CONF']['database']['persistent']);
+            if (!$oConfig->writeConfigChange()) {
                 // Unable to write the config file out
-                $errormessage[0][] = $strUnableToWriteConfig;
+                $aErrormessage[0][] = $strUnableToWriteConfig;
             } else {
-                MAX_Admin_Redirect::redirect('settings-debug.php');
+                MAX_Admin_Redirect::redirect('account-settings-debug.php');
             }
         }
     }
 }
 
-phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
-phpAds_SettingsSelection("db");
+phpAds_PageHeader("5.2");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+$oOptions->selection("databaseb");
 
-$settings = array (
+$oSettings = array (
     array (
         'text'  => $strDatabaseServer,
         'items' => array (
@@ -153,7 +151,7 @@ $settings = array (
     )
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$oOptions->show($oSettings, $aErrormessage);
 phpAds_PageFooter();
 
 ?>

@@ -1,0 +1,55 @@
+{if isset($aItem.show_headers) && $aItem.show_headers}
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td width='100%'>
+        <table border='0' cellpadding='2' cellspacing='0'><tr align='center'>
+            <tr>
+			    {if phpAds_isUser($phpAds_Admin)}
+			        <td width='100'><b>{$GLOBALS.strAdmin}</b></td>
+			    {/if}
+			    <td width='100'><b>{$GLOBALS.strAgency}</b></td>
+			    <td width='100'><b>{$GLOBALS.strClient}</b></td>
+			    <td width='100'><b>{$GLOBALS.strAffiliate}</b></td>
+            </tr>
+        </table>
+    </td>
+</tr>
+
+{/if}
+
+<tr>
+    <td>&nbsp;</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.enabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
+    <td width='100%'>
+        <input type='hidden' name='{$aItem.name}' id='{$aItem.name}' value='{$aItem.value}'>
+
+        <table border='0' cellpadding='2' cellspacing='0'><tr align='center'>
+            <tr>
+
+			{if phpAds_isUser($phpAds_Admin)}
+			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$phpAds_Admin}' value='true'
+			    {if $aItem.value & $phpAds_Admin}checked='true'{/if}{if $aItem.enabled}disabled='disabled'{/if}
+			    onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'>
+			{/if}
+			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency)}
+			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$phpAds_Agency}' value='true'
+			    {if $aItem.value & $phpAds_Agency}checked='true'{/if}{if $aItem.enabled}disabled='disabled'{/if}
+			    onClick="phpAds_UsertypeChange(this);" tabindex='$aItem.tabindex++'>
+			{/if}
+			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency) || phpAds_isUser($phpAds_Client)}
+			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$phpAds_Client}' value='true'
+			    {if $aItem.value & $phpAds_Client}checked='true'{/if}{if $aItem.enabled}disable='disabled'{/if}
+			    onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'></td>
+			{/if}
+			{if phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isUser(phpAds_Affiliate)}
+	            <td width='100'><input type='checkbox' name='{$aItem.name}_{$phpAds_Affiliate}' value='true'
+	            {if $aItem.value & $phpAds_Affiliate}checked='true'{/if}{if $aItem.enabled}disable='disabled'{/if}
+	            onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'></td>
+			{/if}
+                </td>
+            </tr>
+        </table>
+    </td>
+    <td>{$this->_showPadLock($aItem)}</td>
+</tr>

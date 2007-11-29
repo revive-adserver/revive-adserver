@@ -157,10 +157,10 @@ if ($agencyid != '') {
 			$agencyid == $row['agencyid']
 		);
 	}
-	phpAds_PageHeader("5.5.2");
+	phpAds_PageHeader("5.6.2");
 	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
-	phpAds_ShowSections(array("5.5.2"));
+	phpAds_ShowSections(array("5.6.2"));
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
@@ -174,10 +174,10 @@ if ($agencyid != '') {
 		}
 	}
 } else {
-	phpAds_PageHeader("5.5.1");
+	phpAds_PageHeader("5.6.1");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
-	// phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5"));
-	phpAds_ShowSections(array("5.5.1"));
+	// phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6"));
+	phpAds_ShowSections(array("5.6.1"));
 	// Do not set this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {

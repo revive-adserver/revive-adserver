@@ -53,11 +53,11 @@ $Id$
 require_once '../../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 
 // Load the user preferences from the database
-$pref = MAX_Admin_Preferences::loadPrefs();
+$pref = OA_Admin_Preferences::loadPrefs();
 
 // Load the required language files
 Language_Default::load();

@@ -30,41 +30,43 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/lib-settings.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
+require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+
+$oOptions = new OA_Admin_Option('settings');
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
-$errormessage = array();
+$aErrormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('log_enabled', 'log_methodNames', 'log_lineNumbers', 'log_type',
                           'log_name', 'log_priority', 'log_ident', 'log_paramsUsername',
                           'log_paramsPassword');
     // Set up the configuration .ini file
-    $config = new OA_Admin_Config();
-    $config->setConfigChange('log', 'enabled',          $log_enabled);
-    $config->setConfigChange('log', 'methodNames',      $log_methodNames);
-    $config->setConfigChange('log', 'lineNumbers',      $log_lineNumbers);
-    $config->setConfigChange('log', 'type',             $log_type);
-    $config->setConfigChange('log', 'name',             $log_name);
-    $config->setConfigChange('log', 'priority',         $log_priority);
-    $config->setConfigChange('log', 'ident',            $log_ident);
-    $config->setConfigChange('log', 'paramsUsername',   $log_paramsUsername);
-    $config->setConfigChange('log', 'paramsPassword',   $log_paramsPassword);
-    if (!$config->writeConfigChange()) {
+    $aConfig = new OA_Admin_Settings();
+    $aConfig->setConfigChange('log', 'enabled',          $log_enabled);
+    $aConfig->setConfigChange('log', 'methodNames',      $log_methodNames);
+    $aConfig->setConfigChange('log', 'lineNumbers',      $log_lineNumbers);
+    $aConfig->setConfigChange('log', 'type',             $log_type);
+    $aConfig->setConfigChange('log', 'name',             $log_name);
+    $aConfig->setConfigChange('log', 'priority',         $log_priority);
+    $aConfig->setConfigChange('log', 'ident',            $log_ident);
+    $aConfig->setConfigChange('log', 'paramsUsername',   $log_paramsUsername);
+    $aConfig->setConfigChange('log', 'paramsPassword',   $log_paramsPassword);
+    if (!$aConfig->writeConfigChange()) {
         // Unable to write the config file out
-        $errormessage[0][] = $strUnableToWriteConfig;
+        $aErrormessage[0][] = $strUnableToWriteConfig;
     } else {
-        MAX_Admin_Redirect::redirect('settings-delivery.php');
+        MAX_Admin_Redirect::redirect('account-settings-email.php');
     }
 }
 
-phpAds_PageHeader("5.1");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
-phpAds_SettingsSelection("debug");
+phpAds_PageHeader("5.2");
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+$oOptions->selection("debug");
 
-$settings = array (
+$aSettings = array (
     array (
         'text'  => $strDebug,
         'items' => array (
@@ -167,7 +169,7 @@ $settings = array (
     )
 );
 
-phpAds_ShowSettings($settings, $errormessage);
+$oOptions->show($aSettings, $aErrormessage);
 phpAds_PageFooter();
 
 ?>
