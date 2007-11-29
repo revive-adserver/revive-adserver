@@ -100,7 +100,7 @@ foreach ($publisher as $key => $aValue) {
     $aPublisher[$aValue['publisher_id']] = $aValue['name'];
 }
 if (!empty($publisherId)) {
-    $zone = Admin_DA::getZones(array('affiliate_id' => $publisherId));
+    $zone = Admin_DA::getZones(array('publisher_id' => $publisherId));
     $aZone[0] = $GLOBALS['strSelectZone'];
     foreach ($zone as $key => $aValue) {
         $aZone[$aValue['zone_id']] = $aValue['name'];

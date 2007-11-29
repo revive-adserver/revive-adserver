@@ -102,7 +102,9 @@ class OA_Dll_Userlog extends OA_Dll
                     while ($oCampaign->fetch()) {
                         $aCampaign[] = $oCampaign->campaignid;
                     }
-                    $where = "context = 'Campaign' AND contextid IN (". implode(',', $aCampaign) .")";
+                    if (!empty($aCampaign)) {
+                        $where = "context = 'Campaign' AND contextid IN (". implode(',', $aCampaign) .")";
+                    }
                 }
 
                 //  retrieve all banners that belong to above campaigns
@@ -115,9 +117,11 @@ class OA_Dll_Userlog extends OA_Dll
                     while ($oBanner->fetch()) {
                         $aBanner[] = $oBanner->bannerid;
                     }
+                    if (!empty($aBanner)) {
+                        $where .= " OR context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")";
+                        $oAudit->whereAdd($where);
+                    }
                 }
-                $where .= " OR context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")";
-                $oAudit->whereAdd($where);
             }
             //  Display all banners for the selected campaign
             if (!empty($aParam['advertiser_id']) && ($aParam['advertiser_id'] > 0)
@@ -128,12 +132,15 @@ class OA_Dll_Userlog extends OA_Dll
                 $oBanner->selectAdd();
                 $oBanner->selectAdd('bannerid');
                 $oBanner->whereAdd('campaignid = '. $aParam['campaign_id']);
-                $oBanner->find();
-                while ($oBanner->fetch()) {
-                    $aBanner[] = $oBanner->bannerid;
+                $numRows = $oBanner->find();
+                if ($numRows > 0) {
+                    while ($oBanner->fetch()) {
+                        $aBanner[] = $oBanner->bannerid;
+                    }
+                    if (!empty($aBanner)) {
+                        $oAudit->whereAdd("context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")");
+                    }
                 }
-
-                $oAudit->whereAdd("context = 'Banner' AND contextid IN (". implode(',', $aBanner) .")");
             }
             //  Display all zones for the selected publisher
             if (!empty($aParam['publisher_id']) && ($aParam['publisher_id'] > 0)
@@ -151,7 +158,9 @@ class OA_Dll_Userlog extends OA_Dll
                     while($oZone->fetch()) {
                         $aZone[] = $oZone->zoneid;
                     }
-                    $where .= " OR context = 'Zone' AND contextid IN (". implode(',', $aZone) .")";
+                    if (!empty($aZone)) {
+                        $where .= " OR context = 'Zone' AND contextid IN (". implode(',', $aZone) .")";
+                    }
                 }
 
                 //  retrieve all channels for the selected publisher
@@ -164,7 +173,9 @@ class OA_Dll_Userlog extends OA_Dll
                     while($oChannel->fetch()) {
                         $aChannel[] = $oChannel->channelid;
                     }
-                    $where .= " OR context = 'Channel' AND contextid IN (". implode(',', $aChannel) .")";
+                    if (!empty($aCampaign)) {
+                        $where .= " OR context = 'Channel' AND contextid IN (". implode(',', $aChannel) .")";
+                    }
                 }
                 $oAudit->whereAdd($where);
             }
@@ -208,7 +219,7 @@ class OA_Dll_Userlog extends OA_Dll
 
                 switch($aAudit['context']) {
                 case 'Affiliate':
-                    if (is_null($aAudit['username'])) {
+                    if (empty($aAudit['username'])) {
                         $aAudit['username'] = 'Installer';
                     }
                     break;

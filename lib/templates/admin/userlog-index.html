@@ -16,7 +16,9 @@
 <input type='hidden' name='listorder' value='{$listorder}'>
 <input type='hidden' name='orderdirection' value='{$orderdirection}'>
 <input type='hidden' name='setPerPage' value='{$setPerPage}'>
-    
+<input type='hidden' name='origAdvertiserId' value='{$advertiserId}'>
+<input type='hidden' name='origPublisherId' value='{$publisherId}'>
+
 <fieldset id="auditFilter">
     <legend>{t str=Filters}</legend>
     
@@ -117,7 +119,7 @@
         if (form.advertiserId.options[form.advertiserId.selectedIndex].value != '') {
 	        var advertiserId = form.advertiserId.options[form.advertiserId.selectedIndex].value;
 	        aUrl.push('advertiserId=' + advertiserId);
-	        if (form.elements['campaignId'] && form.campaignId.disabled == false) {
+	        if (form.origAdvertiserId.value == advertiserId && form.elements['campaignId'] && form.campaignId.disabled == false) {
 	            var campaignId = form.campaignId.options[form.campaignId.selectedIndex].value;
 	            aUrl.push('campaignId=' + campaignId);
 	        }
@@ -125,7 +127,7 @@
         if (form.publisherId.options[form.publisherId.selectedIndex].value != '') {
             var publisherId = form.publisherId.options[form.publisherId.selectedIndex].value;
             aUrl.push('publisherId=' + publisherId);
-	        if (form.elements['zoneId'] && form.zoneId.disabled == false) {
+	        if (form.origPublisherId.value == publisherId && form.elements['zoneId'] && form.zoneId.disabled == false) {
 	            var zoneId = form.zoneId.options[form.zoneId.selectedIndex].value;
 	            aUrl.push('zoneId=' + zoneId);
 	        }
