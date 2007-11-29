@@ -48,7 +48,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                           'publisher_welcome', 'publisher_welcome_msg',
                           'content_gzip_compression', 'publisher_agreement',
                           'publisher_agreement_text', 'more_reports',
-                          'max_requireSSL', 'max_sslPort', 'admin_novice');
+                          'max_requireSSL', 'max_sslPort');
 
     $oConfig = new OA_Admin_Settings();
     $oConfig->setConfigChange('max', 'requireSSL',   $max_requireSSL);
@@ -61,9 +61,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($name)) {
         $oPreferences->setPrefChange('name', $name);
     }
-
-    $oPreferences->setPrefChange('admin_novice', isset($admin_novice));
-
 
     $oPreferences->setPrefChange('more_reports', $more_reports);
 
@@ -334,18 +331,7 @@ $aSettings = array (
                 'text'  => $sslPort
             ),
         )
-    ),
-    array (
-        'text'  => $strAdminConfirmationUI,
-        'items' => array (
-             array (
-                'type'    => 'checkbox',
-                'name'    => 'admin_novice',
-                'text'    => $strAdminNovice
-            ),
-        )
     )
-
 );
 
 $oOptions->show($aSettings, $aErrormessage);

@@ -244,6 +244,16 @@ $aSettings = array (
         )
     ),
     array (
+        'text'  => $strConfirmationUI,
+        'items' => array (
+             array (
+                'type'    => 'checkbox',
+                'name'    => 'novice',
+                'text'    => $strNovice
+            ),
+        )
+    ),
+    array (
         'text'  => $strStatisticsDefaults,
         'items' => array (
             array (
@@ -300,7 +310,7 @@ foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
         $GLOBALS['_MAX']['PREF'][$k.'_rank']  = serialize($GLOBALS['_MAX']['PREF'][$k.'_rank']);
 
         $show_headers = ($i++ == 0) ? $admin_settings : 0;
-        $aSettings[1]['items'][] = array (
+        $aSettings[2]['items'][] = array (
             'type'         => 'usertype_checkboxes',
             'name'         => $k,
             'text'         => sprintf(MAX_Plugin_Translation::translate('Show %s column', 'statisticsFieldsDelivery', null), $v),
@@ -309,14 +319,14 @@ foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
     }
 }
 
-$aSettings[1]['items'][] = array ('type' => 'break');
+$aSettings[2]['items'][] = array ('type' => 'break');
 
 // Add column labels settings from plugins
 $i = 0;
 foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
     foreach ($plugin->getVisibilitySettings() as $k => $v) {
         $show_headers = ($i++ == 0) ? $admin_settings : 0;
-        $aSettings[1]['items'][] = array (
+        $aSettings[2]['items'][] = array (
             'type'         => 'usertype_textboxes',
             'name'         => $k.'_label',
             'text'         => sprintf(MAX_Plugin_Translation::translate('Custom label for %s column', 'statisticsFieldsDelivery', null), $v),
@@ -325,14 +335,14 @@ foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
     }
 }
 
-$aSettings[1]['items'][] = array ('type' => 'break');
+$aSettings[2]['items'][] = array ('type' => 'break');
 
 // Add column labels settings from plugins
 $i = 0;
 foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
     foreach ($plugin->getVisibilitySettings() as $k => $v) {
         $show_headers = ($i++ == 0) ? $admin_settings : 0;
-        $aSettings[1]['items'][] = array (
+        $aSettings[2]['items'][] = array (
             'type'         => 'usertype_textboxes',
             'name'         => $k.'_rank',
             'text'         => sprintf(MAX_Plugin_Translation::translate('Rank of %s column', 'statisticsFieldsDelivery', null), $v),

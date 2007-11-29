@@ -192,7 +192,7 @@ $GLOBALS['strAdminCheckDaily']                       = 'Daily';
 $GLOBALS['strAdminCheckWeekly']                      = 'Weekly';
 $GLOBALS['strAdminCheckMonthly']                     = 'Monthly';
 $GLOBALS['strAdminCheckNever']                       = 'Never';
-$GLOBALS['strAdminNovice']                           = 'Admin\'s delete actions need confirmation for safety';
+$GLOBALS['strNovice']                                = 'Delete actions require confirmation for safety';
 $GLOBALS['strUserlogEmail']                          = 'Log all outgoing e-mail messages';
 $GLOBALS['strEnableDashboard']                       = "Enable dashboard";
 $GLOBALS['strTimezone']                              = "Timezone";
@@ -371,7 +371,7 @@ $GLOBALS['strDefaultBannerWeight']                   = 'Default Banner Weight';
 $GLOBALS['strDefaultCampaignWeight']                 = 'Default Campaign Weight';
 $GLOBALS['strDefaultBannerWErr']                     = 'Default banner weight should be a positive integer';
 $GLOBALS['strDefaultCampaignWErr']                   = 'Default campaign weight should be a positive integer';
-$GLOBALS['strAdminConfirmationUI']                   = 'Admin Confirmation in User Interface';
+$GLOBALS['strConfirmationUI']                        = 'Confirmation in User Interface';
 
 $GLOBALS['strPublisherDefaults']                     = 'Publisher defaults';
 $GLOBALS['strModesOfPayment']                        = 'Modes of payment';
