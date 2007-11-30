@@ -1057,7 +1057,7 @@ class Admin_DA
 
     function deleteAdZones($aParams, $allFields = false)
     {
-        return Admin_DA::_deleteEntities('ad_zone_assoc', $aParams, $allFields);
+        return SqlBuilder::_doDelete('ad_zone_assoc', $aParams);
     }
 
     // Advertisers
@@ -1329,10 +1329,14 @@ class Admin_DA
     function deletePlacementZones($aParams, $allFields = false)
     {
         $sucess = true;
-        if (!Admin_DA::_deleteEntities('placement_zone_assoc', $aParams, $allFields)) { $sucess = false; }
+        if (!SqlBuilder::_doDelete('placement_zone_assoc', $aParams))
+        {
+            $sucess = false;
+        }
         $pAds = Admin_DA::getAds(array('placement_id' => $aParams['placement_id']));
-        foreach ($pAds as $adId => $pAd) {
-            Admin_DA::deleteAdZones(array('zone_id' => $aParams['zone_id'], 'ad_id' => $adId));
+        foreach ($pAds as $adId => $pAd)
+        {
+            SqlBuilder::_doDelete('ad_zone_assoc',array('zone_id' => $aParams['zone_id'], 'ad_id' => $adId));
         }
         return $sucess;
     }

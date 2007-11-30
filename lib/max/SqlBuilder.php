@@ -1088,6 +1088,19 @@ class SqlBuilder
         }
     }
 
+    function _doDelete($table, $aParams)
+    {
+        $do = OA_Dal::factoryDO($table);
+        if ($do === false) {
+            return false;
+        }
+        $success = $do->setFrom($aParams);
+        if (!$success === true) {
+            return false;
+        }
+        return $do->delete();
+    }
+
 
     /**
      * Performs an SQL insert.
