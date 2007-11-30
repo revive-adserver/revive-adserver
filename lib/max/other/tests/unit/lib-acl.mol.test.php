@@ -76,45 +76,108 @@ class LibAclTest extends DalUnitTestCase
 
     function test_MAX_AclSave()
     {
+        // insert a channel
         $doChannel = OA_Dal::factoryDO('channel');
-        $channelId = DataGenerator::generateOne($doChannel, false);
-
+        $channelId = DataGenerator::generateOne($doChannel);
         $doChannel->channelid = $channelId;
 
-        $aEntities = array('agencyid' => 0, 'channelid' => $channelId);
+        // insert a banner
+        $doBanners = OA_Dal::factoryDO('banners');
+        $bannerId  = DataGenerator::generateOne($doBanners);
+        $doBanners->acls_updated = OA::getNow();
+        $doBanners->update();
+        $updated1  = $doBanners->acls_updated;
 
-        $page = 'channel-acl.php';
+        // save a banner limited by date/time
+        $aAcls[1]['data']             = '0,1';
+        $aAcls[1]['logical']          = 'and';
+        $aAcls[1]['type']             = 'Time:Day';
+        $aAcls[1]['comparison']       = '=~';
+        $aAcls[1]['executionorder']   = 1;
+        $sLimitation                  = "MAX_checkTime_Day('0,1', '=~')";
+        $aEntities                    = array('bannerid' => $bannerId);
 
-        $sLimitation = "MAX_checkClient_Domain('openads.org', '==')";
+        $this->assertTrue(MAX_AclSave(array($aAcls[1]), $aEntities, 'banner-acl.php'));
 
-        $comparison = '==';
-        $type = 'Client:Domain';
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
+        $this->assertTrue($doBanners);
+        $this->assertEqual($sLimitation, $doBanners->compiledlimitation);
 
-        $acls = array(
-            array(
-                'comparison' => '==',
-                'data' => 'openads.org',
-                'executionorder' => 1,
-                'logical' => 'and',
-                'type' => $type));
-        $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
+        $doAcls = OA_Dal::factoryDO('acls');
+        $doAcls->whereAdd('bannerid = '.$bannerId);
+        $this->assertTrue($doAcls->find(true));
+        $this->assertEqual($doAcls->bannerid, $bannerId);
+        $this->assertEqual($doAcls->logical, $aAcls[1]['logical']);
+        $this->assertEqual($doAcls->type, $aAcls[1]['type']);
+        $this->assertEqual($doAcls->comparison, $aAcls[1]['comparison']);
+        $this->assertEqual($doAcls->data, $aAcls[1]['data']);
+        $this->assertEqual($doAcls->executionorder, $aAcls[1]['executionorder']);
+        $this->assertFalse($doAcls->fetch());
+
+        // save a banner limited by channel
+        $aAcls[2]['data']              = $channelId;
+        $aAcls[2]['logical']           = 'and';
+        $aAcls[2]['type']              = 'Site:Channel';
+        $aAcls[2]['comparison']        = '=~';
+        $aAcls[2]['executionorder']    = 1;
+        $sLimitation                   = "(MAX_checkSite_Channel('1', '=~'))";
+        $aEntities                     = array('bannerid' => $bannerId);
+
+        $this->assertTrue(MAX_AclSave(array($aAcls[2]), $aEntities, 'banner-acl.php'));
+
+        $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
+        $this->assertTrue($doBanners);
+        $this->assertEqual($sLimitation, $doBanners->compiledlimitation);
+
+        $doAcls = OA_Dal::factoryDO('acls');
+        $doAcls->whereAdd('bannerid = '.$bannerId);
+        $this->assertTrue($doAcls->find(true));
+        $this->assertEqual($doAcls->bannerid, $bannerId);
+        $this->assertEqual($doAcls->logical, $aAcls[2]['logical']);
+        $this->assertEqual($doAcls->type, $aAcls[2]['type']);
+        $this->assertEqual($doAcls->comparison, $aAcls[2]['comparison']);
+        $this->assertEqual($doAcls->data, $aAcls[2]['data']);
+        $this->assertEqual($doAcls->executionorder, $aAcls[2]['executionorder']);
+        $this->assertFalse($doAcls->fetch());
+
+        // save a channel limited by domain
+        $aAcls['data']              = 'openads.org';
+        $aAcls['logical']           = 'and';
+        $aAcls['type']              = 'Client:Domain';
+        $aAcls['comparison']        = '==';
+        $aAcls['executionorder']    = 1;
+        $sLimitation                = "MAX_checkClient_Domain('openads.org', '==')";
+        $aEntities                  = array('channelid' => $channelId);
+
+        // pause to allow time to pass for acls_updated
+        sleep(1);
+        $this->assertTrue(MAX_AclSave(array($aAcls), $aEntities, 'channel-acl.php'));
 
         $doChannel = OA_Dal::staticGetDO('channel', $channelId);
         $this->assertTrue($doChannel);
         $this->assertEqual($sLimitation, $doChannel->compiledlimitation);
 
         $doAclsChannel = OA_Dal::factoryDO('acls_channel');
-        $doAclsChannel->channelid = $channelId;
-        $doAclsChannel->logical = 'and';
-        $doAclsChannel->type = $type;
-        $doAclsChannel->comparison = $comparison;
-        $doAclsChannel->data = 'openads.org';
-        $doAclsChannel->executionorder = 1;
-        $doAclsChannel->find();
-        $this->assertTrue($doAclsChannel->fetch());
+        $doAclsChannel->whereAdd('channelid = '.$channelId);
+        $this->assertTrue($doAclsChannel->find(true));
+        $this->assertEqual($doAclsChannel->channelid, $channelId);
+        $this->assertEqual($doAclsChannel->logical, $aAcls['logical']);
+        $this->assertEqual($doAclsChannel->type, $aAcls['type']);
+        $this->assertEqual($doAclsChannel->comparison, $aAcls['comparison']);
+        $this->assertEqual($doAclsChannel->data, $aAcls['data']);
+        $this->assertEqual($doAclsChannel->executionorder, $aAcls['executionorder']);
+        $this->assertFalse($doAclsChannel->fetch());
 
-        $acls = array();
-        $this->assertTrue(MAX_AclSave($acls, $aEntities, $page));
+        // changing a channel limitation should timestamp the banner
+        $doBanners = OA_Dal::factoryDO('banners');
+        $doBanners->bannerid = $bannerId;
+        $doBanners->find(true);
+        $updated2  = $doBanners->acls_updated;
+        $this->assertTrue(strtotime($updated2) > strtotime($updated1));
+
+        // remove the channel limitation
+        $aAcls = array();
+        $this->assertTrue(MAX_AclSave($aAcls, $aEntities, 'channel-acl.php'));
 
         $doChannel = OA_Dal::staticGetDO('channel', $channelId);
         $this->assertTrue($doChannel);
