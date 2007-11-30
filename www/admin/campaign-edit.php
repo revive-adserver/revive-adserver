@@ -990,7 +990,7 @@ echo "\t"."<td>"."\n";
 echo "\t\t"."<table>"."\n";
 
 echo "\t\t"."<tr>"."\n";
-echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_formRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
+echo "\t\t\t"."<td valign='top'><input type='radio' name='priority' value='-1'".($row['priority'] == '-1' ? ' checked' : '')." onClick=\"phpAds_formPriorityRadioClick(this);\" tabindex='".($tabindex++)."'></td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strExclusive."</td>"."\n";
 echo "\t\t\t"."<td valign='top'>".$strPriorityExclusive."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
@@ -1476,7 +1476,7 @@ $unique_names = $doCampaigns->getUniqueValuesFromColumn('campaignname', $row['ca
         // If an Exclusive campaign
         if (!f.priority[0].disabled && f.priority[0].checked) {
             phpAds_enableRadioButton('delivery', 'auto', false);
-            phpAds_enableRadioButthttp://85.221.229.114:8000/oap-public/www/admin/campaign-edit.php?clientid=1&campaignid=on('delivery', 'manual', false);
+            phpAds_enableRadioButton('delivery', 'manual', false);
             phpAds_enableRadioButton('delivery', 'none', true);
             phpAds_enableSelect('high_priority_value', false);
             phpAds_enableSelect('target_type', false);
