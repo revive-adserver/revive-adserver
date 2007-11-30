@@ -502,7 +502,7 @@ function modifyTableName($table)
 {
     $conf = $GLOBALS['_MAX']['CONF'];
     $oDbh = OA_DB::singleton();
-    return $oDbh->quoteIdentifier($conf['table'][$table].$conf['table']['prefix'], true);
+    return $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table'][$table], true);
 }
 
 ?>
