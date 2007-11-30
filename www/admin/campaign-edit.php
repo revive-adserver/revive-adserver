@@ -80,6 +80,7 @@ phpAds_registerGlobalUnslashed(
     ,'clientid'
     ,'status'
     ,'status_old'
+    ,'reject_rsn'
     ,'an_status'
     ,'previousimpressions'
     ,'previousconversions'
@@ -130,13 +131,13 @@ if (isset($submit)) {
             $conversions = 0;
         }
         // Set unlimited
-        if (!isset($rd_impr_bkd) || $rd_impr_bkd != 'on') {
+        if (!isset($rd_impr_bkd) || $rd_impr_bkd != 'no') {
             $impressions = -1;
         }
-        if (!isset($rd_click_bkd) || $rd_click_bkd != 'on') {
+        if (!isset($rd_click_bkd) || $rd_click_bkd != 'no') {
             $clicks = -1;
         }
-        if (!isset($rd_conv_bkd) || $rd_conv_bkd != 'on') {
+        if (!isset($rd_conv_bkd) || $rd_conv_bkd != 'no') {
             $conversions = -1;
         }
         if ($priority > 0) {
@@ -305,6 +306,7 @@ if (isset($submit)) {
 if (isset($submit_status)) {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignid = $campaignid;
+        $doCampaigns->reject_rsn = $reject_rsn;
         $doCampaigns->status     = $status;
         $doCampaigns->update();
 
@@ -401,8 +403,9 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
         $row['expire_month']        = $oExpireDate->format('%m');
         $row['expire_year']         = $oExpireDate->format('%Y');
     }
-    $row['status']              = $doCampaigns->status;
-    $row['an_status']              = $doCampaigns->an_status;
+    $row['status']                  = $doCampaigns->status;
+    $row['an_status']               = $doCampaigns->an_status;
+    $row['reject_rsn']              = $doCampaigns->reject_rsn;
 
     if (OA_Dal::isValidDate($data['activate'])) {
         $oActivateDate              = new Date($data['activate']);
@@ -685,6 +688,28 @@ function phpAds_showStatusText($status, $an_status = 0) {
                 echo '<span class="'.$class.'">' . $text . '</span>';
 }
 
+function phpAds_showStatusRejected($reject_reason) {
+    global $strReasonSiteNotLive, $strReasonBadCreative, $strReasonBadUrl,
+            $strReasonBreakTerms, $strCampaignStatusRejected;
+
+    switch ($reject_reason) {
+    	case OA_ENTITY_REJECT_NOTLIVE:
+    		$text = $strReasonSiteNotLive;
+    		break;
+    	case OA_ENTITY_REJECT_BADCREATIVE:
+    		$text = $strReasonBadCreative;
+    		break;
+    	case OA_ENTITY_REJECT_BADURL:
+    		$text = $strReasonBadUrl;
+    		break;
+    	case OA_ENTITY_REJECT_BREAKTERMS:
+    		$text = $strReasonBreakTerms;
+    		break;
+    }
+
+    echo $strCampaignStatusRejected . ": " . $text;
+}
+
 $tabindex = 1;
 
 echo "<br /><br />";
@@ -719,12 +744,12 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
                     if ($row['status'] == OA_ENTITY_STATUS_APPROVAL) {
                 ?>
                 <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_approve" /></td>
+                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_approve" tabindex='<?php echo ($tabindex++); ?>' /></td>
                     <td><label for="sts_approve"><?php echo $strCampaignApprove; ?></label></td>
                     <td><label for="sts_approve"> - <?php echo $strCampaignApproveDescription; ?></label></td>
                 </tr>
                 <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_REJECTED; ?>" name="status" id="sts_reject" /></td>
+                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_REJECTED; ?>" name="status" id="sts_reject" tabindex='<?php echo ($tabindex++); ?>' /></td>
                     <td><label for="sts_reject"><?php echo $strCampaignReject; ?></label></td>
                     <td><label for="sts_reject"> - <?php echo $strCampaignRejectDescription; ?></label></td>
                 </tr>
@@ -732,7 +757,7 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
                     } elseif ($row['status'] == OA_ENTITY_STATUS_RUNNING) {
                 ?>
                 <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_PAUSED; ?>" name="status" id="sts_pause" /></td>
+                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_PAUSED; ?>" name="status" id="sts_pause" tabindex='<?php echo ($tabindex++); ?>' /></td>
                     <td><label for="sts_pause"><?php echo $strCampaignPause; ?></label></td>
                     <td><label for="sts_pause"> - <?php echo $strCampaignPauseDescription; ?></label></td>
                 </tr>
@@ -740,9 +765,15 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
                     } elseif ($row['status'] == OA_ENTITY_STATUS_PAUSED) {
                 ?>
                 <tr>
-                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_restart" /></td>
+                    <td><input type="radio" value="<?php echo OA_ENTITY_STATUS_RUNNING; ?>" name="status" id="sts_restart" tabindex='<?php echo ($tabindex++); ?>' /></td>
                     <td><label for="sts_pause"><?php echo $strCampaignRestart; ?></label></td>
                     <td><label for="sts_pause"> - <?php echo $strCampaignRestartDescription; ?></label></td>
+                </tr>
+                <?php
+                    } elseif ($row['status'] == OA_ENTITY_STATUS_REJECTED) {
+                ?>
+                <tr>
+                    <td><?php phpAds_showStatusRejected($row['reject_rsn']); ?></td>
                 </tr>
                 <?php
                     }
@@ -761,20 +792,20 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
 </script>
 
 
-        <tr id="rsn_row1">
+        <tr id="rsn_row1" style="display:none;">
           <td><img width="100%" height="1" src="images/spacer.gif"/></td>
           <td colspan="2"><img width="200" vspace="6" height="1" src="images/break-l.gif"/></td>
         </tr>
 
-        <tr id="rsn_row2">
+        <tr id="rsn_row2" style="display:none;">
             <td width="30"></td>
             <td width="200" valign="top"><?php echo $strReasonForRejection; ?></td>
             <td>
-                <select name="sts_reject_rsn">
-                    <option value="rsn_not_live"><?php echo $strReasonSiteNotLive; ?></option>
-                    <option value="rsn_bad_creative"><?php echo $strReasonBadCreative; ?></option>
-                    <option value="rsn_bad_url"><?php echo $strReasonBadUrl; ?></option>
-                    <option value="rsn_break_terms"><?php echo $strReasonBreakTerms; ?></option>
+                <select name="reject_rsn">
+                    <option value="<?php echo OA_ENTITY_REJECT_NOTLIVE; ?>"><?php echo $strReasonSiteNotLive; ?></option>
+                    <option value="<?php echo OA_ENTITY_REJECT_BADCREATIVE; ?>"><?php echo $strReasonBadCreative; ?></option>
+                    <option value="<?php echo OA_ENTITY_REJECT_BADURL; ?>"><?php echo $strReasonBadUrl; ?></option>
+                    <option value="<?php echo OA_ENTITY_REJECT_BREAKTERMS; ?>"><?php echo $strReasonBreakTerms; ?></option>
                 </select>
             </td>
         </tr>
@@ -856,7 +887,7 @@ echo "<tr><td colspan='3'>\n";
 		<td colspan="4">
 		  <div>
 		    <div style="float: left;margin-right:10px;">
-		      <input type="radio" value="no" name="rd_impr_bkd" id="limitedimpressions" tabindex='<?php echo ($tabindex++); ?>' /><input class='flat' type='text' name='impressions' size='25'  value='<?php echo ($row["impressions"] >= 0 ? $row["impressions"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
+		      <input type="radio" value="no" name="rd_impr_bkd" id="limitedimpressions" tabindex='<?php echo ($tabindex++); ?>' <?php echo ($row["impressions"] >= 0 ? 'checked' : '') ?> /><input class='flat' type='text' name='impressions' size='25'  value='<?php echo ($row["impressions"] >= 0 ? $row["impressions"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
 		    </div>
 		    <div id="remainingImpressionsSection">
 			    <span id='remainingImpressions' >Impressions remaining:<span id='remainingImpressionsCount'>2500</span></span><br/>
@@ -883,7 +914,7 @@ echo "<tr><td colspan='3'>\n";
     <td colspan="4">
       <div>
         <div style="float: left;margin-right:10px;">
-          <input type="radio" value="no" name="rd_click_bkd" id="limitedclicks" tabindex='<?php echo ($tabindex++); ?>' /><input class='flat' type='text' name='clicks' size='25'  value='<?php echo ($row["clicks"] >= 0 ? $row["clicks"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
+          <input type="radio" value="no" name="rd_click_bkd" id="limitedclicks" tabindex='<?php echo ($tabindex++); ?>' <?php echo ($row["clicks"] >= 0 ? 'checked' : '') ?> /><input class='flat' type='text' name='clicks' size='25'  value='<?php echo ($row["clicks"] >= 0 ? $row["clicks"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
         </div>
         <div id="remainingClicksSection">
           <span  id='remainingClicks' >Clicks remaining:<span id='remainingClicksCount'>200</span></span><br/>
@@ -910,7 +941,7 @@ echo "<tr><td colspan='3'>\n";
     <td colspan="4">
       <div>
         <div style="float: left;margin-right:10px;">
-          <input type="radio" value="no" name="rd_conv_bkd" id="limitedconv" tabindex='<?php echo ($tabindex++); ?>' /><input class='flat' type='text' name='conversions' size='25'  value='<?php echo ($row["conversions"] >= 0 ? $row["conversions"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
+          <input type="radio" value="no" name="rd_conv_bkd" id="limitedconv" tabindex='<?php echo ($tabindex++); ?>' <?php echo ($row["conversions"] >= 0 ? 'checked' : '') ?> /><input class='flat' type='text' name='conversions' size='25'  value='<?php echo ($row["conversions"] >= 0 ? $row["conversions"] : '-') ?>' tabindex='<?php echo ($tabindex++); ?>'>
         </div>
         <div id="remainingConversionsSection">
           <span  id='remainingConversions' ><?php echo $strConversionsRemaining; ?>:<span id='remainingConversionsCount'><?php echo $row["conversionsRemaining"]; ?></span></span>
@@ -957,7 +988,7 @@ echo "<td width='30'>&nbsp;</td><td width='200'>".$strRevenueInfo."</td>"."\n";
 echo "<td>";
 echo "&nbsp;&nbsp;<input type='text' name='revenue' size='10' value='{$row["revenue"]}' tabindex='".($tabindex++)."'>&nbsp;";
 echo "&nbsp;&nbsp;";
-echo "<select name='revenue_type'>";
+echo "<select name='revenue_type' tabindex='".($tabindex++)."'>";
 echo "  <option value='".MAX_FINANCE_CPM."' ".(($row['revenue_type'] == MAX_FINANCE_CPM) ? ' SELECTED ' : '').">$strFinanceCPM</option>";
 echo "  <option value='".MAX_FINANCE_CPC."' ".(($row['revenue_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
 echo "  <option value='".MAX_FINANCE_CPA."' ".(($row['revenue_type'] == MAX_FINANCE_CPA) ? ' SELECTED ' : '').">$strFinanceCPA</option>";

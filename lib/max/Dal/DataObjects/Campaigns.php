@@ -65,6 +65,7 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     var $as_campaign_id;                  // int(11)  
     var $status;                          // int(11)  not_null
     var $an_status;                       // int(11)  not_null
+    var $as_reject_reason;                // int(11)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -76,7 +77,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     ###END_AUTOCODE
 
     var $defaultValues = array(
-        'active' => 't',
         'anonymous' => 'f'
     );
     
@@ -149,7 +149,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
         {
             case OA_AUDIT_ACTION_INSERT:
             case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['active']     = $this->_formatValue('active');
                         $aAuditFields['anonymous']  = $this->_formatValue('anonymous');
                         break;
             case OA_AUDIT_ACTION_UPDATE:
@@ -161,7 +160,6 @@ class DataObjects_Campaigns extends DB_DataObjectCommon
     {
         switch ($field)
         {
-            case 'active':
             case 'anonymous':
                 return $this->_boolToStr($this->$field);
             default:

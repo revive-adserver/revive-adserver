@@ -379,8 +379,6 @@ function formStateChanged(form)
       
   //when unsigning or signed up and no changes do nothing
   return result; 
-
-  return result;
 }
 
 
