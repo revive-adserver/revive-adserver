@@ -29,12 +29,22 @@ require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
 Class Test_OA_Admin_Settings extends UnitTestCase
 {
+    var $basePath;
+
+    function Test_OA_Admin_Settings()
+    {
+        $this->basePath = MAX_PATH . '/var/cache';
+    }
+
+    /**
+     * @todo Test n. 5 fails on Windows
+     */
     function testIsConfigWritable()
     {
         $oConf = new OA_Admin_Settings(true);
 
         // 1) Test we can write to an existing file.
-        $path = '/tmp';
+        $path = $this->basePath;
         $filename = 'oa_test_' . rand() . '.conf.php';
         $fp = fopen($path . '/' . $filename, 'w');
         fwrite($fp, 'foo');
@@ -43,26 +53,30 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         unlink($path . '/' . $filename);
 
         // 2) A non-existing file in an unwriteable location.
-        $this->assertFalse($oConf->isConfigWritable('/non_existent_dir/non_existent_file'));
+        $this->assertFalse($oConf->isConfigWritable($this->basePath . '/non_existent_dir/non_existent_file'));
 
         // 3) An existing file we don't have write permission for.
-        $path = '/tmp';
+        $path = $this->basePath;
         $filename = 'oa_test_' . rand() . '.conf.php';
         $fp = fopen($path . '/' . $filename, 'w');
         fwrite($fp, 'foo');
-        chmod($path . '/' . $filename, 0200);
         fclose($fp);
-        $this->assertFalse($oConf->isConfigWritable('/non_existent_dir/non_existent_file'));
+        chmod($path . '/' . $filename, 0400);
+        $this->assertFalse($oConf->isConfigWritable($path . '/' . $filename));
+        chmod($path . '/' . $filename, 0700);
         unlink($path . '/' . $filename);
 
         // 4) An empty directory we can write to.
-        $this->assertTrue($oConf->isConfigWritable('/tmp/non_existent_file'));
+        $this->assertTrue($oConf->isConfigWritable($this->basePath . '/non_existent_file'));
 
         // 5) An empty directory we cannot write to.
+        $path = $this->basePath;
         $dirname = 'oa_test_' . rand();
-        mkdir('/tmp/' . $dirname, 0500);
-        $this->assertFalse($oConf->isConfigWritable('/tmp/' . $dirname . '/non_existent_file'));
-        rmdir('/tmp/' . $dirname);
+        mkdir($path . '/'. $dirname);
+        chmod($path . '/'. $dirname, 0000);
+        $this->assertFalse($oConf->isConfigWritable($path . '/'. $dirname . '/non_existent_file'));
+        chmod($path . '/'. $dirname, 0700);
+        rmdir($path . '/'. $dirname);
     }
 
     function testSetBulkConfigChange()
@@ -96,17 +110,17 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf->conf['webpath']['delivery'] = 'localhost';
         $oConf->conf['webpath']['deliverySSL'] = 'localhost';
         $filename = 'oa_test_' . rand();
-        $this->assertTrue($oConf->writeConfigChange('/tmp', $filename), 'Error writing config file');
+        $this->assertTrue($oConf->writeConfigChange($this->basePath, $filename), 'Error writing config file');
 
         // The new config file will have been reparsed so global conf should have correct values.
         $oNewConf = new OA_Admin_Settings();
         $this->assertEqual($oConf->conf, $oNewConf->conf);
 
         // Clean up
-        unlink('/tmp/localhost.' . $filename . '.conf.php');
+        unlink($this->basePath . '/localhost.' . $filename . '.conf.php');
         unset($oNewConf);
 
-        // Test 2.
+        // Test 2.0
         // Write out a new "single host" config file
         $oConf = new OA_Admin_Settings(true);
 
@@ -114,19 +128,19 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf->conf['webpath']['admin'] = 'dummy';
         $oConf->conf['webpath']['delivery'] = 'dummy';
         $oConf->conf['webpath']['deliverySSL'] = 'dummy';
-        $this->assertTrue($oConf->writeConfigChange('/tmp'), 'Error writing config file');
-        $this->assertTrue(file_exists('/tmp/dummy.conf.php'), 'Config file does not exist');
+        $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
+        $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Config file does not exist');
 
         // Modify delivery settings to a different host
         $oConf->conf['webpath']['delivery'] = 'delivery';
         $oConf->conf['webpath']['deliverySSL'] = 'delivery';
-        $this->assertTrue($oConf->writeConfigChange('/tmp'), 'Error writing config file');
-        $this->assertTrue(file_exists('/tmp/dummy.conf.php'), 'Dummy config file does not exist');
-        $this->assertTrue(file_exists('/tmp/delivery.conf.php'), 'Real config file does not exist');
+        $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
+        $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Dummy config file does not exist');
+        $this->assertTrue(file_exists($this->basePath . '/delivery.conf.php'), 'Real config file does not exist');
 
         // Test both config files are correct
-        $aRealConfig = parse_ini_file('/tmp/delivery.conf.php', true);
-        $aDummyConfig = parse_ini_file('/tmp/dummy.conf.php', true);
+        $aRealConfig = parse_ini_file($this->basePath . '/delivery.conf.php', true);
+        $aDummyConfig = parse_ini_file($this->basePath . '/dummy.conf.php', true);
         $this->assertEqual($oConf->conf, $aRealConfig, 'Real config has incorrect values');
         $aExpected = array('realConfig' => 'delivery');
         $this->assertEqual($aExpected, $aDummyConfig, 'Dummy config has incorrect values');
@@ -134,29 +148,29 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // Modify the delivery to use three different hosts
         $oConf->conf['webpath']['delivery'] = 'newhost';
         $oConf->conf['webpath']['deliverySSL'] = 'newSSLhost';
-        $this->assertTrue($oConf->writeConfigChange('/tmp'), 'Error writing config file');
+        $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
 
         // Test the files have been correctly created/deleted
-        $this->assertTrue(file_exists('/tmp/dummy.conf.php'), 'Dummy admin config file does not exist');
-        $this->assertTrue(file_exists('/tmp/newhost.conf.php'), 'Real config file does not exist');
-        $this->assertTrue(file_exists('/tmp/newSSLhost.conf.php'), 'Dummy SSL delivery file does not exist');
-        $this->assertFalse(file_exists('/tmp/delivery.conf.php'), 'Old real config file was not removed');
+        $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Dummy admin config file does not exist');
+        $this->assertTrue(file_exists($this->basePath . '/newhost.conf.php'), 'Real config file does not exist');
+        $this->assertTrue(file_exists($this->basePath . '/newSSLhost.conf.php'), 'Dummy SSL delivery file does not exist');
+        $this->assertFalse(file_exists($this->basePath . '/delivery.conf.php'), 'Old real config file was not removed');
 
         // Test config files are correct
-        $aRealConfig = parse_ini_file('/tmp/newhost.conf.php', true);
-        $aDummyAdminConfig = parse_ini_file('/tmp/dummy.conf.php', true);
-        $aDummySSLConfig = parse_ini_file('/tmp/newSSLhost.conf.php', true);
+        $aRealConfig = parse_ini_file($this->basePath . '/newhost.conf.php', true);
+        $aDummyAdminConfig = parse_ini_file($this->basePath . '/dummy.conf.php', true);
+        $aDummySSLConfig = parse_ini_file($this->basePath . '/newSSLhost.conf.php', true);
         $this->assertEqual($oConf->conf, $aRealConfig, 'Real config has incorrect values');
         $aExpected = array('realConfig' => 'newhost');
         $this->assertEqual($aExpected, $aDummyAdminConfig, 'Dummy admin config has incorrect values');
         $this->assertEqual($aExpected, $aDummySSLConfig, 'Dummy SSL config has incorrect values');
 
         // Clean up
-        unlink('/tmp/dummy.conf.php');
-        @unlink('/tmp/delivery.conf.php'); // File should have been cleaned up by test.
-        @unlink('/tmp/default.' . $filename . '.conf.php'); // File may have been created
-        unlink('/tmp/newhost.conf.php');
-        unlink('/tmp/newSSLhost.conf.php');
+        unlink($this->basePath . '/dummy.conf.php');
+        @unlink($this->basePath . '/delivery.conf.php'); // File should have been cleaned up by test.
+        @unlink($this->basePath . '/default.' . $filename . '.conf.php'); // File may have been created
+        unlink($this->basePath . '/newhost.conf.php');
+        unlink($this->basePath . '/newSSLhost.conf.php');
     }
 
     /**
@@ -174,7 +188,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf->conf['webpath']['delivery'] = 'localhost';
         $oConf->conf['webpath']['deliverySSL'] = 'localhost3';
         $filename = 'oa_test_' . rand();
-        $folder = '/tmp/oa_test_' . rand();
+        $folder = $this->basePath . '/oa_test_' . rand();
         mkdir($folder);
         $this->assertEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Unexpected un-recognised config files detected');
 
@@ -210,7 +224,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oDistConf->conf['new'] = array('new_key' => 'new_value');
 
         $distFilename = 'oa_test_dist' . rand();
-        $this->assertTrue($oDistConf->writeConfigChange('/tmp', $distFilename, false), 'Error writing config file');
+        $this->assertTrue($oDistConf->writeConfigChange($this->basePath, $distFilename, false), 'Error writing config file');
 
         // Build a test user conf
         $oUserConf = new OA_Admin_Settings(true);
@@ -222,7 +236,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oUserConf->conf['webpath']['deliverySSL'] = 'localhost';
 
         $userFilename = 'oa_test_user' . rand();
-        $this->assertTrue($oUserConf->writeConfigChange('/tmp', $userFilename), 'Error writing config file');
+        $this->assertTrue($oUserConf->writeConfigChange($this->basePath, $userFilename), 'Error writing config file');
 
         $expected = array('foo' => array('one' => 'bar',
                                          'two' => 'baz',
@@ -232,13 +246,13 @@ Class Test_OA_Admin_Settings extends UnitTestCase
                                              'deliverySSL' => 'localhost'),
                           'new' => array('new_key' => 'new_value'));
 
-        $this->assertEqual($expected, $oUserConf->mergeConfigChanges('/tmp/disthost.' . $distFilename . '.conf.php'),
+        $this->assertEqual($expected, $oUserConf->mergeConfigChanges($this->basePath . '/disthost.' . $distFilename . '.conf.php'),
             'Config files don\'t match');
 
         // Clean up
-        unlink('/tmp/disthost.' . $distFilename . '.conf.php');
-        unlink('/tmp/localhost.' . $userFilename . '.conf.php');
-        unlink('/tmp/default.' . $distFilename . '.conf.php'); // File may have been created
+        unlink($this->basePath . '/disthost.' . $distFilename . '.conf.php');
+        unlink($this->basePath . '/localhost.' . $userFilename . '.conf.php');
+        unlink($this->basePath . '/default.' . $distFilename . '.conf.php'); // File may have been created
     }
 
     /**
@@ -250,7 +264,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConfig = new OA_Admin_Settings(true);
 
         $originalFilename = 'oa_test_' . rand() . '.conf.php';
-        $directory = '/tmp';
+        $directory = $this->basePath;
         touch($directory . '/' . $originalFilename);
         $now = date("Ymd");
         $expected = $now.'_old.' . $originalFilename;
@@ -266,14 +280,14 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertTrue(file_exists($directory . '/' . $expected1));
 
         // Clean up
-        unlink('/tmp/' . $originalFilename);
-        unlink('/tmp/' . $expected);
-        unlink('/tmp/' . $expected0);
-        unlink('/tmp/' . $expected1);
+        unlink($this->basePath . '/' . $originalFilename);
+        unlink($this->basePath . '/' . $expected);
+        unlink($this->basePath . '/' . $expected0);
+        unlink($this->basePath . '/' . $expected1);
 
         // Test a .ini file
         $originalFilename = 'oa_test_' . rand() . '.conf.ini';
-        $directory = '/tmp';
+        $directory = $this->basePath;
         touch($directory . '/' . $originalFilename);
         $now = date("Ymd");
         $expected = $now.'_old.' . $originalFilename.'.php';
@@ -282,8 +296,8 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual(';<'.'?php exit; ?>'."\r\n", file_get_contents($directory . '/' . $expected));
 
         // Clean up
-        unlink('/tmp/' . $originalFilename);
-        unlink('/tmp/' . $expected);
+        unlink($this->basePath . '/' . $originalFilename);
+        unlink($this->basePath . '/' . $expected);
     }
 
     /**
@@ -294,7 +308,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
     {
         // Test when backup filename doesn't already exist.
         $originalFilename = 'oa_test_' . rand() . '.conf.php';
-        $directory = '/tmp';
+        $directory = $this->basePath;
         $now = date("Ymd");
         touch($directory . '/' . $originalFilename);
         $expected = $now.'_old.' . $originalFilename;
@@ -316,7 +330,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
 
         // Test when .ini backup filename doesn't already exist.
         $originalFilename = 'oa_test_' . rand() . '.conf.ini';
-        $directory = '/tmp';
+        $directory = $this->basePath;
         $now = date("Ymd");
         touch($directory . '/' . $originalFilename);
         $expected = $now.'_old.' . $originalFilename.'.php';
