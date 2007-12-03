@@ -158,7 +158,7 @@ class Test_Priority extends UnitTestCase
         $oStartDate = new Date('2005-06-08 14:00:00');
         $oEndDate   = new Date('2005-06-11 23:00:00');
         $this->_validateDszihRowsRange($oStartDate, $oEndDate);
-        return;
+
         $oStartDate = new Date('2005-06-12 00:00:00');
         $oEndDate   = new Date('2005-06-15 13:00:00');
         $this->_validateDszihRowsRange($oStartDate, $oEndDate);
@@ -166,7 +166,7 @@ class Test_Priority extends UnitTestCase
         $this->assertEqual($this->_azaRows(), 7); // 4 proper associations + 3 default with zone 0
         // Test 1: Ensure correct number if links in the ad_zone_assoc table with priority > 0
         $this->assertEqual($this->_azaRows(true), 7);
-        // Test 1: Ensure correct number if links in the data_summary_ad_zone_assoc table with priority > 0
+        // Test 1: Ensure correct number if links in the data_summary_ad_zone_assoc table with priority >
         $this->assertEqual($this->_dsazaRows(true), 7);
         // Test 1: Ensure that the priorities in the ad_zone_assoc and data_summary_ad_zone_assoc
         // tables are set correctly
