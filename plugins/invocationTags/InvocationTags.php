@@ -125,9 +125,10 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
      */
     function isAllowed($extra = null)
     {
-        $pref = $GLOBALS['_MAX']['PREF'];
-        $invocationCode = $this->getPreferenceCode();
-        return isset($pref[$invocationCode]) ? $pref[$invocationCode] : false;
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $invocationCode = $this->getSettingCode();
+        $invocationCode = preg_replace('/allowedTags_/', '', $invocationCode);
+        return isset($aConf['allowedTags'][$invocationCode]) ? $aConf['allowedTags'][$invocationCode] : false;
     }
 
     /**
