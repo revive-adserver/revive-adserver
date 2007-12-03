@@ -15427,10 +15427,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['company_name'] = 'mysite.com';
         $aPreference['begin_of_week'] = '1';
         $aPreference['percentage_decimals'] = '2';
-        $aPreference['type_sql_allow'] = 't';
-        $aPreference['type_url_allow'] = 't';
-        $aPreference['type_web_allow'] = 'f';
-        $aPreference['type_html_allow'] = 't';
         $aPreference['type_txt_allow'] = 't';
         $aPreference['banner_html_auto'] = 't';
         $aPreference['admin'] = 'admin';
@@ -15447,7 +15443,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
         $aPreference['content_gzip_compression'] = 'f';
-        $aPreference['userlog_email'] = 't';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15462,8 +15457,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_header_foreground_color'] = '';
         $aPreference['gui_header_active_tab_color'] = '';
         $aPreference['gui_header_text_color'] = '';
-        $aPreference['gui_invocation_3rdparty_default'] = '0';
-        $aPreference['qmail_patch'] = 'f';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';
@@ -15506,10 +15499,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['override_gd_imageformat'] = '';
         $aPreference['begin_of_week'] = '1';
         $aPreference['percentage_decimals'] = '2';
-        $aPreference['type_sql_allow'] = 't';
-        $aPreference['type_url_allow'] = 't';
-        $aPreference['type_web_allow'] = 'f';
-        $aPreference['type_html_allow'] = 't';
         $aPreference['type_txt_allow'] = 't';
         $aPreference['banner_html_auto'] = 't';
         $aPreference['admin'] = 'admin';
@@ -15520,7 +15509,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['warn_agency'] = 't';
         $aPreference['warn_client'] = 't';
         $aPreference['warn_limit'] = '100';
-        $aPreference['admin_email_headers'] = '';
         $aPreference['admin_novice'] = 't';
         $aPreference['default_banner_weight'] = '1';
         $aPreference['default_campaign_weight'] = '1';
@@ -15529,7 +15517,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
         $aPreference['content_gzip_compression'] = 'f';
-        $aPreference['userlog_email'] = 't';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15544,8 +15531,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_header_foreground_color'] = '';
         $aPreference['gui_header_active_tab_color'] = '';
         $aPreference['gui_header_text_color'] = '';
-        $aPreference['gui_invocation_3rdparty_default'] = '1';
-        $aPreference['qmail_patch'] = 'f';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';
@@ -15589,10 +15574,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['override_gd_imageformat'] = '';
         $aPreference['begin_of_week'] = '1';
         $aPreference['percentage_decimals'] = '2';
-        $aPreference['type_sql_allow'] = 't';
-        $aPreference['type_url_allow'] = 't';
-        $aPreference['type_web_allow'] = 'f';
-        $aPreference['type_html_allow'] = 't';
         $aPreference['type_txt_allow'] = 't';
         $aPreference['banner_html_auto'] = 't';
         $aPreference['admin'] = 'admin';
@@ -15603,7 +15584,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['warn_agency'] = 't';
         $aPreference['warn_client'] = 't';
         $aPreference['warn_limit'] = '100';
-        $aPreference['admin_email_headers'] = '';
         $aPreference['admin_novice'] = 't';
         $aPreference['default_banner_weight'] = '1';
         $aPreference['default_campaign_weight'] = '1';
@@ -15612,7 +15592,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
         $aPreference['content_gzip_compression'] = 't';
-        $aPreference['userlog_email'] = 't';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15627,8 +15606,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_header_foreground_color'] = '';
         $aPreference['gui_header_active_tab_color'] = '';
         $aPreference['gui_header_text_color'] = '';
-        $aPreference['gui_invocation_3rdparty_default'] = '0';
-        $aPreference['qmail_patch'] = 'f';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';
@@ -15671,10 +15648,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['override_gd_imageformat'] = '';
         $aPreference['begin_of_week'] = '1';
         $aPreference['percentage_decimals'] = '2';
-        $aPreference['type_sql_allow'] = 't';
-        $aPreference['type_url_allow'] = 't';
-        $aPreference['type_web_allow'] = 'f';
-        $aPreference['type_html_allow'] = 't';
         $aPreference['type_txt_allow'] = 't';
         $aPreference['banner_html_auto'] = 't';
         $aPreference['admin'] = 'admin';
@@ -15685,7 +15658,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['warn_agency'] = 't';
         $aPreference['warn_client'] = 't';
         $aPreference['warn_limit'] = '100';
-        $aPreference['admin_email_headers'] = '';
         $aPreference['admin_novice'] = 't';
         $aPreference['default_banner_weight'] = '1';
         $aPreference['default_campaign_weight'] = '1';
@@ -15694,7 +15666,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
         $aPreference['content_gzip_compression'] = 'f';
-        $aPreference['userlog_email'] = 't';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15709,8 +15680,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_header_foreground_color'] = '';
         $aPreference['gui_header_active_tab_color'] = '';
         $aPreference['gui_header_text_color'] = '';
-        $aPreference['gui_invocation_3rdparty_default'] = '0';
-        $aPreference['qmail_patch'] = 'f';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';

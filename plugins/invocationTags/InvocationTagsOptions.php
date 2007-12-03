@@ -608,7 +608,7 @@ class Plugins_InvocationTagsOptions
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
-        $selectedOutputAdServer = (is_null($this->maxInvocation->thirdpartytrack)) ? $pref['gui_invocation_3rdparty_default'] : $this->maxInvocation->thirdpartytrack;
+        $selectedOutputAdServer = (is_null($this->maxInvocation->thirdpartytrack)) ? $conf['delivery']['clicktracking'] : $this->maxInvocation->thirdpartytrack;
         $maxInvocation =& $this->maxInvocation;
 
         $option = '';

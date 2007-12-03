@@ -38,14 +38,14 @@ require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 function phpAds_warningMail($campaign)
 {
     $oDbh =& OA_DB::singleton();
-	$conf = $GLOBALS['_MAX']['CONF'];
+	$aConf = $GLOBALS['_MAX']['CONF'];
 	global $strImpressionsClicksConversionsLow, $strMailHeader, $strWarnClientTxt;
 	global $strMailNothingLeft, $strMailFooter;
 	if ($pref['warn_admin'] || $pref['warn_client']) {
 		// Get the client which belongs to this campaign
         $query = "
 			SELECT *
-			FROM ".$conf['table']['prefix'].$conf['table']['clients'] ."
+			FROM ".$aConf['table']['prefix'].$aConf['table']['clients'] ."
 			WHERE clientid=". $oDbh->quote($campaign['clientid'], 'integer');
         $res = $oDbh->query($query);
 		if ($client = $res->fetchRow()) {
@@ -76,7 +76,7 @@ function phpAds_warningMail($campaign)
 			}
 			if ($pref['warn_client'] && $client["email"] != '') {
 				OA_Email::sendMail($Subject, $Body, $client['email'], $client['contact']);
-				if ($pref['userlog_email']) {
+				if ($aConf['email']['logOutgoing']) {
 					phpAds_userlogAdd(phpAds_actionWarningMailed, $campaign['campaignid'], $Subject."\n\n".$Body);
 				}
 			}

@@ -47,10 +47,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $override_gd_imageformat;         // string(4)
     var $begin_of_week;                   // int(2)
     var $percentage_decimals;             // int(2)
-    var $type_sql_allow;                  // string(1)  enum
-    var $type_url_allow;                  // string(1)  enum
-    var $type_web_allow;                  // string(1)  enum
-    var $type_html_allow;                 // string(1)  enum
     var $type_txt_allow;                  // string(1)  enum
     var $banner_html_auto;                // string(1)  enum
     var $admin;                           // string(64)
@@ -61,7 +57,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $warn_agency;                     // string(1)  enum
     var $warn_client;                     // string(1)  enum
     var $warn_limit;                      // int(9)  not_null
-    var $admin_email_headers;             // string(64)
     var $admin_novice;                    // string(1)  enum
     var $default_banner_weight;           // int(4)
     var $default_campaign_weight;         // int(4)
@@ -72,7 +67,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $publisher_welcome;               // string(1)  enum
     var $publisher_welcome_msg;           // blob(65535)  blob
     var $content_gzip_compression;        // string(1)  enum
-    var $userlog_email;                   // string(1)  enum
     var $gui_show_campaign_info;          // string(1)  enum
     var $gui_show_campaign_preview;       // string(1)  enum
     var $gui_campaign_anonymous;          // string(1)  enum
@@ -87,8 +81,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $gui_header_foreground_color;     // string(7)
     var $gui_header_active_tab_color;     // string(7)
     var $gui_header_text_color;           // string(7)
-    var $gui_invocation_3rdparty_default;    // string(50)  not_null
-    var $qmail_patch;                     // string(1)  enum
     var $updates_enabled;                 // string(1)  enum
     var $updates_cache;                   // blob(65535)  blob
     var $updates_timestamp;               // int(11)

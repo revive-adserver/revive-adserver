@@ -353,18 +353,6 @@ $GLOBALS['phpAds_hlp_delivery_caching'] = "
 		will seriously affect the performance.
 		";
 
-$GLOBALS['phpAds_hlp_type_sql_allow'] =
-$GLOBALS['phpAds_hlp_type_web_allow'] =
-$GLOBALS['phpAds_hlp_type_url_allow'] =
-$GLOBALS['phpAds_hlp_type_html_allow'] =
-$GLOBALS['phpAds_hlp_type_txt_allow'] = "
-        ".MAX_PRODUCT_NAME." can use different types of banners and store them in different
-        ways. The first two options are used for local storage of banners. You
-        can use the admin interface to upload a banner and ".MAX_PRODUCT_NAME." will store
-        the banner in the SQL database or on a web server. You can also use a banner
-		stored on an external web server, or use HTML or a simple text to generate a banner.
-		";
-
 $GLOBALS['phpAds_hlp_type_web_mode'] = "
         If you want to use banners stored on the web server, you need to configure
         this setting. If you want to store the banners in a local directory set
@@ -464,10 +452,6 @@ $GLOBALS['phpAds_hlp_admin_fullname'] = "
 $GLOBALS['phpAds_hlp_admin_email'] = "
         The administrator's e-mail address. This is used as from-address when
         sending statistics via email.
-		";
-
-$GLOBALS['phpAds_hlp_admin_email_headers'] = "
-        You can alter the e-mail headers used by the e-mails which ".MAX_PRODUCT_NAME." sends.
 		";
 
 $GLOBALS['phpAds_hlp_admin_novice'] = "

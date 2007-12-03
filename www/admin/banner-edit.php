@@ -363,11 +363,11 @@ MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners, $aEntit
 /*-------------------------------------------------------*/
 
 // Determine which bannertypes to show
-$show_sql   = $pref['type_sql_allow'];
-$show_web   = $pref['type_web_allow'];
-$show_url   = $pref['type_url_allow'];
-$show_html  = $pref['type_html_allow'];
-$show_txt   = $pref['type_txt_allow'];
+$show_sql   = $conf['allowedBanners']['sql'];
+$show_web   = $conf['allowedBanners']['web'];
+$show_url   = $conf['allowedBanners']['url'];
+$show_html  = $conf['allowedBanners']['html'];
+$show_txt   = $conf['allowedBanners']['text'];
 
 if (isset($type) && $type == "sql")      $show_sql     = true;
 if (isset($type) && $type == "web")      $show_web     = true;
