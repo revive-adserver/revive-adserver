@@ -80,7 +80,7 @@ phpAds_registerGlobalUnslashed(
     ,'clientid'
     ,'status'
     ,'status_old'
-    ,'reject_rsn'
+    ,'as_reject_reason'
     ,'an_status'
     ,'previousimpressions'
     ,'previousconversions'
@@ -305,9 +305,9 @@ if (isset($submit)) {
 
 if (isset($submit_status)) {
         $doCampaigns = OA_Dal::factoryDO('campaigns');
-        $doCampaigns->campaignid = $campaignid;
-        $doCampaigns->reject_rsn = $reject_rsn;
-        $doCampaigns->status     = $status;
+        $doCampaigns->campaignid       = $campaignid;
+        $doCampaigns->as_reject_reason = $as_reject_reason;
+        $doCampaigns->status           = $status;
         $doCampaigns->update();
 
         // Run the Maintenance Priority Engine process
@@ -405,7 +405,7 @@ if ($campaignid != "" || (isset($move) && $move == 't')) {
     }
     $row['status']                  = $doCampaigns->status;
     $row['an_status']               = $doCampaigns->an_status;
-    $row['reject_rsn']              = $doCampaigns->reject_rsn;
+    $row['as_reject_reason']        = $doCampaigns->as_reject_reason;
 
     if (OA_Dal::isValidDate($data['activate'])) {
         $oActivateDate              = new Date($data['activate']);
@@ -693,16 +693,16 @@ function phpAds_showStatusRejected($reject_reason) {
             $strReasonBreakTerms, $strCampaignStatusRejected;
 
     switch ($reject_reason) {
-    	case OA_ENTITY_REJECT_NOTLIVE:
+    	case OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE:
     		$text = $strReasonSiteNotLive;
     		break;
-    	case OA_ENTITY_REJECT_BADCREATIVE:
+    	case OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE:
     		$text = $strReasonBadCreative;
     		break;
-    	case OA_ENTITY_REJECT_BADURL:
+    	case OA_ENTITY_ADVSIGNUP_REJECT_BADURL:
     		$text = $strReasonBadUrl;
     		break;
-    	case OA_ENTITY_REJECT_BREAKTERMS:
+    	case OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS:
     		$text = $strReasonBreakTerms;
     		break;
     }
@@ -773,7 +773,7 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
                     } elseif ($row['status'] == OA_ENTITY_STATUS_REJECTED) {
                 ?>
                 <tr>
-                    <td><?php phpAds_showStatusRejected($row['reject_rsn']); ?></td>
+                    <td><?php phpAds_showStatusRejected($row['as_reject_reason']); ?></td>
                 </tr>
                 <?php
                     }
@@ -801,11 +801,11 @@ echo "<input type='hidden' name='clientid' value='".(isset($clientid) ? $clienti
             <td width="30"></td>
             <td width="200" valign="top"><?php echo $strReasonForRejection; ?></td>
             <td>
-                <select name="reject_rsn">
-                    <option value="<?php echo OA_ENTITY_REJECT_NOTLIVE; ?>"><?php echo $strReasonSiteNotLive; ?></option>
-                    <option value="<?php echo OA_ENTITY_REJECT_BADCREATIVE; ?>"><?php echo $strReasonBadCreative; ?></option>
-                    <option value="<?php echo OA_ENTITY_REJECT_BADURL; ?>"><?php echo $strReasonBadUrl; ?></option>
-                    <option value="<?php echo OA_ENTITY_REJECT_BREAKTERMS; ?>"><?php echo $strReasonBreakTerms; ?></option>
+                <select name="as_reject_reason">
+                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_NOTLIVE; ?>"><?php echo $strReasonSiteNotLive; ?></option>
+                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BADCREATIVE; ?>"><?php echo $strReasonBadCreative; ?></option>
+                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BADURL; ?>"><?php echo $strReasonBadUrl; ?></option>
+                    <option value="<?php echo OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS; ?>"><?php echo $strReasonBreakTerms; ?></option>
                 </select>
             </td>
         </tr>
