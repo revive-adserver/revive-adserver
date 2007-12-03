@@ -1,0 +1,313 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	color: #000;
+}
+body.hasSidebar {
+	background: #fff url(../images/ltr/background.gif) top left repeat-y;
+}
+body.hasInterface {
+	min-width: 1000px;
+	
+	/* Fix IE bug: min-width not supported */
+	-width: expression((document.documentElement.offsetWidth < 1020)? "1000px": "auto" );
+}
+
+
+a {
+	color: #039;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+
+#oaHeader {
+	position: relative;
+	background-color: #000063;
+	height: 56px;
+}
+
+#oaHeaderBranding {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+}
+
+.brandingDefault {
+	width: 180px;
+	height: 48px;
+	background: url(../images/logo.png) no-repeat;
+	text-indent: -1000px;
+
+	/* Fix IE bug: transparent PNG support */	
+	-background: none;
+	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo.png', sizingMethod='scale');
+}
+.brandingName {
+	height: 48px;
+	padding: 0 0 0 52px;
+	line-height: 48px;
+	font-size: 24px;
+	font-weight: bold;
+	color: #fff;
+	word-spacing: -0.4em;
+
+}
+.brandingName div {
+	position: absolute;
+	top: 8px;
+	left: 16px;
+	width: 36px;
+	height: 34px;
+	background: url(../images/logo-s.png) top left no-repeat;
+
+	/* Fix IE bug: transparent PNG support */	
+	-background: none;
+	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-s.png');
+}
+
+
+#oaSearch {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 24px;
+	width: 200px;
+	
+	background: #06c;
+	font-weight: bold;
+	color: #fff;
+	line-height: 24px;
+
+	border-left: 1px solid #09c;
+	border-bottom: 1px solid #09c;
+}
+#oaSearch form {
+	margin: 0;
+}
+#oaSearch label {
+	margin: 0 0 0 12px;
+}
+#oaSearch input {
+	border: none;
+}
+
+
+
+/*	Navigation */
+
+#oaNavigation {
+	position: relative;
+	top: -12px;
+	z-index: 2;
+	
+	background-color: #000063;
+	height: 26px;
+	line-height: 25px;
+}
+#oaNavigation ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+#oaNavigationTabs {
+	position: absolute;
+	top: 0;
+	left: 181px;
+}
+#oaNavigationTabs li {
+	float: left;
+	margin: 0 2px 0 0;
+}
+#oaNavigationTabs li a {
+	display: block;
+	float: left;
+	
+	background: #06c;
+	color: #fff;
+	font-size: 12px;
+	font-weight: bold;
+	
+	padding: 0 8px;
+	border-top: 1px solid #09c;
+	border-right: 1px solid #09c;
+	border-left: 1px solid #09c;
+}
+#oaNavigationTabs li.selected a {
+	border-color: #fff;
+	color: #06c;
+	background: #fff;
+}
+
+#oaNavigationExtra {
+	position: absolute;
+	top: 0;
+	right: 0;
+	color: #fff;
+}
+#oaNavigationExtra img {
+	position: relative;
+	border: none;
+
+	/* Fix IE: vertical align is wrong */
+	-top: 6px;
+}
+#oaNavigationExtra a {
+	color: #fff;
+	font-weight: bold;
+}
+#oaNavigationExtra li {
+	float: left;
+	margin: 0 12px 0 0;
+}
+#oaNavigationExtra .infoUser {
+	font-weight: bold;
+}
+
+
+
+
+#oaMain {
+	position: relative;
+	top: -12px;
+}
+
+
+#oaSidebar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	width: 160px;
+	margin: 0 1px 0 0;
+	padding: 0 0 0 20px;
+	color: #039;
+	
+	/* Fix IE bug: absolute position should not be relative to padding of parent element */
+	-left: -180px;
+}
+
+#oaSidebar h3 {
+	margin: 20px 0 4px;
+	font-size: 11px;
+}
+#oaSidebar ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+#oaSidebar ul li {
+	margin: 0;
+	padding: 0;
+}
+#oaSidebar #oaSidebarNavigation {
+	border-top: 1px solid #888;
+	border-bottom: 1px solid #888;
+}
+#oaSidebarNavigation li {
+	background: url(../images/caret-u.gif) left 3px no-repeat;
+}
+#oaSidebarNavigation .top {
+	background-image: url(../images/caret-t.gif);
+	background-position: left 7px;
+
+	padding: 4px 0;
+}
+#oaSidebarNavigation .first {
+	padding-top: 4px;
+	background-position: left 7px;
+	border-top: 1px solid #888;
+}
+#oaSidebarNavigation .current {
+	padding-bottom: 4px;
+}
+#oaSidebarNavigation a {
+	display: block;
+	padding: 0 0 0 20px;
+}
+
+#oaSidebar #oaSidebarContext {
+	border-bottom: 1px solid #888;
+	padding: 4px 0;
+}
+#oaSidebarContext li {
+	background: url(../images/box-0.gif) 18px 4px no-repeat;
+}
+#oaSidebarContext li.selected {
+	background-image: url(../images/box-1.gif);
+}
+#oaSidebarContext a {
+	display: block;
+	padding: 0 0 0 36px;
+}
+
+#oaSidebarShortcuts {
+	border-top: 1px solid #888;
+}
+#oaSidebarShortcuts li {
+	border-bottom: 1px solid #888;
+	background-repeat: no-repeat;
+	background-position: left center;
+	line-height: 24px;
+}
+#oaSidebarShortcuts li a {
+	padding: 0 0 0 20px;
+}
+
+
+#oaContents {
+	margin: 0;
+}
+.hasSidebar #oaContents {
+	margin: 0 0 0 181px;
+}
+
+#oaSection {
+	background: #fff url(../images/ltr/stab-bg.gif) left bottom repeat-x;
+	height: 26px;
+	line-height: 24px;
+}
+#oaSectionTabs {
+	margin: 0 0 0 40px;
+	padding: 0;
+	list-style-type: none;
+	white-space: nowrap;
+}
+#oaSectionTabs li {
+	float: left;
+	margin: 0 2px 0 0;
+}
+#oaSectionTabs li a {
+	display: block;
+	float: left;
+	
+	font-size: 12px;
+	font-weight: bold;
+	color: #666;
+	background: #f6f6f6;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	padding: 0 8px;
+	
+	white-space: nowrap;
+}
+#oaSectionTabs li.selected a {
+	color: #06c;
+	background: #fff;
+	border: 1px solid #888;
+	border-bottom: 1px solid #fff;
+}
+
+hr {
+	display: block;
+	border: none;
+	border-top: 1px solid #ddd;
+	
+	height: 1px;
+	margin: 4px 0 -8px;
+	padding: 0;
+}

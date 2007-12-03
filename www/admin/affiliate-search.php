@@ -65,16 +65,25 @@ if (!isset($compact))
 if (!isset($keyword))
     $keyword = '';
 
-?>
+// Send header with charset info
+header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
 
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html<?php echo $phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '' ?>>
     <head>
         <title><?php echo strip_tags($strSearch); ?></title>
-        <meta http-equiv='Content-Type' content='text/html<?php echo isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : "" ?>'>
-        <meta name='author' content='Openads - http://sourceforge.net/projects/max'>
-        <link rel='stylesheet' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css'>
-        <script language='JavaScript' src='interface.js'></script>
-        <script language='JavaScript'>
+        <meta name='generator' content='<?php echo MAX_PRODUCT_NAME; ?> v<?php echo OA_VERSION; ?> - http://<?php echo MAX_PRODUCT_URL; ?>' />
+    	<meta name='robots' content='noindex, nofollow' />
+        
+    	<link rel='stylesheet' type='text/css' href='css/chrome.css' />
+        <?php if ($phpAds_TextDirection != 'ltr'): ?>
+	    <link rel='stylesheet' type='text/css' href='{$imgPath}css/chrome-rtl.css' />
+        <?php endif; ?>
+
+        <link rel='stylesheet' type='text/css' href='images/<?php echo $phpAds_TextDirection; ?>/interface.css' />
+
+        <script type='text/javascript'>
         <!--
             function GoOpener(url, reload)
             {
@@ -82,7 +91,6 @@ if (!isset($keyword))
 
                 if (reload == true)
                 {
-                    // Reload
                     document.search.submit();
                 }
             }
@@ -90,10 +98,26 @@ if (!isset($keyword))
         </script>
     </head>
 
-<body bgcolor='#FFFFFF' text='#000000' leftmargin='0' topmargin='0' marginwidth='0' marginheight='0'>
-<?php
-    phpAds_writeHeader(true, true, $client, $campaign, $banner, $zone, $affiliate, $compact);
-?>
+<body>
+<div id='oaHeader'>
+	<?php phpAds_writeBranding(); ?>
+    
+	<div id='oaSearch'>
+		<form name='search' action='affiliate-search.php' method='post'>
+            <input type='hidden' name='client' value='<?php echo $client; ?>'>
+            <input type='hidden' name='campaign' value='<?php echo $campaign; ?>'>
+            <input type='hidden' name='banner' value='<?php echo $banner; ?>'>
+            <input type='hidden' name='zone' value='<?php echo $zone; ?>'>
+            <input type='hidden' name='affiliate' value='<?php echo $affiliate; ?>'>
+            <input type='hidden' name='compact' value='<?php echo $compact; ?>'>
+            <label>
+                <?php echo $strSearch; ?>: 
+                <input type='text' name='keyword' size='15' class='search' accesskey='<?php echo $keySearch; ?>'>
+            </label>
+        </form>
+	</div>
+</div>
+
 <!-- Top -->
 <br />
 

@@ -36,7 +36,6 @@ require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
 // Define defaults
-$phpAds_Message     = '';
 $phpAds_NavID        = '';
 $phpAds_GUIDone     = false;
 $phpAds_context        = array();
@@ -73,102 +72,22 @@ function phpAds_PageShortcut($name, $link, $icon)
     );
 }
 
-function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $client='', $campaign='', $banner='', $zone='', $affiliate='', $compact='', $imgPath='')
-{
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $pref = $GLOBALS['_MAX']['PREF'];
-    global $phpAds_TextAlignRight, $phpAds_TextDirection, $keySearch, $strSearch;
-    $headerBackgroundColor = phpAds_getHeaderBackgroundColor();
-    $headerForegroundColor = phpAds_getHeaderForegroundColor();
-    $keyLineColor = phpAds_getKeyLineColor();
 
-    if ($displaySearch) {
-        $searchUrl = phpAds_isUser(phpAds_Affiliate) ? 'affiliate-search.php' : 'admin-search.php';
-        if ($fromSearchWindow) {
-            $form = "<form name='search' action='{$searchUrl}' method='post'>
-            <input type='hidden' name='client' value='$client'>
-            <input type='hidden' name='campaign' value='$campaign'>
-            <input type='hidden' name='banner' value='$banner'>
-            <input type='hidden' name='zone' value='$zone'>
-            <input type='hidden' name='affiliate' value='$affiliate'>
-            <input type='hidden' name='compact' value='$compact'>";
-        } else {
-            $form = "\t\t<form name='search' action='{$searchUrl}' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, $searchUrl)."'); return false;\">\n";
-        }
-        $searchbar  = "\t\t<table cellpadding='0' cellspacing='0' border='0' bgcolor='#$headerForegroundColor'>\n";
-        $searchbar .= $form;
-        $searchbar .= "\t\t<tr height='24' width='1'>\n";
-        $searchbar .= "\t\t\t\t\t<td width='1' align='right'><table border='0' cellspacing='0' cellpadding='0' width='1'><tr height='17'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='17' width='1'></td></tr><tr height='7'><td width='1' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr></table></td>\n";
-        $searchbar .= "\t\t\t<td width='7' valign='bottom'><img src='".$imgPath."images/$phpAds_TextDirection/tab-bottomleftcorner-$headerBackgroundColor.gif' height='21' width='7'></td>\n";
-        $searchbar .= "\t\t\t<td class='tab-u'><img src='".$imgPath."images/spacer.gif' width='4'>$strSearch:</td>\n";
-        $searchbar .= "\t\t\t<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15' class='search' accesskey='".$keySearch."'>&nbsp;&nbsp;</td>\n";
-        $searchbar .= "\t\t\t<td><a href=\"javascript:search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, $searchUrl)."');\"><img src='".$imgPath."images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>\n";
-        $searchbar .= "\t\t\t<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
-        $searchbar .= "\t\t</tr>\n";
-        $searchbar .= "\t\t<tr height='1'>\n";
-        $searchbar .= "\t\t\t<td width='1' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' width='1' height='1'></td>\n";
-        $searchbar .= "\t\t\t<td width='7' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='7'></td>\n";
-        $searchbar .= "\t\t\t<td colspan='4' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-        $searchbar .= "\t\t</tr>\n";
-        $searchbar .= "\t\t</form>\n";
-        $searchbar .= "\t\t</table>\n";
-    } else {
-        $searchbar = "\t\t&nbsp;\n";
-    }
-    echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-    echo "<tr>\n";
-    if (empty($conf['ui']['applicationName']) && empty($conf['ui']['logoFilePath'])) {
-        echo "<td height='48' bgcolor='#$headerBackgroundColor' valign='bottom'>";
-        echo "<img src='{$imgPath}images/logo.gif'>";
-    } else {
-        if (empty($conf['ui']['logoFilePath'])) {
-            $productName = $conf['ui']['applicationName'];
-            $logo        = $imgPath.'images/logo-s.gif';
-        } else {
-            $productName = '';
-            $logo        = $imgPath.'images/'.$conf['ui']['logoFilePath'];
-        }
-    	$logo = !empty($conf['ui']['logoFilePath']) ? $imgPath.'images/'.$conf['ui']['logoFilePath'] : $imgPath.'images/logo-s.gif';
-        echo "<td height='48' bgcolor='#$headerBackgroundColor' valign='middle'>";
-        echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo}' align='top'>";
-        echo "<span class='phpAdsNew'>".$productName."</span>";
-    }
-    echo "</td>\n";
-    echo "\t<td bgcolor='#$headerBackgroundColor' valign='top' align='$phpAds_TextAlignRight'>\n";
-    echo $searchbar;
-    echo "\t</td>\n";
-    echo "</tr>\n";
-    echo "</table>\n";
-}
-
-function phpAds_getHeaderBackgroundColor()
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    return !empty($aConf['ui']['headerBackgroundColor']) ? $aConf['ui']['headerBackgroundColor'] : '000063';
-}
-
-function phpAds_getHeaderForegroundColor()
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    return !empty($aConf['ui']['headerForegroundColor']) ? $aConf['ui']['headerForegroundColor'] : '0066CC';
-}
-
-function phpAds_getHeaderActiveTabColor()
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    return !empty($aConf['ui']['headerActiveTabColor']) ? $aConf['ui']['headerActiveTabColor'] : 'FFFFFF';
-}
-
-function phpAds_getHeaderTextColor()
-{
-    $aConf = $GLOBALS['_MAX']['CONF'];
-    return !empty($aConf['ui']['headerTextColor']) ? $aConf['ui']['headerTextColor'] : 'FFFFFF';
-}
-
-function phpAds_getKeyLineColor()
+function phpAds_writeBranding() 
 {
     $pref = $GLOBALS['_MAX']['PREF'];
-    return !empty($pref['gui_header_key_line_color']) ? $pref['gui_header_key_line_color'] : '999999';
+
+    if (empty($conf['ui']['applicationName']) && empty($conf['ui']['logoFilePath'])) { 
+		  echo "<div id='oaHeaderBranding' class='brandingDefault'>" . MAX_PRODUCT_NAME . "</div>";
+    } 
+    else {
+      if (empty($conf['ui']['logoFilePath'])) {
+			 echo "<div id='oaHeaderBranding' class='brandingName'><div></div>{$conf['ui']['applicationName']}</div>";
+      } 
+      else {
+			 echo "<div id='oaHeaderBranding' class='brandingCustom'><img src='images/{$conf['ui']['logoFilePath']}' alt='{$conf['ui']['applicationName']}' /></div>";
+      }
+    }
 }
 
 
@@ -184,98 +103,75 @@ function phpAds_getKeyLineColor()
  */
 function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $pref = $GLOBALS['_MAX']['PREF'];
-    global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
-    global $phpAds_Message, $phpAds_GUIDone, $phpAds_NavID;
+    global $phpAds_TextDirection;
+    global $phpAds_GUIDone, $phpAds_NavID;
     global $phpAds_context, $phpAds_shortcuts;
     global $phpAds_nav, $pages;
     global $phpAds_CharSet;
-    global $strLogout, $strNavigation, $strShortcuts;
-    global $strAuthentification, $strSearch, $strHelp, $strStartOver, $strMyAccount;
-    global $keyHome, $keyUp, $keyNextItem, $keyPreviousItem, $keySearch, $session;
-    global $breakdown, $xajax;
+    global $xajax, $session;
+
+    $conf = $GLOBALS['_MAX']['CONF'];
+    $pref = $GLOBALS['_MAX']['PREF'];
+
     $phpAds_GUIDone = true;
     $phpAds_NavID   = $ID;
-    $mozbar = '';
-    $headerForegroundColor = phpAds_getHeaderForegroundColor();
-    $headerBackgroundColor = phpAds_getHeaderBackgroundColor();
-    $headerActiveTabColor = phpAds_getHeaderActiveTabColor();
-    $headerTextColor = phpAds_getHeaderTextColor();
-    $keyLineColor = phpAds_getKeyLineColor();
+
+    $tabbar = '';
+	$sidebar = '';
+	$head = '';
 
     // Travel navigation
-    $tabbar = '';
-    $tabbottom = '';
-    $tabtop = '';
     if ($ID != phpAds_Login && $ID != phpAds_Error) {
-        // Prepare Navigation
-        if (phpAds_isUser(phpAds_Admin)) {
-            $pages    = $phpAds_nav['admin'];
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $pages    = $phpAds_nav['agency'];
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $pages  = $phpAds_nav['client'];
-        } else {
-            $pages  = $phpAds_nav['affiliate'];
-        }
+		switch (true) {
+			case phpAds_isUser(phpAds_Admin):	$pages = $phpAds_nav['admin']; break;
+			case phpAds_isUser(phpAds_Agency):	$pages = $phpAds_nav['agency']; break;
+			case phpAds_isUser(phpAds_Client):	$pages = $phpAds_nav['client']; break;
+			default:							$pages = $phpAds_nav['affiliate']; break;
+		}
+		
         // Build sidebar
         $sections = explode(".", $ID);
         $sectionID = "";
-        $sidebar  = "\t\t\t\t<table width='160' cellpadding='0' cellspacing='0' border='0'>\n";
-        $sidebar .= "\t\t\t\t<tr>\n";
-        $sidebar .= "\t\t\t\t\t<td colspan='2' class='nav'><b>$strNavigation</b></td>\n";
-        $sidebar .= "\t\t\t\t</tr>\n";
-        $sidebar .= "\t\t\t\t<tr>\n";
-        $sidebar .= "\t\t\t\t\t<td colspan='2'><img src='".$imgPath."images/break.gif' height='1' width='160' vspace='4'></td>\n";
-        $sidebar .= "\t\t\t\t</tr>\n";
-        for ($i=0; $i<count($sections)-1; $i++) {
+		
+		$sidebar .= "<div id='oaSidebar'><h3>{$GLOBALS['strNavigation']}</h3>";
+		$sidebar .= "<ul id='oaSidebarNavigation'>"; 
+		
+        for ($i=0; $i<count($sections)-1; $i++) 
+		{
             $sectionID .= $sections[$i];
-            list($filename, $title) = each($pages["$sectionID"]);
+            list($filename, $title) = each($pages[$sectionID]);
             $sectionID .= ".";
+			
             if ($i==0) {
-                $sidebar .= "\t\t\t\t<tr>\n";
-                $sidebar .= "\t\t\t\t\t<td width='20' valign='top'><img src='".$imgPath."images/caret-t.gif' width='11' height='7'>&nbsp;</td>\n";
-                $sidebar .= "\t\t\t\t\t<td width='140'><a href='$filename'>$title</a></td>\n";
-                $sidebar .= "\t\t\t\t</tr>\n";
-                $sidebar .= "\t\t\t\t<tr>\n";
-                $sidebar .= "\t\t\t\t\t<td colspan='2'><img src='".$imgPath."images/break.gif' height='1' width='160' vspace='4'></td>\n";
-                $sidebar .= "\t\t\t\t</tr>\n";
-                $mozbar  .= "\t\t<link REL='top' HREF='$filename' TITLE='$title'>\n";
+				$sidebar .= "<li class='top'><a href='{$filename}'>{$title}</a></li>";
+                $head .= "<link rel='top' href='{$filename}' title='{$title}' />";
             } else {
-                $sidebar .= "\t\t\t\t<tr>\n";
-                $sidebar .= "\t\t\t\t\t<td width='20' valign='top'><img src='".$imgPath."images/caret-u.gif' width='11' height='7'>&nbsp;</td>\n";
-                $sidebar .= "\t\t\t\t\t<td width='140'><a href='$filename'".($i == count($sections) - 2 ? " accesskey='".$keyUp."'" : "").">$title</a></td>\n";
-                $sidebar .= "\t\t\t\t</tr>\n";
+				$sidebar .= "<li class='up" . ($i == 1 ? " first" : "") . "'>";
+				$sidebar .= "<a href='{$filename}'" . ($i == count($sections) - 2 ? " accesskey='{$GLOBALS['keyUp']}'" : "") . ">{$title}</a></li>";
             }
             if ($i == count($sections) - 2) {
-                $mozbar  .= "\t\t<link REL='up' HREF='$filename' TITLE='$title'>\n";
+                $head .= "<link rel='up' href='{$filename}' title='{$title}' />";
             }
         }
-        if (isset($pages["$ID"]) && is_array($pages["$ID"])) {
-            list($filename, $title) = each($pages["$ID"]);
-            $sidebar .= "\t\t\t\t<tr>\n";
-            $sidebar .= "\t\t\t\t\t<td width='20'valign='top'><img src='".$imgPath."images/caret-u.gif' width='11' height='7'>&nbsp;</td>\n";
-            $sidebar .= "\t\t\t\t\t<td width='140' class='nav'>$title</td>\n";
-            $sidebar .= "\t\t\t\t</tr>\n";
-            $sidebar .= "\t\t\t\t<tr>\n";
-            $sidebar .= "\t\t\t\t\t<td colspan='2'><img src='".$imgPath."images/break.gif' height='1' width='160' vspace='4'></td>\n";
-            $sidebar .= "\t\t\t\t</tr>";
-            $pagetitle  = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
+
+        if (isset($pages[$ID]) && is_array($pages[$ID])) {
+            list($filename, $title) = each($pages[$ID]);
+			$sidebar .= "<li class='" . (count($sections) == 2 ? "first " : "") . (count($sections) > 1 ? "current" : "top") . "'>";
+			$sidebar .= "<a href='{$filename}'>{$title}</a></li>";
+            $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
             $pagetitle .= ' - '.$title;
         } else {
             $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         }
 
-        $up_limit = count($phpAds_context);
-        $down_limit=0;
+		$sidebar .= "</ul>";
+        
+		$up_limit = count($phpAds_context);
+        $down_limit = 0;
 
         // Build Context
         if (count($phpAds_context)) {
-            $sidebar .= "\t\t\t\t<tr>\n";
-            $sidebar .= "\t\t\t\t\t<td width='20'>&nbsp;</td>\n";
-            $sidebar .= "\t\t\t\t\t<td width='140'>\n";
-            $sidebar .= "\t\t\t\t\t\t<table width='140' cellpadding='0' cellspacing='0' border='0'>\n";
+			$sidebar .= "<ul id='oaSidebarContext'>"; 
             $selectedcontext = '';
             for ($ci=$down_limit; $ci < $up_limit; $ci++) {
                 if ($phpAds_context[$ci]['selected']) {
@@ -284,178 +180,106 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             }
             for ($ci=$down_limit; $ci < $up_limit; $ci++) {
                 $ac = '';
-                if ($ci == $selectedcontext - 1) $ac = $keyPreviousItem;
-                if ($ci == $selectedcontext + 1) $ac = $keyNextItem;
-                if ($phpAds_context[$ci]['selected']) {
-                    $sidebar .= "\t\t\t\t\t\t<tr>\n";
-                    $sidebar .= "\t\t\t\t\t\t\t<td width='20' valign='top'><img src='".$imgPath."images/box-1.gif'>&nbsp;</td>\n";
-                } else {
-                    $sidebar .= "\t\t\t\t\t\t<tr>\n";
-                    $sidebar .= "\t\t\t\t\t\t\t<td width='20' valign='top'><img src='".$imgPath."images/box-0.gif'>&nbsp;</td>\n";
-                }
-                $sidebar .= "\t\t\t\t\t\t\t<td width='120'><a href='".$phpAds_context[$ci]['link']."'".($ac != '' ? " accesskey='".$ac."'" : "").">";
-                $sidebar .= str_replace('-', '-<wbr />', $phpAds_context[$ci]['name'])."</a></td>\n";
-                $sidebar .= "\t\t\t\t\t\t</tr>\n";
+                if ($ci == $selectedcontext - 1) $ac = $GLOBALS['keyPreviousItem'];
+                if ($ci == $selectedcontext + 1) $ac = $GLOBALS['keyNextItem'];
+				
+				$sidebar .= "<li" . ($phpAds_context[$ci]['selected'] ? " class='selected'" : "") . ">";
+				$sidebar .= "<a href='{$phpAds_context[$ci]['link']}'" . ($ac != '' ? " accesskey='" . $ac . "'" : "") . ">";
+				$sidebar .= "{$phpAds_context[$ci]['name']}</a></li>";
             }
-            $sidebar .= "\t\t\t\t\t\t</table>\n";
-            $sidebar .= "\t\t\t\t\t</td>\n";
-            $sidebar .= "\t\t\t\t</tr>\n";
-            $sidebar .= "\t\t\t\t<tr>\n";
-            $sidebar .= "\t\t\t\t\t<td colspan='2'><img src='".$imgPath."images/break.gif' height='1' width='160' vspace='4'></td>\n";
-            $sidebar .= "\t\t\t\t</tr>\n";
+			$sidebar .= "</ul>"; 
         }
-        $sidebar .= "\t\t\t\t</table>\n";
+        
         // Include custom HTML for the sidebar
-        if ($extra != '') $sidebar .= $extra;
+        if ($extra != '') $sidebar .= "<div id='oaSidebarCustom'>{$extra}</div>";
+        
         // Include shortcuts
         if (count($phpAds_shortcuts)) {
-            $sidebar .= "\t\t\t\t<br><br><br>\n";
-            $sidebar .= "\t\t\t\t<table width='160' cellpadding='0' cellspacing='0' border='0'>\n";
-            $sidebar .= "\t\t\t\t<tr>\n";
-            $sidebar .= "\t\t\t\t\t<td colspan='2' class='nav'><b>$strShortcuts</b></td>\n";
-            $sidebar .= "\t\t\t\t</tr>\n";
+			$sidebar .= "<h3>{$GLOBALS['strShortcuts']}</h3>";
+			$sidebar .= "<ul id='oaSidebarShortcuts'>"; 
+
             for ($si=0; $si<count($phpAds_shortcuts); $si++) {
-                $sidebar .= "\t\t\t\t<tr>\n";
-                $sidebar .= "\t\t\t\t\t<td colspan='2'><img src='".$imgPath."images/break.gif' height='1' width='160' vspace='4'></td>\n";
-                $sidebar .= "\t\t\t\t</tr>\n";
-                $sidebar .= "\t\t\t\t<tr>\n";
-                $sidebar .= "\t\t\t\t\t<td width='20' valign='top'><img src='".$phpAds_shortcuts[$si]['icon']."' align='absmiddle'>&nbsp;</td>\n";
-                $sidebar .= "\t\t\t\t\t<td width='140'><a href='".$phpAds_shortcuts[$si]['link']."'>".$phpAds_shortcuts[$si]['name']."</a></td>\n";
-                $sidebar .= "\t\t\t\t</tr>\n";
-                $mozbar  .= "\t\t<link REL='bookmark' HREF='".$phpAds_shortcuts[$si]['link']."' TITLE='".$phpAds_shortcuts[$si]['name']."'>\n";
+				$sidebar .= "<li style='background-image: url({$phpAds_shortcuts[$si]['icon']});'>";
+				$sidebar .= "<a href='{$phpAds_shortcuts[$si]['link']}'>{$phpAds_shortcuts[$si]['name']}</a>";
+				$sidebar .= "</li>";
+                $head  .= "<link rel='bookmark' href='{$phpAds_shortcuts[$si]['link']}' title='{$phpAds_shortcuts[$si]['name']}' />";
             }
-            $sidebar .= "\t\t\t\t<tr>\n";
-            $sidebar .= "\t\t\t\t\t<td colspan='2'><img src='".$imgPath."images/break.gif' height='1' width='160' vspace='4'></td>\n";
-            $sidebar .= "\t\t\t\t</tr>\n";
-            $sidebar .= "\t\t\t\t</table>\n";
+			
+			$sidebar .= "</ul>"; 
         }
+		$sidebar .= "</div>";
+		
         // Build Tabbar
         $currentsection = $sections[0];
+        
         // Prepare Navigation
-        if (phpAds_isUser(phpAds_Admin)) {
-            $pages    = $phpAds_nav['admin'];
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $pages  = $phpAds_nav['agency'];
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            $pages  = $phpAds_nav['client'];
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $pages  = $phpAds_nav['affiliate'];
-        } else {
-            $pages  = array();
-        }
-        $i = 0;
-        $lastselected = false;
+		switch (true) {
+			case phpAds_isUser(phpAds_Admin):		$pages = $phpAds_nav['admin']; break;
+			case phpAds_isUser(phpAds_Agency):		$pages = $phpAds_nav['agency']; break;
+			case phpAds_isUser(phpAds_Client):		$pages = $phpAds_nav['client']; break;
+			case phpAds_isUser(phpAds_Affiliate):	$pages = $phpAds_nav['affiliate']; break;
+			default:								$pages = array(); break;
+		}
+
+		$tabbar .= "<ul id='oaNavigationTabs'>";
 
         foreach (array_keys($pages) as $key) {
             if (strpos($key, ".") == 0) {
                 list($filename, $title) = each($pages[$key]);
-                if ($i > 0) {
-                    $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-                    $tabtop .= "\t\t\t\t\t<td width='2'><img src='".$imgPath."images/spacer.gif' height='1' width='2'></td>\n";
-                    $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-                    $tabbar .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-                    $tabbar .= "\t\t\t\t\t<td width='2'><img src='".$imgPath."images/spacer.gif' height='1' width='2'></td>\n";
-                    $tabbar .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-                    $tabbottom .= "\t\t\t\t\t<td width='1' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-                    $tabbottom .= "\t\t\t\t\t<td width='2' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='2'></td>\n";
-                    $tabbottom .= "\t\t\t\t\t<td width='1' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-                } else {
-                    $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-                    $tabbar .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-                    $tabbottom .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-                }
                 if ($key == $currentsection) {
-                    $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-                    $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' valign='bottom' nowrap><img src='".$imgPath."images/spacer.gif' width='7'><a class='tab-s' href='$filename' accesskey='".$keyHome."'>$title</a><img src='".$imgPath."images/spacer.gif' width='7'></td>\n";
-                    $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' height='4'></td>\n";
-                    $lastselected = true;
+					$tabbar .= "<li class='selected'><a href='{$filename}' accesskey='{$GLOBALS['keyHome']}'>{$title}</a></li>";
                 } else {
-                    $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-                    $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerForegroundColor' valign='bottom' nowrap><img src='".$imgPath."images/spacer.gif' width='7'><a class='tab-u' href='$filename'>$title</a><img src='".$imgPath."images/spacer.gif' width='7'></td>\n";
-                    $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerForegroundColor' width='1'><img src='".$imgPath."images/spacer.gif' height='4' width='1'></td>\n";
-                    $lastselected = false;
+					$tabbar .= "<li><a href='{$filename}'>{$title}</a></li>";
                 }
             }
-            $i++;
         }
-        if ($lastselected) {
-            $tabbar .= "\t\t\t\t\t<td width='7' bgcolor='#$headerActiveTabColor' align='left' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td width='7' bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' width='7' height='4'></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-        } else {
-            $tabbar .= "\t\t\t\t\t<td width='7' bgcolor='#$headerForegroundColor' align='left' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td width='7' bgcolor='#$headerForegroundColor'><img src='".$imgPath."images/spacer.gif' width='7' height='4'></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-        }
-        if (phpAds_isLoggedIn() && ( phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) ) && !defined('phpAds_installing')) {
-            $searchbar  = "\t\t<table cellpadding='0' cellspacing='0' border='0' bgcolor='#$headerForegroundColor' height='24'>\n";
-            $searchbar .= "\t\t<form name='search' action='admin-search.php' target='SearchWindow' onSubmit=\"search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php')."'); return false;\">\n";
-            $searchbar .= "\t\t<tr>\n";
-            $searchbar .= "\t\t\t<td valign='bottom'>arlen<img src='".$imgPath."images/$phpAds_TextDirection/tab-bottomleftcorner-$headerBackgroundColor.gif' height='21' width='7'></td>\n";
-            $searchbar .= "\t\t\t<td class='tab-u'><img src='".$imgPath."images/spacer.gif' width='4'>$strSearch:</td>\n";
-            $searchbar .= "\t\t\t<td>&nbsp;&nbsp;<input type='text' name='keyword' size='15' class='search' accesskey='".$keySearch."'>&nbsp;&nbsp;</td>\n";
-            $searchbar .= "\t\t\t<td><a href=\"javascript:search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php')."');\"><img src='".$imgPath."images/".$phpAds_TextDirection."/go.gif' border='0'></a></td>\n";
-            $searchbar .= "\t\t\t<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>\n";
-            $searchbar .= "\t\t</tr>\n";
-            $searchbar .= "\t\t</form>\n";
-            $searchbar .= "\t\t</table>\n";
-
-        } else {
-            $searchbar = "\t\t&nbsp;\n";
-        }
-    } else {
-        $sidebar   = "\t\t\t\t&nbsp;\n";
-        $searchbar = "\t\t&nbsp;\n";
+		
+		$tabbar .= "</ul>";
+    } 
+    else {
+        $sidebar = "&nbsp;";
         $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
+		
         if ($ID == phpAds_Login) {
-            $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-            $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-            $tabbar    .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>$strAuthentification</a></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' height='4'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' align='right' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' height='4'></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
+			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>{$GLOBALS['strAuthentification']}</a></li></ul>";
         }
         if ($ID == phpAds_Error) {
-            $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
-            $tabtop .= "\t\t\t\t\t<td bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-            $tabbar    .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' valign='middle' nowrap>&nbsp;&nbsp;<a class='tab-s' href='index.php'>Error</a></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' height='4'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor' align='right' valign='top'><img src='".$imgPath."images/$phpAds_TextDirection/tab-toprightcorner-$headerBackgroundColor.gif' width='7' height='21'></td>\n";
-            $tabbar .= "\t\t\t\t\t<td><table border='0' cellspacing='0' cellpadding='0'><tr height='7'><td width='1'><img src='".$imgPath."images/spacer.gif' height='7' width='1'></td></tr><tr height='14'><td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='14' width='1'></td></tr></table></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$headerActiveTabColor'><img src='".$imgPath."images/spacer.gif' height='4'></td>\n";
-            $tabbottom .= "\t\t\t\t\t<td bgcolor='#$keyLineColor' width='1'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
+			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>Error</a></li></ul>";
         }
     }
+    
     // Use gzip content compression
-    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
+    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression'] == 't') {
         ob_start("ob_gzhandler");
     }
+    
     // Send header with charset info
     header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
+    
     // Head
-    echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
-
+	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
     echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
-    echo "\t<head>\n";
-    echo "\t\t<title>".$pagetitle."</title>\n";
-    echo "\t\t<meta name='generator' content='".MAX_PRODUCT_NAME." v".OA_VERSION." - http://".MAX_PRODUCT_URL."'>\n";
-    echo "\t\t<meta name='robots' content='noindex, nofollow'>\n\n";
-    echo "\t\t<link rel='stylesheet' href='".$imgPath."images/".$phpAds_TextDirection."/interface.css'>\n";
-    echo "\t\t<link rel='stylesheet' type='text/css' media='all' href='js/jscalendar/calendar-openads.css' title='openads'>\n";
-    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js-gui.js'></script>\n";
-    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/sorttable.js'></script>\n";
-    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/boxrow.js'></script>\n";
+    echo "<head>";
+    echo "<title>{$pagetitle}</title>";
+    echo "<meta name='generator' content='".MAX_PRODUCT_NAME." v".OA_VERSION." - http://".MAX_PRODUCT_URL."' />";
+    echo "<meta name='robots' content='noindex, nofollow' />";
+
+    echo "<link rel='stylesheet' type='text/css' href='{$imgPath}css/chrome.css' />";
+	if ($phpAds_TextDirection != 'ltr') {
+	    echo "<link rel='stylesheet' type='text/css' href='{$imgPath}css/chrome-rtl.css' />";
+	}
+
+	echo "<link rel='stylesheet' type='text/css' href='{$imgPath}images/{$phpAds_TextDirection}/interface.css' />";
+    echo "<link rel='stylesheet' type='text/css' href='{$imgPath}js/jscalendar/calendar-openads.css' />";
+    echo "<script type='text/javascript' src='{$imgPath}js-gui.js'></script>";
+    echo "<script type='text/javascript' src='{$imgPath}js/sorttable.js'></script>";
+    echo "<script type='text/javascript' src='{$imgPath}js/boxrow.js'></script>";
+
+
     if (!defined('phpAds_installing')) {
-        echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/formValidation.php'></script>\n";
+        echo "<script type='text/javascript' src='{$imgPath}js/formValidation.php'></script>";
     }
+    
     if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
         /**
          * @todo $xajax should exists! What is happening here?
@@ -465,136 +289,96 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         }
     }
 
-    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar.js'></script>\n";
-    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/lang/calendar-en.js'></script>\n";
-    echo "\t\t<script language='JavaScript' type='text/javascript' src='".$imgPath."js/jscalendar/calendar-setup.js'></script>\n";
+    echo "<script type='text/javascript' src='{$imgPath}js/jscalendar/calendar.js'></script>";
+    echo "<script type='text/javascript' src='{$imgPath}js/jscalendar/lang/calendar-en.js'></script>";
+    echo "<script type='text/javascript' src='{$imgPath}js/jscalendar/calendar-setup.js'></script>";
 
     if (!defined('phpAds_installing')) {
         // Include the flashObject resource file
-        echo "\t\t";
         echo MAX_flashGetFlashObjectExternal();
     }
 
     // Add jQuery css/scripts
-    echo "\n\t\t".'<link rel="stylesheet" type="text/css" media="all" href="css/jqModal.css" />';
-    echo "\n\t\t".'<link rel="stylesheet" type="text/css" media="all" href="css/oa.help.css" />';
-    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery-1.2.1.min.js"></script>';
-    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jqModal.js"></script>';
-    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/oa.addirect.js"></script>';
-    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/oa.help.js"></script>';
-    echo "\n\t\t".'<script language="JavaScript" type="text/javascript" src="js/jquery.dimensions.min.js"></script>';
-    echo "\n";
+    echo "<link rel='stylesheet' type='text/css' href='css/jqModal.css' />";
+    echo "<link rel='stylesheet' type='text/css' href='css/oa.help.css' />";
+    echo "<script type='text/javascript' src='js/jquery-1.2.1.min.js'></script>";
+    echo "<script type='text/javascript' src='js/jqModal.js'></script>";
+    echo "<script type='text/javascript' src='js/jquery-adnetworks.js'></script>";
+    echo "<script type='text/javascript' src='js/oa.help.js'></script>";
+    echo "<script type='text/javascript' src='js/jquery.dimensions.min.js'></script>";
 
-    // Show Moz site bar
-    echo $mozbar;
-    echo "\t</head>\n\n\n";
-    if ($showSidebar == false) {
-        echo "<body bgcolor='#FFFFFF' text='#000000' leftmargin='0' ";
-    } else {
-        echo "<body bgcolor='#FFFFFF' background='".$imgPath."images/".$phpAds_TextDirection."/background.gif' text='#000000' leftmargin='0' ";
-    }
-    echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'>\n";
+    // Include other elements that belong in the <head>
+    echo $head;
+	
+    echo "</head>";
+	echo "<body class='hasInterface" . ($showSidebar == true ? " hasSidebar" : "") . "' onload='initPage();'>";
+
     // Header
     if (isset($conf['ui']['headerFilePath']) && $conf['ui']['headerFilePath'] != '') {
         include ($conf['ui']['headerFilePath']);
     }
+
     // Branding and searchbar
+	echo "<div id='oaHeader'>";
+	phpAds_writeBranding();
+
     $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin|phpAds_Agency|phpAds_Affiliate) && !defined('phpAds_installing'));
-    phpAds_writeHeader($displaySearch, false, '', '', '', '', '', '', $imgPath);
-    // Spacer
-    echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-    echo "<tr>\n";
-    echo "\t<td colspan='2' height='6' bgcolor='#$headerBackgroundColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
-    echo "</tr>\n";
-    echo "</table>\n";
-    // Tabbar
-    echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-    echo "<tr>\n";
-    echo "\t<td height='24' width='181' bgcolor='#$headerBackgroundColor'>&nbsp;</td>\n";
-    echo "\t<td height='24' bgcolor='#$headerBackgroundColor'>\n";
-    echo "\t\t<table border='0' cellspacing='0' cellpadding='0' width='100%'>\n";
-    echo "\t\t<tr>\n";
+	if ($displaySearch) {
+        $searchUrl = phpAds_isUser(phpAds_Affiliate) ? 'affiliate-search.php' : 'admin-search.php';
+		echo "<div id='oaSearch'>";
+	    echo "<form name='search' action='{$searchUrl}' target='SearchWindow' onsubmit=\"search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, $searchUrl)."'); return false;\">";
+		echo "<label>{$GLOBALS['strSearch']}: <input type='text' name='keyword' size='15' class='search' accesskey='{$GLOBALS['keySearch']}'></label>";
+		echo "</form></div>";
+	}
+	echo "</div>";
+
+	echo "<div id='oaNavigation'>";
+	
     if ($showMainNav == true) {
-        echo "\t\t\t<td>\n";
-        echo "\t\t\t\t<table border='0' cellspacing='0' cellpadding='0'>\n";
-        echo "\t\t\t\t<tr height='1'>$tabtop</tr>\n";
-        echo "\t\t\t\t<tr>\n";
         echo $tabbar;
-        echo "\t\t\t\t</tr>\n";
-        echo "\t\t\t\t<tr height='3'>$tabbottom</tr>\n";
-        echo "\t\t\t\t</table>\n";
-        echo "\t\t\t</td>\n";
     }
-    echo "\t\t\t<td align='".$phpAds_TextAlignRight."' valign='middle' nowrap>";
-    // Show currently logged on user and IP address
-    if (phpAds_isLoggedIn()) {
-        echo "<span style='color:#$headerTextColor'><b>" . $session['username'] . "</b>&nbsp;[" . $_SERVER['REMOTE_ADDR']. "]</span>&nbsp;&nbsp;&nbsp;\n";
-    }
+    
+    // Show currently logged on user and IP
+	echo "<ul id='oaNavigationExtra'>";
+	
     if (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing')) {
-        if ($helpLink = OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID)) {
-            echo "\t\t\t\t<a class='topLink' style='color: #$headerTextColor' href='{$helpLink}' target='_blank'";
-            echo "onClick=\"openWindow('{$helpLink}','',";
-            echo "'status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">";
-            echo "<span>$strHelp</span> \n";
-            echo "<img src='".$imgPath."images/help.gif'></a>";
-            echo "&nbsp;&nbsp;&nbsp;\n";
-        }
         if (!defined('phpAds_installing')) {
-            // display logout button
-            echo "\t\t\t\t<a class='topLink' style='color: #$headerTextColor' href='logout.php'><span>$strLogout</span> \n";
-            echo "<img src='".$imgPath."images/logout.gif'></a>";
-            //  bug reporter button
-            echo "&nbsp;&nbsp;&nbsp;<a href='https://developer.openads.org/wiki/ReportingBugs' target='_blank'><img alt='Report a bug' src='".$imgPath."images/bug.png' border='0' /></a>";
-        }
-        else
-        {
-            // Openads is being installed, display the 'start over' link
-            echo "\t\t\t\t<a style='color: #$headerTextColor' href='index.php'><b>$strStartOver</b></a> \n";
-            echo "\t\t\t\t<a href='logout.php'><img src='".$imgPath."images/logout.gif' width='16' height='16' align='absmiddle' border='0'></a>";
+       		echo "<li class='infoUser'>{$session['username']} [{$_SERVER['REMOTE_ADDR']}]</li>";
+            echo "<li class='buttonLogout'><a href='logout.php'>{$GLOBALS['strLogout']}</a></li>";
+	        if ($helpLink = OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID)) {
+    	        echo "<li class='buttonHelp'><a href='{$helpLink}' target='_blank' onclick=\"openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">{$GLOBALS['strHelp']}</a></li>";
+        	}
+            echo "<li class='buttonReportBugs'><a href='https://developer.openads.org/wiki/ReportingBugs' target='_blank'><img alt='Report a bug' src='{$imgPath}images/bug.png' /></a></li>";
+        } else {
+			echo "<li class='buttonStartOver'><a href='index.php'>{$GLOBALS['strStartOver']}</a></li>";
+	        if ($helpLink = OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID)) {
+    	        echo "<li class='buttonHelp'><a href='{$helpLink}' target='_blank' onclick=\"openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">{$GLOBALS['strHelp']}</a></li>";
+        	}
+            echo "<li class='buttonLogout'><a href='logout.php'>{$GLOBALS['strLogout']}</a></li>";
         }
     }
-    echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\n";
-    echo "\t\t\t</td>\n";
-    echo "\t\t</tr>\n";
-    echo "\t\t</table>\n";
-    echo "\t</td>\n";
-    echo "</tr>\n";
-    echo "</table>\n\n";
-    echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-    echo "<tr>\n";
-    echo "\t<td colspan='2' height='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-    echo "</tr>\n";
-    echo "<tr>\n";
-    // Sidebar
-    if ($showSidebar == false) {
-    } else {
-        echo "\t<td valign='top'>\n";
-        echo "\t\t<table width='181' border='0' cellspacing='0' cellpadding='0'>\n";
-        // Spacer
-        echo "\t\t<tr>\n";
-        echo "\t\t\t<td colspan='2' height='15'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-        echo "\t\t</tr>\n";
-        // Navigation
-        echo "\t\t<tr>\n";
-        echo "\t\t\t<td width='20'>&nbsp;</td>\n";
-        echo "\t\t\t<td class='nav'>\n";
+	
+	echo "</ul>";		// oaNavigationExtra
+	echo "</div>";		// oaNavigation
+	
+	echo "<div id='oaMain'>";
+
+    if ($showSidebar != false) {
         echo $sidebar;
-        echo "\t\t\t</td>\n";
-        echo "\t\t</tr>\n";
-        echo "\t\t</table>\n";
-        echo "\t</td>\n";
     }
+    
     // Main contents
-    echo "\t<td valign='top' width='100%'>\n";
-    echo "\t\t<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-    echo "\t\t<tr>\n";
+	echo "<div id='oaContents'>";
+
+    echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
+    echo "<tr>";
     if (!$noBorder) {
-        echo "\t\t\t<td colspan='2' height='10'><img src='".$imgPath."images/spacer.gif' height='1'></td>\n";
-        echo "\t\t</tr>\n";
-        echo "\t\t<tr>\n";
-        echo "\t\t\t<td width='20'>&nbsp;</td>\n";
+        echo "<td colspan='2' height='10'><img src='".$imgPath."images/spacer.gif' height='1'></td>";
+        echo "</tr>";
+        echo "<tr>";
+        echo "<td width='20'>&nbsp;</td>";
     }
-    echo "\t\t\t<td>\n";
+    echo "<td>";
 }
 
 /*-------------------------------------------------------*/
@@ -606,31 +390,33 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
     $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
     global $session, $strMaintenanceNotActive;
-    global $phpAds_TextDirection, $phpAds_TextAlignLeft, $phpAds_TextAlignRight;
-    echo "\t\t\t</td>\n";
+
+    echo "</td>";
     if (!$noBorder) {
-        echo "\t\t\t<td width='40'>&nbsp;</td>\n";
-    echo "\t\t</tr>\n";
-    // Spacer
-    echo "\t\t<tr>\n";
-    echo "\t\t\t<td width='40' height='20'>&nbsp;</td>\n";
-    echo "\t\t\t<td height='20'>&nbsp;</td>\n";
+        echo "<td width='40'>&nbsp;</td>";
+	    echo "</tr>";
+    	// Spacer
+	    echo "<tr>";
+	    echo "<td width='40' height='20'>&nbsp;</td>";
+	    echo "<td height='20'>&nbsp;</td>";
     }
-    echo "\t\t</tr>\n";
+    echo "</tr>";
+
     // Footer
     if (isset($conf['ui']['footerFilePath']) && $conf['ui']['footerFilePath'] != '') {
-        echo "\t\t<tr>\n";
-        echo "\t\t\t<td width='40' height='20'>&nbsp;</td>\n";
-        echo "\t\t\t<td height='20'>";
+        echo "<tr>";
+        echo "<td width='40' height='20'>&nbsp;</td>";
+        echo "<td height='20'>";
         include ($conf['ui']['footerFilePath']);
-        echo "</td>\n";
-        echo "\t\t</tr>\n";
+        echo "</td>";
+        echo "</tr>";
     }
-    echo "\t\t</table>\n";
-    echo "\t</td>\n";
-    echo "</tr>\n";
-    echo "</table>\n";
-    echo "\n\n";
+    
+    echo "</table>";
+    
+	echo "</div>";		// oaContents
+	echo "</div>";		// oaMain
+
     if (!empty($session['RUN_MPE']) && $session['RUN_MPE'] === true) {
         echo "<div id='runMpe' name='runMpe'>&#160;</div>";
         echo "<script language='JavaScript' type='text/javascript'>";
@@ -645,8 +431,8 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
 
     if (!ereg("/(index|updates-product|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
         // Add Product Update redirector
-        if (phpAds_isUser(phpAds_Admin) && $conf['sync']['checkForUpdates'] == 't' && !isset($session['maint_update_js'])) {
-            echo "<script language='JavaScript' type='text/javascript' src='maintenance-updates-js.php'></script>\n";
+        if (phpAds_isUser(phpAds_Admin) && $conf['sync']['checkForUpdates'] == 't' && !isset($session['maint_update_js'])) { 
+            echo "<script type='text/javascript' src='maintenance-updates-js.php'></script>\n";
         }
         // Check if the maintenance script is running
         if (phpAds_isUser(phpAds_Admin)) {
@@ -655,7 +441,7 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
                 if ($pref['maintenance_timestamp'] > 0) {
                     // The maintenance script hasn't run in the
                     // last 24 hours, warn the user
-                    echo "<script language='JavaScript' type='text/javascript'>\n";
+                    echo "<script type='text/javascript'>\n";
                     echo "<!--//\n";
                     echo "\talert('".$strMaintenanceNotActive."');\n";
                     echo "\tlocation.replace('maintenance-maintenance.php');\n";
@@ -671,9 +457,9 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
             }
         }
     }
-    echo "</body>\n";
-    echo "</html>\n";
-    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
+    echo "</body>";
+    echo "</html>";
+    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression'] == 't') {
         ob_end_flush();
     }
 }
@@ -713,16 +499,13 @@ function showParams($params)
 function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgPath='', $customNav=false)
 {
     global $phpAds_nav, $phpAds_NavID;
-    global $phpAds_TextDirection, $phpAds_TextAlignRight, $phpAds_TextAlignLeft;
-    echo "\t\t\t</td>\n";
-    echo "\t\t</tr>\n";
-    echo "\t\t</table>\n";
-    echo "\t\t<table border='0' cellpadding='0' cellspacing='0' width='100%' background='".$imgPath."images/".$phpAds_TextDirection."/stab-bg.gif'>\n";
-    echo "\t\t<tr height='24'>\n";
-    echo "\t\t\t<td width='40'><img src='".$imgPath."images/".$phpAds_TextDirection."/stab-bg.gif' width='40' height='24'></td>\n";
-    echo "\t\t\t<td width='600' align='".$phpAds_TextAlignLeft."'>\n";
-    echo "\t\t\t\t<table border='0' cellpadding='0' cellspacing='0'>\n";
-    echo "\t\t\t\t<tr height='24'>\n";
+    
+	// Close current table
+	echo "</td></tr></table>";
+
+	echo "<div id='oaSection'>";
+	echo "<ul id='oaSectionTabs'>";
+
     // Prepare Navigation
     if ($customNav != false) {
         $pages  = $customNav;
@@ -735,88 +518,32 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
     } else {
         $pages  = $phpAds_nav['affiliate'];
     }
-    echo "\t\t\t\t\t<td></td>\n";
+	
     for ($i=0; $i < count($sections); $i++) {
-        list($sectionUrl, $sectionStr) = each($pages["$sections[$i]"]);
+        list($sectionUrl, $sectionStr) = each($pages[$sections[$i]]);
         $selected = ($phpAds_NavID == $sections[$i]);
         if ($selected) {
-            echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
-            if ($i > 0) {
-                echo "<img src='".$imgPath."images/".$phpAds_TextDirection."/stab-mus.gif' align='absmiddle'>";
-            } else {
-                echo "<img src='".$imgPath."images/".$phpAds_TextDirection."/stab-bs.gif' align='absmiddle'>";
-            }
-            echo "</td>\n";
-            echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-sb.gif' valign='middle' nowrap>";
-            echo "&nbsp;&nbsp;";
             if (!empty($sectionUrl)) {
-                echo "<a ";
+				echo "<li class='selected'><a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
+	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a></li>";
             } else {
-                echo "<span ";
+				echo "<li class='selected'>{$sectionStr}</li>";
             }
-            echo " class='tab-s' href='" . $sectionUrl;
-            if($params) {
-                echo showParams($params);
-            }
-            echo "' accesskey='".($i+1)."'>".$sectionStr;
-
-            if (!empty($sectionUrl)) {
-                echo "</a>";
-            } else {
-                echo "</span>";
-            }
-            echo "</td>\n";
         } else {
-            echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
-            if ($i > 0) {
-                if ($previousselected) {
-                    echo "<img src='".$imgPath."images/".$phpAds_TextDirection."/stab-msu.gif' align='absmiddle'>";
-                } else {
-                    echo "<img src='".$imgPath."images/".$phpAds_TextDirection."/stab-muu.gif' align='absmiddle'>";
-                }
-            } else {
-                echo "<img src='".$imgPath."images/".$phpAds_TextDirection."/stab-bu.gif' align='absmiddle'>";
-            }
-            echo "</td>\n";
-            echo "\t\t\t\t\t<td background='".$imgPath."images/".$phpAds_TextDirection."/stab-ub.gif' valign='middle' nowrap>";
-
-            echo "&nbsp;&nbsp;";
             if (!empty($sectionUrl)) {
-                echo "<a ";
+				echo "<li><a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
+	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a></li>";
             } else {
-                echo "<span ";
+				echo "<li>{$sectionStr}</li>";
             }
-            echo " class='tab-g' href='".$sectionUrl;
-            if($params) {
-                echo showParams($params);
-            }
-            echo "' accesskey='".($i+1)."'>".$sectionStr;
-            if (!empty($sectionUrl)) {
-                echo "</a>";
-            } else {
-                echo "</span>";
-            }
-            echo "</td>\n";
         }
         $previousselected = $selected;
     }
-    if ($previousselected) {
-        echo "\t\t\t\t\t<td><img src='".$imgPath."images/".$phpAds_TextDirection."/stab-es.gif'></td>\n";
-    } else {
-        echo "\t\t\t\t\t<td><img src='".$imgPath."images/".$phpAds_TextDirection."/stab-eu.gif'></td>\n";
-    }
-    echo "\t\t\t\t</tr>\n";
-    echo "\t\t\t\t</table>\n";
-    echo "\t\t\t</td>\n";
-    echo "\t\t\t<td>&nbsp;</td>\n";
-    echo "\t\t</tr>\n";
-    echo "\t\t</table>\n";
+	echo "</ul></div>";
+	
     if ($openNewTable==true) {
-        echo "\t\t<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-        echo "\t\t<tr>\n";
-        echo "\t\t\t<td width='40'>&nbsp;</td>\n";
-        echo "\t\t\t<td>\n";
-        echo "\t\t\t\t<br>\n";
+        echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
+        echo "<td width='40'>&nbsp;</td><td><br />";
     }
 }
 
@@ -826,19 +553,15 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
 
 function phpAds_ShowBreak($print = true, $imgPath = '')
 {
-    $buffer =  "\t\t\t</td>\n";
-    $buffer .= "\t\t\t<td width='40'>&nbsp;</td>\n";
-    $buffer .= "\t\t</tr>\n";
-    $buffer .= "\t\t</table>\n";
-    $buffer .= "\t\t<img src='".$imgPath."images/break-el.gif' height='1' width='100%' vspace='5'>\n";
-    $buffer .= "\t\t<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
-    $buffer .= "\t\t<tr>\n";
-    $buffer .= "\t\t\t<td width='40'>&nbsp;</td>\n";
-    $buffer .= "\t\t\t<td>\n";
+	$buffer = "</td></tr></table>";
+	$buffer .= "<hr />";
+	$buffer .= "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
+    $buffer .= "<td width='40'>&nbsp;</td><td><br />";
 
-    if($print) {
+    if ($print) {
         echo $buffer;
     }
+	
     return $buffer;
 }
 
@@ -950,12 +673,12 @@ function phpAds_DelConfirm($msg)
     $pref = $GLOBALS['_MAX']['PREF'];
     if (phpAds_isUser(phpAds_Admin)) {
         if ($pref['admin_novice']) {
-            $str = " onClick=\"return confirm('".$msg."')\"";
+            $str = " onclick=\"return confirm('".$msg."');\"";
         } else {
             $str = "";
         }
     } else {
-        $str = " onClick=\"return confirm('".$msg."')\"";
+        $str = " onclick=\"return confirm('".$msg."');\"";
     }
     return $str;
 }

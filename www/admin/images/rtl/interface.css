@@ -1,15 +1,4 @@
 
-/* Basic layout */
-
-body        
-{ 
-   background-position: top right;
-   background-repeat: repeat-y;
-   margin: 0px 0px 0px 0px;
-}
-
-
-
 /* Fonts */
 
 body, table, td, select, textarea, input  { 
@@ -17,56 +6,13 @@ body, table, td, select, textarea, input  {
     font-size: 12px; 
 }
 
-a { 
-    color: #003399; 
-    text-decoration: none; 
-}
-
-a:hover { 
-    text-decoration: underline; 
-}
-
-
-
-/* Tabs */
-
-.tab-s, .tab-u, .tab-g, .tab-r {
-    font-size: 14px;
-    font-weight: bold;
+span.link {
+    color: #003399;
     text-decoration: none;
 }
-
-.tab-s:hover, .tab-u:hover, .tab-g:hover, .tab-r:hover {
+span.link:hover {
     text-decoration: underline;
 }
-
-.tab-s {
-    color: #0066CC;
-}
-
-.tab-u {
-    color: #FFFFFF;
-}
-
-.tab-g {
-    color: #666666;
-}
-
-.tab-r {
-    color: #CC0000;
-}
-
-.tab-n {
-    color: #FFFFFF;
-    font-size: 11px;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.tab-n:hover {
-    text-decoration: underline;
-}
-
 
 
 /* Error message & help */
@@ -198,19 +144,6 @@ div.boxrow input {
 
 
 /* Custom */
-
-.phpAdsNew { 
-    font-family: Arial, Helvetica, sans-serif; 
-    font-size: 24px; 
-    font-style: italic; 
-    font-weight: bold; 
-    color: #FFFFFF; 
-}
-
-.nav { 
-    color: #003399; 
-}
-
 .install { 
     font-size: 1.1em;
     line-height: 21px;
