@@ -252,7 +252,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // Clean up
         unlink($this->basePath . '/disthost.' . $distFilename . '.conf.php');
         unlink($this->basePath . '/localhost.' . $userFilename . '.conf.php');
-        unlink($this->basePath . '/default.' . $distFilename . '.conf.php'); // File may have been created
+        @unlink($this->basePath . '/default.' . $distFilename . '.conf.php'); // File may have been created
     }
 
     /**
