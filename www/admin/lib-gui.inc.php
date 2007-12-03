@@ -644,7 +644,7 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
 
     if (!ereg("/(index|updates-product|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
         // Add Product Update redirector
-        if (phpAds_isUser(phpAds_Admin) && $pref['updates_enabled'] == 't' && !isset($session['maint_update_js'])) {
+        if (phpAds_isUser(phpAds_Admin) && $conf['sync']['checkForUpdates'] == 't' && !isset($session['maint_update_js'])) {
             echo "<script language='JavaScript' type='text/javascript' src='maintenance-updates-js.php'></script>\n";
         }
         // Check if the maintenance script is running

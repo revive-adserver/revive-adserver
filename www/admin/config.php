@@ -44,7 +44,7 @@ $oDbh = OA_DB::singleton();
 if (PEAR::isError($oDbh))
 {
     // Check if UI is enabled
-    if (!$conf['max']['uiEnabled']) {
+    if (!$conf['ui']['enabled']) {
         Language_Default::load();
         phpAds_PageHeader(phpAds_Login);
         phpAds_ShowBreak();

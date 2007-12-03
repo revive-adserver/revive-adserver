@@ -969,6 +969,7 @@ class OA_Email
             return true;
         }
 
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $aPref = $GLOBALS['_MAX']['PREF'];
         if (is_null($aPref)) {
             $aPref = OA_Admin_Preferences::loadPrefs();
@@ -991,7 +992,7 @@ class OA_Email
     	}
     	$headersParam .= 'From: "' . $aPref['admin_fullname'] . '" <' . $aPref['admin_email'].'>' . "\r\n";
     	// Use only \n as header separator when qmail is used
-    	if ($aPref['qmail_patch']) {
+    	if ($aConf['email']['qmailPatch']) {
     		$headersParam = str_replace("\r", '', $headersParam);
     	}
     	// Add \r to linebreaks in the contents for MS Exchange compatibility

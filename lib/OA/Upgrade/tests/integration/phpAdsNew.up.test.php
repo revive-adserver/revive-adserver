@@ -85,7 +85,7 @@ class Test_OA_phpAdsNew extends UnitTestCase
         $this->assertEqual($aResult['database']['name'],'pan_database','database not set');
         $this->assertFalse($aResult['database']['persistent'],'persistent incorrect');
 
-        $this->assertTrue($aResult['max']['uiEnabled'],'uiEnabled incorrect');
+        $this->assertTrue($aResult['ui']['enabled'],'"UI Enabled" incorrect');
         $this->assertFalse($aResult['openads']['requireSSL'], 'requireSSL incorrect');
         $this->assertTrue($aResult['maintenance']['autoMaintenance'], 'autoMaintenance incorrect');
         $this->assertFalse($aResult['logging']['reverseLookup'], 'reverseLookup incorrect');

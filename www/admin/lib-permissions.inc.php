@@ -344,7 +344,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         }
     }
 
-    if ($conf['max']['uiEnabled'] == true)
+    if ($conf['ui']['enabled'] == true)
     {
         echo "<br />";
         echo "<form name='login' method='post' action=\"".basename($_SERVER['PHP_SELF']);
