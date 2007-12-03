@@ -165,10 +165,12 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertEqual($aExpected, $aDummyAdminConfig, 'Dummy admin config has incorrect values');
         $this->assertEqual($aExpected, $aDummySSLConfig, 'Dummy SSL config has incorrect values');
 
+        // File should have been cleaned up by test.
+        $this->assertFalse(file_exists(($this->basePath . '/delivery.conf.php')));
+
         // Clean up
         unlink($this->basePath . '/dummy.conf.php');
-        @unlink($this->basePath . '/delivery.conf.php'); // File should have been cleaned up by test.
-        @unlink($this->basePath . '/default.' . $filename . '.conf.php'); // File may have been created
+        unlink($this->basePath . '/default.' . $filename . '.conf.php');
         unlink($this->basePath . '/newhost.conf.php');
         unlink($this->basePath . '/newSSLhost.conf.php');
     }
@@ -252,7 +254,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // Clean up
         unlink($this->basePath . '/disthost.' . $distFilename . '.conf.php');
         unlink($this->basePath . '/localhost.' . $userFilename . '.conf.php');
-        @unlink($this->basePath . '/default.' . $distFilename . '.conf.php'); // File may have been created
+        unlink($this->basePath . '/default.' . $distFilename . '.conf.php');
     }
 
     /**
