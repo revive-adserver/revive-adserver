@@ -93,14 +93,7 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $updates_cache;                   // blob(65535)  blob
     var $updates_timestamp;               // int(11)
     var $updates_last_seen;               // real(9)
-    var $allow_invocation_plain;          // string(1)  enum
-    var $allow_invocation_plain_nocookies;    // string(1)  enum
-    var $allow_invocation_js;             // string(1)  enum
-    var $allow_invocation_frame;          // string(1)  enum
-    var $allow_invocation_xmlrpc;         // string(1)  enum
-    var $allow_invocation_local;          // string(1)  enum
     var $allow_invocation_interstitial;    // string(1)  enum
-    var $allow_invocation_popup;          // string(1)  enum
     var $allow_invocation_clickonly;      // string(1)  enum
     var $auto_clean_tables;               // string(1)  enum
     var $auto_clean_tables_interval;      // int(2)

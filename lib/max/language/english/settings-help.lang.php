@@ -329,20 +329,6 @@ $GLOBALS['phpAds_hlp_warn_limit'] = "
         by default.
 		";
 
-$GLOBALS['phpAds_hlp_allow_invocation_plain'] =
-$GLOBALS['phpAds_hlp_allow_invocation_plain_nocookies'] =
-$GLOBALS['phpAds_hlp_allow_invocation_js'] =
-$GLOBALS['phpAds_hlp_allow_invocation_frame'] =
-$GLOBALS['phpAds_hlp_allow_invocation_xmlrpc'] =
-$GLOBALS['phpAds_hlp_allow_invocation_local'] =
-$GLOBALS['phpAds_hlp_allow_invocation_interstitial'] =
-$GLOBALS['phpAds_hlp_allow_invocation_popup'] = "
-		These settings allows you to control which invocation types are allowed.
-		If one of these invocation types are disabled they will not be available
-		in the invocationcode / bannercode generator. Important: the invocation methods
-		will still work if disabled, but they are not available for generation.
-		";
-
 $GLOBALS['phpAds_hlp_acl'] = "
         If you are not using delivery limitations you can disable this option with this parameter,
         this will speed up ".MAX_PRODUCT_NAME." a bit.
@@ -421,10 +407,10 @@ $GLOBALS['phpAds_hlp_type_web_ftp_password'] = "
 		external FTP server.
 		";
 
-$GLOBALS['phpAds_hlp_type_web_ftp_passive'] = " 
- 	    Some FTP servers and firewalls require transfers to use Passive Mode (PASV). 
- 	    If " . MAX_PRODUCT_NAME . " will need to use Passive Mode to connect to your 
- 	    FTP server, then enable this option. 
+$GLOBALS['phpAds_hlp_type_web_ftp_passive'] = "
+ 	    Some FTP servers and firewalls require transfers to use Passive Mode (PASV).
+ 	    If " . MAX_PRODUCT_NAME . " will need to use Passive Mode to connect to your
+ 	    FTP server, then enable this option.
  	    ";
 
 $GLOBALS['phpAds_hlp_type_web_url'] = "

@@ -158,14 +158,14 @@ if (isset($submit))
         // Ad  Networks
         $doPublisher = OA_Dal::factoryDO('affiliates');
         $doPublisher->get($affiliateid);
-        $anWebsiteId = ($doPublisher->an_website_id) ? 
+        $anWebsiteId = ($doPublisher->an_website_id) ?
                         $doPublisher->an_website_id : $doPublisher->as_website_id;
         if ($anWebsiteId) {
         	$oAdNetworks = new OA_Central_AdNetworks();
             $doZones->get($zoneid);
 			$oAdNetworks->updateZone($doZones, $anWebsiteId);
         }
-        
+
         // Reset append codes which called this zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->appendtype = phpAds_ZoneAppendZone;
@@ -391,7 +391,7 @@ if ($pref['allow_invocation_interstitial'] || $zone['delivery'] == phpAds_ZoneIn
     echo "&nbsp;<img src='images/icon-interstitial.gif' align='absmiddle'>&nbsp;".$strInterstitial."</td></tr>";
 }
 
-if ($pref['allow_invocation_popup'] || $zone['delivery'] == phpAds_ZonePopup)
+if ($conf['allowedTags']['popup'] || $zone['delivery'] == phpAds_ZonePopup)
 {
     echo "<tr><td><input type='radio' name='delivery' value='".phpAds_ZonePopup."'".($zone['delivery'] == phpAds_ZonePopup ? ' CHECKED' : '')." onClick='phpAds_formEnableSize();' onChange='oa_hide(\"warning_change_zone_type\");' tabindex='".($tabindex++)."'>";
     echo "&nbsp;<img src='images/icon-popup.gif' align='absmiddle'>&nbsp;".$strPopup."</td></tr>";
