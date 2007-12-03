@@ -79,18 +79,18 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         rmdir($path . '/'. $dirname);
     }
 
-    function testSetBulkConfigChange()
+    function testBulkSettingChange()
     {
         $oConf = new OA_Admin_Settings(true);
-        $oConf->setBulkConfigChange('foo', array('one' => 'bar', 'two' => 'baz'));
+        $oConf->bulkSettingChange('foo', array('one' => 'bar', 'two' => 'baz'));
         $expected = array('foo' => array('one' => 'bar', 'two' => 'baz'));
         $this->assertEqual($expected, $oConf->conf);
     }
 
-    function testSetConfigChange()
+    function testSettingChange()
     {
         $oConf = new OA_Admin_Settings(true);
-        $oConf->setConfigChange('group', 'item', 'value');
+        $oConf->settingChange('group', 'item', 'value');
         $expected = array('group' => array('item' => 'value'));
         $this->assertEqual($expected, $oConf->conf);
     }

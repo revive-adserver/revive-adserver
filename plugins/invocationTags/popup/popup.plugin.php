@@ -60,13 +60,18 @@ class Plugins_InvocationTags_popup_popup extends Plugins_InvocationTags
     }
 
     /**
-     * Return preference code
+     * Return setting configuration file code - required for plugins
+     * that store a value in the configuration file.
      *
-     * @return string
+     * Value returned should be NULL if the plugin does not store
+     * a value in the configuration file, otherwise it should be a
+     * string in the form "level_key".
+     *
+     * @return string The setting "code".
      */
-    function getPreferenceCode()
+    function getSettingCode()
     {
-        return 'allow_invocation_popup';
+        return 'allowedTags_popup';
     }
 
     /**

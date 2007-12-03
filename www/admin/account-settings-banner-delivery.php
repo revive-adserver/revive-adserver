@@ -29,167 +29,159 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Cache.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-$oOptions = new OA_Admin_Option('settings');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
-$aErrormessage = array();
-$redirectUploadFile = false;
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('settings');
 
-$aInvocationTags = MAX_Plugin::getPlugins('invocationTags');
-$aInvocationSettings = MAX_Plugin::callOnPlugins($aInvocationTags, 'getPreferenceCode');
-foreach($aInvocationSettings as $invocationSettingKey => $invocationSettingVal) {
-    if(empty($invocationSettingVal)) {
+// This page depends on invocationTags plugins, so get the required
+// information about all such plugins installed in this installation
+$aInvocationTags = &MAX_Plugin::getPlugins('invocationTags');
+$aInvocationSettings = MAX_Plugin::callOnPlugins($aInvocationTags, 'getSettingCode');
+foreach ($aInvocationSettings as $invocationSettingKey => $invocationSettingVal) {
+    if (empty($invocationSettingVal)) {
         unset($aInvocationSettings[$invocationSettingKey]);
     }
 }
 
+// This page depends on 3rdPartyServers plugins, so get the required
+// information about all such plugins installed in this installation]
+$a3rdPartyServers = &MAX_Plugin::getPlugins('3rdPartyServers');
+
+// Prepare an array for storing error messages
+$aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Register input variables
-    phpAds_registerGlobal(
-        'delivery_cacheExpire',
-        'webpath_admin', 'webpath_delivery', 'webpath_deliverySSL',
-        'webpath_images', 'webpath_imagesSSL',
-        'file_click', 'file_conversionvars', 'file_content', 'file_conversion',
-        'file_conversionjs', 'file_frame', 'file_image', 'file_js', 'file_layer',
-        'file_log', 'file_popup', 'file_view', 'file_xmlrpc', 'file_local', 'file_frontcontroller',
-        'file_flash',
-        'delivery_acls', 'delivery_obfuscate', 'delivery_execPhp',
-        'origin_type','origin_host','origin_port','origin_script','origin_timeout','origin_protocol',
-        'delivery_ctDelimiter',
-        'p3p_policies', 'p3p_compactPolicy', 'p3p_policyLocation', 'gui_invocation_3rdparty_default'
+    // Prepare an array of the HTML elements to process, and the
+    // location to save the values in the settings configuration
+    // file
+    $aElements = array();
+    // Allowed Invocation Types
+    foreach ($aInvocationSettings as $invocationSettingKey => $invocationSettingVal) {
+        $aElements[$invocationSettingVal] = array(
+            'allowedTags' => $invocationSettingKey,
+            'bool'        => true
+        );
+    }
+    // Banner Delivery Cache Settings
+    $aElements += array(
+        'delivery_cacheExpire' => array('delivery' => 'cacheExpire')
     );
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    foreach($aInvocationSettings as $invocationCode) {
-    	$oPreferences->setPrefChange($invocationCode, isset($_POST[$invocationCode]));
+    // Banner Delivery Settings
+    $aElements += array(
+        'delivery_acls' => array(
+            'delivery' => 'acls',
+            'bool'     => true
+        ),
+        'delivery_obfuscate' => array(
+            'delivery' => 'obfuscate',
+            'bool'     => true
+        ),
+        'delivery_execPhp' => array(
+            'delivery' => 'execPhp',
+            'bool'     => true
+        ),
+        'delivery_ctDelimiter' => array('delivery' => 'ctDelimiter')
+    );
+    // Invocation Defaults
+    $aElements += array(
+        'delivery_clicktracking' => array('delivery' => 'clicktracking')
+    );
+    // P3P Privacy Policies
+    $aElements += array(
+        'p3p_policies' => array(
+            'p3p'  => 'policies',
+            'bool' => true
+        ),
+        'p3p_compactPolicy'  => array('p3p' => 'compactPolicy'),
+        'p3p_policyLocation' => array('p3p' => 'policyLocation')
+    );
+    // Openads Server Access Paths
+    $aElements += array(
+        'webpath_admin' => array(
+            'webpath'      => 'admin',
+            'preg_match'   => '#/$#',
+            'preg_replace' => ''
+        ),
+        'webpath_delivery' => array(
+            'webpath'      => 'delivery',
+            'preg_match'   => '#/$#',
+            'preg_replace' => ''
+        ),
+        'webpath_deliverySSL' => array(
+            'webpath'      => 'deliverySSL',
+            'preg_match'   => '#/$#',
+            'preg_replace' => ''
+        ),
+        'webpath_images' => array(
+            'webpath'      => 'images',
+            'preg_match'   => '#/$#',
+            'preg_replace' => ''
+        ),
+        'webpath_imagesSSL' => array(
+            'webpath'      => 'imagesSSL',
+            'preg_match'   => '#/$#',
+            'preg_replace' => ''
+        )
+    );
+    // Delivery File Names
+    $aElements += array(
+        'file_click'           => array('file' => 'click'),
+        'file_conversionvars'  => array('file' => 'conversionvars'),
+        'file_content'         => array('file' => 'content'),
+        'file_conversion'      => array('file' => 'conversion'),
+        'file_conversionjs'    => array('file' => 'conversionjs'),
+        'file_frame'           => array('file' => 'frame'),
+        'file_image'           => array('file' => 'image'),
+        'file_js'              => array('file' => 'js'),
+        'file_layer'           => array('file' => 'layer'),
+        'file_log'             => array('file' => 'log'),
+        'file_popup'           => array('file' => 'popup'),
+        'file_view'            => array('file' => 'view'),
+        'file_xmlrpc'          => array('file' => 'xmlrpc'),
+        'file_local'           => array('file' => 'local'),
+        'file_frontcontroller' => array('file' => 'frontcontroller'),
+        'file_flash'           => array('file' => 'flash')
+    );
+    // Create a new settings object, and save the settings!
+    $oSettings = new OA_Admin_Settings();
+    $result = $oSettings->processSettingsFromForm($aElements);
+    if ($result) {
+        // The settings configuration file was written correctly,
+        // go to the "next" settings page from here
+        MAX_Admin_Redirect::redirect('account-settings-banner-logging.php');
     }
-
-    $oPreferences->setPrefChange('gui_invocation_3rdparty_default', $_POST['gui_invocation_3rdparty_default']);
-
-    // Set up the settings configuration file
-    $oConfig = new OA_Admin_Settings();
-    if (isset($delivery_cacheExpire)) {
-        $oConfig->setConfigChange('delivery', 'cacheExpire',  $delivery_cacheExpire);
-    }
-    if (isset($webpath_admin)) {
-        $oConfig->setConfigChange('webpath', 'admin',         preg_replace('#/$#', '', $webpath_admin));
-    }
-    if (isset($webpath_delivery)) {
-        $oConfig->setConfigChange('webpath', 'delivery',      preg_replace('#/$#', '', $webpath_delivery));
-    }
-    if (isset($webpath_deliverySSL)) {
-        $oConfig->setConfigChange('webpath', 'deliverySSL',   preg_replace('#/$#', '', $webpath_deliverySSL));
-    }
-    if (isset($webpath_images)) {
-        $oConfig->setConfigChange('webpath', 'images',        preg_replace('#/$#', '', $webpath_images));
-    }
-    if (isset($webpath_imagesSSL)) {
-        $oConfig->setConfigChange('webpath', 'imagesSSL',     preg_replace('#/$#', '', $webpath_imagesSSL));
-    }
-    if (isset($file_click)) {
-        $oConfig->setConfigChange('file', 'click',            $file_click);
-    }
-    if (isset($file_conversionvars)) {
-        $oConfig->setConfigChange('file', 'conversionvars',   $file_conversionvars);
-    }
-    if (isset($file_content)) {
-        $oConfig->setConfigChange('file', 'content',          $file_content);
-    }
-    if (isset($file_conversion)) {
-        $oConfig->setConfigChange('file', 'conversion',       $file_conversion);
-    }
-    if (isset($file_conversionjs)) {
-        $oConfig->setConfigChange('file', 'conversionjs',     $file_conversionjs);
-    }
-    if (isset($file_frame)) {
-        $oConfig->setConfigChange('file', 'frame',            $file_frame);
-    }
-    if (isset($file_image)) {
-        $oConfig->setConfigChange('file', 'image',            $file_image);
-    }
-    if (isset($file_js)) {
-        $oConfig->setConfigChange('file', 'js',               $file_js);
-    }
-    if (isset($file_layer)) {
-        $oConfig->setConfigChange('file', 'layer',            $file_layer);
-    }
-    if (isset($file_log)) {
-        $oConfig->setConfigChange('file', 'log',              $file_log);
-    }
-    if (isset($file_popup)) {
-        $oConfig->setConfigChange('file', 'popup',            $file_popup);
-    }
-    if (isset($file_view)) {
-        $oConfig->setConfigChange('file', 'view',             $file_view);
-    }
-    if (isset($file_xmlrpc)) {
-        $oConfig->setConfigChange('file', 'xmlrpc',           $file_xmlrpc);
-    }
-    if (isset($file_local)) {
-        $oConfig->setConfigChange('file', 'local',            $file_local);
-    }
-    if (isset($file_frontcontroller)) {
-        $oConfig->setConfigChange('file', 'frontcontroller',  $file_frontcontroller);
-    }
-    if (isset($file_flash)) {
-        $oConfig->setConfigChange('file', 'flash',  $file_flash);
-    }
-    $oConfig->setConfigChange('delivery', 'acls',             isset($delivery_acls));
-    $oConfig->setConfigChange('delivery', 'obfuscate',        isset($delivery_obfuscate));
-    $oConfig->setConfigChange('delivery', 'execPhp',          isset($delivery_execPhp));
-    if (isset($delivery_ctDelimiter)) {
-        $oConfig->setConfigChange('delivery', 'ctDelimiter',  $delivery_ctDelimiter);
-    }
-    $oConfig->setConfigChange('p3p', 'policies',              isset($p3p_policies));
-    if (isset($p3p_compactPolicy)) {
-        $oConfig->setConfigChange('p3p', 'compactPolicy',     $p3p_compactPolicy);
-    }
-    if (isset($p3p_policyLocation)) {
-        $oConfig->setConfigChange('p3p', 'policyLocation',    $p3p_policyLocation);
-    }
-
-    if (!count($aErrormessage)) {
-        if (!$oConfig->writeConfigChange()) {
-            // Unable to write the config file out
-            $aErrormessage[0][] = $strUnableToWriteConfig;
-        } else {
-            if (!$oPreferences->writePrefChange()) {
-                // Unable to update the preferences
-                $aErrormessage[0][] = $strUnableToWritePrefs;
-            } else {
-                if ($redirectUploadFile) {
-                    MAX_Admin_Redirect::redirect('settings-upload.php');
-                } else {
-                    MAX_Admin_Redirect::redirect('account-settings-banner-logging.php');
-                }
-            }
-        }
-    }
-
+    // Could not write the settings configuration file, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWriteConfig;
 }
 
+// Display the settings page's header and sections
 phpAds_PageHeader("5.2");
 phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-$oOptions->selection("banner-delivery");
 
-include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+// Set the correct section of the settings pages and display the drop-down menu
+$oOptions->selection('banner-delivery');
 
+// This page depends on invocationTags plugins, so use the plugin
+// information from earlier to generate the elements for the plugins
+// which is required in the next section
 $aInvocations =
     array(
         'text'  => $GLOBALS['strAllowedInvocationTypes'],
         'items' => array(),
     );
-
-foreach($aInvocationSettings as $pluginKey => $invocationCode) {
+foreach ($aInvocationSettings as $pluginKey => $invocationCode) {
     if ($aInvocationTags[$pluginKey] === false) {
         continue;
     }
@@ -199,21 +191,16 @@ foreach($aInvocationSettings as $pluginKey => $invocationCode) {
         'text' => $aInvocationTags[$pluginKey]->getAllowInvocationTypeForSettings(),
     );
 }
-
-// sort invocationSettings by settings text
 function MAX_sortSetting($a, $b)
 {
    return strcmp($a['text'], $b['text']);
 }
 usort($aInvocations[0]['items'], 'MAX_sortSetting');
 
-
-
-/////
-include_once MAX_PATH . '/lib/max/Plugin/Translation.php';
-
-$aOutputAdServers = &MAX_Plugin::getPlugins('3rdPartyServers');
-foreach ($aOutputAdServers as $pluginKey => $outputAdServer) {
+// This page depends on 3rdPartyServers plugins, so use the plugin
+// information from earlier to generate the elements for the plugins
+// which is required in the next section
+foreach ($a3rdPartyServers as $pluginKey => $outputAdServer) {
     if ($outputAdServer->hasOutputMacros) {
         $availableOutputAdServers[$pluginKey] = $outputAdServer;
         $availableOutputAdServerNames[$pluginKey] = $outputAdServer->getName();
@@ -225,14 +212,10 @@ $availableOutputAdServerNames = $availableOutputAdServerNames = array(
     'generic' => $GLOBALS['strGenericOutputAdServer']
 ) + $availableOutputAdServerNames;
 
-/////
-
-
-
-
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array(
-    $aInvocations
-    ,
+    $aInvocations,
     array (
         'text'  => $strDeliveryCaching,
         'items' => array (
@@ -278,47 +261,46 @@ $aSettings = array(
         )
     ),
     array (
-      'text' 	=> $strIncovationDefaults,
-      'items'	=> array (
-        array(
-          'type'  => 'select',
-          'name'  => 'gui_invocation_3rdparty_default',
-          'text'  => $strEnable3rdPartyTrackingByDefault,
-          'items' => $availableOutputAdServerNames
-
+        'text' 	=> $strIncovationDefaults,
+        'items'	=> array (
+            array(
+                'type'    => 'select',
+                'name'    => 'delivery_clicktracking',
+                'text'    => $strEnable3rdPartyTrackingByDefault,
+                'items'   => $availableOutputAdServerNames
+            )
         )
-      )
     ),
     array (
-      'text' 	=> $strP3PSettings,
-      'items'	=> array (
-        array (
-          'type'    => 'checkbox',
-          'name'    => 'p3p_policies',
-          'text'	  => $strUseP3P
-        ),
-        array (
-          'type'    => 'break'
-        ),
-        array (
-          'type' 	  => 'text',
-          'name' 	  => 'p3p_compactPolicy',
-          'text' 	  => $strP3PCompactPolicy,
-          'size'	  => 35,
-          'depends' => 'p3p_policies==true'
-        ),
-        array (
-          'type'    => 'break'
-        ),
-        array (
-          'type' 	  => 'text',
-          'name' 	  => 'p3p_policyLocation',
-          'text' 	  => $strP3PPolicyLocation,
-          'size'	  => 35,
-          'depends' => 'p3p_policies==true',
-          'check'   => 'url'
+        'text' 	=> $strP3PSettings,
+        'items'	=> array (
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'p3p_policies',
+                'text'	  => $strUseP3P
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type' 	  => 'text',
+                'name' 	  => 'p3p_compactPolicy',
+                'text' 	  => $strP3PCompactPolicy,
+                'size'	  => 35,
+                'depends' => 'p3p_policies==true'
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type' 	  => 'text',
+                'name' 	  => 'p3p_policyLocation',
+                'text' 	  => $strP3PPolicyLocation,
+                'size'	  => 35,
+                'depends' => 'p3p_policies==true',
+                'check'   => 'url'
+            )
         )
-      )
     ),
     array (
         'text'  => $strWebPath,
@@ -514,8 +496,9 @@ $aSettings = array(
         )
     )
 );
-
 $oOptions->show($aSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>

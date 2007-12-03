@@ -25,6 +25,8 @@
 $Id$
 */
 
+// Required files
+require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/pear/Config.php';
 
 /**
@@ -35,34 +37,41 @@ require_once MAX_PATH . '/lib/pear/Config.php';
 class OA_Admin_Settings
 {
 
-    var $conf;
+    var $aConf;
     var $backupFilename;
 
-     /**
+    /**
      * The constructor method. Stores the current parse result of the
-     * configuration .ini file so that it can be (locally) modified.
+     * configuration .conf.php file so that it can be (locally) modified.
      */
     function OA_Admin_Settings($isNewConfig = false)
     {
-        if($isNewConfig) {
-            $this->conf = array();
+        if ($isNewConfig) {
+            $this->aConf = array();
         } else {
-            $this->conf = $GLOBALS['_MAX']['CONF'];
+            $this->aConf = $GLOBALS['_MAX']['CONF'];
         }
     }
 
     /**
-     * A method to test if the Openads configuration .ini file is writable by
-     * the web server process.
+     * A method to test if the Openads configuration .conf.php file is
+     * writable by the web server process.
+     *
+     * Method is static so that it can be called without creating an
+     * object instance in the event that other code simply wants to
+     * know if the configuration .conf.php file is writable or not.
      *
      * @static
-     * @param string $configFile  Path to the config file
-     * @param boolean $checkDir
-     * @return boolean True if file is writable else method is checking
-     *                 if directory is writable (if $checkDir is true)
-     *                 else return false
+     * @param string $configFile The full configuration file name,
+     *                           including the directory path.
+     * @param boolean $isDir Test if the configration file directory is
+     *                       writable instead? Set to true to test the
+     *                       directory for the ability to write a
+     *                       configuration file.
+     * @return boolean True if the file or directory is writable, false
+     *                 otherwise.
      */
-    function isConfigWritable($configFile = null, $checkDir = true)
+    function isConfigWritable($configFile = null, $isDir = true)
     {
         if (!$configFile) {
             $conf = $GLOBALS['_MAX']['CONF'];
@@ -71,10 +80,10 @@ class OA_Admin_Settings
         }
         if (file_exists($configFile)) {
             return is_writable($configFile);
-        } elseif ($checkDir) {
-            // Openads has not been installed yet (or plugin config file doesn't exists)
-            // so need to test if the web
-            // server can write to the config file directory
+        } elseif ($isDir) {
+            // Openads has not been installed yet (or plugin config file
+            // doesn't exist) so need to test if the web server can write
+            // to the config file directory
             $configDir = substr($configFile, 0, strrpos($configFile, '/'));
             return is_writable($configDir);
         } else {
@@ -83,36 +92,38 @@ class OA_Admin_Settings
     }
 
     /**
-     * A method for defining bulk required changes to the Openads configuration
-     * .ini file.
+     * A method for making bulk changes to the configuration file object.
      *
-     * @param string $levelKey The top level of the item in the .ini file.
-     * @param array $value The new values for the item.
+     * @param string $levelKey The top level of the item in the configration file.
+     * @param array $aValues An array of key/value pairs to set under the top
+     *                       level item.
      */
-    function setBulkConfigChange($levelKey, $value)
+    function bulkSettingChange($levelKey, $aValues)
     {
-        $this->conf[$levelKey] = $value;
+        $this->aConf[$levelKey] = $aValues;
     }
 
     /**
-     * A method for defining required changes to the Openads configuration .ini
-     * file.
+     * A method for making a single change to the configuration file object.
      *
-     * @param string $levelKey The top level of the item in the .ini file.
-     * @param string $itemKey The item level of the item in the .ini file
+     * @param string $levelKey The top level of the item in the configuration file.
+     * @param string $itemKey The key name of the item in the configration file
      *                        (under the top level).
-     * @param string $value The new value for the item.
+     * @param string $value The new value for the key.
      */
-    function setConfigChange($levelKey, $itemKey, $value)
+    function settingChange($levelKey, $itemKey, $value)
     {
-        $this->conf[$levelKey][$itemKey] = $value;
+        $this->aConf[$levelKey][$itemKey] = $value;
     }
 
     /**
-     * A method for writing out required changes to Openads configuration .ini
-     * files. Configuration files are prefixed with the host name being
-     * used to access Openads, so that multiple Openads installations can be run
-     * from a single code base, if the correct virtual hosts are configured.
+     * A method for writing out the Openads configuration .conf.php file(s),
+     * including any changes that have been made to the configuration in the
+     * current object.
+     *
+     * Configuration files are prefixed with the host name being used to access
+     * Openads, so that multiple Openads installations can be run from a single
+     * code base, if the correct virtual hosts are configured.
      *
      * @param string $configPath The directory to save the config file(s) in.
      *                           Default is Max's /var directory.
@@ -134,30 +145,30 @@ class OA_Admin_Settings
             $configFile = '.' . $configFile;
         }
         // What were the old host names used for the installation?
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $url = @parse_url('http://' . $conf['webpath']['admin']);
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $url = @parse_url('http://' . $aConf['webpath']['admin']);
         $oldAdminHost = $url['host'];
-        $url = @parse_url('http://' . $conf['webpath']['delivery']);
+        $url = @parse_url('http://' . $aConf['webpath']['delivery']);
         $oldDeliveryHost = $url['host'];
-        $url = @parse_url('http://' . $conf['webpath']['deliverySSL']);
+        $url = @parse_url('http://' . $aConf['webpath']['deliverySSL']);
         $oldDeliverySslHost = $url['host'];
         // What are the new host names used for the installation?
-        $url = @parse_url('http://' . $this->conf['webpath']['admin']);
+        $url = @parse_url('http://' . $this->aConf['webpath']['admin']);
         $newAdminHost = $url['host'];
-        $url = @parse_url('http://' . $this->conf['webpath']['delivery']);
+        $url = @parse_url('http://' . $this->aConf['webpath']['delivery']);
         $newDeliveryHost = $url['host'];
-        $url = @parse_url('http://' . $this->conf['webpath']['deliverySSL']);
+        $url = @parse_url('http://' . $this->aConf['webpath']['deliverySSL']);
         $newDeliverySslHost = $url['host'];
         // Write out the new main configuration file
         $mainConfigFile = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
         if (!OA_Admin_Settings::isConfigWritable($mainConfigFile)) {
             return false;
         }
-        $c = new Config();
-        $cc =& $c->parseConfig($this->conf, 'phpArray');
-        $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-        $cc->createComment('<'.'?php exit; ?>', 'top');
-        if (!$c->writeConfig($mainConfigFile, 'IniCommented')) {
+        $oConfig = new Config();
+        $oConfigContainer =& $oConfig->parseConfig($this->aConf, 'phpArray');
+        $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+        $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
+        if (!$oConfig->writeConfig($mainConfigFile, 'IniCommented')) {
             return false;
         }
         // Check if a different host name is used for the admin
@@ -167,12 +178,12 @@ class OA_Admin_Settings
             if (!OA_Admin_Settings::isConfigWritable($file)) {
                 return false;
             }
-            $config = array('realConfig' => $newDeliveryHost);
-            $c = new Config();
-            $cc =& $c->parseConfig($config, 'phpArray');
-            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-            $cc->createComment('<'.'?php exit; ?>', 'top');
-            if (!$c->writeConfig($file, 'IniCommented')) {
+            $aConfig = array('realConfig' => $newDeliveryHost);
+            $oConfig = new Config();
+            $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
+            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
+            if (!$oConfig->writeConfig($file, 'IniCommented')) {
                 return false;
             }
         }
@@ -183,12 +194,12 @@ class OA_Admin_Settings
             if (!OA_Admin_Settings::isConfigWritable($file)) {
                 return false;
             }
-            $config = array('realConfig' => $newDeliveryHost);
-            $c = new Config();
-            $cc =& $c->parseConfig($config, 'phpArray');
-            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-            $cc->createComment('<'.'?php exit; ?>', 'top');
-            if (!$c->writeConfig($file, 'IniCommented')) {
+            $aConfig = array('realConfig' => $newDeliveryHost);
+            $oConfig = new Config();
+            $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
+            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
+            if (!$oConfig->writeConfig($file, 'IniCommented')) {
                 return false;
             }
         }
@@ -223,12 +234,12 @@ class OA_Admin_Settings
             if (!OA_Admin_Settings::isConfigWritable($file)) {
                 return false;
             }
-            $config = array('realConfig' => $newDeliveryHost);
-            $c = new Config();
-            $cc =& $c->parseConfig($config, 'phpArray');
-            $cc->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
-            $cc->createComment('<'.'?php exit; ?>', 'top');
-            if (!$c->writeConfig($file, 'IniCommented')) {
+            $aConfig = array('realConfig' => $newDeliveryHost);
+            $oConfig = new Config();
+            $oConfigContainer =& $oConfig->parseConfig($aConfig, 'phpArray');
+            $oConfigContainer->createComment('*** DO NOT REMOVE THE LINE ABOVE ***', 'top');
+            $oConfigContainer->createComment('<'.'?php exit; ?>', 'top');
+            if (!$oConfig->writeConfig($file, 'IniCommented')) {
                 return false;
             }
         } else {
@@ -238,7 +249,7 @@ class OA_Admin_Settings
         if ($reParse) {
             $file = $configPath . '/' . $newDeliveryHost . $configFile . '.conf.php';
             $GLOBALS['_MAX']['CONF'] = @parse_ini_file($file, true);
-            $this->conf = $GLOBALS['_MAX']['CONF'];
+            $this->aConf = $GLOBALS['_MAX']['CONF'];
             // Set the global $conf value -- normally set by the init
             // script -- to be the same as $GLOBALS['_MAX']['CONF']
             global $conf;
@@ -263,14 +274,14 @@ class OA_Admin_Settings
 
         if (!is_null($configPath) && is_dir($configPath)) {
             // Enumerate any valid config files for this installation
-            $url = @parse_url('http://' . $this->conf['webpath']['admin']);
+            $url = @parse_url('http://' . $this->aConf['webpath']['admin']);
             $hosts[] = $url['host'] . $configFile . '.conf.php';
-            $url = @parse_url('http://' . $this->conf['webpath']['delivery']);
+            $url = @parse_url('http://' . $this->aConf['webpath']['delivery']);
             $hosts[] = $url['host'] . $configFile . '.conf.php';
-            $url = @parse_url('http://' . $this->conf['webpath']['deliverySSL']);
+            $url = @parse_url('http://' . $this->aConf['webpath']['deliverySSL']);
             $hosts[] = $url['host'] . $configFile . '.conf.php';
 
-            $files = array();
+            $aFiles = array();
             $CONFIG_DIR = opendir($configPath);
             // Collect any "*.conf.php" files from the configPath folder
             while ($file = readdir($CONFIG_DIR)) {
@@ -283,62 +294,58 @@ class OA_Admin_Settings
                     // File is not a valid config file for this domain
                     (!in_array($file, $hosts))
                 ) {
-                    $files[] = $file;
+                    $aFiles[] = $file;
                 }
             }
             closedir($CONFIG_DIR);
-            return $files;
+            return $aFiles;
         }
     }
 
     /**
-     * Merges any changes in dist.conf.php into $this->conf.
+     * Merges any changes in dist.conf.php into $this->aConf.
      *
      * @param string $distConfig the full path to the distributed conf file.
-     * @return true if changes successfully merged. Otherwise, false.
-     *
+     * @return boolean True if changes successfully merged, false otherwise.
      */
     function mergeConfigChanges($distConfig = null)
     {
         if (is_null($distConfig)) {
             $distConfig = MAX_PATH . '/etc/dist.conf.php';
         }
-
         if (!is_readable($distConfig)) {
             return false;
         }
-
         $aDistConf = @parse_ini_file($distConfig, true);
 
         // Check for deprecated keys to remove from existing user conf
         /**
          * WARNING: THIS ALSO REMOVES USER-DEFINED KEYS
          */
-        /*foreach ($this->conf as $key => $value) {
+        /*foreach ($this->aConf as $key => $value) {
         	if (array_key_exists($key, $aDistConf)) {
-        	    foreach ($this->conf[$key] as $subKey => $subValue) {
+        	    foreach ($this->aConf[$key] as $subKey => $subValue) {
         	        if (!array_key_exists($subKey, $aDistConf[$key])) {
-                        unset($this->conf[$key][$subKey]);
+                        unset($this->aConf[$key][$subKey]);
         	        }
         	    }
         	} else {
-                unset($this->conf[$key]);
+                unset($this->aConf[$key]);
         	}
         }*/
 
         // Check for new keys in dist to add to existing user conf
         foreach ($aDistConf as $key => $value) {
-        	if (array_key_exists($key, $this->conf)) {
+        	if (array_key_exists($key, $this->aConf)) {
         	    foreach ($aDistConf[$key] as $subKey => $subValue) {
-        	    	if (!array_key_exists($subKey, $this->conf[$key])) {
-                        $this->conf[$key][$subKey] = $subValue;
+        	    	if (!array_key_exists($subKey, $this->aConf[$key])) {
+                        $this->aConf[$key][$subKey] = $subValue;
         	    	}
         	    }
         	} else {
-                $this->conf[$key] = $value;
+                $this->aConf[$key] = $value;
         	}
         }
-
         return true;
     }
 
@@ -368,7 +375,6 @@ class OA_Admin_Settings
             }
             return (copy($configFile, dirname($configFile) . '/' . $this->backupFilename));
         }
-
         return false;
     }
 
@@ -382,22 +388,121 @@ class OA_Admin_Settings
     {
         $directory = dirname($filename);
         $basename = basename($filename);
-
         if (substr($basename, -4) == '.ini') {
             $basename .= '.php';
         }
-
         $now = date("Ymd");
         $newFilename =  $now.'_old.' . $basename;
-
         // Make sure we don't overwrite any old backup files.
-        $i=0;
-        while(file_exists($directory . '/' . $newFilename)){
+        $i = 0;
+        while (file_exists($directory . '/' . $newFilename)) {
             $newFilename = substr($newFilename, 0, strpos($newFilename, $now)) . $now . '_' . $i.'_old.'.$basename;
             $i++;
         }
-
         return $newFilename;
     }
+
+    /**
+     * A method for processing settings values from a UI form, and updating the settings
+     * values in the configuration file.
+     *
+     * @param array $aElements An array or arrays, indexed by the HTML form element names,
+     *                         and then the top level configuration file item, containing
+     *                         the configuration file key.
+     *
+     *                         The inner array can also contain the fixed keys "preg_match"
+     *                         and "preg_replace", and the values will be used as a preg
+     *                         pattern on the actual value.
+     *
+     *                         The inner array can also contain the fixed key "bool", in
+     *                         which case the value will be treated as a true/false
+     *                         element from the HTML form.
+     *
+     *                         The inner array can also contain the fixed keys "preg_split"
+     *                         and "merge", and the preg_split value will be used to split
+     *                         the actual value into an array, and then remove any empty
+     *                         values from the result, and then the resulting array will be
+     *                         merged with the merge value, and stored.
+     *
+     *                         For example:
+     *  array(
+     *      delivery_cacheExpire => array(
+     *                                  delivery     => acls
+     *                                  preg_match   => #/$#
+     *                                  preg_replace =>
+     *                              )
+     *  )
+     *
+     * This array would store the value from the "delivery_cacheExpire" HTML form element
+     * in the configuration file under the [delivery] section, acls key; but the value stored
+     * would have the "/" character, if it existed, removed from the end of the string value
+     * stored.
+     *
+     * @return boolean True if the configuration file was saved correctly, false otherwise.
+     */
+    function processSettingsFromForm($aElementNames)
+    {
+        foreach ($aElementNames as $htmlElement => $aConfigInfo) {
+            // Register the HTML element value
+            MAX_commonRegisterGlobalsArray(array($htmlElement));
+            // Was the HTML element value set?
+            if (isset($GLOBALS[$htmlElement])) {
+                reset ($aConfigInfo);
+                if (isset($aConfigInfo['preg_match'])) {
+                    $preg_match = $aConfigInfo['preg_match'];
+                    unset($aConfigInfo['preg_match']);
+                }
+                if (isset($aConfigInfo['preg_replace'])) {
+                    $preg_replace = $aConfigInfo['preg_replace'];
+                    unset($aConfigInfo['preg_replace']);
+                }
+                $value = $GLOBALS[$htmlElement];
+                if (isset($preg_match) && isset($preg_replace)) {
+                    $value = preg_replace($preg_match, $preg_replace, $value);
+                }
+                unset($preg_match);
+                unset($preg_replace);
+                if (isset($aConfigInfo['bool'])) {
+                    $value = 'true';
+                }
+                unset($aConfigInfo['bool']);
+                if (isset($aConfigInfo['preg_split']) && isset($aConfigInfo['merge'])) {
+                    $pregSplit = $aConfigInfo['preg_split'];
+                    $merge = $aConfigInfo['merge'];
+                    unset($aConfigInfo['preg_split']);
+                    unset($aConfigInfo['merge']);
+                    foreach ($aConfigInfo as $levelKey => $itemKey) {
+                        $aValues = preg_split($pregSplit, $value);
+                        $aEmptyKeys = array_keys($aValues, '');
+                        $counter = -1;
+                        foreach ($aEmptyKeys as $key) {
+                            $counter++;
+                            array_splice($aValues, $key - $counter, 1);
+                        }
+                        $value = implode($merge, $aValues);
+                        $this->settingChange($levelKey, $itemKey, $value);
+                    }
+                } else {
+                    unset($aConfigInfo['preg_split']);
+                    unset($aConfigInfo['merge']);
+                    foreach ($aConfigInfo as $levelKey => $itemKey) {
+                        $this->settingChange($levelKey, $itemKey, $value);
+                    }
+                }
+            } else {
+                // The element may required "false" to be stored
+                if (isset($aConfigInfo['bool'])) {
+                    unset($aConfigInfo['bool']);
+                    foreach ($aConfigInfo as $levelKey => $itemKey) {
+                        $this->settingChange($levelKey, $itemKey, 'false');
+                    }
+                }
+            }
+        }
+        $writeResult = $this->writeConfigChange();
+        return $writeResult;
+    }
+
 }
+
 ?>

@@ -29,103 +29,78 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
+require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 
-$oOptions = new OA_Admin_Option('settings');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('settings');
+
+// Prepare an array for storing error messages
 $aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-
-    // Register input variables
-    phpAds_registerGlobal(
-        'maintenance_blockAdImpressions', 'maintenance_blockAdClicks',
-        'maintenance_operationInterval', 'maintenance_compactStats',
-        'maintenance_compactStatsGrace', 'priority_instantUpdate',
-        'logging_defaultImpressionConnectionWindow',
-        'logging_defaultClickConnectionWindow', 'maintenance_autoMaintenance'
+    // Prepare an array of the HTML elements to process, and the
+    // location to save the values in the settings configuration
+    // file
+    $aElements = array();
+    // Block Banner Logging Settings
+    $aElements += array(
+        'maintenance_blockAdImpressions' => array('maintenance' => 'blockAdImpressions'),
+        'maintenance_blockAdClicks'      => array('maintenance' => 'blockAdClicks')
     );
-
-    // Set up the configuration .ini file
-    $oConfig = new OA_Admin_Settings();
-    if (isset($maintenance_blockAdImpressions)) {
-        if ((!is_numeric($maintenance_blockAdImpressions)) || ($maintenance_blockAdImpressions < 0)) {
-            $aErrormessage[1][] = $strBlockAdViewsError;
-        } else {
-            $oConfig->setConfigChange('maintenance', 'blockAdImpressions', $maintenance_blockAdImpressions);
-        }
+    // Maintenance Settings
+    $aElements += array(
+        'maintenance_autoMaintenance' => array(
+            'maintenance' => 'autoMaintenance',
+            'bool'        => true
+        ),
+        'maintenance_operationInterval' => array('maintenance' => 'operationInterval'),
+        'maintenance_compactStats' => array(
+            'maintenance' => 'compactStats',
+            'bool'        => true
+        ),
+        'maintenance_compactStatsGrace'             => array('maintenance' => 'compactStatsGrace'),
+        'logging_defaultImpressionConnectionWindow' => array('logging' => 'defaultImpressionConnectionWindow'),
+        'logging_defaultClickConnectionWindow'      => array('logging' => 'defaultClickConnectionWindow'),
+    );
+    // Priority Settings
+    $aElements += array(
+        'priority_instantUpdate' => array(
+            'priority' => 'instantUpdate',
+            'bool'     => true
+        )
+    );
+    // Create a new settings object, and save the settings!
+    $oSettings = new OA_Admin_Settings();
+    $result = $oSettings->processSettingsFromForm($aElements);
+    if ($result) {
+        // The settings configuration file was written correctly,
+        // go to the "next" settings page from here
+        MAX_Admin_Redirect::redirect('account-settings-synchronisation.php');
     }
-    if (isset($maintenance_blockAdClicks)) {
-        if ((!is_numeric($maintenance_blockAdClicks)) || ($maintenance_blockAdClicks < 0)) {
-            $aErrormessage[1][] = $strBlockAdClicksError;
-        } else {
-            $oConfig->setConfigChange('maintenance', 'blockAdClicks', $maintenance_blockAdClicks);
-        }
-    }
-    if (isset($maintenance_operationInterval)) {
-        if ((!is_numeric($maintenance_operationInterval)) ||
-                (!OA_OperationInterval::checkOperationIntervalValue($maintenance_operationInterval))) {
-
-            $aErrormessage[2][] = $strMaintenanceOIError;
-        } else {
-            $oConfig->setConfigChange('maintenance', 'operationInterval', $maintenance_operationInterval);
-        }
-    }
-    $oConfig->setConfigChange('maintenance', 'compactStats', isset($maintenance_compactStats));
-    $oConfig->setConfigChange('maintenance', 'autoMaintenance', isset($maintenance_autoMaintenance));
-    if (isset($maintenance_compactStatsGrace)) {
-        if ((!is_numeric($maintenance_compactStatsGrace)) || ($maintenance_compactStatsGrace <= 0)) {
-            $aErrormessage[2][] = $strWarnCompactStatsGrace;
-        } else {
-            $oConfig->setConfigChange('maintenance', 'compactStatsGrace', $maintenance_compactStatsGrace);
-        }
-
-    }
-    if (isset($logging_defaultImpressionConnectionWindow)) {
-        if (($logging_defaultImpressionConnectionWindow != '') &&
-            ((!is_numeric($logging_defaultImpressionConnectionWindow)) ||
-             ($logging_defaultImpressionConnectionWindow <= 0))) {
-            $aErrormessage[2][] = $strDefaultImpConWindowError;
-        } else {
-            $oConfig->setConfigChange('logging', 'defaultImpressionConnectionWindow',
-                                     $logging_defaultImpressionConnectionWindow);
-        }
-    }
-    if (isset($logging_defaultClickConnectionWindow)) {
-        if (($logging_defaultClickConnectionWindow != '') &&
-            ((!is_numeric($logging_defaultClickConnectionWindow)) ||
-             ($logging_defaultClickConnectionWindow <= 0))) {
-            $aErrormessage[2][] = $strDefaultCliConWindowError;
-        } else {
-            $oConfig->setConfigChange('logging', 'defaultClickConnectionWindow',
-                                     $logging_defaultClickConnectionWindow);
-        }
-
-    }
-    $oConfig->setConfigChange('priority', 'instantUpdate', isset($priority_instantUpdate));
-
-    if (!count($aErrormessage)) {
-        if (!$oConfig->writeConfigChange()) {
-            // Unable to write the config file out
-            $aErrormessage[0][] = $strUnableToWriteConfig;
-        } else {
-            MAX_Admin_Redirect::redirect('account-settings-synchronisation.php');
-        }
-    }
+    // Could not write the settings configuration file, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWriteConfig;
 }
 
+// Display the settings page's header and sections
 phpAds_PageHeader("5.2");
 phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+
+// Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection("maintenance");
 
-// Change ignore_hosts into a string, so the function handles it good
-$conf['ignoreHosts'] = join("\n", $conf['ignoreHosts']);
-
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
         'text'  => $strPreventLogging,
@@ -152,8 +127,8 @@ $aSettings = array (
         )
     ),
     array (
-        'text'            => $strMaintenanceSettings,
-        'items'           => array (
+        'text'  => $strMaintenanceSettings,
+        'items' => array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'maintenance_autoMaintenance',
@@ -220,8 +195,8 @@ $aSettings = array (
         )
     ),
     array (
-        'text'       => $strPrioritySettings,
-        'items'      => array (
+        'text'  => $strPrioritySettings,
+        'items' => array (
             array (
                 'type'    => 'checkbox',
                 'name'    => 'priority_instantUpdate',
@@ -230,8 +205,9 @@ $aSettings = array (
         )
     )
 );
-
 $oOptions->show($aSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>

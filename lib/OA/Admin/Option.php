@@ -61,11 +61,6 @@ class OA_Admin_Option
      */
     function OA_Admin_Option($optionType)
     {
-        if (OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED)
-        {
-            include_once MAX_PATH . '/www/admin/config.php';
-        }
-
         // Load the required language files
         Language_Default::load();
         Language_Settings::load();
@@ -155,17 +150,17 @@ class OA_Admin_Option
                 'geotargeting'    => array('name' => $GLOBALS['strGeotargetingSettings'],               'perm' => phpAds_Admin),
                 'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],                'perm' => phpAds_Admin),
                 'synchronisation' => array('name' => $GLOBALS['strSyncSettings'],                       'perm' => phpAds_Admin),
-                'interface'       => array('name' => $GLOBALS['strGuiSettings'],                        'perm' => phpAds_Admin),
+                'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],                        'perm' => phpAds_Admin)
 
             );
         } elseif ($this->_optionType == 'account-preferences') {
             $sections = array(
-                'account'                 => array('name' => $GLOBALS['strAccountPreferences'],                 'perm' => phpAds_Admin),
-                'banner'                  => array('name' => $GLOBALS['strBannerPreferences'],                  'perm' => phpAds_Admin + phpAds_Agency),
-                'campaing-email-reports'  => array('name' => $GLOBALS['strCampaignEmailReportsPreferences'],    'perm' => phpAds_Admin),
-                'language-timezone'       => array('name' => $GLOBALS['strLanguageTimezonePreferences'],        'perm' => phpAds_Admin),
-                'tracker'                 => array('name' => $GLOBALS['strTrackerPreferences'],                 'perm' => phpAds_Admin),
-                'user-interface'          => array('name' => $GLOBALS['strUserInterfacePreferences'],           'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
+                'account'                 => array('name' => $GLOBALS['strAccountPreferences'],                 'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
+                'banner'                  => array('name' => $GLOBALS['strBannerPreferences'],                  'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
+                'campaing-email-reports'  => array('name' => $GLOBALS['strCampaignEmailReportsPreferences'],    'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
+                'language-timezone'       => array('name' => $GLOBALS['strLanguageTimezonePreferences'],        'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
+                'tracker'                 => array('name' => $GLOBALS['strTrackerPreferences'],                 'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
+                'user-interface'          => array('name' => $GLOBALS['strUserInterfacePreferences'],           'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate)
             );
         }
 
@@ -626,4 +621,5 @@ class OA_Admin_Option
     }
 
 }
+
 ?>

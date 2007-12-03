@@ -29,9 +29,7 @@ define('SMARTY_DIR', MAX_PATH . '/lib/smarty/');
 
 require_once MAX_PATH . '/lib/smarty/Smarty.class.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
-
-require_once('Date.php');
-
+require_once MAX_PATH . '/lib/pear/Date.php';
 
 /**
  * @author     Matteo Beccati <matteo.beccati@openads.org>

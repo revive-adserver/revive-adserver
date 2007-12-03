@@ -11,8 +11,17 @@ sslPort                             = 443
 
 [max]
 installed                           = false
-uiEnabled                           = true
-language                            = english
+
+[ui]
+enabled                             = true
+applicationName                     =
+headerFilePath                      =
+footerFilePath                      =
+logoFilePath                        =
+headerForegroundColor               =
+headerBackgroundColor               =
+headerActiveTabColor                =
+headerTextColor                     =
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;
@@ -95,6 +104,23 @@ protocol                            = http
 ; Delivery Details                                                                         ;
 ;------------------------------------------------------------------------------------------;
 
+[allowedBanners]
+sql                                 = true
+web                                 = true
+url                                 = true
+html                                = true
+text                                = true
+
+[allowedTags]
+adjs                                = true
+adlayer                             = true
+adviewnocookies                     = true
+local                               = true
+popup                               = false
+adframe                             = true
+adview                              = false
+xmlrpc                              = false
+
 [delivery]
 cacheExpire                         = 1200
 cachePath                           =
@@ -108,6 +134,7 @@ cgiForceStatusHeader                = false ; Set this to true if using a CGI sa
                                             ; does not correctly deal with HTTP headers
                                             ; and leaves the description empty
                                             ; (i.e. "HTTP/1.1 302" insead that 302 Found)
+clicktracking                       = "No"
 
 [p3p]
 policies                            = true
@@ -228,6 +255,15 @@ userlog                                  = userlog
 variables                                = variables
 variable_publisher                       = variable_publisher
 zones                                    = zones
+
+;------------------------------------------------------------------------------------------;
+; E-mail                                                                                   ;
+;------------------------------------------------------------------------------------------;
+
+[email]
+logOutgoing                              = true
+headers                                  =
+qmailPatch                               = false
 
 ;------------------------------------------------------------------------------------------;
 ; Debugging/Error Logging Details                                                          ;

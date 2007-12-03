@@ -51,23 +51,32 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = array();
-    // Banner Logging Settings
+    // General Settings
     $aElements += array(
-        'logging_adRequests'         => array('logging' => 'adRequests'),
-        'logging_adImpressions'      => array('logging' => 'adImpressions'),
-        'logging_adClicks'           => array('logging' => 'adClicks'),
-        'logging_trackerImpressions' => array('logging' => 'trackerImpressions'),
-        'logging_reverseLookup'      => array('logging' => 'reverseLookup'),
-        'logging_reverseLookup'      => array('logging' => 'reverseLookup'),
-        'logging_sniff'              => array('logging' => 'sniff')
-    );
-    // Block Banner Logging Settings
-    $aElements += array(
-        'logging_ignoreHosts' => array(
-            'logging'    => 'ignoreHosts',
-            'preg_split' => "/ |,|;/",
-            'merge'      => ','
+        'ui_enabled' => array(
+            'ui'   => 'enabled',
+            'bool' => true
+        ),
+        'ui_applicationName'       => array('ui' => 'applicationName'),
+        'ui_headerFilePath'        => array('ui' => 'headerFilePath'),
+        'ui_footerFilePath'        => array('ui' => 'footerFilePath'),
+        'ui_logoFilePath'          => array('ui' => 'logoFilePath'),
+        'ui_headerForegroundColor' => array('ui' => 'headerForegroundColor'),
+        'ui_headerBackgroundColor' => array('ui' => 'headerBackgroundColor'),
+        'ui_headerActiveTabColor'  => array('ui' => 'headerActiveTabColor'),
+        'ui_headerTextColor'       => array('ui' => 'headerTextColor'),
+        'ui_gzipCompression' => array(
+            'ui'   => 'gzipCompression',
+            'bool' => true
         )
+    );
+    // SSL Settings
+    $aElements += array(
+        'openads_requireSSL' => array(
+            'openads' => 'requireSSL',
+            'bool'    => true
+        ),
+        'openads_sslPort' => array('openads' => 'sslPort')
     );
     // Create a new settings object, and save the settings!
     $oSettings = new OA_Admin_Settings();
@@ -75,7 +84,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if ($result) {
         // The settings configuration file was written correctly,
         // go to the "next" settings page from here
-        MAX_Admin_Redirect::redirect('account-settings-banner-storage.php');
+        MAX_Admin_Redirect::redirect('account-settings-banner-delivery.php');
     }
     // Could not write the settings configuration file, store this
     // error message and continue
@@ -87,65 +96,117 @@ phpAds_PageHeader("5.2");
 phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 
 // Set the correct section of the settings pages and display the drop-down menu
-$oOptions->selection('banner-logging');
-
-// Change ignore_hosts into a string, so the function handles it good
-$conf['ignoreHosts'] = join("\n", $conf['ignoreHosts']);
+$oOptions->selection("user-interface");
 
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
     array (
-        'text'  => $strBannerLogging,
+        'text'  => $strGeneralSettings,
         'items' => array (
             array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_adRequests',
-                'text'    => $strLogAdRequests
+                'type'  => 'checkbox',
+                'name'  => 'ui_enabled',
+                'text'  => $uiEnabled
             ),
             array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_adImpressions',
-                'text'    => $strLogAdImpressions
+                'type'    => 'break'
             ),
             array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_adClicks',
-                'text'    => $strLogAdClicks
+                'type'    => 'text',
+                'name'    => 'ui_applicationName',
+                'text'    => $strAppName,
+                'size'    => 35
             ),
             array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_trackerImpressions',
-                'text'    => $strLogTrackerImpressions
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_headerFilePath',
+                'text'    => $strMyHeader,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_footerFilePath',
+                'text'    => $strMyFooter,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_logoFilePath',
+                'text'    => $strMyLogo,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_headerForegroundColor',
+                'text'    => $strGuiHeaderForegroundColor,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_headerBackgroundColor',
+                'text'    => $strGuiHeaderBackgroundColor,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_headerActiveTabColor',
+                'text'    => $strGuiActiveTabColor,
+                'size'    => 35
+            ),
+            array (
+                'type'    => 'break'
+            ),
+            array (
+                'type'    => 'text',
+                'name'    => 'ui_headerTextColor',
+                'text'    => $strGuiHeaderTextColor,
+                'size'    => 35
             ),
             array (
                 'type'    => 'break'
             ),
             array (
                 'type'    => 'checkbox',
-                'name'    => 'logging_reverseLookup',
-                'text'    => $strReverseLookup
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_proxyLookup',
-                'text'    => $strProxyLookup
-            ),
-            array (
-                'type'    => 'checkbox',
-                'name'    => 'logging_sniff',
-                'text'    => $strSniff
+                'name'    => 'ui_gzipCompression',
+                'text'    => $strGzipContentCompression
             )
         )
     ),
     array (
-        'text'  => $strPreventLogging,
+        'text'  => $strSSLSettings,
         'items' => array (
             array (
-                'type'    => 'textarea',
-                'name'    => 'logging_ignoreHosts',
-                'text'    => $strIgnoreHosts
-            )
+                'type'  => 'checkbox',
+                'name'  => 'openads_requireSSL',
+                'text'  => $requireSSL
+            ),
+            array (
+                'type'  => 'break'
+            ),
+            array (
+                'type'  => 'text',
+                'name'  => 'openads_sslPort',
+                'text'  => $sslPort
+            ),
         )
     )
 );

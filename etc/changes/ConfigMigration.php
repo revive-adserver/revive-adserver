@@ -53,7 +53,7 @@ class ConfigMigration
     function mergeConfigWith($section, $mergeWithConf)
     {
         $config = new OA_Admin_Settings();
-        $config->setBulkConfigChange($section, $mergeWithConf);
+        $config->bulkSettingChange($section, $mergeWithConf);
         return $config->writeConfigChange();
     }
 

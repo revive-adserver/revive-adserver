@@ -29,62 +29,79 @@ $Id: settings-stats.php 12637 2007-11-20 19:02:36Z miguel.correa@openads.org $
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-$oOptions = new OA_Admin_Option('settings');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('settings');
+
+// Prepare an array for storing error messages
 $aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-
-     // Register input variables
-    phpAds_registerGlobal('qmail_patch', 'admin_email_headers', 'userlog_email');
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    $oPreferences->setPrefChange('qmail_patch', isset($qmail_patch));
-    $oPreferences->setPrefChange('userlog_email', isset($userlog_email));
-
-    if (isset($admin_email_headers)) {
-        $admin_email_headers = trim(ereg_replace("\r?\n", '\\r\\n', $admin_email_headers));
-        $oPreferences->setPrefChange('admin_email_headers', $admin_email_headers);
+    // Prepare an array of the HTML elements to process, and the
+    // location to save the values in the settings configuration
+    // file
+    $aElements = array();
+    // E-mail Log
+    $aElements += array(
+        'email_logOutgoing' => array(
+            'email' => 'logOutgoing',
+            'bool'  => true
+        )
+    );
+    // E-mail Headers
+    $aElements += array(
+        'email_headers' => array(
+            'email'        => 'headers',
+            'preg_match'   => "/\r?\n/",
+            'preg_replace' => '\\r\\n'
+        )
+    );
+    // qmail Patch
+    $aElements += array(
+        'email_qmailPatch' => array(
+            'email' => 'qmailPatch',
+            'bool'  => true
+        )
+    );
+    // Create a new settings object, and save the settings!
+    $oSettings = new OA_Admin_Settings();
+    $result = $oSettings->processSettingsFromForm($aElements);
+    if ($result) {
+        // The settings configuration file was written correctly,
+        // go to the "next" settings page from here
+        MAX_Admin_Redirect::redirect('account-settings-geotargeting.php');
     }
-
-    if (!count($aErrormessage)) {
-        if (!$oPreferences->writePrefChange()) {
-            // Unable to update the preferences
-            $aErrormessage[0][] = $strUnableToWritePrefs;
-        } else {
-            MAX_Admin_Redirect::redirect('account-settings-geotargeting.php');
-        }
-    }
+    // Could not write the settings configuration file, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWriteConfig;
 }
 
+// Display the settings page's header and sections
 phpAds_PageHeader("5.2");
-if (phpAds_isUser(phpAds_Admin)) {
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-} elseif (phpAds_isUser(phpAds_Agency)) {
-//    phpAds_ShowSections(array("5.2", "5.4", "5.3"));
-    phpAds_ShowSections(array("5.2", "5.3"));
-}
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
 
-$oOptions->selection("email");
+// Set the correct section of the settings pages and display the drop-down menu
+$oOptions->selection('email');
 
-// Change ignore_hosts into a string, so the function handles it good
-$conf['ignoreHosts'] = join("\n", $conf['ignoreHosts']);
-
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
        'text'  => $strEmailLog,
        'items' => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'userlog_email',
+                'name'    => 'email_logOutgoing',
                 'text'    => $strUserlogEmail
             )
         )
@@ -93,10 +110,9 @@ $aSettings = array (
        'text'  => $strEmailHeader,
        'items' => array (
             array (
-               'type'    => 'textarea',
-               'name'    => 'admin_email_headers',
-               'text'    => $strAdminEmailHeaders,
-               'depends' => 'warn_client==true || warn_admin==true || warn_agency==true'
+               'type'     => 'textarea',
+               'name'     => 'email_headers',
+               'text'     => $strAdminEmailHeaders
             )
         )
     ),
@@ -105,15 +121,15 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'qmail_patch',
-                'text'    => $strEnableQmailPatch,
-                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true'
+                'name'    => 'email_qmailPatch',
+                'text'    => $strEnableQmailPatch
             )
         )
     )
 );
-
 $oOptions->show($aSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>

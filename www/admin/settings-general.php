@@ -43,11 +43,11 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     phpAds_registerGlobal('max_uiEnabled', 'max_language', 'max_requireSSL', 'max_sslPort', 'debug_production');
     // Set up the configuration .ini file
     $config = new OA_Admin_Settings();
-    $config->setConfigChange('max', 'uiEnabled',    $max_uiEnabled);
-    $config->setConfigChange('max', 'language',     $max_language);
-    $config->setConfigChange('max', 'requireSSL',   $max_requireSSL);
-    $config->setConfigChange('max', 'sslPort',      $max_sslPort);
-    $config->setConfigChange('debug', 'production', $debug_production);
+    $config->settingChange('max', 'uiEnabled',    $max_uiEnabled);
+    $config->settingChange('max', 'language',     $max_language);
+    $config->settingChange('max', 'requireSSL',   $max_requireSSL);
+    $config->settingChange('max', 'sslPort',      $max_sslPort);
+    $config->settingChange('debug', 'production', $debug_production);
     if (!$config->writeConfigChange()) {
         // Unable to write the config file out
         $errormessage[0][] = $strUnableToWriteConfig;

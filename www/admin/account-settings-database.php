@@ -29,59 +29,89 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/max/Admin/DB.php';
-require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-$oOptions = new OA_Admin_Option('settings');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
 phpAds_checkAccess(phpAds_Admin);
 
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('settings');
+
+// Prepare an array for storing error messages
 $aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    phpAds_registerGlobal('database_type', 'database_host', 'database_port', 'database_username',
-                          'database_password', 'database_name', 'database_persistent');
-    if (isset($database_password) && ereg('^\*+$', $database_password)) {
-        $database_password = $conf['database']['password'];
-    }
-    if (isset($database_type) && isset($database_host) && isset($database_username) &&
-        isset($database_password) && isset($database_name)) {
-        unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
-        $GLOBALS['_MAX']['CONF']['database']['type']        = $database_type;
-        $GLOBALS['_MAX']['CONF']['database']['host']        = $database_host;
-        $GLOBALS['_MAX']['CONF']['database']['port']        = $database_port;
-        $GLOBALS['_MAX']['CONF']['database']['username']    = $database_username;
-        $GLOBALS['_MAX']['CONF']['database']['password']    = $database_password;
-        $GLOBALS['_MAX']['CONF']['database']['name']        = $database_name;
-        $GLOBALS['_MAX']['CONF']['database']['persistent']  = isset($database_persistent) ? true : false;
-        if (!phpAds_dbConnect()) {
-            $aErrormessage[0][] = $strCantConnectToDb;
-        } else {
-            // Set up the configuration .ini file
-            $oConfig = new OA_Admin_Settings();
-            $oConfig->setConfigChange('database', 'type',       $database_type);
-            $oConfig->setConfigChange('database', 'host',       $database_host);
-            $oConfig->setConfigChange('database', 'port',       $database_port);
-            $oConfig->setConfigChange('database', 'username',   $database_username);
-            $oConfig->setConfigChange('database', 'password',   $database_password);
-            $oConfig->setConfigChange('database', 'name',       $database_name);
-            $oConfig->setConfigChange('database', 'persistent', $GLOBALS['_MAX']['CONF']['database']['persistent']);
-            if (!$oConfig->writeConfigChange()) {
-                // Unable to write the config file out
-                $aErrormessage[0][] = $strUnableToWriteConfig;
-            } else {
-                MAX_Admin_Redirect::redirect('account-settings-debug.php');
-            }
+    // Prepare an array of the HTML elements to process, and the
+    // location to save the values in the settings configuration
+    // file
+    $aElements = array();
+    // Database Server Settings
+    $aElements += array(
+        'database_type'     => array('database' => 'type'),
+        'database_host'     => array('database' => 'host'),
+        'database_port'     => array('database' => 'port'),
+        'database_username' => array('database' => 'username'),
+        'database_password' => array('database' => 'password'),
+        'database_name'     => array('database' => 'name')
+    );
+    // Database Optimision Settings
+    $aElements += array(
+        'database_persistent' => array(
+            'database' => 'persistent',
+            'bool'     => true
+        )
+    );
+    // Set the database type, as can never be submitted by the form
+    $database_type = $GLOBALS['_MAX']['CONF']['database']['type'];
+    // Test the database connectivity
+    phpAds_registerGlobal(
+        'database_host',
+        'database_port',
+        'database_username',
+        'database_password',
+        'database_name'
+    );
+    $aDsn = array();
+    $aDsn['database']['type']     = $database_type;
+    $aDsn['database']['host']     = $database_host;
+    $aDsn['database']['port']     = $database_port;
+    $aDsn['database']['username'] = $database_username;
+    $aDsn['database']['password'] = $database_password;
+    $aDsn['database']['name']     = $database_name;
+    $dsn = OA_DB::getDsn($aDsn);
+    $oDbh = OA_DB::singleton($dsn);
+    if (!PEAR::isError($oDbh)) {
+        // Create a new settings object, and save the settings!
+        $oSettings = new OA_Admin_Settings();
+        $result = $oSettings->processSettingsFromForm($aElements);
+        if ($result) {
+            // The settings configuration file was written correctly,
+            // go to the "next" settings page from here
+            MAX_Admin_Redirect::redirect('account-settings-debug.php');
         }
+        // Could not write the settings configuration file, store this
+        // error message and continue
+        $aErrormessage[0][] = $strUnableToWriteConfig;
+    } else {
+        $aErrormessage[0][] = $strCantConnectToDb;
     }
 }
 
+// Display the settings page's header and sections
 phpAds_PageHeader("5.2");
 phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-$oOptions->selection("databaseb");
 
+// Set the correct section of the settings pages and display the drop-down menu
+$oOptions->selection('database');
+
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $oSettings = array (
     array (
         'text'  => $strDatabaseServer,
@@ -94,49 +124,49 @@ $oSettings = array (
                 'enabled'    => true,
             ),
             array (
-                'type'    => 'break'
+                'type'       => 'break'
             ),
             array (
                 'type'       => 'text',
                 'name'       => 'database_host',
                 'text'       => $strDbHost,
-                'req'      => true,
+                'req'        => true,
             ),
             array (
-                'type'    => 'break'
+                'type'       => 'break'
             ),
             array (
                 'type'       => 'text',
                 'name'       => 'database_port',
                 'text'       => $strDbPort,
-                'req'      => true,
+                'req'        => true,
             ),
             array (
-                'type'    => 'break'
+                'type'       => 'break'
             ),
             array (
                 'type'       => 'text',
                 'name'       => 'database_username',
                 'text'       => $strDbUser,
-                'req'      => true,
+                'req'        => true,
             ),
             array (
-                'type'    => 'break'
+                'type'       => 'break'
             ),
             array (
                 'type'       => 'password',
                 'name'       => 'database_password',
                 'text'       => $strDbPassword,
-                'req'      => false,
+                'req'        => false,
             ),
             array (
-                'type'    => 'break'
+                'type'       => 'break'
             ),
             array (
                 'type'       => 'text',
                 'name'       => 'database_name',
                 'text'       => $strDbName,
-                'req'      => true,
+                'req'        => true,
             )
         )
     ),
@@ -144,15 +174,16 @@ $oSettings = array (
         'text'  => $strDatabaseOptimalisations,
         'items' => array (
             array (
-                'type'    => 'checkbox',
-                'name'    => 'database_persistent',
+                'type'      => 'checkbox',
+                'name'      => 'database_persistent',
                 'text'      => $strPersistentConnections
             )
         )
     )
 );
-
 $oOptions->show($oSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>

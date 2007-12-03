@@ -64,14 +64,16 @@ class Plugins_InvocationTags extends MAX_Plugin_Common
     }
 
     /**
-     * Return preference code - required for preferences
+     * Return setting configuration file code - required for plugins
+     * that store a value in the configuration file.
      *
-     * If method return NULL it means that that plugin shouldn't
-     * be available in 'admin/settings-invocation.php' page
+     * Value returned should be NULL if the plugin does not store
+     * a value in the configuration file, otherwise it should be a
+     * string in the form "key".
      *
-     * @return string
+     * @return string The setting "code".
      */
-    function getPreferenceCode()
+    function getSettingCode()
     {
     	return null;
     }

@@ -283,6 +283,7 @@ $GLOBALS['strTypeFTPPassword']                       = 'Password';
 $GLOBALS['strTypeFTPPassive']                        = 'Use passive FTP';
 $GLOBALS['strTypeFTPErrorDir']                       = 'The FTP Host Directory does not exist';
 $GLOBALS['strTypeFTPErrorConnect']                   = 'Could not connect to the FTP Server, the Login or Password is not correct';
+$GLOBALS['strTypeFTPErrorNoSupport']                 = 'Your installation of PHP does not support FTP.';
 $GLOBALS['strTypeFTPErrorHost']                      = 'The FTP Host is not correct';
 $GLOBALS['strDeliveryFilenames']                     = 'Delivery File Names';
 $GLOBALS['strDeliveryFilenamesAdClick']              = 'Ad Click';

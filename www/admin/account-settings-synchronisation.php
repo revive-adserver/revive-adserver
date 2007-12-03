@@ -22,54 +22,67 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$  $
+$Id$
 */
 
 // Require the initialisation file
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
 
-$oOptions = new OA_Admin_Option('settings');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+phpAds_checkAccess(phpAds_Admin);
 
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('settings');
+
+// Prepare an array for storing error messages
 $aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Register input variables
-    phpAds_registerGlobalUnslashed('updates_enabled');
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-
-    $oPreferences->setPrefChange('updates_enabled', isset($updates_enabled));
-
-    if (!count($aErrormessage)) {
-        if (!$oPreferences->writePrefChange()) {
-            // Unable to update the preferences
-            $aErrormessage[0][] = $strUnableToWritePrefs;
-        } else {
-            MAX_Admin_Redirect::redirect('account-settings-synchronisation.php');
-        }
+    // Prepare an array of the HTML elements to process, and the
+    // location to save the values in the settings configuration
+    // file
+    $aElements = array();
+    // Synchronisation Settings
+    $aElements += array(
+        'updates_enabled' => array(
+            'updates' => 'enabled',
+            'bool'    => true
+        ),
+    );
+    // Create a new settings object, and save the settings!
+    $oSettings = new OA_Admin_Settings();
+    $result = $oSettings->processSettingsFromForm($aElements);
+    if ($result) {
+        // The settings configuration file was written correctly,
+        // go to the "next" settings page from here
+        MAX_Admin_Redirect::redirect('account-settings-user-interface.php');
     }
-
+    // Could not write the settings configuration file, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWriteConfig;
 }
 
-if (isset($message)) {
-    phpAds_ShowMessage($message);
-}
+// Display the settings page's header and sections
 phpAds_PageHeader("5.2");
 phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+
+// Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection("synchronisation");
 
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
-        'text'    => $GLOBALS['strSyncSettings'],
+        'text'    => $strSyncSettings,
         'items'   => array (
             array (
                 'type'    => 'checkbox',
@@ -79,8 +92,9 @@ $aSettings = array (
         )
     )
 );
-
 $oOptions->show($aSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>
