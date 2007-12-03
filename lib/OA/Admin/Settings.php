@@ -54,6 +54,16 @@ class OA_Admin_Settings
     }
 
     /**
+     * A method to return a reference to the configuration array.
+     *
+     * @return array The configuration array.
+     */
+    function &getConfigArray()
+    {
+        return $this->aConf;
+    }
+
+    /**
      * A method to test if the Openads configuration .conf.php file is
      * writable by the web server process.
      *
