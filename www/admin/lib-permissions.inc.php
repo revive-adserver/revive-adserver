@@ -353,7 +353,7 @@ function phpAds_LoginScreen($message='', $sessionID=0, $inLineLogin = false)
         echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'><tr>";
         echo "<td width='80' valign='bottom'><img src='images/login-welcome.gif'>&nbsp;&nbsp;</td>";
         echo "<td width='100%' valign='bottom'>";
-        echo "<span class='tab-s'>".$strWelcomeTo." ".(isset($pref['name']) && $pref['name'] != '' ? $pref['name'] : MAX_PRODUCT_NAME)."</span><br />";
+        echo "<span class='tab-s'>".$strWelcomeTo." ".(isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME)."</span><br />";
         echo "<span class='install'>".$strEnterUsername."</span><br />";
         if ($message != "") {
             echo "<div class='errormessage' style='width: 400px;'><img class='errormessage' src='images/errormessage.gif' align='absmiddle'>";

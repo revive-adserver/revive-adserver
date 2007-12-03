@@ -15419,11 +15419,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aPreference['agencyid'] = '0';
         $aPreference['config_version'] = '0.300';
-        $aPreference['my_header'] = '';
-        $aPreference['my_footer'] = '';
-        $aPreference['my_logo'] = '';
-        $aPreference['language'] = 'english';
-        $aPreference['name'] = 'max_0_3_x';
         $aPreference['company_name'] = 'mysite.com';
         $aPreference['begin_of_week'] = '1';
         $aPreference['percentage_decimals'] = '2';
@@ -15442,7 +15437,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['default_campaign_weight'] = '1';
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
-        $aPreference['content_gzip_compression'] = 'f';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15453,10 +15447,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_show_parents'] = 't';
         $aPreference['gui_hide_inactive'] = 't';
         $aPreference['gui_link_compact_limit'] = '50';
-        $aPreference['gui_header_background_color'] = '';
-        $aPreference['gui_header_foreground_color'] = '';
-        $aPreference['gui_header_active_tab_color'] = '';
-        $aPreference['gui_header_text_color'] = '';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';
@@ -15490,11 +15480,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aPreference['agencyid'] = '1';
         $aPreference['config_version'] = '0.300';
-        $aPreference['my_header'] = '';
-        $aPreference['my_footer'] = '';
-        $aPreference['my_logo'] = '';
-        $aPreference['language'] = '';
-        $aPreference['name'] = 'agency';
         $aPreference['company_name'] = 'mysite.com';
         $aPreference['override_gd_imageformat'] = '';
         $aPreference['begin_of_week'] = '1';
@@ -15516,7 +15501,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['default_banner_destination'] = '';
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
-        $aPreference['content_gzip_compression'] = 'f';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15527,10 +15511,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_show_parents'] = 't';
         $aPreference['gui_hide_inactive'] = 't';
         $aPreference['gui_link_compact_limit'] = '50';
-        $aPreference['gui_header_background_color'] = '';
-        $aPreference['gui_header_foreground_color'] = '';
-        $aPreference['gui_header_active_tab_color'] = '';
-        $aPreference['gui_header_text_color'] = '';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';
@@ -15565,11 +15545,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aPreference['agencyid'] = '2';
         $aPreference['config_version'] = '0.300';
-        $aPreference['my_header'] = '';
-        $aPreference['my_footer'] = '';
-        $aPreference['my_logo'] = '';
-        $aPreference['language'] = '';
-        $aPreference['name'] = 'agency2';
         $aPreference['company_name'] = 'mysite.com';
         $aPreference['override_gd_imageformat'] = '';
         $aPreference['begin_of_week'] = '1';
@@ -15591,7 +15566,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['default_banner_destination'] = '';
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
-        $aPreference['content_gzip_compression'] = 't';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15602,10 +15576,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_show_parents'] = 't';
         $aPreference['gui_hide_inactive'] = 't';
         $aPreference['gui_link_compact_limit'] = '50';
-        $aPreference['gui_header_background_color'] = '';
-        $aPreference['gui_header_foreground_color'] = '';
-        $aPreference['gui_header_active_tab_color'] = '';
-        $aPreference['gui_header_text_color'] = '';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';
@@ -15639,11 +15609,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         $aPreference['agencyid'] = '3';
         $aPreference['config_version'] = '0.300';
-        $aPreference['my_header'] = '';
-        $aPreference['my_footer'] = '';
-        $aPreference['my_logo'] = '';
-        $aPreference['language'] = '';
-        $aPreference['name'] = 'Agency Three';
         $aPreference['company_name'] = 'mysite.com';
         $aPreference['override_gd_imageformat'] = '';
         $aPreference['begin_of_week'] = '1';
@@ -15665,7 +15630,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['default_banner_destination'] = '';
         $aPreference['client_welcome'] = 't';
         $aPreference['client_welcome_msg'] = '';
-        $aPreference['content_gzip_compression'] = 'f';
         $aPreference['gui_show_campaign_info'] = 't';
         $aPreference['gui_show_campaign_preview'] = 'f';
         $aPreference['gui_campaign_anonymous'] = 'f';
@@ -15676,10 +15640,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aPreference['gui_show_parents'] = 't';
         $aPreference['gui_hide_inactive'] = 'f';
         $aPreference['gui_link_compact_limit'] = '50';
-        $aPreference['gui_header_background_color'] = '';
-        $aPreference['gui_header_foreground_color'] = '';
-        $aPreference['gui_header_active_tab_color'] = '';
-        $aPreference['gui_header_text_color'] = '';
         $aPreference['updates_timestamp'] = '0';
         $aPreference['allow_invocation_interstitial'] = 't';
         $aPreference['allow_invocation_clickonly'] = 't';

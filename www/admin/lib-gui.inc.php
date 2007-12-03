@@ -75,6 +75,7 @@ function phpAds_PageShortcut($name, $link, $icon)
 
 function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $client='', $campaign='', $banner='', $zone='', $affiliate='', $compact='', $imgPath='')
 {
+    $conf = $GLOBALS['_MAX']['CONF'];
     $pref = $GLOBALS['_MAX']['PREF'];
     global $phpAds_TextAlignRight, $phpAds_TextDirection, $keySearch, $strSearch;
     $headerBackgroundColor = phpAds_getHeaderBackgroundColor();
@@ -116,18 +117,18 @@ function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $c
     }
     echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>\n";
     echo "<tr>\n";
-    if (empty($pref['name']) && empty($pref['my_logo'])) {
+    if (empty($conf['ui']['applicationName']) && empty($conf['ui']['logoFilePath'])) {
         echo "<td height='48' bgcolor='#$headerBackgroundColor' valign='bottom'>";
         echo "<img src='{$imgPath}images/logo.gif'>";
     } else {
-        if (empty($pref['my_logo'])) {
-            $productName = $pref['name'];
+        if (empty($conf['ui']['logoFilePath'])) {
+            $productName = $conf['ui']['applicationName'];
             $logo        = $imgPath.'images/logo-s.gif';
         } else {
             $productName = '';
-            $logo        = $imgPath.'images/'.$pref['my_logo'];
+            $logo        = $imgPath.'images/'.$conf['ui']['logoFilePath'];
         }
-    	$logo = !empty($pref['my_logo']) ? $imgPath.'images/'.$pref['my_logo'] : $imgPath.'images/logo-s.gif';
+    	$logo = !empty($conf['ui']['logoFilePath']) ? $imgPath.'images/'.$conf['ui']['logoFilePath'] : $imgPath.'images/logo-s.gif';
         echo "<td height='48' bgcolor='#$headerBackgroundColor' valign='middle'>";
         echo "&nbsp;&nbsp;&nbsp;&nbsp;<img src='{$logo}' align='top'>";
         echo "<span class='phpAdsNew'>".$productName."</span>";
@@ -142,26 +143,26 @@ function phpAds_writeHeader($displaySearch = true, $fromSearchWindow = false, $c
 
 function phpAds_getHeaderBackgroundColor()
 {
-    $pref = $GLOBALS['_MAX']['PREF'];
-    return !empty($pref['gui_header_background_color']) ? $pref['gui_header_background_color'] : '000063';
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    return !empty($aConf['ui']['headerBackgroundColor']) ? $aConf['ui']['headerBackgroundColor'] : '000063';
 }
 
 function phpAds_getHeaderForegroundColor()
 {
-    $pref = $GLOBALS['_MAX']['PREF'];
-    return !empty($pref['gui_header_foreground_color']) ? $pref['gui_header_foreground_color'] : '0066CC';
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    return !empty($aConf['ui']['headerForegroundColor']) ? $aConf['ui']['headerForegroundColor'] : '0066CC';
 }
 
 function phpAds_getHeaderActiveTabColor()
 {
-    $pref = $GLOBALS['_MAX']['PREF'];
-    return !empty($pref['gui_header_active_tab_color']) ? $pref['gui_header_active_tab_color'] : 'FFFFFF';
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    return !empty($aConf['ui']['headerActiveTabColor']) ? $aConf['ui']['headerActiveTabColor'] : 'FFFFFF';
 }
 
 function phpAds_getHeaderTextColor()
 {
-    $pref = $GLOBALS['_MAX']['PREF'];
-    return !empty($pref['gui_header_text_color']) ? $pref['gui_header_text_color'] : 'FFFFFF';
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    return !empty($aConf['ui']['headerTextColor']) ? $aConf['ui']['headerTextColor'] : 'FFFFFF';
 }
 
 function phpAds_getKeyLineColor()
@@ -260,10 +261,10 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             $sidebar .= "\t\t\t\t<tr>\n";
             $sidebar .= "\t\t\t\t\t<td colspan='2'><img src='".$imgPath."images/break.gif' height='1' width='160' vspace='4'></td>\n";
             $sidebar .= "\t\t\t\t</tr>";
-            $pagetitle  = isset($pref['name']) && $pref['name'] != '' ? $pref['name'] : MAX_PRODUCT_NAME;
+            $pagetitle  = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
             $pagetitle .= ' - '.$title;
         } else {
-            $pagetitle = isset($pref['name']) && $pref['name'] != '' ? $pref['name'] : MAX_PRODUCT_NAME;
+            $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         }
 
         $up_limit = count($phpAds_context);
@@ -407,7 +408,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     } else {
         $sidebar   = "\t\t\t\t&nbsp;\n";
         $searchbar = "\t\t&nbsp;\n";
-        $pagetitle = isset($pref['name']) && $pref['name'] != '' ? $pref['name'] : MAX_PRODUCT_NAME;
+        $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
         if ($ID == phpAds_Login) {
             $tabtop .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' height='1' width='1'></td>\n";
             $tabbar .= "\t\t\t\t\t<td width='1' bgcolor='#$keyLineColor'><img src='".$imgPath."images/spacer.gif' width='1'></td>\n";
@@ -434,7 +435,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         }
     }
     // Use gzip content compression
-    if (isset($pref['content_gzip_compression']) && $pref['content_gzip_compression'] == 't') {
+    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
         ob_start("ob_gzhandler");
     }
     // Send header with charset info
@@ -494,8 +495,8 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     }
     echo "topmargin='0' marginwidth='0' marginheight='0' onLoad='initPage();'>\n";
     // Header
-    if (isset($pref['my_header']) && $pref['my_header'] != '') {
-        include ($pref['my_header']);
+    if (isset($conf['ui']['headerFilePath']) && $conf['ui']['headerFilePath'] != '') {
+        include ($conf['ui']['headerFilePath']);
     }
     // Branding and searchbar
     $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin|phpAds_Agency|phpAds_Affiliate) && !defined('phpAds_installing'));
@@ -617,11 +618,11 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
     }
     echo "\t\t</tr>\n";
     // Footer
-    if (isset($pref['my_footer']) && $pref['my_footer'] != '') {
+    if (isset($conf['ui']['footerFilePath']) && $conf['ui']['footerFilePath'] != '') {
         echo "\t\t<tr>\n";
         echo "\t\t\t<td width='40' height='20'>&nbsp;</td>\n";
         echo "\t\t\t<td height='20'>";
-        include ($pref['my_footer']);
+        include ($conf['ui']['footerFilePath']);
         echo "</td>\n";
         echo "\t\t</tr>\n";
     }
@@ -672,7 +673,7 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
     }
     echo "</body>\n";
     echo "</html>\n";
-    if (isset($pref['content_gzip_compression']) && $pref['content_gzip_compression'] == 't') {
+    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
         ob_end_flush();
     }
 }

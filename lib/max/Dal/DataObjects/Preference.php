@@ -38,11 +38,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $__table = 'preference';                      // table name
     var $agencyid;                        // int(9)  not_null primary_key
     var $config_version;                  // real(9)  not_null
-    var $my_header;                       // string(255)
-    var $my_footer;                       // string(255)
-    var $my_logo;                         // string(255)
-    var $language;                        // string(32)
-    var $name;                            // string(32)
     var $company_name;                    // string(255)
     var $override_gd_imageformat;         // string(4)
     var $begin_of_week;                   // int(2)
@@ -66,7 +61,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $client_welcome_msg;              // blob(65535)  blob
     var $publisher_welcome;               // string(1)  enum
     var $publisher_welcome_msg;           // blob(65535)  blob
-    var $content_gzip_compression;        // string(1)  enum
     var $gui_show_campaign_info;          // string(1)  enum
     var $gui_show_campaign_preview;       // string(1)  enum
     var $gui_campaign_anonymous;          // string(1)  enum
@@ -77,10 +71,6 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $gui_show_parents;                // string(1)  enum
     var $gui_hide_inactive;               // string(1)  enum
     var $gui_link_compact_limit;          // int(11)
-    var $gui_header_background_color;     // string(7)
-    var $gui_header_foreground_color;     // string(7)
-    var $gui_header_active_tab_color;     // string(7)
-    var $gui_header_text_color;           // string(7)
     var $updates_enabled;                 // string(1)  enum
     var $updates_cache;                   // blob(65535)  blob
     var $updates_timestamp;               // int(11)
