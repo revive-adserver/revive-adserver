@@ -2802,7 +2802,7 @@ class OA_Dal_Maintenance_Statistics_Common
                             $advertisementRow['url']
                         );
                     }
-                    if ($aPlacement['send_activate_deactivate_email']) {
+                    if ($aPlacement['send_activate_deactivate_email'] == 't') {
                         $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id'], $disableReason);
                         if ($aEmail !== false) {
                             OA_Email::sendMail(
@@ -2993,7 +2993,7 @@ class OA_Dal_Maintenance_Statistics_Common
                                 array($advertisementRow['description'], $advertisementRow['alt'],
                                     $advertisementRow['url']);
                         }
-                        if ($aPlacement['send_activate_deactivate_email']) {
+                        if ($aPlacement['send_activate_deactivate_email'] == 't') {
                             $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
                             if ($aEmail !== false) {
                                 OA_Email::sendMail(
