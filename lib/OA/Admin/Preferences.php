@@ -228,21 +228,20 @@ class OA_Admin_Preferences
                 MAX::raiseError("The OA_Admin_Preferences module discovered an entity type that it didn't know how to handle.", MAX_ERROR_INVALIDARGS);
             }
             $table_name = $oDbh->quoteIdentifier($table_name,true);
-            $query = "
+            $insertQuery = "
                 INSERT INTO {$table_name} (
                     {$table_column}, preference, value
                 ) VALUES (
                     ?, ? ,?
                 )
                 ";
-            $aTypes = array('integer', 'text', 'text');
-            $st     = $oDbh->prepare($query, $aTypes);
+            $aInsertTypes = array('integer', 'text', 'text');
             foreach ($this->prefSql as $key => $value) {
-
+                $st = $oDbh->prepare($insertQuery, $aInsertTypes);
                 // Don't use a PEAR_Error handler
                 PEAR::pushErrorHandling(null);
                 // Try to INSERT first
-                $rows = $oDbh->execute(array($entityId, $key, $value));
+                $rows = $st->execute(array($entityId, $key, $value));
                 // Restore the PEAR_Error handler
                 PEAR::popErrorHandling();
                 if (PEAR::isError($rows)) {
@@ -259,7 +258,7 @@ class OA_Admin_Preferences
                             preference = ?";
                     $aTypes = array('integer', 'text');
                     $st     = $oDbh->prepare($query, $aTypes);
-                    $rows   = $oDbh->execute(array($entityId, $key));
+                    $rows   = $st->execute(array($entityId, $key));
                     if (PEAR::isError($rows)) {
                         return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
                     }
@@ -301,7 +300,7 @@ class OA_Admin_Preferences
             $oDbh =& OA_DB::singleton();
 
             if (PEAR::isError($oDbh)) {
-                return MAX::raiseError($rows, MAX_ERROR_DBFAILURE);
+                return MAX::raiseError($oDbh, MAX_ERROR_DBFAILURE);
             }
 
             if (phpAds_isUser(phpAds_Client)) {
