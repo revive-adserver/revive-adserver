@@ -83,6 +83,7 @@ class DataObjects_Campaigns_trackers extends DB_DataObjectCommon
                         $aAuditFields['status']     = $this->_formatValue('status');
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['campaignid']   = $this->campaignid;
                         break;
         }
     }

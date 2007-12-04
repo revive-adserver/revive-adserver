@@ -68,6 +68,7 @@ $orderdirection = MAX_getStoredValue('orderdirection',  'down');
 $setPerPage     = MAX_getStoredValue('setPerPage',      10);
 $pageID         = MAX_getStoredValue('pageID',          1);
 
+
 //  setup date selector
 $daySpan        = new OA_Admin_UI_Audit_DaySpanField('period', 'all_events');
 $daySpan->setValue($periodPreset);
@@ -144,7 +145,7 @@ $pager->history = $pager->getPageData();
 $pager->pagerLinks = $pager->getLinks();
 
 $pager->pagerLinks = $pager->pagerLinks['all'];
-$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="this.form.submit()"$2', $pager->getPerPageSelectBox(10, 100, 10));
+$pager->pagerSelect = preg_replace('/(<select.*?)(>)/i', '$1 onchange="submitForm()" id="setPerPage"$2', $pager->getPerPageSelectBox(10, 100, 10));
 
 //  build column header link params
 $aAllowdParams = array('advertiserId', 'campaignId', 'publisherId', 'zoneId');

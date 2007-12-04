@@ -134,6 +134,7 @@ class DataObjects_Trackers extends DB_DataObjectCommon
             case OA_AUDIT_ACTION_INSERT:
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['clientid'] = $this->clientid;
                         break;
             case OA_AUDIT_ACTION_DELETE:
                         break;

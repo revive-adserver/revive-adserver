@@ -78,8 +78,8 @@ class DataObjects_Banners extends DB_DataObjectCommon
     var $keyword;                         // string(255)  not_null
     var $transparent;                     // int(1)  not_null
     var $parameters;                      // blob(65535)  blob
-    var $an_banner_id;                    // int(11)  
-    var $as_banner_id;                    // int(11)  
+    var $an_banner_id;                    // int(11)
+    var $as_banner_id;                    // int(11)
     var $status;                          // int(11)  not_null
 
     /* ZE2 compatibility trick*/
@@ -98,7 +98,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
         'autohtml' => 't',
         'alt_contenttype' => 'gif'
     );
-    
+
     function delete($useWhere = false, $cascade = true, $parentid = null)
     {
     	$doBanner = clone($this);
@@ -225,6 +225,7 @@ class DataObjects_Banners extends DB_DataObjectCommon
                         $aAuditFields['htmlcache']     = 'data not audited';
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['campaignid']    = $this->campaignid;
                         break;
         }
     }

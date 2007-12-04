@@ -133,7 +133,7 @@ if (isset($submit)) {
     $aVariables['description']     = !empty($description) ? $description : '';
     $aVariables['imageurl']        = (!empty($imageurl) && $imageurl != 'http://') ? $imageurl : '';
     $aVariables['url']             = (!empty($url) && $url != 'http://') ? $url : '';
-    $aVariables['status']          = !empty($status) ? $status : '';
+    $aVariables['status']          = ($status != '') ? $status : '';
     $aVariables['statustext']      = !empty($statustext) ? $statustext : '';
     $aVariables['storagetype']     = $type;
     $aVariables['filename']        = !empty($aBanner['filename']) ? $aBanner['filename'] : '';
@@ -457,10 +457,11 @@ if($type == 'html') {
     echo " onsubmit='return max_formValidateHtml(this.banner)'";
 }
 echo ">
-        <input type='hidden' name='clientid' value='{$clientid}'>
-        <input type='hidden' name='campaignid' value='{$campaignid}'>
-        <input type='hidden' name='bannerid' value='{$bannerid}'>
-        <input type='hidden' name='type' value='{$type}'>
+        <input type='hidden' name='clientid' value='{$clientid}' />
+        <input type='hidden' name='campaignid' value='{$campaignid}' />
+        <input type='hidden' name='bannerid' value='{$bannerid}' />
+        <input type='hidden' name='type' value='{$type}' />
+        <input type='hidden' name='status' value='{$row['status']}' />
 ";
 
 if(isset($session['htmlerrormsg']) && strlen($session['htmlerrormsg']) > 0) {

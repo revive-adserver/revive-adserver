@@ -15,7 +15,6 @@
 <form id="auditForm" name="auditForm" method="POST">
 <input type='hidden' name='listorder' value='{$listorder}'>
 <input type='hidden' name='orderdirection' value='{$orderdirection}'>
-<input type='hidden' name='setPerPage' value='{$setPerPage}'>
 <input type='hidden' name='origAdvertiserId' value='{$advertiserId}'>
 <input type='hidden' name='origPublisherId' value='{$publisherId}'>
 
@@ -60,10 +59,6 @@
     </div>
 </fieldset>
 
-
-<div class="filters">
-    {if !empty($pager->links)}{t str=ItemsPerPage}: {$pager->pagerSelect}&nbsp;{$pager->links}{/if}
-</div>
 <div>
     <table class="data-grid table">
         <tbody>
@@ -86,9 +81,12 @@
             <tr class="{$rowClass}">
                 <td>{$aValue.updated}</td>
                 <td>
-                    {$aValue.username} has {$aValue.action} {$aValue.context} (#{$aValue.contextid})
+                    {$aValue.username} has {$aValue.action} {$aValue.context} {if !empty($aValue.contextid)}(#{$aValue.contextid}){/if}
                     {if !empty($aValue.parentcontext)}
                         for {$aValue.parentcontext} (#{$aValue.parentcontextid})
+                    {/if}
+                    {if !empty($aValue.hasChildren)}
+                        and additional items
                     {/if}
                 </td>
                 <td><a href="userlog-audit-detailed.php?auditId={$aValue.auditid}"><img src="images/icon-zoom.gif" />&nbsp;View</a></td>
@@ -105,7 +103,7 @@
     </table>
 </div>
 <div class="filters">
-    {if !empty($pager->links)}{t str=ItemsPerPage}: {$pager->pagerSelect}&nbsp;{$pager->links}{/if}
+    {t str=ItemsPerPage}: {$pager->pagerSelect}&nbsp;{if !empty($pager->links)}{$pager->links}{/if}
 </div>
 </form>
 {literal}
@@ -144,6 +142,9 @@
             aUrl.push('period_start=' + periodStart);
             aUrl.push('period_end=' + periodEnd);
         }
+        var setPerPage = form.setPerPage.options[form.setPerPage.selectedIndex].value;
+        aUrl.push('setPerPage=' + setPerPage);
+        
         var params = aUrl.join('&');
         if (aUrl.length > 0) {
             url = url + '?' + params;

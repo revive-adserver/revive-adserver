@@ -91,6 +91,7 @@ class DataObjects_Acls extends DB_DataObjectCommon
             case OA_AUDIT_ACTION_INSERT:
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['bannerid'] = $this->bannerid;
                         break;
             case OA_AUDIT_ACTION_DELETE:
                         break;

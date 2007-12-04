@@ -55,7 +55,8 @@ $pageName = basename($_SERVER['PHP_SELF']);
 
 $oTpl = new OA_Admin_Template('userlog-audit-detailed.html');
 
-$aAuditDetail = OA_Dll_Userlog::getAuditDetail($auditId);
+$oUserlog = & new OA_Dll_Userlog();
+$aAuditDetail = $oUserlog->getAuditDetail($auditId);
 
 $oTpl->assign('aAuditDetail', $aAuditDetail);
 

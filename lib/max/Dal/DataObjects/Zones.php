@@ -164,6 +164,7 @@ class DataObjects_Zones extends DB_DataObjectCommon
                         $aAuditFields['forceappend']    = $this->_formatValue('forceappend');
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['affiliateid']    = $this->affiliateid;
                         break;
         }
     }

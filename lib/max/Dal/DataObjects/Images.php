@@ -116,9 +116,10 @@ class DataObjects_Images extends DB_DataObjectCommon
         {
             case OA_AUDIT_ACTION_INSERT:
             case OA_AUDIT_ACTION_DELETE:
-                        $aAuditFields['contents']  = 'binary data not audited';
+                        $aAuditFields['contents']   = 'binary data not audited';
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['bannerid']   = $this->bannerid;
                         break;
         }
     }

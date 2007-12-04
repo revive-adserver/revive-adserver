@@ -50,11 +50,21 @@ class OA_Dll_Userlog extends OA_Dll
      */
     function getAuditDetail($auditId)
     {
-        $oAudit = OA_Dal::factoryDO('audit');
+        $oAudit = & OA_Dal::factoryDO('audit');
         $oAudit->get($auditId);
 
         $oAudit->details = unserialize($oAudit->details);
         $aAudit = $oAudit->toArray();
+        $aAudit['name'] = $aAudit['details']['key_desc'];
+        unset($aAudit['details']['key_desc']);
+
+        // remove parent context id
+        $this->_removeParentContextId($aAudit);
+
+        //  get children details
+        if ($this->hasChildren($aAudit['auditid'], $aAudit['context'])) {
+            $aAudit['children'] = $this->getChildren($aAudit['auditid'], $aAudit['context']);
+        }
 
         //  set action type
         switch($aAudit['actionid']) {
@@ -187,6 +197,9 @@ class OA_Dll_Userlog extends OA_Dll
                 $oAudit->whereAdd("context = 'Zone' AND contextid = {$aParam['zone_id']}");
             }
 
+            //  Make sure that no items that are children are not displayed
+            $oAudit->whereAdd('parentid IS NULL');
+
             if ($aParam['order']) {
                 if ($aParam['order'] == 'down') {
                     $oAudit->orderBy($aParam['listorder'] .' ASC');
@@ -203,6 +216,7 @@ class OA_Dll_Userlog extends OA_Dll
 
             while ($oAudit->fetch()) {
                 $aAudit = $oAudit->toArray();
+                $aAudit['details'] = unserialize($aAudit['details']);
 
                 //  set action type
                 switch($aAudit['actionid']) {
@@ -217,61 +231,119 @@ class OA_Dll_Userlog extends OA_Dll
                     break;
                 }
 
-                switch($aAudit['context']) {
-                case 'Affiliate':
-                    if (empty($aAudit['username'])) {
-                        $aAudit['username'] = 'Installer';
+                if ($aAudit['actionid'] != OA_AUDIT_ACTION_DELETE) {
+                    switch($aAudit['context']) {
+                    case 'Affiliate':
+                        if (empty($aAudit['username'])) {
+                            $aAudit['username'] = 'Installer';
+                        }
+                        break;
+                    case 'Banner':
+                        $aAudit['parentcontext'] = 'Campaign';
+                        break;
+                    case 'Campaign':
+                        $aAudit['parentcontext'] = 'Client';
+                        break;
+                    case 'Channel':
+                    case 'Zone':
+                        $aAudit['parentcontext'] = 'Affiliate';
+                        break;
                     }
-                    break;
-                case 'Banner':
-                    $aAudit['parentcontext'] = 'Campaign';
-                    break;
-                case 'Campaign':
-                    $aAudit['parentcontext'] = 'Client';
-                    break;
-                case 'Channel':
-                case 'Zone':
-                    $aAudit['parentcontext'] = 'Affiliate';
-                    break;
-                }
-                $aAudit['parentcontextid'] = $this->getParentID($aAudit['contextid'], $aAudit['context']);
 
+                    $aAudit['parentcontextid'] = $this->getParentID($aAudit['context'], $aAudit['details']);
+                } else {
+                    $aAudit['hasChildren'] = $this->hasChildren($aAudit['auditid'], $aAudit['contextid']);
+                }
                 $aAuditInfo[] = $aAudit;
             }
-
         }
         return $aAuditInfo;
     }
 
-    function getParentID($itemID, $itemType)
+    function getParentID($itemType, $itemDetails)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
         switch ($itemType) {
         case 'Campaign':
-            $oCampaign = OA_Dal::factoryDO($conf['table']['campaigns']);
-            $oCampaign->selectAdd();
-            $oCampaign->selectAdd('clientid');
-            $oCampaign->get($itemID);
-            return $oCampaign->clientid;
+            return $itemDetails['clientid'];
         case 'Banner':
-            $oBanner = OA_Dal::factoryDO($conf['table']['banners']);
-            $oBanner->selectAdd();
-            $oBanner->selectAdd('campaignid');
-            $oBanner->get($itemID);
-            return $oBanner->campaignid;
+            return $itemDetails['campaignid'];
         case 'Channel':
-            $oChannel = OA_Dal::factoryDO($conf['table']['channel']);
-            $oChannel->selectAdd();
-            $oChannel->selectAdd('affiliateid');
-            $oChannel->get($itemID);
-            return $oChannel->affiliateid;
         case 'Zone':
-            $oZone = OA_Dal::factoryDO($conf['table']['zones']);
-            $oZone->selectAdd();
-            $oZone->selectAdd('affiliateid');
-            $oZone->get($itemID);
-            return $oZone->affiliateid;
+            return $itemDetails['affiliateid'];
+        }
+    }
+
+    function getChildren($auditID, $itemContext)
+    {
+        switch ($itemContext) {
+        case 'Banner':
+            $context = 'Ad Zone Association';
+            break;
+        }
+
+        $oAudit = & OA_Dal::factoryDO($GLOBALS['_MAX']['CONF']['table']['audit']);
+        $oAudit->parentid = $auditID;
+        $oAudit->context  = $context;
+        $numRows = $oAudit->find();
+
+        while($oAudit->fetch()) {
+            $aAudit = $oAudit->toArray();
+            //  check if child has children
+            if ($this->hasChildren($aAudit['auditid'], $aAudit['context'])) {
+                $aAudit['children'] = $this->getChildren($aAudit['auditid'], $aAudit['context']);
+            }
+            $aChildren[] = $aAudit;
+        }
+
+        return $aChildren;
+    }
+
+    function hasChildren($auditID, $itemContext)
+    {
+        switch ($itemContext) {
+        case 'Banner':
+            $context = 'Ad Zone Association';
+            break;
+        }
+
+        $oAudit = & OA_Dal::factoryDO($GLOBALS['_MAX']['CONF']['table']['audit']);
+        $oAudit->parentid = $auditID;
+        $oAudit->context  = $context;
+        $numRows = $oAudit->find();
+
+        return ($numRows > 0) ? true : false;
+    }
+
+    function _removeParentContextId(&$aAudit)
+    {
+        switch ($aAudit['context']) {
+        case 'Ad Zone Association':
+        case 'Delivery Limitation':
+        case 'Image':
+            if (!is_array($aAudit['details']['bannerid'])) {
+                unset($aAudit['details']['banner']);
+            }
+            break;
+        case 'Banner':
+        case 'Campaign Tracker':
+            if (!is_array($aAudit['details']['campaignid'])) {
+                unset($aAudit['details']['campaignid']);
+            }
+            break;
+        case 'Campaign':
+        case 'Tracker':
+            if (!is_array($aAudit['details']['clientid'])) {
+                unset($aAudit['details']['clientid']);
+            }
+            break;
+        case 'Channel':
+        case 'Zone':
+            if (!is_array($aAudit['details']['affiliateid'])) {
+                unset($aAudit['details']['affiliateid']);
+            }
+            break;
         }
     }
 }

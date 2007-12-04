@@ -80,6 +80,7 @@ class DataObjects_Ad_zone_assoc extends DB_DataObjectCommon
         switch ($actionid)
         {
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['bannerid']            = $this->bannerid;
                         break;
             case OA_AUDIT_ACTION_INSERT:
             case OA_AUDIT_ACTION_DELETE:

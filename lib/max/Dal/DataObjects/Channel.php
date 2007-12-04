@@ -167,6 +167,7 @@ class DataObjects_Channel extends DB_DataObjectCommon
                         $aAuditFields['active'] = $this->_formatValue('active');
                         break;
             case OA_AUDIT_ACTION_UPDATE:
+                        $aAuditFields['affiliateid'] = $this->affiliateid;
                         break;
         }
     }
