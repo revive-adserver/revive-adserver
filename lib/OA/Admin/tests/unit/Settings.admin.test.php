@@ -84,7 +84,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf = new OA_Admin_Settings(true);
         $oConf->bulkSettingChange('foo', array('one' => 'bar', 'two' => 'baz'));
         $expected = array('foo' => array('one' => 'bar', 'two' => 'baz'));
-        $this->assertEqual($expected, $oConf->conf);
+        $this->assertEqual($expected, $oConf->aConf);
     }
 
     function testSettingChange()
@@ -92,7 +92,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf = new OA_Admin_Settings(true);
         $oConf->settingChange('group', 'item', 'value');
         $expected = array('group' => array('item' => 'value'));
-        $this->assertEqual($expected, $oConf->conf);
+        $this->assertEqual($expected, $oConf->aConf);
     }
 
     /**
@@ -105,10 +105,10 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf = new OA_Admin_Settings(true);
 
         // Build the local conf array manually.
-        $oConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz');
-        $oConf->conf['webpath']['admin'] = 'localhost';
-        $oConf->conf['webpath']['delivery'] = 'localhost';
-        $oConf->conf['webpath']['deliverySSL'] = 'localhost';
+        $oConf->aConf['foo'] = array('one' => 'bar', 'two' => 'baz');
+        $oConf->aConf['webpath']['admin'] = 'localhost';
+        $oConf->aConf['webpath']['delivery'] = 'localhost';
+        $oConf->aConf['webpath']['deliverySSL'] = 'localhost';
         $filename = 'oa_test_' . rand();
         $this->assertTrue($oConf->writeConfigChange($this->basePath, $filename), 'Error writing config file');
 
@@ -125,15 +125,15 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf = new OA_Admin_Settings(true);
 
         // Build the local conf array manually.
-        $oConf->conf['webpath']['admin'] = 'dummy';
-        $oConf->conf['webpath']['delivery'] = 'dummy';
-        $oConf->conf['webpath']['deliverySSL'] = 'dummy';
+        $oConf->aConf['webpath']['admin'] = 'dummy';
+        $oConf->aConf['webpath']['delivery'] = 'dummy';
+        $oConf->aConf['webpath']['deliverySSL'] = 'dummy';
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
         $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Config file does not exist');
 
         // Modify delivery settings to a different host
-        $oConf->conf['webpath']['delivery'] = 'delivery';
-        $oConf->conf['webpath']['deliverySSL'] = 'delivery';
+        $oConf->aConf['webpath']['delivery'] = 'delivery';
+        $oConf->aConf['webpath']['deliverySSL'] = 'delivery';
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
         $this->assertTrue(file_exists($this->basePath . '/dummy.conf.php'), 'Dummy config file does not exist');
         $this->assertTrue(file_exists($this->basePath . '/delivery.conf.php'), 'Real config file does not exist');
@@ -141,13 +141,13 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // Test both config files are correct
         $aRealConfig = parse_ini_file($this->basePath . '/delivery.conf.php', true);
         $aDummyConfig = parse_ini_file($this->basePath . '/dummy.conf.php', true);
-        $this->assertEqual($oConf->conf, $aRealConfig, 'Real config has incorrect values');
+        $this->assertEqual($oConf->aConf, $aRealConfig, 'Real config has incorrect values');
         $aExpected = array('realConfig' => 'delivery');
         $this->assertEqual($aExpected, $aDummyConfig, 'Dummy config has incorrect values');
 
         // Modify the delivery to use three different hosts
-        $oConf->conf['webpath']['delivery'] = 'newhost';
-        $oConf->conf['webpath']['deliverySSL'] = 'newSSLhost';
+        $oConf->aConf['webpath']['delivery'] = 'newhost';
+        $oConf->aConf['webpath']['deliverySSL'] = 'newSSLhost';
         $this->assertTrue($oConf->writeConfigChange($this->basePath), 'Error writing config file');
 
         // Test the files have been correctly created/deleted
@@ -160,7 +160,7 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $aRealConfig = parse_ini_file($this->basePath . '/newhost.conf.php', true);
         $aDummyAdminConfig = parse_ini_file($this->basePath . '/dummy.conf.php', true);
         $aDummySSLConfig = parse_ini_file($this->basePath . '/newSSLhost.conf.php', true);
-        $this->assertEqual($oConf->conf, $aRealConfig, 'Real config has incorrect values');
+        $this->assertEqual($oConf->aConf, $aRealConfig, 'Real config has incorrect values');
         $aExpected = array('realConfig' => 'newhost');
         $this->assertEqual($aExpected, $aDummyAdminConfig, 'Dummy admin config has incorrect values');
         $this->assertEqual($aExpected, $aDummySSLConfig, 'Dummy SSL config has incorrect values');
@@ -185,21 +185,21 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $oConf = new OA_Admin_Settings(true);
 
         // Build the local conf array manually.
-        $oConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz');
-        $oConf->conf['webpath']['admin'] = 'localhost2';
-        $oConf->conf['webpath']['delivery'] = 'localhost';
-        $oConf->conf['webpath']['deliverySSL'] = 'localhost3';
+        $oConf->aConf['foo'] = array('one' => 'bar', 'two' => 'baz');
+        $oConf->aConf['webpath']['admin'] = 'localhost2';
+        $oConf->aConf['webpath']['delivery'] = 'localhost';
+        $oConf->aConf['webpath']['deliverySSL'] = 'localhost3';
         $filename = 'oa_test_' . rand();
         $folder = $this->basePath . '/oa_test_' . rand();
         mkdir($folder);
         $this->assertEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Unexpected un-recognised config files detected');
 
         //Check that if there is an admin config file, it it recognised
-        touch($folder . '/' . $oConf->conf['webpath']['admin'] . $filename . '.conf.php');
+        touch($folder . '/' . $oConf->aConf['webpath']['admin'] . $filename . '.conf.php');
         $this->assertEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Unexpected un-recognised config files detected');
 
         // Same for a deliverySSL config file:
-        touch($folder . '/' . $oConf->conf['webpath']['deliverySSL'] . $filename . '.conf.php');
+        touch($folder . '/' . $oConf->aConf['webpath']['deliverySSL'] . $filename . '.conf.php');
         $this->assertEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Unexpected un-recognised config files detected');
 
         $unrecognisedFilename = $folder . '/localhost4.' . $filename . '.conf.php';
@@ -207,8 +207,8 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $this->assertNotEqual(array(), $oConf->findOtherConfigFiles($folder, $filename), 'Expected un-recognised config files NOT detected');
 
         // Cleanup
-        unlink($folder . '/' . $oConf->conf['webpath']['admin'] . $filename . '.conf.php');
-        unlink($folder . '/' . $oConf->conf['webpath']['deliverySSL'] . $filename . '.conf.php');
+        unlink($folder . '/' . $oConf->aConf['webpath']['admin'] . $filename . '.conf.php');
+        unlink($folder . '/' . $oConf->aConf['webpath']['deliverySSL'] . $filename . '.conf.php');
         unlink($unrecognisedFilename);
 
         rmdir($folder);
@@ -219,11 +219,11 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // Build a test dist.conf.php
         $oDistConf = new OA_Admin_Settings(true);
 
-        $oDistConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz', 'new' => 'additional_value');
-        $oDistConf->conf['webpath']['admin'] = 'disthost';
-        $oDistConf->conf['webpath']['delivery'] = 'disthost';
-        $oDistConf->conf['webpath']['deliverySSL'] = 'disthost';
-        $oDistConf->conf['new'] = array('new_key' => 'new_value');
+        $oDistConf->aConf['foo'] = array('one' => 'bar', 'two' => 'baz', 'new' => 'additional_value');
+        $oDistConf->aConf['webpath']['admin'] = 'disthost';
+        $oDistConf->aConf['webpath']['delivery'] = 'disthost';
+        $oDistConf->aConf['webpath']['deliverySSL'] = 'disthost';
+        $oDistConf->aConf['new'] = array('new_key' => 'new_value');
 
         $distFilename = 'oa_test_dist' . rand();
         $this->assertTrue($oDistConf->writeConfigChange($this->basePath, $distFilename, false), 'Error writing config file');
@@ -231,11 +231,11 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // Build a test user conf
         $oUserConf = new OA_Admin_Settings(true);
 
-        $oUserConf->conf['foo'] = array('one' => 'bar', 'two' => 'baz', 'old' => 'old_value');
-        $oUserConf->conf['deprecated'] = array('old_key' => 'old_value');
-        $oUserConf->conf['webpath']['admin'] = 'localhost';
-        $oUserConf->conf['webpath']['delivery'] = 'localhost';
-        $oUserConf->conf['webpath']['deliverySSL'] = 'localhost';
+        $oUserConf->aConf['foo'] = array('one' => 'bar', 'two' => 'baz', 'old' => 'old_value');
+        $oUserConf->aConf['deprecated'] = array('old_key' => 'old_value');
+        $oUserConf->aConf['webpath']['admin'] = 'localhost';
+        $oUserConf->aConf['webpath']['delivery'] = 'localhost';
+        $oUserConf->aConf['webpath']['deliverySSL'] = 'localhost';
 
         $userFilename = 'oa_test_user' . rand();
         $this->assertTrue($oUserConf->writeConfigChange($this->basePath, $userFilename), 'Error writing config file');
