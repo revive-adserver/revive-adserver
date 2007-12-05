@@ -73,17 +73,17 @@ function phpAds_PageShortcut($name, $link, $icon)
 }
 
 
-function phpAds_writeBranding() 
+function phpAds_writeBranding()
 {
     $pref = $GLOBALS['_MAX']['PREF'];
 
-    if (empty($conf['ui']['applicationName']) && empty($conf['ui']['logoFilePath'])) { 
+    if (empty($conf['ui']['applicationName']) && empty($conf['ui']['logoFilePath'])) {
 		  echo "<div id='oaHeaderBranding' class='brandingDefault'>" . MAX_PRODUCT_NAME . "</div>";
-    } 
+    }
     else {
       if (empty($conf['ui']['logoFilePath'])) {
 			 echo "<div id='oaHeaderBranding' class='brandingName'><div></div>{$conf['ui']['applicationName']}</div>";
-      } 
+      }
       else {
 			 echo "<div id='oaHeaderBranding' class='brandingCustom'><img src='images/{$conf['ui']['logoFilePath']}' alt='{$conf['ui']['applicationName']}' /></div>";
       }
@@ -128,20 +128,20 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 			case phpAds_isUser(phpAds_Client):	$pages = $phpAds_nav['client']; break;
 			default:							$pages = $phpAds_nav['affiliate']; break;
 		}
-		
+
         // Build sidebar
         $sections = explode(".", $ID);
         $sectionID = "";
-		
+
 		$sidebar .= "<div id='oaSidebar'><h3>{$GLOBALS['strNavigation']}</h3>";
-		$sidebar .= "<ul id='oaSidebarNavigation'>"; 
-		
-        for ($i=0; $i<count($sections)-1; $i++) 
+		$sidebar .= "<ul id='oaSidebarNavigation'>";
+
+        for ($i=0; $i<count($sections)-1; $i++)
 		{
             $sectionID .= $sections[$i];
             list($filename, $title) = each($pages[$sectionID]);
             $sectionID .= ".";
-			
+
             if ($i==0) {
 				$sidebar .= "<li class='top'><a href='{$filename}'>{$title}</a></li>";
                 $head .= "<link rel='top' href='{$filename}' title='{$title}' />";
@@ -165,13 +165,13 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
         }
 
 		$sidebar .= "</ul>";
-        
+
 		$up_limit = count($phpAds_context);
         $down_limit = 0;
 
         // Build Context
         if (count($phpAds_context)) {
-			$sidebar .= "<ul id='oaSidebarContext'>"; 
+			$sidebar .= "<ul id='oaSidebarContext'>";
             $selectedcontext = '';
             for ($ci=$down_limit; $ci < $up_limit; $ci++) {
                 if ($phpAds_context[$ci]['selected']) {
@@ -182,21 +182,21 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
                 $ac = '';
                 if ($ci == $selectedcontext - 1) $ac = $GLOBALS['keyPreviousItem'];
                 if ($ci == $selectedcontext + 1) $ac = $GLOBALS['keyNextItem'];
-				
+
 				$sidebar .= "<li" . ($phpAds_context[$ci]['selected'] ? " class='selected'" : "") . ">";
 				$sidebar .= "<a href='{$phpAds_context[$ci]['link']}'" . ($ac != '' ? " accesskey='" . $ac . "'" : "") . ">";
 				$sidebar .= "{$phpAds_context[$ci]['name']}</a></li>";
             }
-			$sidebar .= "</ul>"; 
+			$sidebar .= "</ul>";
         }
-        
+
         // Include custom HTML for the sidebar
         if ($extra != '') $sidebar .= "<div id='oaSidebarCustom'>{$extra}</div>";
-        
+
         // Include shortcuts
         if (count($phpAds_shortcuts)) {
 			$sidebar .= "<h3>{$GLOBALS['strShortcuts']}</h3>";
-			$sidebar .= "<ul id='oaSidebarShortcuts'>"; 
+			$sidebar .= "<ul id='oaSidebarShortcuts'>";
 
             for ($si=0; $si<count($phpAds_shortcuts); $si++) {
 				$sidebar .= "<li style='background-image: url({$phpAds_shortcuts[$si]['icon']});'>";
@@ -204,14 +204,14 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 				$sidebar .= "</li>";
                 $head  .= "<link rel='bookmark' href='{$phpAds_shortcuts[$si]['link']}' title='{$phpAds_shortcuts[$si]['name']}' />";
             }
-			
-			$sidebar .= "</ul>"; 
+
+			$sidebar .= "</ul>";
         }
 		$sidebar .= "</div>";
-		
+
         // Build Tabbar
         $currentsection = $sections[0];
-        
+
         // Prepare Navigation
 		switch (true) {
 			case phpAds_isUser(phpAds_Admin):		$pages = $phpAds_nav['admin']; break;
@@ -233,13 +233,13 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
                 }
             }
         }
-		
+
 		$tabbar .= "</ul>";
-    } 
+    }
     else {
         $sidebar = "&nbsp;";
         $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
-		
+
         if ($ID == phpAds_Login) {
 			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>{$GLOBALS['strAuthentification']}</a></li></ul>";
         }
@@ -247,15 +247,15 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>Error</a></li></ul>";
         }
     }
-    
+
     // Use gzip content compression
     if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression'] == 't') {
         ob_start("ob_gzhandler");
     }
-    
+
     // Send header with charset info
     header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
-    
+
     // Head
 	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
     echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
@@ -279,14 +279,10 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     if (!defined('phpAds_installing')) {
         echo "<script type='text/javascript' src='{$imgPath}js/formValidation.php'></script>";
     }
-    
+
     if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
-        /**
-         * @todo $xajax should exists! What is happening here?
-         */
-        if (isset($xajax)) {
-            $xajax->printJavascript('./', 'js/xajax.js');
-        }
+        require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
+        $xajax->printJavascript('./', 'js/xajax.js');
     }
 
     echo "<script type='text/javascript' src='{$imgPath}js/jscalendar/calendar.js'></script>";
@@ -309,7 +305,7 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 
     // Include other elements that belong in the <head>
     echo $head;
-	
+
     echo "</head>";
 	echo "<body class='hasInterface" . ($showSidebar == true ? " hasSidebar" : "") . "' onload='initPage();'>";
 
@@ -333,14 +329,14 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 	echo "</div>";
 
 	echo "<div id='oaNavigation'>";
-	
+
     if ($showMainNav == true) {
         echo $tabbar;
     }
-    
+
     // Show currently logged on user and IP
 	echo "<ul id='oaNavigationExtra'>";
-	
+
     if (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing')) {
         if (!defined('phpAds_installing')) {
        		echo "<li class='infoUser'>{$session['username']} [{$_SERVER['REMOTE_ADDR']}]</li>";
@@ -357,16 +353,16 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
             echo "<li class='buttonLogout'><a href='logout.php'>{$GLOBALS['strLogout']}</a></li>";
         }
     }
-	
+
 	echo "</ul>";		// oaNavigationExtra
 	echo "</div>";		// oaNavigation
-	
+
 	echo "<div id='oaMain'>";
 
     if ($showSidebar != false) {
         echo $sidebar;
     }
-    
+
     // Main contents
 	echo "<div id='oaContents'>";
 
@@ -411,9 +407,9 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
         echo "</td>";
         echo "</tr>";
     }
-    
+
     echo "</table>";
-    
+
 	echo "</div>";		// oaContents
 	echo "</div>";		// oaMain
 
@@ -431,7 +427,7 @@ function phpAds_PageFooter($imgPath='', $noBorder = false)
 
     if (!ereg("/(index|updates-product|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
         // Add Product Update redirector
-        if (phpAds_isUser(phpAds_Admin) && $conf['sync']['checkForUpdates'] == 't' && !isset($session['maint_update_js'])) { 
+        if (phpAds_isUser(phpAds_Admin) && $conf['sync']['checkForUpdates'] == 't' && !isset($session['maint_update_js'])) {
             echo "<script type='text/javascript' src='maintenance-updates-js.php'></script>\n";
         }
         // Check if the maintenance script is running
@@ -499,7 +495,7 @@ function showParams($params)
 function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgPath='', $customNav=false)
 {
     global $phpAds_nav, $phpAds_NavID;
-    
+
 	// Close current table
 	echo "</td></tr></table>";
 
@@ -518,7 +514,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
     } else {
         $pages  = $phpAds_nav['affiliate'];
     }
-	
+
     for ($i=0; $i < count($sections); $i++) {
         list($sectionUrl, $sectionStr) = each($pages[$sections[$i]]);
         $selected = ($phpAds_NavID == $sections[$i]);
@@ -540,7 +536,7 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
         $previousselected = $selected;
     }
 	echo "</ul></div>";
-	
+
     if ($openNewTable==true) {
         echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>";
         echo "<td width='40'>&nbsp;</td><td><br />";
@@ -561,7 +557,7 @@ function phpAds_ShowBreak($print = true, $imgPath = '')
     if ($print) {
         echo $buffer;
     }
-	
+
     return $buffer;
 }
 
