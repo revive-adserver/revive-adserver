@@ -1,0 +1,94 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
+
+-->*}
+<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+<html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
+<head>
+<title>{$pageTitle}</title>
+
+<meta name="generator" content="{$smarty.constants.MAX_PRODUCT_NAME} v{$smarty.constants.OA_VERSION} - http://{$smarty.constants.MAX_PRODUCT_URL}" />
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="stylesheet" type="text/css" href="{$imgPath}css/chrome{if $phpAds_TextDirection != 'ltr'}-rtl{/if}.css" />
+<link rel="stylesheet" type="text/css" href="{$imgPath}images/{$phpAds_TextDirection}/interface.css" />
+<link rel="stylesheet" type="text/css" href="{$imgPath}js/jscalendar/calendar-openads.css" />
+
+<script type="text/javascript" src="{$imgPath}js-gui.js"></script>
+<script type="text/javascript" src="{$imgPath}js/sorttable.js"></script>
+<script type="text/javascript" src="{$imgPath}js/boxrow.js"></script>
+
+{if $formValidation}<script type='text/javascript' src='{$imgPath}js/formValidation.php'></script>{/if}
+
+{* jsCalendar *}
+<script type="text/javascript" src="{$imgPath}js/jscalendar/calendar.js"></script>
+<script type="text/javascript" src="{$imgPath}js/jscalendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="{$imgPath}js/jscalendar/calendar-setup.js"></script>
+
+{* jsQuery *}
+<link rel="stylesheet" type="text/css" href="css/jqModal.css" />
+<link rel="stylesheet" type="text/css" href="css/oa.help.css" />
+<script type="text/javascript" src="js/jquery-1.2.1.min.js"></script>
+<script type="text/javascript" src="js/jqModal.js"></script>
+<script type="text/javascript" src="js/jquery-adnetworks.js"></script>
+<script type="text/javascript" src="js/oa.help.js"></script>
+<script type="text/javascript" src="js/jquery.dimensions.min.js"></script>
+
+{$jsMPE}
+{$jsFlash}
+
+{$headExtras}
+
+</head>
+<body class="hasInterface{if $showSidebar} hasSidebar{/if}" onload="initPage();">
+{$headerFileOutput}
+<div id="oaHeader">
+
+{* Branding *}
+{if $applicationName && $logoFilePath}
+    <div id="oaHeaderBranding" class="brandingCustom"><img src="images/{$logoFilePath|escape}" alt="{$applicationName|escape}" /></div>
+{elseif $applicationName}
+    <div id="oaHeaderBranding" class="brandingName"><div></div>{$applicationName|escape}</div>
+{else}
+    <div id="oaHeaderBranding" class="brandingDefault">{$smarty.constants.MAX_PRODUCT_NAME}</div>
+{/if}
+
+{if $displaySearch}
+    <div id="oaSearch">
+        <form name="search" action="admin-search.php" target="SearchWindow" onsubmit="search_window(document.search.keyword.value,'{$searchUrl|escape:js}'); return false;">
+            <label>{t str=Search}: <input type="text" name="keyword" size="15" class="search" accesskey="{t key=Search}"></label>
+        </form>
+    </div>
+{/if}
+</div>
+
+{*
+<body>
+</body>
+</html>
+*}

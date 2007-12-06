@@ -31,6 +31,7 @@ $Id$
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Help.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
@@ -72,23 +73,6 @@ function phpAds_PageShortcut($name, $link, $icon)
     );
 }
 
-
-function phpAds_writeBranding()
-{
-    $pref = $GLOBALS['_MAX']['PREF'];
-
-    if (empty($conf['ui']['applicationName']) && empty($conf['ui']['logoFilePath'])) {
-		  echo "<div id='oaHeaderBranding' class='brandingDefault'>" . MAX_PRODUCT_NAME . "</div>";
-    }
-    else {
-      if (empty($conf['ui']['logoFilePath'])) {
-			 echo "<div id='oaHeaderBranding' class='brandingName'><div></div>{$conf['ui']['applicationName']}</div>";
-      }
-      else {
-			 echo "<div id='oaHeaderBranding' class='brandingCustom'><img src='images/{$conf['ui']['logoFilePath']}' alt='{$conf['ui']['applicationName']}' /></div>";
-      }
-    }
-}
 
 
 /**
@@ -256,77 +240,43 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
     // Send header with charset info
     header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
 
-    // Head
-	echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n";
-    echo "<html".($phpAds_TextDirection != 'ltr' ? " dir='".$phpAds_TextDirection."'" : '').">\n";
-    echo "<head>";
-    echo "<title>{$pagetitle}</title>";
-    echo "<meta name='generator' content='".MAX_PRODUCT_NAME." v".OA_VERSION." - http://".MAX_PRODUCT_URL."' />";
-    echo "<meta name='robots' content='noindex, nofollow' />";
-
-    echo "<link rel='stylesheet' type='text/css' href='{$imgPath}css/chrome.css' />";
-	if ($phpAds_TextDirection != 'ltr') {
-	    echo "<link rel='stylesheet' type='text/css' href='{$imgPath}css/chrome-rtl.css' />";
-	}
-
-	echo "<link rel='stylesheet' type='text/css' href='{$imgPath}images/{$phpAds_TextDirection}/interface.css' />";
-    echo "<link rel='stylesheet' type='text/css' href='{$imgPath}js/jscalendar/calendar-openads.css' />";
-    echo "<script type='text/javascript' src='{$imgPath}js-gui.js'></script>";
-    echo "<script type='text/javascript' src='{$imgPath}js/sorttable.js'></script>";
-    echo "<script type='text/javascript' src='{$imgPath}js/boxrow.js'></script>";
-
-
-    if (!defined('phpAds_installing')) {
-        echo "<script type='text/javascript' src='{$imgPath}js/formValidation.php'></script>";
-    }
+    // Generate layout
+    $oTpl = new OA_Admin_Template('layout.html');
+    $oTpl->assign('pageTitle', $pagetitle);
+    $oTpl->assign('imgPath', $imgPath);
+    $oTpl->assign('formValidation', !defined('phpAds_installing'));
 
     if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
         require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
-        $xajax->printJavascript('./', 'js/xajax.js');
+        $oTpl->assign('jsMPE', $xajax->getJavascript('./', 'js/xajax.js'));
     }
-
-    echo "<script type='text/javascript' src='{$imgPath}js/jscalendar/calendar.js'></script>";
-    echo "<script type='text/javascript' src='{$imgPath}js/jscalendar/lang/calendar-en.js'></script>";
-    echo "<script type='text/javascript' src='{$imgPath}js/jscalendar/calendar-setup.js'></script>";
 
     if (!defined('phpAds_installing')) {
         // Include the flashObject resource file
-        echo MAX_flashGetFlashObjectExternal();
+        $oTpl->assign('jsFlash', MAX_flashGetFlashObjectExternal());
     }
 
-    // Add jQuery css/scripts
-    echo "<link rel='stylesheet' type='text/css' href='css/jqModal.css' />";
-    echo "<link rel='stylesheet' type='text/css' href='css/oa.help.css' />";
-    echo "<script type='text/javascript' src='js/jquery-1.2.1.min.js'></script>";
-    echo "<script type='text/javascript' src='js/jqModal.js'></script>";
-    echo "<script type='text/javascript' src='js/jquery-adnetworks.js'></script>";
-    echo "<script type='text/javascript' src='js/oa.help.js'></script>";
-    echo "<script type='text/javascript' src='js/jquery.dimensions.min.js'></script>";
+    $oTpl->assign('headExtras', $head);
 
-    // Include other elements that belong in the <head>
-    echo $head;
-
-    echo "</head>";
-	echo "<body class='hasInterface" . ($showSidebar == true ? " hasSidebar" : "") . "' onload='initPage();'>";
+    $oTpl->assign('showSidebar', $showSidebar);
 
     // Header
     if (isset($conf['ui']['headerFilePath']) && $conf['ui']['headerFilePath'] != '') {
+        ob_start();
         include ($conf['ui']['headerFilePath']);
+        $oTpl->assign('headerFileOutput', ob_get_clean());
     }
 
-    // Branding and searchbar
-	echo "<div id='oaHeader'>";
-	phpAds_writeBranding();
+    // Branding
+    $oTpl->assign('applicationName', $conf['ui']['applicationName']);
+    $oTpl->assign('logoFilePath', $conf['ui']['logoFilePath']);
 
     $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin|phpAds_Agency|phpAds_Affiliate) && !defined('phpAds_installing'));
-	if ($displaySearch) {
-        $searchUrl = phpAds_isUser(phpAds_Affiliate) ? 'affiliate-search.php' : 'admin-search.php';
-		echo "<div id='oaSearch'>";
-	    echo "<form name='search' action='{$searchUrl}' target='SearchWindow' onsubmit=\"search_window(document.search.keyword.value,'".MAX::constructURL(MAX_URL_ADMIN, $searchUrl)."'); return false;\">";
-		echo "<label>{$GLOBALS['strSearch']}: <input type='text' name='keyword' size='15' class='search' accesskey='{$GLOBALS['keySearch']}'></label>";
-		echo "</form></div>";
-	}
-	echo "</div>";
+    $oTpl->assign('displaySearch', $displaySearch);
+    $oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
+
+    $oTpl->display();
+
 
 	echo "<div id='oaNavigation'>";
 
