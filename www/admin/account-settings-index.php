@@ -31,7 +31,6 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
 // Redirect to the appropriate "Settings" page
 if (phpAds_isUser(phpAds_Admin)) {

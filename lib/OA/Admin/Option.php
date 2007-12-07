@@ -157,7 +157,7 @@ class OA_Admin_Option
             $sections = array(
                 'account'                 => array('name' => $GLOBALS['strAccountPreferences'],                 'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
                 'banner'                  => array('name' => $GLOBALS['strBannerPreferences'],                  'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
-                'campaing-email-reports'  => array('name' => $GLOBALS['strCampaignEmailReportsPreferences'],    'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
+                'campaign-email-reports'  => array('name' => $GLOBALS['strCampaignEmailReportsPreferences'],    'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
                 'language-timezone'       => array('name' => $GLOBALS['strLanguageTimezonePreferences'],        'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
                 'tracker'                 => array('name' => $GLOBALS['strTrackerPreferences'],                 'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
                 'user-interface'          => array('name' => $GLOBALS['strUserInterfacePreferences'],           'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate)

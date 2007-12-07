@@ -263,7 +263,7 @@ if (isset($submit)) {
         // Recalculate priority only when editing a campaign
         // or moving banners into a newly created, and when:
         //
-        // - campaing changes status (activated or deactivated) or
+        // - campaign changes status (activated or deactivated) or
         // - the campaign is active and target/weight are changed
         //
         if (!$new_campaign) {
@@ -296,7 +296,7 @@ if (isset($submit)) {
             'cacheDir' => MAX_CACHE,
         );
         $cache = new Cache_Lite($options);
-        $group = 'campaing_'.$campaignid;
+        $group = 'campaign_'.$campaignid;
         $cache->clean($group);
 
         MAX_Admin_Redirect::redirect("campaign-zone.php?clientid=$clientid&campaignid=$campaignid");

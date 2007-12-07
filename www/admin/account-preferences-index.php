@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: settings-index.php 9558 2007-09-11 06:50:55Z aj.tarachanowicz@openads.org $
+$Id$
 */
 
 // Require the initialisation file
@@ -33,22 +33,8 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
 
-/**
- * @todo (Working for admin) check redirect if user is agency, client or affiliate
- */
-
-// Redirect to the appropriate "Preferences" page
-if (phpAds_isUser(phpAds_Admin)) {
-    MAX_Admin_Redirect::redirect('account-preferences-account.php');
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    MAX_Admin_Redirect::redirect('account-preferences-banner.php');
-} elseif (phpAds_isUser(phpAds_Client)) {
-    MAX_Admin_Redirect::redirect('account-settings-defaults.php?affiliateid='.phpAds_getUserId());
-} elseif (phpAds_isUser(phpAds_Affiliate)) {
-    MAX_Admin_Redirect::redirect('account-settings-defaults.php?affiliateid='.phpAds_getUserId());
-}
+// Redirect to the main "Preferences" page
+MAX_Admin_Redirect::redirect('account-preferences-account.php');
 
 ?>

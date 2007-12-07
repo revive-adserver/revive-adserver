@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -25,22 +25,43 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: settings-banner.php 12637 2007-11-20 19:02:36Z miguel.correa@openads.org $
+$Id$
 */
 
 // Require the initialisation file
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 
-$oOptions = new OA_Admin_Option('preferences');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Publisher + phpAds_Advertiser);
 
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('preferences');
+
+// Prepare an array for storing error messages
 $aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
+
+
+
+
+
+
+
+
+
+
+
+
+
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobal('default_banner_url', 'default_banner_destination',
@@ -69,7 +90,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         $aErrormessage[0][] = $strUnableToWritePrefs;
     } else {
        if (phpAds_isUser(phpAds_Admin)) {
-            MAX_Admin_Redirect::redirect('account-preferences-campaing-email-reports.php');
+            MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
         } else {
           MAX_Admin_Redirect::redirect('account-settings-defaults.php');
        }
@@ -146,8 +167,9 @@ $aSettings = array (
         )
     )
 );
-
 $oOptions->show($aSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>

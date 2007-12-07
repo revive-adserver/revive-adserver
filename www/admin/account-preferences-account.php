@@ -25,33 +25,49 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: settings-admin.php 12637 2007-11-20 19:02:36Z miguel.correa@openads.org $
+$Id$
 */
-
-/**
- * Obtain the server timezone information *before* the init script is
- * called, to ensure that the timezone information from the server is
- * not affected by any calls to date_default_timezone_set() or
- * putenv("TZ=...") to set the timezone manually.
- */
-require_once '../../lib/OA/Admin/Timezones.php';
-$aTimezone = OA_Admin_Timezones::getTimezone();
 
 // Require the initialisation file
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 
-$oOptions = new OA_Admin_Option('preferences');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Publisher + phpAds_Advertiser);
 
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('preferences');
+
+// Prepare an array for storing error messages
 $aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Required files
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
+
+
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobalUnslashed('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
@@ -181,8 +197,9 @@ $aSettings = array (
         )
     )
 );
-
 $oOptions->show($aSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>

@@ -2,7 +2,7 @@
 
 /*
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -25,37 +25,70 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: settings-defaults.php 12637 2007-11-20 19:02:36Z miguel.correa@openads.org $
+$Id$
 */
 
 // Require the initialisation file
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
+require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 
-$oOptions = new OA_Admin_Option('preferences');
+require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
+MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Publisher + phpAds_Advertiser);
 
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('preferences');
 
-// Load and sort statisticsFieldsDelivery plugins
+// This page depends on statisticsFieldsDelivery plugins, so get the required
+// information about all such plugins installed in this installation
 $aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
 uasort($aStatisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));
 
-// Load inventory plugins
+// This page depends on inventoryProperties plugins, so get the required
+// information about all such plugins installed in this installation
 $aInvPlugins = &MAX_Plugin::getPlugins('inventoryProperties');
-foreach($aInvPlugins as $pluginKey => $plugin) {
-    if ($plugin->getType() != 'settings-defaults') {
+foreach ($aInvPlugins as $pluginKey => $oPlugin) {
+    if ($oPlugin->getType() != 'settings-defaults') {
         unset($aInvPlugins[$pluginKey]);
     }
 }
 
+// Prepare an array for storing error messages
 $aErrormessage = array();
+
+// If the settings page is a submission, deal with the form data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
+
+
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
     phpAds_registerGlobal('gui_show_campaign_info', 'gui_show_banner_info',
@@ -356,7 +389,20 @@ foreach ($aInvPlugins as $plugin) {
     $plugin->addSettings($aSettings);
 }
 
+
+
+
+
+
+
+
+
+
+
+
 $oOptions->show($aSettings, $aErrormessage);
+
+// Display the page footer
 phpAds_PageFooter();
 
 ?>

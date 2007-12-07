@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: settings-stats.php 12637 2007-11-20 19:02:36Z miguel.correa@openads.org $
+$Id$
 */
 
 // Require the initialisation file
