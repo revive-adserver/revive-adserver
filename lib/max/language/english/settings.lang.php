@@ -236,6 +236,10 @@ $GLOBALS['strEnableQmailPatch']                      = 'Enable qmail patch';
 $GLOBALS['strEmailHeader']                           = 'E-mail headers';
 $GLOBALS['strEmailLog']                           = 'E-mail log';
 
+// Audit Trail Settings
+$GLOBALS['strAudit']                                 = 'Audit Trail Settings';
+$GLOBALS['strEnableAudit']                           = 'Enable Audit Trail';
+
 // Debug Logging Settings
 $GLOBALS['strDebug']                                 = 'Debug Logging Settings';
 $GLOBALS['strProduction']                            = 'Production server';

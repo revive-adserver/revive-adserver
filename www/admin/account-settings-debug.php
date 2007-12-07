@@ -51,6 +51,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = array();
+    // Audit Trail
+    $aElements += array(
+        'adit_enabled' => array(
+            'audit' => 'enabled',
+            'bool'  => true
+        )
+    );
     // Debug Logging Settings
     $aElements += array(
         'log_enabled' => array(
@@ -95,6 +102,16 @@ $oOptions->selection('debug');
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
+    array (
+        'text'  => $strAudit,
+        'items' => array (
+            array (
+                'type'    => 'checkbox',
+                'name'    => 'audit_enabled',
+                'text'    => $strEnableAudit
+            )
+        )
+    ),
     array (
         'text'  => $strDebug,
         'items' => array (
