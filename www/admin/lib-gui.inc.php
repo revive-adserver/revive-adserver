@@ -473,14 +473,14 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
 				echo "<li class='selected'><a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
 	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a></li>";
             } else {
-				echo "<li class='selected'>{$sectionStr}</li>";
+				echo "<li class='selected'><span>{$sectionStr}</span></li>";
             }
         } else {
             if (!empty($sectionUrl)) {
 				echo "<li><a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
 	            echo "' accesskey='".($i+1)."'>{$sectionStr}</a></li>";
             } else {
-				echo "<li>{$sectionStr}</li>";
+				echo "<li><span>{$sectionStr}</span></li>";
             }
         }
         $previousselected = $selected;
