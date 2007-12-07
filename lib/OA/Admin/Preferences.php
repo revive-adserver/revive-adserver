@@ -92,6 +92,60 @@ class OA_Admin_Preferences
     }
 
     /**
+     * A method to load the preference data stored in the database
+     * into a global array ($GLOBALS['_MAX']['PREF']).
+     *
+     * @static
+     * @param integer $agencyId Optional agency ID.
+     * @return array Returns an array containing the preferences loaded
+     *               into the global array.
+     */
+    function loadPrefs($agencyId = null)
+    {
+        if (!isset($GLOBALS['_MAX']['PREF'])) {
+            $GLOBALS['_MAX']['PREF'] = array();
+        }
+        $conf = $GLOBALS['_MAX']['CONF'];
+        if (is_null($agencyId)) {
+            if (phpAds_isUser(phpAds_Agency)) {
+                $agencyId = phpAds_getUserID();
+            } else {
+                $agencyId = (!empty($conf['max']['defaultAgency'])) ? $conf['max']['defaultAgency'] : 0;
+            }
+        }
+        $oDbh =& OA_DB::singleton();
+        $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'],true);
+        $query = "
+            SELECT
+                *
+            FROM
+                {$tablePrefs}
+            WHERE
+                agencyid = ". $oDbh->quote($agencyId, 'integer');
+
+        $rc = $oDbh->query($query);
+        if (PEAR::isError($rc)) {
+            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
+        }
+        if ($rc->numRows() == 1) {
+            $row = $rc->fetchRow();
+            foreach ($row as $key => $value) {
+                $GLOBALS['_MAX']['PREF'][$key] = $value;
+            }
+
+            if (phpAds_isUser(phpAds_Client)) {
+                OA_Admin_Preferences::loadEntityPrefs('advertiser');
+            } elseif (phpAds_isUser(phpAds_Affiliate)) {
+                OA_Admin_Preferences::loadEntityPrefs('publisher');
+            }
+
+            return $GLOBALS['_MAX']['PREF'];
+        }
+        return array();
+    }
+
+
+    /**
      * A method to load entity preference data stored in the database
      * as key/value pairs and merge it into a global array
      * ($GLOBALS['_MAX']['PREF'])
