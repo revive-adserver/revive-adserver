@@ -323,13 +323,12 @@ function MMM_buildNavigation()
                 "4.2.6"                 =>  array("affiliate-advsetup.php?affiliateid=$affiliateid" => $GLOBALS['strAdvertiserSetup']),
               "4.3"                     =>  array("admin-generate.php" => $GLOBALS['strGenerateBannercode']),
             "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
-              "5.1"                     =>  array("settings-index.php" => $GLOBALS['strMainSettings']),
-              "5.2"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
-              "5.2.1"                   =>  array("channel-edit.php" => $GLOBALS['strAddNewChannel']),
-              "5.2.2"                   =>  array("channel-edit.php?channelid=$channelid" => $GLOBALS['strChannelProperties']),
-              "5.2.3"                   =>  array("channel-acl.php?channelid=$channelid" => $GLOBALS['strChannelLimitations']),
-// Switched off
-//              "5.3"                     =>  array("maintenance-index.php" => $GLOBALS['strMaintenance'])
+              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences']),
+              "5.3"                     =>  array("userlog-index.php" => $GLOBALS['strUserLog']),
+              "5.7"                     =>  array("channel-index.php" => $GLOBALS['strChannelManagement']),
+                "5.7.1"                 =>  array("channel-edit.php?agencyid=$agencyid" => $GLOBALS['strAddNewChannel']),
+                "5.7.2"                 =>  array("channel-edit.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelProperties']),
+                "5.7.3"                 =>  array("channel-acl.php?agencyid=$agencyid&channelid=$channelid" => $GLOBALS['strChannelLimitations'])
         ),
 
         "client" => array (
@@ -369,8 +368,8 @@ function MMM_buildNavigation()
                     '2.1.1.3'           =>  array("banner-advanced.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strAdvanced']),
             */
             "3"                         =>  array("report-index.php?clientid=$clientid" => $GLOBALS['strReports']),
-            "4"                         =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strSettings']),
-              "4.1"                     =>  array("settings-index.php?clientid=$clientid" => $GLOBALS['strMainSettings'])
+            "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
+              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences'])
         ),
 
         "affiliate" => array (
@@ -390,7 +389,9 @@ function MMM_buildNavigation()
                   "1.3.1.1"         =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&campaignid=$campaignid&day=$day" => $GLOBALS['strDailyStats']),
                 "1.3.2"             =>  array("stats.php?entity=affiliate&breakdown=banner-history&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strDistributionHistory']),
                   "1.3.2.1"         =>  array("stats.php?entity=affiliate&breakdown=daily&affiliateid=$affiliateid&campaignid=$campaignid&bannerid=$bannerid&day=$day" => $GLOBALS['strDailyStats']),
-            "3"                     =>  array("report-index.php?affiliateid=$affiliateid" => $GLOBALS['strReports'])
+            "3"                     =>  array("report-index.php?affiliateid=$affiliateid" => $GLOBALS['strReports']),
+            "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
+              "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences'])
 
         )
     );

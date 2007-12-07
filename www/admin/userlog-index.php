@@ -49,7 +49,13 @@ MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("5.2");
-phpAds_ShowSections(array("5.1", "5.3", "5.4", "5.2", "5.5", "5.6"));
+if (phpAds_isUser(phpAds_Admin)) {
+    // Show all "My Account" sections
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+} else if (phpAds_isUser(phpAds_Agency)) {
+    // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
+    phpAds_ShowSections(array("5.1", "5.3", "5.7"));
+}
 phpAds_UserlogSelection("index");
 
 
