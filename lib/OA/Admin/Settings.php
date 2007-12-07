@@ -32,12 +32,24 @@ require_once MAX_PATH . '/lib/pear/Config.php';
 /**
  * A class for managing the Openads settings configuration file(s).
  *
+ * @package    OpenadsAdmin
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class OA_Admin_Settings
 {
 
+    /**
+     * A local array to store configuration file settings values.
+     *
+     * @var array
+     */
     var $aConf;
+
+    /**
+     * The backup filename string.
+     *
+     * @var string
+     */
     var $backupFilename;
 
     /**

@@ -33,16 +33,23 @@ define('MAX_PREFERENCE_TRUE', 't');
 define('MAX_PREFERENCE_FALSE', 'f');
 
 /**
- * A preferences management class for the Openads administration interface.
+ * A class for managing preferences in Openads.
  *
- * @package    Max
- * @author     Andrew Hill <andrew@m3.net>
+ * @package    OpenadsAdmin
+ * @author     Andrew Hill <andrew.hill@openads.org>
+ *
  * @TODO Class needs to be updated so that it will load the admin
  * preferences for items that are not set in the agency preferences.
  */
 class OA_Admin_Preferences
 {
-    var $prefSql;
+
+    /**
+     * A local array to store preferences
+     *
+     * @var unknown_type
+     */
+    var $aPref;
 
     /**
      * The constructor method. Creates an array so that updates to
@@ -50,7 +57,7 @@ class OA_Admin_Preferences
      */
     function OA_Admin_Preferences()
     {
-        $this->prefSql = array();
+        $this->aPref = array();
     }
 
     /**
@@ -82,59 +89,6 @@ class OA_Admin_Preferences
     {
         $expected = ($expectedValue == MAX_PREFERENCE_TRUE) ? 't' : 'f';
         return OA_Admin_Preferences::check($name, $expected);
-    }
-
-    /**
-     * A method to load the preference data stored in the database
-     * into a global array ($GLOBALS['_MAX']['PREF']).
-     *
-     * @static
-     * @param integer $agencyId Optional agency ID.
-     * @return array Returns an array containing the preferences loaded
-     *               into the global array.
-     */
-    function loadPrefs($agencyId = null)
-    {
-        if (!isset($GLOBALS['_MAX']['PREF'])) {
-            $GLOBALS['_MAX']['PREF'] = array();
-        }
-        $conf = $GLOBALS['_MAX']['CONF'];
-        if (is_null($agencyId)) {
-            if (phpAds_isUser(phpAds_Agency)) {
-                $agencyId = phpAds_getUserID();
-            } else {
-                $agencyId = (!empty($conf['max']['defaultAgency'])) ? $conf['max']['defaultAgency'] : 0;
-            }
-        }
-        $oDbh =& OA_DB::singleton();
-        $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'],true);
-        $query = "
-            SELECT
-                *
-            FROM
-                {$tablePrefs}
-            WHERE
-                agencyid = ". $oDbh->quote($agencyId, 'integer');
-
-        $rc = $oDbh->query($query);
-        if (PEAR::isError($rc)) {
-            return MAX::raiseError($rc, MAX_ERROR_DBFAILURE);
-        }
-        if ($rc->numRows() == 1) {
-            $row = $rc->fetchRow();
-            foreach ($row as $key => $value) {
-                $GLOBALS['_MAX']['PREF'][$key] = $value;
-            }
-
-            if (phpAds_isUser(phpAds_Client)) {
-                OA_Admin_Preferences::loadEntityPrefs('advertiser');
-            } elseif (phpAds_isUser(phpAds_Affiliate)) {
-                OA_Admin_Preferences::loadEntityPrefs('publisher');
-            }
-
-            return $GLOBALS['_MAX']['PREF'];
-        }
-        return array();
     }
 
     /**
@@ -204,7 +158,7 @@ class OA_Admin_Preferences
      */
     function writeEntityPrefs($entityType, $entityId = '')
     {
-        if (!is_null($this->prefSql)) {
+        if (!is_null($this->aPref)) {
             $conf = $GLOBALS['_MAX']['CONF'];
             $oDbh =& OA_DB::singleton();
 
@@ -236,7 +190,7 @@ class OA_Admin_Preferences
                 )
                 ";
             $aInsertTypes = array('integer', 'text', 'text');
-            foreach ($this->prefSql as $key => $value) {
+            foreach ($this->aPref as $key => $value) {
                 $st = $oDbh->prepare($insertQuery, $aInsertTypes);
                 // Don't use a PEAR_Error handler
                 PEAR::pushErrorHandling(null);
@@ -264,7 +218,7 @@ class OA_Admin_Preferences
                     }
                 }
             }
-            unset($this->prefSql);
+            unset($this->aPref);
         }
 
         return true;
@@ -284,7 +238,7 @@ class OA_Admin_Preferences
         } else {
             $agencyid = 0;
         }
-        $this->prefSql[$pref] = $value;
+        $this->aPref[$pref] = $value;
     }
 
     /**
@@ -295,7 +249,7 @@ class OA_Admin_Preferences
      */
     function writePrefChange()
     {
-        if (!is_null($this->prefSql)) {
+        if (!is_null($this->aPref)) {
             $conf = $GLOBALS['_MAX']['CONF'];
             $oDbh =& OA_DB::singleton();
 
@@ -312,7 +266,7 @@ class OA_Admin_Preferences
             }
 
             // Try to UPDATE first
-            foreach ($this->prefSql as $key => $value) {
+            foreach ($this->aPref as $key => $value) {
                 $sql[] = "$key = ". $oDbh->quote($value);
             }
             $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'],true);
@@ -340,7 +294,7 @@ class OA_Admin_Preferences
                         (
                         agencyid,
                     ";
-                foreach ($this->prefSql as $key => $value) {
+                foreach ($this->aPref as $key => $value) {
                     $query .= "$key, ";
                 }
                 $query = preg_replace('/, $/', '', $query);
@@ -350,7 +304,7 @@ class OA_Admin_Preferences
                         (
                         ". $oDbh->quote($agencyId, 'integer') .",
                     ";
-                foreach ($this->prefSql as $value) {
+                foreach ($this->aPref as $value) {
                     $query .= $oDbh->quote($value) .", ";
                 }
                 $query = preg_replace('/, $/', '', $query);
@@ -363,7 +317,7 @@ class OA_Admin_Preferences
                 // Restore the PEAR_Error handler
                 PEAR::popErrorHandling();
             }
-            unset($this->prefSql);
+            unset($this->aPref);
         }
         return true;
     }

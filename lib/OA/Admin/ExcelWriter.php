@@ -31,6 +31,8 @@ require_once 'Spreadsheet/Excel/Writer.php';
 /**
  * MS Excel output provider for for Openads reports
  *
+ * @package OpenadsAdmin
+ *
  * @TODO Clean up code, document, and make generic for OSS release.
  */
 class OA_Admin_ExcelWriter
