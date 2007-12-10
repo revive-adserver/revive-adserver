@@ -144,7 +144,8 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         $this->_author       = 'Scott Switzer';
         $this->_export       = 'xls';
         if ($this->_hasTrackers()) {
-            $this->_authorize = phpAds_Publisher | phpAds_Advertiser | phpAds_Agency | phpAds_Admin;
+            // 2007-12-10: Disabled the report for ALL users, see OA-46
+            // $this->_authorize = phpAds_Publisher | phpAds_Advertiser | phpAds_Agency | phpAds_Admin;
         }
 
         $this->_import = $this->getDefaults();
