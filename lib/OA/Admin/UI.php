@@ -223,8 +223,6 @@ class OA_Admin_UI
             $this->oTpl->assign('jsFlash', MAX_flashGetFlashObjectExternal());
         }
 
-        $this->oTpl->assign('headExtras', $head);
-
         // Branding
         $this->oTpl->assign('applicationName', $conf['ui']['applicationName']);
         $this->oTpl->assign('logoFilePath', $conf['ui']['logoFilePath']);
