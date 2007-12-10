@@ -53,8 +53,8 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements = array();
     // Synchronisation Settings
     $aElements += array(
-        'updates_enabled' => array(
-            'updates' => 'enabled',
+        'sync_checkForUpdates' => array(
+            'sync' => 'checkForUpdates',
             'bool'    => true
         ),
     );
@@ -86,7 +86,7 @@ $aSettings = array (
         'items'   => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'updates_enabled',
+                'name'    => 'sync_checkForUpdates',
                 'text'    => $strAdminCheckUpdates,
             )
         )

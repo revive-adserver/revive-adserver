@@ -237,11 +237,11 @@ if ($oUpgrader->isRecoveryRequired())
 }
 else if (array_key_exists('btn_syscheck', $_POST) || $_POST['dirPage'] == OA_UPGRADE_SYSCHECK)
 {
-    // store updates_enabled value into session, so that they can be inserted into DB once DB has been created
+    // store checkForUpdates value into session, so that they can be inserted into DB once DB has been created
     session_start();
 
     if (isset($_POST['hdn_policy'])) {
-        $_SESSION['updates_enabled'] = isset($_POST['updates_enabled']);
+        $_SESSION['checkForUpdates'] = isset($_POST['sync_checkForUpdates']);
     }
 
     $aSysInfo = $oUpgrader->checkEnvironment();
@@ -369,16 +369,15 @@ else if (array_key_exists('btn_adminsetup', $_POST))
     }
     else
     {
-        // acquire the community preferences from session in order to add them to preferences table using putCommunityPreferences
-        $aCommunity = array();
+        // Acquire the sync settings from session in order to add them
         session_start();
-        $aCommunity['updates_enabled']         = $_SESSION['updates_enabled'];
+        $syncEnabled = !empty($_SESSION['checkForUpdates']);
 
         // Always use the path we're using to install as admin UI path
         $aConfig = $oUpgrader->getConfig();
         $_POST['aConfig']['webpath']['admin'] = $aConfig['webpath']['admin'];
 
-        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putCommunityPreferences($aCommunity))
+        if ($oUpgrader->saveConfig($_POST['aConfig']) && $oUpgrader->putSyncSettings($syncEnabled))
         {
             if (!checkFolderPermissions($_POST['aConfig']['store']['webDir'])) {
                 $aConfig                    = $_POST['aConfig'];
@@ -499,8 +498,7 @@ else if (array_key_exists('btn_tagssetup', $_POST))
                     // We need to pass back the submitted values to the form
                     $oTpl->assign('aSites', $aTplSites);
 
-                    require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-                    $oTpl->assign('syncEnabled', OA_Admin_Preferences::checkBool('updates_enabled', true));
+                    $oTpl->assign('syncEnabled', $conf['sync']['checkForUpdates']);
 
                     $oTpl->assign('captchaErrorFormId', 'frmOpenads');
                     if ($result->getCode() == OA_CENTRAL_ERROR_CAPTCHA_FAILED) {
@@ -589,7 +587,6 @@ else if (array_key_exists('btn_sitessetup', $_POST))
         if ($_COOKIE['oat'] == OA_UPGRADE_INSTALL)
         {
             // Save admin credentials
-            $_POST['aAdmin']['updates_enabled'] = $_POST['updates_enabled'];
             $oUpgrader->putAdmin($_POST['aAdmin']);
 
             // Initialise template
@@ -604,16 +601,15 @@ else if (array_key_exists('btn_sitessetup', $_POST))
 
             $aUrl = parse_url('http://'.$conf['webpath']['admin']);
 
-            $isOac = OA_Admin_Preferences::checkBool('updates_enabled', true);
+            $syncEnabled = $conf['sync']['checkForUpdates'];
             $oTpl->assign('aSites', array(
                 1 => array(
                 	'url' => $aUrl['host'],
-                	'adnetworks' => $isOac
+                	'adnetworks' => $syncEnabled
                 	)
             ));
 
-            require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-            $oTpl->assign('syncEnabled', $isOac);
+            $oTpl->assign('syncEnabled', $syncEnabled);
 
             $action = OA_UPGRADE_SITESSETUP;
         }

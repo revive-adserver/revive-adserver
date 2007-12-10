@@ -228,7 +228,7 @@ class OA_Maintenance
     function _runOpenadsSync()
     {
         OA::debug('  Starting Openads Sync process.', PEAR_LOG_DEBUG);
-        if ($this->aPref['updates_enabled'] == 't') {
+        if ($this->aConf['sync']['checkForUpdates']) {
             require_once MAX_PATH . '/lib/OA/Sync.php';
             $oSync = new OA_Sync($this->aConf, $this->aPref);
             $res = $oSync->checkForUpdates(0);
@@ -249,8 +249,7 @@ class OA_Maintenance
     function _runOpenadsCentral()
     {
         OA::debug('  Starting Openads Central process.', PEAR_LOG_DEBUG);
-        if ($this->aPref['updates_enabled'] == 't' &&
-            OA_Dal_ApplicationVariables::get('sso_admin') != "")
+        if ($this->aConf['sync']['checkForUpdates'] && OA_Dal_ApplicationVariables::get('sso_admin'))
         {
             require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
             $oAdNetworks = new OA_Central_AdNetworks();

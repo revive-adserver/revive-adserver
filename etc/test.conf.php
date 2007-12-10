@@ -363,6 +363,9 @@ compactStatsGrace   = 604800
 ; Openads Central Settings                                                                 ;
 ;------------------------------------------------------------------------------------------;
 
+[sync]
+checkForUpdates = true
+
 [oacSync]
 protocol    = https
 host        = sync.openads.org

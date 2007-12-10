@@ -228,21 +228,8 @@ class OA_Sync
                 }
             }
 
-            // prepare update query
-            $sUpdate = "
-                UPDATE
-                    ".$this->aConf['table']['prefix'].$this->aConf['table']['preference']."
-                SET
-                    updates_cache = '".addslashes(serialize($cache))."',
-                    updates_timestamp = ".time()."
-            ";
-
-            $sUpdate .="
-                WHERE
-                    agencyid = 0
-            ";
-
-            $this->oDbh->exec($sUpdate);
+            OA_Dal_ApplicationVariables::set('sync_cache', serialize($cache));
+            OA_Dal_ApplicationVariables::set('sync_timestamp', time());
 
             return $ret;
         }

@@ -214,8 +214,7 @@ $oTpl->assign('fieldsTop', array(
                 'vars'      => array(
                                     'checked'           => !empty($affiliate['an_website_id']),
                                     'checked_advsignup' => !empty($affiliate['as_website_id']),
-                                    'disabled'          => OA_Admin_Preferences::checkBool('updates_enabled',
-                                                                                             false)
+                                    'disabled'          => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']
                                         || !MAX_Permission::hasAccess(phpAds_Admin)
                                    ),
             ),

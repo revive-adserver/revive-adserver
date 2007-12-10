@@ -1433,29 +1433,26 @@ class OA_Upgrade
     }
 
     /**
-     * insert CommunitySharing and UpdatesEnabled values into Preferences
+     * Update checkForUpdates value into Settings
      *
-     * @param array $aAdmin
+     * @param boolean $syncEnabled
      * @return boolean
      */
-    function putCommunityPreferences($aCommunity)
+    function putSyncSettings($syncEnabled)
     {
-        require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+        require_once MAX_PATH . '/lib/OA/Admin/Settings.php';
         require_once MAX_PATH . '/lib/OA/Sync.php';
 
-        // Insert basic preferences into database
-        $oPrefs = new OA_Admin_Preferences();
-
-        $oPrefs->setPrefChange('updates_enabled', !empty($aCommunity['updates_enabled'])?'t':'f');
+        $oSettings = new OA_Admin_Settings();
+        $oSettings->settingChange('sync', 'checkForUpdates', $syncEnabled);
 
         // Reset Sync cache
-        $oPrefs->setPrefChange('updates_cache', '');
-        $oPrefs->setPrefChange('updates_timestamp', 0);
-        $oPrefs->setPrefChange('updates_last_seen', 0);
+        OA_Dal_ApplicationVariables::delete('sync_cache');
+        OA_Dal_ApplicationVariables::delete('sync_timestamp');
+        OA_Dal_ApplicationVariables::delete('sync_last_seen');
 
-        if (!$oPrefs->writePrefChange())
-        {
-            $this->oLogger->logError('Error inserting Community Preferences into database');
+        if (!$oSettings->writeConfigChange()) {
+            $this->oLogger->logError('Error saving Sync settings to the config file');
             return false;
         }
 
