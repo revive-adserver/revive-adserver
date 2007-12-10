@@ -1,0 +1,194 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.org $
+
+-->
+
+<table border='0' width='100%' cellpadding='0' cellspacing='0'>
+*}
+  <tr>
+    <td width='100%' colspan="3">
+        
+<script language="javascript">
+<!--{literal}
+    var HOSTED = false; // TODO: this should depend ona parameter or sth?
+    var newUser = true;
+
+    $(document).ready(function() {
+      $("#user-access-email").autocomplete("user-search.php", {
+        width: 400,
+        formatItem: function(row) {
+          return row[2] + " &lt;" + row[1] + "&gt;";
+        },
+        formatResult: function(row) {
+          return row[1];
+        },
+        selectFirst: false,
+        mustMatch: false
+      });
+
+      $("#user-access-name").autocomplete("user-search.php", {
+        width: 400,
+        formatItem: function(row) {
+          return row[2] + " &lt;" + row[1] + "&gt;";
+        },
+        formatResult: function(row) {
+          return row[2];
+        },
+        selectFirst: false,
+        mustMatch: false
+      });
+
+      $("#user-access-email").result(function (event, data, formatted) {
+        $("#user-access-name").val(data[2]);
+        newUser = false;
+        updateInviteButton();
+      });
+
+      $("#user-access-email").change(function () {
+        newUser = true;
+        updateInviteButton();
+      });
+
+      $("#user-access-name").result(function (event, data, formatted) {
+        $("#user-access-email").val(data[1]);
+        newUser = false;
+        updateInviteButton();
+      });
+
+      $("#user-access-name").change(function () {
+        newUser = true;
+        updateInviteButton();
+      });
+
+      $(".link-new-user").click(function () {
+        $("#link-new-user-row").show();
+        $("#user-access-email").focus();
+      });
+    });
+
+    function updateInviteButton()
+    {
+      var email = $("#user-access-email").val();
+      var name = $("#user-access-name").val();
+      var action = (newUser ? (HOSTED ? 'invite' : 'create') : 'link');
+
+      if (email && email.length > 0 && name && name.length > 0) {
+        $("#user-access-action").attr("disabled", false).val($("#" + action + "-text").text());
+        $("#action-disabled-hint").fadeOut(400, function() {
+          $("#" + action + "-action-hint").fadeIn(400);
+        });
+        if (!newUser) {
+          $("#user-access-action").focus();
+        }
+      }
+      else {
+        $("#user-access-action").attr("disabled", true).val($("#" + action + "-text").text());
+        $(".hint:visible").fadeOut(400, function() {
+          $("#action-disabled-hint").fadeIn(400);
+        });
+      }
+    }
+//-->{/literal}
+</script>
+
+<div class="hide">
+  <span id="link-text">Link</span>
+  <span id="create-text">Create</span>
+  <span id="invite-text">Invite</span>
+</div>
+
+<div class="table-content">
+<table id="user-access-table" width="100%" cellspacing="0" cellpadding="0" border="0">
+  <thead>
+    <tr height="25">
+      <td class="first" style="width: 25%">Email</td>
+      <td style="width: 20%">Contact Name</td>
+      <td style="width: 10%">User Name</td>
+      <td style="width: 15%">Date linked</td>
+      <td style="width: 25%"></td>
+    </tr>
+
+    <tr class="break">
+      <td colspan="5" />
+    </tr>
+  </thead>
+
+  <tbody id="link-new-user-row" class="add" style="display: none">
+    <tr height="25">
+      <td class="first">
+        <input id="user-access-email" class="flat" type="text" style="width: 100%" />
+      </td>
+      <td>
+        <input id="user-access-name" class="flat" type="text" style="width: 100%" />
+      </td>
+      <td>
+        <input id="user-access-action" class="flat" type="button" value="Link" disabled="true" />
+      </td>
+      <td colspan="2">
+        <span class="hint" id="action-disabled-hint">Provide Email and Contact Name</span>
+        <span class="hint" id="link-action-hint" style="display: none">User will be linked to the publisher</span>
+        <span class="hint" id="invite-action-hint" style="display: none">Invitation will be sent</span>
+        <span class="hint" id="create-action-hint" style="display: none">User will be created</span>
+      </td>
+      <td class="last"></td>
+    </tr>
+
+    <tr class="break">
+      <td colspan="5" />
+    </tr>
+  </tbody>
+
+  {cycle name=row values="even,odd" assign=rowType}
+  {foreach from=$users.aUsers item=user}
+    {cycle name=row assign=rowType}
+    <tbody class="{$rowType}">
+      <tr height="25">
+        <td class="first"><a href="mailto:{$user.email}">{$user.email}</a></td>
+        <td>{$user.name}</td>
+        <td>{$user.login}</td>
+        <td>{$user.dateLinked}</td>
+        <td class="last">
+          <a href="#" class="permissions" style="padding-right: 10px">Permissions</a>
+          <a href="#" class="unlink">Unlink</a>
+        </td>
+      </tr>
+
+      <tr class="break">
+        <td colspan="5" />
+      </tr>
+    </tbody>
+  {/foreach}
+  {/cycle}
+</table>
+</div>
+
+    </td>
+  </tr>
+{*
+</table>
+*}

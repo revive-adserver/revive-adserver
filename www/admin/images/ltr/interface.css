@@ -502,6 +502,10 @@ a.time:before
   background-color: #FFFFFF;
 }
 
+.add {
+  background-color: #ffedc7;
+}
+
 table.data-grid {
   table-layout: fixed;
   border-collapse: collapse;
@@ -776,4 +780,44 @@ pre.invocation-codes {
   color: #777777;
   font-family: "Lucida Console","Courier New",Courier,monospace;
   font-size: 12px;
+}
+
+div.table-content {
+  margin: 0 40px;
+}
+
+.hint {
+  color: #a0a0a0;
+}
+
+#user-access-action {
+  width: 6em;
+}
+
+#user-access-table td {
+  padding-right: 10px;
+}
+
+#user-access-table td.first {
+  padding-left: 5px;
+}
+
+#user-access-table td.last {
+  padding-right: 0px;
+}
+
+a.permissions {
+  background-image: url('../icon-acl.gif');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+  padding-bottom: 2px;
+  background-position: 0 -1px;
+}
+
+a.unlink {
+  background-image: url('../icon-recycle.gif');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+  padding-bottom: 2px;
+  background-position: 0 -1px;
 }

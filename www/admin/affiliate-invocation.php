@@ -80,7 +80,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     phpAds_PageShortcut($strZoneHistory, 'stats.php?entity=zone&breakdown=history&affiliateid='.$affiliateid.'&zoneid='.$zoneid, 'images/icon-statistics.gif');
     phpAds_PageHeader("4.2.5");
     echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-    phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6"));
+    phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
 } else {
     if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
         phpAds_PageHeader('2');

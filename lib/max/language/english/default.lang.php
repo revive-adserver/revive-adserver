@@ -184,7 +184,12 @@ $GLOBALS['strVariables']                = "Variables";
 $GLOBALS['strID']                       = "ID";
 $GLOBALS['strComments']                 = "Comments";
 
+// User access
+$GLOBALS['strLinkNewUser']              = "Link new user";
+$GLOBALS['strLinkNewUser_Key']          = "Link <u>n</u>ew user";
+
 // Login & Permissions
+$GLOBALS['strUserAccess']               = "User Access";
 $GLOBALS['strAuthentification']         = "Authentication";
 $GLOBALS['strWelcomeTo']                = "Welcome to";
 $GLOBALS['strEnterUsername']            = "Enter your username and password to log in";

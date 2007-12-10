@@ -922,7 +922,7 @@ function MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities
     unset($aOtherEntities['affiliateid']);
     $otherEntityString = _getEntityString($aOtherEntities);
 
-    $tabSections = array('4.2.2', '4.2.3', '4.2.4', '4.2.5', '4.2.6');
+    $tabSections = array('4.2.2', '4.2.3', '4.2.4', '4.2.5', '4.2.6', '4.2.7');
 
     // Determine which tab is highlighted
     switch ($pageName) {
