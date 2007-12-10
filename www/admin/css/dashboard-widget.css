@@ -51,12 +51,15 @@ iframe {
 ul#feed {
     color: #77797C;
     width: 215px;
-    padding-left: 13px;
+    padding-left: 0px;    
+    margin: 0px;
     margin-bottom: 15px;
     list-style-image: url('../images/listIcon.gif');
 }
+
 ul#feed li {
     font-size: 7pt;
+    margin-left: 12px;    
     margin-bottom: 5px;
 }
 div#siteLink a {
