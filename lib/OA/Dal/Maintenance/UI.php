@@ -46,7 +46,7 @@ class OA_Dal_Maintenance_UI
         $aPref = $GLOBALS['_MAX']['PREF'];
 
         if ($aPref['maintenance_timestamp'] > 0 && !$aPref['maintenance']['autoMaintenance']) {
-            if ($aPref['maintenance_timestamp'] < gmtime() - 86400) {
+            if ($aPref['maintenance_timestamp'] < time() - 86400) {
                 // Update the timestamp to make sure the warning
                 // is shown only once every 24 hours
                 OA_Dal_Maintenance_UI::updateLastRun();
@@ -66,7 +66,7 @@ class OA_Dal_Maintenance_UI
     {
         $doPreference = OA_Dal::factoryDO('preference');
         $doPreference->whereAdd('1 = 1'); //Global table update.
-        $doPreference->maintenance_timestamp = gmtime();
+        $doPreference->maintenance_timestamp = time();
         $doPreference->update(DB_DATAOBJECT_WHEREADD_ONLY);
     }
 }
