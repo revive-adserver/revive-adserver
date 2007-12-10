@@ -190,6 +190,7 @@ $GLOBALS['strLinkNewUser_Key']          = "Link <u>n</u>ew user";
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
+$GLOBALS['strUserProperties']           = "User Properties";
 $GLOBALS['strAuthentification']         = "Authentication";
 $GLOBALS['strWelcomeTo']                = "Welcome to";
 $GLOBALS['strEnterUsername']            = "Enter your username and password to log in";

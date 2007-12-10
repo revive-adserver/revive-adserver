@@ -62,6 +62,7 @@ $Id$
         {else}
             <input onBlur='max_formValidateElement(this);' class='flat' type="{$_e.type|default:'text'}"
                 name="{$_e.name|escape}" value="{$_e.value|escape}"{tabindex}
+                {if $_e.id != ''}id="{$_e.id|escape}"{/if}
                 {if $_e.style == 'small'}size="25"{else} size="35" style="width:350px;"{/if}
                 {if $_e.disabled} disabled="disabled"{/if}>
         {/if}

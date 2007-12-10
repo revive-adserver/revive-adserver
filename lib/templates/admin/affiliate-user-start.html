@@ -27,8 +27,58 @@
 $Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.org $
 
 -->*}
-<img src='images/icon-affiliate-new.gif' border='0' align='absmiddle'>&nbsp;
-<a href='affiliate-user-start.php' accesskey=".$keyAddNew.">{t str=LinkNewUser_Key}</a>&nbsp;&nbsp;
-{phpAds_ShowBreak}
 
-{include file=user-access.html users=$users}
+<script language="javascript">
+    var HOSTED = {if $hosted}true{else}false{/if};
+<!--{literal}
+
+    $(document).ready(function() {
+      $("#user-key").autocomplete("user-search.php", {
+        width: 500,
+        formatItem: function(row) {
+          return row[2] + " &lt;" + row[1] + "&gt;";
+        },
+        formatResult: function(row) {
+          if (HOSTED) {
+            return row[1];
+          } else {
+            return row[2];
+          }
+        },
+        selectFirst: false,
+        mustMatch: false
+      }).result(function() {
+        updateHint();
+        $("#link-user-button").focus();
+      }).focus();
+
+      $("#user-key").change(function() {
+        updateHint();
+      });
+
+      updateHint();
+    });
+
+    function updateHint()
+    {
+      var key = $("#user-key").val();
+      if (key && key.length > 0) {
+        $("#link-user-hint").fadeOut(400); 
+        $("#link-user-button").attr("disabled", false);
+      }
+      else {
+        $("#link-user-hint").fadeIn(400); 
+        $("#link-user-button").attr("disabled", true);
+      }
+    }
+//-->{/literal}
+</script>
+
+<form action="affiliate-user.php">
+  {include file=edit-table/create.html from=$fields}
+
+  <div class="controls">
+    <input id="link-user-button" value="Link user" type="submit" {tabindex}>
+    <span id="link-user-hint" class="hint">To link user, provide user {if $hosted}E-mail{else}name{/if}</span>
+  </div>
+</form>
