@@ -36,6 +36,7 @@ require_once MAX_PATH . '/lib/max/Dal/DataObjects/Audit.php';
 require_once MAX_PATH . '/lib/max/language/Userlog.php';
 Language_Userlog::load();
 
+
 /**
  * The OA_Dll_Audit class extends the OA_Dll class.
  *
@@ -346,5 +347,29 @@ class OA_Dll_Userlog extends OA_Dll
             break;
         }
     }
+
+    function getAuditLogForCampaignWidget($aParam='')
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $oAudit = OA_Dal::factoryDO($conf['table']['audit']);
+
+        $oDate = & new Date(OA::getNow());
+        $oDate->subtractSeconds(60*60*24*7);
+        $oAudit->whereAdd("context = 'Campaign'");
+        $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
+        $oAudit->whereAdd('parentid IS NULL');
+        $oAudit->orderBy('auditid DESC');
+        $oAudit->limit(0, 5);
+
+        $numRows = $oAudit->find();
+
+        while ($oAudit->fetch()) {
+            $aAudit = $oAudit->toArray();
+            $aAudit['details'] = unserialize($aAudit['details']);
+            $aResult[] = $aAudit;
+        }
+        return $aResult;
+    }
+
 }
 ?>
