@@ -66,10 +66,20 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {$jsMPE}
 {$jsFlash}
 
-{$headExtras}
+{foreach item=s from=$aSide}
+{if $s.top}
+<link rel="top" href="{$s.filename|escape}" title="{$s.title|escape}" />
+{/if}
+{if $s.up}
+<link rel="up" href="{$s.filename|escape}" title="{$s.title|escape}" />
+{/if}
+{/foreach}
+{foreach item=s from=$aSideShortcuts}
+<link rel="bookmark" href="{$s.link|escape}" title="{$s.name}" />
+{/foreach}
 
 </head>
-<body class="hasInterface{if $sideBar} hasSidebar{/if}" onload="initPage();">
+<body class="hasInterface{if $showSidebar} hasSidebar{/if}" onload="initPage();">
 
 {* Using insert to prevent caching *}
 {insert name=OA_Admin_UI_CustomHeader}
@@ -95,7 +105,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 </div>
 
 <div id="oaNavigation">
-{$tabBar}
+{include file=layout/navigation.html}
 
     <ul id="oaNavigationExtra">
 {if $infoUser}
@@ -117,7 +127,9 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 </div>
 
 <div id="oaMain">
-    {$sideBar}
+{if $showSidebar}
+{include file=layout/sidebar.html}
+{/if}
 
     <div id="oaContents">
 

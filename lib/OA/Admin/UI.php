@@ -76,11 +76,10 @@ class OA_Admin_UI
         $phpAds_GUIDone = true;
         $phpAds_NavID   = $ID;
 
-        $aNav = array();
-        $aSide = array();
-
-    	$sidebar = '';
-    	$head = '';
+        $aNav           = array();
+        $aSide          = array();
+        $aSideContext   = array();
+        $aSideShortcuts = array();
 
     	$pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
@@ -133,43 +132,28 @@ class OA_Admin_UI
 
             // Build Context
             if (count($phpAds_context)) {
-    			$sidebar .= "<ul id='oaSidebarContext'>";
                 $selectedcontext = '';
-                for ($ci=$down_limit; $ci < $up_limit; $ci++) {
+                for ($ci = $down_limit; $ci < $up_limit; $ci++) {
                     if ($phpAds_context[$ci]['selected']) {
                         $selectedcontext = $ci;
                     }
                 }
-                for ($ci=$down_limit; $ci < $up_limit; $ci++) {
-                    $ac = '';
-                    if ($ci == $selectedcontext - 1) $ac = $GLOBALS['keyPreviousItem'];
-                    if ($ci == $selectedcontext + 1) $ac = $GLOBALS['keyNextItem'];
-
-    				$sidebar .= "<li" . ($phpAds_context[$ci]['selected'] ? " class='selected'" : "") . ">";
-    				$sidebar .= "<a href='{$phpAds_context[$ci]['link']}'" . ($ac != '' ? " accesskey='" . $ac . "'" : "") . ">";
-    				$sidebar .= "{$phpAds_context[$ci]['name']}</a></li>";
+                for ($ci = $down_limit; $ci < $up_limit; $ci++) {
+                    if ($ci == $selectedcontext - 1) {
+                        $phpAds_context[$ci]['accesskey'] = $GLOBALS['keyPreviousItem'];
+                    }
+                    if ($ci == $selectedcontext + 1) {
+                        $phpAds_context[$ci]['accesskey'] = $GLOBALS['keyNextItem'];
+                    }
                 }
-    			$sidebar .= "</ul>";
-            }
 
-            // Include custom HTML for the sidebar
-            if ($extra != '') $sidebar .= "<div id='oaSidebarCustom'>{$extra}</div>";
+                $aSideContext = $phpAds_context;
+            }
 
             // Include shortcuts
             if (count($phpAds_shortcuts)) {
-    			$sidebar .= "<h3>{$GLOBALS['strShortcuts']}</h3>";
-    			$sidebar .= "<ul id='oaSidebarShortcuts'>";
-
-                for ($si=0; $si<count($phpAds_shortcuts); $si++) {
-    				$sidebar .= "<li style='background-image: url({$phpAds_shortcuts[$si]['icon']});'>";
-    				$sidebar .= "<a href='{$phpAds_shortcuts[$si]['link']}'>{$phpAds_shortcuts[$si]['name']}</a>";
-    				$sidebar .= "</li>";
-                    $head  .= "<link rel='bookmark' href='{$phpAds_shortcuts[$si]['link']}' title='{$phpAds_shortcuts[$si]['name']}' />";
-                }
-
-    			$sidebar .= "</ul>";
+                $aSideShortcuts = $phpAds_shortcuts;
             }
-    		$sidebar .= "</div>";
 
             if ($showMainNav) {
                 // Build tabbed navigation bar
@@ -204,9 +188,16 @@ class OA_Admin_UI
             }
         }
 
-        // Tabbed navigation bar
+        // Tabbed navigation bar and sidebar
         $this->oTpl->assign('aNav', $aNav);
         $this->oTpl->assign('aSide', $aSide);
+        $this->oTpl->assign('aSideContext', $aSideContext);
+        $this->oTpl->assign('aSideShortcuts', $aSideShortcuts);
+
+        // Include custom HTML for the sidebar
+        if ($extra) {
+            $this->oTpl->assign('sidebarExtra', $extra);
+        }
 
         // Use gzip content compression
         if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
@@ -217,7 +208,7 @@ class OA_Admin_UI
         header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
 
         // Generate layout
-        $this->oTpl->assign('pageTitle', $pagetitle);
+        $this->oTpl->assign('pageTitle', $pageTitle);
         $this->oTpl->assign('imgPath', $imgPath);
         $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
         $this->oTpl->assign('formValidation', !defined('phpAds_installing'));
@@ -254,8 +245,7 @@ class OA_Admin_UI
             }
         }
 
-        $this->oTpl->assign('sideBar', $showSidebar ? $sidebar : '');
-
+        $this->oTpl->assign('showSidebar', $showSidebar);
         $this->oTpl->assign('noBorder', $noBorder);
 
         $this->oTpl->assign('productUpdatesCheck',

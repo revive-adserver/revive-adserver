@@ -89,7 +89,7 @@ class OA_Admin_Template extends Smarty
     /**
      * A method to set a cache id for the current page
      *
-     * @param string $cacheId
+     * @param mixed $cacheId Either a string or an array of parameters
      */
     function setCacheId($cacheId = null)
     {
@@ -97,6 +97,9 @@ class OA_Admin_Template extends Smarty
             $this->cacheId = null;
             $this->caching = 0;
         } else {
+            if (is_array($cacheId)) {
+                $cacheId = join('^@^', $cacheId);
+            }
             $this->cacheId = md5($cacheId);
             $this->caching = 1;
         }
