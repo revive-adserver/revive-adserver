@@ -183,8 +183,8 @@ $GLOBALS['strAdminPassword']                         = 'Administrator  Password'
 $GLOBALS['strInvalidUsername']                       = 'Invalid Username';
 $GLOBALS['strBasicInformation']                      = 'Basic Information';
 $GLOBALS['strAdminFullName']                         = 'Admin\'s Full Name';
-$GLOBALS['strAdminEmail']                            = 'Admin\'s E-mail Address';
-$GLOBALS['strAdministratorEmail']                    = 'Administrator E-mail Address';
+$GLOBALS['strAdminEmail']                            = 'Admin\'s email Address';
+$GLOBALS['strAdministratorEmail']                    = 'Administrator email Address';
 $GLOBALS['strCompanyName']                           = 'Company Name';
 $GLOBALS['strAdminCheckUpdates']                     = 'Check for Updates';
 $GLOBALS['strAdminCheckEveryLogin']                  = 'Every Login';
@@ -193,7 +193,7 @@ $GLOBALS['strAdminCheckWeekly']                      = 'Weekly';
 $GLOBALS['strAdminCheckMonthly']                     = 'Monthly';
 $GLOBALS['strAdminCheckNever']                       = 'Never';
 $GLOBALS['strNovice']                                = 'Delete actions require confirmation for safety';
-$GLOBALS['strUserlogEmail']                          = 'Log all outgoing e-mail messages';
+$GLOBALS['strUserlogEmail']                          = 'Log all outgoing email messages';
 $GLOBALS['strEnableDashboard']                       = "Enable dashboard";
 $GLOBALS['strTimezone']                              = "Timezone";
 $GLOBALS['strTimezoneEstimated']                     = "Estimated Timezone";
@@ -203,7 +203,7 @@ $GLOBALS['strTimezoneDocumentation']                 = "documentation";
 $GLOBALS['strLoginSettingsTitle']                    = "Administrator Login";
 $GLOBALS['strLoginSettingsIntro']                    = "In order to continue with the upgrade process, please enter your " . MAX_PRODUCT_NAME . " administrator user login details.  You must login as the admnistrator user to continue with the upgrade process.";
 $GLOBALS['strAdminSettingsTitle']                    = "Your Administrator Account";
-$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and e-mail address of the administrator.";
+$GLOBALS['strAdminSettingsIntro']                    = "The administrator account is used to login to the " . MAX_PRODUCT_NAME . " interface and manage inventory, view statistics, and create tags. Please fill in the username, password, and email address of the administrator.";
 $GLOBALS['strConfigSettingsIntro']                   = "Please review the following configuration settings. It is very important that you carefully review these settings as they are vital to the performance and usage of " . MAX_PRODUCT_NAME;
 
 $GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maintenance during delivery if scheduled maintenance is not set up";
@@ -211,7 +211,7 @@ $GLOBALS['strEnableAutoMaintenance']	             = "Automatically perform maint
 // Openads ID Settings
 $GLOBALS['strOpenadsUsername']                       = MAX_PRODUCT_NAME . " Username";
 $GLOBALS['strOpenadsPassword']                       = MAX_PRODUCT_NAME . " Password";
-$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " E-mail";
+$GLOBALS['strOpenadsEmail']                          = MAX_PRODUCT_NAME . " email";
 
 // Database Settings
 $GLOBALS['strDatabaseSettings']                      = 'Database Settings';
@@ -230,11 +230,11 @@ $GLOBALS['strDemoDataInstall']                       = 'Install Demo Data';
 $GLOBALS['strDemoDataIntro']                         = 'Default setup data can be loaded into ' . MAX_PRODUCT_NAME . ' to help you get started serving online advertising. The most common banner types, as well as some initial campaigns can be loaded and pre-configured. This is highly recommended for new installations.';
 
 // Email Settings
-$GLOBALS['strEmailSettings']                         = 'E-mail Settings';
+$GLOBALS['strEmailSettings']                         = 'Email Settings';
 $GLOBALS['strQmailPatch']                            = 'qmail patch';
 $GLOBALS['strEnableQmailPatch']                      = 'Enable qmail patch';
-$GLOBALS['strEmailHeader']                           = 'E-mail headers';
-$GLOBALS['strEmailLog']                           = 'E-mail log';
+$GLOBALS['strEmailHeader']                           = 'Email headers';
+$GLOBALS['strEmailLog']                           = 'Email log';
 
 // Audit Trail Settings
 $GLOBALS['strAudit']                                 = 'Audit Trail Settings';
@@ -446,14 +446,14 @@ $GLOBALS['strDefaultImpConWindow']                   = 'Default Ad Impression Co
 $GLOBALS['strDefaultImpConWindowError']              = 'If set, the Default Ad Impression Connection Window must be a positive integer';
 $GLOBALS['strDefaultCliConWindow']                   = 'Default Ad Click Connection Window (seconds)';
 $GLOBALS['strDefaultCliConWindowError']              = 'If set, the Default Ad Click Connection Window must be a positive integer';
-$GLOBALS['strAdminEmailHeaders']                     = 'Add the following headers to each e-mail message sent by ' . MAX_PRODUCT_NAME;
+$GLOBALS['strAdminEmailHeaders']                     = 'Add the following headers to each email message sent by ' . MAX_PRODUCT_NAME;
 $GLOBALS['strWarnLimit']                             = 'Send a warning when the number of impressions left are less than specified here';
 $GLOBALS['strWarnLimitErr']                          = 'Warn Limit must be a positive integer';
 $GLOBALS['strWarnLimitDays']                         = 'Send a warning when the days left are less than specified here';
 $GLOBALS['strWarnLimitDaysErr']                      = 'Warn Limit Days should be a positive number';
-$GLOBALS['strAllowEmail']                            = 'Globally allow sending of e-mails';
-$GLOBALS['strEmailAddressFrom']                      = 'E-mail address to send reports FROM';
-$GLOBALS['strEmailAddressName']                      = 'Company or personal name to sign off e-mail with';
+$GLOBALS['strAllowEmail']                            = 'Globally allow sending of emails';
+$GLOBALS['strEmailAddressFrom']                      = 'Email address to send reports FROM';
+$GLOBALS['strEmailAddressName']                      = 'Company or personal name to sign off email with';
 $GLOBALS['strWarnAdmin']                             = 'Send a warning to the administrator every time a campaign is almost expired';
 $GLOBALS['strWarnClient']                            = 'Send a warning to the advertiser every time a campaign is almost expired';
 $GLOBALS['strWarnAgency']                            = 'Send a warning to the agency every time a campaign is almost expired';

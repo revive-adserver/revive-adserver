@@ -153,7 +153,7 @@ $GLOBALS['phpAds_hlp_name'] = "
 		";
 
 $GLOBALS['phpAds_hlp_company_name'] = "
-        This name is used in the e-mail sent by ".MAX_PRODUCT_NAME.".
+        This name is used in the email sent by ".MAX_PRODUCT_NAME.".
 		";
 
 $GLOBALS['phpAds_hlp_override_gd_imageformat'] = "
@@ -309,23 +309,23 @@ $GLOBALS['phpAds_hlp_percentage_decimals'] = "
 		";
 
 $GLOBALS['phpAds_hlp_warn_admin'] = "
-        ".MAX_PRODUCT_NAME." can sent you e-mail if a campaign has only a limited number of
+        ".MAX_PRODUCT_NAME." can sent you email if a campaign has only a limited number of
         views, clicks, or conversions left. This is turned on by default.
 		";
 
 $GLOBALS['phpAds_hlp_warn_client'] = "
-        ".MAX_PRODUCT_NAME." can sent the advertiser e-mail if one of his campaigns has only a
+        ".MAX_PRODUCT_NAME." can sent the advertiser email if one of his campaigns has only a
 		limited number of views, clicks, or conversions left. This is turned on by default.
 		";
 
 $GLOBALS['phpAds_hlp_qmail_patch'] = "
-		Some versions of qmail are affected by a bug, which causes e-mail sent by
-		".MAX_PRODUCT_NAME." to show the headers inside the body of the e-mail. If you enable
-		this setting, ".MAX_PRODUCT_NAME." will send e-mail in a qmail compatible format.
+		Some versions of qmail are affected by a bug, which causes email sent by
+		".MAX_PRODUCT_NAME." to show the headers inside the body of the email. If you enable
+		this setting, ".MAX_PRODUCT_NAME." will send email in a qmail compatible format.
 		";
 
 $GLOBALS['phpAds_hlp_warn_limit'] = "
-        The limit on which ".MAX_PRODUCT_NAME." starts sending warning e-mails. This is 100
+        The limit on which ".MAX_PRODUCT_NAME." starts sending warning emails. This is 100
         by default.
 		";
 
@@ -450,7 +450,7 @@ $GLOBALS['phpAds_hlp_admin_fullname'] = "
 		";
 
 $GLOBALS['phpAds_hlp_admin_email'] = "
-        The administrator's e-mail address. This is used as from-address when
+        The administrator's email address. This is used as from-address when
         sending statistics via email.
 		";
 
@@ -480,8 +480,8 @@ $GLOBALS['phpAds_hlp_updates_frequency'] = "
 		";
 
 $GLOBALS['phpAds_hlp_userlog_email'] = "
-		If you want to keep a copy of all outgoing e-mail messages send by ".MAX_PRODUCT_NAME." you
-		can enable this feature. The e-mail messages are stored in the userlog.
+		If you want to keep a copy of all outgoing email messages send by ".MAX_PRODUCT_NAME." you
+		can enable this feature. The email messages are stored in the userlog.
 		";
 
 $GLOBALS['phpAds_hlp_userlog_inventory'] = "

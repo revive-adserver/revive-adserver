@@ -295,11 +295,11 @@ $GLOBALS['strInactiveAdvertisersHidden']    = "inactive advertiser(s) hidden";
 
 // Advertisers properties
 $GLOBALS['strContact']                          = "Contact";
-$GLOBALS['strEMail']                            = "E-mail";
+$GLOBALS['strEMail']                            = "Email";
 $GLOBALS['strChars']                            = "chars";
-$GLOBALS['strSendAdvertisingReport']            = "E-mail campaign delivery reports";
+$GLOBALS['strSendAdvertisingReport']            = "Email campaign delivery reports";
 $GLOBALS['strNoDaysBetweenReports']             = "Number of days between campaign delivery reports";
-$GLOBALS['strSendDeactivationWarning']          = "E-mail when a campaign is automatically activated/deactivated";
+$GLOBALS['strSendDeactivationWarning']          = "Email when a campaign is automatically activated/deactivated";
 $GLOBALS['strAllowClientModifyInfo']            = "Allow this user to modify his own settings";
 $GLOBALS['strAllowClientModifyBanner']          = "Allow this user to modify his own banners";
 $GLOBALS['strAllowClientAddBanner']             = "Allow this user to add his own banners";
@@ -687,7 +687,7 @@ $GLOBALS['strBannerButtonRectangle']        = "Banner, Button or Rectangle";
 $GLOBALS['strInterstitial']                 = "Interstitial or Floating DHTML";
 $GLOBALS['strPopup']                        = "Popup";
 $GLOBALS['strTextAdZone']                   = "Text ad";
-$GLOBALS['strEmailAdZone']                  = "E-mail/Newsletter zone";
+$GLOBALS['strEmailAdZone']                  = "Email/Newsletter zone";
 $GLOBALS['strZoneClick']                    = "Click tracking zone";
 $GLOBALS['strShowMatchingBanners']          = "Show matching banners";
 $GLOBALS['strHideMatchingBanners']          = "Hide matching banners";
@@ -697,10 +697,10 @@ $GLOBALS['strTotalZones']                   = 'Total zones';
 $GLOBALS['strCostInfo']                     = 'Media Cost';
 $GLOBALS['strTechnologyCost']               = 'Technology Cost';
 $GLOBALS['strInactiveZonesHidden']          = "inactive zone(s) hidden";
-$GLOBALS['strWarnChangeZoneType']           = 'Changing the zone type to text or e-mail will unlink all banners/campaigns due to restrictions of these zone types
+$GLOBALS['strWarnChangeZoneType']           = 'Changing the zone type to text or email will unlink all banners/campaigns due to restrictions of these zone types
                                                 <ul>
                                                     <li>Text zones can only be linked to text ads</li>
-                                                    <li>E-mail zone campaigns can only have one active banner at a time</li>
+                                                    <li>Email zone campaigns can only have one active banner at a time</li>
                                                 </ul>';
 $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
 
@@ -903,9 +903,9 @@ $GLOBALS['strUnableToLinkBanner']               = "Cannot link this banner: ";
 $GLOBALS['strErrorEditingCampaign']             = "Error updating campaign:";
 $GLOBALS['strUnableToChangeCampaign']           = "Cannot apply this change because:";
 $GLOBALS['strDatesConflict']                    = "dates conflict with:";
-$GLOBALS['strEmailNoDates']                     = 'E-mail zone campaigns must have a start and end date';
+$GLOBALS['strEmailNoDates']                     = 'Email zone campaigns must have a start and end date';
 
-// E-mail
+// Email
 $GLOBALS['strSirMadam']                         = "Sir/Madam";
 $GLOBALS['strMailSubject']                      = "Advertiser report";
 $GLOBALS['strAdReportSent']                     = "Advertiser report sent";
@@ -953,12 +953,12 @@ $GLOBALS['strPreferences']                      = "Preferences";
 $GLOBALS['strMyAccount']                        = "My Account";
 $GLOBALS['strMainPreferences']                  = "Main Preferences";
 $GLOBALS['strAccountPreferences']               = "Account Preferences";
-$GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign E-mail Reports Preferences";
-$GLOBALS['strAdminEmailWarnings']               = "Administrator E-mail Warnings";
-$GLOBALS['strAgencyEmailWarnings']              = "Agency E-mail Warnings";
-$GLOBALS['strAdveEmailWarnings']                = "Advertiser E-mail Warnings";
+$GLOBALS['strCampaignEmailReportsPreferences']  = "Campaign email Reports Preferences";
+$GLOBALS['strAdminEmailWarnings']               = "Administrator email Warnings";
+$GLOBALS['strAgencyEmailWarnings']              = "Agency email Warnings";
+$GLOBALS['strAdveEmailWarnings']                = "Advertiser email Warnings";
 $GLOBALS['strFullName']                         = "Full Name";
-$GLOBALS['strEmailAddress']                     = "E-mail address";
+$GLOBALS['strEmailAddress']                     = "Email address";
 $GLOBALS['strUserDetails']                      = "User Details";
 $GLOBALS['strLanguageTimezone']                 = "Language & Timezone";
 $GLOBALS['strLanguageTimezonePreferences']      = "Language and Timezone Preferences";
@@ -1063,12 +1063,12 @@ $GLOBALS['strWrongDateFormat']      = 'Wrong Date Format';
 // Password recovery
 $GLOBALS['strForgotPassword']         = "Forgot your password?";
 $GLOBALS['strPasswordRecovery']       = "Password recovery";
-$GLOBALS['strEmailRequired']          = "E-mail is a required field";
-$GLOBALS['strPwdRecEmailSent']        = "Recovery e-mail sent";
-$GLOBALS['strPwdRecEmailNotFound']    = "E-mail address not found";
+$GLOBALS['strEmailRequired']          = "Email is a required field";
+$GLOBALS['strPwdRecEmailSent']        = "Recovery email sent";
+$GLOBALS['strPwdRecEmailNotFound']    = "Email address not found";
 $GLOBALS['strPwdRecPasswordSaved']    = "The new password was saved, proceed to <a href='index.php'>login</a>";
 $GLOBALS['strPwdRecWrongId']          = "Wrong ID";
-$GLOBALS['strPwdRecEnterEmail']       = "Enter your e-mail address below";
+$GLOBALS['strPwdRecEnterEmail']       = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword']    = "Enter your new password address below";
 $GLOBALS['strPwdRecResetLink']        = "Password reset link";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
