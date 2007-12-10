@@ -26,16 +26,17 @@
 +---------------------------------------------------------------------------+
 $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
--->*}
-<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
+-->*}{if $uiPart == 'header'}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html{if $phpAds_TextDirection != 'ltr'} dir="{$phpAds_TextDirection}"{/if}>
 <head>
 <title>{$pageTitle}</title>
 
-<meta name="generator" content="{$smarty.constants.MAX_PRODUCT_NAME} v{$smarty.constants.OA_VERSION} - http://{$smarty.constants.MAX_PRODUCT_URL}" />
+<meta name="generator" content="{$metaGenerator}" />
 <meta name="robots" content="noindex, nofollow" />
 
-<link rel="stylesheet" type="text/css" href="{$imgPath}css/chrome{if $phpAds_TextDirection != 'ltr'}-rtl{/if}.css" />
+<link rel="stylesheet" type="text/css" href="{$imgPath}css/chrome.css" />
+{if $phpAds_TextDirection != 'ltr'}<link rel="stylesheet" type="text/css" href="{$imgPath}css/chrome-rtl.css" />{/if}
 <link rel="stylesheet" type="text/css" href="{$imgPath}images/{$phpAds_TextDirection}/interface.css" />
 <link rel="stylesheet" type="text/css" href="{$imgPath}js/jscalendar/calendar-openads.css" />
 
@@ -68,8 +69,11 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {$headExtras}
 
 </head>
-<body class="hasInterface{if $showSidebar} hasSidebar{/if}" onload="initPage();">
-{$headerFileOutput}
+<body class="hasInterface{if $sideBar} hasSidebar{/if}" onload="initPage();">
+
+{* Using insert to prevent caching *}
+{insert name=OA_Admin_UI_CustomHeader}
+
 <div id="oaHeader">
 
 {* Branding *}
@@ -90,8 +94,94 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 </div>
 
-{*
-<body>
+<div id="oaNavigation">
+{$tabBar}
+
+    <ul id="oaNavigationExtra">
+{if $infoUser}
+        <li class="infoUser">{$infoUser|escape}</li>
+{/if}
+{if $buttonStartOver}
+        <li class="buttonStartOver"><a href="index.php">{t str=StartOver}</a></li>
+{/if}
+{if $buttonLogout}
+        <li class="buttonLogout"><a href="logout.php">{t str=Logout}</a></li>
+{/if}
+{if $helpLink}
+        <li class="buttonHelp"><a href="{$helpLink|escape}" target="_blank" onclick="openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;">{t str=Help}</a></li>
+{/if}
+{if buttonReportBugs}
+        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs' target='_blank'><img alt='Report a bug' src='{$imgPath}images/bug.png" /></a></li>
+{/if}
+    </ul>
+</div>
+
+<div id="oaMain">
+    {$sideBar}
+
+    <div id="oaContents">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+{if !$noBorder}
+                <td colspan='2' height='10'><img src='{$imgPath}images/spacer.gif' height='1'></td>
+            </tr>
+            <tr>
+                <td width="20">&nbsp;</td>
+{/if}
+                <td>
+
+{* Footer *}
+{else}
+
+                </td>
+{if !$noBorder}
+                <td width="40">&nbsp;</td>
+            </tr>
+            <tr>
+                <td width="40" height="20">&nbsp;</td>
+                <td height="20">&nbsp;</td>
+{/if}
+            </tr>
+
+{* Using insert to prevent caching *}
+{insert name=OA_Admin_UI_CustomFooter}
+{* The insert function call above outputs this HTML code as well
+            <tr>
+                <td width="40" height="20">&nbsp;</td>
+                <td height="20">
+                    [...]
+                </td>
+            </tr>
+
+*}
+        </table>
+
+    </div>
+</div>
+
+{if $jsMPE}
+<div id="runMpe" name="runMpe">&#160;</div>
+<script type="text/javascript">
+<!--
+    xajax_OA_runMPE();
+//-->
+</script>
+{/if}
+
+{if $productUpdatesCheck}
+<script type="text/javascript" src="maintenance-updates-js.php"></script>
+{/if}
+
+{if $maintenanceAlert}
+<script type='text/javascript'>
+<!--
+    alert('{t str=MaintenanceNotActive}');
+    location.replace('maintenance-maintenance.php');
+//-->
+</script>
+{/if}
+
 </body>
 </html>
-*}
+{/if}

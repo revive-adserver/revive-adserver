@@ -31,7 +31,7 @@ $Id$
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Help.php';
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
 require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
@@ -78,6 +78,8 @@ function phpAds_PageShortcut($name, $link, $icon)
 /**
  * Show page header
  *
+ * @todo Remove this
+ *
  * @param int ID
  * @param int Extra
  * @param int imgPath: a relative path to Images, CSS files. Used if calling function from anything other than admin folder
@@ -87,244 +89,8 @@ function phpAds_PageShortcut($name, $link, $icon)
  */
 function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
 {
-    global $phpAds_TextDirection;
-    global $phpAds_GUIDone, $phpAds_NavID;
-    global $phpAds_context, $phpAds_shortcuts;
-    global $phpAds_nav, $pages;
-    global $phpAds_CharSet;
-    global $xajax, $session;
-
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $pref = $GLOBALS['_MAX']['PREF'];
-
-    $phpAds_GUIDone = true;
-    $phpAds_NavID   = $ID;
-
-    $tabbar = '';
-	$sidebar = '';
-	$head = '';
-
-    // Travel navigation
-    if ($ID != phpAds_Login && $ID != phpAds_Error) {
-		switch (true) {
-			case phpAds_isUser(phpAds_Admin):	$pages = $phpAds_nav['admin']; break;
-			case phpAds_isUser(phpAds_Agency):	$pages = $phpAds_nav['agency']; break;
-			case phpAds_isUser(phpAds_Client):	$pages = $phpAds_nav['client']; break;
-			default:							$pages = $phpAds_nav['affiliate']; break;
-		}
-
-        // Build sidebar
-        $sections = explode(".", $ID);
-        $sectionID = "";
-
-		$sidebar .= "<div id='oaSidebar'><h3>{$GLOBALS['strNavigation']}</h3>";
-		$sidebar .= "<ul id='oaSidebarNavigation'>";
-
-        for ($i=0; $i<count($sections)-1; $i++)
-		{
-            $sectionID .= $sections[$i];
-            list($filename, $title) = each($pages[$sectionID]);
-            $sectionID .= ".";
-
-            if ($i==0) {
-				$sidebar .= "<li class='top'><a href='{$filename}'>{$title}</a></li>";
-                $head .= "<link rel='top' href='{$filename}' title='{$title}' />";
-            } else {
-				$sidebar .= "<li class='up" . ($i == 1 ? " first" : "") . "'>";
-				$sidebar .= "<a href='{$filename}'" . ($i == count($sections) - 2 ? " accesskey='{$GLOBALS['keyUp']}'" : "") . ">{$title}</a></li>";
-            }
-            if ($i == count($sections) - 2) {
-                $head .= "<link rel='up' href='{$filename}' title='{$title}' />";
-            }
-        }
-
-        if (isset($pages[$ID]) && is_array($pages[$ID])) {
-            list($filename, $title) = each($pages[$ID]);
-			$sidebar .= "<li class='" . (count($sections) == 2 ? "first " : "") . (count($sections) > 1 ? "current" : "top") . "'>";
-			$sidebar .= "<a href='{$filename}'>{$title}</a></li>";
-            $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
-            $pagetitle .= ' - '.$title;
-        } else {
-            $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
-        }
-
-		$sidebar .= "</ul>";
-
-		$up_limit = count($phpAds_context);
-        $down_limit = 0;
-
-        // Build Context
-        if (count($phpAds_context)) {
-			$sidebar .= "<ul id='oaSidebarContext'>";
-            $selectedcontext = '';
-            for ($ci=$down_limit; $ci < $up_limit; $ci++) {
-                if ($phpAds_context[$ci]['selected']) {
-                    $selectedcontext = $ci;
-                }
-            }
-            for ($ci=$down_limit; $ci < $up_limit; $ci++) {
-                $ac = '';
-                if ($ci == $selectedcontext - 1) $ac = $GLOBALS['keyPreviousItem'];
-                if ($ci == $selectedcontext + 1) $ac = $GLOBALS['keyNextItem'];
-
-				$sidebar .= "<li" . ($phpAds_context[$ci]['selected'] ? " class='selected'" : "") . ">";
-				$sidebar .= "<a href='{$phpAds_context[$ci]['link']}'" . ($ac != '' ? " accesskey='" . $ac . "'" : "") . ">";
-				$sidebar .= "{$phpAds_context[$ci]['name']}</a></li>";
-            }
-			$sidebar .= "</ul>";
-        }
-
-        // Include custom HTML for the sidebar
-        if ($extra != '') $sidebar .= "<div id='oaSidebarCustom'>{$extra}</div>";
-
-        // Include shortcuts
-        if (count($phpAds_shortcuts)) {
-			$sidebar .= "<h3>{$GLOBALS['strShortcuts']}</h3>";
-			$sidebar .= "<ul id='oaSidebarShortcuts'>";
-
-            for ($si=0; $si<count($phpAds_shortcuts); $si++) {
-				$sidebar .= "<li style='background-image: url({$phpAds_shortcuts[$si]['icon']});'>";
-				$sidebar .= "<a href='{$phpAds_shortcuts[$si]['link']}'>{$phpAds_shortcuts[$si]['name']}</a>";
-				$sidebar .= "</li>";
-                $head  .= "<link rel='bookmark' href='{$phpAds_shortcuts[$si]['link']}' title='{$phpAds_shortcuts[$si]['name']}' />";
-            }
-
-			$sidebar .= "</ul>";
-        }
-		$sidebar .= "</div>";
-
-        // Build Tabbar
-        $currentsection = $sections[0];
-
-        // Prepare Navigation
-		switch (true) {
-			case phpAds_isUser(phpAds_Admin):		$pages = $phpAds_nav['admin']; break;
-			case phpAds_isUser(phpAds_Agency):		$pages = $phpAds_nav['agency']; break;
-			case phpAds_isUser(phpAds_Client):		$pages = $phpAds_nav['client']; break;
-			case phpAds_isUser(phpAds_Affiliate):	$pages = $phpAds_nav['affiliate']; break;
-			default:								$pages = array(); break;
-		}
-
-		$tabbar .= "<ul id='oaNavigationTabs'>";
-
-        foreach (array_keys($pages) as $key) {
-            if (strpos($key, ".") == 0) {
-                list($filename, $title) = each($pages[$key]);
-                if ($key == $currentsection) {
-					$tabbar .= "<li class='selected'><a href='{$filename}' accesskey='{$GLOBALS['keyHome']}'>{$title}</a></li>";
-                } else {
-					$tabbar .= "<li><a href='{$filename}'>{$title}</a></li>";
-                }
-            }
-        }
-
-		$tabbar .= "</ul>";
-    }
-    else {
-        $sidebar = "&nbsp;";
-        $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
-
-        if ($ID == phpAds_Login) {
-			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>{$GLOBALS['strAuthentification']}</a></li></ul>";
-        }
-        if ($ID == phpAds_Error) {
-			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>Error</a></li></ul>";
-        }
-    }
-
-    // Use gzip content compression
-    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression'] == 't') {
-        ob_start("ob_gzhandler");
-    }
-
-    // Send header with charset info
-    header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != "" ? "; charset=".$phpAds_CharSet : ""));
-
-    // Generate layout
-    $oTpl = new OA_Admin_Template('layout.html');
-    $oTpl->assign('pageTitle', $pagetitle);
-    $oTpl->assign('imgPath', $imgPath);
-    $oTpl->assign('formValidation', !defined('phpAds_installing'));
-
-    if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
-        require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
-        $oTpl->assign('jsMPE', $xajax->getJavascript('./', 'js/xajax.js'));
-    }
-
-    if (!defined('phpAds_installing')) {
-        // Include the flashObject resource file
-        $oTpl->assign('jsFlash', MAX_flashGetFlashObjectExternal());
-    }
-
-    $oTpl->assign('headExtras', $head);
-
-    $oTpl->assign('showSidebar', $showSidebar);
-
-    // Header
-    if (isset($conf['ui']['headerFilePath']) && $conf['ui']['headerFilePath'] != '') {
-        ob_start();
-        include ($conf['ui']['headerFilePath']);
-        $oTpl->assign('headerFileOutput', ob_get_clean());
-    }
-
-    // Branding
-    $oTpl->assign('applicationName', $conf['ui']['applicationName']);
-    $oTpl->assign('logoFilePath', $conf['ui']['logoFilePath']);
-
-    $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin|phpAds_Agency|phpAds_Affiliate) && !defined('phpAds_installing'));
-    $oTpl->assign('displaySearch', $displaySearch);
-    $oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
-
-    $oTpl->display();
-
-
-	echo "<div id='oaNavigation'>";
-
-    if ($showMainNav == true) {
-        echo $tabbar;
-    }
-
-    // Show currently logged on user and IP
-	echo "<ul id='oaNavigationExtra'>";
-
-    if (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing')) {
-        if (!defined('phpAds_installing')) {
-       		echo "<li class='infoUser'>{$session['username']} [{$_SERVER['REMOTE_ADDR']}]</li>";
-            echo "<li class='buttonLogout'><a href='logout.php'>{$GLOBALS['strLogout']}</a></li>";
-	        if ($helpLink = OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID)) {
-    	        echo "<li class='buttonHelp'><a href='{$helpLink}' target='_blank' onclick=\"openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">{$GLOBALS['strHelp']}</a></li>";
-        	}
-            echo "<li class='buttonReportBugs'><a href='https://developer.openads.org/wiki/ReportingBugs' target='_blank'><img alt='Report a bug' src='{$imgPath}images/bug.png' /></a></li>";
-        } else {
-			echo "<li class='buttonStartOver'><a href='index.php'>{$GLOBALS['strStartOver']}</a></li>";
-	        if ($helpLink = OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID)) {
-    	        echo "<li class='buttonHelp'><a href='{$helpLink}' target='_blank' onclick=\"openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;\">{$GLOBALS['strHelp']}</a></li>";
-        	}
-            echo "<li class='buttonLogout'><a href='logout.php'>{$GLOBALS['strLogout']}</a></li>";
-        }
-    }
-
-	echo "</ul>";		// oaNavigationExtra
-	echo "</div>";		// oaNavigation
-
-	echo "<div id='oaMain'>";
-
-    if ($showSidebar != false) {
-        echo $sidebar;
-    }
-
-    // Main contents
-	echo "<div id='oaContents'>";
-
-    echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
-    echo "<tr>";
-    if (!$noBorder) {
-        echo "<td colspan='2' height='10'><img src='".$imgPath."images/spacer.gif' height='1'></td>";
-        echo "</tr>";
-        echo "<tr>";
-        echo "<td width='20'>&nbsp;</td>";
-    }
-    echo "<td>";
+    $GLOBALS['_MAX']['ADMIN_UI'] = new OA_Admin_UI();
+    $GLOBALS['_MAX']['ADMIN_UI']->showHeader($ID, $extra, $imgPath, $showSidebar, $showMainNav, $noBorder);
 }
 
 /*-------------------------------------------------------*/
@@ -333,80 +99,8 @@ function phpAds_PageHeader($ID, $extra="", $imgPath="", $showSidebar=true, $show
 
 function phpAds_PageFooter($imgPath='', $noBorder = false)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $pref = $GLOBALS['_MAX']['PREF'];
-    global $session, $strMaintenanceNotActive;
-
-    echo "</td>";
-    if (!$noBorder) {
-        echo "<td width='40'>&nbsp;</td>";
-	    echo "</tr>";
-    	// Spacer
-	    echo "<tr>";
-	    echo "<td width='40' height='20'>&nbsp;</td>";
-	    echo "<td height='20'>&nbsp;</td>";
-    }
-    echo "</tr>";
-
-    // Footer
-    if (isset($conf['ui']['footerFilePath']) && $conf['ui']['footerFilePath'] != '') {
-        echo "<tr>";
-        echo "<td width='40' height='20'>&nbsp;</td>";
-        echo "<td height='20'>";
-        include ($conf['ui']['footerFilePath']);
-        echo "</td>";
-        echo "</tr>";
-    }
-
-    echo "</table>";
-
-	echo "</div>";		// oaContents
-	echo "</div>";		// oaMain
-
-    if (!empty($session['RUN_MPE']) && $session['RUN_MPE'] === true) {
-        echo "<div id='runMpe' name='runMpe'>&#160;</div>";
-        echo "<script language='JavaScript' type='text/javascript'>";
-        echo "<!--//\n";
-        echo "xajax_OA_runMPE();";
-        echo "//-->\n";
-        echo "</script>";
-
-        unset($session['RUN_MPE']);
-        phpAds_SessionDataStore();
-    }
-
-    if (!ereg("/(index|updates-product|install|upgrade)\.php$", $_SERVER['PHP_SELF'])) {
-        // Add Product Update redirector
-        if (phpAds_isUser(phpAds_Admin) && $conf['sync']['checkForUpdates'] == 't' && !isset($session['maint_update_js'])) {
-            echo "<script type='text/javascript' src='maintenance-updates-js.php'></script>\n";
-        }
-        // Check if the maintenance script is running
-        if (phpAds_isUser(phpAds_Admin)) {
-            if (($pref['maintenance_timestamp'] < time() - (60 * 60 * 24)) &&
-                (!$conf['maintenance']['autoMaintenance'])) {
-                if ($pref['maintenance_timestamp'] > 0) {
-                    // The maintenance script hasn't run in the
-                    // last 24 hours, warn the user
-                    echo "<script type='text/javascript'>\n";
-                    echo "<!--//\n";
-                    echo "\talert('".$strMaintenanceNotActive."');\n";
-                    echo "\tlocation.replace('maintenance-maintenance.php');\n";
-                    echo "//-->\n";
-                    echo "</script>\n";
-                }
-                // Update the timestamp to make sure the warning
-                // is shown only once every 24 hours
-                $doPreference = OA_Dal::factoryDO('preference');
-                $doPreference->whereAdd('1 = 1'); //Global table update.
-                $doPreference->maintenance_timestamp = time();
-                $doPreference->update(DB_DATAOBJECT_WHEREADD_ONLY);
-            }
-        }
-    }
-    echo "</body>";
-    echo "</html>";
-    if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression'] == 't') {
-        ob_end_flush();
+    if (isset($GLOBALS['_MAX']['ADMIN_UI'])) {
+        $GLOBALS['_MAX']['ADMIN_UI']->showFooter();
     }
 }
 
