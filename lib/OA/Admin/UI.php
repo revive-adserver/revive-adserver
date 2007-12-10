@@ -47,7 +47,7 @@ class OA_Admin_UI
      */
     function OA_Admin_UI()
     {
-        $this->oTpl = new OA_Admin_Template('layout.html');
+        $this->oTpl = new OA_Admin_Template('layout/main.html');
     }
 
     /**
@@ -76,55 +76,57 @@ class OA_Admin_UI
         $phpAds_GUIDone = true;
         $phpAds_NavID   = $ID;
 
-        $tabbar = '';
+        $aNav = array();
+        $aSide = array();
+
     	$sidebar = '';
     	$head = '';
 
+    	$pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
+
         // Travel navigation
         if ($ID != phpAds_Login && $ID != phpAds_Error) {
-    		switch (true) {
-    			case phpAds_isUser(phpAds_Admin):	$pages = $phpAds_nav['admin']; break;
-    			case phpAds_isUser(phpAds_Agency):	$pages = $phpAds_nav['agency']; break;
-    			case phpAds_isUser(phpAds_Client):	$pages = $phpAds_nav['client']; break;
-    			default:							$pages = $phpAds_nav['affiliate']; break;
-    		}
+            // Select active navigation array
+            $userType = phpAds_getUserTypeAsString();
+    		$pages = $phpAds_nav[$userType];
 
             // Build sidebar
-            $sections = explode(".", $ID);
-            $sectionID = "";
+            $sections = explode('.', $ID);
+            $sectionID = '';
 
-    		$sidebar .= "<div id='oaSidebar'><h3>{$GLOBALS['strNavigation']}</h3>";
-    		$sidebar .= "<ul id='oaSidebarNavigation'>";
-
-            for ($i=0; $i<count($sections)-1; $i++)
+            for ($i = 0; $i < count($sections) - 1; $i++)
     		{
                 $sectionID .= $sections[$i];
                 list($filename, $title) = each($pages[$sectionID]);
                 $sectionID .= ".";
 
-                if ($i==0) {
-    				$sidebar .= "<li class='top'><a href='{$filename}'>{$title}</a></li>";
-                    $head .= "<link rel='top' href='{$filename}' title='{$title}' />";
-                } else {
-    				$sidebar .= "<li class='up" . ($i == 1 ? " first" : "") . "'>";
-    				$sidebar .= "<a href='{$filename}'" . ($i == count($sections) - 2 ? " accesskey='{$GLOBALS['keyUp']}'" : "") . ">{$title}</a></li>";
-                }
-                if ($i == count($sections) - 2) {
-                    $head .= "<link rel='up' href='{$filename}' title='{$title}' />";
-                }
+                $linkUp    = $i == count($sections) - 2;
+                $linkTop   = !$i;
+                $linkFirst = $i == 1;
+
+                $aSide[] = array(
+                    'title' => $title,
+                    'filename' => $filename,
+                    'top' => $i == 0,
+                    'up'  => $i == count($sections) - 2,
+                    'first' => $i == 1,
+                    'current' => false
+                );
             }
 
             if (isset($pages[$ID]) && is_array($pages[$ID])) {
                 list($filename, $title) = each($pages[$ID]);
-    			$sidebar .= "<li class='" . (count($sections) == 2 ? "first " : "") . (count($sections) > 1 ? "current" : "top") . "'>";
-    			$sidebar .= "<a href='{$filename}'>{$title}</a></li>";
-                $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
-                $pagetitle .= ' - '.$title;
-            } else {
-                $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
-            }
+                $aSide[] = array(
+                    'title' => $title,
+                    'filename' => $filename,
+                    'top' => count($sections) <= 1,
+                    'up'  => false,
+                    'first' => count($sections) == 2,
+                    'current' => count($sections) > 1
+                );
 
-    		$sidebar .= "</ul>";
+                $pageTitle .= ' - '.$title;
+            }
 
     		$up_limit = count($phpAds_context);
             $down_limit = 0;
@@ -169,44 +171,42 @@ class OA_Admin_UI
             }
     		$sidebar .= "</div>";
 
-            // Build Tabbar
-            $currentsection = $sections[0];
-
-            // Prepare Navigation
-    		switch (true) {
-    			case phpAds_isUser(phpAds_Admin):		$pages = $phpAds_nav['admin']; break;
-    			case phpAds_isUser(phpAds_Agency):		$pages = $phpAds_nav['agency']; break;
-    			case phpAds_isUser(phpAds_Client):		$pages = $phpAds_nav['client']; break;
-    			case phpAds_isUser(phpAds_Affiliate):	$pages = $phpAds_nav['affiliate']; break;
-    			default:								$pages = array(); break;
-    		}
-
-    		$tabbar .= "<ul id='oaNavigationTabs'>";
-
-            foreach (array_keys($pages) as $key) {
-                if (strpos($key, ".") == 0) {
-                    list($filename, $title) = each($pages[$key]);
-                    if ($key == $currentsection) {
-    					$tabbar .= "<li class='selected'><a href='{$filename}' accesskey='{$GLOBALS['keyHome']}'>{$title}</a></li>";
-                    } else {
-    					$tabbar .= "<li><a href='{$filename}'>{$title}</a></li>";
+            if ($showMainNav) {
+                // Build tabbed navigation bar
+                foreach (array_keys($pages) as $key) {
+                    if (strpos($key, '.') === false) {
+                        reset($pages[$key]);
+                        list($filename, $title) = each($pages[$key]);
+                        $aNav[] = array(
+                            'title'    => $title,
+                            'filename' => $filename,
+                            'selected' => $key == $sections[0]
+                        );
                     }
                 }
             }
-
-    		$tabbar .= "</ul>";
-        }
-        else {
-            $sidebar = "&nbsp;";
-            $pagetitle = isset($conf['ui']['applicationName']) && $conf['ui']['applicationName'] != '' ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
-
-            if ($ID == phpAds_Login) {
-    			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>{$GLOBALS['strAuthentification']}</a></li></ul>";
+        } else {
+            if ($showMainNav) {
+                // Build tabbed navigation bar
+                if ($ID == phpAds_Login) {
+                    $aNav[] = array(
+                        'title'    => $GLOBALS['strAuthentification'],
+                        'filename' => 'index.php',
+                        'selected' => true
+                    );
+                } elseif ($ID == phpAds_Error) {
+                    $aNav[] = array(
+                        'title'    => $GLOBALS['strError'],
+                        'filename' => 'index.php',
+                        'selected' => true
+                    );
+                }
             }
-            if ($ID == phpAds_Error) {
-    			$tabbar .= "<ul id='oaNavigationTabs'><li class='selected'><a href='index.php'>Error</a></li></ul>";
-            }
         }
+
+        // Tabbed navigation bar
+        $this->oTpl->assign('aNav', $aNav);
+        $this->oTpl->assign('aSide', $aSide);
 
         // Use gzip content compression
         if (isset($conf['ui']['gzipCompression']) && $conf['ui']['gzipCompression']) {
@@ -241,10 +241,6 @@ class OA_Admin_UI
         $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin|phpAds_Agency|phpAds_Affiliate) && !defined('phpAds_installing'));
         $this->oTpl->assign('displaySearch', $displaySearch);
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
-
-        if ($showMainNav == true) {
-            $this->oTpl->assign('tabBar', $tabbar);
-        }
 
         // Show currently logged on user and IP
         if (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing')) {
