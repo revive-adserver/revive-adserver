@@ -85,9 +85,13 @@
   <target name="init-label" unless="label">
     <property name="label" value="trunk"/>
   </target>
+  
+  <target name="init-revision" unless="svnrevision">
+    <property name="svnrevision" value="unknown-revision"/>
+  </target>
 
-  <target name="init-version" unless="version" depends="init-timestamp, init-label">
-    <property name="version" value="${label}-${cctimestamp}"/>
+  <target name="init-version" unless="version" depends="init-timestamp, init-label, init-revision">
+    <property name="version" value="${label}-${cctimestamp}-${svnrevision}"/>
   </target>
 
   <target name="init-release" unless="release" depends="init,init-version">
