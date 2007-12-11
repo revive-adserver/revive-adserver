@@ -410,7 +410,7 @@ $GLOBALS['strCSVTemplateIncVariables']               = 'Tracker Variablen einsch
 // Invocation Settings
 $GLOBALS['strInvocationAndDelivery']                 = 'Einstellungen Bannercode';
 $GLOBALS['strAllowedInvocationTypes']                = 'Erlaubte Einbindungsarten';
-$GLOBALS['strIncovationDefaults']                    = 'Einbindungsvorgabe';
+$GLOBALS['strInvocationDefaults']                    = 'Einbindungsvorgabe';
 $GLOBALS['strEnable3rdPartyTrackingByDefault']       = 'Aktiviere standardm&auml;&szlig;ig das 3rd Party Klicktracking';
 
 // Statistics Settings

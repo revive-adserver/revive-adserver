@@ -261,7 +261,7 @@ $aSettings = array(
         )
     ),
     array (
-        'text' 	=> $strIncovationDefaults,
+        'text' 	=> $strInvocationDefaults,
         'items'	=> array (
             array(
                 'type'    => 'select',

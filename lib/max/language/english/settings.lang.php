@@ -407,7 +407,7 @@ $GLOBALS['strCSVTemplateIncVariables']               = 'Include Tracker Variable
  */
 // Invocation Settings
 $GLOBALS['strAllowedInvocationTypes']                = 'Allowed Invocation Types';
-$GLOBALS['strIncovationDefaults']                    = 'Incovation Defaults';
+$GLOBALS['strInvocationDefaults']                    = 'Invocation Defaults';
 $GLOBALS['strEnable3rdPartyTrackingByDefault']       = 'Enable 3rd Party Clicktracking by Default';
 
 // Banner Delivery Settings

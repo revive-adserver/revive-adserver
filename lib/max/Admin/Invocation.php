@@ -352,7 +352,7 @@ class MAX_Admin_Invocation {
             $buffer .= "<br />";
 
             // Code
-            // Layer and popup incovation types require specific paramters to be provided before invcation is possible
+            // Layer and popup invocation types require specific paramters to be provided before invcation is possible
             if ( empty($submitbutton) && ($codetype=='popup' || $codetype=='adlayer')) {
                 $generated = false;
             } else {
