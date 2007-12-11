@@ -870,15 +870,6 @@ class Admin_DaTest extends DalUnitTestCase
         Admin_DA::deleteAdZones(array('zone_id' => $this->zoneId, 'ad_id' => $this->adId));
     }
 
-    function testDeleteImage()
-    {
-        //  this test fails on the _getLimitations and the method
-        //  also doesn't seem to be called anywhere
-
-#        TestEnv::startTransaction();
-#        $ret = Admin_DA::_deleteEntity('image', 1);
-    }
-
     // +---------------------------------------+
     // | Test helper methods                   |
     // |                                       |

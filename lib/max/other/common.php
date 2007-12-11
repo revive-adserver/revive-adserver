@@ -720,6 +720,7 @@ function MAX_getLinkedAdParams($zoneId)
     // +---------------------------------------+
     // | file handling                         |
     // +---------------------------------------+
+/* REDUNDANT
 function MAX_removeFile($adId)
 {
     $aAd =  Admin_DA::getAd($adId);
@@ -772,7 +773,7 @@ function _removeFile($aAd)
         }
     }
 }
-
+*/
 // +---------------------------------------+
 // | Duplication functions                 |
 // +---------------------------------------+

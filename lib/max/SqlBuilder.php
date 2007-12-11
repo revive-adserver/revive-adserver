@@ -1003,6 +1003,7 @@ class SqlBuilder
      * @return mixed Either an integer, representing the number of rows affected by
      *               the delete, or a PEAR::Error.
      */
+/* REDUNDANT
     function _delete($aTables, $aLimitations, $aOtherTables = null)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -1087,7 +1088,7 @@ class SqlBuilder
             return PEAR::raiseError('Invalid WHERE clause');
         }
     }
-
+*/
     function _doDelete($table, $aParams)
     {
         $do = OA_Dal::factoryDO($table);
@@ -1283,6 +1284,7 @@ class SqlBuilder
      * @param array $aLimitations
      * @return integer  The number of rows affected by the update
      */
+/* REDUNDANT
     function _update($aTable, $aVariables, $aLimitations)
     {
         $conf = $GLOBALS['_MAX']['CONF'];
@@ -1313,6 +1315,6 @@ class SqlBuilder
         $queryValid = true;
 
         return $oDbh->exec($query);
-    }
+    }*/
 }
 ?>

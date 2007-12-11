@@ -271,12 +271,13 @@ class Admin_DA
      * @param array $aVariables
      * @return integer  The number of rows affected by the update
      */
+/* REDUNDANT
     function _updateEntity($entity, $id, $aVariables)
     {
         $aParams = array("{$entity}_id" => $id);
         return Admin_DA::_updateEntities($entity, $aParams, $aVariables);
     }
-
+*/
 
     /**
      * Modifies multiple entities.
@@ -285,6 +286,7 @@ class Admin_DA
      * @param array $aParams
      * @param array $aVariables
      */
+/* REDUNDANT
     function _updateEntities($entity, $aParams, $aVariables)
     {
         Admin_DA::_updateEntityTimestamp($entity, $aVariables);
@@ -292,7 +294,7 @@ class Admin_DA
         $aLimitations = SqlBuilder::_getLimitations($entity, $aParams);
         SqlBuilder::_update($aTable, $aVariables, $aLimitations);
     }
-
+*/
 
     function _getPrimaryTablePrefixed($entity)
     {
@@ -314,12 +316,13 @@ class Admin_DA
      * @param integer $id
      * @return integer  The number of rows affected by the update
      */
+/*  REDUNDANT
     function _deleteEntity($entity, $id)
     {
         $aParams = array("{$entity}_id" => $id);
         return Admin_DA::_deleteEntities($entity, $aParams);
     }
-
+*/
     //  MAX_removeEntities
     /**
      * Remove a list of entities from the system.
@@ -328,6 +331,7 @@ class Admin_DA
      * @param array $aParams
      * @return integer  The number of rows affected by the update
      */
+/* REDUNDANT
     function _deleteEntities($entity, $aParams)
     {
         $aTable = Admin_DA::_getPrimaryTablePrefixed($entity);
@@ -336,7 +340,7 @@ class Admin_DA
             SqlBuilder::_getTableLimitations($aOtherTables));
         return SqlBuilder::_delete($aTable, $aLimitations, $aOtherTables);
     }
-
+*/
     /**
      * Get stats by entity.
      *
@@ -1164,10 +1168,11 @@ class Admin_DA
         return $newAdId;
     }
 
+/* REDUNDANT
     function updateAd($id, $aVariables)
     {
         return Admin_DA::_updateEntity('ad', $id, $aVariables);
-    }
+    }*/
 
     function getAdvertisers($aParams, $allFields = false)
     {
@@ -1361,11 +1366,12 @@ class Admin_DA
         return Admin_DA::_getEntities('placement_tracker', $aParams, $allFields);
     }
 
+/* REDUNDANT
     function deletePlacementTrackers($aParams, $allFields = false)
     {
         return Admin_DA::_deleteEntities('placement_tracker', $aParams, $allFields);
     }
-
+*/
     // Publishers
 
     /**
@@ -1540,11 +1546,12 @@ class Admin_DA
         return Admin_DA::addVariable($aVariable);
     }
 
+/* REDUNDANT
     function deleteImage($id)
     {
         return Admin_DA::_deleteEntity('image', $id);
     }
-
+*/
     function getPublisher($publisherId)
     {
         return Admin_DA::_getEntity('publisher', $publisherId);
