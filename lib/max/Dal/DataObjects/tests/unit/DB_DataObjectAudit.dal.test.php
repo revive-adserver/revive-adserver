@@ -411,13 +411,14 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doCampaignsTrackers->campaignid = rand(20,30);
         $doCampaignsTrackers->trackerid  = rand(20,30);
         $campaign_trackerId = DataGenerator::generateOne($doCampaignsTrackers);
+        $this->assertNotNull($campaign_trackerId,'failed to insert campaign_tracker');
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($oAudit->contextid,$campaign_trackerId);
-        $this->assertEqual($aAudit['campaign_trackerid'],$campaign_trackerId);
-        $this->assertEqual($aAudit['campaignid'],$doCampaignsTrackers->campaignid);
-        $this->assertEqual($aAudit['trackerid'],$doCampaignsTrackers->trackerid);
+        $this->assertEqual($oAudit->contextid,$campaign_trackerId,'expected contextid '.$campaign_trackerId);
+        $this->assertEqual($aAudit['campaign_trackerid'],$campaign_trackerId,'expected (details) campaign_trackerid '.$campaign_trackerId);
+        $this->assertEqual($aAudit['campaignid'],$doCampaignsTrackers->campaignid,'campaignid='.$doCampaignsTrackers->campaignid);
+        $this->assertEqual($aAudit['trackerid'],$doCampaignsTrackers->trackerid.'trackerid='.$doCampaignsTrackers->trackerid);
 
         $doCampaignsTrackers = OA_Dal::staticGetDO('campaigns_trackers', $campaign_trackerId);
         $doCampaignsTrackers->viewwindow = rand(1,360);
