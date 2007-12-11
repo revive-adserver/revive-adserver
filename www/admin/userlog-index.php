@@ -36,7 +36,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
-require_once MAX_PATH . '/lib/OA/Dll/Userlog.php';
+require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/Field/AuditDaySpanField.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once 'Pager/Pager.php';
@@ -125,7 +125,7 @@ $aParams = array(
     'end_date'      => $endDate,
 );
 
-$oUserlog = & new OA_Dll_Userlog();
+$oUserlog = & new OA_Dll_Audit();
 $aAuditData = $oUserlog->getAuditLog($aParams);
 
 $aParams['totalItems'] = count($aAuditData);

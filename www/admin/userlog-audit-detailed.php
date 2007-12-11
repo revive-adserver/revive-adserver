@@ -33,7 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Dll/Userlog.php';
+require_once MAX_PATH . '/lib/OA/Dll/Audit.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
@@ -55,8 +55,8 @@ $pageName = basename($_SERVER['PHP_SELF']);
 
 $oTpl = new OA_Admin_Template('userlog-audit-detailed.html');
 
-$oUserlog = & new OA_Dll_Userlog();
-$aAuditDetail = $oUserlog->getAuditDetail($auditId);
+$oAudit = & new OA_Dll_Audit();
+$aAuditDetail = $oAudit->getAuditDetail($auditId);
 
 $oTpl->assign('aAuditDetail', $aAuditDetail);
 

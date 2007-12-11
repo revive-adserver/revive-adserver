@@ -41,7 +41,7 @@ Language_Userlog::load();
  * The OA_Dll_Audit class extends the OA_Dll class.
  *
  */
-class OA_Dll_Userlog extends OA_Dll
+class OA_Dll_Audit extends OA_Dll
 {
 
     /**
@@ -348,7 +348,12 @@ class OA_Dll_Userlog extends OA_Dll
         }
     }
 
-    function getAuditLogForCampaignWidget($aParam='')
+    /**
+     * requires permission checks
+     *
+     * @return array
+     */
+    function getAuditLogForCampaignWidget()
     {
         $conf = $GLOBALS['_MAX']['CONF'];
         $oAudit = OA_Dal::factoryDO($conf['table']['audit']);
@@ -356,8 +361,37 @@ class OA_Dll_Userlog extends OA_Dll
         $oDate = & new Date(OA::getNow());
         $oDate->subtractSeconds(60*60*24*7);
         $oAudit->whereAdd("context = 'Campaign'");
-        $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
+        $oAudit->whereAdd('username = "maintenance"');
         $oAudit->whereAdd('parentid IS NULL');
+        $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
+        $oAudit->orderBy('auditid DESC');
+        $oAudit->limit(0, 5);
+
+        $numRows = $oAudit->find();
+
+        while ($oAudit->fetch()) {
+            $aAudit = $oAudit->toArray();
+            $aAudit['details'] = unserialize($aAudit['details']);
+            $aResult[] = $aAudit;
+        }
+        return $aResult;
+    }
+
+    /**
+     * requires permission checks
+     *
+     * @return array
+     */
+    function getAuditLogForAuditWidget()
+    {
+        $conf = $GLOBALS['_MAX']['CONF'];
+        $oAudit = OA_Dal::factoryDO($conf['table']['audit']);
+
+        $oDate = & new Date(OA::getNow());
+        $oDate->subtractSeconds(60*60*24*7);
+        $oAudit->whereAdd('username != "maintenance"');
+        $oAudit->whereAdd('parentid IS NULL');
+        $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
         $oAudit->orderBy('auditid DESC');
         $oAudit->limit(0, 5);
 
