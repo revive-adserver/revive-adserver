@@ -191,7 +191,7 @@ $GLOBALS['strLinkUser_Key']             = "Link <u>u</u>ser";
 $GLOBALS['strUsernameToLink']           = "Username of user to link";
 $GLOBALS['strEmailToLink']              = "Email of user to link";
 $GLOBALS['strNewUserWillBeCreated']     = "New user will be created";
-$GLOBALS['strToLinkProvideEmail']       = "To link user, provide user's Email";
+$GLOBALS['strToLinkProvideEmail']       = "To link user, provide user's email";
 $GLOBALS['strToLinkProvideUsername']    = "To link user, provide username";
 
 // Login & Permissions
