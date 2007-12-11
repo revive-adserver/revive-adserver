@@ -154,7 +154,7 @@ else {
                    'type'      => 'custom',
                    'template'  => 'link',
                    'label'     => $strPwdRecReset,
-                   'href'      => 'user-password-reset.php', // TODO: put the actual password resetting script here
+                   'href'      => 'affiliate-access.php', // TODO: I guess the password reset screen could send the e-mail and then redirect to the User Access list (and display a confirmation message on the list -- see affiliate-access.html)
                    'text'      => $strPwdRecResetPwdThisUser
                );
    }

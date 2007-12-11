@@ -41,6 +41,19 @@ img.errormessage {
     margin-left: -24px;
 }
 
+div.infomessage {
+    background-color: #FFFFE1;
+    border: 1px dashed #CFCFCF;
+    margin-top: 8px;
+    margin-bottom: 16px;
+    margin-right: 80px;
+    padding: 6px 6px 6px 32px;
+    line-height: 18px;
+    background-image: url('../info.gif');
+    background-repeat: no-repeat;
+    background-position: 8px 8px;
+}
+
 div#helpLayer {
     background-color: #FFFFE1;
     border-top: 1px dashed #CFCFCF;

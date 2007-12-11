@@ -31,4 +31,11 @@ $Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.or
 <a href='affiliate-user-start.php' accesskey=".$keyLinkUser.">{t str=LinkUser_Key}</a>&nbsp;&nbsp;
 {phpAds_ShowBreak}
 
+{if true}
+  <!-- TODO: display confirmation if a new user was added or invitation has been sent or password reset e-mail has been sent -->
+  <div class='infomessage'>
+    An invitation has been sent to test@test.com.
+  </div>
+{/if}
+
 {include file=user-access.html users=$users}
