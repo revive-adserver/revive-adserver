@@ -86,13 +86,18 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user-start.html');
 
-$HOSTED = false; // TODO: will need to know whether we're hosted or downloaded
+// TODO: will need to know whether we're hosted or downloaded
+$HOSTED = false; 
 $oTpl->assign('hosted', $HOSTED);
 
 $oTpl->assign('error', $oPublisherDll->_errorMessage);
 
 $oTpl->assign('affiliateid', $affiliateid);
 
+// TODO: this bit should probably be refactored to a library -- it looks it should
+// be the same for publishers, advertisers, agencies and admins. Alternatively,
+// maybe one PHP page (with a parameter identitfying the entity) could handle
+// the "start" page of user linking?
 if ($HOSTED) {
    $oTpl->assign('fields', array(
        array(

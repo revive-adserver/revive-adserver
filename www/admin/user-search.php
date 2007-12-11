@@ -1,9 +1,26 @@
 <?php
 
+/**
+ * This script provides lists of users for the user name autocomplete 
+ * used in the first screen of user linking.
+ *
+ * Currently, the script takes two parameters:
+ *   * "q" -- the string user typed in the autocompleted input
+ *   * "limit" -- the number of search results to be returned
+ *
+ * See the code at the bottom for the searching "algorithm". In case of
+ * questions, ask (Staszek).
+ *
+ * I'm assuming more parameters will need to be passed here (e.g. entity/logged
+ * user id to select only those users the currently logged user
+ * has the right to view). Please let me (Staszek) know, and I'll help to
+ * add the parameters on the client side (Javascript) side.
+ */
+
 $q = strtolower($_GET["q"]);
 $limit = strtolower($_GET["limit"]);
 if (!$q) return;
-// Email addresses taken from openly available Enron corpus
+// Example email addresses taken from openly available Enron corpus
 $items = array(
 "1486" => array("email" => "aarmstrong@sempratrading.com", "name" => "aarmstrong"),
 "1487" => array("email" => "aaron.adams@enron.com", "name" => "aaron.adams"),

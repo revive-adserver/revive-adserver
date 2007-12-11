@@ -52,7 +52,7 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
   {foreach from=$users.aUsers item=user}
     {cycle name=row assign=rowType}
     <tbody class="{$rowType}">
-      <tr height="25">
+      <tr height="25" {if $user.justModified}class="hl"{/if}>
         <td class="first"><a href="affiliate-user.php">{$user.email}</a></td>
         <td>{$user.name}</td>
         <td>{$user.login}</td>

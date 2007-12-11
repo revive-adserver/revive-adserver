@@ -819,6 +819,10 @@ div.table-content {
   padding-right: 0px;
 }
 
+tr.hl {
+  background-color: #FFFFE1;
+}
+
 a.permissions {
   background-image: url('../icon-acl.gif');
   background-repeat: no-repeat;

@@ -24,8 +24,34 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.org $
+$Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.org $
 
--->*}
+--> *}
 
-{include file=user-link.html fields=$fields}
+{if false}
+  <!-- TODO: display errors if any -->
+  <div class='errormessage' id='errors'>
+    <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
+    <span class='tab-r'>The following errors were found:</span><br />
+    {$error}
+  </div>
+{/if}
+
+<!-- 
+  TODO: A hidden field with entity (in this case: affiliate) id should probably 
+  be put in this form. Otherwise, the user won't get redirected to the entity page
+  he started at.
+-->
+<form action="affiliate-access.php">
+  {include file=edit-table/create.html from=$fields}
+  
+  <div class="controls">
+    {if $editMode}
+      <input value="{t str=SaveChanges}" class="main-submit" type="submit" {tabindex}>
+    {else}
+      <input value="<< {t str=Back}" type="button" {tabindex} onclick="javascript:location.href='affiliate-user-start.php'">
+      <input value="{t str=LinkUser}" class="main-submit" type="submit" {tabindex}>
+      {if !$existingUser}<span class="hint">{t str=NewUserWillBeCreated}</span>{/if}
+    {/if}
+  </div>
+</form>

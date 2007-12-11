@@ -164,6 +164,15 @@ $oTpl->assign('users', array(
                   ),
 
                   array  (
+                     'name' => 'Larry Page',
+                     'email' => 'larry@yahoo.com',
+                     'login' => 'larry',
+                     'dateLinked' => '20/12/2007',
+                     'toDelete' => true, // TODO: indicates whether the user is linked to his last entity, and unlinkin will result in user being deleted
+                     'justModified' => true // TODO: [this is a nice-to-have, can be omitted] if a user has just been linked (or an invitation sent), this property set to "true" will allow to highlight the corresponding row
+                  ),
+
+                  array  (
                      'name' => 'Andy Test',
                      'email' => 'andy@test.com',
                      'login' => 'andyt',
