@@ -212,7 +212,7 @@ function MMM_buildNavigation()
                 "4.2.5"                 =>  array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strAffiliateInvocation']),
                 "4.2.6"                 =>  array("affiliate-advsetup.php?affiliateid=$affiliateid" => $GLOBALS['strAdvertiserSetup']),
                 "4.2.7"                 =>  array("affiliate-access.php?affiliateid=$affiliateid" => $GLOBALS['strUserAccess']),
-                  "4.2.7.1"             =>  array("affiliate-user-start.php?affiliateid=$affiliateid" => $GLOBALS['strLinkNewUser']),
+                  "4.2.7.1"             =>  array("affiliate-user-start.php?affiliateid=$affiliateid" => $GLOBALS['strLinkUser']),
                   "4.2.7.2"             =>  array("affiliate-user.php?affiliateid=$affiliateid" => $GLOBALS['strUserProperties']),
               "4.3"                     =>  array("admin-generate.php" => $GLOBALS['strGenerateBannercode']),
             "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),

@@ -33,11 +33,11 @@ $Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.or
 
   <div class="controls">
     {if $editMode}
-      <input value="Save changes" class="main-submit" type="submit" {tabindex}>
+      <input value="{t str=SaveChanges}" class="main-submit" type="submit" {tabindex}>
     {else}
-      <input value="<< Back" type="button" {tabindex} onclick="javascript:location.href='affiliate-user-start.php'">
-      <input value="Link user" class="main-submit" type="submit" {tabindex}>
-      {if $nonexistingUser}<span class="hint">New user will be created</span>{/if}
+      <input value="<< {t str=Back}" type="button" {tabindex} onclick="javascript:location.href='affiliate-user-start.php'">
+      <input value="{t str=LinkUser}" class="main-submit" type="submit" {tabindex}>
+      {if !$existingUser}<span class="hint">{t str=NewUserWillBeCreated}</span>{/if}
     {/if}
   </div>
 </form>

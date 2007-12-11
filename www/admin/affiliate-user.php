@@ -86,11 +86,13 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user.html');
 
-$HOSTED = true; // TODO: will need to know whether we're hosted or downloaded
+// TODO: will need to know whether we're hosted or downloaded
+$HOSTED = false; 
 $oTpl->assign('hosted', $HOSTED);
 
-// TODO: indicates whether a new user will be created or invitation sent
-$oTpl->assign('nonexistingUser', true); 
+// TODO: indicates whether the user exists (otherwise, a new user will be created or invitation sent)
+$existingUser = false;
+$oTpl->assign('existingUser', $existingUser); 
 
 // TODO: indicates whether the form is in editing user properties mode
 // (linked from the "Permissions" link in the User Access table)
@@ -102,126 +104,153 @@ $oTpl->assign('error', $oPublisherDll->_errorMessage);
 
 $oTpl->assign('affiliateid', $affiliateid);
 
+$userDetailsFields = array();
+
 if ($HOSTED) {
-   $oTpl->assign('fields', array(
-       array(
-           'title'     => "User details",
-           'fields'    => array(
-               array(
+   $userDetailsFields[] = array(
+                  'name'      => 'email',
+                  'label'     => $strEMail,
+                  'value'     => 'test@test.com', // TODO: put e-mail here
+                  'freezed'   => true
+              );
+
+   if ($existingUser) {
+      $userDetailsFields[] = array(
+                   'type'      => 'custom',
+                   'template'  => 'link',
+                   'label'     => $strPwdRecReset,
+                   'href'      => 'user-password-reset.php', // TODO: put the actual password resetting script here
+                   'text'      => $strPwdRecResetPwdThisUser
+               );
+   }
+   else {
+      $userDetailsFields[] = array(
+                   'name'      => 'contact',
+                   'label'     => $strContactName,
+                   'value'     => $affiliate['contact']
+               );
+   }
+}
+else {
+   $userDetailsFields[] = array(
                    'name'      => 'username',
-                   'label'     => 'User name',
+                   'label'     => $strUsername,
                    'value'     => 'username', // TODO: put user name here
                    'freezed'   => true
-               ),
-               array(
+               );
+   $userDetailsFields[] = array(
                    'name'      => 'contact',
-                   'label'     => $strContact,
+                   'label'     => $strContactName,
                    'value'     => $affiliate['contact']
-               ),
-               array(
+               );
+   $userDetailsFields[] = array(
                    'name'      => 'email',
                    'label'     => $strEMail,
                    'value'     => $affiliate['email']
-               ),
-               array(
+               );
+
+   if ($existingUser) {
+      $userDetailsFields[] = array(
                    'type'      => 'custom',
                    'template'  => 'link',
-                   'label'     => 'Password reset',
-                   'href'      => 'user-password-reset.php',
-                   'text'      => 'Reset password for this user'
-               )
-           )
-       ),
-       array(
-           'title'     => "Permissions",
-           'fields'    => array(
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateModifyInfo,
-                   'type'      => 'checkbox',
-                   'value'     => phpAds_ModifyInfo,
-                   'checked'   => $affiliate['permissions'] & phpAds_ModifyInfo,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate)
-               ),
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateModifyZones,
-                   'type'      => 'checkbox',
-                   'value'     => phpAds_EditZone,
-                   'checked'   => $affiliate['permissions'] & phpAds_EditZone,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                   'break'     => false,
-                   'id'        => 'affiliatepermissions_'.phpAds_EditZone,
-                   'onclick'   => 'MMM_cascadePermissionsChange()'
-               ),
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateAddZone,
-                   'type'      => 'checkbox',
-                   'value'     => phpAds_AddZone,
-                   'checked'   => $affiliate['permissions'] & phpAds_AddZone,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                   'break'     => false,
-                   'id'        => 'affiliatepermissions_'.phpAds_AddZone,
-                   'indent'    => true
-               ),
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateDeleteZone,
-                   'type'      => 'checkbox',
-                   'value'     => phpAds_DeleteZone,
-                   'checked'   => $affiliate['permissions'] & phpAds_DeleteZone,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                   'break'     => false,
-                   'id'        => 'affiliatepermissions_'.phpAds_DeleteZone,
-                   'indent'    => true
-               ),
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateLinkBanners,
-                   'type'      => 'checkbox',
-                   'value'     => phpAds_LinkBanners,
-                   'checked'   => $affiliate['permissions'] & phpAds_LinkBanners,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                   'break'     => false,
-                   'id'        => 'affiliatepermissions_'.phpAds_LinkBanners
-               ),
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateGenerateCode,
-                   'type'      => 'checkbox',
-                   'value'     => MAX_AffiliateGenerateCode,
-                   'checked'   => $affiliate['permissions'] & MAX_AffiliateGenerateCode,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                   'break'     => false,
-                   'id'        => 'affiliatepermissions_'.MAX_AffiliateGenerateCode
-               ),
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateZoneStats,
-                   'type'      => 'checkbox',
-                   'value'     => MAX_AffiliateViewZoneStats,
-                   'checked'   => $affiliate['permissions'] & MAX_AffiliateViewZoneStats,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                   'break'     => false,
-                   'id'        => 'affiliatepermissions_'.MAX_AffiliateViewZoneStats
-               ),
-               array(
-                   'name'      => 'affiliatepermissions[]',
-                   'label'     => $strAllowAffiliateApprPendConv,
-                   'type'      => 'checkbox',
-                   'value'     => MAX_AffiliateViewOnlyApprPendConv,
-                   'checked'   => $affiliate['permissions'] & MAX_AffiliateViewOnlyApprPendConv,
-                   'hidden'    => phpAds_isUser(phpAds_Affiliate),
-                   'id'        => 'affiliatepermissions_'.MAX_AffiliateViewOnlyApprPendConv
-               )
-           )
-       )
-   ));
+                   'label'     => $strPwdRecReset,
+                   'href'      => 'user-password-reset.php', // TODO: put the actual password resetting script here
+                   'text'      => $strPwdRecResetPwdThisUser
+               );
+   }
 }
-else
-{
-}
+
+$oTpl->assign('fields', array(
+    array(
+        'title'     => $strUserDetails,
+        'fields'    => $userDetailsFields
+    ),
+    array(
+        'title'     => $strPermissions,
+        'fields'    => array(
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateModifyInfo,
+                'type'      => 'checkbox',
+                'value'     => phpAds_ModifyInfo,
+                'checked'   => $affiliate['permissions'] & phpAds_ModifyInfo,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate)
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateModifyZones,
+                'type'      => 'checkbox',
+                'value'     => phpAds_EditZone,
+                'checked'   => $affiliate['permissions'] & phpAds_EditZone,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_EditZone,
+                'onclick'   => 'MMM_cascadePermissionsChange()'
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateAddZone,
+                'type'      => 'checkbox',
+                'value'     => phpAds_AddZone,
+                'checked'   => $affiliate['permissions'] & phpAds_AddZone,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_AddZone,
+                'indent'    => true
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateDeleteZone,
+                'type'      => 'checkbox',
+                'value'     => phpAds_DeleteZone,
+                'checked'   => $affiliate['permissions'] & phpAds_DeleteZone,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_DeleteZone,
+                'indent'    => true
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateLinkBanners,
+                'type'      => 'checkbox',
+                'value'     => phpAds_LinkBanners,
+                'checked'   => $affiliate['permissions'] & phpAds_LinkBanners,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.phpAds_LinkBanners
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateGenerateCode,
+                'type'      => 'checkbox',
+                'value'     => MAX_AffiliateGenerateCode,
+                'checked'   => $affiliate['permissions'] & MAX_AffiliateGenerateCode,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.MAX_AffiliateGenerateCode
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateZoneStats,
+                'type'      => 'checkbox',
+                'value'     => MAX_AffiliateViewZoneStats,
+                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewZoneStats,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'break'     => false,
+                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewZoneStats
+            ),
+            array(
+                'name'      => 'affiliatepermissions[]',
+                'label'     => $strAllowAffiliateApprPendConv,
+                'type'      => 'checkbox',
+                'value'     => MAX_AffiliateViewOnlyApprPendConv,
+                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewOnlyApprPendConv,
+                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewOnlyApprPendConv
+            )
+        )
+    )
+));
 
 //var_dump($oTpl);
 //die();

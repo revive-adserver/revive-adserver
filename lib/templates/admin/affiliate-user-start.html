@@ -78,7 +78,7 @@ $Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.or
   {include file=edit-table/create.html from=$fields}
 
   <div class="controls">
-    <input id="link-user-button" value="Link user" type="submit" {tabindex}>
-    <span id="link-user-hint" class="hint">To link user, provide user {if $hosted}E-mail{else}name{/if}</span>
+    <input id="link-user-button" value="{t str=LinkUser}" type="submit" {tabindex}>
+    <span id="link-user-hint" class="hint">{if $hosted}{t str=ToLinkProvideEmail}{else}{t str=ToLinkProvideUsername}{/if}</span>
   </div>
 </form>

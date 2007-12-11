@@ -98,6 +98,7 @@ $GLOBALS['strUp']                       = "Up";
 $GLOBALS['strDown']                     = "Down";
 $GLOBALS['strSave']                     = "Save";
 $GLOBALS['strCancel']                   = "Cancel";
+$GLOBALS['strBack']                     = "Back";
 $GLOBALS['strPrevious']                 = "Previous";
 $GLOBALS['strPrevious_Key']             = "<u>P</u>revious";
 $GLOBALS['strNext']                     = "Next";
@@ -185,12 +186,18 @@ $GLOBALS['strID']                       = "ID";
 $GLOBALS['strComments']                 = "Comments";
 
 // User access
-$GLOBALS['strLinkNewUser']              = "Link new user";
-$GLOBALS['strLinkNewUser_Key']          = "Link <u>n</u>ew user";
+$GLOBALS['strLinkUser']                 = "Link user";
+$GLOBALS['strLinkUser_Key']             = "Link <u>u</u>ser";
+$GLOBALS['strUsernameToLink']           = "Username of user to link";
+$GLOBALS['strEmailToLink']              = "Email of user to link";
+$GLOBALS['strNewUserWillBeCreated']     = "New user will be created";
+$GLOBALS['strToLinkProvideEmail']       = "To link user, provide user's Email";
+$GLOBALS['strToLinkProvideUsername']    = "To link user, provide username";
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
 $GLOBALS['strUserProperties']           = "User Properties";
+$GLOBALS['strPermissions']              = "Permissions";
 $GLOBALS['strAuthentification']         = "Authentication";
 $GLOBALS['strWelcomeTo']                = "Welcome to";
 $GLOBALS['strEnterUsername']            = "Enter your username and password to log in";
@@ -296,6 +303,7 @@ $GLOBALS['strInactiveAdvertisersHidden']    = "inactive advertiser(s) hidden";
 
 // Advertisers properties
 $GLOBALS['strContact']                          = "Contact";
+$GLOBALS['strContactName']                      = "Contact Name";
 $GLOBALS['strEMail']                            = "Email";
 $GLOBALS['strChars']                            = "chars";
 $GLOBALS['strSendAdvertisingReport']            = "Email campaign delivery reports";
@@ -1071,7 +1079,9 @@ $GLOBALS['strPwdRecPasswordSaved']    = "The new password was saved, proceed to 
 $GLOBALS['strPwdRecWrongId']          = "Wrong ID";
 $GLOBALS['strPwdRecEnterEmail']       = "Enter your email address below";
 $GLOBALS['strPwdRecEnterPassword']    = "Enter your new password address below";
+$GLOBALS['strPwdRecReset']            = "Password reset";
 $GLOBALS['strPwdRecResetLink']        = "Password reset link";
+$GLOBALS['strPwdRecResetPwdThisUser'] = "Reset password for this user";
 $GLOBALS['strPwdRecEmailPwdRecovery'] = "%s password recovery";
 $GLOBALS['strProceed']                = "Proceed &gt;";
 
@@ -1096,5 +1106,6 @@ $GLOBALS['keyExpandAll']    = 'e';
 $GLOBALS['keyAddNew']        = 'n';
 $GLOBALS['keyNext']            = 'n';
 $GLOBALS['keyPrevious']        = 'p';
+$GLOBALS['keyLinkUser']        = 'u';
 
 ?>

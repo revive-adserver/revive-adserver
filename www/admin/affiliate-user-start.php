@@ -100,7 +100,7 @@ if ($HOSTED) {
            'fields'    => array(
                array(
                    'name'      => 'email',
-                   'label'     => 'E-mail of user to link',
+                   'label'     => $strEmailToLink,
                    'value'     => '',
                    'id'        => 'user-key'
                )
@@ -112,11 +112,11 @@ else
 {
    $oTpl->assign('fields', array(
        array(
-           'title'     => "User name",
+           'title'     => $strUsername,
            'fields'    => array(
                array(
                    'name'      => 'username',
-                   'label'     => 'User name to link',
+                   'label'     => $strUsernameToLink,
                    'value'     => '',
                    'id'        => 'user-key'
                )
