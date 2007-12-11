@@ -415,10 +415,10 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($oAudit->contextid,$campaign_trackerId,'expected contextid '.$campaign_trackerId);
+        $this->assertEqual($oAudit->contextid,$campaign_trackerId,'expected contextid '.$campaign_trackerId.' got '.$oAudit->contextid);
         $this->assertEqual($aAudit['campaign_trackerid'],$campaign_trackerId,'expected (details) campaign_trackerid '.$campaign_trackerId);
-        $this->assertEqual($aAudit['campaignid'],$doCampaignsTrackers->campaignid,'campaignid='.$doCampaignsTrackers->campaignid);
-        $this->assertEqual($aAudit['trackerid'],$doCampaignsTrackers->trackerid.'trackerid='.$doCampaignsTrackers->trackerid);
+        $this->assertEqual($aAudit['campaignid'],$doCampaignsTrackers->campaignid,'expected (details) campaignid='.$doCampaignsTrackers->campaignid.' got '.$aAudit['campaignid']);
+        $this->assertEqual($aAudit['trackerid'],$doCampaignsTrackers->trackerid.'expected (details) trackerid='.$doCampaignsTrackers->trackerid.' got '.$aAudit['trackerid']);
 
         $doCampaignsTrackers = OA_Dal::staticGetDO('campaigns_trackers', $campaign_trackerId);
         $doCampaignsTrackers->viewwindow = rand(1,360);
@@ -427,14 +427,14 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['clickwindow']['is'],$doCampaignsTrackers->clickwindow);
-        $this->assertEqual($aAudit['viewwindow']['is'],$doCampaignsTrackers->viewwindow);
+        $this->assertEqual($aAudit['viewwindow']['is'],$doCampaignsTrackers->viewwindow.'viewwindow='.$doCampaignsTrackers->clickwindow.' got '.$aAudit['viewwindow']['is']);
+        $this->assertEqual($aAudit['clickwindow']['is'],$doCampaignsTrackers->clickwindow.'clickwindow='.$doCampaignsTrackers->clickwindow.' got '.$aAudit['clickwindow']['is']);
 
         $doCampaignsTrackers->delete();
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
         $aAudit = unserialize($oAudit->details);
         $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['campaign_trackerid'],$campaign_trackerId);
+        $this->assertEqual($aAudit['campaign_trackerid'],$campaign_trackerId,'expected (details) campaign_trackerid '.$campaign_trackerId.' got '.$aAudit['campaign_trackerid']);
 
         DataGenerator::cleanUp(array('campaigns_trackers', 'audit'));
     }
