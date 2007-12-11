@@ -87,11 +87,11 @@
   </target>
   
   <target name="init-revision" unless="svnrevision">
-    <property name="svnrevision" value="unknown-revision"/>
+    <property name="svnrevision" value="na"/>
   </target>
 
   <target name="init-version" unless="version" depends="init-timestamp, init-label, init-revision">
-    <property name="version" value="${label}-${cctimestamp}-${svnrevision}"/>
+    <property name="version" value="${label}-${cctimestamp}-rev-${svnrevision}"/>
   </target>
 
   <target name="init-release" unless="release" depends="init,init-version">
