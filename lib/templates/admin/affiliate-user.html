@@ -28,6 +28,15 @@ $Id: affiliate-edit.html 12704 2007-11-22 11:35:42Z stanislaw.osinski@openads.or
 
 -->*}
 
+{if false}
+  <!-- TODO: display errors if any -->
+  <div class='errormessage' id='errors'>
+    <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
+    <span class='tab-r'>The following errors were found:</span><br />
+    {$error}
+  </div>
+{/if}
+
 <form action="affiliate-access.php">
   {include file=edit-table/create.html from=$fields}
 

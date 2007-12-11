@@ -1,7 +1,7 @@
 {*<!--
 
 +---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                           |
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
 |                                                                           |
 | Copyright (c) 2003-2007 Openads Limited                                   |
@@ -24,38 +24,22 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: affiliate-delete-dialog.html 11370 2007-10-19 14:31:29Z bernard.lange@openads.org $
+$Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 -->*}
 
-<div id="affiliate-delete-dialog" class="jqmWindow">
-  <div class="jqm-window-title">&nbsp;&nbsp;Confirm Deletion</div>
+<div id="confirmation-dialog" class="jqmWindow">
+  <div class="jqm-window-title">&nbsp;&nbsp;{$title}</div>
   
   <div class="jqm-window-body">
-    <form action="affiliate-delete.php" id="affiliate_delete_form" method="GET" style="margin: 0">
-      <input type="hidden" name="affiliateid" />
-      <input type="hidden" name="returnurl" value="affiliate-index.php" />
 
-      <div>
-        Are you sure you want to delete <span class="deleted-affiliate">x</span>?
-      </div>
+    <div>
+      {$message}
+    </div>
 
-      <div style="margin-top: 10px">
-        <input type="checkbox" id="deleteall" name="deleteall" /> <label for="deleteall" class="cb">Also delete all Advertisers and Campaigns associated only with <span class="deleted-affiliate"></span></label>
-      </div>
-
-      <div class="jqm-controls">
-        <input id="ad-delete" type="submit" value="Delete" class="main-submit" {tabindex} />&nbsp;
-        <input id="ad-cancel" type="button" value="Cancel" {tabindex} />
-      </div>
-    </form>
+    <div class="jqm-controls">
+      <input id="cd-submit" type="button" value="{$confirmLabel}" class="main-submit" {tabindex} />&nbsp;
+      <input id="cd-cancel" type="button" value="{$cancelLabel|default:'Cancel'}"  {tabindex} />
+    </div>
   </div>  
 </div>
-
-<script type="text/javascript">   
-{literal}
-  $(document).ready(function() {
-    initAffiliateDeleteDialog();
-  });
-{/literal}
-</script>

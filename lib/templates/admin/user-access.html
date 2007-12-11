@@ -60,7 +60,7 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
         <td class="last">
           <!-- TODO: need to parametrize this link probably, for now hardcoded -->
           <a href="affiliate-user.php" class="permissions" style="padding-right: 10px">Permissions</a>
-          <a href="#" class="unlink">Unlink</a>
+          <a href="affiliate-user-unlink.php" class="unlink{if $user.toDelete} unlink-last{/if}">Unlink</a>
         </td>
       </tr>
 
@@ -72,6 +72,19 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
   {/cycle}
 </table>
 </div>
+
+<script type="text/javascript">
+{literal}
+  $(document).ready(function() {
+    initUnlinkUserDialog();
+  });
+{/literal}
+</script>
+
+{include file=confirmation-dialog.html 
+         title="Unlinking user from last entity"
+         message="Unlinking user from last entity will cause the user to be deleted. Would you like to unlike this user?"
+         confirmLabel="Unlink &amp; delete user"}
 
     </td>
   </tr>

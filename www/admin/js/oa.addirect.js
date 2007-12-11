@@ -418,23 +418,20 @@ function initCampaignStatus()
 }
 
 
-/** Affiliate delete dialog */
-function initAffiliateDeleteDialog()
+/** */
+function initUnlinkUserDialog()
 {
-  $("#affiliate-delete-dialog").jqm({
+  $("#confirmation-dialog").jqm({
       modal: true,
       overlay: 40,
-      trigger: ".ad-delete-show",
+      trigger: ".unlink-last",
       onShow: function(hash) {
-        var pubId = $(".affId", hash.t).text();
-        var pubForm = $("#pub_form_" + pubId).get(0);
-        $(".deleted-affiliate", hash.w).text(pubForm.websiteUrl.value);
-        var delForm = $("#affiliate_delete_form").get(0);
-        delForm.affiliateid.value = pubId;
-        delForm.deleteall.checked = false;
+        $("#cd-submit").one("click", function() {
+          location.href = hash.t.href;
+        });
         hash.w.fadeIn("fast");
       }
-  }).jqmAddClose("#ad-cancel");
+  }).jqmAddClose("#cd-cancel");
 }
 
 

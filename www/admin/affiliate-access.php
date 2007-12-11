@@ -159,14 +159,16 @@ $oTpl->assign('users', array(
                      'name' => 'John Smith',
                      'email' => 'john@smith.com',
                      'login' => 'johns',
-                     'dateLinked' => '20/12/2007'
+                     'dateLinked' => '20/12/2007',
+                     'toDelete' => true // TODO: indicates whether the user is linked to his last entity, and unlinkin will result in user being deleted
                   ),
 
                   array  (
                      'name' => 'Andy Test',
                      'email' => 'andy@test.com',
                      'login' => 'andyt',
-                     'dateLinked' => '20/05/2007'
+                     'dateLinked' => '20/05/2007',
+                     'toDelete' => false // TODO: indicates whether the user is linked to his last entity, and unlinkin will result in user being deleted
                   )
                )
   )
