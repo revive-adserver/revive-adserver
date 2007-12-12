@@ -44,7 +44,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 
     // Security check
-    phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+    OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
     // Get input parameters
     $advertiserId   = MAX_getValue('clientid');
@@ -58,7 +58,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
     // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabindex = 1;
-    $agencyId = phpAds_getAgencyID();
+    $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId, 'bannerid' => $bannerId);
 
     // Parameter check

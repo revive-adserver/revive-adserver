@@ -35,6 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance-priority.inc.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
+require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
@@ -48,7 +49,8 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder',
                       'orderdirection');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -107,12 +109,12 @@ $oTpl = new OA_Admin_Template('advertiser-index.html');
 $dalClients = OA_Dal::factoryDAL('clients');
 $dalCampaigns = OA_Dal::factoryDAL('campaigns');
 $dalBanners = OA_Dal::factoryDAL('banners');
-if (phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     $clients = $dalClients->getAllAdvertisers($listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaigns($listorder, $orderdirection);
     $banners = $dalBanners->getAllBanners($listorder, $orderdirection);
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $agency_id = phpAds_getUserID();
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    $agency_id = OA_Permission::getEntityId();
     $clients = $dalClients->getAllAdvertisersForAgency($agency_id, $listorder, $orderdirection);
     $campaigns = $dalCampaigns->getAllCampaignsUnderAgency($agency_id, $listorder, $orderdirection);
     $banners = $dalBanners->getAllBannersUnderAgency($agency_id, $listorder, $orderdirection);

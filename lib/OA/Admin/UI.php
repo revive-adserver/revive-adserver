@@ -64,17 +64,18 @@ class OA_Admin_UI
     function showHeader($ID, $extra="", $imgPath="", $showSidebar=true, $showMainNav=true, $noBorder = false)
     {
         global $phpAds_TextDirection;
-        global $phpAds_GUIDone, $phpAds_NavID;
+        global $phpAds_GUIDone;
         global $phpAds_context, $phpAds_shortcuts;
-        global $phpAds_nav, $pages;
+        global $pages;
         global $phpAds_CharSet;
+        global $OA_Navigation, $OA_Navigation_ID;
         global $xajax, $session;
 
         $conf = $GLOBALS['_MAX']['CONF'];
         $pref = $GLOBALS['_MAX']['PREF'];
 
         $phpAds_GUIDone = true;
-        $phpAds_NavID   = $ID;
+        $OA_Navigation_ID   = $ID;
 
         $aNav           = array();
         $aSide          = array();
@@ -86,8 +87,8 @@ class OA_Admin_UI
         // Travel navigation
         if ($ID != phpAds_Login && $ID != phpAds_Error) {
             // Select active navigation array
-            $userType = phpAds_getUserTypeAsString();
-    		$pages = $phpAds_nav[$userType];
+            $accountType = OA_Permission::getAccountType();
+    		$pages = $OA_Navigation[$accountType];
 
             // Build sidebar
             $sections = explode('.', $ID);
@@ -155,36 +156,32 @@ class OA_Admin_UI
                 $aSideShortcuts = $phpAds_shortcuts;
             }
 
-            if ($showMainNav) {
-                // Build tabbed navigation bar
-                foreach (array_keys($pages) as $key) {
-                    if (strpos($key, '.') === false) {
-                        reset($pages[$key]);
-                        list($filename, $title) = each($pages[$key]);
-                        $aNav[] = array(
-                            'title'    => $title,
-                            'filename' => $filename,
-                            'selected' => $key == $sections[0]
-                        );
-                    }
+            // Build tabbed navigation bar
+            foreach (array_keys($pages) as $key) {
+                if (strpos($key, '.') === false) {
+                    reset($pages[$key]);
+                    list($filename, $title) = each($pages[$key]);
+                    $aNav[] = array(
+                        'title'    => $title,
+                        'filename' => $filename,
+                        'selected' => $key == $sections[0]
+                    );
                 }
             }
         } else {
-            if ($showMainNav) {
-                // Build tabbed navigation bar
-                if ($ID == phpAds_Login) {
-                    $aNav[] = array(
-                        'title'    => $GLOBALS['strAuthentification'],
-                        'filename' => 'index.php',
-                        'selected' => true
-                    );
-                } elseif ($ID == phpAds_Error) {
-                    $aNav[] = array(
-                        'title'    => $GLOBALS['strError'],
-                        'filename' => 'index.php',
-                        'selected' => true
-                    );
-                }
+            // Build tabbed navigation bar
+            if ($ID == phpAds_Login) {
+                $aNav[] = array(
+                    'title'    => $GLOBALS['strAuthentification'],
+                    'filename' => 'index.php',
+                    'selected' => true
+                );
+            } elseif ($ID == phpAds_Error) {
+                $aNav[] = array(
+                    'title'    => $GLOBALS['strError'],
+                    'filename' => 'index.php',
+                    'selected' => true
+                );
             }
         }
 
@@ -227,27 +224,28 @@ class OA_Admin_UI
         $this->oTpl->assign('applicationName', $conf['ui']['applicationName']);
         $this->oTpl->assign('logoFilePath', $conf['ui']['logoFilePath']);
 
-        $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin|phpAds_Agency|phpAds_Affiliate) && !defined('phpAds_installing'));
+        $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER) && !defined('phpAds_installing'));
         $this->oTpl->assign('displaySearch', $displaySearch);
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
 
         // Show currently logged on user and IP
-        if (($ID != "" && phpAds_isLoggedIn()) || defined('phpAds_installing')) {
-            $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($phpAds_NavID));
+        if (($ID != "" && OA_Auth::isLoggedIn()) || defined('phpAds_installing')) {
+            $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
             $this->oTpl->assign('buttonLogout', true);
             if (!defined('phpAds_installing')) {
-                $this->oTpl->assign('infoUser', "{$session['username']} [{$_SERVER['REMOTE_ADDR']}]");
+                $this->oTpl->assign('infoUser', OA_Permission::getUsername()." [{$_SERVER['REMOTE_ADDR']}]");
                 $this->oTpl->assign('buttonReportBugs', true);
             } else {
                 $this->oTpl->assign('buttonStartOver', true);
             }
         }
 
+        $this->oTpl->assign('showMainNav', $showMainNav);
         $this->oTpl->assign('showSidebar', $showSidebar);
         $this->oTpl->assign('noBorder', $noBorder);
 
         $this->oTpl->assign('productUpdatesCheck',
-            phpAds_isUser(phpAds_Admin) &&
+            OA_Permission::isAccount(OA_ACCOUNT_ADMIN) &&
             $conf['sync']['checkForUpdates'] &&
             !isset($session['maint_update_js'])
         );

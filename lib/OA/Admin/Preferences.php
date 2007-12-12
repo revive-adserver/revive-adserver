@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 require_once MAX_PATH . '/lib/OA/DB.php';
 
@@ -107,8 +107,8 @@ class OA_Admin_Preferences
         }
         $conf = $GLOBALS['_MAX']['CONF'];
         if (is_null($agencyId)) {
-            if (phpAds_isUser(phpAds_Agency)) {
-                $agencyId = phpAds_getUserID();
+            if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                $agencyId = OA_Permission::getEntityId();
             } else {
                 $agencyId = (!empty($conf['max']['defaultAgency'])) ? $conf['max']['defaultAgency'] : 0;
             }
@@ -133,9 +133,9 @@ class OA_Admin_Preferences
                 $GLOBALS['_MAX']['PREF'][$key] = $value;
             }
 
-            if (phpAds_isUser(phpAds_Client)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                 OA_Admin_Preferences::loadEntityPrefs('advertiser');
-            } elseif (phpAds_isUser(phpAds_Affiliate)) {
+            } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
                 OA_Admin_Preferences::loadEntityPrefs('publisher');
             }
 
@@ -159,7 +159,7 @@ class OA_Admin_Preferences
         $conf = $GLOBALS['_MAX']['CONF'];
 
         if (empty($entityId)) {
-            $entityId = phpAds_getUserId();
+            $entityId = OA_Permission::getEntityId();
         }
 
         switch ($entityType) {
@@ -217,7 +217,7 @@ class OA_Admin_Preferences
             $oDbh =& OA_DB::singleton();
 
             if (empty($entityId)) {
-                $entityId = phpAds_getUserId();
+                $entityId = OA_Permission::getEntityId();
             }
 
             switch ($entityType) {
@@ -287,8 +287,8 @@ class OA_Admin_Preferences
      */
     function setPrefChange($pref, $value)
     {
-        if (phpAds_isUser(phpAds_Agency)) {
-            $agencyid = phpAds_getUserID();
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $agencyid = OA_Permission::getEntityId();
         } else {
             $agencyid = 0;
         }
@@ -311,12 +311,12 @@ class OA_Admin_Preferences
                 return MAX::raiseError($oDbh, MAX_ERROR_DBFAILURE);
             }
 
-            if (phpAds_isUser(phpAds_Client)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                 return OA_Admin_Preferences::writeEntityPrefs('advertiser');
-            } elseif (phpAds_isUser(phpAds_Affiliate)) {
+            } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
                 return OA_Admin_Preferences::writeEntityPrefs('publisher');
             } else {
-                $agencyId   = phpAds_isUser(phpAds_Agency) ? phpAds_getUserID() : 0;
+                $agencyId   = OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ? OA_Permission::getEntityId() : 0;
             }
 
             // Try to UPDATE first
@@ -404,7 +404,7 @@ class OA_Admin_Preferences
      *          )
      *  )
      *
-     * The array keys are the usertype constants (phpAds_Admin, phpAds_Client,
+     * The array keys are the usertype constants (OA_ACCOUNT_ADMIN_ID, OA_ACCOUNT_MANAGER_ID,
      * etc.).
      *
      * @return boolean True when the preferences were correctly saved,
@@ -421,7 +421,7 @@ class OA_Admin_Preferences
                     $GLOBALS['_MAX']['PREF'][$k] = 0;
                     foreach ($tmp as $perm => $custom) {
                         $GLOBALS['_MAX']['PREF'][$k] |= $custom['show'] ? $perm : 0;
-                        if (phpAds_isUser($perm)) {
+                        if (OA_Permission::isAccountTypeId($perm)) {
                             $GLOBALS['_MAX']['PREF'][$k.'_label'] = $custom['label'];
                             $GLOBALS['_MAX']['PREF'][$k.'_rank']  = $custom['rank'];
                             $max_rank = max($max_rank, $custom['rank']);

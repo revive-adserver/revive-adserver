@@ -62,9 +62,8 @@ phpAds_registerGlobalUnslashed(
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
-MAX_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -80,7 +79,7 @@ if (isset($submit)) {
 		}
 	}
 	// Name
-	if ( phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) ) {
+	if ( OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
 		$client['clientname'] = trim($clientname);
 	}
 	// Default fields
@@ -96,7 +95,7 @@ if (isset($submit)) {
 	if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $client['report']) {
 		$client['reportlastdate'] = date ("Y-m-d");
 	}
-	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 		// Password
 		if (isset($clientpassword)) {
 			if ($clientpassword == '') {
@@ -108,7 +107,7 @@ if (isset($submit)) {
 		// Username
 		if (!empty($clientusername)) {
 		    $oldClientUserName = isset($client['clientusername']) ? $client['clientusername'] : '';
-            if (!MAX_Permission::isUsernameAllowed($oldClientUserName, $clientusername)) {
+            if (!OA_Permission::isUsernameAllowed($oldClientUserName, $clientusername)) {
                 $errormessage[] = $strDuplicateAgencyName;
             } else {
 				// Set username
@@ -123,8 +122,8 @@ if (isset($submit)) {
 			}
 		}
 		// Agency
-		if (phpAds_isUser(phpAds_Agency)) {
-			$client['agencyid'] = phpAds_getUserID();
+		if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+			$client['agencyid'] = OA_Permission::getEntityId();
 		}
 	} else {
 		// Password
@@ -151,7 +150,14 @@ if (isset($submit)) {
 		if (empty($clientid)) {
             $doClients = OA_Dal::factoryDO('clients');
             $doClients->setFrom($client);
-            $doClients->updated = OA::getNow();
+		    /**
+		     * @todo The current mechanism requires the dataobject to have the username/password fields
+		     *       set in order to trigger the User-creation, this should be factored out since the
+		     *       $do->setFrom method won't set the fields if they've been removed from the DataObject
+		     */
+		    $doClients->clientusername = $client['clientusername'];
+		    $doClients->clientpassword = $client['clientpassword'];
+		    $doClients->updated = OA::getNow();
 
 			// Insert
 			$clientid = $doClients->insert();
@@ -168,7 +174,7 @@ if (isset($submit)) {
 			$doClients->update();
 
             // Go to next page
-			if (phpAds_isUser(phpAds_Client)) {
+			if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
 				// Set current session to new language
 				$session['language'] = $clientlanguage;
 				phpAds_SessionDataStore();
@@ -189,7 +195,7 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($clientid != "") {
-	if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 		if (isset($session['prefs']['advertiser-index.php']['listorder'])) {
 			$navorder = $session['prefs']['advertiser-index.php']['listorder'];
 		} else {
@@ -205,8 +211,8 @@ if ($clientid != "") {
 		$doClients = OA_Dal::factoryDO('clients');
 
 		// Unless admin, restrict results
-		if (phpAds_isUser(phpAds_Agency)) {
-            $doClients->agencyid = $session['userid'];
+		if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $doClients->agencyid = OA_Permission::getEntityId();
 		}
 
         $doClients->addListorderBy($navorder, $navdirection);
@@ -281,7 +287,7 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 // Clientname
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 	echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientname' size='25' value='".phpAds_htmlQuotes($client['clientname'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
 } else {
 	echo "<td>".(isset($client['clientname']) ? $client['clientname'] : '')."</td>";
@@ -386,7 +392,7 @@ if (isset($errormessage) && count($errormessage)) {
 
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 	echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientusername' size='25' value='".phpAds_htmlQuotes($client['clientusername'])."' tabindex='".($tabindex++)."'></td>";
 } else {
 	echo "<td>".(isset($client['clientusername']) ? $client['clientusername'] : '')."</td>";
@@ -397,7 +403,7 @@ echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspac
 
 
 // Password
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
 	echo "<td width='370'><input class='flat' type='password' name='clientpassword' size='25' value='".$client['clientpassword']."' tabindex='".($tabindex++)."'></td>";
 	echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -418,7 +424,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
 }
 
 // Permissions
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
 	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
@@ -443,18 +449,6 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
 	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_ActivateBanner."'".(phpAds_ActivateBanner & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
 	echo $strAllowClientActivateBanner;
-	echo "</td></tr>";
-
-	// Allow this user to view targeting statistics
-	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_ViewTargetingStats."'".(phpAds_ViewTargetingStats & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-	echo $strAllowClientViewTargetingStats;
-	echo "</td></tr>";
-
-	// Allow importing of CSV Files
-	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_CsvImport."'".(phpAds_CsvImport & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-	echo $strCsvImportConversions;
 	echo "</td></tr>";
 
 }
@@ -492,7 +486,7 @@ echo "</form>";
 $doClients = OA_Dal::factoryDO('clients');
 $unique_names = $doClients->getUniqueValuesFromColumn('clientname', $client['clientname']);
 
-$unique_users = MAX_Permission::getUniqueUserNames($client['clientusername']);
+$unique_users = OA_Permission::getUniqueUserNames($client['clientusername']);
 
 ?>
 
@@ -501,7 +495,7 @@ $unique_users = MAX_Permission::getUniqueUserNames($client['clientusername']);
 	max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
 	max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
 	max_formSetRequirements('clientreportinterval', '<?php echo addslashes($strNoDaysBetweenReports); ?>', true, 'number+');
-<?php if (phpAds_isUser(phpAds_Admin)) { ?>
+<?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) { ?>
 	max_formSetRequirements('clientname', '<?php echo addslashes($strName); ?>', true, 'unique');
 	max_formSetRequirements('clientusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 

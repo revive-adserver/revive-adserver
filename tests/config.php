@@ -48,7 +48,8 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/OA',
         'lib/util',
         'plugins',
-        'tests'
+        'tests',
+        'lib/gacl'
     );
 
 // Project path - helpful for testing external projects

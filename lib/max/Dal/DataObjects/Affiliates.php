@@ -28,12 +28,20 @@ $Id$
 /**
  * Table Definition for affiliates (Affiliate is often called Publisher)
  */
-require_once 'AbstractUser.php';
+require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Affiliates extends DataObjects_AbstractUser
+class DataObjects_Affiliates extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
+
+    /**
+     * BC-compatible user details
+     *
+     * @todo Please remove later
+     */
+    var $username;
+    var $password;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -43,21 +51,16 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     var $name;                            // string(255)  not_null
     var $mnemonic;                        // string(5)  not_null
     var $comments;                        // blob(65535)  blob
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $website;                         // string(255)  
-    var $username;                        // string(64)  
-    var $password;                        // string(64)  
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
-    var $publiczones;                     // string(1)  not_null enum
-    var $last_accepted_agency_agreement;    // datetime(19)  binary
+    var $website;                         // string(255)
     var $updated;                         // datetime(19)  not_null binary
-    var $an_website_id;                   // int(11)  
+    var $an_website_id;                   // int(11)
     var $oac_country_code;                // string(2)  not_null
-    var $oac_language_id;                 // int(11)  
-    var $oac_category_id;                 // int(11)  
-    var $as_website_id;                   // int(11)  
+    var $oac_language_id;                 // int(11)
+    var $oac_category_id;                 // int(11)
+    var $as_website_id;                   // int(11)
+    var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -71,17 +74,6 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     var $defaultValues = array(
         'publiczones' => 'f'
     );
-
-    /**
-     * Returns phpAds_Affiliate constant value.
-     *
-     * @return integer
-     */
-    function getUserType()
-    {
-        return phpAds_Affiliate;
-    }
-
 
     /**
      * Returns affiliateid.
@@ -106,18 +98,6 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     }
 
 
-    /**
-     * Returns an array with basic data about this object for use by permission
-     * module. The correctness of this function depends on whether it was initialized
-     * with affiliate_extra data.
-     *
-     * @return array
-     */
-    function getAUserData()
-    {
-        return MAX_Permission_User::getAAffiliateData($this);
-    }
-
     function _auditEnabled()
     {
         return true;
@@ -131,6 +111,79 @@ class DataObjects_Affiliates extends DataObjects_AbstractUser
     function _getContext()
     {
         return 'Affiliate';
+    }
+
+    /**
+     * Handle all necessary operations when new trafficker is created
+     *
+     * @see DB_DataObject::insert()
+     */
+    function insert()
+    {
+        // Create account first
+        $result = $this->createAccount('TRAFFICKER', $this->name);
+        if (!$result) {
+            return $result;
+        }
+
+        // Store data to create a user
+        if (!empty($this->username) && !empty($this->password)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'default_account_id' => $this->account_id
+            );
+        }
+
+        // Clear credentials, we don't need them anymore
+        $this->username = null;
+        $this->password = null;
+
+        $affiliateId = parent::insert();
+        if (!$affiliateId) {
+            return $affiliateId;
+        }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $result = $this->createUser($aUser);
+
+            if (!$result) {
+                return false;
+            }
+        }
+
+        return $affiliateId;
+    }
+
+    /**
+     * Handle all necessary operations when a trafficker is updated
+     *
+     * @see DB_DataObject::update()
+     */
+    function update($dataObject = false)
+    {
+        $ret = parent::update($dataObject);
+        if (!$ret) {
+            return $ret;
+        }
+
+        $this->updateGaclAccountName('clientname');
+
+        return $ret;
+    }
+
+    /**
+     * Handle all necessary operations when a trafficker is deleted
+     *
+     * @see DB_DataObject::delete()
+     */
+    function delete($useWhere = false, $cascade = true, $parentid = null)
+    {
+        $this->deleteAccount();
+        return parent::delete($useWhere, $cascade, $parentid);
     }
 
     /**

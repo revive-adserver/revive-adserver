@@ -745,8 +745,8 @@ class Admin_DA
             $connectionId = (int)$connectionId;
         }
 
-        if (phpAds_isUser(phpAds_Affiliate)) {
-            $publisherId = phpAds_getUserId();
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $publisherId = OA_Permission::getEntityId();
         } else {
             $publisherId = 0;
         }

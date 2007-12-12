@@ -46,8 +46,8 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -73,7 +73,7 @@ if (!isset($orderdirection)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     if (isset($session['prefs']['affiliate-index.php']['listorder'])) {
         $navorder = $session['prefs']['affiliate-index.php']['listorder'];
     } else {
@@ -89,10 +89,10 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     // Get other affiliates
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->addListorderBy($navorder, $navdirection);
-    if (phpAds_isUser(phpAds_Admin)) {
-    } elseif (phpAds_isUser(phpAds_Agency)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $doAffiliates->agencyid = $agencyid;
-    } elseif (phpAds_isUser(phpAds_Affiliate)) {
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $doAffiliates->affiliateid = $affiliateid;
     }
 
@@ -115,7 +115,7 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
 } else {
     $sections = array();
     $sections[] = "2.1";
-    if (phpAds_isAllowed(MAX_AffiliateGenerateCode)) {
+    if (OA_Permission::isAllowed(OA_PERM_ZONE_INVOCATION)) {
         $sections[] = "2.2";
     }
     phpAds_PageHeader('2.1');
@@ -132,7 +132,7 @@ $doZones->affiliateid = $affiliateid;
 $doZones->addListorderBy($navorder, $navdirection);
 $doZones->find();
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddZone))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_ADD))
 {
     echo "<img src='images/icon-zone-new.gif' border='0' align='absmiddle'>&nbsp;";
     echo "<a href='zone-edit.php?affiliateid=".$affiliateid."' accesskey='".$keyAddNew."'>".$strAddNewZone_Key."</a>&nbsp;&nbsp;";
@@ -259,7 +259,7 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
         }
     }
 
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_EditZone))
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_EDIT))
         echo "<a href='zone-edit.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'>".$row_zones['zonename']."</a>";
     else
         echo $row_zones['zonename'];
@@ -303,10 +303,10 @@ while ($doZones->fetch() && $row_zones = $doZones->toArray())
 
     // Button 1, 2 & 3
     echo "<td height='25' colspan='3'>";
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_LinkBanners)) echo "<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_LINK)) echo "<a href='zone-include.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='$strIncludedBanners'>&nbsp;$strIncludedBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "<a href='zone-probability.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-zone-probability.gif' border='0' align='absmiddle' alt='$strProbability'>&nbsp;$strProbability</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(MAX_AffiliateGenerateCode)) echo "<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_DeleteZone)) echo "<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_INVOCATION)) echo "<a href='zone-invocation.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."'><img src='images/icon-generatecode.gif' border='0' align='absmiddle' alt='$strInvocationcode'>&nbsp;$strInvocationcode</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_DELETE)) echo "<a href='zone-delete.php?affiliateid=".$affiliateid."&zoneid=".$row_zones['zoneid']."&returnurl=affiliate-zones.php'".phpAds_DelConfirm($strConfirmDeleteZone)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
     echo "</td></tr>";
 
     $i++;

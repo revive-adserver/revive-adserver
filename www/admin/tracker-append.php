@@ -41,8 +41,8 @@ require_once MAX_PATH . '/lib/max/Admin/Inventory/TrackerAppend.php';
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('trackers', $trackerid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkAccessToObject('trackers', $trackerid);
 
 // Initialize trackerAppend class
 $trackerAppend = new Max_Admin_Inventory_TrackerAppend();
@@ -98,8 +98,8 @@ $extra .= "\t\t\t\t<select name='moveto' style='width: 110;'>"."\n";
 $doClients = OA_Dal::factoryDO('clients');
 $doClients->clientid = $clientid;
 
-if (phpAds_isUser(phpAds_Agency)) {
-    $doClients->addReferenceFilter('agency', phpAds_getUserID());
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    $doClients->addReferenceFilter('agency', OA_Permission::getEntityId());
 }
 $doClients->find();
 

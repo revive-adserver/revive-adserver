@@ -123,7 +123,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
         $this->_author       = 'Rob Hunter';
         $this->_export       = 'xls';
-        $this->_authorize    = phpAds_Admin + phpAds_Agency + phpAds_Advertiser;
+        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
@@ -290,7 +290,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $_REQUEST['clientid'] = $this->_advertiserId;
         $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
-        if (phpAds_isUser(phpAds_Affiliate)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $controllerType = 'affiliate-campaign-history';
         } else {
             $controllerType = 'campaign-history';
@@ -327,7 +327,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $_REQUEST['clientid'] = $this->_advertiserId;
         $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
-        if (phpAds_isUser(phpAds_Affiliate)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $controllerType = 'affiliate-campaigns';
             $_REQUEST['startlevel'] = 1;
         } else {
@@ -365,7 +365,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $_REQUEST['clientid'] = $this->_advertiserId;
         $_REQUEST['campaignid'] = $this->_placementId;
         // Select the correct statistics page controller type
-        if (phpAds_isUser(phpAds_Affiliate)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $controllerType = 'affiliate-zones';
         } else {
             $controllerType = 'campaign-affiliates';

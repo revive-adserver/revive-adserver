@@ -1,7 +1,7 @@
 
 {if OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED}
 <form id='settingsform' name='settingsform' ENCTYPE='multipart/form-data' method='post' action='{$formUrl}' onSubmit='return max_formValidate(this);'>
-    {if phpAds_isUser(phpAds_Admin) && $this->_optionType == 'account-settings'}
+    {if OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && $this->_optionType == 'account-settings'}
     <br />
     <div class='errormessage'><img class='errormessage' src='images/padlock-{$image}.gif' width='16' height='16' border='0' align='absmiddle'>
         {if $configLocked}{$GLOBALS.strEditConfigNotPossible}{else}{$GLOBALS.strEditConfigPossible}{/if}

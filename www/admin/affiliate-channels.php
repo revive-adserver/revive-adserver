@@ -39,16 +39,17 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 // Register input variables
 phpAds_registerGlobal ('acl', 'action', 'submit');
 
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('affiliateid' => $affiliateid);
 
-if (!MAX_checkPublisher($affiliateid)) {
-    phpAds_Die($strAccessDenied, $strNotAdmin);
-}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -62,12 +63,9 @@ MAX_displayNavigationPublisher($pageName, $aOtherPublishers, $aEntities);
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency) || phpAds_isAllowed(phpAds_AddZone))
-{
-	echo "<img src='images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
-	echo "<a href='channel-edit.php?affiliateid=".$affiliateid."' accesskey='".$keyAddNew."'>{$GLOBALS['strAddNewChannel_Key']}</a>&nbsp;&nbsp;";
-	phpAds_ShowBreak();
-}
+echo "<img src='images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<a href='channel-edit.php?affiliateid=".$affiliateid."' accesskey='".$keyAddNew."'>{$GLOBALS['strAddNewChannel_Key']}</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();
 
 $channels = Admin_DA::getChannels(array('publisher_id' => $affiliateid), true);
 

@@ -42,17 +42,17 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once 'Pager/Pager.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("5.2");
-if (phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-} else if (phpAds_isUser(phpAds_Agency)) {
+} else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.3", "5.7"));
 }
@@ -87,7 +87,7 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $oTpl = new OA_Admin_Template('userlog-index.html');
 
 //  get advertisers & publishers for filters
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $advertiser = Admin_DA::getAdvertisers(array('agency_id' => $agencyId));
 $aAdvertiser[0] = $GLOBALS['strSelectAdvertiser'];
 foreach($advertiser as $key => $aValue) {

@@ -38,7 +38,7 @@ $Id$
 function setupConstants()
 {
     // Define this version of Openads's constants
-    define('OA_VERSION', '2.5.44-dev');
+    define('OA_VERSION', '2.5.46-dev');
     define('MAX_PRODUCT_NAME',      'Openads');
     define('MAX_PRODUCT_URL',       'www.openads.org');
     define('MAX_PRODUCT_DOCSURL',   'docs.openads.org');
@@ -267,11 +267,13 @@ function setupConstants()
             define('IMAGE_CANVAS_SYSTEM_FONT_PATH', $GLOBALS['_MAX']['CONF']['graphs']['ttfDirectory']);
         }
         // Set the dbms type
-        if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
+        if (isset($GLOBALS['_MAX']['CONF']['database'])
+            && $GLOBALS['_MAX']['CONF']['database']['type'] == 'mysql')
         {
             define('phpAds_dbmsname', 'MySQL');
         }
-        else if ($GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql')
+        else if (isset($GLOBALS['_MAX']['CONF']['database'])
+            && $GLOBALS['_MAX']['CONF']['database']['type'] == 'pgsql')
         {
             define('phpAds_dbmsname', 'Postgres');
         }

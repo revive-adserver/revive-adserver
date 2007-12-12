@@ -43,14 +43,14 @@ phpAds_registerGlobal ('returnurl');
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
-if (phpAds_isUser(phpAds_Agency))
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
 	$doTrackers = OA_Dal::factoryDO('trackers');
 	$doTrackers->trackerid = $trackerid;
 
-	if (!$doTrackers->belongToUser('agency', phpAds_getUserID()))
+	if (!$doTrackers->belongToUsersAccount())
 	{
 		phpAds_PageHeader("1");
 		phpAds_Die ($strAccessDenied, $strNotAdmin);

@@ -45,35 +45,19 @@ phpAds_registerGlobalUnslashed('acl', 'action', 'submit', 'channelid', 'agencyid
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::checkAccessToObject('channel', $channelid);
 
 $pageName = basename($_SERVER['PHP_SELF']);
+$agencyId = OA_Permission::getAgencyId();
 $tabindex = 1;
-if (phpAds_isUser(phpAds_Admin)) {
-    $agencyId = empty($agencyid) ? 0 : $agencyid;
-} else {
-    $agencyId = phpAds_getAgencyID();
-}
 
 if (!empty($affiliateid)) {
     $aEntities = array('agencyid' => $agencyId, 'affiliateid' => $affiliateid, 'channelid' => $channelid);
     $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $affiliateid));
-    $aOtherAgencies = array();
-    $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
 } else {
     $aEntities = array('agencyid' => $agencyId, 'channelid' => $channelid);
-    if (phpAds_isUser(phpAds_Admin)) {
-        $aOtherChannels = Admin_DA::getChannels(array('agency_id' => isset($agencyid) ? $agencyid : 0, 'channel_type' => 'agency'));
-        $aOtherAgencies = Admin_DA::getAgencies(array());
-    } else {
-        $aOtherChannels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'));
-        $aOtherAgencies = array();
-    }
-    $aOtherPublishers = array();
-}
-
-if ($channelid && !MAX_checkChannel($agencyId, $channelid)) {
-    phpAds_PageHeader("2");
-    phpAds_Die($strAccessDenied, $strNotAdmin);
+    $aOtherChannels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'));
 }
 
 /*-------------------------------------------------------*/
@@ -89,7 +73,7 @@ if (!empty($action)) {
         if (!empty($affiliateid)) {
             header("Location: channel-acl.php?affiliateid={$affiliateid}&channelid={$channelid}");
         } else {
-            header("Location: channel-acl.php?agencyid={$agencyId}&channelid={$channelid}");
+            header("Location: channel-acl.php?channelid={$channelid}");
         }
         exit;
     }
@@ -99,7 +83,7 @@ if (!empty($action)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublishers, $aOtherChannels, $aEntities);
+MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities);
 
 $aChannel = Admin_DA::getChannel($channelid);
 if (!isset($acl)) {

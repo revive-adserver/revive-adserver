@@ -40,13 +40,13 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 
 /*-------------------------------------------------------*/
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccessToObject('zones', $zoneid);
+OA_Permission::checkAccessToObject('zones', $zoneid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -66,7 +66,7 @@ if (isset($session['prefs']['affiliate-zones.php']['orderdirection'])) {
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabIndex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
 
 $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));

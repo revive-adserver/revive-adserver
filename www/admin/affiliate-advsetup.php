@@ -49,7 +49,7 @@ phpAds_registerGlobal ('acl', 'action', 'submit');
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('affiliateid' => $affiliateid);
 
 if (!MAX_checkPublisher($affiliateid)) {

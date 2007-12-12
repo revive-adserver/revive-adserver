@@ -30,7 +30,7 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Plugin.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Daily.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Flexy.php';
@@ -594,10 +594,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         ));
 
         // Add global variables for backwards compatibility
-        if (phpAds_isUser(phpAds_Client)) {
-            $GLOBALS['clientid'] = phpAds_getUserId();
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $GLOBALS['affiliateid'] = phpAds_getUserId();
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $GLOBALS['clientid'] = OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $GLOBALS['affiliateid'] = OA_Permission::getEntityId();
         }
 
         // Add the current page's entity/breakdown values to the page
@@ -717,10 +717,10 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         $graphFields = array_unique($graphFields);
 
         // Add global variables for backwards compatibility
-        if (phpAds_isUser(phpAds_Client)) {
-            $GLOBALS['clientid'] = phpAds_getUserId();
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
-            $GLOBALS['affiliateid'] = phpAds_getUserId();
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $GLOBALS['clientid'] = OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $GLOBALS['affiliateid'] = OA_Permission::getEntityId();
         }
 
         // Generate URI used to add other parameters
@@ -799,8 +799,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
     function _getId($type, $default = null)
     {
         if ($type == 'advertiser') {
-            if (phpAds_isUser(phpAds_Client)) {
-                return phpAds_getUserId();
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+                return OA_Permission::getEntityId();
             } else {
                 if (is_null($default)) {
                     return (int) MAX_getValue('clientid', '');
@@ -809,8 +809,8 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                 }
             }
         } else if ($type == 'publisher') {
-            if (phpAds_isUser(phpAds_Affiliate)) {
-                return phpAds_getUserId();
+            if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                return OA_Permission::getEntityId();
             } else {
                 if (is_null($default)) {
                     return (int) MAX_getValue('affiliateid', '');
@@ -943,7 +943,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         switch ($type) {
 
         case 'advertiser':
-            if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                 $advertisers = Admin_DA::getAdvertisers(array('advertiser_id' => $entityId), false);
                 if (count($advertisers) == 1) {
                     $advertiser = current($advertisers);
@@ -988,7 +988,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             break;
 
         case 'publisher':
-            if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                 $publishers = Admin_DA::getPublishers(array('publisher_id' => $entityId), false);
                 if (count($publishers) == 1) {
                     $publisher = current($publishers);
@@ -1047,9 +1047,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
             $aParams = array();
             switch ($type) {
                 case 'advertisers':
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                        if (phpAds_isUser(phpAds_Agency)) {
-                            $aParams['agency_id'] = phpAds_getUserID();
+                    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                            $aParams['agency_id'] = OA_Permission::getEntityId();
                         }
                         $params = $this->aPageParams;
                         $advertisers = Admin_DA::getAdvertisers($aParams, false);
@@ -1099,9 +1099,9 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     break;
 
                 case 'publishers':
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-                        if (phpAds_isUser(phpAds_Agency)) {
-                            $aParams['agency_id'] = phpAds_getUserID();
+                    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                            $aParams['agency_id'] = OA_Permission::getEntityId();
                         }
                         $params = $this->aPageParams;
                         $campaigns = Admin_DA::getPublishers($aParams, false);
@@ -1117,7 +1117,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
                     break;
 
                 case 'publisher-campaigns':
-                    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+                    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                         $aParams = array(
                             'publisher_id' => $publisherId,
                             'placement_id' => $placementId,

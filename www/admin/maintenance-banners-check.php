@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 
 phpAds_registerGlobal('action', 'returnurl');
 
@@ -94,9 +94,9 @@ function _showPageHeader()
 //function processBanners($commit = false) {
 //    $doBanners = OA_Dal::factoryDO('banners');
 //
-//    if (phpAds_isUser(phpAds_Agency))
+//    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 //    {
-//        $doBanners->addReferenceFilter('agency', $agencyId = phpAds_getUserId());
+//        $doBanners->addReferenceFilter('agency', $agencyId = OA_Permission::getEntityId());
 //    }
 //    $doBanners->find();
 //

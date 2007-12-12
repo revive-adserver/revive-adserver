@@ -49,9 +49,9 @@ phpAds_registerGlobal (
 );
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('trackers', $trackerid);
-MAX_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkAccessToObject('trackers', $trackerid);
+OA_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -119,8 +119,8 @@ if ($trackerid != "") {
 
 	$doClients = OA_Dal::factoryDO('clients');
 	$doClients->whereAdd('clientid <> '.$clientid);
-	if (phpAds_isUser(phpAds_Agency)) {
-	    $doClients->addReferenceFilter('agency', phpAds_getAgencyID());
+	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+	    $doClients->addReferenceFilter('agency', OA_Permission::getAgencyId());
 	}
 	$doClients->find();
 	while ($doClients->fetch() && $row = $doClients->toArray()) {

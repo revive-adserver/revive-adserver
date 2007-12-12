@@ -82,7 +82,11 @@ class OA_Upgrade
 
     var $message = '';
 
+    /**
+     * @var OA_UpgradeLogger
+     */
     var $oLogger;
+
     var $oParser;
     var $oDBUpgrader;
     var $oVersioner;
@@ -1039,6 +1043,7 @@ class OA_Upgrade
             $this->_dropDatabase();
             return false;
         }
+
         $this->oAuditor->logAuditAction(array('description'=>'UPGRADE COMPLETE',
                                                 'action'=>UPGRADE_ACTION_UPGRADE_SUCCEEDED,
                                                )
@@ -1411,12 +1416,15 @@ class OA_Upgrade
     /**
      * insert admin record into preferences table
      *
+     * @todo Remove admin stuff from prefs
+     *
      * @param array $aAdmin
      * @return boolean
      */
     function putAdmin($aAdmin)
     {
         require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+
         // Insert basic preferences into database
         $oPrefs = new OA_Admin_Preferences();
 
@@ -1429,6 +1437,74 @@ class OA_Upgrade
             $this->oLogger->logError('error writing admin preference record');
             return false;
         }
+
+        // Set up GACL
+        if (!$this->insertGaclPermissions()) {
+            $this->oLogger->logError('error inserting GACL permissions');
+            return false;
+        }
+
+        // Create Admin account
+        $doAccount = OA_Dal::factoryDO('accounts');
+        $doAccount->__accountName = 'Administrator account';
+        $doAccount->account_type = 'ADMIN';
+        $adminAccountId = $doAccount->insert();
+
+        if (!$adminAccountId) {
+            $this->oLogger->logError('error creating the admin account');
+            return false;
+        }
+
+        // Create Manager entity
+        $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->name   = 'Default manager';
+        $doAgency->email  = $doUser->email_address;
+        $doAgency->active = 1;
+        $agencyId = $doAgency->insert();
+
+        if (!$agencyId) {
+            $this->oLogger->logError('error creating the manager entity');
+            return false;
+        }
+
+        $doAgency = OA_Dal::factoryDO('agency');
+        if (!$doAgency->get($agencyId)) {
+            $this->oLogger->logError('error retrieving the manager account ID');
+            return false;
+        }
+
+        $agencyAccountId = $doAgency->account_id;
+
+        // Create Admin user
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->contact_name = 'Administrator';
+        $doUser->email_address = $aAdmin['email'];
+        $doUser->username = $aAdmin['name'];
+        $doUser->password = md5($aAdmin['pword']);
+        $doUser->default_account_id = $agencyAccountId;
+        $userId = $doUser->insert();
+
+        if (!$userId) {
+            $this->oLogger->logError('error creating the admin user');
+            return false;
+        }
+
+        // Create GACLs
+        $oGacl = OA_Permission_Gacl::factory();
+
+        $adminGid = $oGacl->get_group_id('ADMIN_ACCOUNTS', null, 'AXO');
+        $result = $oGacl->add_acl(
+            array('ACCOUNT' => array('ACCESS')),
+            array('USERS' => array($userId)),
+            null,
+            null,
+            array('ACCOUNTS' => $adminGid)
+        );
+        if (!$result) {
+            $this->oLogger->logError('error creating the admin ACL');
+            return false;
+        }
+
         return true;
     }
 
@@ -1487,6 +1563,19 @@ class OA_Upgrade
     }
 
     /**
+     * calls
+     *
+     * @return boolean
+     */
+    function insertGaclPermissions()
+    {
+        require_once MAX_PATH.'/lib/OA/Upgrade/GaclPermissions.php';
+        $oGaclPermissions = new OA_GaclPermissions();
+        $oGaclPermissions->insert();
+        return true;
+    }
+
+    /**
      * this can be used to run custom scripts
      * for planned enhancement: pre/post upgrade
      *
@@ -1502,33 +1591,20 @@ class OA_Upgrade
         }
         else if (file_exists($this->upgradePath.$file))
         {
-            $this->oLogger->log('acquiring script '.$file);
-            $type = substr(basename($file), 0, strpos(basename($file), '_'));
-            $class = 'OA_Upgrade'.ucfirst($type);
-            $newClass = $class.'_'.md5(uniqid('', true));
-
-            $code = file_get_contents($this->upgradePath.$file);
-            $code = preg_replace("/(class|function) +{$class}/i", "$1 {$newClass}", $code);
-
-            $class = $newClass;
-            $tmpFile = MAX_PATH.'/var/'.strtolower($class).'.php';
-            if ($fp = @fopen($tmpFile, 'w')) {
-                @fwrite($fp, $code);
-                @fclose($fp);
-                if (!@include($tmpFile)) {
-                    $this->oLogger->logError('cannot include temporary file '.$tmpFile);
-                    return false;
-                }
-                //@unlink($tmpFile);
-            } else {
-                $this->oLogger->logError('cannot write temporary file '.$tmpFile);
+            $this->oLogger->log('loading script '.$file);
+            if (!@include($this->upgradePath.$file)) {
+                $this->oLogger->logError('cannot include script '.$file);
+                return false;
+            }
+            if (empty($className)) {
+                $this->oLogger->logError('missing $className variable in '.$file);
                 return false;
             }
 
-            if (class_exists($class))
+            if (class_exists($className))
             {
-                $this->oLogger->log('instantiating class '.$class);
-                $oScript = new $class;
+                $this->oLogger->log('instantiating class '.$className);
+                $oScript = new $className;
                 $method = 'execute';
                 if (is_callable(array($oScript, $method)))
                 {
@@ -1536,19 +1612,15 @@ class OA_Upgrade
                     $aParams = array($this);
                     if (!call_user_func(array($oScript, $method), $aParams))
                     {
-                        $this->oLogger->logError('script returned false '.$class);
+                        $this->oLogger->logError('script returned false '.$className);
                         return false;
-                    }
-                    if (file_exists($tmpFile))
-                    {
-                        @unlink($tmpFile);
                     }
                     return true;
                 }
                 $this->oLogger->logError('method not found '.$method);
                 return false;
             }
-            $this->oLogger->logError('class not found '.$class);
+            $this->oLogger->logError('class not found '.$className);
             return false;
         }
         $this->oLogger->logError('script not found '.$file);

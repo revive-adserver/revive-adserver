@@ -43,7 +43,7 @@ require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 // Get input parameters
 $advertiserId   = MAX_getValue('clientid');
@@ -56,7 +56,7 @@ $submit         = MAX_getValue('submit');
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
 
 // Parameter check
@@ -122,8 +122,8 @@ echo "
     }
 
     $aParams = array();
-    if (!phpAds_isUser(phpAds_Admin)) {
-    	$aParams['agency_id'] = phpAds_getAgencyID();
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    	$aParams['agency_id'] = OA_Permission::getAgencyId();
     }
     $zoneToSelect = false;
     $aPublishers = Admin_DA::getPublishers($aParams);

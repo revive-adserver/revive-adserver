@@ -168,13 +168,12 @@ class OA_Dll_Zone extends OA_Dll
      */
     function checkStatisticsPermissions($zoneId)
     {
-       if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Affiliate, 'zones', $zoneId)) {
-
-            return false;
-        } else {
-            return true;
-        }
+       if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) 
+       {
+           return false;
+       } else {
+           return true;
+       }
     }
 
     /**
@@ -200,19 +199,17 @@ class OA_Dll_Zone extends OA_Dll
         if (!isset($oZone->zoneId)) {
             // Add
             $oZone->setDefaultForAdd();
-
-            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-                 phpAds_Affiliate, 'affiliates', $oZone->publisherId,
-                 phpAds_AddZone)) {
-
+            if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm,
+                'affiliates', $oZone->publisherId, OA_PERM_ZONE_ADD)) 
+            {
                 return false;
             }
         } else {
             // Edit
-            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-                 phpAds_Affiliate, 'zones', $oZone->zoneId,
-                 phpAds_EditZone)) {
-
+            if (!$this->checkPermissions(
+                $this->aAllowTraffickerAndAbovePerm,
+                'zones', $oZone->zoneId, OA_PERM_ZONE_EDIT))
+            {
                 return false;
             }
         }
@@ -255,9 +252,7 @@ class OA_Dll_Zone extends OA_Dll
      */
     function delete($zoneId)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-             phpAds_Affiliate, 'zones', $zoneId)) {
-
+        if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm, 'zones', $zoneId)) {
             return false;
         }
 

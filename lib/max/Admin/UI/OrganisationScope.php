@@ -25,7 +25,7 @@
 $Id$
 */
 
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 /**
  * Reporting scope for Openads
@@ -49,9 +49,9 @@ class Admin_UI_OrganisationScope
      */
     function Admin_UI_OrganisationScope()
     {
-        $this->_publisherId = phpAds_isUser(phpAds_Affiliate) ? phpAds_getUserID() : false;
-        $this->_advertiserId = phpAds_isUser(phpAds_Client) ? phpAds_getUserID() : false;
-        $this->_agencyId = phpAds_isUser(phpAds_Admin) ? false : phpAds_getAgencyID();
+        $this->_publisherId = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) ? OA_Permission::getEntityId() : false;
+        $this->_advertiserId = OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) ? OA_Permission::getEntityId() : false;
+        $this->_agencyId = OA_Permission::isAccount(OA_ACCOUNT_ADMIN) ? false : OA_Permission::getAgencyId();
     }
     function getPublisherId()
     {
@@ -59,7 +59,7 @@ class Admin_UI_OrganisationScope
     }
     function setPublisherId($publisherId)
     {
-        if (is_numeric($publisherId) && !phpAds_isUser(phpAds_Affiliate)) {
+        if (is_numeric($publisherId) && !OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_publisherId = $publisherId;
         }
     }
@@ -69,7 +69,7 @@ class Admin_UI_OrganisationScope
     }
     function setAdvertiserId($advertiserId)
     {
-        if (is_numeric($advertiserId) && !phpAds_isUser(phpAds_Client)) {
+        if (is_numeric($advertiserId) && !OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_advertiserId = $advertiserId;
         }
     }
@@ -79,7 +79,7 @@ class Admin_UI_OrganisationScope
     }
     function setAgencyId($agencyId)
     {
-        if (is_numeric($agencyId) && phpAds_isUser(phpAds_Admin)) {
+        if (is_numeric($agencyId) && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $this->_agencyId = $agencyId;
         }
     }

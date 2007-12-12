@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Publisher + phpAds_Advertiser);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
@@ -105,7 +105,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     // Set up the preferences object
     $oPreferences = new OA_Admin_Preferences();
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
     {
         $oPreferences->setPrefChange('gui_show_campaign_info',       isset($gui_show_campaign_info));
         $oPreferences->setPrefChange('gui_show_banner_info',         isset($gui_show_banner_info));
@@ -138,7 +138,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $varlabel = $var.'_label';
             $varrank  = $var.'_rank';
             $aFinal    = array();
-            foreach (array(phpAds_Admin, phpAds_Client, phpAds_Affiliate, phpAds_Agency) as $perm) {
+            foreach (array(OA_ACCOUNT_ADMIN_ID, OA_ACCOUNT_ADVERTISER_ID, OA_ACCOUNT_TRAFFICKER_ID, OA_ACCOUNT_MANAGER_ID) as $perm) {
                 $aFinal[$perm] = array('show' => true, 'label' => '', 'rank' => 0);
                 if (isset($$var)) {
                     $aFinal[$perm]['show'] = (bool)($$var & $perm);
@@ -166,35 +166,34 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Unable to update the preferences
         $aErrormessage[0][] = $strUnableToWritePrefs;
     } else {
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            MAX_Admin_Redirect::redirect('account-settings-defaults.php?clientid='.phpAds_getUserId());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            MAX_Admin_Redirect::redirect('account-settings-defaults.php?clientid='.OA_Permission::getEntityId());
         } else {
-            MAX_Admin_Redirect::redirect('account-settings-defaults.php?affiliateid='.phpAds_getUserId());
+            MAX_Admin_Redirect::redirect('account-settings-defaults.php?affiliateid='.OA_Permission::getEntityId());
         }
     }
 }
 
-// Display the settings page's header and sections
 phpAds_PageHeader("5.1");
-if (phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-} else if (phpAds_isUser(phpAds_Agency)) {
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
+} else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.3", "5.7"));
-} else if (phpAds_isUser(phpAds_Publisher)) {
+} else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     // Show the "Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
-} else if (phpAds_isUser(phpAds_Advertiser)) {
+} else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     // Show the "Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
 }
 
 $oOptions->selection("user-interface");
 
-$admin_settings = phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency);
+$admin_settings = OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER);
 
 $aSettings = array (
     array (

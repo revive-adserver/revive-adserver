@@ -102,8 +102,8 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function factoryDAL()
     {
-    	include_once MAX_PATH . '/lib/max/Dal/Common.php';
-    	return MAX_Dal_Common::factory($this->_tableName);
+        include_once MAX_PATH . '/lib/max/Dal/Common.php';
+        return MAX_Dal_Common::factory($this->_tableName);
     }
 
     /**
@@ -122,73 +122,138 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function getAll($filter = array(), $indexWithPrimaryKey = false, $flattenIfOneOnly = true)
     {
-    	if (!is_array($filter)) {
-    	    if (empty($filter)) {
-    	        $filter = array();
-    	    } else {
-    	       $filter = array($filter);
-    	    }
-    	}
+        if (!is_array($filter)) {
+            if (empty($filter)) {
+                $filter = array();
+            } else {
+               $filter = array($filter);
+            }
+        }
 
-    	$fields = $this->table();
+        $fields = $this->table();
         $primaryKey = null;
-    	if ($indexWithPrimaryKey) {
-    	    if ($indexWithPrimaryKey === true) {
-    	        // index by first primary key
-			    $primaryKey = $this->getFirstPrimaryKey();
-    	    } else {
-    	        // use as a primary key to index
-    	        $primaryKey = $indexWithPrimaryKey;
-    	    }
-    	}
+        if ($indexWithPrimaryKey) {
+            if ($indexWithPrimaryKey === true) {
+                // index by first primary key
+                $primaryKey = $this->getFirstPrimaryKey();
+            } else {
+                // use as a primary key to index
+                $primaryKey = $indexWithPrimaryKey;
+            }
+        }
         if (!$this->N) {
             // search only if find() wasn't executed yet
-        	if ($filter) {
-        	    // select only what is required
-        	    $this->selectAdd();
-        	    foreach ($filter as $field) {
-        	        $this->selectAdd($field);
-        	    }
-        	    // if we are indexing with pk add it here
-        	    if ($indexWithPrimaryKey && !in_array($primaryKey, $filter)) {
-        	        $this->selectAdd($primaryKey);
-        	    }
-        	}
+            if ($filter) {
+                // select only what is required
+                $this->selectAdd();
+                foreach ($filter as $field) {
+                    $this->selectAdd($field);
+                }
+                // if we are indexing with pk add it here
+                if ($indexWithPrimaryKey && !in_array($primaryKey, $filter)) {
+                    $this->selectAdd($primaryKey);
+                }
+            }
             $this->find();
-    	}
+        }
 
-    	$rows = array();
-    	while ($this->fetch()) {
-    		$row = array();
-    		foreach ($fields as $field => $fieldType) {
-    			if (!isset($this->$field)) {
-    				continue;
-    			}
-    			if (empty($filter) || in_array($field, $filter)) {
-    			    $row[$field] = $this->$field;
-    			}
-    		}
-    		if ($flattenIfOneOnly && count($row) == 1) {
-    		    $row = array_pop($row);
-    		}
-    		if (!empty($primaryKey) && isset($this->$primaryKey)) {
-    		    // add primaty key to row if filter is empty or if it exists in filter
-    		    if ((empty($filter) || in_array($primaryKey, $filter)) && !array_key_exists($primaryKey, $row)) {
-    		        $row[$primaryKey] = $this->$primaryKey;
-    		    }
-    			$rows[$this->$primaryKey] = $row;
-    		} else {
-    			$rows[] = $row;
-    		}
-    	}
-    	$this->free();
-    	return $rows;
+        $rows = array();
+        while ($this->fetch()) {
+            $row = array();
+            foreach ($fields as $field => $fieldType) {
+                if (!isset($this->$field)) {
+                    continue;
+                }
+                if (empty($filter) || in_array($field, $filter)) {
+                    $row[$field] = $this->$field;
+                }
+            }
+            if ($flattenIfOneOnly && count($row) == 1) {
+                $row = array_pop($row);
+            }
+            if (!empty($primaryKey) && isset($this->$primaryKey)) {
+                // add primaty key to row if filter is empty or if it exists in filter
+                if ((empty($filter) || in_array($primaryKey, $filter)) && !array_key_exists($primaryKey, $row)) {
+                    $row[$primaryKey] = $this->$primaryKey;
+                }
+                $rows[$this->$primaryKey] = $row;
+            } else {
+                $rows[] = $row;
+            }
+        }
+        $this->free();
+        return $rows;
     }
 
+    /**
+     * Checks if there is any object in hierarchy of objects (it uses information from link.ini to buil hierarchy)
+     * which belongs to user's account.
+     *
+     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't 
+     *                          able to find object in references
+     */
+    function belongToUsersAccount()
+    {
+        $accountTable = OA_Permission::getAccountTable();
+        $accountId = OA_Permission::getAccountId();
+        return $this->belongToAccount($accountTable, $accountId);
+    }
+    
+    /**
+     * This method uses information from links.ini to handle hierarchy of tables.
+     * It checks if there is a linked (referenced) object to this object with
+     * table==$accountTable and id==$accountId
+     *
+     * @param string $accountTable It's table name where record belongs, eg: agency, affiliates, clients
+     * @param string $accountId Account id
+     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't 
+     *                          able to find object in references
+     */
+    function belongToAccount($accountTable = null, $accountId = null)
+    {
+        if (empty($accountTable)) {
+            $accountTable = OA_Permission::getAccountTable();
+        }
+        if (empty($accountId)) {
+            $accountId = OA_Permission::getAccountId();
+        }
+        if (!$this->N && !$this->find($autoFetch = true)) {
+            return null;
+        }
+        $found = null;
+        if ($this->getTableWithoutPrefix() == $accountTable) {
+            return $this->account_id == $accountId;
+        }
+        $links = $this->links();
+        if(!empty($links)) {
+            foreach ($links as $key => $match) {
+                list($table,$link) = explode(':', $match);
+                $table = $this->getTableWithoutPrefix($table);
+                if ($table == $userTable) {
+                    $doCheck = $this->getLink($key, $table, $link);
+                    return $doCheck->belongToAccount($accountTable, $accountId);
+                } else {
+                    // recursive
+                    $doCheck = $this->getLink($key, $table, $link);
+                    if (!$doCheck) {
+                        return null;
+                    }
+                    $found = $doCheck->belongToAccount($accountTable, $accountId);
+                    if ($found !== null) {
+                        return $found;
+                    }
+                }
+            }
+        }
+        return $found;
+    }
+    
     /**
      * This method uses information from links.ini to handle hierarchy of tables.
      * It checks if there is a linked (referenced) object to this object with
      * table==$userTable and id==$userId
+     * 
+     * @TODO - remove this method
      *
      * @param string $userTable It's table name where user belongs, eg: agency, affiliates, clients
      * @param string $userId    User id
@@ -197,41 +262,62 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function belongToUser($userTable, $userId)
     {
-    	if (!$this->N && !$this->find($autoFetch = true)) {
-    		return null;
-    	}
-
-      	$found = null;
-
-      	if ($this->getTableWithoutPrefix() == $userTable) {
-      	    $key = $this->getFirstPrimaryKey();
-      	    return $this->$key == $userId;
-      	}
-
-    	$links = $this->links();
+        if (!$this->N && !$this->find($autoFetch = true)) {
+            return null;
+        }
+        $found = null;
+        if ($this->getTableWithoutPrefix() == $userTable) {
+            return $this->checkUserRightToInventoryEntity(
+                        $this->account_id, $userId);
+        }
+        $links = $this->links();
         if(!empty($links)) {
-        	foreach ($links as $key => $match) {
-        		list($table,$link) = explode(':', $match);
-        		$table = $this->getTableWithoutPrefix($table);
-        		if ($table == $userTable) {
-        			return (isset($this->$key)
-        			     && $this->$key == $userId);
-        		} else {
-        			// recursive
-        			$doCheck = $this->getLink($key, $table, $link);
-        			if (!$doCheck) {
-        				return null;
-        			}
-        			$found = $doCheck->belongToUser($userTable, $userId);
-        			if ($found !== null) {
-        				return $found;
-        			}
-        		}
-        	}
+            foreach ($links as $key => $match) {
+                list($table,$link) = explode(':', $match);
+                $table = $this->getTableWithoutPrefix($table);
+                if ($table == $userTable) {
+                    $doCheck = $this->getLink($key, $table, $link);
+                    return $doCheck->belongToUser($userTable, $userId);
+                } else {
+                    // recursive
+                    $doCheck = $this->getLink($key, $table, $link);
+                    if (!$doCheck) {
+                        return null;
+                    }
+                    $found = $doCheck->belongToUser($userTable, $userId);
+                    if ($found !== null) {
+                        return $found;
+                    }
+                }
+            }
         }
         return $found;
     }
-
+    
+    /**
+     * Check if user has access to specific account
+     *
+     * @TODO Replace used string with constants
+     * 
+     * @param Inventory entity table name $entityType
+     * @param Row id $entityId
+     * @param User Id $userId
+     * @return boolean  True if user has access to account, else false
+     */
+    function checkUserRightToInventoryEntity($entityId, $userId)
+    {
+        require_once MAX_PATH . '/lib/OA/Permission/Gacl.php';
+        $oGacl = &OA_Permission_Gacl::factory();
+        return $oGacl->acl_check(
+            $aco_section_value = 'ACCOUNT',
+            $aco_value = 'ACCESS',
+            $aro_section_value = 'USERS',
+            $userId,
+            'ACCOUNTS',
+            $entityId
+        );
+    }
+    
     /**
      * This method allows to automatically join DataObject with other records
      * using information from links.ini file. It allow for example to very
@@ -268,16 +354,16 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
    /**
-	* Returns the number of rows in a query
-	* Note it returns number of records from the last search (find())
-	*
-	* @see count()
-	* @return int number of rows
-	* @access public
-	*/
-	function getRowCount() {
-		return $this->N;
-	}
+    * Returns the number of rows in a query
+    * Note it returns number of records from the last search (find())
+    *
+    * @see count()
+    * @return int number of rows
+    * @access public
+    */
+    function getRowCount() {
+        return $this->N;
+    }
 
     /**
      * This method is a equivalent of phpAds_getFooListOrder
@@ -293,13 +379,13 @@ class DB_DataObjectCommon extends DB_DataObject
     function addListOrderBy($listOrder, $orderDirection)
     {
         $dalModel = &$this->factoryDAL();
-    	if (!$dalModel) {
-    		return false;
-    	}
-    	$nameColumns = $dalModel->getOrderColumn($listOrder);
-    	$direction   = $dalModel->getOrderDirection($orderDirection);
+        if (!$dalModel) {
+            return false;
+        }
+        $nameColumns = $dalModel->getOrderColumn($listOrder);
+        $direction   = $dalModel->getOrderDirection($orderDirection);
 
-    	if (!is_array($nameColumns)) {
+        if (!is_array($nameColumns)) {
             $nameColumns = array($nameColumns);
         }
         foreach ($nameColumns as $nameColumn) {
@@ -484,20 +570,20 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function links()
     {
-    	$links = parent::links();
-    	if (empty($this->_prefix)) {
-    		return $links;
-    	} else {
-    	    $prefixedLinks = array();
+        $links = parent::links();
+        if (empty($this->_prefix)) {
+            return $links;
+        } else {
+            $prefixedLinks = array();
             if ($GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName]) {
-        	    $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
+                $links = $GLOBALS['_DB_DATAOBJECT']['LINKS'][$this->_database][$this->_tableName];
                 foreach ($links as $k => $v) {
-        	        // add prefix
-        	        $prefixedLinks[$k] = $this->_prefix.$v;
-        	    }
+                    // add prefix
+                    $prefixedLinks[$k] = $this->_prefix.$v;
+                }
             }
-    	    return $prefixedLinks;
-    	}
+            return $prefixedLinks;
+        }
     }
 
     /**
@@ -574,7 +660,9 @@ class DB_DataObjectCommon extends DB_DataObject
             }
             return $do;
         }
-        return parent::factory($table);
+        $ret = parent::factory($table);
+        $ret->init();
+        return $ret;
     }
 
     /**
@@ -782,29 +870,29 @@ class DB_DataObjectCommon extends DB_DataObject
     function _query($string)
     {
         $production = empty($GLOBALS['_MAX']['CONF']['debug']['production']) ? false : true;
-	    if ($production) {
-	       // supress any PEAR errors if in production
-	       PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-	    }
-	    // execute query
-	    $ret = parent::_query($string);
-	    if ($production) {
-		  PEAR::staticPopErrorHandling();
-	    }
+        if ($production) {
+           // supress any PEAR errors if in production
+           PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+        }
+        // execute query
+        $ret = parent::_query($string);
+        if ($production) {
+          PEAR::staticPopErrorHandling();
+        }
 
-	    if (PEAR::isError($ret)) {
-	        if(!$production) {
-	           $GLOBALS['_MAX']['ERRORS'][] = $ret;
-	        }
-    	    if ($this->triggerSqlDie && function_exists('phpAds_sqlDie')) {
+        if (PEAR::isError($ret)) {
+            if(!$production) {
+               $GLOBALS['_MAX']['ERRORS'][] = $ret;
+            }
+            if ($this->triggerSqlDie && function_exists('phpAds_sqlDie')) {
                 $GLOBALS['phpAds_last_query'] = $string;
                 if (empty($GLOBALS['_MAX']['PAN']['DB'])) {
                     $GLOBALS['_MAX']['PAN']['DB'] = $GLOBALS['_DB_DATAOBJECT']['CONNECTIONS'][$this->_database_dsn_md5];
                 }
                 phpAds_sqlDie();
-    	    }
-	    }
-	    return $ret;
+            }
+        }
+        return $ret;
     }
 
     /**
@@ -874,42 +962,42 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function _addReferenceFilterRecursively($referenceTable, $tableId)
     {
-      	$found = false;
+          $found = false;
 
-    	$links = $this->links();
+        $links = $this->links();
         if(!empty($links)) {
-        	foreach ($links as $key => $match) {
-        	    if ($found) {
-        	        break;
-        	    }
-        		list($table,$link) = explode(':', $match);
-        		$table = $this->getTableWithoutPrefix($table);
-        		if ($table == $referenceTable) {
-        		    // if the same table just add a reference
-        		    $this->$key = $tableId;
-        		    $found = true;
-        		} else {
-        			// recursive step
-        			if (isset($this->_aReferences[$table])) {
-        			    // check if DataObject is already created
-        			    // it allows to add few filters to one DataObject
-        			    $doReference = &$this->_aReferences[$table];
-        			    $doReference->$link = $this->$key;
-        			    $found = true;
-        			} else {
-            			$doReference = $this->factory($table);
-            			$this->_aReferences[$table] = &$doReference;
-            			if (PEAR::isError($doReference)) {
-            				return false;
-            			}
-            			$doReference->$link = $this->$key;
-            			if ($doReference->_addReferenceFilterRecursively($referenceTable, $tableId)) {
-            			    $this->joinAdd($doReference);
-            			    $found = true;
-            			}
-        			}
-        		}
-        	}
+            foreach ($links as $key => $match) {
+                if ($found) {
+                    break;
+                }
+                list($table,$link) = explode(':', $match);
+                $table = $this->getTableWithoutPrefix($table);
+                if ($table == $referenceTable) {
+                    // if the same table just add a reference
+                    $this->$key = $tableId;
+                    $found = true;
+                } else {
+                    // recursive step
+                    if (isset($this->_aReferences[$table])) {
+                        // check if DataObject is already created
+                        // it allows to add few filters to one DataObject
+                        $doReference = &$this->_aReferences[$table];
+                        $doReference->$link = $this->$key;
+                        $found = true;
+                    } else {
+                        $doReference = $this->factory($table);
+                        $this->_aReferences[$table] = &$doReference;
+                        if (PEAR::isError($doReference)) {
+                            return false;
+                        }
+                        $doReference->$link = $this->$key;
+                        if ($doReference->_addReferenceFilterRecursively($referenceTable, $tableId)) {
+                            $this->joinAdd($doReference);
+                            $found = true;
+                        }
+                    }
+                }
+            }
         }
         return $found;
     }
@@ -922,8 +1010,92 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function getFirstPrimaryKey()
     {
-    	$keys = $this->keys();
-    	return !empty($keys) ? $keys[0] : null;
+        $keys = $this->keys();
+        return !empty($keys) ? $keys[0] : null;
+    }
+
+
+    /**
+     * A method to create a new account for entities
+     *
+     * @param string $accountType
+     * @return boolean
+     */
+    function createAccount($accountType, $accountName)
+    {
+        $doAccount = $this->factory('accounts');
+        $doAccount->account_type = $accountType;
+
+        // Hack the name into the dataobject
+        $doAccount->__accountName = $accountName;
+
+        $this->account_id = $doAccount->insert();
+
+        if (!$this->account_id) {
+            return $this->account_id;
+        }
+
+        return true;
+    }
+
+    /**
+     * A method to delete an account linked to an entity
+     *
+     * @return boolean
+     */
+    function deleteAccount()
+    {
+        if (!empty($this->account_id)) {
+            $doAccount = $this->factory('accounts');
+            $doAccount->account_id = $this->account_id;
+            $doAccount->delete();
+        }
+    }
+
+    /**
+     * A method to create a new user
+     *
+     * @param array $aUser
+     * @return int The User Id
+     */
+    function createUser($aUser) {
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->setFrom($aUser);
+        $userId = $doUser->insert();
+        if (!$userId) {
+            return false;
+        }
+
+        // Create ACL
+        $oGacl = OA_Permission_Gacl::factory();
+        $result = $oGacl->add_acl(
+            array('ACCOUNT' => array('ACCESS')),
+            array('USERS' => array($userId)),
+            null,
+            array('ACCOUNTS' => array($this->account_id))
+        );
+
+        if (!$result) {
+            return false;
+        }
+
+        return $userId;
+    }
+
+    /**
+     * A method to update the GACL AXO entry for an account
+     *
+     * @param string $nameField
+     */
+    function updateGaclAccountName($nameField = 'name')
+    {
+        if (isset($this->account_id)) {
+            $oGacl = OA_Permission_Gacl::factory();
+            $acoId = $oGacl->get_object_id('ACCOUNTS', $this->account_id, 'AXO');
+            if ($acoId) {
+                $oGacl->edit_object($acoId, 'ACCOUNTS', $this->$nameField, 0, 0, 0, 'AXO');
+            }
+        }
     }
 
     function _auditEnabled()
@@ -933,7 +1105,7 @@ class DB_DataObjectCommon extends DB_DataObject
 
     function audit($actionid, $dataobject=null, $parentid = null)
     {
-        require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+        require_once MAX_PATH . '/lib/OA/Permission.php';
         if (isset($GLOBALS['_MAX']['CONF']['audit']) && $GLOBALS['_MAX']['CONF']['audit']['enabled'])
         {
             if ($this->_auditEnabled())
@@ -946,9 +1118,9 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->doAudit->context     = $this->_getContext();
                 $this->doAudit->contextid   = $this->_getContextId();
                 $this->doAudit->parentid    = $parentid;
-                $this->doAudit->username    = phpAds_getUserName();
-                $this->doAudit->userid      = phpAds_getUserID();
-                $this->doAudit->usertype    = phpAds_getUserType();
+                $this->doAudit->username    = OA_Permission::getUsername();
+                $this->doAudit->userid      = OA_Permission::getEntityId();
+                // @TODO should we store here the account id and account type as well?
 
                 // prepare an generic array of data to be stored in the audit record
                 $aAuditFields = $this->_prepAuditArray($actionid, $dataobject);

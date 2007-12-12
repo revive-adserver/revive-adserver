@@ -98,12 +98,12 @@ foreach ($invPlugins as $plugin) {
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-MAX_Permission::checkIsAllowed(phpAds_ModifyBanner);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkIsAllowed(OA_PERM_BANNER_EDIT);
 if (!empty($bannerid)) {
-    MAX_Permission::checkAccessToObject('banners', $bannerid);
+    OA_Permission::checkAccessToObject('banners', $bannerid);
 } else {
-    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
+    OA_Permission::checkAccessToObject('campaigns', $campaignid);
 }
 
 /*-------------------------------------------------------*/
@@ -234,7 +234,7 @@ if (isset($submit)) {
     }
 
     // Clients are only allowed to modify certain fields, ensure that other fields are unchanged
-    if (phpAds_isUser(phpAds_Client)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $aVariables['weight']       = $aBanner['weight'];
         $aVariables['description']  = $aBanner['name'];
         $aVariables['comments']     = $aBanner['comments'];
@@ -257,7 +257,7 @@ if (isset($submit)) {
     // Determine what the next page is
     if ($editSwf) {
         $nextPage = "banner-swf.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
-    } elseif (phpAds_isUser(phpAds_Client)) {
+    } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         $nextPage = "stats.php?entity=campaign&breakdown=banners&clientid=$clientid&campaignid=$campaignid";
     } else {
         $nextPage = "banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid";
@@ -337,19 +337,10 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
-if (phpAds_getUserType() == phpAds_Advertiser)
-{
-    $entityId = phpAds_getUserID();
+$entityId = OA_Permission::getEntityId();
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     $entityType = 'advertiser_id';
-}
-else if (phpAds_getUserType() == phpAds_Publisher)
-{
-    $entityId = phpAds_getUserID();
-    $entityType = 'publisher_id';
-}
-else if (phpAds_getUserType() == phpAds_Agency)
-{
-    $entityId = phpAds_getAgencyID();
+} else {
     $entityType = 'agency_id';
 }
 
@@ -975,7 +966,7 @@ if ($type == 'txt') {
     echo "</table>";
 }
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
     echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 

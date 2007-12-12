@@ -44,7 +44,7 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
     {
         global $list_filters;
     
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
                 $aParams = array('publisher_id' => $list_filters['publisher']);
@@ -63,26 +63,26 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
                     $aChannels[$channelId] = $aAgencyChannel;
                 }
             }
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $aParams = array('agency_id' => phpAds_getUserID());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $aParams = array('agency_id' => OA_Permission::getEntityId());
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
-                $aParams = array('agency_id' => phpAds_getUserID(), 'publisher_id' => $list_filters['publisher']);
+                $aParams = array('agency_id' => OA_Permission::getEntityId(), 'publisher_id' => $list_filters['publisher']);
             }
             $aChannels = Admin_DA::getChannels($aParams);
             // add agency-owned channels
-            $aParams = array('agency_id' => phpAds_getUserID(), 'publisher_id' => 0);
+            $aParams = array('agency_id' => OA_Permission::getEntityId(), 'publisher_id' => 0);
             $aAgencyChannels = Admin_DA::getChannels($aParams);
             foreach ($aAgencyChannels as $channelId => $aAgencyChannel) {
                 $aChannels[$channelId] = $aAgencyChannel;
             }
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
-            $aParams = array('publisher_id' => phpAds_getUserID());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $aParams = array('publisher_id' => OA_Permission::getEntityId());
             $aPublishers = Admin_DA::getPublishers($aParams);
             $aParams = array('publisher_id' => implode(',',array_keys($aPublishers)));
             $aChannels = Admin_DA::getChannels($aParams);
             // get channels owned by this publisher's agency
-            $aPublisher = Admin_DA::getPublisher(phpAds_getUserID());
+            $aPublisher = Admin_DA::getPublisher(OA_Permission::getEntityId());
             $agencyId = $aPublisher['agency_id'];
             if ($agencyId != 0) { // check that this publisher actually has an agency
                 $aParams2 = array('agency_id' => $agencyId, 'publisher_id' => 0);
@@ -100,9 +100,9 @@ class Admin_UI_ChannelIdField extends Admin_UI_Field
         }
         
         // add admin-owned channels
-        if (phpAds_isUser(phpAds_Admin) || 
-            phpAds_isUser(phpAds_Agency) ||
-            phpAds_isUser(phpAds_Publisher)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || 
+            OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ||
+            OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             // add admin-owned channels
             $aParams = array('agency_id' => 0, 'publisher_id' => 0);
             $aAdminChannels = Admin_DA::getChannels($aParams);

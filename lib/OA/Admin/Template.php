@@ -70,6 +70,12 @@ class OA_Admin_Template extends Smarty
         $this->register_function('oa_icon', array('OA_Admin_Template',  '_function_oa_icon'));
         $this->register_function('oa_title_sort', array('OA_Admin_Template',  '_function_oa_title_sort'));
 
+        $this->register_function('oa_is_admin', array('OA_Admin_Template',  '_function_oa_is_admin'));
+        $this->register_function('oa_is_manager', array('OA_Admin_Template',  '_function_oa_is_manager'));
+        $this->register_function('oa_is_advertiser', array('OA_Admin_Template',  '_function_oa_is_advertiser'));
+        $this->register_function('oa_is_trafficker', array('OA_Admin_Template',  '_function_oa_is_trafficker'));
+
+
         $this->register_function('oac_captcha', array('OA_Admin_Template',  '_function_oac_captcha'));
 
         $this->register_function('phpAds_ShowBreak', array('OA_Admin_Template',  '_function_phpAds_ShowBreak'));
@@ -319,6 +325,22 @@ class OA_Admin_Template extends Smarty
 
             return $result;
         }
+    }
+
+    function _function_oa_is_admin($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_ADMIN);
+    }
+
+    function _function_oa_is_manager($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_MANAGER);
+    }
+
+    function _function_oa_is_advertiser($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER);
+    }
+
+    function _function_oa_is_trafficker($aParams, $smarty) {
+        return OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER);
     }
 
     // OLD FUNCTIONS

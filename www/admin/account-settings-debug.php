@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');
@@ -94,7 +94,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
 // Display the settings page's header and sections
 phpAds_PageHeader("5.2");
-phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
 
 // Set the correct section of the settings pages and display the drop-down menu
 $oOptions->selection('debug');

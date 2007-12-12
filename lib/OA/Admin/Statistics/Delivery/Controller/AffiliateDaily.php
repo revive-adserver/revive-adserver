@@ -94,7 +94,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateDaily extends OA_Admin_St
         $adId        = $this->_getId('ad');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
         $this->_checkAccess(array('publisher' => $publisherId));
 
         // Cross-entity security check
@@ -127,7 +127,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateDaily extends OA_Admin_St
         $this->_loadParams();
 
         // HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if (empty($placementId) && empty($adId)) {
                 $this->pageId = '2.4.1.1';
             } else {
@@ -135,7 +135,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateDaily extends OA_Admin_St
                 $this->pageId = empty($adId) ? '2.4.3.1.1' : '2.4.3.2.1';
             }
             $this->aPageSections = array($this->pageId);
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if (empty($placementId) && empty($adId)) {
                 $this->pageId = '1.1.1';
             } else {
@@ -156,7 +156,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateDaily extends OA_Admin_St
         }
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Affiliate)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,

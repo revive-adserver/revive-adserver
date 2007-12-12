@@ -46,8 +46,8 @@ phpAds_registerGlobal (
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('trackers', $trackerid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

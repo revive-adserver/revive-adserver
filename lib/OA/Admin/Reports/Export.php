@@ -67,10 +67,11 @@ class OA_Admin_Reports_Export extends Plugins_ReportsScope
      */
     function export()
     {
+        global $OA_Navigation;
+
         // Prepare the report name
-        global $phpAds_nav;
-        $userType = phpAds_getUserTypeAsString();
-        $aHeading = $phpAds_nav[$userType][$this->oStatsController->pageId];
+        $accountType = OA_Permission::getAccountType();
+        $aHeading = $OA_Navigation[$accountType][$this->oStatsController->pageId];
         $reportName = current($aHeading);
         $this->_name = $reportName;
         // Prepare the output writer for generation

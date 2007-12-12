@@ -163,9 +163,8 @@ class OA_Dll_Advertiser extends OA_Dll
      */
     function checkStatisticsPermissions($advertiserId)
     {
-       if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Client, 'clients', $advertiserId)) {
-
+       if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm,
+            'clients', $advertiserId)) {
             return false;
         } else {
             return true;
@@ -193,10 +192,9 @@ class OA_Dll_Advertiser extends OA_Dll
      */
     function modify(&$oAdvertiser)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-             phpAds_Client, 'clients', $oAdvertiser->advertiserId,
-             phpAds_ModifyInfo)) {
-
+        if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm, 'clients',
+            $oAdvertiser->advertiserId, OA_PERM_ACCOUNT_ACCESS)) 
+        {
             return false;
         }
 
@@ -248,9 +246,8 @@ class OA_Dll_Advertiser extends OA_Dll
      */
     function delete($advertiserId)
     {
-       if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency,
+       if (!$this->checkPermissions(array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
             'clients', $advertiserId)) {
-
             return false;
         }
 

@@ -90,13 +90,8 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
         // Get parameters
         $publisherId = $this->_getId('publisher');
 
-        // Entry page for affiliates
-        if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-            $this->showPublisherWelcome();
-        }
-
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
         $this->_checkAccess(array('publisher' => $publisherId));
 
         // Add standard page parameters
@@ -112,16 +107,12 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
         $this->_loadParams();
 
         // HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.3';
             $this->aPageSections = array('2.4.1', '2.4.2', '2.4.3');
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.3';
-            $this->aPageSections[] = '1.1';
-            if (phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-                $this->aPageSections[] = '1.2';
-            }
-            $this->aPageSections[] = '1.3';
+            $this->aPageSections = array('1.1', '1.2', '1.3');
         }
 
         // Add breadcrumbs
@@ -131,7 +122,7 @@ class OA_Admin_Statistics_Delivery_Controller_AffiliateCampaigns extends OA_Admi
         $this->aPageContext = array('publishers', $publisherId);
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Affiliate)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,

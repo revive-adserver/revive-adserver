@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Publisher + phpAds_Advertiser);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
@@ -78,7 +78,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($admin)) {
         if (!strlen($admin)) {
             $aErrormessage[0][] = $strInvalidUsername;
-        } elseif (!MAX_Permission::isUsernameAllowed($pref['admin'], $admin)) {
+        } elseif (!OA_Permission::isUsernameAllowed($pref['admin'], $admin)) {
             $aErrormessage[0][] = $strDuplicateClientName;
         } else {
             $oPreferences->setPrefChange('admin', $admin);
@@ -120,16 +120,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
 // Display the settings page's header and sections
 phpAds_PageHeader("5.1");
-if (phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-} else if (phpAds_isUser(phpAds_Agency)) {
+    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
+} else if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
     phpAds_ShowSections(array("5.1", "5.3", "5.7"));
-} else if (phpAds_isUser(phpAds_Publisher)) {
+} else if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     // Show the "Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
-} else if (phpAds_isUser(phpAds_Advertiser)) {
+} else if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     // Show the "Preferences" section of the "My Account" sections
     phpAds_ShowSections(array("5.1"));
 }

@@ -27,6 +27,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
+define('OA_TEST_AUDIT_USERNAME', 'username');
+
 /**
  * A class for testing DataObject Auditing methods
  *
@@ -49,10 +51,18 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function setUp()
     {
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = true;
+        $this->_setUpUser();
     }
 
     function tearDown()
     {
+    }
+    
+    function _setUpUser()
+    {
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->username = OA_TEST_AUDIT_USERNAME;
+        $GLOBALS['session']['user'] = new OA_Permission_User($doUser);
     }
 
     function _fetchAuditRecord($context, $actionid)
@@ -97,7 +107,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditZone()
     {
         global $session;
-        $session['username'] = 'zone user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doZone = OA_Dal::factoryDO('zones');
@@ -136,7 +146,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditChannel()
     {
         global $session;
-        $session['username'] = 'channel user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doChannel = OA_Dal::factoryDO('channel');
@@ -177,7 +187,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditCategory()
     {
         global $session;
-        $session['username'] = 'category user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doCategory = OA_Dal::factoryDO('category');
@@ -214,7 +224,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditClient()
     {
         global $session;
-        $session['username'] = 'client user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doClients = OA_Dal::factoryDO('clients');
@@ -251,7 +261,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAffiliate()
     {
         global $session;
-        $session['username'] = 'affiliate user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doAffiliate = OA_Dal::factoryDO('affiliates');
@@ -288,7 +298,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAffiliateExtra()
     {
         global $session;
-        $session['username'] = 'affiliate_extra user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doAffiliateX = OA_Dal::factoryDO('affiliates_extra');
@@ -324,7 +334,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditTracker()
     {
         global $session;
-        $session['username'] = 'tracker user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doTrackers = OA_Dal::factoryDO('trackers');
@@ -363,7 +373,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditCampaign()
     {
         global $session;
-        $session['username'] = 'campaign user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doCampaigns = OA_Dal::factoryDO('campaigns');
@@ -402,7 +412,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditCampaignTrackers()
     {
         global $session;
-        $session['username'] = 'campaignstrackers user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
         $doCampaignsTrackers = OA_Dal::factoryDO('campaigns_trackers');
@@ -442,7 +452,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditCampaignLinkTrackers()
     {
         global $session;
-        $session['username'] = 'campaign user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] = rand(1,10);
 
@@ -479,7 +489,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditBanner()
     {
         global $session;
-        $session['username'] = 'banner user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
         $doBanners = OA_Dal::factoryDO('banners');
@@ -518,7 +528,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAcls()
     {
         global $session;
-        $session['username'] = 'acls user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
         $doBanners = OA_Dal::factoryDO('acls');
@@ -580,13 +590,14 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditPreference()
     {
         global $session;
-        $session['username'] = 'preference user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
         $doPreference = OA_Dal::factoryDO('preference');
 
         $doPreference->agencyid = 0;
         $doPreference->name = 'Default Agency';
+        // perference DataObject seems to have audit disabled, why do we test preference audit then?
         $agencyId = DataGenerator::generateOne($doPreference);
         $context = 'Preference';
         $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
@@ -618,7 +629,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditPreferenceAdvertiser()
     {
         global $session;
-        $session['username'] = 'preference advertiser user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
         $doAdPreference = OA_Dal::factoryDO('preference_advertiser');
@@ -659,7 +670,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditPreferencePublisher()
     {
         global $session;
-        $session['username'] = 'preference publisher user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
         $doPubPreference = OA_Dal::factoryDO('preference_publisher');
@@ -700,7 +711,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAgency()
     {
         global $session;
-        $session['username'] = 'admin user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
 
@@ -908,7 +919,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     {
         // Insert a banner with parents
         global $session;
-        $session['username'] = 'banner user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
         $doBanners = OA_Dal::factoryDO('banners');
@@ -941,7 +952,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAdZoneAssoc()
     {
         global $session;
-        $session['username'] = 'a user';
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $session['userid']   = rand(11,20);
         $session['usertype'] =  rand(1,10);
 

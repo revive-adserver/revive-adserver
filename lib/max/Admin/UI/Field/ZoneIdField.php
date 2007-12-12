@@ -43,7 +43,7 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
     {
         global $list_filters;
     
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $aParams = array();
             $aPublishers = Admin_DA::getPublishers($aParams);
             // set publisher id if list is to be filtered by publisher
@@ -56,8 +56,8 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
                 $aParams['zone_inventory_forecast_type'] = $this->getForecastType();
             }
             $aZones = Admin_DA::getZones($aParams);
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $aParams = array('agency_id' => phpAds_getUserID());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $aParams = array('agency_id' => OA_Permission::getEntityId());
             $aPublishers = Admin_DA::getPublishers($aParams);
             // set publisher id if list is to be filtered by publisher
             if (isset($list_filters['publisher'])) {
@@ -69,8 +69,8 @@ class Admin_UI_ZoneIdField extends Admin_UI_Field
                 $aParams['zone_inventory_forecast_type'] = $this->getForecastType();
             }
             $aZones = Admin_DA::getZones($aParams);
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
-            $aParams = array('publisher_id' => phpAds_getUserID());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $aParams = array('publisher_id' => OA_Permission::getEntityId());
             $aPublishers = Admin_DA::getPublishers($aParams);
             $aParams = array('publisher_id' => implode(',',array_keys($aPublishers)));
             if (isset($this->_filter)) {

@@ -34,33 +34,33 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-    if ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] && phpAds_isUser(phpAds_Admin)) {
-        MAX_Admin_Redirect::redirect('dashboard.php');
-    } else {
-        MAX_Admin_Redirect::redirect('advertiser-index.php');
-    }
+if ($GLOBALS['_MAX']['CONF']['sync']['checkForUpdates'] && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    MAX_Admin_Redirect::redirect('dashboard.php');
 }
 
-if (phpAds_isUser(phpAds_Client)) {
-    MAX_Admin_Redirect::redirect('stats.php?entity=advertiser&breakdown=history&clientid='.phpAds_getUserID());
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    MAX_Admin_Redirect::redirect('agency-index.php');
 }
 
-if (phpAds_isUser(phpAds_Affiliate)) {
-    if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-        MAX_Admin_Redirect::redirect('stats.php?entity=affiliate&breakdown=campaigns&affiliateid='.phpAds_getUserID());
-    } else {
-        MAX_Admin_Redirect::redirect('stats.php?entity=affiliate&breakdown=history&affiliateid='.phpAds_getUserID());
-    }
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    MAX_Admin_Redirect::redirect('advertiser-index.php');
+}
+
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    MAX_Admin_Redirect::redirect('stats.php?entity=advertiser&breakdown=history&clientid='.OA_Permission::getEntityId());
+}
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    MAX_Admin_Redirect::redirect('stats.php?entity=affiliate&breakdown=history&affiliateid='.OA_Permission::getEntityId());
 }
 
 ?>

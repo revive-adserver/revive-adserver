@@ -28,15 +28,23 @@ $Id$
 /**
  * Table Definition for clients (Client is often called Advertiser)
  */
-require_once 'AbstractUser.php';
+require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Clients extends DataObjects_AbstractUser
+class DataObjects_Clients extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $dalModelName = 'Clients';
     var $usernameField = 'clientusername';
     var $passwordField = 'clientpassword';
     var $refreshUpdatedFieldIfExists = true;
+
+    /**
+     * BC-compatible user details
+     *
+     * @todo Please remove later
+     */
+    var $clientusername;
+    var $clientpassword;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -44,12 +52,8 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $clientid;                        // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null multiple_key
     var $clientname;                      // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $clientusername;                  // string(64)  not_null
-    var $clientpassword;                  // string(64)  not_null
-    var $permissions;                     // int(9)  
-    var $language;                        // string(64)  
     var $report;                          // string(1)  not_null enum
     var $reportinterval;                  // int(9)  not_null
     var $reportlastdate;                  // date(10)  not_null binary
@@ -57,8 +61,9 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $lb_reporting;                    // int(1)  not_null
-    var $an_adnetwork_id;                 // int(11)  
-    var $as_advertiser_id;                // int(11)  
+    var $an_adnetwork_id;                 // int(11)
+    var $as_advertiser_id;                // int(11)
+    var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -73,17 +78,6 @@ class DataObjects_Clients extends DataObjects_AbstractUser
         'report' => 't',
         'reportdeactivate' => 't'
     );
-    
-
-    /**
-     * Returns phpAds_Client constant value.
-     *
-     * @return integer
-     */
-    function getUserType()
-    {
-        return phpAds_Client;
-    }
 
 
     /**
@@ -109,6 +103,75 @@ class DataObjects_Clients extends DataObjects_AbstractUser
     function _getContext()
     {
         return 'Client';
+    }
+
+    /**
+     * Handle all necessary operations when new advertiser is created
+     *
+     * @see DB_DataObject::insert()
+     */
+    function insert()
+    {
+        // Create account first
+        $result = $this->createAccount('ADVERTISER', $this->clientname);
+        if (!$result) {
+            return $result;
+        }
+
+        // Store data to create a user
+        if (!empty($this->clientusername) && !empty($this->clientpassword)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->clientusername,
+                'password' => $this->clientpassword,
+                'default_account_id' => $this->account_id
+            );
+        }
+
+        $clientId = parent::insert();
+        if (!$clientId) {
+            return $clientId;
+        }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $result = $this->createUser($aUser);
+
+            if (!$result) {
+                return false;
+            }
+        }
+
+        return $clientId;
+    }
+
+    /**
+     * Handle all necessary operations when an advertiser is updated
+     *
+     * @see DB_DataObject::update()
+     */
+    function update($dataObject = false)
+    {
+        $ret = parent::update($dataObject);
+        if (!$ret) {
+            return $ret;
+        }
+
+        $this->updateGaclAccountName('clientname');
+
+        return $ret;
+    }
+
+    /**
+     * Handle all necessary operations when an advertiser is deleted
+     *
+     * @see DB_DataObject::delete()
+     */
+    function delete($useWhere = false, $cascade = true, $parentid = null)
+    {
+        $this->deleteAccount();
+        return parent::delete($useWhere, $cascade, $parentid);
     }
 
     /**

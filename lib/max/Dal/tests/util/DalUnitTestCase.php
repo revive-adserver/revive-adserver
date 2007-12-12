@@ -35,6 +35,35 @@ require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 class DalUnitTestCase extends UnitTestCase
 {
     /**
+     *    Uses reflection to run every method within itself
+     *    starting with the string "test" unless a method
+     *    is specified.
+     *    @param SimpleReporter $reporter    Current test reporter.
+     *    @return boolean                    True if all tests passed.
+     *    @access public
+     */
+    function run(&$reporter) {
+        $this->setUpFixture();
+        $ret = parent::run($reporter);
+        $this->tearDownFixture();
+        return $ret;
+    }
+    
+    /**
+     * setUpFixture() method is executed once before running all the tests
+     *
+     */
+    function setUpFixture() {
+    }
+    
+    /**
+     * tearDownFixture() method is executed once after running all the tests
+     *
+     */
+    function tearDownFixture() {
+    }
+    
+    /**
      * Should we compare DataObjects with or without "updated" fields? Default true means
      * it should be compared without "updated"
      *
@@ -154,9 +183,9 @@ class DalUnitTestCase extends UnitTestCase
         return $do;
     }
 
-
     function getPrefix()
     {
         return OA_Dal::getTablePrefix();
     }
+    
 }

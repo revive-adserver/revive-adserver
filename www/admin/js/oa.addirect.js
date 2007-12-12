@@ -1,4 +1,25 @@
 /**
+ * Utility methods. To be refactored to a separate JS file once we
+ * have JS merging/minification done.
+ */
+jQuery.fn.submitOnChange = function() {
+  return this.each(function () 
+  {
+    $(this).bind("change", function()
+    {
+      if (this.form) {
+        this.form.submit();
+      }
+    });
+  });
+};
+
+$(document).ready(function() {
+  $(".submit-on-change").submitOnChange();
+});
+
+
+/**
  * Important: this code depends on jQuery.
  */
 
@@ -441,3 +462,5 @@ function copyValidationConstraints(fromObj, toObj)
   toObj.validateReq = fromObj.validateReq;
   toObj.validateDescr = fromObj.validateDescr;
 }
+
+

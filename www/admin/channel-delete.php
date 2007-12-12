@@ -39,9 +39,9 @@ require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 // Register input variables
 phpAds_registerGlobal ('returnurl', 'agencyid', 'channelid', 'affiliateid');
 
-
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::checkAccessToObject('channel', $channelid);
 
 
 
@@ -53,15 +53,6 @@ if (!empty($channelid))
 {
     $doChannel = OA_Dal::factoryDO('channel');
     $doChannel->channelid = $channelid;
-
-    if (phpAds_isUser(phpAds_Agency))
-    {
-        if(!$doChannel->belongToUser('agency', phpAds_getUserID())) {
-            phpAds_PageHeader("2");
-            phpAds_Die ($strAccessDenied, $strNotAdmin);
-        }
-    }
-
     $doChannel->delete();
 }
 
@@ -72,7 +63,7 @@ if (empty($returnurl)) {
 if (!empty($affiliateid)) {
     header("Location: {$returnurl}?affiliateid={$affiliateid}");
 } else {
-    header("Location: {$returnurl}?agencyid={$agencyid}");
+    header("Location: {$returnurl}");
 }
 
 ?>

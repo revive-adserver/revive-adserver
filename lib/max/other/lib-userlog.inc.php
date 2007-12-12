@@ -143,7 +143,7 @@ function audit_goto_section()
     echo "<b>".$strChooseSection.":&nbsp;</b>";
     echo "<select name='section' onChange='audit_goto_section();'>";
 
-    if (phpAds_isUser(phpAds_Admin)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             echo "<option value='index'".($subSection == 'index' ? ' selected' : '').">". $GLOBALS['strAuditTrail'] ."</option>";
             echo "<option value='maintenance'".($subSection == 'maintenance' ? ' selected' : '').">". $GLOBALS['strMaintenanceLog'] ."</option>";
     }

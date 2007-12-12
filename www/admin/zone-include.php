@@ -39,7 +39,7 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
     // Security check
-    phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+    OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 
     // Get input parameters
     $pref =& $GLOBALS['_MAX']['PREF'];
@@ -68,7 +68,7 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
     // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabIndex = 1;
-    $agencyId = phpAds_getAgencyID();
+    $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
 
     // Parameter check

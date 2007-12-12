@@ -305,7 +305,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $query =
                 "SELECT
                     c.clientid,
@@ -321,7 +321,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                 ORDER BY
                     c.clientname, m.campaignname
                 ";
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $query =
                 "SELECT
                     c.clientid,
@@ -334,11 +334,11 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                     ".$conf['table']['prefix'].$conf['table']['clients']." AS c
                 WHERE
                     c.clientid=m.clientid
-                    AND c.agencyid=".phpAds_getUserID()."
+                    AND c.agencyid=".OA_Permission::getEntityId()."
                 ORDER BY
                     c.clientname, m.campaignname
                 ";
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $query =
                 "SELECT
                     c.clientid,
@@ -351,7 +351,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                     ".$conf['table']['prefix'].$conf['table']['clients']." AS c
                 WHERE
                     c.clientid=m.clientid
-                    AND c.clientid=".phpAds_getUserID()."
+                    AND c.clientid=".OA_Permission::getEntityId()."
                 ORDER BY
                     c.clientname, m.campaignname";
         }
@@ -362,7 +362,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
         {
             if ($row['anonymous'] == 'f')
                 $campaignArray[$row['campaignid']] = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id".$row['clientid']."]".$row['clientname']." - [id".$row['campaignid']."]".$row['campaignname']."</span> ";
-            else if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+            else if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
                 $campaignArray[$row['campaignid']] = "<span dir='".$GLOBALS['phpAds_TextDirection']."'>[id".$row['clientid']."]".$row['clientname']." - [id".$row['campaignid']."]".$row['campaignname']." (".$GLOBALS['strHiddenCampaign'].' '.$row['campaignid'].")</span> ";
             else
                 $campaignArray[$row['campaignid']] = $GLOBALS['strHiddenCampaign'].' '.$row['campaignid'];
@@ -378,21 +378,21 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        if (phpAds_isUser(phpAds_Admin))
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
         {
             $query =
                 "SELECT clientid,clientname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['clients'];
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $query =
                 "SELECT clientid,clientname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-                " WHERE agencyid=".phpAds_getUserID();
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
+                " WHERE agencyid=".OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $query =
                 "SELECT clientid,clientname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['clients'].
-                " WHERE clientid=".phpAds_getUserID();
+                " WHERE clientid=".OA_Permission::getEntityId();
         }
         $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
 
@@ -412,7 +412,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $query =
                 "SELECT
                     a.affiliateid,
@@ -424,7 +424,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                     ".$conf['table']['prefix'].$conf['table']['affiliates']." as a
                 WHERE
                     a.affiliateid=z.affiliateid";
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $query =
                 "SELECT
                     a.affiliateid,
@@ -436,8 +436,8 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                     ".$conf['table']['prefix'].$conf['table']['affiliates']." as a
                 WHERE
                     a.affiliateid=z.affiliateid
-                    AND a.agencyid=".phpAds_getUserID();
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
+                    AND a.agencyid=".OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $query =
                 "SELECT
                     a.affiliateid,
@@ -449,7 +449,7 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
                     ".$conf['table']['prefix'].$conf['table']['affiliates']." as a
                 WHERE
                     a.affiliateid=z.affiliateid
-                    AND a.affiliateid=".phpAds_getUserID();
+                    AND a.affiliateid=".OA_Permission::getEntityId();
         }
         $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
 
@@ -470,20 +470,20 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $conf = $GLOBALS['_MAX']['CONF'];
 
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $query =
                 "SELECT affiliateid,name".
                 " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'];
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $query =
                 "SELECT affiliateid,name".
                 " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-                " WHERE agencyid=".phpAds_getUserID();
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
+                " WHERE agencyid=".OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $query =
                 "SELECT affiliateid,name".
                 " FROM ".$conf['table']['prefix'].$conf['table']['affiliates'].
-                " WHERE affiliateid=".phpAds_getUserID();
+                " WHERE affiliateid=".OA_Permission::getEntityId();
         }
         $orderBy ? $query .= " ORDER BY $orderBy ASC" : 0;
 
@@ -500,10 +500,10 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
         $conf = $GLOBALS['_MAX']['CONF'];
         $where = "c.clientid = t.clientid";
 
-        if (phpAds_isUser(phpAds_Agency)) {
-            $where .= " AND c.agencyid = " . phpAds_getUserID();
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
-            $where .= " AND t.clientid = " . phpAds_getUserID();
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $where .= " AND c.agencyid = " . OA_Permission::getEntityId();
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $where .= " AND t.clientid = " . OA_Permission::getEntityId();
         }
 
         $query = "
@@ -537,9 +537,9 @@ class MAX_Dal_Reporting extends MAX_Dal_Common
     {
         $dal = new MAX_Dal_Reporting();
 
-        if (phpAds_isUser(phpAds_Publisher))
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
         {
-            echo "<input type='hidden' name='".$key."' value='".phpAds_getUserID()."'>";
+            echo "<input type='hidden' name='".$key."' value='".OA_Permission::getEntityId()."'>";
         }
         else
         {

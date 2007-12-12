@@ -34,13 +34,14 @@ require_once MAX_PATH . '/lib/OA/Admin/Help.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI.php';
 require_once MAX_PATH . '/lib/Max.php';
 require_once MAX_PATH . '/lib/max/Delivery/flash.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
+require_once MAX_PATH . '/lib/OA/Auth.php';
 
 // Define defaults
-$phpAds_NavID        = '';
-$phpAds_GUIDone     = false;
-$phpAds_context        = array();
-$phpAds_shortcuts    = array();
+$OA_Navigation_ID  = '';
+$phpAds_GUIDone    = false;
+$phpAds_context    = array();
+$phpAds_shortcuts  = array();
 
 define("phpAds_Login", 0);
 define("phpAds_Error", -1);
@@ -72,7 +73,6 @@ function phpAds_PageShortcut($name, $link, $icon)
         'icon' => $icon
     );
 }
-
 
 
 /**
@@ -138,7 +138,7 @@ function showParams($params)
  */
 function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgPath='', $customNav=false)
 {
-    global $phpAds_nav, $phpAds_NavID;
+    global $OA_Navigation, $OA_Navigation_ID;
 
 	// Close current table
 	echo "</td></tr></table>";
@@ -149,19 +149,14 @@ function phpAds_ShowSections($sections, $params=false, $openNewTable=true, $imgP
     // Prepare Navigation
     if ($customNav != false) {
         $pages  = $customNav;
-    } elseif (phpAds_isUser(phpAds_Admin)) {
-        $pages  = $phpAds_nav['admin'];
-    } elseif (phpAds_isUser(phpAds_Agency)) {
-        $pages  = $phpAds_nav['agency'];
-    } elseif (phpAds_isUser(phpAds_Client)) {
-        $pages  = $phpAds_nav['client'];
     } else {
-        $pages  = $phpAds_nav['affiliate'];
+        $accountType = OA_Permission::getAccountType();
+        $pages = $OA_Navigation[$accountType];
     }
 
     for ($i=0; $i < count($sections); $i++) {
         list($sectionUrl, $sectionStr) = each($pages[$sections[$i]]);
-        $selected = ($phpAds_NavID == $sections[$i]);
+        $selected = ($OA_Navigation_ID == $sections[$i]);
         if ($selected) {
             if (!empty($sectionUrl)) {
 				echo "<li class='selected'><a href='" . $sectionUrl . ($params ? showParams($params) : '') . "'";
@@ -244,7 +239,7 @@ function phpAds_sqlDie()
     if ($corrupt) {
         $title    = $GLOBALS['strErrorDBSerious'];
         $message  = $GLOBALS['strErrorDBNoDataSerious'];
-        if (phpAds_isLoggedIn() && phpAds_isUser(phpAds_Admin)) {
+        if (OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $message .= " (".$error.").<br><br>".$GLOBALS['strErrorDBCorrupt'];
         } else {
             $message .= ".<br>".$GLOBALS['strErrorDBContact'];
@@ -252,7 +247,7 @@ function phpAds_sqlDie()
     } else {
         $title    = $GLOBALS['strErrorDBPlain'];
         $message  = $GLOBALS['strErrorDBNoDataPlain'];
-        if ((phpAds_isLoggedIn() && (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))) || defined('phpAds_installing')) {
+        if ((OA_Auth::isLoggedIn() && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))) || defined('phpAds_installing')) {
 
             // Get the DB server version
             $connection = DBC::getCurrentConnection();
@@ -298,7 +293,7 @@ function phpAds_Die($title="Error", $message="Unknown error", $imgPath="")
     // Die
     if ($title == $GLOBALS['strAccessDenied']) {
         $_COOKIE['sessionID'] = phpAds_SessionStart();
-        phpAds_LoginScreen('', $_COOKIE['sessionID'], true);
+        OA_Auth::displayLogin('', $_COOKIE['sessionID'], true);
     }
     phpAds_PageFooter();
     exit;
@@ -311,7 +306,7 @@ function phpAds_Die($title="Error", $message="Unknown error", $imgPath="")
 function phpAds_DelConfirm($msg)
 {
     $pref = $GLOBALS['_MAX']['PREF'];
-    if (phpAds_isUser(phpAds_Admin)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
         if ($pref['admin_novice']) {
             $str = " onclick=\"return confirm('".$msg."');\"";
         } else {

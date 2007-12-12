@@ -47,7 +47,7 @@ phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder'
                                'pubid', 'url', 'country', 'language', 'category', 'adnetworks', 'advsignup', 'formId');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 
 /*-------------------------------------------------------*/
@@ -98,13 +98,13 @@ $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doAffiliates->addListOrderBy($listorder, $orderdirection);
 
 // Get affiliates and build the tree
-if (phpAds_isUser(phpAds_Agency))
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
-	$doAffiliates->agencyid = $session['userid'];
+	$doAffiliates->agencyid = OA_Permission::getEntityId();
 }
-elseif (phpAds_isUser(phpAds_Affiliate))
+elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
 {
-	$doAffiliates->affiliateid = $session['userid'];
+	$doAffiliates->affiliateid = OA_Permission::getEntityId();
 }
 
 $doAffiliates->find();
@@ -128,13 +128,13 @@ $doAdZoneAssoc->selectAdd('COUNT(*) AS num_ads');
 $doAdZoneAssoc->groupBy('zone_id');
 
 // Get the zones for each affiliate
-if (phpAds_isUser(phpAds_Admin))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
 {
     $doAdZoneAssoc->whereAdd('zone_id > 0');
 }
-elseif (phpAds_isUser(phpAds_Agency))
+elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
-    $agencyId = phpAds_getAgencyID();
+    $agencyId = OA_Permission::getAgencyId();
 
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->agencyid = $agencyId;
@@ -215,8 +215,8 @@ if (isset($zones) && is_array($zones) && count($zones) > 0)
 $doAffiliates = OA_Dal::factoryDO('affiliates');
 $doZones = OA_Dal::factoryDO('zones');
 
-if (phpAds_isUser(phpAds_Agency)) {
-    $doAffiliates->agencyid = phpAds_getAgencyID();
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    $doAffiliates->agencyid = OA_Permission::getAgencyId();
     $doZones->joinAdd($doAffiliates);
 }
 

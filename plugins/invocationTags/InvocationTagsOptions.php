@@ -72,8 +72,15 @@ class Plugins_InvocationTagsOptions
             $option .= "<tr bgcolor='#F6F6F6'><td width='30'>&nbsp;</td>";
             $option .= "<td width='200' valign='top'>".$GLOBALS['strInvocationWhat']."</td><td width='370'>";
             $option .= "<textarea class='flat' name='what' rows='3' cols='50' style='width:350px;' tabindex='".($maxInvocation->tabindex++)."'>".(isset($maxInvocation->what) ? stripslashes($maxInvocation->what) : '')."</textarea></td></tr>";
-            $option .= "<tr bgcolor='#F6F6F6'><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
-            $option .= "<td bgcolor='#F6F6F6' colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+                $option .= "<tr bgcolor='#F6F6F6'><td height='10' colspan='3'>&nbsp;</td></tr>";
+                $option .= "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
+                $option .= "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+            } else {
+                $option .= "<tr bgcolor='#F6F6F6'><td width='30'><img src='images/spacer.gif' height='1' width='100%'></td>";
+                $option .= "<td bgcolor='#F6F6F6' colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+            }
         }
 
         return $option;
@@ -89,7 +96,7 @@ class Plugins_InvocationTagsOptions
         $conf = $GLOBALS['_MAX']['CONF'];
 
         $mi = &$this->maxInvocation;
-        if ($mi->zone_invocation) {
+        if ($mi->zone_invocation || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             return null;
         }
 
@@ -99,16 +106,16 @@ class Plugins_InvocationTagsOptions
         $option .= "<td width='200'>".$GLOBALS['strInvocationCampaignID']."</td><td width='370'>\n";
         $option .= "<select name='campaignid' style='width:350px;' tabindex='".($mi->tabindex++)."'>\n";
         $option .= "<option value='0'>-</option>\n";
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $query = "SELECT campaignid,campaignname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['campaigns'];
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $query = "SELECT m.campaignid AS campaignid".
                 ",m.campaignname AS campaignname".
                 " FROM ".$conf['table']['prefix'].$conf['table']['campaigns']." AS m".
                 ",".$conf['table']['prefix'].$conf['table']['clients']." AS c".
                 " WHERE m.clientid=c.clientid".
-                " AND c.agencyid=".phpAds_getAgencyID();
+                " AND c.agencyid=".OA_Permission::getAgencyId();
         }
         $oDbh = OA_DB::singleton();
         $aResult = $oDbh->queryAll($query);

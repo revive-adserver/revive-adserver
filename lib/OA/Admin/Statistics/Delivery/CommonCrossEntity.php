@@ -76,7 +76,7 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
     {
         $aEntitiesData = parent::mergeData($aParams, $key);
 
-        if (phpAds_isUser(phpAds_Client) || phpAds_isUser(phpAds_Affiliate)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) || OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if (is_null($this->aAnonAdvertisers)) {
                 $this->aAnonAdvertisers = array();
                 $this->aAnonPlacements  = array();
@@ -97,11 +97,11 @@ class OA_Admin_Statistics_Delivery_CommonCrossEntity extends OA_Admin_Statistics
                     $aEntitiesData[$entityId]['hidden'] = true;
             } elseif ($key == 'ad_id' && isset($this->aAnonPlacements[$aEntitiesData[$entityId]['placement_id']])) {
                     $aEntitiesData[$entityId]['hidden'] = true;
-            } elseif (phpAds_isUser(phpAds_Client)) {
+            } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                 if (isset($aParams['placement_id'])) {
                     $aEntitiesData[$entityId]['hidden'] = isset($this->aAnonPlacements[$aParams['placement_id']]);
                 } else {
-                    $aEntitiesData[$entityId]['hidden'] = isset($this->aAnonAdvertisers[phpAds_getUserId()]);
+                    $aEntitiesData[$entityId]['hidden'] = isset($this->aAnonAdvertisers[OA_Permission::getEntityId()]);
                 }
             }
         }

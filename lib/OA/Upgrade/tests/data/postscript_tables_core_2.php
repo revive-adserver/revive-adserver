@@ -1,5 +1,7 @@
 <?php
 
+$className = 'postscript_tables_core_2';
+
 class postscript_tables_core_2
 {
 

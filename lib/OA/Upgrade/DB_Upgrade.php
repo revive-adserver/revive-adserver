@@ -2403,6 +2403,7 @@ class OA_DB_Upgrade
             $aParams = $this->_listTables();
         }
         OA_DB::setCaseSensitive();
+
         $aDef = $this->oSchema->getDefinitionFromDatabase($aParams);
         OA_DB::disableCaseSensitive();
         if ($this->_isPearError($aDef, 'error getting database definition'))

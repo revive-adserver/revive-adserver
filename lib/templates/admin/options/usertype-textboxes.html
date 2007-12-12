@@ -5,7 +5,7 @@
     <td width='100%'>
 		<table border='0' cellpadding='2' cellspacing='0'>
 			<tr align='center'>
-				{if phpAds_isUser($phpAds_Admin)}
+				{if $isAdmin}
 				    <td width='100'><b>{$GLOBALS.strAdmin}</b></td>
 				{/if}
 				<td width='100'><b>{$GLOBALS.strAgency}</b></td>
@@ -23,24 +23,24 @@
 	<td width='100%'>
 		<table border='0' cellpadding='2' cellspacing='0'><tr align='center'>
             <tr>
-			{if phpAds_isUser($phpAds_Admin)}
-			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Admin}]'
-			     value='{if isset($aItem.value.$phpAds_Admin)}{$aItem.value.$phpAds_Admin}{/if}'
+			{if $isAdmin}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$OA_ACCOUNT_ADMIN_ID}]'
+			     value='{if isset($aItem.value.$OA_ACCOUNT_ADMIN_ID)}{$aItem.value.$OA_ACCOUNT_ADMIN_ID}{/if}'
 			     tabindex='{$aItem.tabindex++}'>
 			{/if}
-			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency)}
-			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Agency}]'
-			     value='{if isset($aItem.value.$phpAds_Agency)}{$aItem.value.$phpAds_Agency}{/if}'
+			{if $isAdmin || $isManager}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$OA_ACCOUNT_MANAGER_ID}]'
+			     value='{if isset($aItem.value.$OA_ACCOUNT_MANAGER_ID)}{$aItem.value.$OA_ACCOUNT_MANAGER_ID}{/if}'
 			     tabindex='{$aItem.tabindex++}'>
 			{/if}
-			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency) || phpAds_isUser($phpAds_Client)}
-			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Client}]'
-			     value='{if isset($aItem.value.$phpAds_Client)}{$aItem.value.$phpAds_Client}{/if}'
+			{if $isAdmin || $isManager || $isAdvertiser}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$OA_ACCOUNT_ADVERTISER_ID}]'
+			     value='{if isset($aItem.value.$OA_ACCOUNT_ADVERTISER_ID)}{$aItem.value.$OA_ACCOUNT_ADVERTISER_ID}{/if}'
 			     tabindex='{$aItem.tabindex++}'>
 			{/if}
-			{if phpAds_isUser($phpAds_Admin) || phpAds_isUser($phpAds_Agency) || phpAds_isUser($phpAds_Affiliate)}
-			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$phpAds_Affiliate}]'
-			     value='{if isset($aItem.value.$phpAds_Affiliate)}{$aItem.value.$phpAds_Affiliate}{/if}'
+			{if $isAdmin || $isManager || $isTrafficker}
+			    <td width='100'><input type='text' size='10' name='{$aItem.name}[{$OA_ACCOUNT_TRAFFICKER_ID}]'
+			     value='{if isset($aItem.value.$OA_ACCOUNT_TRAFFICKER_ID)}{$aItem.value.$OA_ACCOUNT_TRAFFICKER_ID}{/if}'
 			     tabindex='{$aItem.tabindex++}'>
             {/if}
                 </td>

@@ -42,8 +42,8 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::checkAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -60,11 +60,11 @@ if (isset($session['prefs']['affiliate-zones.php']['orderdirection'])) {
     $navdirection = '';
 }
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Get other affiliates
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->addListOrderBy($navorder, $navdirection);
-    if (phpAds_isUser(phpAds_Agency)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $doAffiliates->agencyid = $agencyid;
     }
     $doAffiliates->find();
@@ -82,30 +82,21 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
     phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
 } else {
-    if (phpAds_isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-        phpAds_PageHeader('2');
-    } else {
-        $sections = array();
-        $sections[] = "2.1";
-        if (phpAds_isAllowed(MAX_AffiliateGenerateCode)) {
-            $sections[] = "2.2";
-        }
-        phpAds_PageHeader('2.2');
-        phpAds_ShowSections($sections);
+    $sections = array();
+    $sections[] = "2.1";
+    if (OA_Permission::isAllowed(OA_PERM_ZONE_INVOCATION)) {
+        $sections[] = "2.2";
     }
+    phpAds_PageHeader('2.2');
+    phpAds_ShowSections($sections);
 }
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Affiliate) && MAX_Permission::isAllowed(MAX_AffiliateIsReallyAffiliate)) {
-    require_once MAX_PATH . '/lib/max/Admin/Invocation/Affiliate.php';
-    $maxInvocation = new MAX_Admin_Invocation_Affiliate();
-} else {
-    require_once MAX_PATH . '/lib/max/Admin/Invocation/Publisher.php';
-    $maxInvocation = new MAX_Admin_Invocation_Publisher();
-}
+require_once MAX_PATH . '/lib/max/Admin/Invocation/Publisher.php';
+$maxInvocation = new MAX_Admin_Invocation_Publisher();
 
 $maxInvocation->placeInvocationForm();
 

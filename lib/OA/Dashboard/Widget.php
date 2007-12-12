@@ -64,11 +64,11 @@ class OA_Dashboard_Widget extends OA_Central
      */
     function checkAccess()
     {
-        if (is_null($this->accessList)) {
-            $this->accessList = phpAds_Admin;
+        if (empty($this->accessList)) {
+            $this->accessList = array(OA_ACCOUNT_ADMIN);
         }
 
-        MAX_Permission::checkAccess($this->accessList);
+        OA_Permission::enforceAccount($this->accessList);
     }
 
     /**

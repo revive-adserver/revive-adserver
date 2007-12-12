@@ -313,3 +313,18 @@ hr {
 	margin: 4px 0 -8px;
 	padding: 0;
 }
+
+select.switcher {
+  font-size: 10px;
+  width: 12em;
+  border-width: 1px;
+}
+select.switcher option {
+  font-size: 10px;
+}
+select.switcher optgroup {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+}
+

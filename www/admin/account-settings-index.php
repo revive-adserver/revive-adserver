@@ -33,7 +33,7 @@ require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Redirect to the appropriate "Settings" page
-if (phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     MAX_Admin_Redirect::redirect('account-settings-banner-delivery.php');
 } else {
     // Only the admin user can change "Settings", so send to

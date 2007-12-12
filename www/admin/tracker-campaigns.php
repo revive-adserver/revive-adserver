@@ -59,9 +59,9 @@ phpAds_registerGlobal (
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('trackers', $trackerid);
-MAX_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkAccessToObject('trackers', $trackerid);
+OA_Permission::checkAccessToObject('clients', $clientid);
 
 // Initalise any tracker based plugins
 $plugins = array();
@@ -157,7 +157,7 @@ while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     );
 }
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
     //phpAds_PageShortcut($strTrackerHistory, 'stats-tracker-history.php?clientid='.$clientid.'&trackerid='.$trackerid, 'images/icon-statistics.gif');
 
@@ -179,8 +179,8 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->whereAdd('clientid <> '.$clientid);
 
-    if (phpAds_isUser(phpAds_Agency)) {
-        $doClients->addReferenceFilter('agency', phpAds_getUserID());
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $doClients->addReferenceFilter('agency', OA_Permission::getEntityId());
     }
     $doClients->find();
 
@@ -321,7 +321,7 @@ if ($doCampaigns->getRowCount() == 0) {
             }
 
             // Name
-            if (phpAds_isUser(phpAds_Admin+phpAds_Agency)) {
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
                 echo "<a href='campaign-edit.php?clientid=".$campaign['clientid']."&campaignid=".$campaign['campaignid']."'>";
                 echo phpAds_breakString ($campaign['campaignname'], '60')."</a>";
             } else {

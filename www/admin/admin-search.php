@@ -39,7 +39,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 
 phpAds_registerGlobalUnslashed('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
 
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 
 // Check Searchselection
@@ -165,8 +165,8 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
 <?php
 
     $agencyId = null;
-    if (phpAds_isUser(phpAds_Agency)) {
-        $agencyId = phpAds_getAgencyID();
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $agencyId = OA_Permission::getAgencyId();
     }
 
     $dalZones = OA_Dal::factoryDAL('zones');

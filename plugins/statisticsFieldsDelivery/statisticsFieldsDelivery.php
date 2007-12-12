@@ -170,7 +170,7 @@ class Plugins_statisticsFieldsDelivery_statisticsFieldsDelivery extends MAX_Plug
                     if ($aPref[$var] == -1) {
                         $aColumns[$k] = !empty($v['rank']);
                     } else {
-                        $aColumns[$k] = phpAds_isUser($aPref[$var]);
+                        $aColumns[$k] = OA_Permission::isAccountTypeId($aPref[$var]);
                     }
                 }
             }

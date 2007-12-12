@@ -141,26 +141,43 @@ class OA_Admin_Option
          */
         if ($this->_optionType == 'account-settings') {
             $sections = array(
-                'banner-delivery' => array('name' => $GLOBALS['strBannerDelivery'],                     'perm' => phpAds_Admin),
-                'banner-logging'  => array('name' => $GLOBALS['strBannerLogging'],                      'perm' => phpAds_Admin),
-                'banner-storage'  => array('name' => $GLOBALS['strBannerStorage'],                      'perm' => phpAds_Admin),
-                'database'        => array('name' => $GLOBALS['strDatabaseSettings'],                   'perm' => phpAds_Admin),
-                'debug'           => array('name' => $GLOBALS['strDebug'],                              'perm' => phpAds_Admin),
-                'email'           => array('name' => $GLOBALS['strEmailSettings'],                      'perm' => phpAds_Admin),
-                'geotargeting'    => array('name' => $GLOBALS['strGeotargetingSettings'],               'perm' => phpAds_Admin),
-                'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],                'perm' => phpAds_Admin),
-                'synchronisation' => array('name' => $GLOBALS['strSyncSettings'],                       'perm' => phpAds_Admin),
-                'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],                        'perm' => phpAds_Admin)
-
+                'banner-delivery' => array('name' => $GLOBALS['strBannerDelivery'],       'perm' => OA_ACCOUNT_ADMIN),
+                'banner-logging'  => array('name' => $GLOBALS['strBannerLogging'],        'perm' => OA_ACCOUNT_ADMIN),
+                'banner-storage'  => array('name' => $GLOBALS['strBannerStorage'],        'perm' => OA_ACCOUNT_ADMIN),
+                'database'        => array('name' => $GLOBALS['strDatabaseSettings'],     'perm' => OA_ACCOUNT_ADMIN),
+                'debug'           => array('name' => $GLOBALS['strDebug'],                'perm' => OA_ACCOUNT_ADMIN),
+                'email'           => array('name' => $GLOBALS['strEmailSettings'],        'perm' => OA_ACCOUNT_ADMIN),
+                'geotargeting'    => array('name' => $GLOBALS['strGeotargetingSettings'], 'perm' => OA_ACCOUNT_ADMIN),
+                'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],  'perm' => OA_ACCOUNT_ADMIN),
+                'synchronisation' => array('name' => $GLOBALS['strSyncSettings'],         'perm' => OA_ACCOUNT_ADMIN),
+                'interface'       => array('name' => $GLOBALS['strGuiSettings'],          'perm' => OA_ACCOUNT_ADMIN),
             );
         } elseif ($this->_optionType == 'account-preferences') {
             $sections = array(
-                'account'                 => array('name' => $GLOBALS['strAccountPreferences'],                 'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
-                'banner'                  => array('name' => $GLOBALS['strBannerPreferences'],                  'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
-                'campaign-email-reports'  => array('name' => $GLOBALS['strCampaignEmailReportsPreferences'],    'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
-                'language-timezone'       => array('name' => $GLOBALS['strLanguageTimezonePreferences'],        'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
-                'tracker'                 => array('name' => $GLOBALS['strTrackerPreferences'],                 'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate),
-                'user-interface'          => array('name' => $GLOBALS['strUserInterfacePreferences'],           'perm' => phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate)
+                'account' => array(
+                    'name' => $GLOBALS['strAccountPreferences'],                 
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                ),
+                'banner' => array(
+                    'name' => $GLOBALS['strBannerPreferences'],                  
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                ),
+                'campaign-email-reports' => array(
+                    'name' => $GLOBALS['strCampaignEmailReportsPreferences'],    
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                ),
+                'language-timezone' => array(
+                    'name' => $GLOBALS['strLanguageTimezonePreferences'],        
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                ),
+                'tracker' => array(
+                    'name' => $GLOBALS['strTrackerPreferences'],                 
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                ),
+                'user-interface' => array(
+                    'name' => $GLOBALS['strUserInterfacePreferences'],           
+                    'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
+                )
             );
         }
 
@@ -168,7 +185,7 @@ class OA_Admin_Option
         echo $GLOBALS['strChooseSection'].":&nbsp;</b>";
         echo "<select name='section' onChange='options_goto_section();' tabindex='".($tabindex++)."'>";
         foreach ($sections as $k => $v) {
-            if (phpAds_isUser($v['perm'])) {
+            if (OA_Permission::isAccount($v['perm'])) {
                 echo "<option value='{$k}'".($section == $k ? ' selected' : '').">{$v['name']}</option>";
             }
         }
@@ -537,13 +554,20 @@ class OA_Admin_Option
         $item['tabindex']   = $tabindex;
         $item['value'] = $value ? (int)$value : 0;
 
-        $this->oTpl->assign('phpAds_Admin',     phpAds_Admin);
-        $this->oTpl->assign('phpAds_Agency',    phpAds_Agency);
-        $this->oTpl->assign('phpAds_Client',    phpAds_Client);
-        $this->oTpl->assign('phpAds_Affiliate', phpAds_Affiliate);
-
-        $this->aOption[]    = array('usertype-checkboxes.html' => $item);
-
+        $this->oTpl->assign('isAdmin', OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
+        $this->oTpl->assign('isManager', OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
+        $this->oTpl->assign('isAdvertiser', OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
+        $this->oTpl->assign('isTrafficker', OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
+        $this->_assignAccountsIds();
+        $this->aOption[] = array('usertype-checkboxes.html' => $item);
+    }
+    
+    function _assignAccountsIds()
+    {
+        $this->oTpl->assign('OA_ACCOUNT_ADMIN_ID',      OA_ACCOUNT_ADMIN_ID);
+        $this->oTpl->assign('OA_ACCOUNT_MANAGER_ID',    OA_ACCOUNT_MANAGER_ID);
+        $this->oTpl->assign('OA_ACCOUNT_ADVERTISER_ID', OA_ACCOUNT_ADVERTISER_ID);
+        $this->oTpl->assign('OA_ACCOUNT_TRAFFICKER_ID', OA_ACCOUNT_TRAFFICKER_ID);
     }
 
     function _showUsertypeTextboxes($item, $value)
@@ -556,12 +580,7 @@ class OA_Admin_Option
         foreach ($value as $key => $value) {
             $item['value'][$key] = htmlspecialchars($value);
         }
-
-        $this->oTpl->assign('phpAds_Admin',     phpAds_Admin);
-        $this->oTpl->assign('phpAds_Agency',    phpAds_Agency);
-        $this->oTpl->assign('phpAds_Client',    phpAds_Client);
-        $this->oTpl->assign('phpAds_Affiliate', phpAds_Affiliate);
-
+        $this->_assignAccountsIds();
         $this->aOption[]    = array('usertype-textboxes.html' => $item);
     }
 

@@ -27,13 +27,17 @@ $Id$
 
 require_once MAX_PATH . '/etc/changes/ConfigMigration.php';
 
-class OA_UpgradePrescript
+
+$className = 'OA_UpgradePrescript_2_3_33';
+
+
+class OA_UpgradePrescript_2_3_33
 {
     var $oUpgrade;
     var $oSchema;
     var $oConfigMigration;
 
-    function OA_UpgradePrescript()
+    function OA_UpgradePrescript_2_3_33()
     {
         $this->oConfigMigration = new ConfigMigration();
     }

@@ -33,7 +33,7 @@ $Id:$
 
 
 // Required permission class
-require_once MAX_PATH . '/lib/max/Permission.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 // Required parent class
 require_once MAX_PATH . '/lib/OA/BaseObjectWithErrors.php';
@@ -72,6 +72,17 @@ define('OA_ENTITY_ADVSIGNUP_REJECT_BREAKTERMS', 4);
  */
 class OA_Dll extends OA_BaseObjectWithErrors
 {
+    var $aAllowTraffickerAndAbovePerm = array(
+        OA_ACCOUNT_ADMIN,
+        OA_ACCOUNT_MANAGER,
+        OA_ACCOUNT_TRAFFICKER
+    );
+    var $aAllowAdvertiserAndAbovePerm = array(
+        OA_ACCOUNT_ADMIN,
+        OA_ACCOUNT_MANAGER,
+        OA_ACCOUNT_ADVERTISER
+    );
+    
     /**
      * Email Address Validation.
      *
@@ -276,7 +287,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (!isset($newUsername) || strlen($newUsername) == 0) {
             return true;
         }
-        if (!MAX_Permission::isUsernameAllowed($oldUsername, $newUsername)) {
+        if (!OA_Permission::isUsernameAllowed($oldUsername, $newUsername)) {
         	$this->raiseError('Username must be unique');
 	        return false;
         }
@@ -373,21 +384,17 @@ class OA_Dll extends OA_BaseObjectWithErrors
 	 * @return boolean  True if has access
 	 */
     function checkPermissions($permissions, $table = '', $id = null, $allowed = null) {
-        $is_error = false;
-
-        if (isset($permissions) && !MAX_Permission::hasAccess($permissions)) {
-            $is_error = true;
+        $isError = false;
+        if (isset($permissions) && !OA_Permission::isAccount($permissions)) {
+            $isError = true;
         }
-
-        if (isset($id) && !MAX_Permission::hasAccessToObject($table, $id)) {
-            $is_error = true;
+        if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
+            $isError = true;
         }
-
-        if (isset($allowed) && !MAX_Permission::isAllowed($allowed)) {
-            $is_error = true;
+        if (isset($allowed) && !OA_Permission::isAllowed($allowed)) {
+            $isError = true;
         }
-
-        if ($is_error) {
+        if ($isError) {
             $this->raiseError('Access forbidden');
             return false;
         } else {

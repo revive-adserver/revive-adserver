@@ -31,9 +31,9 @@ function processBanners($commit = false)
 {
     $doBanners = OA_Dal::factoryDO('banners');
 
-    if (phpAds_isUser(phpAds_Agency))
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
     {
-        $doBanners->addReferenceFilter('agency', $agencyId = phpAds_getUserId());
+        $doBanners->addReferenceFilter('agency', $agencyId = OA_Permission::getEntityId());
     }
     $doBanners->find();
 

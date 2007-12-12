@@ -54,7 +54,7 @@ phpAds_registerGlobalUnslashed (
 );
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -92,7 +92,7 @@ if (isset($submit)) {
 	}
 	// Username
 	if (!empty($agencyusername)) {
-        if (!MAX_Permission::isUsernameAllowed($agency['username'], $agencyusername)) {
+        if (!OA_Permission::isUsernameAllowed($agency['username'], $agencyusername)) {
             $errormessage[] = $strDuplicateAgencyName;
         }
 	}
@@ -115,6 +115,13 @@ if (isset($submit)) {
 	    $doAgency = OA_Dal::factoryDO('agency');
 		if (empty($agencyid)) {
 		    $doAgency->setFrom($agency);
+		    /**
+		     * @todo The current mechanism requires the dataobject to have the username/password fields
+		     *       set in order to trigger the User-creation, this should be factored out since the
+		     *       $do->setFrom method won't set the fields if they've been removed from the DataObject
+		     */
+		    $doAgency->username = $agency['username'];
+		    $doAgency->password = $agency['password'];
 		    $agencyid = $doAgency->insert();
 		} else {
 		    $doAgency->get($agencyid);
@@ -157,10 +164,10 @@ if ($agencyid != '') {
 			$agencyid == $row['agencyid']
 		);
 	}
-	phpAds_PageHeader("5.6.2");
+	phpAds_PageHeader("4.1.2");
 	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
-	phpAds_ShowSections(array("5.6.2"));
+	phpAds_ShowSections(array("4.1.2"));
 	// Do not get this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
@@ -174,10 +181,9 @@ if ($agencyid != '') {
 		}
 	}
 } else {
-	phpAds_PageHeader("5.6.1");
+	phpAds_PageHeader("4.1.1");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
-	// phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6"));
-	phpAds_ShowSections(array("5.6.1"));
+	phpAds_ShowSections(array("4.1.1"));
 	// Do not set this information if the page
 	// is the result of an error message
 	if (!isset($agency)) {
@@ -294,12 +300,6 @@ echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gi
 echo "<tr><td width='30'>&nbsp;</td><td width='200'><br/></td>";
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
-// Allow this user to edit conversions
-echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-echo "<input type='checkbox' name='agencypermissions[]' value='".phpAds_EditConversions."'".(phpAds_EditConversions & $agency['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-echo $strAllowAgencyEditConversions;
-echo "</td></tr>";
-
 // Footer
 echo "<tr><td height='10' colspan='3'><br/>&nbsp;</td></tr>";
 echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -316,7 +316,7 @@ echo "</form>";
 // Get unique agencyname
 $doAgency = OA_Dal::factoryDO('agency');
 $unique_names = $doAgency->getUniqueValuesFromColumn('name', $agency['name']);
-$unique_users = MAX_Permission::getUniqueUserNames($agency['username']);
+$unique_users = OA_Permission::getUniqueUserNames($agency['username']);
 
 ?>
 
@@ -324,7 +324,7 @@ $unique_users = MAX_Permission::getUniqueUserNames($agency['username']);
 <!--
 	max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
 	max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
-<?php if (phpAds_isUser(phpAds_Admin)) { ?>
+<?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) { ?>
 	max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
 	max_formSetRequirements('agencyusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
 

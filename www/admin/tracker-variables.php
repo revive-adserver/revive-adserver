@@ -47,9 +47,9 @@ phpAds_registerGlobal (
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('clients', $clientid);
-MAX_Permission::checkAccessToObject('trackers', $trackerid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::checkAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -300,7 +300,7 @@ while ($doTrackers->fetch() && $row = $doTrackers->toArray()) {
     );
 }
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
 
@@ -320,8 +320,8 @@ if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
 
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->whereAdd('clientid <>'.$clientid);
-    if (phpAds_isUser(phpAds_Agency)) {
-        $doClients->agencyid = phpAds_getUserID();
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $doClients->agencyid = OA_Permission::getEntityId();
     }
     $doClients->find();
 

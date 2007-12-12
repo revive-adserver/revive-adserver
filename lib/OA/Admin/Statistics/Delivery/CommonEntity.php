@@ -447,7 +447,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
 
                 $this->_summarizeStats($campaign);
                 // mask anonymous campaigns if advertiser
-                if (phpAds_isUser(phpAds_Advertiser)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
                     // a) mask campaign name
                     $campaign['name'] = MAX_getPlacementName($campaign);
                     // b) mask ad names

@@ -122,11 +122,11 @@ class DataGenerator
 
         if ($generateParents) {
             $links = $do->links();
-        	foreach ($links as $key => $match) {
-        		list($tablePrefixed, $link) = explode(':', $match);
-        		$table = $do->getTableWithoutPrefix($tablePrefixed);
-    	        $primaryKey = isset($do->$key) ? $do->$key : null;
-        		$do->$key = DataGenerator::addAncestor($table, $primaryKey);
+        	foreach ($links as $foreignKey => $linkedTableField) {
+        		list($linkedTable, $linkedField) = explode(':', $linkedTableField);
+        		$table = $do->getTableWithoutPrefix($linkedTable);
+    	        $linkedPrimaryKeyVal = isset($do->$foreignKey) ? $do->$foreignKey : null;
+        		$do->$foreignKey = DataGenerator::addAncestor($table, $linkedPrimaryKeyVal);
         	}
         }
         $doOriginal = clone($do);
@@ -241,10 +241,10 @@ class DataGenerator
         DataGenerator::setDefaultValues($doAncestor);
 
         $links = $doAncestor->links();
-    	foreach ($links as $key => $match) {
-    		list($ancestorTableWithPrefix, $link) = explode(':', $match);
+    	foreach ($links as $foreignKey => $linkedTableField) {
+    		list($ancestorTableWithPrefix, $link) = explode(':', $linkedTableField);
     		$ancestorTable = $doAncestor->getTableWithoutPrefix($ancestorTableWithPrefix);
-    		$doAncestor->$key = DataGenerator::addAncestor($ancestorTable);
+    		$doAncestor->$foreignKey = DataGenerator::addAncestor($ancestorTable);
     	}
     	DataGenerator::trackData($table);
     	$id = $doAncestor->insert();

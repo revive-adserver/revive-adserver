@@ -172,9 +172,8 @@ class OA_Dll_Campaign extends OA_Dll
      */
     function checkStatisticsPermissions($campaignId)
     {
-       if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency +
-            phpAds_Client, 'campaigns', $campaignId)) {
-
+       if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm,
+            'campaigns', $campaignId)) {
             return false;
         } else {
             return true;
@@ -204,14 +203,16 @@ class OA_Dll_Campaign extends OA_Dll
         if (!isset($oCampaign->campaignId)) {
             // Add
             $oCampaign->setDefaultForAdd();
-            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency,
+            if (!$this->checkPermissions(
+                array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
                 'clients', $oCampaign->advertiserId)) {
 
                 return false;
             }
         } else {
             // Edit
-            if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency,
+            if (!$this->checkPermissions(
+                array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
                 'campaigns', $oCampaign->campaignId)) {
 
                 return false;
@@ -262,7 +263,8 @@ class OA_Dll_Campaign extends OA_Dll
      */
     function delete($campaignId)
     {
-        if (!$this->checkPermissions(phpAds_Admin + phpAds_Agency,
+        if (!$this->checkPermissions(
+            array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER),
             'campaigns', $campaignId)) {
 
             return false;

@@ -60,11 +60,11 @@ foreach ($invPlugins as $plugin) {
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 
-if (phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $doBanners = OA_Dal::factoryDO('banners');
-    $doBanners->addReferenceFilter('agency', phpAds_getUserID());
+    $doBanners->addReferenceFilter('agency', OA_Permission::getEntityId());
     $doBanners->addReferenceFilter('campaigns', $campaignid);
     $doBanners->addReferenceFilter('clients', $clientid);
     $doBanners->addReferenceFilter('banners', $bannerid);
@@ -150,7 +150,7 @@ if (isset($session['prefs']['campaign-banners.php'][$campaignid]['orderdirection
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
 // Display navigation

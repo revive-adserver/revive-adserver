@@ -65,16 +65,16 @@ phpAds_registerGlobalUnslashed(
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 if (!empty($zoneid)) {
-    MAX_Permission::checkAccessToObject('zones', $zoneid);
-    MAX_Permission::checkIsAllowed(phpAds_EditZone);
+    OA_Permission::checkAccessToObject('zones', $zoneid);
+    OA_Permission::checkIsAllowed(OA_PERM_ZONE_EDIT);
 } else {
-    if (phpAds_isUser(phpAds_Affiliate)) {
-        $affiliateid = phpAds_getUserID();
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+        $affiliateid = OA_Permission::getEntityId();
     }
-    MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
-    MAX_Permission::checkIsAllowed(phpAds_AddZone);
+    OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+    OA_Permission::checkIsAllowed(OA_PERM_ZONE_ADD);
 }
 
 /*-------------------------------------------------------*/
@@ -170,13 +170,13 @@ if (isset($submit))
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->appendtype = phpAds_ZoneAppendZone;
 
-        if (phpAds_isUser(phpAds_Agency))
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
         {
-            $doZones->addReferenceFilter('agency', phpAds_getUserID());
+            $doZones->addReferenceFilter('agency', OA_Permission::getEntityId());
         }
-        elseif (phpAds_isUser(phpAds_Affiliate))
+        elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
         {
-              $doZones->addReferenceFilter('affiliates', phpAds_getUserID());
+              $doZones->addReferenceFilter('affiliates', OA_Permission::getEntityId());
         }
         $doZones->find();
 
@@ -277,8 +277,8 @@ if (isset($submit))
         }
     }
 
-    if (phpAds_isUser(phpAds_Affiliate)) {
-        if (phpAds_isAllowed(phpAds_LinkBanners)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+        if (OA_Permission::isAllowed(OA_PERM_ZONE_LINK)) {
             MAX_Admin_Redirect::redirect("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid");
         } else {
             MAX_Admin_Redirect::redirect("zone-probability.php?affiliateid=$affiliateid&zoneid=$zoneid");
@@ -295,7 +295,7 @@ if (isset($submit))
 
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabIndex = 1;
-    $agencyId = phpAds_getAgencyID();
+    $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $affiliateid, 'zoneid' => $zoneid);
 
     $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
@@ -473,7 +473,7 @@ echo "</select>";
 echo "&nbsp;&nbsp;";
 
 $dalVariables = OA_Dal::factoryDAL('variables');
-$rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, phpAds_isUser(phpAds_Affiliate));
+$rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
 $rsVariables->find();
 
 $res_tracker_variables = array();

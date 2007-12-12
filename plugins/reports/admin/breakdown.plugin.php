@@ -64,7 +64,7 @@ class Plugins_Reports_Admin_Breakdown extends Plugins_Reports
         $this->_categoryName = MAX_Plugin_Translation::translate('Admin Reports', $this->module, $this->package);
         $this->_author       = 'Chris Nutting';
         $this->_export       = 'xls';
-        $this->_authorize    = phpAds_Admin;
+        $this->_authorize    = OA_ACCOUNT_ADMIN;
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();

@@ -39,9 +39,13 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 // Register input variables
 phpAds_registerGlobal ('acl', 'action', 'submit');
 
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
+$agencyId = OA_Permission::getEntityId();
 $tabindex = 1;
 
 /*-------------------------------------------------------*/
@@ -49,62 +53,20 @@ $tabindex = 1;
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("5.7");
-if (phpAds_isUser(phpAds_Admin)) {
-    // Show all "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-} else if (phpAds_isUser(phpAds_Agency)) {
-    // Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
-    phpAds_ShowSections(array("5.1", "5.3", "5.7"));
-}
+// Show the "Preferences", "User Log" and "Channel Management" sections of the "My Account" sections
+phpAds_ShowSections(array("5.1", "5.3", "5.7"));
 
 
-
-/*
-if (phpAds_isUser(phpAds_Admin)) {
-	$agencyId = isset($agencyid) ? $agencyid : 0;
-
-	if (!$agencyId) {
-		// Admin channels
-		phpAds_PageHeader("5.7");
-		phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-	} else {
-		// Agency channels
-		phpAds_PageHeader("5.6.3");
-		phpAds_ShowSections(array("5.6.2", "5.6.3"));
-	}
-} else {
-	$agencyId = phpAds_getAgencyID();
-
-	if (!MAX_checkAgency($agencyId)) {
-		phpAds_Die($strAccessDenied, $strNotAdmin);
-	}
-
-	phpAds_PageHeader("5.3");
-	phpAds_ShowSections(array("5.2", "5.3"));
-}
-*/
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
-	echo "<img src='images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
-	echo "<a href='channel-edit.php".($agencyId ? "?agencyid={$agencyId}" : '')."' accesskey='".$keyAddNew."'>{$GLOBALS['strAddNewChannel_Key']}</a>&nbsp;&nbsp;";
-	phpAds_ShowBreak();
-}
+echo "<img src='images/icon-channel-add.gif' border='0' align='absmiddle'>&nbsp;";
+echo "<a href='channel-edit.php?agencyid={$agencyId}' accesskey='".$keyAddNew."'>{$GLOBALS['strAddNewChannel_Key']}</a>&nbsp;&nbsp;";
+phpAds_ShowBreak();
 
-if (phpAds_isUser(phpAds_Admin)) {
-    if (isset($agencyId) && $agencyId != 0) {
-        // Looking at a specific agency's channels as admin
-        $channels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'), true);
-    } else {
-        // Looking at all channels as admin
-        $channels = Admin_DA::getChannels(array('channel_type' => 'admin'), true);
-    }
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $channels = Admin_DA::getChannels(array('agency_id' => $agencyId), true);
-}
+$channels = Admin_DA::getChannels(array('agency_id' => $agencyId), true);
 
 MAX_displayChannels($channels, array('agencyid' => $agencyId));
 

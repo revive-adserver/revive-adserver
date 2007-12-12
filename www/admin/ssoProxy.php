@@ -35,11 +35,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 phpAds_SessionDataFetch();
 
-if (phpAds_IsLoggedIn()) {
+if (OA_Auth::isLoggedIn()) {
     require_once MAX_PATH . '/www/admin/config.php';
 }
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';

@@ -51,15 +51,15 @@ phpAds_registerGlobalUnslashed('convert', 'cancel', 'compress', 'convert_links',
 /* Client interface security                             */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-MAX_Permission::checkIsAllowed(phpAds_ModifyBanner);
-if (phpAds_isUser(phpAds_Agency)) {
-    MAX_Permission::checkAccessToObject('banners', $bannerid);
-    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
-    MAX_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkIsAllowed(OA_PERM_BANNER_EDIT);
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    OA_Permission::checkAccessToObject('banners', $bannerid);
+    OA_Permission::checkAccessToObject('campaigns', $campaignid);
+    OA_Permission::checkAccessToObject('clients', $clientid);
 }
-if (phpAds_isUser(phpAds_Client)) {
-    MAX_Permission::checkAccessToObject('banners', $bannerid);
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    OA_Permission::checkAccessToObject('banners', $bannerid);
     $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->get($bannerid);
     $campaignid = $doBanners->campaignid;
@@ -140,7 +140,7 @@ if (isset($convert)) {
         }
     }
 
-    if (phpAds_isUser(phpAds_Client)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         header('Location: stats.php?entity=campaign&breakdown=banners&clientid='.$clientid.'&campaignid='.$campaignid);
     } else {
         header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
@@ -149,7 +149,7 @@ if (isset($convert)) {
 }
 
 if (isset($cancel)) {
-    if (phpAds_isUser(phpAds_Client)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         header('Location: stats.php?entity=campaign&breakdown=banners&clientid='.$clientid.'&campaignid='.$campaignid);
     } else {
         header('Location: banner-acl.php?clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid);
@@ -187,7 +187,7 @@ if ($bannerid != '') {
         );
     }
 
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         phpAds_PageShortcut($strClientProperties, 'advertiser-edit.php?clientid='.$clientid, 'images/icon-advertiser.gif');
         phpAds_PageShortcut($strCampaignProperties, 'campaign-edit.php?clientid='.$clientid.'&campaignid='.$campaignid, 'images/icon-campaign.gif');
         phpAds_PageShortcut($strBannerHistory, 'stats.php?entity=banner&breakdown=history&clientid='.$clientid.'&campaignid='.$campaignid.'&bannerid='.$bannerid, 'images/icon-statistics.gif');

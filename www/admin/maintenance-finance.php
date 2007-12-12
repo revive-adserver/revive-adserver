@@ -40,10 +40,10 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
 require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 
 // Security check
-//MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+//OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 
 // Switched off
-MAX_Permission::checkAccess(0);
+OA_Permission::enforceAccount(0);
 
 
 /*-------------------------------------------------------*/
@@ -51,7 +51,7 @@ MAX_Permission::checkAccess(0);
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("5.4");
-if (phpAds_isUser(phpAds_Agency)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 	phpAds_ShowSections(array("5.2", "5.4", "5.3"));
 } else {
 	phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
@@ -81,8 +81,8 @@ echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strZone."</td><td>";
 
 $aParams = array();
 
-if (phpAds_isUser(phpAds_Agency)) {
-	$aParams['agency_id'] = phpAds_getUserId();
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+	$aParams['agency_id'] = OA_Permission::getEntityId();
 }
 
 if (empty($zoneid)) {
@@ -140,7 +140,7 @@ if (!empty($zoneid)) {
 	echo "&nbsp;&nbsp;";
 
 	$dalVariables = OA_Dal::factoryDAL('variables');
-    $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, phpAds_isUser(phpAds_Affiliate));
+    $rsVariables = $dalVariables->getTrackerVariables($zoneid, $affiliateid, OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
     $res_tracker_variables = $rsVariables->getAll();
 
     echo "<select name='cost_variable_id' id='cost_variable_id'>";

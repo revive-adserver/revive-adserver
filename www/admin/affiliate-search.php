@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 phpAds_registerGlobal ('keyword', 'client', 'campaign', 'banner', 'zone', 'affiliate', 'compact');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_TRAFFICKER);
 
 // Check Searchselection
 if (!isset($campaign))  $campaign  = false;
@@ -154,7 +154,7 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
 <tr><td width='20'>&nbsp;</td><td>
 
 <?php
-    $publisherId = phpAds_getUserID();
+    $publisherId = OA_Permission::getEntityId();
 
     $dalBanners = OA_Dal::factoryDAL('banners');
     $rsBanners = $dalBanners->getBannerByKeyword($keyword);
@@ -219,7 +219,7 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
 
             // Button 1
             echo "<td height='25'>";
-            echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=campaign-history&affiliateid=".phpAds_getUserId()."&clientid=".$row_campaigns['clientid']."&campaignid=".$row_campaigns['campaignid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=campaign-history&affiliateid=".OA_Permission::getEntityId()."&clientid=".$row_campaigns['clientid']."&campaignid=".$row_campaigns['campaignid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
             echo "</td>";
 
 
@@ -276,7 +276,7 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
 
                     // Button 1
                     echo "<td height='25'>";
-                    echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=banner-history&affiliateid=".phpAds_getUserId()."&clientid=".$row_campaigns['clientid']."&campaignid=".$row_campaigns['campaignid']."&bannerid=".$row_b_expand['bannerid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                    echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=banner-history&affiliateid=".OA_Permission::getEntityId()."&clientid=".$row_campaigns['clientid']."&campaignid=".$row_campaigns['campaignid']."&bannerid=".$row_b_expand['bannerid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
                     echo "</td>";
                 }
             }
@@ -331,7 +331,7 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
 
             // Button 1
             echo "<td height='25'>";
-            echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=banner-history&affiliateid=".phpAds_getUserId()."&clientid=".$row_banners['clientid']."&campaignid=".$row_banners['campaignid']."&bannerid=".$row_banners['bannerid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+            echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=banner-history&affiliateid=".OA_Permission::getEntityId()."&clientid=".$row_banners['clientid']."&campaignid=".$row_banners['campaignid']."&bannerid=".$row_banners['bannerid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
             echo "</td>";
 
             $i++;
@@ -364,11 +364,7 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
 
             // Button 1
             echo "<td height='25'>";
-            if (phpAds_isAllowed(MAX_AffiliateViewZoneStats)) {
-                echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=zones&affiliateid=".phpAds_getUserId()."&zoneid=".$row_zones['zoneid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
-            } else {
-                echo '&nbsp;';
-            }
+            echo "<a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=zones&affiliateid=".OA_Permission::getEntityId()."&zoneid=".$row_zones['zoneid']."\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='$strStats'>&nbsp;$strStats</a>&nbsp;&nbsp;&nbsp;&nbsp;";
             echo "</td>";
 
             $i++;

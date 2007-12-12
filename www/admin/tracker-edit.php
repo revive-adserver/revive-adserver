@@ -61,11 +61,11 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
 }
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 if (!empty($trackerid)) {
-    MAX_Permission::checkAccessToObject('trackers', $trackerid);
+    OA_Permission::checkAccessToObject('trackers', $trackerid);
 } else {
-    MAX_Permission::checkAccessToObject('clients', $clientid);
+    OA_Permission::checkAccessToObject('clients', $clientid);
 }
 
 /*-------------------------------------------------------*/
@@ -176,8 +176,8 @@ if ($trackerid != "") {
 
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->whereAdd('clientid <>'.$clientid);
-    if (phpAds_isUser(phpAds_Agency)) {
-        $doClients->agencyid = phpAds_getAgencyID();
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        $doClients->agencyid = OA_Permission::getAgencyId();
     }
     $doClients->find();
 

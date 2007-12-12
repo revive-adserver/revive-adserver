@@ -39,15 +39,18 @@ require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("4.3");
-phpAds_ShowSections(array("4.1", "4.2", "4.3"));
-
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    phpAds_ShowSections(array("4.1", "4.3"));
+} else {
+    phpAds_ShowSections(array("4.1", "4.2", "4.3"));
+}
 
 
 

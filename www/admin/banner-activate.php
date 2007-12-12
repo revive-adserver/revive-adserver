@@ -44,11 +44,11 @@ phpAds_registerGlobal ('value');
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-if (phpAds_isUser(phpAds_Agency))
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     $doBanners = OA_Dal::factoryDO('banners');
-    $doBanners->addReferenceFilter('agency', phpAds_getUserID());
+    $doBanners->addReferenceFilter('agency', OA_Permission::getEntityId());
     $doBanners->addReferenceFilter('campaigns', $campaignid);
     $doBanners->addReferenceFilter('clients', $clientid);
     if (!empty($bannerid)) {
@@ -72,16 +72,16 @@ if ($value == OA_ENTITY_STATUS_RUNNING)
 else
 	$value = OA_ENTITY_STATUS_RUNNING;
 
-if (phpAds_isUser(phpAds_Client))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER))
 {
-	if (($value == OA_ENTITY_STATUS_PAUSED && phpAds_isAllowed(phpAds_DisableBanner)) ||
-	    ($value == OA_ENTITY_STATUS_RUNNING && phpAds_isAllowed(phpAds_ActivateBanner)))
+	if (($value == OA_ENTITY_STATUS_PAUSED && OA_Permission::isAllowed(OA_PERM_BANNER_DEACTIVATE)) ||
+	    ($value == OA_ENTITY_STATUS_RUNNING && OA_Permission::isAllowed(OA_PERM_BANNER_ACTIVATE)))
 	{
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);
 
 
-		if ($doBanners->campaignid == '' || phpAds_getUserID() != phpAds_getCampaignParentClientID ($doBanners->campaignid))
+		if ($doBanners->campaignid == '' || OA_Permission::getEntityId() != phpAds_getCampaignParentClientID ($doBanners->campaignid))
 		{
 			phpAds_PageHeader("1");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);
@@ -108,7 +108,7 @@ if (phpAds_isUser(phpAds_Client))
 		phpAds_Die ($strAccessDenied, $strNotAdmin);
 	}
 }
-elseif (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+elseif (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
 	if (!empty($bannerid))
 	{

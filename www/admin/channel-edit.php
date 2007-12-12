@@ -43,18 +43,12 @@ phpAds_registerGlobalUnslashed('name', 'description', 'comments', 'submit', 'age
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
-MAX_Permission::checkAccessToObject('channel', $channelid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::checkAccessToObject('channel', $channelid);
 
 $pageName = basename($_SERVER['PHP_SELF']);
+$agencyId = OA_Permission::getAgencyId();
 $tabIndex = 1;
-
-// Set the agency ID as appropriate
-if (phpAds_isUser(phpAds_Admin)) {
-    $agencyId = empty($agencyid) ? 0 : $agencyid;
-} else {
-    $agencyId = phpAds_getAgencyID();
-}
 
 // Obtain the needed data
 if (!empty($affiliateid)) {
@@ -62,31 +56,11 @@ if (!empty($affiliateid)) {
     // Editing a channel at the publisher level; Only use the
     // channels at this publisher level for the navigation bar
     $aOtherChannels = Admin_DA::getChannels(array('publisher_id' => $affiliateid));
-    // Channel is at a publisher level - cannot move to an agency
-    $aOtherAgencies = array();
-    // Channel is at a publisher level - get all appropriate
-    // publishers that the channel could be moved to
-    $aOtherPublishers = Admin_DA::getPublishers(array('agency_id' => $agencyId));
 } else {
     $aEntities = array('agencyid' => $agencyid, 'channelid' => $channelid);
-    if (phpAds_isUser(phpAds_Admin)) {
-        // Editing a channel at the admin level; Use ALL other
-        // channels in the entire system for the navigation bar
-        $aOtherChannels = Admin_DA::getChannels(array('channel_type' => 'admin'));
-        // Channel is at an agency level - get all agencies so
-        // that admin can move channel to a different agency
-        $aOtherAgencies = Admin_DA::getAgencies(array());
-    } else {
-        // Editing a channel at the agency level; Only use the
-        // channels at this agency level for the navigation bar
-        $aOtherChannels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'));
-        // Channel is at an agency level - agencies cannot move
-        // channels to other agencies!
-        $aOtherAgencies = array();
-    }
-    // Channel is not a publisher channel, so cannot move to
-    // another publisher
-    $aOtherPublishers = array();
+    // Editing a channel at the agency level; Only use the
+    // channels at this agency level for the navigation bar
+    $aOtherChannels = Admin_DA::getChannels(array('agency_id' => $agencyId, 'channel_type' => 'agency'));
 }
 
 /*-------------------------------------------------------*/
@@ -103,13 +77,6 @@ if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
         $doChannel->comments = $comments;
         $ret = $doChannel->update();
     } else {
-        // Always insert the correct agencyid when channel is owned by a publisher
-        if (!empty($affiliateid)) {
-            $doAffiliates = OA_Dal::factoryDO('affiliates');
-            $doAffiliates->get($affiliateid);
-            $agencyid = $doAffiliates->agencyid;
-        }
-
         $doChannel = OA_Dal::factoryDO('channel');
         $doChannel->agencyid = $agencyId;
         $doChannel->affiliateid = $affiliateid;
@@ -126,7 +93,7 @@ if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
         if (!empty($affiliateid)) {
             header("Location: channel-acl.php?affiliateid={$affiliateid}&channelid={$channelid}");
         } else {
-            header("Location: channel-acl.php?agencyid={$agencyId}&channelid={$channelid}");
+            header("Location: channel-acl.php?channelid={$channelid}");
         }
         exit;
     }
@@ -136,7 +103,7 @@ if (isset($submit) && $submit == $GLOBALS['strSaveChanges']) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-MAX_displayNavigationChannel($pageName, $aOtherAgencies, $aOtherPublishers, $aOtherChannels, $aEntities);
+MAX_displayNavigationChannel($pageName, $aOtherChannels, $aEntities);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

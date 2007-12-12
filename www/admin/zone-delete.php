@@ -42,7 +42,7 @@ phpAds_registerGlobal ('returnurl');
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -50,8 +50,8 @@ MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
 
 if (!empty($zoneid)) {
 
-    MAX_Permission::checkIsAllowed(phpAds_DeleteZone);
-    MAX_Permission::checkAccessToObject('zones', $zoneid);
+    OA_Permission::checkIsAllowed(OA_PERM_ZONE_DELETE);
+    OA_Permission::checkAccessToObject('zones', $zoneid);
 
     $doZones = OA_Dal::factoryDO('zones');
     $doZones->zoneid = $zoneid;

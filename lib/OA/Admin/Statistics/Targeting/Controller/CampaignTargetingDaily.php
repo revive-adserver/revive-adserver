@@ -100,7 +100,7 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargetingDaily extends OA
         $placementId  = $this->_getId('placement');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement'  => $placementId));
 
         // Add standard page parameters
@@ -120,7 +120,7 @@ class OA_Admin_Statistics_Targeting_Controller_CampaignTargetingDaily extends OA
         $this->_addBreadcrumbs('campaign', $placementId);
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Client)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,

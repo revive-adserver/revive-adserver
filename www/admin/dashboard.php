@@ -35,14 +35,14 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
 phpAds_SessionDataFetch();
-if (!phpAds_IsLoggedIn() && empty($_REQUEST['reload'])) {
+if (!OA_Auth::isLoggedIn() && empty($_REQUEST['reload'])) {
     require(MAX_PATH.'/lib/OA/Dashboard/Widgets/Reload.php');
     $oReload = new OA_Dashboard_Widget_Reload($_REQUEST);
     $url = 'dashboard.php';
@@ -55,7 +55,7 @@ if (!phpAds_IsLoggedIn() && empty($_REQUEST['reload'])) {
 }
 
 require_once MAX_PATH . '/www/admin/config.php';
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 $widget = !empty($_REQUEST['widget']) ? $_REQUEST['widget'] : 'Index';
 

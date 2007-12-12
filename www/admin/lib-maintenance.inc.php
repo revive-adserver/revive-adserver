@@ -71,7 +71,7 @@ function maintenance_goto_section()
     echo "<b>".$strChooseSection.":&nbsp;</b>";
     echo "<select name='section' onChange='maintenance_goto_section();'>";
 
-    if (phpAds_isUser(phpAds_Admin)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
         if ($mainSection == 'updates') {
             echo "<option value='product'".($subSection == 'product' ? ' selected' : '').">".$strCheckForUpdates."</option>";
             echo "<option value='history'".($subSection == 'history' ? ' selected' : '').">".$strViewPastUpdates."</option>";

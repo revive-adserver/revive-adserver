@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/max/other/lib-acl.inc.php';
 require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 phpAds_registerGlobal('action');
 

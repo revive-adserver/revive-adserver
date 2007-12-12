@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/Admin/DaySpan.php';
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Factory.php';
-require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 /**
  * Plugins_Reports is an abstract class that defines an interface for every
@@ -90,8 +90,8 @@ class Plugins_Reports extends MAX_Plugin_Common
     var $_export;
 
     /**
-     * The users authorised to run the report (eg. phpAds_Admin +
-     * phpAds_Agency + phpAds_Affiliate, etc).
+     * The users authorised to run the report (eg. array(OA_ACCOUNT_ADMIN,
+     * OA_ACCOUNT_MANAGER), etc).
      *
      * @var integer
      */
@@ -205,8 +205,8 @@ class Plugins_Reports extends MAX_Plugin_Common
      *                  'plugin-category-name' => The (translated) name of the report category
      *                  'plugin-author'        => The name of the author
      *                  'plugin-export'        => The format the report is returned as
-     *                  'plugin-authorize'     => The users authorised to run the report (eg. phpAds_Admin,
-     *                                            phpAds_Agency, phpAds_Affiliate, etc)
+     *                  'plugin-authorize'     => The users authorised to run the report (eg. OA_ACCOUNT_ADMIN,
+     *                                            OA_ACCOUNT_MANAGER, etc)
      *                  'plugin-import'        => An array containing the details required to display the
      *                                            report's input value form in the UI
      */
@@ -239,8 +239,7 @@ class Plugins_Reports extends MAX_Plugin_Common
         // Backwards-compatible way of pulling authorization
         $aInfo = $this->info();
         $authorizedUserTypes = $aInfo['plugin-authorize'];
-        $isAllowed = phpAds_isUser($authorizedUserTypes);
-        return $isAllowed;
+        return OA_Permission::isAccount($authorizedUserTypes);
     }
 
     /**

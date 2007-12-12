@@ -48,12 +48,12 @@ phpAds_registerGlobal ('acl', 'action', 'submit');
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
 
 if (!MAX_checkAd($clientid, $campaignid, $bannerid)) {

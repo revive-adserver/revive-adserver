@@ -41,7 +41,7 @@ if (file_exists($file)) {
 }
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 
 

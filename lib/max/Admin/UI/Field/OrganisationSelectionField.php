@@ -50,7 +50,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
 
     function _getAdvertisers()
     {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
                 $aParams = array();
                 $aTrackers = Admin_DA::getTrackers($aParams, false, 'advertiser_id');
@@ -60,19 +60,19 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
                 $aParams = array();
                 $aAdvertisers = Admin_DA::getAdvertisers($aParams);
             }
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
-                $aParams = array('agency_id' => phpAds_getUserID());
+                $aParams = array('agency_id' => OA_Permission::getEntityId());
                 $aTrackers = Admin_DA::getTrackers($aParams, false, 'advertiser_id');
                 $aParams = array('advertiser_id' => implode(',', array_keys($aTrackers)));
                 $aAdvertisers = Admin_DA::getAdvertisers($aParams);
             } else {
-                $aParams = array('agency_id' => phpAds_getUserID());
+                $aParams = array('agency_id' => OA_Permission::getEntityId());
                 $aAdvertisers = Admin_DA::getAdvertisers($aParams);
             }
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $aAdvertisers = array();
-            $aParams = array('publisher_id' => phpAds_getUserID(), 'placement_anonymous' => 'f');
+            $aParams = array('publisher_id' => OA_Permission::getEntityId(), 'placement_anonymous' => 'f');
             $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'placement_id');
             $aAdZones = Admin_DA::getAdZones($aParams, false, 'ad_id');
             if (!empty($aPlacementZones)) {
@@ -97,9 +97,9 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
                     $aAdvertisers += Admin_DA::getAdvertisers($aParams);
                 }
             }
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $aAdvertisers = array();
-            $aParams = array('advertiser_id' => phpAds_getUserID());
+            $aParams = array('advertiser_id' => OA_Permission::getEntityId());
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
                 $aTrackers = Admin_DA::getTrackers($aParams, false, 'advertiser_id');
                 $aParams = array('advertiser_id' => implode(',', array_keys($aTrackers)));
@@ -124,7 +124,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
     }
     function _getPublishers()
     {
-        if (phpAds_isUser(phpAds_Admin)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
                 $aParams = array();
                 $aTrackers = Admin_DA::getTrackers($aParams, false, 'advertiser_id');
@@ -137,9 +137,9 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
                 $aParams = array();
                 $aPublishers = Admin_DA::getPublishers($aParams);
             }
-        } elseif (phpAds_isUser(phpAds_Agency)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
-                $aParams = array('agency_id' => phpAds_getUserID());
+                $aParams = array('agency_id' => OA_Permission::getEntityId());
                 $aTrackers = Admin_DA::getTrackers($aParams, false, 'advertiser_id');
                 $aParams = array('advertiser_id' => implode(',', array_keys($aTrackers)));
                 $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'zone_id');
@@ -147,29 +147,29 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
                 $aParams = array('zone_id' => implode(',', array_keys($aPlacementZones + $aAdZones)));
                 $aPublishers = Admin_DA::getPublishers($aParams);
             } else {
-                $aParams = array('agency_id' => phpAds_getUserID());
+                $aParams = array('agency_id' => OA_Permission::getEntityId());
                 $aPublishers = Admin_DA::getPublishers($aParams);
             }
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
-                $aParams = array('agency_id' => phpAds_getAgencyID());
+                $aParams = array('agency_id' => OA_Permission::getAgencyId());
                 $aTrackers = Admin_DA::getTrackers($aParams, false, 'advertiser_id');
                 $aParams = array('advertiser_id' => implode(',', array_keys($aTrackers)));
                 $aPlacementZones = Admin_DA::getAdZones($aParams, false, 'zone_id');
                 $aAdZones = Admin_DA::getAdZones($aParams, false, 'zone_id');
-                $aParams = array('publisher_id' => phpAds_getUserID(), 'zone_id' => implode(',', array_keys($aPlacementZones + $aAdZones)));
+                $aParams = array('publisher_id' => OA_Permission::getEntityId(), 'zone_id' => implode(',', array_keys($aPlacementZones + $aAdZones)));
                 $aPublishers = Admin_DA::getPublishers($aParams);
             } else {
-                $aParams = array('publisher_id' => phpAds_getUserID());
+                $aParams = array('publisher_id' => OA_Permission::getEntityId());
                 $aPublishers = Admin_DA::getPublishers($aParams);
             }
-        } elseif (phpAds_isUser(phpAds_Advertiser)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $aPublishers = array();
             if ($this->_filter == FILTER_TRACKER_PRESENT) {
-                $aParams = array('advertiser_id' => phpAds_getUserID());
+                $aParams = array('advertiser_id' => OA_Permission::getEntityId());
                 $aTrackers = Admin_DA::getTrackers($aTrackers, 'advertiser_id');
                 if (!empty($aTrackers)) {
-                    $aParams = array('advertiser_id' => phpAds_getUserID(), 'placement_anonymous' => 'f');
+                    $aParams = array('advertiser_id' => OA_Permission::getEntityId(), 'placement_anonymous' => 'f');
                     $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'zone_id');
                     $aAdZones = Admin_DA::getAdZones($aParams, false, 'zone_id');
                     $aZones = $aPlacementZones + $aAdZones;
@@ -179,7 +179,7 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
                     }
                 }
             } else {
-                $aParams = array('advertiser_id' => phpAds_getUserID(), 'placement_anonymous' => 'f');
+                $aParams = array('advertiser_id' => OA_Permission::getEntityId(), 'placement_anonymous' => 'f');
                 $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'zone_id');
                 $aAdZones = Admin_DA::getAdZones($aParams, false, 'zone_id');
                 $aZones = $aPlacementZones + $aAdZones;
@@ -207,15 +207,15 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
     {
         $hasAnonymousCampaigns = false;
         
-        if (phpAds_isUser(phpAds_Advertiser)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $aParams = array(
                 'placement_anonymous' => 't',
-                'advertiser_id' => phpAds_getUserID(),
+                'advertiser_id' => OA_Permission::getEntityId(),
             );
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $aParams = array(
                 'placement_anonymous' => 't',
-                'publisher_id' => phpAds_getUserID(),
+                'publisher_id' => OA_Permission::getEntityId(),
             );
         }
         
@@ -243,8 +243,8 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         
         $aAdvertisers = $this->_getAdvertisers();
         
-        if (phpAds_isUser(phpAds_Advertiser)) {
-            $advertiserId = phpAds_getUserID();
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $advertiserId = OA_Permission::getEntityId();
             echo "
         <input type='hidden' name='{$name}_advertiser' id='{$name}_advertiser' value='$advertiserId'>";
         } else {
@@ -264,14 +264,14 @@ class Admin_UI_OrganisationSelectionField extends Admin_UI_Field
         </select>";
         }
         
-        if (!phpAds_isUser(phpAds_Advertiser) && !phpAds_isUser(phpAds_Publisher)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             echo "
         <br /><br />";
         }
 
         $aPublishers = $this->_getPublishers();
         
-        if (phpAds_isUser(phpAds_Publisher)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             echo "
         <input type='hidden' name='{$name}_publisher' id='{$name}_publisher' value='$publisherId'>";
         } else {

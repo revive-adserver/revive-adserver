@@ -25,6 +25,9 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
+require_once MAX_PATH . '/lib/gacl/tests/unit/acl.mol.test.php';
+require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
 /**
@@ -33,7 +36,6 @@ require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
  * @package    MaxDal
  * @subpackage TestSuite
  *
- * @TODO No tests written yet...
  */
 class DB_DataObjectCommonTest extends DalUnitTestCase
 {
@@ -45,9 +47,26 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->UnitTestCase();
     }
 
+    /**
+     * @TODO: modify this method so it should be executed 
+     *        once for all the tests from this class
+     *
+     */
     function setUpFixture()
     {
-        //TestEnv::restoreEnv();
+        $aclSetup = new acl_setup($options = array());
+        $aclSetup->cleanUp();
+        OA_GaclPermissions::insert();
+    }
+    
+    function setUp()
+    {
+        DataGenerator::cleanUp(
+            array('agency', 'clients')
+        );
+        $aclSetup = new acl_setup($options = array());
+        $aclSetup->cleanUp();
+        OA_GaclPermissions::insert();
     }
 
     function tearDown()
@@ -73,7 +92,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual($aCheck, array());
 
         // Insert campaigns with default data
-        // and few additional required for testing filters
+        // and few additional records required for testing filters
         $doCampaigns = OA_Dal::factoryDO('campaigns');
         $doCampaigns->campaignname = $campaignName = 'test name';
         $aData = array(
@@ -131,11 +150,25 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
     function testBelongToUser()
     {
-        //TestEnv::restoreEnv();
+        // @TODO: should we remove this code after 
+        //        fixing startUpFixture?
+        $aclSetup = new acl_setup($options = array());
+        $aclSetup->cleanUp();
+        OA_GaclPermissions::insert();
+        
         // Test that user belong to itself
-        $agencyid = DataGenerator::generateOne('agency');
+        $doAgencyInsert = OA_Dal::factoryDO('agency');
+        $agencyid = DataGenerator::generateOne($doAgencyInsert);
         $doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-        $this->assertTrue($doAgency->belongToUser('agency', $agencyid));
+        $aUser = array(
+            'contact_name' => 'contact',
+            'email_address' => 'email@example.com',
+            'username' => 'username'.rand(1,1000),
+            'password' => 'password',
+            'default_account_id' => $doAgency->account_id,
+        );
+        $userId = $doAgency->createUser($aUser);
+        $this->assertTrue($doAgency->belongToUser('agency', $userId));
         $this->assertFalse($doAgency->belongToUser('agency', 222));
 
         // Create necessary test data

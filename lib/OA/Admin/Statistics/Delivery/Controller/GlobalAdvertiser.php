@@ -88,7 +88,7 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         $aPref = $GLOBALS['_MAX']['PREF'];
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
         // HTML Framework
         $this->pageId = '2.1';
@@ -108,8 +108,8 @@ class OA_Admin_Statistics_Delivery_Controller_GlobalAdvertiser extends OA_Admin_
         MAX_adjustNodes($this->aNodes, $expand, $collapse);
 
         $aParams = array();
-        if (!phpAds_isUser(phpAds_Admin)) {
-            $aParams['agency_id'] = phpAds_getAgencyID();
+        if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+            $aParams['agency_id'] = OA_Permission::getAgencyId();
         }
 
         switch ($this->startLevel)

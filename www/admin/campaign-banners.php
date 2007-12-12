@@ -45,8 +45,8 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderd
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client);
-MAX_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::checkAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -67,7 +67,7 @@ if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['orderdirecti
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid);
 
 // Display navigation
@@ -182,7 +182,7 @@ if (isset($banners) && is_array($banners) && count($banners) > 0) {
     }
 }
 
-if (!phpAds_isUser(phpAds_Client)) {
+if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     echo "\t\t\t\t<img src='images/icon-banner-new.gif' align='absmiddle' alt=''>&nbsp;";
     echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."' accesskey='".$keyAddNew."'>".$strAddBanner_Key."</a>&nbsp;&nbsp;&nbsp;&nbsp;\n";
     phpAds_ShowBreak();
@@ -287,7 +287,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         }
 
         echo "&nbsp;";
-        if (phpAds_isUser(phpAds_Client) && !MAX_Permission::isAllowed(phpAds_ModifyBanner)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::isAllowed(OA_PERM_BANNER_EDIT)) {
             echo $name;
         } else {
             echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bkey."'>".$name."</a>";
@@ -299,7 +299,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 
         // Button 1
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-        if (!phpAds_isUser(phpAds_Client)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             echo "<a href='banner-acl.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='$strACL'>&nbsp;$strACL</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         } else {
             echo "&nbsp;";
@@ -308,7 +308,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 
         // Button 2
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-        if (phpAds_isUser(phpAds_Client) && !MAX_Permission::isAllowed(phpAds_ActivateBanner)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::isAllowed(OA_PERM_BANNER_ACTIVATE)) {
             echo "&nbsp;";
         } else {
             if ($banners[$bkey]["status"] == OA_ENTITY_STATUS_RUNNING) {
@@ -323,7 +323,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 
         // Button 3
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-        if (phpAds_isUser(phpAds_Client)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             echo "&nbsp;";
         } else {
             echo "<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$banners[$bkey]['bannerid']."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteBanner)."><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='$strDelete'>&nbsp;$strDelete</a>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -409,7 +409,7 @@ if (isset($banners) && count($banners)) {
     echo "<tr height='1'><td colspan='5' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%' alt=''></td></tr>";
     echo "<tr height='25'>";
     echo "<td colspan='5' height='25' align='".$phpAds_TextAlignRight."'>";
-    if (!phpAds_isUser(phpAds_Client)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
         echo "<img src='images/icon-recycle.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-delete.php?clientid=".$clientid."&campaignid=".$campaignid."&returnurl=campaign-banners.php'".phpAds_DelConfirm($strConfirmDeleteAllBanners).">$strDeleteAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";
         if ($countActive < count($banners)) {
             echo "<img src='images/icon-activate.gif' border='0' align='absmiddle' alt=''>&nbsp;<a href='banner-activate.php?clientid=".$clientid."&campaignid=".$campaignid."&value=f'>$strActivateAllBanners</a>&nbsp;&nbsp;&nbsp;&nbsp;";

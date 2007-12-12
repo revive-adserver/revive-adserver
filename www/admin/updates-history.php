@@ -35,10 +35,10 @@ require_once '../../init.php';
 // in case session is expired
 if (!empty($_POST['xajax'])) {
     require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
-    require_once MAX_PATH . '/www/admin/lib-permissions.inc.php';
+    require_once MAX_PATH . '/lib/OA/Permission.php';
     unset($session);
     phpAds_SessionDataFetch();
-    if (!phpAds_isUser(phpAds_Admin)) {
+    if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
         $_POST['xajax'] = 'sessionExpired';
         $_POST['xajaxargs'] = array();
         require_once MAX_PATH . '/lib/xajax.inc.php';
@@ -55,7 +55,7 @@ require_once MAX_PATH . '/lib/xajax.inc.php';
 
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

@@ -101,7 +101,7 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargetingDaily extends OA_A
         $adId         = $this->_getId('ad');
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
         $this->_checkAccess(array('advertiser' => $advertiserId, 'placement' => $placementId, 'ad' => $adId));
 
         // Add standard page parameters
@@ -122,7 +122,7 @@ class OA_Admin_Statistics_Targeting_Controller_BannerTargetingDaily extends OA_A
         $this->_addBreadcrumbs('banner', $adId);
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Client)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->_addShortcut(
                 $GLOBALS['strClientProperties'],
                 'advertiser-edit.php?clientid='.$advertiserId,

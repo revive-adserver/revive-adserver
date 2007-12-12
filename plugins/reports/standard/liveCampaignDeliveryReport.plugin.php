@@ -62,7 +62,7 @@ class Plugins_Reports_Standard_LiveCampaignDeliveryReport extends Plugins_Report
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
         $this->_author       = 'Scott Switzer';
         $this->_export       = 'xls';
-        $this->_authorize    = phpAds_Admin + phpAds_Agency;
+        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();

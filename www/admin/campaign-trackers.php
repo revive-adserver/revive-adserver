@@ -58,11 +58,11 @@ phpAds_registerGlobal (
 
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 if (!empty($campaignid)) {
-    MAX_Permission::checkAccessToObject('campaigns', $campaignid);
+    OA_Permission::checkAccessToObject('campaigns', $campaignid);
 } else {
-    MAX_Permission::checkAccessToObject('clients', $clientid);
+    OA_Permission::checkAccessToObject('clients', $clientid);
 }
 
 // Initalise any tracker based plugins
@@ -143,7 +143,7 @@ if (!isset($orderdirection)) {
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = phpAds_getAgencyID();
+$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid);
 
 // Display navigation
@@ -258,7 +258,7 @@ if ($doTrackers->getRowCount() == 0) {
         echo "<img src='images/icon-tracker.gif' align='absmiddle'>";
 
         // Name
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             echo "<a href='tracker-edit.php?clientid=".$tracker['clientid']."&trackerid=".$tracker['trackerid']."'>";
             echo phpAds_breakString ($tracker['trackername'], '60')."</a>";
         } else {

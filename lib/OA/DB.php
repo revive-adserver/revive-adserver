@@ -89,6 +89,8 @@ class OA_DB
         {
             // Prepare options for a new database connection
             $aOptions = array();
+            // Sequence column name
+            $aOptions['seqcol_name'] = 'id';
             // Set the index name format
             $aOptions['idxname_format'] = '%s';
             // Use 4 decimal places in DECIMAL nativetypes

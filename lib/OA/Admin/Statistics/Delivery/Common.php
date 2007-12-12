@@ -418,24 +418,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
     }
 
     /**
-     * Show the welcome text to publishers
-     *
-     */
-    function showPublisherWelcome()
-    {
-        $pref = $GLOBALS['_MAX']['PREF'];
-
-        if ($pref['publisher_welcome'] == 't') {
-            // Show welcome message
-            if (!empty($pref['publisher_welcome_msg'])) {
-                $this->welcomeText = $pref['publisher_welcome_msg'];
-            }
-        }
-
-
-    }
-
-    /**
      * Show the welcome text to advertisers
      *
      */

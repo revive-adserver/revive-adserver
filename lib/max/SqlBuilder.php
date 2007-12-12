@@ -71,7 +71,7 @@ class SqlBuilder
 
         case 'advertiser' :
             $aColumns += array('a.clientid' => 'advertiser_id', 'a.agencyid' => 'agency_id', 'a.clientname' => 'name');
-            if ($allFields) $aColumns += array('a.contact' => 'contact', 'a.email' => 'email', 'a.clientusername' => 'username', 'a.clientpassword' => 'password', 'a.permissions' => 'permissions', 'a.language' => 'language', 'a.report' => 'report', 'a.reportinterval' => 'report_interval', 'a.reportlastdate' => 'report_last_date', 'a.reportdeactivate' => 'report_deactivate');
+            if ($allFields) $aColumns += array('a.contact' => 'contact', 'a.email' => 'email', 'a.report' => 'report', 'a.reportinterval' => 'report_interval', 'a.reportlastdate' => 'report_last_date', 'a.reportdeactivate' => 'report_deactivate');
             break;
 
         case 'ad_category_assoc' :
@@ -87,10 +87,6 @@ class SqlBuilder
             if ($allFields) $aColumns += array(
                 'g.contact' => 'contact',
                 'g.email' => 'email',
-                'g.username' => 'username',
-                'g.password' => 'password',
-                'g.permissions' => 'permissions',
-                'g.language' => 'language',
                 'g.logout_url' => 'logout_url'
                 );
             break;
@@ -132,7 +128,7 @@ class SqlBuilder
 
         case 'publisher' :
             $aColumns += array('p.affiliateid' => 'publisher_id', 'p.agencyid' => 'agency_id', 'p.name' => 'name');
-            if ($allFields) $aColumns += array('p.mnemonic' => 'mnemonic', 'p.contact' => 'contact', 'p.email' => 'email', 'p.website' => 'website', 'p.username' => 'username', 'p.password' => 'password', 'p.permissions' => 'permissions', 'p.language' => 'language', 'p.publiczones' => 'publiczones');
+            if ($allFields) $aColumns += array('p.mnemonic' => 'mnemonic', 'p.contact' => 'contact', 'p.email' => 'email', 'p.website' => 'website');
             break;
 
         case 'stats' :
@@ -625,11 +621,14 @@ class SqlBuilder
         case 'channel' :
             if (isset($aParams['publisher_id'])) {
                 SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', $aParams['publisher_id']);
-            } else if (isset($aParams['channel_type']) && $aParams['channel_type'] == 'publisher') {
+            } elseif (isset($aParams['channel_type']) && $aParams['channel_type'] == 'publisher') {
                 SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0, MAX_LIMITATION_NOT_EQUAL);
             }
             if (!empty($aParams['channel_id'])) SqlBuilder::_addLimitation($aLimitations, 'channel_id', 'ch.channelid', $aParams['channel_id']);
-            if (isset($aParams['agency_id'])) SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'agencyid', $aParams['agency_id']);
+            if (isset($aParams['agency_id'])) {
+                SqlBuilder::_addLimitation($aLimitations, 'agency_id', 'agencyid', $aParams['agency_id']);
+                SqlBuilder::_addLimitation($aLimitations, 'publisher_id', 'ch.affiliateid', 0);
+            }
             break;
 
         case 'channel_limitation' :

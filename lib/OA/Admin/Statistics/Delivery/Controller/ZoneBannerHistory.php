@@ -90,7 +90,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         $adId        = $this->_getId('ad', 0);
 
         // Security check
-        phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+        OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
         $this->_checkAccess(array('publisher' => $publisherId, 'zone' => $zoneId));
 
         // Cross-entity security check
@@ -117,10 +117,10 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         $this->_loadParams();
 
         // HTML Framework
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             $this->pageId = '2.4.2.2.2';
             $this->aPageSections = array($this->pageId);
-        } elseif (phpAds_isUser(phpAds_Affiliate)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->pageId = '1.2.2.2';
             $this->aPageSections = array($this->pageId);
         }
@@ -142,7 +142,7 @@ class OA_Admin_Statistics_Delivery_Controller_ZoneBannerHistory extends OA_Admin
         }
 
         // Add shortcuts
-        if (!phpAds_isUser(phpAds_Affiliate)) {
+        if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $this->_addShortcut(
                 $GLOBALS['strAffiliateProperties'],
                 'affiliate-edit.php?affiliateid='.$publisherId,

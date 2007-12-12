@@ -27,7 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 require_once MAX_PATH . '/lib/OA/Central.php';
-require_once MAX_PATH . '/lib/max/Permission.php';
+require_once MAX_PATH . '/lib/OA/Permission.php';
 
 
 /**
@@ -114,7 +114,7 @@ class OA_Dashboard_SsoProxy extends OA_Central
      */
     function checkAccess()
     {
-        if (!phpAds_IsLoggedIn()) {
+        if (!OA_Auth::isLoggedIn()) {
             require(MAX_PATH.'/lib/OA/Dashboard/Widgets/Reload.php');
             $oReload = new OA_Dashboard_Widget_Reload($this->aParams);
             // $this->dashboardTargetUrl

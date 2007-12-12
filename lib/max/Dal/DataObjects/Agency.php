@@ -28,12 +28,20 @@ $Id$
 /**
  * Table Definition for agency
  */
-require_once 'AbstractUser.php';
+require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Agency extends DataObjects_AbstractUser
+class DataObjects_Agency extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
     var $refreshUpdatedFieldIfExists = true;
+
+    /**
+     * BC-compatible user details
+     *
+     * @todo Please remove later
+     */
+    var $username;
+    var $password;
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -42,13 +50,10 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     var $name;                            // string(255)  not_null
     var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $username;                        // string(64)
-    var $password;                        // string(64)
-    var $permissions;                     // int(9)
-    var $language;                        // string(64)
     var $logout_url;                      // string(255)
     var $active;                          // int(1)
     var $updated;                         // datetime(19)  not_null binary
+    var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -66,12 +71,42 @@ class DataObjects_Agency extends DataObjects_AbstractUser
      */
     function insert()
     {
+        // Create account first
+        $result = $this->createAccount('MANAGER', $this->name);
+        if (!$result) {
+            return $result;
+        }
+
+        // Store data to create a user
+        if (!empty($this->username) && !empty($this->password)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'default_account_id' => $this->account_id
+            );
+        }
+
+        // Clear credentials, we don't need them anymore
+        $this->username = null;
+        $this->password = null;
+
         $agencyid = parent::insert();
         if (!$agencyid) {
             return $agencyid;
         }
 
-        // set agency preferences
+        // Create user if needed
+        if (!empty($aUser)) {
+            $result = $this->createUser($aUser);
+
+            if (!$result) {
+                return false;
+            }
+        }
+
+        // Set agency preferences
         $doPreference = $this->factory('preference');
         $doPreference->init();
         if ($doPreference->get(0)) {
@@ -85,7 +120,7 @@ class DataObjects_Agency extends DataObjects_AbstractUser
     }
 
     /**
-     * Handle all necessary operations when new agency is updated
+     * Handle all necessary operations when an agency is updated
      *
      * @see DB_DataObject::update()
      */
@@ -101,7 +136,20 @@ class DataObjects_Agency extends DataObjects_AbstractUser
         $doPreference = $this->_updatePreferences($doPreference);
         $doPreference->update();
 
+        $this->updateGaclAccountName();
+
         return $ret;
+    }
+
+    /**
+     * Handle all necessary operations when an agency is deleted
+     *
+     * @see DB_DataObject::delete()
+     */
+    function delete($useWhere = false, $cascade = true, $parentid = null)
+    {
+        $this->deleteAccount();
+        return parent::delete($useWhere, $cascade, $parentid);
     }
 
     /**
@@ -120,17 +168,6 @@ class DataObjects_Agency extends DataObjects_AbstractUser
 
         return $doPreference;
     }
-
-    /**
-     * Returns phpAds_Agency constant value.
-     *
-     * @return integer
-     */
-    function getUserType()
-    {
-        return phpAds_Agency;
-    }
-
 
     /**
      * Returns agencyid.

@@ -640,6 +640,19 @@ select.inline {
     font-weight: bold;  
 }
 
+.arrow-submit {
+  border: 0;
+  background-image: url('go.gif');
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: 0 2px;
+  cursor: pointer;
+}
+
+.arrow-submit:focus {
+  background-color: transparent;
+}
+
 form.new-form div.line:after, .clearfix:after {
     content: "."; 
     display: block; 

@@ -145,7 +145,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         $this->_export       = 'xls';
         if ($this->_hasTrackers()) {
             // 2007-12-10: Disabled the report for ALL users, see OA-46
-            // $this->_authorize = phpAds_Publisher | phpAds_Advertiser | phpAds_Agency | phpAds_Admin;
+            // $this->_authorize = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
         }
 
         $this->_import = $this->getDefaults();
@@ -293,7 +293,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             $_REQUEST['affiliateid'] = $this->_oScope->_publisherId;
         }
         // Select the correct statistics page controller type
-        if (phpAds_isUser(phpAds_Admin|phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
             if (!empty($this->_oScope->_advertiserId) && !empty($this->_oScope->_publisherId)) {
                 $controllerType = 'advertiser-affiliate-history';
             } elseif (!empty($this->_oScope->_advertiserId)) {
@@ -303,7 +303,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
             } else {
                 $controllerType = 'global-history';
             }
-        } elseif (phpAds_isUser(phpAds_Client)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             if (!empty($this->_oScope->_publisherId)) {
                 $controllerType = 'advertiser-affiliate-history';
             } else {
@@ -437,7 +437,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                     $variableName = !empty($aTrackerVariable['tracker_variable_description']) ? $aTrackerVariable['tracker_variable_description'] : $aTrackerVariable['tracker_variable_name'];
                     if (($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric') && ($aTrackerVariable['tracker_variable_is_unique'] == 0)) {
                         // Don't display if the user is a publisher and the variable is hidden
-                        if (!phpAds_isUser(phpAds_Publisher) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
+                        if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
                             $key = MAX_Plugin_Translation::translate('Total ' . $variableName, $this->module, $this->package);
                             $aHeaders[$key] = 'numeric';
                             $key = MAX_Plugin_Translation::translate('Average ' . $variableName, $this->module, $this->package);
@@ -505,7 +505,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                     foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
                         if ( ($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric')
                           && ($aTrackerVariable['tracker_variable_is_unique'] == 0)
-                          && (!phpAds_isUser(phpAds_Publisher) || $aTrackerVariable['tracker_variable_hidden'] != 't') ) {
+                          && (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') ) {
                                 $var = $aDay['variables'][$trackerVariableId] > 0 ? $aDay['variables'][$trackerVariableId] : 0;
                                 $stat = $aDay['status'][MAX_CONNECTION_STATUS_APPROVED] > 0 ? $aDay['status'][MAX_CONNECTION_STATUS_APPROVED] : 0;
                                 $aData[$row][$col++] = $var;
@@ -544,7 +544,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                     // the user is a publisher and the variable is hidden; or
                     // the tracker variable type is not a string type and not a date type; or
                     // the tracker variable is "unique"
-                    if ((phpAds_isUser(phpAds_Publisher) && $aBdVariable['tracker_variable_hidden'] == 't') ||
+                    if ((OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) && $aBdVariable['tracker_variable_hidden'] == 't') ||
                         ($aBdVariable['tracker_variable_data_type'] != 'string' && $aBdVariable['tracker_variable_data_type'] != 'date') ||
                         $aBdVariable['tracker_variable_is_unique'] == 1) {
                         continue;
@@ -562,7 +562,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                             $variableName = !empty($aTrackerVariable['tracker_variable_description']) ? $aTrackerVariable['tracker_variable_description'] : $aTrackerVariable['tracker_variable_name'];
                             if (($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric') && ($aTrackerVariable['tracker_variable_is_unique'] == 0)) {
                                 // Don't display if the user is a publisher and the variable is hidden
-                                if (!phpAds_isUser(phpAds_Publisher) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
+                                if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
                                     $key = MAX_Plugin_Translation::translate('Total ' . $variableName, $this->module, $this->package);
                                     $aHeaders[$key] = 'numeric';
                                     $key = MAX_Plugin_Translation::translate('Average ' . $variableName, $this->module, $this->package);
@@ -597,7 +597,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                             foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
                                 if ( ($aTrackerVariable['tracker_variable_data_type'] == 'int' || $aTrackerVariable['tracker_variable_data_type'] == 'numeric')
                                   && ($aTrackerVariable['tracker_variable_is_unique'] == 0)
-                                  && (!phpAds_isUser(phpAds_Publisher) || $aTrackerVariable['tracker_variable_hidden'] != 't') ) {
+                                  && (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') ) {
                                         $var = $aVariable['variables'][$trackerVariableId] > 0 ? $aVariable['variables'][$trackerVariableId] : 0;
                                         $stat = $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED] > 0 ? $aVariable['status'][MAX_CONNECTION_STATUS_APPROVED] : 0;
                                         $aData[$row][$col++] = $var;
@@ -638,7 +638,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                 foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
                     $variableName = !empty($aTrackerVariable['tracker_variable_description']) ? $aTrackerVariable['tracker_variable_description'] : $aTrackerVariable['tracker_variable_name'];
                     // Don't display if the user is a publisher and the variable is hidden
-                    if (!phpAds_isUser(phpAds_Publisher) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
+                    if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
                         switch ($aTrackerVariable['tracker_variable_data_type']) {
                             case 'int':
                             case 'numeric':
@@ -703,7 +703,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                     if (!empty($aTracker['variables'])) {
                         foreach ($aTracker['variables'] as $trackerVariableId => $aTrackerVariable) {
                             // Don't display if the user is a publisher and the variable is hidden
-                            if (!phpAds_isUser(phpAds_Publisher) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
+                            if (!OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER) || $aTrackerVariable['tracker_variable_hidden'] != 't') {
                                 $value = $aConnection['variables'][$trackerVariableId]['tracker_variable_value'];
                                 if ($aTrackerVariable['tracker_variable_data_type'] == 'date') {
                                     // Change value to match Excel format
@@ -727,7 +727,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
                     $aData[$row][] = $aConnection['connection_date_time'];
                     $aData[$row][] = $aConnection['connection_ip_address'];
                     $aData[$row][] = $aConnection['connection_country'];
-                    $aData[$row][] = (phpAds_isUser(phpAds_Advertiser) && $trackerAnonymous) ? '' : $aConnection['connection_domain'];
+                    $aData[$row][] = (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && $trackerAnonymous) ? '' : $aConnection['connection_domain'];
                     $aData[$row][] = $aConnection['connection_language'];
                     $aData[$row][] = $aConnection['connection_os'];
                     $aData[$row][] = $aConnection['connection_browser'];
@@ -747,17 +747,17 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
      */
     function _hasTrackers()
     {
-        if (phpAds_isUser(phpAds_Advertiser)) {
-            $aParams = array('advertiser_id' => phpAds_getUserID());
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            $aParams = array('advertiser_id' => OA_Permission::getEntityId());
             $aTrackers = Admin_DA::getTrackers($aParams);
-        } elseif (phpAds_isUser(phpAds_Agency)) {
-            $aParams = array('agency_id' => phpAds_getUserID());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+            $aParams = array('agency_id' => OA_Permission::getEntityId());
             $aTrackers = Admin_DA::getTrackers($aParams);
-        } elseif (phpAds_isUser(phpAds_Admin)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
             $aTrackers = Admin_DA::getTrackers(array());
-        } elseif (phpAds_isUser(phpAds_Publisher)) {
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             $aTrackers = array();
-            $aParams = array('publisher_id' => phpAds_getUserID());
+            $aParams = array('publisher_id' => OA_Permission::getEntityId());
             $aPlacementZones = Admin_DA::getPlacementZones($aParams, false, 'placement_id');
             if (!empty($aPlacementZones)) {
                 $aParams = array('placement_id' => implode(',', array_keys($aPlacementZones)));
@@ -1018,8 +1018,8 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
         $aTrackerVariables = array();
         $aConf = $GLOBALS['_MAX']['CONF'];
         // If the user is a publisher, set the publisher ID
-        if (phpAds_isUser(phpAds_Affiliate)) {
-            $publisherId = phpAds_getUserId();
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+            $publisherId = OA_Permission::getEntityId();
         } else {
             $publisherId = 0;
         }
@@ -1174,7 +1174,7 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
      */
     function _shouldDisplaySourceField()
     {
-        if (phpAds_isUser(phpAds_Advertiser)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             return false;
         }
         return true;
@@ -1212,22 +1212,14 @@ class Plugins_Reports_Standard_ConversionTrackingReport extends Plugins_ReportsS
      */
     function _getConnectionStatuses()
     {
-        if (phpAds_isUser(phpAds_Affiliate) && phpAds_isAllowed(MAX_AffiliateViewOnlyApprPendConv)) {
-            $aStatus = array(
-                MAX_CONNECTION_STATUS_PENDING     => 'Pending',
-                MAX_CONNECTION_STATUS_APPROVED    => 'Approved',
-            );
-        } else {
-            $aStatus = array(
-                MAX_CONNECTION_STATUS_PENDING     => 'Pending',
-                MAX_CONNECTION_STATUS_APPROVED    => 'Approved',
-                MAX_CONNECTION_STATUS_DUPLICATE   => 'Duplicate',
-                MAX_CONNECTION_STATUS_DISAPPROVED => 'Disapproved',
-                MAX_CONNECTION_STATUS_ONHOLD      => 'On Hold',
-                MAX_CONNECTION_STATUS_IGNORE      => 'Ignored',
-            );
-        }
-        return $aStatus;
+        return array(
+            MAX_CONNECTION_STATUS_PENDING     => 'Pending',
+            MAX_CONNECTION_STATUS_APPROVED    => 'Approved',
+            MAX_CONNECTION_STATUS_DUPLICATE   => 'Duplicate',
+            MAX_CONNECTION_STATUS_DISAPPROVED => 'Disapproved',
+            MAX_CONNECTION_STATUS_ONHOLD      => 'On Hold',
+            MAX_CONNECTION_STATUS_IGNORE      => 'Ignored',
+        );
     }
 
     /**

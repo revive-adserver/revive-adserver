@@ -40,10 +40,10 @@ require_once MAX_PATH . '/lib/max/Admin/UI/Field/DaySpanField.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics/AdServer/mysql.php';
 
 // Security check
-//MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency);
+//OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 
 // Switched off
-MAX_Permission::checkAccess(0);
+OA_Permission::enforceAccount(0);
 
 
 phpAds_registerGlobal('zoneid', 'cost', 'cost_type', 'cost_variable_id', 'cost_variable_id_mult', 'technology_cost', 'technology_cost_type', 'action');

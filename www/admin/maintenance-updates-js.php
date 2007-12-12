@@ -44,7 +44,7 @@ $update_check = false;
 /*-------------------------------------------------------*/
 
 // Check for product updates when the admin logs in
-if (phpAds_isUser(phpAds_Admin))
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
 {
     $aConf = $GLOBALS['_MAX']['CONF'];
     $aVars = OA_Dal_ApplicationVariables::getAll();

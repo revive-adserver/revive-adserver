@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 
 if (!MAX_checkZone($affiliateid, $zoneid)) {
     phpAds_Die($strAccessDenied, $strNotAdmin);
@@ -53,16 +53,16 @@ if (!MAX_checkZone($affiliateid, $zoneid)) {
 
 if (isset($zoneid) && $zoneid != '') {
 
-    MAX_Permission::checkAccessToObject('zones', $zoneid);
+    OA_Permission::checkAccessToObject('zones', $zoneid);
 
     if (isset($newaffiliateid) && $newaffiliateid != '') {
         // A publisher cannot move a zone to another publisher!
-        if (phpAds_isUser(phpAds_Affiliate)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
             phpAds_Die($strAccessDenied, $strNotAdmin);
         }
         // Needs to ensure that the publisher the zone is being moved
         // to is owned by the agency, if an agency is logged in
-        if (phpAds_isUser(phpAds_Agency + phpAds_Affiliate)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER)) {
             if (!MAX_checkPublisher($newaffiliateid)) {
                 phpAds_Die($strAccessDenied, $strNotAdmin);
             }
@@ -77,7 +77,7 @@ if (isset($zoneid) && $zoneid != '') {
 
     } elseif (isset($duplicate) && $duplicate == 'true') {
         // Can the user add new zones?
-        MAX_Permission::checkIsAllowed(phpAds_AddZone);
+        OA_Permission::checkIsAllowed(OA_PERM_ZONE_ADD);
         // Duplicate the zone
         $doZones = OA_Dal::factoryDO('zones');
         $doZones->get($zoneid);

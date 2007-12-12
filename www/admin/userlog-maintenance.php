@@ -41,7 +41,7 @@ require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 phpAds_registerGlobal ('start');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

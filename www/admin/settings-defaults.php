@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 $options = new OA_Admin_Option('settings');
 
 // Security check
-phpAds_checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Client + phpAds_Affiliate);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 
 // Load and sort statisticsFieldsDelivery plugins
@@ -76,7 +76,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
     // Set up the preferences object
     $preferences = new OA_Admin_Preferences();
-    if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency))
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
     {
         $preferences->setPrefChange('gui_show_campaign_info',       isset($gui_show_campaign_info));
         $preferences->setPrefChange('gui_show_banner_info',         isset($gui_show_banner_info));
@@ -131,7 +131,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             $varlabel = $var.'_label';
             $varrank  = $var.'_rank';
             $final    = array();
-            foreach (array(phpAds_Admin, phpAds_Client, phpAds_Affiliate, phpAds_Agency) as $perm) {
+            foreach (array(OA_ACCOUNT_ADMIN_ID, OA_ACCOUNT_ADVERTISER_ID, OA_ACCOUNT_TRAFFICKER_ID, OA_ACCOUNT_MANAGER_ID) as $perm) {
                 $final[$perm] = array('show' => true, 'label' => '', 'rank' => 0);
                 if (isset($$var)) {
                     $final[$perm]['show'] = (bool)($$var & $perm);
@@ -159,38 +159,35 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
         // Unable to update the preferences
         $errormessage[0][] = $strUnableToWritePrefs;
     } else {
-        if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
             MAX_Admin_Redirect::redirect('settings-invocation.php');
-        } elseif (phpAds_isUser(phpAds_Client)) {
-            MAX_Admin_Redirect::redirect('settings-defaults.php?clientid='.phpAds_getUserId());
+        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+            MAX_Admin_Redirect::redirect('settings-defaults.php?clientid='.OA_Permission::getEntityId());
         } else {
-            MAX_Admin_Redirect::redirect('settings-defaults.php?affiliateid='.phpAds_getUserId());
+            MAX_Admin_Redirect::redirect('settings-defaults.php?affiliateid='.OA_Permission::getEntityId());
         }
     }
 }
 
-if (phpAds_isUser(phpAds_Admin)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_PageHeader("5.2");
     phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
-} elseif (phpAds_isUser(phpAds_Agency)) {
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader("5.2");
 //    phpAds_ShowSections(array("5.2", "5.4", "5.3"));
     phpAds_ShowSections(array("5.2", "5.3"));
-} elseif (phpAds_isUser(phpAds_Client)) {
+} elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     phpAds_PageHeader("4.1");
     phpAds_ShowSections(array("4.1"));
 } else {
     $sections = array();
     $sections[] = "4.1";
-    if (phpAds_isAllowed(phpAds_ModifyInfo)) {
-        $sections[] = "4.2";
-    }
     phpAds_PageHeader('4.1');
     phpAds_ShowSections($sections);
 }
 $options->selection("defaults");
 
-$admin_settings = phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency);
+$admin_settings = OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER);
 
 $settings = array (
     array (
