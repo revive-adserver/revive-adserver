@@ -47,28 +47,11 @@ phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', '
                                'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
 
 // Security check
-MAX_Permission::checkAccess(phpAds_Admin + phpAds_Agency + phpAds_Affiliate);
-MAX_Permission::checkIsAllowed(phpAds_ModifyInfo);
-MAX_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::checkAccessToObject('affiliates', $affiliateid);
 
-// Initialise Ad  Networks
 $oAdNetworks = new OA_Central_AdNetworks();
-
-/*-------------------------------------------------------*/
-/* Affiliate interface security                          */
-/*-------------------------------------------------------*/
-
-if (phpAds_isUser(phpAds_Affiliate)) {
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $affiliateid = phpAds_getUserID();
-    $doAffiliates->get($affiliateid);
-    $agencyid = $doAffiliates->agencyid;
-} elseif (phpAds_isUser(phpAds_Agency)) {
-    $agencyid = phpAds_getUserID();
-} else {
-    $agencyid = 0;
-}
-
+$agencyid = OA_Permission::getAgencyId();
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
