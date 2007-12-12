@@ -86,14 +86,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 <div id="oaHeader">
 
-{* Branding *}
-{if $applicationName && $logoFilePath}
-    <div id="oaHeaderBranding" class="brandingCustom"><img src="images/{$logoFilePath|escape}" alt="{$applicationName|escape}" /></div>
-{elseif $applicationName}
-    <div id="oaHeaderBranding" class="brandingName"><div></div>{$applicationName|escape}</div>
-{else}
-    <div id="oaHeaderBranding" class="brandingDefault">{$productName}</div>
-{/if}
+{include file=layout/branding.html}
 
 {if $displaySearch}
     <div id="oaSearch">

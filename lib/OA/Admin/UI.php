@@ -208,7 +208,6 @@ class OA_Admin_UI
         $this->oTpl->assign('pageTitle', $pageTitle);
         $this->oTpl->assign('imgPath', $imgPath);
         $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
-        $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
         $this->oTpl->assign('formValidation', !defined('phpAds_installing'));
 
         if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
@@ -224,6 +223,7 @@ class OA_Admin_UI
         // Branding
         $this->oTpl->assign('applicationName', $conf['ui']['applicationName']);
         $this->oTpl->assign('logoFilePath', $conf['ui']['logoFilePath']);
+        $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
 
         $displaySearch = ($ID != phpAds_Login && $ID != phpAds_Error && OA_Auth::isLoggedIn() && OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER) && !defined('phpAds_installing'));
         $this->oTpl->assign('displaySearch', $displaySearch);

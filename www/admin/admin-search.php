@@ -33,6 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
@@ -78,7 +79,7 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
         <title><?php echo strip_tags($strSearch); ?></title>
         <meta name='generator' content='<?php echo MAX_PRODUCT_NAME; ?> v<?php echo OA_VERSION; ?> - http://<?php echo MAX_PRODUCT_URL; ?>' />
     	<meta name='robots' content='noindex, nofollow' />
-        
+
     	<link rel='stylesheet' type='text/css' href='css/chrome.css' />
         <?php if ($phpAds_TextDirection != 'ltr'): ?>
 	    <link rel='stylesheet' type='text/css' href='{$imgPath}css/chrome-rtl.css' />
@@ -103,8 +104,16 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
 
 <body>
 <div id='oaHeader'>
-	<?php phpAds_writeBranding(); ?>
-    
+	<?php
+
+	$oTpl = new OA_Admin_Template('layout/branding.html');
+    $oTpl->assign('applicationName', $GLOBALS['_MAX']['CONF']['ui']['applicationName']);
+    $oTpl->assign('logoFilePath', $GLOBALS['_MAX']['CONF']['ui']['logoFilePath']);
+    $oTpl->assign('productName', MAX_PRODUCT_NAME);
+	$oTpl->display();
+
+	?>
+
 	<div id='oaSearch'>
 		<form name='search' action='admin-search.php' method='post'>
             <input type='hidden' name='client' value='<?php echo $client; ?>'>
@@ -114,7 +123,7 @@ header ("Content-Type: text/html".(isset($phpAds_CharSet) && $phpAds_CharSet != 
             <input type='hidden' name='affiliate' value='<?php echo $affiliate; ?>'>
             <input type='hidden' name='compact' value='<?php echo $compact; ?>'>
             <label>
-                <?php echo $strSearch; ?>: 
+                <?php echo $strSearch; ?>:
                 <input type='text' name='keyword' size='15' class='search' accesskey='<?php echo $keySearch; ?>'>
             </label>
         </form>
