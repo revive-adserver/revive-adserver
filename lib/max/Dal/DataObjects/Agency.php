@@ -147,7 +147,6 @@ class DataObjects_Agency extends DB_DataObjectCommon
     function delete($useWhere = false, $cascade = true, $parentid = null)
     {
         $this->deleteAccount();
-        $this->deletePrefernce();
         return parent::delete($useWhere, $cascade, $parentid);
     }
 
