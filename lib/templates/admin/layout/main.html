@@ -92,7 +92,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {elseif $applicationName}
     <div id="oaHeaderBranding" class="brandingName"><div></div>{$applicationName|escape}</div>
 {else}
-    <div id="oaHeaderBranding" class="brandingDefault">{$smarty.constants.MAX_PRODUCT_NAME}</div>
+    <div id="oaHeaderBranding" class="brandingDefault">{$productName}</div>
 {/if}
 
 {if $displaySearch}

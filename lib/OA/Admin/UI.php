@@ -208,6 +208,7 @@ class OA_Admin_UI
         $this->oTpl->assign('pageTitle', $pageTitle);
         $this->oTpl->assign('imgPath', $imgPath);
         $this->oTpl->assign('metaGenerator', MAX_PRODUCT_NAME.' v'.OA_VERSION.' - http://'.MAX_PRODUCT_URL);
+        $this->oTpl->assign('productName', MAX_PRODUCT_NAME);
         $this->oTpl->assign('formValidation', !defined('phpAds_installing'));
 
         if (!empty($session['RUN_MPE']) && $session['RUN_MPE']) {
