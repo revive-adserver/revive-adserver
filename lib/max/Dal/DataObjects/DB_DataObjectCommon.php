@@ -189,7 +189,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * Checks if there is any object in hierarchy of objects (it uses information from link.ini to buil hierarchy)
      * which belongs to user's account.
      *
-     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't 
+     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
      *                          able to find object in references
      */
     function belongToUsersAccount()
@@ -198,7 +198,7 @@ class DB_DataObjectCommon extends DB_DataObject
         $accountId = OA_Permission::getAccountId();
         return $this->belongToAccount($accountTable, $accountId);
     }
-    
+
     /**
      * This method uses information from links.ini to handle hierarchy of tables.
      * It checks if there is a linked (referenced) object to this object with
@@ -206,7 +206,7 @@ class DB_DataObjectCommon extends DB_DataObject
      *
      * @param string $accountTable It's table name where record belongs, eg: agency, affiliates, clients
      * @param string $accountId Account id
-     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't 
+     * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
      *                          able to find object in references
      */
     function belongToAccount($accountTable = null, $accountId = null)
@@ -247,12 +247,12 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $found;
     }
-    
+
     /**
      * This method uses information from links.ini to handle hierarchy of tables.
      * It checks if there is a linked (referenced) object to this object with
      * table==$userTable and id==$userId
-     * 
+     *
      * @TODO - remove this method
      *
      * @param string $userTable It's table name where user belongs, eg: agency, affiliates, clients
@@ -293,12 +293,12 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         return $found;
     }
-    
+
     /**
      * Check if user has access to specific account
      *
      * @TODO Replace used string with constants
-     * 
+     *
      * @param Inventory entity table name $entityType
      * @param Row id $entityId
      * @param User Id $userId
@@ -317,7 +317,7 @@ class DB_DataObjectCommon extends DB_DataObject
             $entityId
         );
     }
-    
+
     /**
      * This method allows to automatically join DataObject with other records
      * using information from links.ini file. It allow for example to very
@@ -1093,7 +1093,7 @@ class DB_DataObjectCommon extends DB_DataObject
             $oGacl = OA_Permission_Gacl::factory();
             $acoId = $oGacl->get_object_id('ACCOUNTS', $this->account_id, 'AXO');
             if ($acoId) {
-                $oGacl->edit_object($acoId, 'ACCOUNTS', $this->$nameField, 0, 0, 0, 'AXO');
+                $oGacl->edit_object($acoId, 'ACCOUNTS', $this->$nameField, $this->account_id, 0, 0, 'AXO');
             }
         }
     }
