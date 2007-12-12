@@ -570,7 +570,10 @@ class OA_Permission
 	 */
 	function checkIsAllowed($allowed)
 	{
-		if (!OA_Permission::isAllowed($allowed)) {
+		// TODO - harcoded till adding permissions in UI to users will be possible 
+		// FIXME
+	    return true;
+	    if (!OA_Permission::isAllowed($allowed)) {
 			global $strNotAdmin, $strAccessDenied;
 			phpAds_PageHeader("2");
 			phpAds_Die ($strAccessDenied, $strNotAdmin);

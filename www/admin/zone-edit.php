@@ -65,7 +65,7 @@ phpAds_registerGlobalUnslashed(
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 if (!empty($zoneid)) {
     OA_Permission::checkAccessToObject('zones', $zoneid);
     OA_Permission::checkIsAllowed(OA_PERM_ZONE_EDIT);
