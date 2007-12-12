@@ -51,8 +51,8 @@ phpAds_registerGlobalUnslashed('convert', 'cancel', 'compress', 'convert_links',
 /* Client interface security                             */
 /*-------------------------------------------------------*/
 
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkIsAllowed(OA_PERM_BANNER_EDIT);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     OA_Permission::checkAccessToObject('banners', $bannerid);
     OA_Permission::checkAccessToObject('campaigns', $campaignid);

@@ -138,6 +138,10 @@ class OA_Permission
      */
     function enforceAllowed($permission, $accountId = null)
     {
+        // FIXME - always allow, temporal hack before it will be possible
+        //         to assign permissions to users in UI
+        return true;
+        
         if (OA_Permission::isAllowed($permission, $accountId)) {
             return true;
         }
@@ -562,23 +566,6 @@ class OA_Permission
         ArrayUtils::unsetIfKeyNumeric($uniqueUsers, $removeName);
         return $uniqueUsers;
     }
-
-	/**
-	 * Checks if user is allowed to perform action
-	 *
-	 * @param inst $allowed  Bitwise permissions value
-	 */
-	function checkIsAllowed($allowed)
-	{
-		// TODO - harcoded till adding permissions in UI to users will be possible 
-		// FIXME
-	    return true;
-	    if (!OA_Permission::isAllowed($allowed)) {
-			global $strNotAdmin, $strAccessDenied;
-			phpAds_PageHeader("2");
-			phpAds_Die ($strAccessDenied, $strNotAdmin);
-		}
-	}
 
 	/**
 	 * Checks the user is allowed to access the requested object.
