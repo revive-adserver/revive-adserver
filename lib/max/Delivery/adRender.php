@@ -416,7 +416,7 @@ function _adRenderHtml($aBanner, $zoneId=0, $source='', $ct0='', $withText=false
     // Parse PHP code
     if ($conf['delivery']['execPhp'])
     {
-        if (preg_match ("#(\<\?php(.*)\?\>)#is", $code, $parser_regs))
+        if (preg_match ("#(\<\?php(.*)\?\>)#isU", $code, $parser_regs))
         {
             // Extract PHP script
             $parser_php     = $parser_regs[2];
