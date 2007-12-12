@@ -147,7 +147,6 @@ class OA_Dll_AgencyTest extends DllUnitTestCase
         $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'agencyName');
         $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'contactName');
         $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'emailAddress');
-        $this->assertFieldEqual($oAgencyInfo1, $oAgencyInfo1Get, 'username');
         $this->assertNull($oAgencyInfo1Get->password,
                           'Field \'password\' must be null');
         $this->assertFieldEqual($oAgencyInfo2, $oAgencyInfo2Get, 'agencyName');

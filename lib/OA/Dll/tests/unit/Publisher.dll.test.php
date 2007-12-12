@@ -30,6 +30,8 @@ require_once MAX_PATH . '/lib/OA/Dll/AgencyInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 require_once MAX_PATH . '/lib/OA/Dll/PublisherInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
+require_once MAX_PATH . '/lib/gacl/tests/unit/acl.mol.test.php';
 
 /**
  * A class for testing DLL Publisher methods
@@ -123,6 +125,10 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
      */
     function testGetAndGetList()
     {
+        $aclSetup = new acl_setup($options = array());
+        $aclSetup->cleanUp();
+        OA_GaclPermissions::insert();
+        
         $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
         $dllAgencyPartialMock    = new PartialMockOA_Dll_Agency($this);
 
@@ -142,7 +148,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $oPublisherInfo1->publisherName  = 'test name 1';
         $oPublisherInfo1->contactName    = 'contact';
         $oPublisherInfo1->emailAddress   = 'name@domain.com';
-        $oPublisherInfo1->username       = 'publisher   user';
+        $oPublisherInfo1->username       = 'publisher   user'.rand(1, 20);
         $oPublisherInfo1->password       = 'password';
 
         $oPublisherInfo2                 = new OA_Dll_PublisherInfo();
@@ -169,7 +175,6 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'publisherName');
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'contactName');
         $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'emailAddress');
-        $this->assertFieldEqual($oPublisherInfo1, $oPublisherInfo1Get, 'username');
         $this->assertNull($oPublisherInfo1Get->password,
                           'Field \'password\' must be null');
         $this->assertFieldEqual($oPublisherInfo2, $oPublisherInfo2Get, 'publisherName');

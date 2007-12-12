@@ -168,7 +168,6 @@ class OA_Dll_AdvertiserTest extends DllUnitTestCase
         $this->assertFieldEqual($oAdvertiserInfo1, $oAdvertiserInfo1Get, 'advertiserName');
         $this->assertFieldEqual($oAdvertiserInfo1, $oAdvertiserInfo1Get, 'contactName');
         $this->assertFieldEqual($oAdvertiserInfo1, $oAdvertiserInfo1Get, 'emailAddress');
-        $this->assertFieldEqual($oAdvertiserInfo1, $oAdvertiserInfo1Get, 'username');
         $this->assertNull($oAdvertiserInfo1Get->password,
                           'Field \'password\' must be null');
         $this->assertFieldEqual($oAdvertiserInfo2, $oAdvertiserInfo2Get, 'advertiserName');
