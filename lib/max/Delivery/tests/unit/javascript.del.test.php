@@ -63,10 +63,10 @@ class test_DeliveryJavascript extends UnitTestCase
         $varName    = 'myVar';
         $output     = true;
         $return     = MAX_javascriptToHTML($string, $varName, $output);
-        $result     = 'var myVar = \'\';
+        $result     = str_replace("\r", '', 'var myVar = \'\';
 myVar += "<"+"div>write this to document/div>\n";
 document.write(myVar);
-';
+');
         $this->assertEqual($return, $result);
     }
 
