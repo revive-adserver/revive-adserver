@@ -52,7 +52,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
     var $clientid;                        // int(9)  not_null primary_key auto_increment
     var $agencyid;                        // int(9)  not_null multiple_key
     var $clientname;                      // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
     var $report;                          // string(1)  not_null enum
     var $reportinterval;                  // int(9)  not_null
@@ -61,8 +61,8 @@ class DataObjects_Clients extends DB_DataObjectCommon
     var $comments;                        // blob(65535)  blob
     var $updated;                         // datetime(19)  not_null binary
     var $lb_reporting;                    // int(1)  not_null
-    var $an_adnetwork_id;                 // int(11)  
-    var $as_advertiser_id;                // int(11)  
+    var $an_adnetwork_id;                 // int(11)
+    var $as_advertiser_id;                // int(11)
     var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
@@ -136,11 +136,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
 
         // Create user if needed
         if (!empty($aUser)) {
-            $result = $this->createUser($aUser);
-
-            if (!$result) {
-                return false;
-            }
+            $this->createUser($aUser);
         }
 
         return $clientId;
@@ -153,9 +149,25 @@ class DataObjects_Clients extends DB_DataObjectCommon
      */
     function update($dataObject = false)
     {
+        // Store data to create a user
+        if (!empty($this->clientusername) && !empty($this->clientpassword)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->clientusername,
+                'password' => $this->clientpassword,
+                'default_account_id' => $this->account_id
+            );
+        }
+
         $ret = parent::update($dataObject);
         if (!$ret) {
             return $ret;
+        }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
         }
 
         $this->updateGaclAccountName('clientname');

@@ -48,10 +48,10 @@ class DataObjects_Agency extends DB_DataObjectCommon
     var $__table = 'agency';                          // table name
     var $agencyid;                        // int(9)  not_null primary_key auto_increment
     var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $logout_url;                      // string(255)  
-    var $active;                          // int(1)  
+    var $logout_url;                      // string(255)
+    var $active;                          // int(1)
     var $updated;                         // datetime(19)  not_null binary
     var $account_id;                      // int(9)  multiple_key
 
@@ -88,10 +88,6 @@ class DataObjects_Agency extends DB_DataObjectCommon
             );
         }
 
-        // Clear credentials, we don't need them anymore
-        $this->username = null;
-        $this->password = null;
-
         $agencyid = parent::insert();
         if (!$agencyid) {
             return $agencyid;
@@ -99,11 +95,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
 
         // Create user if needed
         if (!empty($aUser)) {
-            $result = $this->createUser($aUser);
-
-            if (!$result) {
-                return false;
-            }
+            $this->createUser($aUser);
         }
 
         // Set agency preferences
@@ -125,10 +117,27 @@ class DataObjects_Agency extends DB_DataObjectCommon
      */
     function update($dataObject = false)
     {
+        // Store data to create a user
+        if (!empty($this->username) && !empty($this->password)) {
+            $aUser = array(
+                'contact_name' => $this->contact,
+                'email_address' => $this->email,
+                'username' => $this->username,
+                'password' => $this->password,
+                'default_account_id' => $this->account_id
+            );
+        }
+
         $ret = parent::update($dataObject);
         if (!$ret) {
             return $ret;
         }
+
+        // Create user if needed
+        if (!empty($aUser)) {
+            $this->createUser($aUser);
+        }
+
         $doPreference = $this->factory('preference');
         $doPreference->get($this->agencyid);
         $doPreference = $this->_updatePreferences($doPreference);
