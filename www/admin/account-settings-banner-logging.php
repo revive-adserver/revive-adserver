@@ -53,13 +53,34 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements = array();
     // Banner Logging Settings
     $aElements += array(
-        'logging_adRequests'         => array('logging' => 'adRequests'),
-        'logging_adImpressions'      => array('logging' => 'adImpressions'),
-        'logging_adClicks'           => array('logging' => 'adClicks'),
-        'logging_trackerImpressions' => array('logging' => 'trackerImpressions'),
-        'logging_reverseLookup'      => array('logging' => 'reverseLookup'),
-        'logging_reverseLookup'      => array('logging' => 'reverseLookup'),
-        'logging_sniff'              => array('logging' => 'sniff')
+        'logging_adRequests'          => array(
+             'logging'                => 'adRequests',
+             'bool'                   => 'true'
+         ),
+        'logging_adImpressions'       => array(
+             'logging'                => 'adImpressions',
+             'bool'                   => 'true'
+         ),
+        'logging_adClicks'            => array(
+             'logging'                => 'adClicks',
+             'bool'                   => 'true'
+         ),
+         /*'logging_trackerImpressions' => array(
+             'logging'                => 'trackerImpressions',
+             'bool'                   => 'true'
+         ),*/
+        'logging_reverseLookup'       => array(
+             'logging'                => 'reverseLookup',
+             'bool'                   => 'true'
+         ),
+        'logging_proxyLookup'         => array(
+             'logging'                => 'proxyLookup',
+             'bool'                   => 'true'
+         ),
+        'logging_sniff'               => array(
+              'logging'               => 'sniff',
+              'bool'                  => 'true'
+         )
     );
     // Block Banner Logging Settings
     $aElements += array(
@@ -113,11 +134,11 @@ $aSettings = array (
                 'name'    => 'logging_adClicks',
                 'text'    => $strLogAdClicks
             ),
-            array (
+           /* array (
                 'type'    => 'checkbox',
                 'name'    => 'logging_trackerImpressions',
                 'text'    => $strLogTrackerImpressions
-            ),
+            ),*/
             array (
                 'type'    => 'break'
             ),

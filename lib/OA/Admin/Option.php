@@ -155,27 +155,29 @@ class OA_Admin_Option
         } elseif ($this->_optionType == 'account-preferences') {
             $sections = array(
                 'account' => array(
-                    'name' => $GLOBALS['strAccountPreferences'],                 
+                    'name' => $GLOBALS['strAccountPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 ),
                 'banner' => array(
-                    'name' => $GLOBALS['strBannerPreferences'],                  
+                    'name' => $GLOBALS['strBannerPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 ),
                 'campaign-email-reports' => array(
-                    'name' => $GLOBALS['strCampaignEmailReportsPreferences'],    
+                    'name' => $GLOBALS['strCampaignEmailReportsPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 ),
                 'language-timezone' => array(
-                    'name' => $GLOBALS['strLanguageTimezonePreferences'],        
+                    'name' => $GLOBALS['strLanguageTimezonePreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 ),
+                /*
                 'tracker' => array(
-                    'name' => $GLOBALS['strTrackerPreferences'],                 
+                    'name' => $GLOBALS['strTrackerPreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 ),
+                */
                 'user-interface' => array(
-                    'name' => $GLOBALS['strUserInterfacePreferences'],           
+                    'name' => $GLOBALS['strUserInterfacePreferences'],
                     'perm' => array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER)
                 )
             );
@@ -561,7 +563,7 @@ class OA_Admin_Option
         $this->_assignAccountsIds();
         $this->aOption[] = array('usertype-checkboxes.html' => $item);
     }
-    
+
     function _assignAccountsIds()
     {
         $this->oTpl->assign('OA_ACCOUNT_ADMIN_ID',      OA_ACCOUNT_ADMIN_ID);

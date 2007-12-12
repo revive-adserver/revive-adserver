@@ -58,27 +58,6 @@ $aErrormessage = array();
 // If the settings page is a submission, deal with the form data
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 
@@ -111,7 +90,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
         } else {
-            MAX_Admin_Redirect::redirect('account-preferences-tracker.php');
+            MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
         }
     }
 

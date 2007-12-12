@@ -92,7 +92,8 @@ phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=hi
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_PageHeader("4.1.3");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.4"));
+	phpAds_ShowSections(array("4.1.2", "4.1.3"//, "4.1.4"
+	));
 } else {
     phpAds_PageHeader("2");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
@@ -408,7 +409,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				echo "<td></td>";
 				echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
 				echo "</tr>";
-				
+
 
 				// Icon & name
 				echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"").">";
@@ -440,10 +441,10 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				} else {
     				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";
 				}
-				
-                //empty cell to match status    
+
+                //empty cell to match status
                 echo "<td height='25'>&nbsp;</td>";
-                            
+
 				// ID
 				echo "<td height='25'>".$banners[$bkey]['bannerid']."</td>";
 
@@ -474,7 +475,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
             echo "<td></td>";
             echo "<td colspan='5' bgcolor='#bbbbbb'></td>";
             echo "</tr>";
-            
+
 			echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td>&nbsp;</td><td colspan='5'>";
 			echo "<table width='100%' cellpadding='0' cellspacing='0' border='0'>";
 			echo "<tr height='25'>";

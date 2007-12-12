@@ -52,11 +52,13 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // location to save the values in the settings configuration
     // file
     $aElements = array();
+    /*
     // Block Banner Logging Settings
     $aElements += array(
         'maintenance_blockAdImpressions' => array('maintenance' => 'blockAdImpressions'),
         'maintenance_blockAdClicks'      => array('maintenance' => 'blockAdClicks')
     );
+    */
     // Maintenance Settings
     $aElements += array(
         'maintenance_autoMaintenance' => array(
@@ -69,8 +71,10 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             'bool'        => true
         ),
         'maintenance_compactStatsGrace'             => array('maintenance' => 'compactStatsGrace'),
+        /*
         'logging_defaultImpressionConnectionWindow' => array('logging' => 'defaultImpressionConnectionWindow'),
         'logging_defaultClickConnectionWindow'      => array('logging' => 'defaultClickConnectionWindow'),
+        */
     );
     // Priority Settings
     $aElements += array(
@@ -102,7 +106,7 @@ $oOptions->selection("maintenance");
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
-    array (
+  /*array (
         'text'  => $strPreventLogging,
         'items' => array (
             array (
@@ -125,7 +129,7 @@ $aSettings = array (
                 'check'   => 'number+'
             )
         )
-    ),
+    ),*/
     array (
         'text'  => $strMaintenanceSettings,
         'items' => array (
@@ -169,7 +173,7 @@ $aSettings = array (
                 'size'    => 12,
                 'depends' => 'maintenance_compactStats==true',
                 'check'   => 'number+'
-            ),
+            )/*,
             array (
                 'type'    => 'break'
             ),
@@ -191,7 +195,7 @@ $aSettings = array (
                 'size'    => 12,
                 'depends' => 'logging_adClicks==true && logging_trackerImpressions==true',
                 'check'   => 'number+'
-            )
+            )*/
         )
     ),
     array (
