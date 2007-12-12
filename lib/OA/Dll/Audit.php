@@ -361,7 +361,7 @@ class OA_Dll_Audit extends OA_Dll
         $oDate = & new Date(OA::getNow());
         $oDate->subtractSeconds(60*60*24*7);
         $oAudit->whereAdd("context = 'Campaign'");
-        $oAudit->whereAdd('username = "maintenance"');
+        $oAudit->whereAdd("username = 'maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
         $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
         $oAudit->orderBy('auditid DESC');
@@ -389,7 +389,7 @@ class OA_Dll_Audit extends OA_Dll
 
         $oDate = & new Date(OA::getNow());
         $oDate->subtractSeconds(60*60*24*7);
-        $oAudit->whereAdd('username != "maintenance"');
+        $oAudit->whereAdd("username != 'maintenance'");
         $oAudit->whereAdd('parentid IS NULL');
         $oAudit->whereAdd("updated >= '".$oDate->format('%Y%m%d')."'");
         $oAudit->orderBy('auditid DESC');
