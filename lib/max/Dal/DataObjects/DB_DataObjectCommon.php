@@ -1119,7 +1119,7 @@ class DB_DataObjectCommon extends DB_DataObject
                 $this->doAudit->contextid   = $this->_getContextId();
                 $this->doAudit->parentid    = $parentid;
                 $this->doAudit->username    = OA_Permission::getUsername();
-                $this->doAudit->userid      = OA_Permission::getEntityId();
+                $this->doAudit->userid      = OA_Permission::getUserId();
                 // @TODO should we store here the account id and account type as well?
 
                 // prepare an generic array of data to be stored in the audit record

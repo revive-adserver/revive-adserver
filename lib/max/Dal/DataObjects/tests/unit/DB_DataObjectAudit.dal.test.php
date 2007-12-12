@@ -712,7 +712,10 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     {
         global $session;
         $session['username'] = OA_TEST_AUDIT_USERNAME;
-        $session['userid']   = rand(11,20);
+        $userId = rand(11,20);
+        $oUser = OA_Permission::getCurrentUser();
+        $oUser->user['user_id'] = $userId;
+        $session['account']->account['entity_id'] = $userId; // user_id
         $session['usertype'] =  rand(1,10);
 
         // setup a default preference record
@@ -765,8 +768,8 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],1);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aEvent['context'],'Preference');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        // we decided to remove usertype 
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertIsA($aEvent['array'], 'array');
         $this->assertEqual($aEvent['array']['key_field'],0);
@@ -782,8 +785,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],2);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aEvent['context'],'Agency');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -799,8 +801,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],3);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aEvent['context'],'Preference');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -816,16 +817,13 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],4);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_UPDATE);
         $this->assertEqual($aEvent['context'],'Agency');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
         $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
         $this->assertEqual($aEvent['array']['name']['is'],'Agency Changed');
         $this->assertEqual($aEvent['array']['name']['was'],'Agency');
-        $this->assertEqual($aEvent['array']['language']['is'],'German');
-        $this->assertEqual($aEvent['array']['language']['was'],'French');
 
         // test 5: new agency preference update audited
         $this->assertTrue(isset($aAudit[5]));
@@ -834,8 +832,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],5);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_UPDATE);
         $this->assertEqual($aEvent['context'],'Preference');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -852,8 +849,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],6);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aEvent['context'],'Client');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$clientId);
         $this->assertIsA($aEvent['array'], 'array');
@@ -869,8 +865,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],7);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aEvent['context'],'Agency');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -885,8 +880,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],8);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aEvent['context'],'Client');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$clientId);
         $this->assertIsA($aEvent['array'], 'array');
@@ -902,8 +896,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],9);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
         $this->assertEqual($aEvent['context'],'Preference');
-        $this->assertEqual($aEvent['userid'],$session['userid']);
-        $this->assertEqual($aEvent['usertype'],$session['usertype']);
+        $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
@@ -914,7 +907,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
         DataGenerator::cleanUp(array('agency', 'preference', 'audit'));
     }
-
+    
     function testAuditParentId()
     {
         // Insert a banner with parents
