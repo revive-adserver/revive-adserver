@@ -150,9 +150,6 @@ $aSettings = array (
                 'text'    => $strTimezoneToDisplay,
                 'items'   => $aTimezones
             ),
-            array (
-                'type'    => 'break'
-            ),
         )
     )
 );

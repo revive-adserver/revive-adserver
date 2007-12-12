@@ -1,9 +1,9 @@
-{if isset($aItem.items)}
+{if $aItem.items}
     <tr><td>&nbsp;</td>
         <td id='cell_{$aItem.name}' class='{if $aItem.enabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
         <td width='100%'>
             <select name='{$aItem.name}' id='{$aItem.name}'
-		    {if isset($aItem.reload) && $aItem.reload == 'yes'}
+		    {if $aItem.reload == 'yes'}
 		         onChange="this.form.field_changed.value=name;this.form.submit();phpAds_refreshEnabled();"
 		    {else}
                 onChange="phpAds_refreshEnabled();
@@ -13,13 +13,13 @@
 		        "
             {/if}
             {if $aItem.enabled} disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
-            {foreach from=$aItem.items key=k => item=v}
+            {foreach from=$aItem.items key=k item=v}
                 <option value="{$k}"
                 {if $k == $aItem.value} selected='selected'{/if}>
                 {$v}</option>
             {/foreach}
-            </select>            {aItem.value}
-		    {if $aItem.showSubmitButton == 1}
+            </select>
+		    {if $aItem.showSubmitButton}
 		        &nbsp;<a href="javascript:void(0)" onClick="document.forms['settingsform'].submit();"><img src="images/ltr/go_blue.gif" border="0"></a>
 		    {/if}
         </td>

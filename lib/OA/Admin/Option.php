@@ -150,7 +150,7 @@ class OA_Admin_Option
                 'geotargeting'    => array('name' => $GLOBALS['strGeotargetingSettings'], 'perm' => OA_ACCOUNT_ADMIN),
                 'maintenance'     => array('name' => $GLOBALS['strMaintenanceSettings'],  'perm' => OA_ACCOUNT_ADMIN),
                 'synchronisation' => array('name' => $GLOBALS['strSyncSettings'],         'perm' => OA_ACCOUNT_ADMIN),
-                'interface'       => array('name' => $GLOBALS['strGuiSettings'],          'perm' => OA_ACCOUNT_ADMIN),
+                'user-interface'  => array('name' => $GLOBALS['strGuiSettings'],          'perm' => OA_ACCOUNT_ADMIN),
             );
         } elseif ($this->_optionType == 'account-preferences') {
             $sections = array(

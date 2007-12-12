@@ -37,7 +37,7 @@ require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
-phpAds_checkAccess(phpAds_Admin);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('settings');

@@ -169,9 +169,6 @@ $aSettings = array (
                 'req'     => true,
                 'check'   => 'number+'
             ),
-            array (
-                'type'    => 'break'
-            )
         )
      ),
      array (
@@ -206,9 +203,6 @@ $aSettings = array (
                 'req'     => true,
                 'check'   => 'number+'
             ),
-            array (
-                'type'    => 'break'
-            )
         )
      ),
      array (
