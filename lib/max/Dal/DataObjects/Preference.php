@@ -1,10 +1,36 @@
 <?php
+
+/*
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+*/
+
 /**
  * Table Definition for preference
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Preference extends DB_DataObjectCommon 
+class DataObjects_Preference extends DB_DataObjectCommon
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -12,10 +38,19 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $__table = 'preference';                      // table name
     var $agencyid;                        // int(9)  not_null primary_key
     var $config_version;                  // real(9)  not_null
-    var $company_name;                    // string(255)
-    var $override_gd_imageformat;         // string(4)
-    var $begin_of_week;                   // int(2)
-    var $percentage_decimals;             // int(2)
+    var $my_header;                       // string(255)  
+    var $my_footer;                       // string(255)  
+    var $my_logo;                         // string(255)  
+    var $language;                        // string(32)  
+    var $name;                            // string(32)  
+    var $company_name;                    // string(255)  
+    var $override_gd_imageformat;         // string(4)  
+    var $begin_of_week;                   // int(2)  
+    var $percentage_decimals;             // int(2)  
+    var $type_sql_allow;                  // string(1)  enum
+    var $type_url_allow;                  // string(1)  enum
+    var $type_web_allow;                  // string(1)  enum
+    var $type_html_allow;                 // string(1)  enum
     var $type_txt_allow;                  // string(1)  enum
     var $banner_html_auto;                // string(1)  enum
     var $admin;                           // string(64)  
@@ -26,6 +61,7 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $warn_agency;                     // string(1)  enum
     var $warn_client;                     // string(1)  enum
     var $warn_limit;                      // int(9)  not_null
+    var $admin_email_headers;             // string(64)  
     var $admin_novice;                    // string(1)  enum
     var $default_banner_weight;           // int(4)  
     var $default_campaign_weight;         // int(4)  
@@ -35,6 +71,8 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $client_welcome_msg;              // blob(65535)  blob
     var $publisher_welcome;               // string(1)  enum
     var $publisher_welcome_msg;           // blob(65535)  blob
+    var $content_gzip_compression;        // string(1)  enum
+    var $userlog_email;                   // string(1)  enum
     var $gui_show_campaign_info;          // string(1)  enum
     var $gui_show_campaign_preview;       // string(1)  enum
     var $gui_campaign_anonymous;          // string(1)  enum
@@ -44,12 +82,25 @@ class DataObjects_Preference extends DB_DataObjectCommon
     var $gui_show_matching;               // string(1)  enum
     var $gui_show_parents;                // string(1)  enum
     var $gui_hide_inactive;               // string(1)  enum
-    var $gui_link_compact_limit;          // int(11)
+    var $gui_link_compact_limit;          // int(11)  
+    var $gui_header_background_color;     // string(7)  
+    var $gui_header_foreground_color;     // string(7)  
+    var $gui_header_active_tab_color;     // string(7)  
+    var $gui_header_text_color;           // string(7)  
+    var $gui_invocation_3rdparty_default;    // string(50)  not_null
+    var $qmail_patch;                     // string(1)  enum
     var $updates_enabled;                 // string(1)  enum
     var $updates_cache;                   // blob(65535)  blob
     var $updates_timestamp;               // int(11)  
     var $updates_last_seen;               // real(9)  
+    var $allow_invocation_plain;          // string(1)  enum
+    var $allow_invocation_plain_nocookies;    // string(1)  enum
+    var $allow_invocation_js;             // string(1)  enum
+    var $allow_invocation_frame;          // string(1)  enum
+    var $allow_invocation_xmlrpc;         // string(1)  enum
+    var $allow_invocation_local;          // string(1)  enum
     var $allow_invocation_interstitial;    // string(1)  enum
+    var $allow_invocation_popup;          // string(1)  enum
     var $allow_invocation_clickonly;      // string(1)  enum
     var $auto_clean_tables;               // string(1)  enum
     var $auto_clean_tables_interval;      // int(2)  
@@ -114,4 +165,59 @@ class DataObjects_Preference extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+
+    /**
+     * Table has no autoincrement/sequence so we override sequenceKey().
+     *
+     * @return array
+     */
+    function sequenceKey() {
+        return array(false, false, false);
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->agencyid;
+    }
+
+    function _getContext()
+    {
+        return 'Preference';
+    }
+
+    /**
+     * build a preference specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']   = $this->name;
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
+    }
+
+    function _formatValue($field)
+    {
+        switch ($field)
+        {
+            default:
+                return $this->$field;
+        }
+    }
 }
+
+?>
