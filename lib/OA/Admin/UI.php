@@ -230,9 +230,10 @@ class OA_Admin_UI
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
 
         // Show currently logged on user and IP
-        if (($ID != "" && OA_Auth::isLoggedIn()) || defined('phpAds_installing')) {
+        $isLoggedIn = OA_Auth::isLoggedIn();
+        if (($ID != "" && $isLoggedIn) || defined('phpAds_installing')) {
             $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
-            $this->oTpl->assign('buttonLogout', true);
+            $this->oTpl->assign('buttonLogout', $isLoggedIn);
             if (!defined('phpAds_installing')) {
                 $this->oTpl->assign('infoUser', OA_Permission::getUsername()." [{$_SERVER['REMOTE_ADDR']}]");
                 $this->oTpl->assign('buttonReportBugs', true);
