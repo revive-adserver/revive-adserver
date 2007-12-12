@@ -337,15 +337,19 @@ class OA_Permission
      */
     function isUserLinkedToAdmin()
     {
-        $doAccount = OA_Dal::factoryDO('accounts');
-        $doAccount->account_type = OA_ACCOUNT_ADMIN;
-        $doAccount->find();
+        if (OA_Permission::getCurrentUser()) {
+            $doAccount = OA_Dal::factoryDO('accounts');
+            $doAccount->account_type = OA_ACCOUNT_ADMIN;
+            $doAccount->find();
 
-        $hasAdminAccess = false;
-        while (!$hasAdminAccess && $doAccount->fetch()) {
-            $hasAdminAccess = OA_Permission::hasAccess($doAccount->account_id);
+            $hasAdminAccess = false;
+            while (!$hasAdminAccess && $doAccount->fetch()) {
+                $hasAdminAccess = OA_Permission::hasAccess($doAccount->account_id);
+            }
+            return $hasAdminAccess;
         }
-        return $hasAdminAccess;
+
+        return false;
     }
 
     /**
