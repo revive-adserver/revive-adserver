@@ -198,6 +198,7 @@ class Migration_543Test extends MigrationTest
             'password' => 'admin',
             'default_account_id' => '2',
             'comments' => NULL,
+            'active'   => '1',
           ),
         );
    }
@@ -286,6 +287,7 @@ class Migration_543Test extends MigrationTest
             'password' => 'agency2',
             'default_account_id' => '4',
             'comments' => NULL,
+            'active'   => '1',
           ),
           1 =>
           array (
@@ -296,6 +298,7 @@ class Migration_543Test extends MigrationTest
             'password' => 'agency3',
             'default_account_id' => '5',
             'comments' => NULL,
+            'active'   => '1',
           ),
         );
    }
@@ -346,6 +349,7 @@ class Migration_543Test extends MigrationTest
             'password' => 'publisher2',
             'default_account_id' => '11',
             'comments' => NULL,
+            'active'   => '1',
           ),
         );
    }
@@ -396,6 +400,7 @@ class Migration_543Test extends MigrationTest
             'password' => 'advertiser2',
             'default_account_id' => '9',
             'comments' => NULL,
+            'active'   => '1',
           ),
         );
    }
