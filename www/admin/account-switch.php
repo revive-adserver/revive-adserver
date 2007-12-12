@@ -41,48 +41,8 @@ if (!empty($_GET['account_id'])) {
     OA_Permission::enforceAccess($_GET['account_id']);
 
     OA_Permission::switchAccount($_GET['account_id']);
-    header("Location: index.php");
-    exit;
 }
 
-
-phpAds_PageHeader("0");
-
-show();
-
-phpAds_PageFooter();
-
-function show()
-{
-    $oGacl = OA_Permission_Gacl::factory();
-
-    $aAxos = $oGacl->get_object('ACCOUNTS', 1, 'AXO');
-
-    $userId = OA_Permission::getUserId();
-
-    $aAccounts = array();
-    foreach ($aAxos as $id) {
-        $aAxo = $oGacl->get_object_data($id, 'AXO');
-        if ($oGacl->acl_check('ACCOUNT', 'ACCESS', 'USERS', $userId, 'ACCOUNTS', $aAxo[0][1])) {
-            $aAccounts[$aAxo[0][1]] = $aAxo[0][3];
-        }
-    }
-
-    $accountId = OA_Permission::getAccountId();
-
-    echo "<ul>";
-    foreach ($aAccounts as $id => $name) {
-        if ($id == $accountId) {
-            $start = '<b>';
-            $end   = '</b>';
-        } else {
-            $start = '<a href="?account_id='.htmlspecialchars($id).'">';
-            $end   = '</a>';
-        }
-
-        echo "<li>{$start}".htmlspecialchars($name)."{$end}</li>";
-    }
-    echo "</ul>";
-}
+header("Location: index.php");
 
 ?>

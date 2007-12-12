@@ -353,6 +353,47 @@ class OA_Permission
     }
 
     /**
+     * A method which returns all the accounts linked to the user
+     *
+     * @param boolean $groupByType
+     * @return array
+     */
+    function getLinkedAccounts($groupByType = false)
+    {
+        $oGacl = OA_Permission_Gacl::factory();
+
+        $aAxos = $oGacl->get_object('ACCOUNTS', 1, 'AXO');
+
+        $userId = OA_Permission::getUserId();
+
+        $aAccounts = array();
+        foreach ($aAxos as $id) {
+            $aAxo = $oGacl->get_object_data($id, 'AXO');
+            if ($oGacl->acl_check('ACCOUNT', 'ACCESS', 'USERS', $userId, 'ACCOUNTS', $aAxo[0][1])) {
+                $aAccounts[$aAxo[0][1]] = $aAxo[0][3];
+            }
+        }
+
+        if ($groupByType) {
+            $doAccounts = OA_Dal::factoryDO('accounts');
+            $aAccountTypes = $doAccounts->getAll(array('account_type'), true, false);
+
+            $aAccountsByType = array();
+            foreach ($aAccounts as $id => $name) {
+                if (isset($aAccountTypes[$id]['account_type'])) {
+                    $aAccountsByType[$aAccountTypes[$id]['account_type']][$id] = $name;
+                }
+            }
+
+            uksort($aAccountsByType, array('OA_Permission', '_sortByAccountType'));
+
+            return $aAccountsByType;
+        }
+
+        return $aAccounts;
+    }
+
+    /**
      * A method to retrieve the current user object from a session
      *
      * @return OA_Permission_User on success or false otherwise
@@ -549,6 +590,24 @@ class OA_Permission
 			phpAds_PageHeader("2");
 			phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
+	}
+
+	/**
+	 * Privete method to sort account types
+	 *
+	 * @param string $a
+	 * @param string $b
+	 * @return int
+	 */
+	function _sortByAccountType($a, $b) {
+	    $aTypes = array(
+	       OA_ACCOUNT_ADMIN      => 0,
+	       OA_ACCOUNT_MANAGER    => 1,
+	       OA_ACCOUNT_ADVERTISER => 2,
+	       OA_ACCOUNT_TRAFFICKER => 3,
+       );
+
+       return $aTypes[$a] - $aTypes[$b];
 	}
 
 }

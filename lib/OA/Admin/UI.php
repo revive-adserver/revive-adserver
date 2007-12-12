@@ -230,13 +230,22 @@ class OA_Admin_UI
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
 
         // Show currently logged on user and IP
-        $isLoggedIn = OA_Auth::isLoggedIn();
-        if (($ID != "" && $isLoggedIn) || defined('phpAds_installing')) {
+        if (($ID != "" && OA_Auth::isLoggedIn()) || defined('phpAds_installing')) {
             $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
-            $this->oTpl->assign('buttonLogout', $isLoggedIn);
             if (!defined('phpAds_installing')) {
                 $this->oTpl->assign('infoUser', OA_Permission::getUsername()." [{$_SERVER['REMOTE_ADDR']}]");
+                $this->oTpl->assign('buttonLogout', true);
                 $this->oTpl->assign('buttonReportBugs', true);
+
+                // Account switcher
+                $aAccounts = array();
+                foreach (OA_Permission::getLinkedAccounts(true) as $k => $v) {
+                    $aAccounts[ucfirst(strtolower($k)).' for...'] = $v;
+                }
+                $aAdminAccounts = array_shift($aAccounts);
+                $this->oTpl->assign('aAdminAccounts', $aAdminAccounts);
+                $this->oTpl->assign('aAccounts', $aAccounts);
+                $this->oTpl->assign('accountId', OA_Permission::getAccountId());
             } else {
                 $this->oTpl->assign('buttonStartOver', true);
             }
