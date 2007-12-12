@@ -65,21 +65,21 @@ phpAds_registerGlobal (
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 if (!empty($zoneid)) {
-    OA_Permission::checkAccessToObject('zones', $zoneid);
+    OA_Permission::enforceAccessToObject('zones', $zoneid);
 }
 if (!empty($affiliateid)) {
-    OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 }
 
 if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER))
 {
     $affiliateid = OA_Permission::getEntityId();
     if (!empty($zoneid)) {
-        OA_Permission::checkIsAllowed(OA_PERM_ZONE_EDIT);
+        OA_Permission::enforceAllowed(OA_PERM_ZONE_EDIT);
     } else {
-        OA_Permission::checkIsAllowed(OA_PERM_ZONE_ADD);
+        OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
     }
 }
 
@@ -249,29 +249,8 @@ if ($zone['delivery'] == phpAds_ZoneText) echo "<img src='images/icon-textzone.g
 
 echo "&nbsp;&nbsp;<select name='chainzone' style='width: 200;' onchange='phpAds_formSelectZone()' tabindex='".($tabindex++)."'>";
 
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
-
-    // Get list of public publishers
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
-    {
-		// Show only zones from the same agency
-        $doAffiliates->addReferenceFilter('zones', $zoneid);
-    }
-    elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-    {
-        $doAffiliates->addReferenceFilter('agency', OA_Permission::getEntityId());
-    }
-
-    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        // @todo FIXME: Affilitates should also have access to the "public" zones within their agency
-        phpAds_Die ('Error', 'Affilitates should also have access to the "public" zones within their agency');
-    }
-    $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
-
     // Get list of zones to link to
     $doZones = OA_Dal::factoryDO('zones');
-    $doZones->whereInAdd('affiliateid', $availableAffiliates);
 
     $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
     if ($zone['width'] != -1 && !$allowothersizes) {
@@ -372,19 +351,8 @@ if ($zone['delivery'] == phpAds_ZoneBanner)
         // Get available zones
         $available = array();
 
-
-        // Get list of public publishers
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        $doAffiliates->whereAdd("(publiczones = 't' OR affiliateid='".$affiliateid."')");
-
-        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $doAffiliates->addReferenceFilter('agency', OA_Permission::getEntityId());
-        }
-        $availableAffiliates = $doAffiliates->getAll(array('affiliateid'));
-
         // Get list of zones to link to
         $doZones = OA_Dal::factoryDO('zones');
-        $doZones->whereInAdd('affiliateid', $availableAffiliates);
 
         $allowothersizes = $zone['delivery'] == phpAds_ZoneInterstitial || $zone['delivery'] == phpAds_ZonePopup;
         if ($zone['width'] != -1 && !$allowothersizes) {
