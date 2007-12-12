@@ -38,7 +38,7 @@
    </field>
 
    <index>
-    <name>account_preference_assoc_key</name>
+    <name>account_preference_assoc_pkey</name>
     <primary>true</primary>
     <field>
      <name>account_id</name>
