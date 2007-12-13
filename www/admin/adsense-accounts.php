@@ -53,7 +53,7 @@ phpAds_ShowSections(array("4.1.3.4.7"));
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$accountsExist = false;
+$accountsExist = true;
 
 if ($accountsExist) {
    $oTpl = new OA_Admin_Template('adsense-accounts.html');
