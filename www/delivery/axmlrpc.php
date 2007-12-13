@@ -1567,7 +1567,7 @@ $msg .= '<div style="clear:both"></div>';
 }
 if (defined('TEST_ENVIRONMENT_RUNNING')) {
 // It's a test, stop execution
-echo $oError->getMessage()."\n".$oError->getDebugInfo();
+echo $message."\n===\n".$debugInfo."\n===\n".print_r($oError->getBacktrace(), true);
 exit(1);
 } else {
 // Send the error to the screen
