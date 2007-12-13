@@ -79,6 +79,28 @@ img#graph {
     height: 132px;
 }
 
+#communityProfile {
+	width:240px; 
+	height:120px; 
+	font-size: 7pt;
+}
+
+#communityProfile .title {
+	font-weight: bold;
+}
+
+
+#communityProfile .picture {
+	float:left; 
+	padding-right:6px; 
+	border:none; 
+	width:72px;
+}
+
+#communityProfile .description {
+  
+}
+
 /**
  * Login form
  */
@@ -110,6 +132,7 @@ img#graph {
     width: 130px;
     padding: 2px;
 }
+
 #loginForm input.loginFormSubmit {
     color: #ffffff;
     width: 67px;
@@ -164,14 +187,17 @@ div.widgetOverlayLeft, div.widgetOverlayRight {
     height: 272px;
     width: 10px;
 }
+
 div.widgetOverlayLeft {
     float: left;
     background: url('../images/dashboard//widgetOverlayLeft.png') no-repeat top right;
 }
+
 div.widgetOverlayRight {
     float: right;
     background: url('../images/dashboard//widgetOverlayRight.png') no-repeat top left;
 }
+
 div.widgetOverlayBody {
 	width: 347px;
     height: 272px;
@@ -180,29 +206,35 @@ div.widgetOverlayBody {
     text-align: center;
     padding: 0 5px;
 }
+
 div.widgetOverlayContent {
     clear: both;
     text-align: left;
     width: 347px;
 }
+
 div.widgetOverlayContent h1 {
 	font-size: 15pt;
 	color: 77797C;
 }
+
 div.widgetOverlayContent p {
     color: 77797C;
 	font-size: 8pt;
 	margin: 10px 0;
 
 }
+
 div.widgetOverlayContent a {
 	font-size: 8pt;
     color: #00B0D8;
     text-decoration: none;
 }
+
 div.widgetOverlayContent a:hover {
 	text-decoration: underline;
 }
+
 div.dashboardOverlay {
     position: absolute;
     top: 0%;
