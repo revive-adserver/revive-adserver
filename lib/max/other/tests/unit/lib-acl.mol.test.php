@@ -84,6 +84,7 @@ class LibAclTest extends DalUnitTestCase
         // insert a banner
         $doBanners = OA_Dal::factoryDO('banners');
         $bannerId  = DataGenerator::generateOne($doBanners);
+        $doBanners->bannerid = $bannerId;
         $doBanners->acls_updated = OA::getNow();
         $doBanners->update();
         $updated1  = $doBanners->acls_updated;
