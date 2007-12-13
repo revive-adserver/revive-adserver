@@ -27,6 +27,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Priority.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
 
 /**
  * A class for testing the updatePriorities() method of the
@@ -68,6 +69,8 @@ class Test_OA_Dal_Maintenance_Priority_updatePriorities extends UnitTestCase
         $conf = $GLOBALS['_MAX']['CONF'];
         $oDbh =& OA_DB::singleton();
         $oMaxDalMaintenance = new OA_Dal_Maintenance_Priority();
+
+        OA_GaclPermissions::insert();
 
         // Insert the data into the ad_zone_assoc table, as an ad is linked to a zone
         $this->_generateTestData();
