@@ -18,6 +18,15 @@ $(document).ready(function() {
   $(".submit-on-change").submitOnChange();
 });
 
+jQuery.fn.slideFadeOut = function(speed, callback) 
+{
+  return this.animate({height: 'hide', opacity: 'hide', marginTop: 'hide', marginBottom: 'hide'}, speed, callback);
+}
+
+jQuery.fn.slideFadeIn = function(speed, callback) 
+{
+  return this.animate({height: 'show', opacity: 'show', marginTop: 'show', marginBottom: 'show'}, speed, callback);
+}
 
 /**
  * Important: this code depends on jQuery.

@@ -851,3 +851,27 @@ a.unlink {
   padding-bottom: 2px;
   background-position: 0 -1px;
 }
+
+a.edit {
+  background-image: url('../icon-edit.gif');
+  background-repeat: no-repeat;
+  padding-left: 18px;
+  padding-bottom: 2px;
+  background-position: 0 -1px;
+}
+
+div.terms {
+  padding: 1ex;
+  border: 1px solid #808080;
+  height: 40ex;
+  margin-bottom: 20px;
+  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+div.terms iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
+}

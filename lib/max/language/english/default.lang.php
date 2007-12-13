@@ -555,6 +555,12 @@ $GLOBALS['strMoreInformation']        = "More information...";
 $GLOBALS['strRichMedia']            = "Richmedia";
 $GLOBALS['strTrackAdClicks']        = "Track Clicks";
 
+// Banner (AdSense)
+$GLOBALS['strAdSenseAccounts']            = "AdSense Accounts";
+$GLOBALS['strLinkAdSenseAccount']         = "Link AdSense Account";
+$GLOBALS['strCreateAdSenseAccount']       = "Create AdSense Account";
+$GLOBALS['strEditAdSenseAccount']         = "Edit AdSense Account";
+
 // Display limitations
 $GLOBALS['strModifyBannerAcl']            = "Delivery options";
 $GLOBALS['strACL']                        = "Delivery";
