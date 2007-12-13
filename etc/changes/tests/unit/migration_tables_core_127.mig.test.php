@@ -74,6 +74,8 @@ class migration_tables_core_127Test extends MigrationTest
             array('zoneid' => 9, 'zonetype' => 3, 'what' => 'clientid:,clientid:3'),
         );
         foreach ($aAValues as $aValues) {
+            // Set empty defaults for NOT NULL fields
+            $aValues['chain'] = $aValues['prepend'] = $aValues['append'] = '';
             $sql = OA_DB_Sql::sqlForInsert('zones', $aValues);
             $this->oDbh->exec($sql);
         }
@@ -88,6 +90,9 @@ class migration_tables_core_127Test extends MigrationTest
             array('bannerid' => 7, 'campaignid' => 5, 'storagetype' => 'sql', 'width' => 125, 'height' => 125),
         );
         foreach ($aABannerValues as $aBannerValues) {
+            // Set empty defaults for NOT NULL fields
+            $aBannerValues['htmltemplate'] = $aBannerValues['htmlcache'] = $aBannerValues['bannertext'] =
+                $aBannerValues['compiledlimitation'] = $aBannerValues['append'] = '';
             $sql = OA_DB_Sql::sqlForInsert('banners', $aBannerValues);
             $this->oDbh->exec($sql);
         }
@@ -99,7 +104,7 @@ class migration_tables_core_127Test extends MigrationTest
             "{$prefix}ad_zone_assoc WHERE link_type = 0" => 7,
             "{$prefix}placement_zone_assoc" => 6);
         foreach($aAssocTables as $assocTable => $cAssocs) {
-            $rsCAssocs = DBC::NewRecordSet("SELECT count(*) cassocs FROM $assocTable");
+            $rsCAssocs = DBC::NewRecordSet("SELECT count(*) AS cassocs FROM $assocTable");
             $this->assertTrue($rsCAssocs->find());
             $this->assertTrue($rsCAssocs->fetch());
             $this->assertEqual($cAssocs, $rsCAssocs->get('cassocs'), "%s: The table involved: $assocTable");
