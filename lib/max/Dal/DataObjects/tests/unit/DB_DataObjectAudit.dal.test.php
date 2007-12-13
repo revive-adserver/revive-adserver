@@ -57,7 +57,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function tearDown()
     {
     }
-    
+
     function _setUpUser()
     {
         $doUser = OA_Dal::factoryDO('users');
@@ -711,12 +711,15 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
     function testAuditAgency()
     {
         global $session;
-        $session['username'] = OA_TEST_AUDIT_USERNAME;
         $userId = rand(11,20);
-        $oUser = OA_Permission::getCurrentUser();
-        $oUser->user['user_id'] = $userId;
-        $session['account']->account['entity_id'] = $userId; // user_id
-        $session['usertype'] =  rand(1,10);
+
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->user_id  = $userId;
+        $doUser->username = OA_TEST_AUDIT_USERNAME;
+
+        $oUser = new OA_Permission_User($doUser);
+
+        $session['user'] = $oUser;
 
         // setup a default preference record
         // audit event 1
@@ -768,7 +771,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['auditid'],1);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
         $this->assertEqual($aEvent['context'],'Preference');
-        // we decided to remove usertype 
+        // we decided to remove usertype
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertIsA($aEvent['array'], 'array');
@@ -907,7 +910,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
         DataGenerator::cleanUp(array('agency', 'preference', 'audit'));
     }
-    
+
     function testAuditParentId()
     {
         // Insert a banner with parents
