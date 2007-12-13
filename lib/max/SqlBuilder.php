@@ -559,8 +559,14 @@ class SqlBuilder
         if (isset($aParams['ad_width'])) SqlBuilder::_addLimitation($aLimitations, 'ad_width', 'd.width', $aParams['ad_width']);
         if (isset($aParams['ad_height'])) SqlBuilder::_addLimitation($aLimitations, 'ad_height', 'd.height', $aParams['ad_height']);
         if (!empty($aParams['ad_type'])) SqlBuilder::_addLimitation($aLimitations, 'ad_type', 'd.storagetype', $aParams['ad_type']);
-        if (!empty($aParams['ad_active'])) SqlBuilder::_addLimitation($aLimitations, 'ad_active', 'd.status', $aParams['ad_active']);
-        if (!empty($aParams['placement_active'])) SqlBuilder::_addLimitation($aLimitations, 'placement_active', 'm.status', $aParams['placement_active']);
+        if (!empty($aParams['ad_active'])) {
+            SqlBuilder::_addLimitation($aLimitations, 'ad_active', 'd.status', OA_ENTITY_STATUS_RUNNING,
+                $aParams['ad_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL);
+        }
+        if (!empty($aParams['placement_active'])) {
+            SqlBuilder::_addLimitation($aLimitations, 'placement_active', 'm.status', OA_ENTITY_STATUS_RUNNING,
+                $aParams['placement_active'] == 't' ? MAX_LIMITATION_EQUAL : MAX_LIMITATION_NOT_EQUAL);
+        }
         if (!empty($aParams['placement_anonymous'])) SqlBuilder::_addLimitation($aLimitations, 'placement_anonymous', 'm.anonymous', $aParams['placement_anonymous']);
         if (!empty($aParams['zone_inventory_forecast_type'])) SqlBuilder::_addLimitation($aLimitations, 'zone_inventory_forecast_type', 'z.inventory_forecast_type', $aParams['zone_inventory_forecast_type'], MAX_LIMITATION_BITWISE);
 
