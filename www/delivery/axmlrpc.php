@@ -1565,8 +1565,14 @@ $msg .= ob_get_clean();
 $msg .= '<hr></pre></div>';
 $msg .= '<div style="clear:both"></div>';
 }
+if (defined('TEST_ENVIRONMENT_RUNNING')) {
+// It's a test, stop execution
+echo $oError->getMessage()."\n".$oError->getDebugInfo();
+exit(1);
+} else {
 // Send the error to the screen
 echo MAX::errorObjToString($oError, $msg);
+}
 }
 // Set PEAR error handler
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'pearErrorHandler');
