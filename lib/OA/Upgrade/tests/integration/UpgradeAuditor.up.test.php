@@ -414,6 +414,9 @@ class Test_OA_UpgradeAuditor extends Test_OA_BaseUpgradeAuditor
     	chmod( $logFile, 0444);
     	chmod( dirname($logFile), 0555); //You need execution permission to traverse a directory.
 
+    	/**
+    	 * @todo The following assertions fail when running the test as root
+    	 */
     	$this->assertEqual($oAuditor->cleanAuditArtifacts(1), false);
     	$logResult=$oAuditor->queryAuditByUpgradeId(1);
     	$logResult=$logResult[0]['logfile'];

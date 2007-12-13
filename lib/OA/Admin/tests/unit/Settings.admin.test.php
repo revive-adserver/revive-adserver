@@ -36,9 +36,6 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         $this->basePath = MAX_PATH . '/var/cache';
     }
 
-    /**
-     * @todo Test n. 5 fails on Windows
-     */
     function testIsConfigWritable()
     {
         $oConf = new OA_Admin_Settings(true);
@@ -55,6 +52,9 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // 2) A non-existing file in an unwriteable location.
         $this->assertFalse($oConf->isConfigWritable($this->basePath . '/non_existent_dir/non_existent_file'));
 
+        /**
+         * @todo Test fails when running the test as root
+         */
         // 3) An existing file we don't have write permission for.
         $path = $this->basePath;
         $filename = 'oa_test_' . rand() . '.conf.php';
@@ -69,6 +69,9 @@ Class Test_OA_Admin_Settings extends UnitTestCase
         // 4) An empty directory we can write to.
         $this->assertTrue($oConf->isConfigWritable($this->basePath . '/non_existent_file'));
 
+        /**
+         * @todo Test fails when running the test as root or on Windows
+         */
         // 5) An empty directory we cannot write to.
         $path = $this->basePath;
         $dirname = 'oa_test_' . rand();
