@@ -79,28 +79,6 @@ img#graph {
     height: 132px;
 }
 
-#communityProfile {
-	width:240px; 
-	height:120px; 
-	font-size: 7pt;
-}
-
-#communityProfile .title {
-	font-weight: bold;
-}
-
-
-#communityProfile .picture {
-	float:left; 
-	padding-right:6px; 
-	border:none; 
-	width:72px;
-}
-
-#communityProfile .description {
-  
-}
-
 /**
  * Login form
  */
