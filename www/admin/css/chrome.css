@@ -16,7 +16,7 @@ body.hasInterface {
 
 
 a {
-	color: #039;
+	color: #299B3C;
     text-decoration: none;
 }
 a:hover {
@@ -78,7 +78,7 @@ a:hover {
 	height: 24px;
 	width: 200px;
 	
-	background: #06c;
+	background: #299B3C;
 	font-weight: bold;
 	color: #fff;
 	line-height: 24px;
@@ -127,7 +127,7 @@ a:hover {
 	display: block;
 	float: left;
 	
-	background: #06c;
+	background: #299B3C;
 	color: #fff;
 	font-size: 12px;
 	font-weight: bold;
@@ -139,7 +139,7 @@ a:hover {
 }
 #oaNavigationTabs li.selected a {
 	border-color: #fff;
-	color: #06c;
+	color: #299B3C;
 	background: #fff;
 }
 
@@ -185,7 +185,7 @@ a:hover {
 	width: 160px;
 	margin: 0 1px 0 0;
 	padding: 0 0 0 20px;
-	color: #039;
+	color: #299B3C;
 	
 	/* Fix IE bug: absolute position should not be relative to padding of parent element */
 	-left: -180px;
@@ -298,7 +298,7 @@ a:hover {
 }
 #oaSectionTabs li.selected span,
 #oaSectionTabs li.selected a {
-	color: #06c;
+	color: #299B3C;
 	background: #fff;
 	border: 1px solid #888;
 	border-bottom: 1px solid #fff;
