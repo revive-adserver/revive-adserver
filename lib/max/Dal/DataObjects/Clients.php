@@ -113,7 +113,7 @@ class DataObjects_Clients extends DB_DataObjectCommon
     function insert()
     {
         // Create account first
-        $result = $this->createAccount('ADVERTISER', $this->clientname);
+        $result = $this->createAccount(OA_ACCOUNT_ADVERTISER, $this->clientname);
         if (!$result) {
             return $result;
         }

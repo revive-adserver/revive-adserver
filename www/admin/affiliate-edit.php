@@ -210,7 +210,7 @@ $oTpl->assign('fieldsTop', array(
                                     'checked'           => !empty($affiliate['an_website_id']),
                                     'checked_advsignup' => !empty($affiliate['as_website_id']),
                                     'disabled'          => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']
-                                        || !OA_Permission::isAccount('ADMIN')
+                                        || !OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
                                    ),
             ),
             array(

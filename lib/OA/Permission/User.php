@@ -30,38 +30,44 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Permission.php';
 
+/**
+ * A class for managing users.
+ *
+ * @package    OpenadsPermission
+ */
 class OA_Permission_User
 {
-    /**
-     * @var array
-     */
-    var $user;
 
     /**
      * @var array
      */
-    var $account;
+    var $aUser;
+
+    /**
+     * @var array
+     */
+    var $aAccount;
 
     /**
      * Class constructor
      *
-     * @param DataObjects_Users $doUser
+     * @param DataObjects_Users $doUsers
      * @return OA_Permission_User
      */
-    function OA_Permission_User($doUser)
+    function OA_Permission_User($doUsers)
     {
-        if (!is_a($doUser, 'DataObjects_Users')) {
+        if (!is_a($doUsers, 'DataObjects_Users')) {
             MAX::raiseError('doUser not a DataObjects_Users', PEAR_LOG_ERR, PEAR_ERROR_DIE);
         }
-        $this->user = $doUser->toArray();
+        $this->aUser = $doUsers->toArray();
 
-        // For seafety reasons, do not store the password
-        unset($this->user['password']);
+        // For safety reasons, do not store the password
+        unset($this->aUser['password']);
 
         // Make sure we start with an empty account
         $this->_clearAccount();
 
-        $this->switchAccount($doUser->default_account_id);
+        $this->switchAccount($doUsers->default_account_id);
     }
 
     function switchAccount($accountId)
@@ -74,15 +80,15 @@ class OA_Permission_User
             $doAccount->find();
 
             if ($doAccount->fetch()) {
-                $this->account = $doAccount->toArray() + $this->account;
+                $this->aAccount = $doAccount->toArray() + $this->aAccount;
 
-                if ($this->account['account_type'] != 'ADMIN') {
-                    $this->account['entity_id'] = $this->_getEntityId();
+                if ($this->aAccount['account_type'] != OA_ACCOUNT_ADMIN) {
+                    $this->aAccount['entity_id'] = $this->_getEntityId();
 
-                    if ($this->account['account_type'] == 'MANAGER') {
-                        $this->account['agency_id'] = $this->account['entity_id'];
+                    if ($this->aAccount['account_type'] == OA_ACCOUNT_MANAGER) {
+                        $this->aAccount['agency_id'] = $this->account['entity_id'];
                     } else {
-                        $this->account['agency_id'] = $this->_getAgencyId();
+                        $this->aAccount['agency_id'] = $this->_getAgencyId();
                     }
                 }
             }
@@ -91,7 +97,7 @@ class OA_Permission_User
 
     function _clearAccount()
     {
-        $this->account = array(
+        $this->aAccount = array(
             'account_id'   => 0,
             'account_type' => '',
             'entity_id'    => 0,
@@ -103,7 +109,7 @@ class OA_Permission_User
     {
         $doEntity = $this->_getEntityDO();
         if (!empty($doEntity)) {
-            $doEntity->account_id = $this->account['account_id'];
+            $doEntity->account_id = $this->aAccount['account_id'];
             $doEntity->find();
 
             if ($doEntity->fetch()) {
@@ -122,7 +128,7 @@ class OA_Permission_User
         if (!empty($doEntity)) {
             $doEntity->selectAdd();
             $doEntity->selectAdd('agencyid');
-            $doEntity->account_id = $this->account['account_id'];
+            $doEntity->account_id = $this->aAccount['account_id'];
             $agencyId = $doEntity->getAll();
 
             return $agencyId;
@@ -138,7 +144,7 @@ class OA_Permission_User
      */
     function &_getEntityDO()
     {
-        switch ($this->account['account_type']) {
+        switch ($this->aAccount['account_type']) {
             case OA_ACCOUNT_MANAGER:
                 $doEntity = OA_Dal::factoryDO('agency');
                 break;

@@ -83,13 +83,13 @@ class OA_Upgrade_Login
             phpAds_SessionDataStore();
         }
 
-        return OA_Permission::isAccount('ADMIN') || OA_Permission::isUserLinkedToAdmin();
+        return OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isUserLinkedToAdmin();
     }
 
     function autoLogin()
     {
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->account_type == 'ADMIN';
+        $doAccounts->account_type == OA_ACCOUNT_ADMIN;
         $doUser = OA_Dal::factoryDO('users');
         $doUser->joinAdd($doAccounts);
         $doUser->orderBy('user_id');
@@ -141,7 +141,7 @@ class OA_Upgrade_Login
                         $doUser->username = $aPref['admin'];
 
                         $aSession = OA_Auth::getSessionData($doUser);
-                        $aSession['user']->account['account_type'] = 'ADMIN';
+                        $aSession['user']->aAccount['account_type'] = OA_ACCOUNT_ADMIN;
 
                         phpAds_SessionDataRegister($aSession);
                     }

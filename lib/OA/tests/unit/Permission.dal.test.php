@@ -1,4 +1,5 @@
 <?php
+
 /*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
@@ -34,17 +35,17 @@ require_once MAX_PATH . '/lib/gacl/tests/unit/acl.mol.test.php';
 /**
  * A class for testing DAL Permission methods
  *
- * @package    Max
+ * @package    OpenadsPermission
  * @subpackage TestSuite
  *
  */
-class OA_PermissionTest extends UnitTestCase
+class Test_OA_Permission extends UnitTestCase
 {
 
     /**
      * The constructor method.
      */
-    function OA_PermissionTest()
+    function Test_OA_Permission()
     {
         $this->UnitTestCase();
     }
@@ -70,7 +71,7 @@ class OA_PermissionTest extends UnitTestCase
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->reportlastdate = '2007-04-02 12:00:00';
         $clientId = DataGenerator::generateOne($doClients);
-        
+
         $username = 'username1'.rand(1,1000);
         $aUser = array(
             'contact_name' => 'contact',
@@ -78,7 +79,7 @@ class OA_PermissionTest extends UnitTestCase
             'username' => $username,
             'password' => 'password',
         );
-        
+
         $doClient = OA_Dal::staticGetDO('clients', $clientId);
         $doClient->createUser($aUser);
 
@@ -110,13 +111,13 @@ class OA_PermissionTest extends UnitTestCase
         $dg = new DataGenerator();
         $dg->setData('clients', $aData);
         $bannerId = $dg->generateOne($doBanners, true);
-        
+
         $clientId = DataGenerator::getReferenceId('clients');
         $doClient = OA_Dal::staticGetDO('clients', $clientId);
-        
+
         $agencyId = DataGenerator::getReferenceId('agency');
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
-        
+
         // Test that admin doesn't have access anymore to all objects
         $this->assertFalse(OA_Permission::hasAccessToObject('banners', 'booId', 1, OA_ACCOUNT_ADMIN));
 
@@ -129,10 +130,10 @@ class OA_PermissionTest extends UnitTestCase
         $doClients->reportlastdate = '2007-04-05 16:18:00';
         $clientId2 = DataGenerator::generateOne($doClients);
         $agencyId2 = DataGenerator::generateOne('agency');
-        
+
         $doClientId2 = OA_Dal::staticGetDO('clients', $clientId2);
         $doAgency2 = OA_Dal::staticGetDO('agency', $agencyId2);
-        
+
         $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $fakeId = 123, OA_ACCOUNT_TRAFFICKER));
         $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $doClientId2->account_id, OA_ACCOUNT_ADVERTISER));
         $this->assertFalse(OA_Permission::hasAccessToObject('banners', $bannerId, $doAgency2->account_id, OA_ACCOUNT_MANAGER));

@@ -72,7 +72,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
     function insert()
     {
         // Create account first
-        $result = $this->createAccount('MANAGER', $this->name);
+        $result = $this->createAccount(OA_ACCOUNT_MANAGER, $this->name);
         if (!$result) {
             return $result;
         }

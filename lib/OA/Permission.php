@@ -36,6 +36,7 @@ require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 require_once MAX_PATH . '/www/admin/lib-sessions.inc.php';
 require_once MAX_PATH . '/lib/max/other/common.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/EnvironmentManager.php';
+
 /**
  * Account types
  */
@@ -94,8 +95,10 @@ define('OA_PERM_ZONE_LINK',         'ZONE/LINK');
 
 
 /**
- * Generic class which provides permissions related methods
+ * A generic class which provides permissions related methods.
  *
+ * @static
+ * @package    OpenadsPermission
  */
 class OA_Permission
 {
@@ -107,6 +110,7 @@ class OA_Permission
      * This function takes either an array as the first parameter or
      * a variable number of parameters
      *
+     * @static
      * @param string $accountType user type
      */
     function enforceAccount($accountType)
@@ -122,6 +126,7 @@ class OA_Permission
      * A method to show an error if the user doesn't have access to a specific
      * account
      *
+     * @static
      * @param int $accountId
      */
     function enforceAccess($accountId)
@@ -133,6 +138,7 @@ class OA_Permission
      * A method to show an error if the user doesn't have specific permissions to
      * perform an action on an account
      *
+     * @static
      * @param string $permission  See OA_PERM_* constants
      * @param int $accountId Defaults to the current active account
      */
@@ -141,7 +147,7 @@ class OA_Permission
         // FIXME - always allow, temporal hack before it will be possible
         //         to assign permissions to users in UI
         return true;
-        
+
         if (OA_Permission::isAllowed($permission, $accountId)) {
             return true;
         }
@@ -154,6 +160,7 @@ class OA_Permission
      * A method to show an error is the current user/account doesn't have access
      * to DataObject (defined by it's table name)
      *
+     * @static
      * @param string $objectTable  Table name
      * @param int $objectId  Id (or empty if new is created)
      * @return boolean  True if has access
@@ -171,6 +178,7 @@ class OA_Permission
     /**
      * Check if logged user has access to DataObject (defined by it's table name)
      *
+     * @static
      * @param string $objectTable  Table name
      * @param int $objectId  Id (or empty if new is created)
      * @param int $accountId  Account Id (if null account from session is taken)
@@ -213,6 +221,7 @@ class OA_Permission
     /**
      * A method to switch the active account to a different one
      *
+     * @static
      * @param int $accountId
      */
     function switchAccount($accountId)
@@ -235,6 +244,7 @@ class OA_Permission
      *
      * @todo Better docblock
      *
+     * @static
      * @param mixed $accountType
      * @return bool
      */
@@ -242,7 +252,7 @@ class OA_Permission
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
             $aArgs = is_array($accountType) ? $accountType : func_get_args();
-            return in_array($oUser->account['account_type'], $aArgs);
+            return in_array($oUser->aAccount['account_type'], $aArgs);
         }
         return false;
     }
@@ -257,13 +267,14 @@ class OA_Permission
      *
      * @todo Better docblock
      *
+     * @static
      * @param mixed $accountType
      * @return bool
      */
     function isAccountTypeId($accountTypeId)
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
-            $userAccountTypeId = OA_Permission::convertAccountTypeToId($oUser->account['account_type']);
+            $userAccountTypeId = OA_Permission::convertAccountTypeToId($oUser->aAccount['account_type']);
             return $userAccountTypeId & $accountTypeId;
         }
         return false;
@@ -272,6 +283,7 @@ class OA_Permission
     /**
      * Returns integer equivalent (ID) of account type
      *
+     * @static
      * @param unknown_type $acountType
      * @return unknown
      */
@@ -288,6 +300,7 @@ class OA_Permission
     /**
      * A method to check if the user has access to a specific account
      *
+     * @static
      * @param int $accountId
      * @return boolean
      */
@@ -300,6 +313,7 @@ class OA_Permission
      * A method to check if the user has specific permissions to perform
      * an action on an account
      *
+     * @static
      * @param string $section
      * @param string $action
      * @param int $accountId
@@ -337,6 +351,7 @@ class OA_Permission
     /**
      * Check if a user is linked to the ADMIN account
      *
+     * @static
      * @return boolean True if the currently logged in user is linked to the ADMIN account, false otherwise.
      */
     function isUserLinkedToAdmin()
@@ -400,16 +415,15 @@ class OA_Permission
     /**
      * A method to retrieve the current user object from a session
      *
+     * @static
      * @return OA_Permission_User on success or false otherwise
      */
     function &getCurrentUser()
     {
         global $session;
-
         if (isset($session['user'])) {
             return $session['user'];
         }
-
         $false = false;
         return $false;
     }
@@ -417,44 +431,47 @@ class OA_Permission
     /**
      * A method to retrieve the user ID of the currently logged in user
      *
+     * @static
      * @return int
      */
     function getUserId()
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
-            return $oUser->user['user_id'];
+            return $oUser->aUser['user_id'];
         }
     }
 
     /**
      * A method to retrieve the username of the currently logged in user
      *
+     * @static
      * @return string
      */
     function getUsername()
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
-            return $oUser->user['username'];
+            return $oUser->aUser['username'];
         }
     }
 
     /**
      * A method to retrieve the agency ID
      *
+     * @static
      * @return int
      */
     function getAgencyId()
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
-            return (int) $oUser->account['agency_id'];
+            return (int) $oUser->aAccount['agency_id'];
         }
-
         return 0;
     }
 
     /**
      * A method to get the currently selected account user type
      *
+     * @static
      * @param boolean $returnAsString
      * @return string
      */
@@ -464,7 +481,7 @@ class OA_Permission
             if (!($oUser = OA_Permission::getCurrentUser())) {
                 return false;
             }
-            $type = $oUser->account['account_type'];
+            $type = $oUser->aAccount['account_type'];
         }
         $aTypes = array(
            OA_ACCOUNT_ADMIN      => 'users',
@@ -479,33 +496,43 @@ class OA_Permission
     /**
      * A method to get the currently selected account user type
      *
-     * @param boolean $returnAsString
-     * @return mixed
+     * @static
+     * @param boolean $returnAsString Return the account type as a string
+     *                                conversion of the account type, rather
+     *                                than the defined string. Optional,
+     *                                default is "false".
+     *
+     * @return mixed If the a user is logged in, returns one of the constants:
+     *                  - OA_ACCOUNT_ADMIN;
+     *                  - OA_ACCOUNT_MANAGER;
+     *                  - OA_ACCOUNT_ADVERTISER;
+     *                  - OA_ACCOUNT_TRAFFICKER,
+     *               or, if $returnAsString was true, the value of the constants
+     *               converted to "String" format,
+     *               of, if no user is logged in, null, or the empty string.
      */
     function getAccountType($returnAsString = false)
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
-            $type = $oUser->account['account_type'];
-
+            $type = $oUser->aAccount['account_type'];
             if ($returnAsString) {
                 return ucfirst(strtolower($type));
             }
-
             return $type;
         }
-
         return $returnAsString ? '' : null;
     }
 
     /**
      * A method to return the entity id associated with the account
      *
+     * @static
      * @return int
      */
     function getEntityId()
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
-            return (int) $oUser->account['entity_id'];
+            return (int) $oUser->aAccount['entity_id'];
         }
 
         return 0;
@@ -514,14 +541,14 @@ class OA_Permission
     /**
      * A method to get the currently selected account ID
      *
-     * @return int
+     * @static
+     * @return integer
      */
     function getAccountId()
     {
         if ($oUser = OA_Permission::getCurrentUser()) {
-            return $oUser->account['account_id'];
+            return $oUser->aAccount['account_id'];
         }
-
         return 0;
     }
 
@@ -529,6 +556,7 @@ class OA_Permission
      * Checks if username is still available and if
      * it is allowed to use.
      *
+     * @static
      * @param string $oldName  Old username which we want to change
      * @param string $newName  New user name to change to
      * @return boolean  True if allowed
@@ -548,6 +576,7 @@ class OA_Permission
     /**
      * Gets a list of unique usernames.
      *
+     * @static
      * @param unknown_type $removeName
      * @return array
      *
@@ -570,6 +599,7 @@ class OA_Permission
 	/**
 	 * Checks the user is allowed to access the requested object.
 	 *
+     * @static
 	 * @param string $objectTable  the DB table of object
 	 * @param int $id  the primary key of object
 	 */

@@ -121,7 +121,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     function insert()
     {
         // Create account first
-        $result = $this->createAccount('TRAFFICKER', $this->name);
+        $result = $this->createAccount(OA_ACCOUNT_TRAFFICKER, $this->name);
         if (!$result) {
             return $result;
         }

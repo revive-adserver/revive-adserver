@@ -113,10 +113,10 @@ while ($row = $rs->fetchRow()) {
     $aTrafficker = $gacl->acl_query($aco_section_value, $aco_value, 'USERS', 3);
 
     $aGroups = array();
-    if ($aAdmin['allow']) { $aGroups[] = 'ADMIN'; }
-    if ($aManager['allow']) { $aGroups[] = 'MANAGER'; }
-    if ($aAdvertiser['allow']) { $aGroups[] = 'ADVERTISER'; }
-    if ($aTrafficker['allow']) { $aGroups[] = 'TRAFFICKER'; }
+    if ($aAdmin['allow']) { $aGroups[] = OA_ACCOUNT_ADMIN; }
+    if ($aManager['allow']) { $aGroups[] = OA_ACCOUNT_MANAGER; }
+    if ($aAdvertiser['allow']) { $aGroups[] = OA_ACCOUNT_ADVERTISER; }
+    if ($aTrafficker['allow']) { $aGroups[] = OA_ACCOUNT_TRAFFICKER; }
 
     $aAcoSections[$aco_section_value]['children'][$aco_value] = array(
         'name'   => $aco_name,
