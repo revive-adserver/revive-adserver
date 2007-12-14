@@ -35,6 +35,7 @@ $Id $
  */
 
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
+require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 
 class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
@@ -47,6 +48,9 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
     function generateTestData()
     {
+        // Insert GACL
+        OA_GaclPermissions::insert();
+
         // agency 0
 
         $this->_insertDefaultPreference();
@@ -56,8 +60,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAgency['name'] = 'agency';
         $aAgency['contact'] = 'Chris Nutting';
         $aAgency['email'] = 'Chris.Nutting@m3.net';
-        $aAgency['username'] = 'agency';
-        $aAgency['password'] = '1d1d5778763061ebb2bdc5db696077a6';
         $aAgency['permissions'] = '0';
         $aAgency['language'] = '';
         $aAgency['logout_url'] = '';
@@ -68,8 +70,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAgency['name'] = 'agency2';
         $aAgency['contact'] = 'Chris Nutting';
         $aAgency['email'] = 'Chris.Nutting@m3.net';
-        $aAgency['username'] = 'agency2';
-        $aAgency['password'] = '7babfa807a160064a31b52c1cb25054b';
         $aAgency['permissions'] = '0';
         $aAgency['language'] = '';
         $aAgency['logout_url'] = '';
@@ -80,8 +80,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAgency['name'] = 'Agency Three';
         $aAgency['contact'] = 'Chris Nutting';
         $aAgency['email'] = 'Chris.Nutting@m3.net';
-        $aAgency['username'] = 'agency3';
-        $aAgency['password'] = '499daf87885cad3bf4b4aa5b9995988c';
         $aAgency['permissions'] = '0';
         $aAgency['language'] = '';
         $aAgency['logout_url'] = '';
@@ -106,8 +104,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['contact'] = 'Chris Nutting';
         $aAffiliates['email'] = 'Chris.Nutting@m3.net';
         $aAffiliates['website'] = 'http://www.m3.net';
-        $aAffiliates['username'] = 'publisher';
-        $aAffiliates['password'] = '52aded165360352a0f5857571d96d68f';
         $aAffiliates['permissions'] = '31';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
@@ -121,8 +117,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['contact'] = 'Chris Nutting';
         $aAffiliates['email'] = 'Chris.Nutting@m3.net';
         $aAffiliates['website'] = 'http://www.m3.net';
-        $aAffiliates['username'] = '';
-        $aAffiliates['password'] = '';
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
@@ -164,8 +158,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['contact'] = 'Chris Nutting';
         $aAffiliates['email'] = 'Chris.Nutting@m3.net';
         $aAffiliates['website'] = 'http://www.m3.net';
-        $aAffiliates['username'] = '';
-        $aAffiliates['password'] = '';
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
@@ -179,8 +171,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['contact'] = 'Chris Nutting';
         $aAffiliates['email'] = 'Chris.Nutting';
         $aAffiliates['website'] = 'http://www.m3.net';
-        $aAffiliates['username'] = '';
-        $aAffiliates['password'] = '';
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
@@ -222,8 +212,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['contact'] = 'Chris Nutting';
         $aAffiliates['email'] = 'Chris.Nutting@m3.net';
         $aAffiliates['website'] = 'http://www.m3.net/';
-        $aAffiliates['username'] = 'pickup';
-        $aAffiliates['password'] = '4e1196a599961a67d5d23b56ad247e36';
         $aAffiliates['permissions'] = '33';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
@@ -393,8 +381,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['contact'] = 'Chris Nutting';
         $aAffiliates['email'] = 'chris.nutting@m3.net';
         $aAffiliates['website'] = 'http://www.m3.net/';
-        $aAffiliates['username'] = 'affiliate';
-        $aAffiliates['password'] = '6d0bd9c8d2eadeb088b34895fde10c55';
         $aAffiliates['permissions'] = '161';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
@@ -11893,7 +11879,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
         // ad_zone_assoc
 
-        $this-> _linkAdZones();
+        $this->_linkAdZones();
 
         // channel
 

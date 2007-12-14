@@ -114,12 +114,7 @@ class OA_Test_Data
         $this->doAgency->name = 'Test Agency';
         $this->doAgency->contact = 'Test Contact';
         $this->doAgency->email = 'agency@example.com';
-        $this->doAgency->username = 'Agency User Name';
-        $this->doAgency->password = 'password';
         $this->doAgency->permissions = 0;
-        $this->doAgency->language = 'en_GB';
-        $this->doAgency->logout_url= 'logout.php';
-        $this->doAgency->active = 1;
         $this->doAgency->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doAgency->agencyid = '';
         $this->doAgency->setFrom($aData);
@@ -132,10 +127,6 @@ class OA_Test_Data
         $this->doClients->clientname='Test Advertiser';
         $this->doClients->contact='Test Contact';
         $this->doClients->email='test1@example.com';
-        $this->doClients->clientusername='';
-        $this->doClients->clientpassword='';
-        $this->doClients->permissions=0;
-        $this->doClients->language='';
         $this->doClients->report='t';
         $this->doClients->reportinterval=7;
         $this->doClients->reportlastdate='2004-11-26';
@@ -152,11 +143,6 @@ class OA_Test_Data
         $this->doAffiliates->contact = 'Affiliate Contact';
         $this->doAffiliates->email = 'affiliate@example.com';
         $this->doAffiliates->website = 'www.example.com';
-        $this->doAffiliates->username = 'Affiliate User Name';
-        $this->doAffiliates->password = 'password';
-        $this->doAffiliates->permissions = null;
-        $this->doAffiliates->language = null;
-        $this->doAffiliates->publiczones = 'f';
         $this->doAffiliates->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doAffiliates->setFrom($aData);
         return DataGenerator::generateOne($this->doAffiliates);
@@ -321,19 +307,12 @@ class OA_Test_Data
         $aAgency['name'] = 'Test Agency';
         $aAgency['contact'] = 'Test Contact';
         $aAgency['email'] = 'agency@example.com';
-        $aAgency['username'] = 'Agency User Name';
-        $aAgency['password'] = 'password';
-        $aAgency['permissions'] = 0;
-        $aAgency['language'] = 'en_GB';
-        $aAgency['logout_url']= 'logout.php';
-        $aAgency['active'] = 1;
         $this->aIds['agency'][1] = $this->_insertAgency($aAgency);
 
         // Add a client record (advertiser)
         $aClient['agencyid'] = $this->aIds['agency'][1];
         $aClient['clientname'] = 'Test Client';
         $aClient['email'] = 'client@example.com';
-        $aClient['clientusername'] = 'Client User Name';
         $this->aIds['clients'][1] = $this->_insertClients($aClient);
 
         // Add an affiliate (publisher) record
@@ -343,7 +322,6 @@ class OA_Test_Data
         $aAffiliate['contact'] = 'Affiliate Contact';
         $aAffiliate['email'] = 'affiliate@example.com';
         $aAffiliate['website'] = 'www.example.com';
-        $aAffiliate['username'] = 'Affiliate User Name';
         $this->aIds['affiliates'][1] = $this->_insertAffiliate($aAffiliate);
 
         // Populate campaigns table
