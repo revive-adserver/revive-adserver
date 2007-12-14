@@ -46,21 +46,16 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
 {
     var $oDbh;
     var $prefix;
+    var $aIds;
 
     function Test_OA_Dal_DeliveryDB()
     {
         $this->UnitTestCase();
         $this->oDbh = OA_DB::singleton();
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $this->prefix = $aConf['table']['prefix'];
-        TestEnv::restoreEnv();
-        $error = TestEnv::loadData('0.3.27_delivery', 'insert');
+        $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
+        $this->aIds = TestEnv::loadData('0.3.27_delivery');
+        $this->assertIsA($this->aIds,'array');
 
-    }
-
-    function before()
-    {
-        //$error = TestEnv::loadData('0.3.27_delivery', 'insert');
     }
 
     /**
@@ -76,12 +71,6 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
                 unset($GLOBALS['_MAX']['ADMIN_DB_LINK']);
             }
         }
-    }
-
-    function after()
-    {
-//        $this->_testCloseConnection();
-//        TestEnv::restoreEnv();
     }
 
     /**
@@ -413,20 +402,6 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
             '127.0.0.1'
         );
         $this->assertTrue($res);
-    }
-
-    /**
-     * A hack method to restore the testing environment to its original
-     * state, given that the above code does not do this (which it should!).
-     *
-     * @author Andrew Hill <andrew@m3.net>
-     *
-     * @TODO The original author of this test suite should remove this method
-     *       once they have fixed the code!
-     */
-    function test_lastTest()
-    {
-        TestEnv::restoreEnv();
     }
 }
 

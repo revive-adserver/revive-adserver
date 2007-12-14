@@ -45,7 +45,7 @@ class Plugins_TestOfPlugins_DeliveryLimitations_Site_Channel extends Plugins_Del
     {
         $this->UnitTestCase();
         TestEnv::restoreEnv();
-        $error = TestEnv::loadData('0.3.27_delivery', 'insert');
+        $error = TestEnv::loadData('0.3.27_delivery');
     }
 
     function testCompile()

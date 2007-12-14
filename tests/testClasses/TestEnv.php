@@ -91,108 +91,14 @@ class TestEnv
     }
 
     /**
-     * create an xml_parser resource
-     * open the given resource
-     * parse the resource
+     * use children of the OA_Test_Data class
+     * to load a dataset using dataobjects
+     * see testData_0.3.27_delivery.php
      *
-     * @param string $source	The name of a dataset.
-     * @param string $mode		Either 'insert' or 'text'.
-     * @return array | false    An array of strings, each representing
-     *                          a SQL DML query. False on error.
-     *
-     * @todo Document the returned array format for 'text' mode.
-     * @todo Document $mode option, or remove it
-     * @todo Consider raising an error instead of returning false.
+     * @param string $source : file identifier
+     * @return array $aIds : array of inserted entity ids
      */
-    function getDataSQL($source, $mode)
-    {
-	// XML files are loaded from a cache, if available
-	if (@include(MAX_PATH . "/tests/data/testData_{$source}.php")) {
-		return isset($aDataset) && is_array($aDataset) ? $aDataset : false;
-	}
-
-        require_once MAX_PATH . '/tests/testClasses/MAX_TestData_XML_Parser.php';
-        $xml = new MAX_TestData_XML_Parser($mode);
-        $xml->setInput($source);
-        if (is_resource($xml->fp))
-        {
-            $res = $xml->parse();
-            if ($res)
-            {
-                return $xml->aDataset;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * useful for refactoring sql to dataobjects
-     *
-     * read some test data from a resource (file)
-     * convert SQL statements into dataobject calls
-     *
-     * @param string $source A filename
-     * @param string $mode 'insert / update / delete'
-     * @return void
-     */
-    function convertDataSQLtoDBO($source, $mode)
-    {
-        $aDataset   = TestEnv::getDataSQL($source, $mode);
-        $pattern    = "INSERT INTO (?P<table>[\w\W]+) \((?P<columns>[\w\W\s]+)\) VALUES \((?P<values>[\W\w\S]+)\);";
-        foreach ($aDataset as $k => $v)
-        {
-            switch ($mode)
-            {
-                case 'insert':
-                    if (preg_match("/{$pattern}/U",$v, $aMatches))
-                    {
-                        $aColumns   = explode(',',$aMatches['columns']);
-                        $aValues    = explode(",",$aMatches['values']);
-                        $aTables[$aMatches['table']][]  = array('columns' => $aColumns, 'values' => $aValues);
-                    }
-                    break;
-            }
-        }
-        $fh = fopen(MAX_PATH . "/var/testdata.php", 'w');
-        fwrite($fh, "<?php\n\n");
-        $stat1  = '$a%s[\'%s\'] = %s;';
-        $stat2  = "\$id%s%s = \$this->_insert%s(\$a%s);";
-        foreach ($aTables AS $tableRaw => $array)
-        {
-            $i = 0;
-            $tableBits  = explode('_',$tableRaw);
-            $tableCamel = '';
-            foreach ($tableBits as $val)
-            {
-                $tableCamel.= ucfirst($val);
-            }
-            foreach ($array AS $k => $v)
-            {
-                $i++;
-                foreach ($v['columns'] AS $k => $column)
-                {
-                    $line = sprintf($stat1, $tableCamel, $column, $v['values'][$k])."\n";
-                    fwrite($fh, $line);
-                }
-                $line = sprintf($stat2, $tableCamel, $i, $tableCamel, $tableCamel)."\n\n";
-                fwrite($fh, $line);
-            }
-        }
-        fwrite($fh, "?>\n\n");
-        fclose($fh);
-        return;
-    }
-
-    /**
-     * work in progress
-     * refactoring of data loading
-     * using dataobjects
-     * see testData_0.3.27_delivery_refactored.php
-     *
-     *
-     * @param string $source
-     */
-    function loadTestData($source)
+    function loadData($source)
     {
         if (file_exists(MAX_PATH . "/tests/data/testData_{$source}.php"))
         {
@@ -202,57 +108,12 @@ class TestEnv
             {
                 $obj = new $classname;
                 $obj->generateTestData();
+                return $obj->aIds;
             }
+            MAX::raiseError('loadData error: unable to find classname '.$classname);
         }
-    }
-
-    /**
-     * read some test data from a resource (file)
-     *
-     * return a dataset array in 'text' mode
-     * insert data in mysql db in 'insert' mode
-     *
-     * @todo get 'text' mode working
-     * @todo consider separating the two modes into separate methods
-     * @param string $source A filename
-     * @param string $mode Either 'insert' or 'text'
-     * @return void
-     */
-    function loadData($source, $mode)
-    {
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        $aDataset = TestEnv::getDataSQL($source, $mode);
-        if ($aDataset)
-        {
-            foreach ($aDataset as $k => $v)
-            {
-                switch ($mode)
-                {
-                    case 'insert':
-                        $oDbh = &OA_DB::singleton();
-                        $query = '';
-                        if (preg_match('/INSERT INTO (?P<table>[\w\W]+) (?P<query>\([\w\W\s]+\);)/U',$v, $aMatches))
-                        {
-                            $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aMatches['table'],true);
-                            $query = 'INSERT INTO '.$table.' '.$aMatches['query'];
-                        }
-                        $res = $oDbh->query($query);
-                        if (!$res || PEAR::isError($res))
-                        {
-                            MAX::raiseError($res);
-                            return;
-                        }
-                        break;
-                    case 'text':
-                        // XXX: Why do we return the first key in the dataset?
-                        return $aDataset;
-                        break;
-                }
-            }
-            return;
-        }
-        MAX::raiseError('loadData error: unable to open '.$source);
-        return;
+        MAX::raiseError('loadData error: unable to find data source file '.MAX_PATH . "/tests/data/testData_{$source}.php");
+        return false;
     }
 
     /**
@@ -435,6 +296,153 @@ class TestEnv
             unlink($backupConfigFilename);
         }
     }
+
+    // POSSIBLY DEPRECATED
+    // MIGHT YET BE USEFUL
+    // DO NOT REMOVE JUST YET
+    /**
+     * create an xml_parser resource
+     * open the given resource
+     * parse the resource
+     *
+     * @param string $source	The name of a dataset.
+     * @param string $mode		Either 'insert' or 'text'.
+     * @return array | false    An array of strings, each representing
+     *                          a SQL DML query. False on error.
+     *
+     * @todo Document the returned array format for 'text' mode.
+     * @todo Document $mode option, or remove it
+     * @todo Consider raising an error instead of returning false.
+     */
+    function getDataSQL($source, $mode)
+    {
+	// XML files are loaded from a cache, if available
+	if (@include(MAX_PATH . "/tests/data/testData_{$source}.php")) {
+		return isset($aDataset) && is_array($aDataset) ? $aDataset : false;
+	}
+
+        require_once MAX_PATH . '/tests/testClasses/MAX_TestData_XML_Parser.php';
+        $xml = new MAX_TestData_XML_Parser($mode);
+        $xml->setInput($source);
+        if (is_resource($xml->fp))
+        {
+            $res = $xml->parse();
+            if ($res)
+            {
+                return $xml->aDataset;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * utility for refactoring sql to dataobjects
+     *
+     * read some test data from a resource (file)
+     * convert SQL statements into dataobject calls
+     *
+     * @param string $source A filename
+     * @param string $mode 'insert / update / delete'
+     * @return void
+     */
+    function convertDataSQLtoDBO($source, $mode)
+    {
+        $aDataset   = TestEnv::getDataSQL($source, $mode);
+        $pattern    = "INSERT INTO (?P<table>[\w\W]+) \((?P<columns>[\w\W\s]+)\) VALUES \((?P<values>[\W\w\S]+)\);";
+        foreach ($aDataset as $k => $v)
+        {
+            switch ($mode)
+            {
+                case 'insert':
+                    if (preg_match("/{$pattern}/U",$v, $aMatches))
+                    {
+                        $aColumns   = explode(',',$aMatches['columns']);
+                        $aValues    = explode(",",$aMatches['values']);
+                        $aTables[$aMatches['table']][]  = array('columns' => $aColumns, 'values' => $aValues);
+                    }
+                    break;
+            }
+        }
+        $fh = fopen(MAX_PATH . "/var/testdata.php", 'w');
+        fwrite($fh, "<?php\n\n");
+        $stat1  = '$a%s[\'%s\'] = %s;';
+        $stat2  = "\$id%s%s = \$this->_insert%s(\$a%s);";
+        foreach ($aTables AS $tableRaw => $array)
+        {
+            $i = 0;
+            $tableBits  = explode('_',$tableRaw);
+            $tableCamel = '';
+            foreach ($tableBits as $val)
+            {
+                $tableCamel.= ucfirst($val);
+            }
+            foreach ($array AS $k => $v)
+            {
+                $i++;
+                foreach ($v['columns'] AS $k => $column)
+                {
+                    $line = sprintf($stat1, $tableCamel, $column, $v['values'][$k])."\n";
+                    fwrite($fh, $line);
+                }
+                $line = sprintf($stat2, $tableCamel, $i, $tableCamel, $tableCamel)."\n\n";
+                fwrite($fh, $line);
+            }
+        }
+        fwrite($fh, "?>\n\n");
+        fclose($fh);
+        return;
+    }
+
+    /**
+     *
+     * read some test data from a resource (file)
+     *
+     * return a dataset array in 'text' mode
+     * insert data in mysql db in 'insert' mode
+     *
+     * @todo get 'text' mode working
+     * @todo consider separating the two modes into separate methods
+     * @param string $source A filename
+     * @param string $mode Either 'insert' or 'text'
+     * @return void
+     */
+    function loadDataSQL($source, $mode)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aDataset = TestEnv::getDataSQL($source, $mode);
+        if ($aDataset)
+        {
+            foreach ($aDataset as $k => $v)
+            {
+                switch ($mode)
+                {
+                    case 'insert':
+                        $oDbh = &OA_DB::singleton();
+                        $query = '';
+                        if (preg_match('/INSERT INTO (?P<table>[\w\W]+) (?P<query>\([\w\W\s]+\);)/U',$v, $aMatches))
+                        {
+                            $table = $oDbh->quoteIdentifier($aConf['table']['prefix'].$aMatches['table'],true);
+                            $query = 'INSERT INTO '.$table.' '.$aMatches['query'];
+                        }
+                        $res = $oDbh->query($query);
+                        if (!$res || PEAR::isError($res))
+                        {
+                            MAX::raiseError($res);
+                            return;
+                        }
+                        break;
+                    case 'text':
+                        // XXX: Why do we return the first key in the dataset?
+                        return $aDataset;
+                        break;
+                }
+            }
+            return;
+        }
+        MAX::raiseError('loadDataSQL error: unable to open '.$source);
+        return;
+    }
+
 }
 
 ?>

@@ -1,1420 +1,15611 @@
 <?php
-$aDataset = array (
-  0 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'136\',\'152\',\'83\',\'0\',\'1\');',
-  1 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'137\',\'2\',\'79\',\'0\',\'1\');',
-  2 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'138\',\'0\',\'87\',\'0\',\'0\');',
-  3 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'139\',\'0\',\'88\',\'0\',\'0\');',
-  4 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'140\',\'0\',\'89\',\'0\',\'0\');',
-  5 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'141\',\'152\',\'90\',\'0\',\'1\');',
-  6 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'142\',\'0\',\'91\',\'0\',\'0\');',
-  7 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'143\',\'9\',\'91\',\'0\',\'1\');',
-  8 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'144\',\'0\',\'92\',\'0\',\'0\');',
-  9 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'145\',\'0\',\'93\',\'0\',\'0\');',
-  10 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'146\',\'0\',\'94\',\'0\',\'0\');',
-  11 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'147\',\'0\',\'95\',\'0\',\'0\');',
-  12 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'148\',\'0\',\'96\',\'0\',\'0\');',
-  13 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'149\',\'0\',\'97\',\'0\',\'0\');',
-  14 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'150\',\'0\',\'98\',\'0\',\'0\');',
-  15 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'151\',\'0\',\'99\',\'0\',\'0\');',
-  16 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'152\',\'0\',\'100\',\'0\',\'0\');',
-  17 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'153\',\'0\',\'101\',\'0\',\'0\');',
-  18 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'154\',\'0\',\'102\',\'0\',\'0\');',
-  19 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'155\',\'0\',\'103\',\'0\',\'0\');',
-  20 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'156\',\'10\',\'100\',\'0\',\'1\');',
-  21 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'157\',\'10\',\'101\',\'0\',\'1\');',
-  22 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'158\',\'10\',\'102\',\'0\',\'1\');',
-  23 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'159\',\'10\',\'103\',\'0\',\'1\');',
-  24 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'160\',\'10\',\'96\',\'0\',\'1\');',
-  25 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'161\',\'10\',\'97\',\'0\',\'1\');',
-  26 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'162\',\'10\',\'98\',\'0\',\'1\');',
-  27 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'163\',\'10\',\'99\',\'0\',\'1\');',
-  28 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'164\',\'10\',\'92\',\'0\',\'1\');',
-  29 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'165\',\'10\',\'93\',\'0\',\'1\');',
-  30 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'166\',\'10\',\'94\',\'0\',\'1\');',
-  31 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'167\',\'10\',\'95\',\'0\',\'1\');',
-  32 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'168\',\'0\',\'104\',\'0\',\'0\');',
-  33 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'169\',\'9\',\'104\',\'0\',\'1\');',
-  34 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'170\',\'0\',\'105\',\'0\',\'0\');',
-  35 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'171\',\'0\',\'106\',\'0\',\'0\');',
-  36 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'172\',\'0\',\'107\',\'0\',\'0\');',
-  37 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'173\',\'0\',\'108\',\'0\',\'0\');',
-  38 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'174\',\'0\',\'109\',\'0\',\'0\');',
-  39 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'175\',\'13\',\'109\',\'0\',\'1\');',
-  40 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'176\',\'0\',\'110\',\'0\',\'0\');',
-  41 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'177\',\'14\',\'92\',\'0\',\'1\');',
-  42 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'178\',\'14\',\'93\',\'0\',\'1\');',
-  43 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'179\',\'14\',\'94\',\'0\',\'1\');',
-  44 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'180\',\'14\',\'95\',\'0\',\'1\');',
-  45 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'181\',\'15\',\'110\',\'0\',\'1\');',
-  46 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'182\',\'0\',\'111\',\'0\',\'0\');',
-  47 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'183\',\'0\',\'112\',\'0\',\'0\');',
-  48 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'184\',\'18\',\'112\',\'0\',\'1\');',
-  49 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'185\',\'0\',\'113\',\'0\',\'0\');',
-  50 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'186\',\'18\',\'113\',\'0\',\'1\');',
-  51 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'187\',\'0\',\'114\',\'0\',\'0\');',
-  52 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'188\',\'19\',\'114\',\'0\',\'1\');',
-  53 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'189\',\'0\',\'115\',\'0\',\'0\');',
-  54 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'190\',\'19\',\'115\',\'0\',\'1\');',
-  55 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'191\',\'0\',\'116\',\'0\',\'0\');',
-  56 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'192\',\'19\',\'116\',\'0\',\'1\');',
-  57 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'193\',\'0\',\'117\',\'0\',\'0\');',
-  58 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'194\',\'19\',\'117\',\'0\',\'1\');',
-  59 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'195\',\'0\',\'118\',\'0\',\'0\');',
-  60 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'196\',\'19\',\'118\',\'0\',\'1\');',
-  61 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'197\',\'0\',\'119\',\'0\',\'0\');',
-  62 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'198\',\'19\',\'119\',\'0\',\'1\');',
-  63 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'199\',\'0\',\'120\',\'0\',\'0\');',
-  64 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'200\',\'19\',\'120\',\'0\',\'1\');',
-  65 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'201\',\'15\',\'113\',\'0\',\'1\');',
-  66 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'202\',\'0\',\'121\',\'0\',\'0\');',
-  67 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'203\',\'20\',\'121\',\'0\',\'1\');',
-  68 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'204\',\'0\',\'122\',\'0\',\'0\');',
-  69 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'205\',\'21\',\'122\',\'0\',\'1\');',
-  70 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'206\',\'0\',\'123\',\'0\',\'0\');',
-  71 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'207\',\'0\',\'124\',\'0\',\'0\');',
-  72 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'208\',\'0\',\'125\',\'0\',\'0\');',
-  73 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'209\',\'4\',\'36\',\'0\',\'1\');',
-  74 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'210\',\'4\',\'37\',\'0\',\'1\');',
-  75 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'211\',\'4\',\'38\',\'0\',\'1\');',
-  76 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'212\',\'4\',\'40\',\'0\',\'1\');',
-  77 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'213\',\'4\',\'124\',\'0\',\'1\');',
-  78 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'214\',\'4\',\'125\',\'0\',\'1\');',
-  79 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'215\',\'0\',\'126\',\'0\',\'0\');',
-  80 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'216\',\'24\',\'126\',\'0\',\'1\');',
-  81 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'217\',\'25\',\'36\',\'0\',\'1\');',
-  82 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'218\',\'25\',\'37\',\'0\',\'1\');',
-  83 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'219\',\'25\',\'38\',\'0\',\'1\');',
-  84 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'220\',\'25\',\'40\',\'0\',\'1\');',
-  85 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'221\',\'25\',\'124\',\'0\',\'1\');',
-  86 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'222\',\'25\',\'125\',\'0\',\'1\');',
-  87 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'223\',\'26\',\'36\',\'0\',\'1\');',
-  88 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'224\',\'26\',\'37\',\'0\',\'1\');',
-  89 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'225\',\'26\',\'38\',\'0\',\'1\');',
-  90 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'226\',\'26\',\'40\',\'0\',\'1\');',
-  91 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'227\',\'26\',\'124\',\'0\',\'1\');',
-  92 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'228\',\'26\',\'125\',\'0\',\'1\');',
-  93 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'229\',\'27\',\'36\',\'0\',\'1\');',
-  94 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'230\',\'27\',\'37\',\'0\',\'1\');',
-  95 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'231\',\'27\',\'38\',\'0\',\'1\');',
-  96 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'232\',\'27\',\'40\',\'0\',\'1\');',
-  97 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'233\',\'27\',\'124\',\'0\',\'1\');',
-  98 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'234\',\'27\',\'125\',\'0\',\'1\');',
-  99 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'235\',\'28\',\'36\',\'0\',\'1\');',
-  100 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'236\',\'28\',\'37\',\'0\',\'1\');',
-  101 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'237\',\'28\',\'38\',\'0\',\'1\');',
-  102 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'238\',\'28\',\'40\',\'0\',\'1\');',
-  103 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'239\',\'28\',\'124\',\'0\',\'1\');',
-  104 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'240\',\'28\',\'125\',\'0\',\'1\');',
-  105 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'241\',\'0\',\'127\',\'0\',\'0\');',
-  106 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'242\',\'22\',\'127\',\'0\',\'1\');',
-  107 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'243\',\'0\',\'128\',\'0\',\'0\');',
-  108 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'244\',\'23\',\'128\',\'0\',\'1\');',
-  109 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'245\',\'0\',\'129\',\'0\',\'0\');',
-  110 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'246\',\'0\',\'130\',\'0\',\'0\');',
-  111 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'251\',\'30\',\'96\',\'0\',\'1\');',
-  112 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'252\',\'30\',\'97\',\'0\',\'1\');',
-  113 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'253\',\'30\',\'98\',\'0\',\'1\');',
-  114 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'254\',\'30\',\'99\',\'0\',\'1\');',
-  115 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'255\',\'30\',\'92\',\'0\',\'1\');',
-  116 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'256\',\'30\',\'93\',\'0\',\'1\');',
-  117 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'257\',\'30\',\'94\',\'0\',\'1\');',
-  118 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'258\',\'30\',\'95\',\'0\',\'1\');',
-  119 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'259\',\'0\',\'131\',\'0\',\'0\');',
-  120 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'260\',\'0\',\'132\',\'0\',\'0\');',
-  121 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'261\',\'31\',\'18\',\'0\',\'1\');',
-  122 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'262\',\'31\',\'19\',\'0\',\'1\');',
-  123 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'263\',\'31\',\'20\',\'0\',\'1\');',
-  124 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'264\',\'31\',\'21\',\'0\',\'1\');',
-  125 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'265\',\'31\',\'22\',\'0\',\'1\');',
-  126 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'266\',\'31\',\'23\',\'0\',\'1\');',
-  127 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'267\',\'31\',\'25\',\'0\',\'1\');',
-  128 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'268\',\'31\',\'26\',\'0\',\'1\');',
-  129 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'269\',\'31\',\'27\',\'0\',\'1\');',
-  130 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'270\',\'31\',\'28\',\'0\',\'1\');',
-  131 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'271\',\'31\',\'29\',\'0\',\'1\');',
-  132 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'272\',\'31\',\'31\',\'0\',\'1\');',
-  133 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'273\',\'31\',\'43\',\'0\',\'1\');',
-  134 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'274\',\'31\',\'44\',\'0\',\'1\');',
-  135 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'275\',\'0\',\'133\',\'0\',\'0\');',
-  136 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'276\',\'32\',\'133\',\'0\',\'1\');',
-  137 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'277\',\'0\',\'134\',\'0\',\'0\');',
-  138 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'278\',\'32\',\'134\',\'0\',\'1\');',
-  139 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'279\',\'0\',\'135\',\'0\',\'0\');',
-  140 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'280\',\'33\',\'135\',\'0\',\'1\');',
-  141 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'281\',\'0\',\'136\',\'0\',\'0\');',
-  142 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'282\',\'33\',\'136\',\'0\',\'1\');',
-  143 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'283\',\'34\',\'135\',\'0\',\'1\');',
-  144 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'284\',\'34\',\'136\',\'0\',\'1\');',
-  145 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'285\',\'35\',\'135\',\'0\',\'1\');',
-  146 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'286\',\'35\',\'136\',\'0\',\'1\');',
-  147 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'287\',\'37\',\'100\',\'0\',\'1\');',
-  148 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'288\',\'37\',\'101\',\'0\',\'1\');',
-  149 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'289\',\'37\',\'102\',\'0\',\'1\');',
-  150 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'290\',\'37\',\'103\',\'0\',\'1\');',
-  151 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'291\',\'37\',\'96\',\'0\',\'1\');',
-  152 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'292\',\'37\',\'97\',\'0\',\'1\');',
-  153 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'293\',\'37\',\'98\',\'0\',\'1\');',
-  154 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'294\',\'37\',\'99\',\'0\',\'1\');',
-  155 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'295\',\'37\',\'92\',\'0\',\'1\');',
-  156 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'296\',\'37\',\'93\',\'0\',\'1\');',
-  157 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'297\',\'37\',\'94\',\'0\',\'1\');',
-  158 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'298\',\'37\',\'95\',\'0\',\'1\');',
-  159 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'299\',\'0\',\'137\',\'0\',\'0\');',
-  160 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'300\',\'0\',\'138\',\'0\',\'0\');',
-  161 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'301\',\'38\',\'92\',\'0\',\'1\');',
-  162 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'302\',\'38\',\'93\',\'0\',\'1\');',
-  163 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'303\',\'38\',\'94\',\'0\',\'1\');',
-  164 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'304\',\'38\',\'95\',\'0\',\'1\');',
-  165 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'305\',\'0\',\'139\',\'0\',\'0\');',
-  166 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'306\',\'6\',\'139\',\'0\',\'1\');',
-  167 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'307\',\'7\',\'139\',\'0\',\'1\');',
-  168 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'308\',\'0\',\'140\',\'0\',\'0\');',
-  169 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'309\',\'0\',\'141\',\'0\',\'0\');',
-  170 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'310\',\'40\',\'140\',\'0\',\'1\');',
-  171 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'311\',\'40\',\'141\',\'0\',\'1\');',
-  172 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'312\',\'0\',\'142\',\'0\',\'0\');',
-  173 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'313\',\'41\',\'142\',\'0\',\'1\');',
-  174 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'314\',\'0\',\'143\',\'0\',\'0\');',
-  175 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'315\',\'42\',\'143\',\'0\',\'1\');',
-  176 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'316\',\'0\',\'144\',\'0\',\'0\');',
-  177 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'317\',\'41\',\'144\',\'0\',\'1\');',
-  178 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'318\',\'0\',\'145\',\'0\',\'0\');',
-  179 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'319\',\'41\',\'145\',\'0\',\'1\');',
-  180 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'320\',\'0\',\'146\',\'0\',\'0\');',
-  181 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'321\',\'41\',\'146\',\'0\',\'1\');',
-  182 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'322\',\'0\',\'147\',\'0\',\'0\');',
-  183 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'323\',\'41\',\'147\',\'0\',\'1\');',
-  184 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'324\',\'0\',\'148\',\'0\',\'0\');',
-  185 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'325\',\'41\',\'148\',\'0\',\'1\');',
-  186 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'326\',\'0\',\'149\',\'0\',\'0\');',
-  187 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'327\',\'41\',\'149\',\'0\',\'1\');',
-  188 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'328\',\'0\',\'150\',\'0\',\'0\');',
-  189 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'329\',\'42\',\'150\',\'0\',\'1\');',
-  190 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'330\',\'0\',\'151\',\'0\',\'0\');',
-  191 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'331\',\'42\',\'151\',\'0\',\'1\');',
-  192 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'332\',\'0\',\'152\',\'0\',\'0\');',
-  193 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'333\',\'42\',\'152\',\'0\',\'1\');',
-  194 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'334\',\'0\',\'153\',\'0\',\'0\');',
-  195 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'335\',\'42\',\'153\',\'0\',\'1\');',
-  196 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'336\',\'0\',\'154\',\'0\',\'0\');',
-  197 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'337\',\'42\',\'154\',\'0\',\'1\');',
-  198 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'338\',\'0\',\'155\',\'0\',\'0\');',
-  199 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'339\',\'42\',\'155\',\'0\',\'1\');',
-  200 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'340\',\'0\',\'156\',\'0\',\'0\');',
-  201 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'341\',\'42\',\'156\',\'0\',\'1\');',
-  202 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'342\',\'0\',\'157\',\'0\',\'0\');',
-  203 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'343\',\'43\',\'157\',\'0\',\'1\');',
-  204 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'344\',\'0\',\'158\',\'0\',\'0\');',
-  205 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'345\',\'43\',\'158\',\'0\',\'1\');',
-  206 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'346\',\'0\',\'159\',\'0\',\'0\');',
-  207 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'347\',\'43\',\'159\',\'0\',\'1\');',
-  208 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'348\',\'0\',\'160\',\'0\',\'0\');',
-  209 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'349\',\'43\',\'160\',\'0\',\'1\');',
-  210 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'350\',\'0\',\'161\',\'0\',\'0\');',
-  211 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'351\',\'43\',\'161\',\'0\',\'1\');',
-  212 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'352\',\'0\',\'162\',\'0\',\'0\');',
-  213 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'353\',\'43\',\'162\',\'0\',\'1\');',
-  214 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'354\',\'0\',\'163\',\'0\',\'0\');',
-  215 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'355\',\'43\',\'163\',\'0\',\'1\');',
-  216 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'356\',\'0\',\'164\',\'0\',\'0\');',
-  217 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'357\',\'40\',\'164\',\'0\',\'1\');',
-  218 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'358\',\'0\',\'165\',\'0\',\'0\');',
-  219 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'359\',\'44\',\'165\',\'0\',\'1\');',
-  220 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'360\',\'0\',\'166\',\'0\',\'0\');',
-  221 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'361\',\'45\',\'166\',\'0\',\'1\');',
-  222 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'362\',\'0\',\'167\',\'0\',\'0\');',
-  223 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'363\',\'45\',\'167\',\'0\',\'1\');',
-  224 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'364\',\'0\',\'168\',\'0\',\'0\');',
-  225 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'365\',\'0\',\'169\',\'0\',\'0\');',
-  226 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'367\',\'0\',\'170\',\'0\',\'0\');',
-  227 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'368\',\'0\',\'171\',\'0\',\'0\');',
-  228 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'369\',\'0\',\'172\',\'0\',\'0\');',
-  229 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'370\',\'0\',\'173\',\'0\',\'0\');',
-  230 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'373\',\'0\',\'175\',\'0\',\'0\');',
-  231 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'374\',\'0\',\'176\',\'0\',\'0\');',
-  232 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'375\',\'46\',\'169\',\'0\',\'1\');',
-  233 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'376\',\'0\',\'177\',\'0\',\'0\');',
-  234 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'377\',\'0\',\'178\',\'0\',\'0\');',
-  235 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'378\',\'0\',\'179\',\'0\',\'0\');',
-  236 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'379\',\'0\',\'180\',\'0\',\'0\');',
-  237 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'380\',\'0\',\'181\',\'0\',\'0\');',
-  238 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'381\',\'0\',\'182\',\'0\',\'0\');',
-  239 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'382\',\'0\',\'183\',\'0\',\'0\');',
-  240 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'397\',\'49\',\'24\',\'0\',\'1\');',
-  241 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'398\',\'0\',\'184\',\'0\',\'0\');',
-  242 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'399\',\'0\',\'185\',\'0\',\'0\');',
-  243 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'400\',\'51\',\'185\',\'0\',\'1\');',
-  244 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'402\',\'0\',\'187\',\'0\',\'0\');',
-  245 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'404\',\'0\',\'188\',\'0\',\'0\');',
-  246 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'406\',\'0\',\'189\',\'0\',\'0\');',
-  247 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'408\',\'0\',\'190\',\'0\',\'0\');',
-  248 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'410\',\'0\',\'191\',\'0\',\'0\');',
-  249 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'412\',\'0\',\'192\',\'0\',\'0\');',
-  250 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'414\',\'0\',\'193\',\'0\',\'0\');',
-  251 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'423\',\'0\',\'194\',\'0\',\'0\');',
-  252 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'424\',\'52\',\'194\',\'0.32967032967\',\'1\');',
-  253 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'425\',\'0\',\'195\',\'0\',\'0\');',
-  254 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'426\',\'52\',\'195\',\'0.32967032967\',\'1\');',
-  255 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'427\',\'8\',\'187\',\'0.13698630137\',\'1\');',
-  256 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'428\',\'8\',\'188\',\'0.13698630137\',\'1\');',
-  257 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'429\',\'8\',\'189\',\'0.13698630137\',\'1\');',
-  258 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'430\',\'8\',\'190\',\'0.13698630137\',\'1\');',
-  259 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'431\',\'8\',\'191\',\'0.13698630137\',\'1\');',
-  260 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'432\',\'8\',\'192\',\'0.13698630137\',\'1\');',
-  261 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'433\',\'8\',\'193\',\'0.13698630137\',\'1\');',
-  262 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'434\',\'0\',\'196\',\'0\',\'0\');',
-  263 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'435\',\'0\',\'197\',\'0\',\'0\');',
-  264 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'436\',\'0\',\'198\',\'0\',\'0\');',
-  265 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'437\',\'0\',\'199\',\'0\',\'0\');',
-  266 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'438\',\'0\',\'200\',\'0\',\'0\');',
-  267 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'439\',\'0\',\'201\',\'0\',\'0\');',
-  268 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'440\',\'52\',\'201\',\'0.10989010989\',\'1\');',
-  269 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'441\',\'52\',\'200\',\'0.10989010989\',\'1\');',
-  270 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'442\',\'52\',\'199\',\'0.10989010989\',\'1\');',
-  271 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'443\',\'52\',\'2\',\'0\',\'1\');',
-  272 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'444\',\'0\',\'202\',\'0\',\'0\');',
-  273 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'445\',\'17\',\'20\',\'0\',\'1\');',
-  274 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'446\',\'0\',\'203\',\'0\',\'0\');',
-  275 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'447\',\'0\',\'204\',\'0\',\'0\');',
-  276 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'448\',\'0\',\'205\',\'0\',\'0\');',
-  277 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'449\',\'53\',\'205\',\'0\',\'1\');',
-  278 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'450\',\'0\',\'206\',\'0\',\'0\');',
-  279 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'451\',\'54\',\'206\',\'0\',\'1\');',
-  280 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'452\',\'0\',\'1000\',\'0\',\'0\');',
-  281 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'453\',\'8\',\'100\',\'0\',\'1\');',
-  282 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'454\',\'8\',\'101\',\'0\',\'1\');',
-  283 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'455\',\'8\',\'102\',\'0\',\'1\');',
-  284 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'456\',\'8\',\'103\',\'0\',\'1\');',
-  285 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'457\',\'0\',\'18\',\'0\',\'0\');',
-  286 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'458\',\'0\',\'12\',\'0\',\'0\');',
-  287 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'459\',\'0\',\'1001\',\'0\',\'0\');',
-  288 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'461\',\'0\',\'1002\',\'0\',\'0\');',
-  289 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'463\',\'0\',\'1003\',\'0\',\'0\');',
-  290 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'465\',\'0\',\'1004\',\'0\',\'0\');',
-  291 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'467\',\'0\',\'1005\',\'0\',\'0\');',
-  292 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'469\',\'0\',\'1006\',\'0\',\'0\');',
-  293 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'471\',\'0\',\'1007\',\'0\',\'0\');',
-  294 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'473\',\'0\',\'1008\',\'0\',\'0\');',
-  295 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'475\',\'0\',\'1009\',\'0\',\'0\');',
-  296 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'477\',\'0\',\'1010\',\'0\',\'0\');',
-  297 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'479\',\'0\',\'1011\',\'0\',\'0\');',
-  298 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'481\',\'0\',\'1012\',\'0\',\'0\');',
-  299 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'483\',\'0\',\'1013\',\'0\',\'0\');',
-  300 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'485\',\'0\',\'1014\',\'0\',\'0\');',
-  301 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'487\',\'0\',\'1015\',\'0\',\'0\');',
-  302 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'489\',\'0\',\'1016\',\'0\',\'0\');',
-  303 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'491\',\'0\',\'1017\',\'0\',\'0\');',
-  304 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'493\',\'0\',\'1018\',\'0\',\'0\');',
-  305 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'495\',\'0\',\'1019\',\'0\',\'0\');',
-  306 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'497\',\'0\',\'1020\',\'0\',\'0\');',
-  307 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'499\',\'0\',\'1021\',\'0\',\'0\');',
-  308 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'501\',\'0\',\'1022\',\'0\',\'0\');',
-  309 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'503\',\'0\',\'1023\',\'0\',\'0\');',
-  310 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'505\',\'0\',\'1024\',\'0\',\'0\');',
-  311 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'507\',\'0\',\'1025\',\'0\',\'0\');',
-  312 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'509\',\'0\',\'1026\',\'0\',\'0\');',
-  313 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'511\',\'0\',\'1027\',\'0\',\'0\');',
-  314 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'513\',\'0\',\'1028\',\'0\',\'0\');',
-  315 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'515\',\'0\',\'1029\',\'0\',\'0\');',
-  316 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'517\',\'0\',\'1030\',\'0\',\'0\');',
-  317 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'519\',\'0\',\'1031\',\'0\',\'0\');',
-  318 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'521\',\'0\',\'1032\',\'0\',\'0\');',
-  319 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'523\',\'0\',\'1033\',\'0\',\'0\');',
-  320 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'525\',\'0\',\'1034\',\'0\',\'0\');',
-  321 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'527\',\'0\',\'1035\',\'0\',\'0\');',
-  322 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'529\',\'0\',\'1036\',\'0\',\'0\');',
-  323 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'531\',\'0\',\'1037\',\'0\',\'0\');',
-  324 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'533\',\'0\',\'1038\',\'0\',\'0\');',
-  325 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'535\',\'0\',\'1039\',\'0\',\'0\');',
-  326 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'537\',\'0\',\'1040\',\'0\',\'0\');',
-  327 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'539\',\'0\',\'1041\',\'0\',\'0\');',
-  328 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'541\',\'0\',\'1042\',\'0\',\'0\');',
-  329 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'543\',\'0\',\'1043\',\'0\',\'0\');',
-  330 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'545\',\'0\',\'1044\',\'0\',\'0\');',
-  331 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'547\',\'0\',\'1045\',\'0\',\'0\');',
-  332 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'549\',\'0\',\'1046\',\'0\',\'0\');',
-  333 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'551\',\'0\',\'1047\',\'0\',\'0\');',
-  334 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'553\',\'0\',\'1048\',\'0\',\'0\');',
-  335 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'555\',\'0\',\'1049\',\'0\',\'0\');',
-  336 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'557\',\'0\',\'1050\',\'0\',\'0\');',
-  337 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'559\',\'0\',\'1051\',\'0\',\'0\');',
-  338 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'561\',\'0\',\'1052\',\'0\',\'0\');',
-  339 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'563\',\'0\',\'1053\',\'0\',\'0\');',
-  340 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'565\',\'0\',\'1054\',\'0\',\'0\');',
-  341 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'567\',\'0\',\'1055\',\'0\',\'0\');',
-  342 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'569\',\'0\',\'1056\',\'0\',\'0\');',
-  343 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'571\',\'0\',\'1057\',\'0\',\'0\');',
-  344 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'573\',\'55\',\'1001\',\'0\',\'1\');',
-  345 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'574\',\'55\',\'1002\',\'0\',\'1\');',
-  346 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'575\',\'55\',\'1003\',\'0\',\'1\');',
-  347 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'576\',\'55\',\'1004\',\'0\',\'1\');',
-  348 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'577\',\'55\',\'1005\',\'0\',\'1\');',
-  349 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'578\',\'61\',\'1001\',\'0\',\'1\');',
-  350 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'579\',\'61\',\'1002\',\'0\',\'1\');',
-  351 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'580\',\'61\',\'1003\',\'0\',\'1\');',
-  352 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'581\',\'61\',\'1004\',\'0\',\'1\');',
-  353 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'582\',\'61\',\'1005\',\'0\',\'1\');',
-  354 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'583\',\'55\',\'1006\',\'0\',\'1\');',
-  355 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'584\',\'55\',\'1007\',\'0\',\'1\');',
-  356 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'585\',\'55\',\'1008\',\'0\',\'1\');',
-  357 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'586\',\'55\',\'1009\',\'0\',\'1\');',
-  358 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'587\',\'55\',\'1010\',\'0\',\'1\');',
-  359 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'588\',\'55\',\'1011\',\'0\',\'1\');',
-  360 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'589\',\'55\',\'1012\',\'0\',\'1\');',
-  361 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'590\',\'55\',\'1013\',\'0\',\'1\');',
-  362 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'591\',\'61\',\'1006\',\'0\',\'1\');',
-  363 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'592\',\'61\',\'1007\',\'0\',\'1\');',
-  364 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'593\',\'61\',\'1008\',\'0\',\'1\');',
-  365 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'594\',\'61\',\'1009\',\'0\',\'1\');',
-  366 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'595\',\'61\',\'1010\',\'0\',\'1\');',
-  367 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'596\',\'61\',\'1011\',\'0\',\'1\');',
-  368 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'597\',\'61\',\'1012\',\'0\',\'1\');',
-  369 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'598\',\'61\',\'1013\',\'0\',\'1\');',
-  370 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'599\',\'55\',\'1014\',\'0\',\'1\');',
-  371 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'600\',\'55\',\'1015\',\'0\',\'1\');',
-  372 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'601\',\'55\',\'1016\',\'0\',\'1\');',
-  373 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'602\',\'55\',\'1017\',\'0\',\'1\');',
-  374 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'603\',\'61\',\'1014\',\'0\',\'1\');',
-  375 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'604\',\'61\',\'1015\',\'0\',\'1\');',
-  376 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'605\',\'61\',\'1016\',\'0\',\'1\');',
-  377 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'606\',\'61\',\'1017\',\'0\',\'1\');',
-  378 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'607\',\'56\',\'1018\',\'0\',\'1\');',
-  379 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'608\',\'56\',\'1019\',\'0\',\'1\');',
-  380 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'609\',\'62\',\'1018\',\'0\',\'1\');',
-  381 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'610\',\'62\',\'1019\',\'0\',\'1\');',
-  382 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'611\',\'57\',\'1020\',\'0.10989010989\',\'1\');',
-  383 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'612\',\'57\',\'1021\',\'0.10989010989\',\'1\');',
-  384 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'613\',\'57\',\'1022\',\'0.10989010989\',\'1\');',
-  385 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'614\',\'57\',\'1023\',\'0.10989010989\',\'1\');',
-  386 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'615\',\'57\',\'1024\',\'0.10989010989\',\'1\');',
-  387 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'616\',\'61\',\'1020\',\'0.10989010989\',\'1\');',
-  388 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'617\',\'61\',\'1021\',\'0.10989010989\',\'1\');',
-  389 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'618\',\'61\',\'1022\',\'0.10989010989\',\'1\');',
-  390 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'619\',\'61\',\'1023\',\'0.10989010989\',\'1\');',
-  391 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'620\',\'61\',\'1024\',\'0.10989010989\',\'1\');',
-  392 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'621\',\'58\',\'1025\',\'0\',\'1\');',
-  393 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'622\',\'58\',\'1026\',\'0\',\'1\');',
-  394 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'623\',\'58\',\'1027\',\'0\',\'1\');',
-  395 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'624\',\'58\',\'1028\',\'0\',\'1\');',
-  396 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'625\',\'58\',\'1029\',\'0\',\'1\');',
-  397 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'626\',\'61\',\'1025\',\'0\',\'1\');',
-  398 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'627\',\'61\',\'1026\',\'0\',\'1\');',
-  399 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'628\',\'61\',\'1027\',\'0\',\'1\');',
-  400 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'629\',\'61\',\'1028\',\'0\',\'1\');',
-  401 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'630\',\'61\',\'1029\',\'0\',\'1\');',
-  402 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'631\',\'57\',\'1030\',\'0\',\'1\');',
-  403 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'632\',\'57\',\'1031\',\'0\',\'1\');',
-  404 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'633\',\'57\',\'1032\',\'0\',\'1\');',
-  405 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'634\',\'57\',\'1033\',\'0\',\'1\');',
-  406 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'635\',\'57\',\'1034\',\'0\',\'1\');',
-  407 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'636\',\'57\',\'1035\',\'0\',\'1\');',
-  408 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'637\',\'57\',\'1036\',\'0\',\'1\');',
-  409 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'638\',\'57\',\'1037\',\'0\',\'1\');',
-  410 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'639\',\'61\',\'1030\',\'0\',\'1\');',
-  411 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'640\',\'61\',\'1031\',\'0\',\'1\');',
-  412 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'641\',\'61\',\'1032\',\'0\',\'1\');',
-  413 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'642\',\'61\',\'1033\',\'0\',\'1\');',
-  414 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'643\',\'61\',\'1034\',\'0\',\'1\');',
-  415 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'644\',\'61\',\'1035\',\'0\',\'1\');',
-  416 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'645\',\'61\',\'1036\',\'0\',\'1\');',
-  417 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'646\',\'61\',\'1037\',\'0\',\'1\');',
-  418 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'647\',\'58\',\'1038\',\'0\',\'1\');',
-  419 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'648\',\'58\',\'1039\',\'0\',\'1\');',
-  420 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'649\',\'58\',\'1040\',\'0\',\'1\');',
-  421 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'650\',\'58\',\'1041\',\'0\',\'1\');',
-  422 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'651\',\'58\',\'1042\',\'0\',\'1\');',
-  423 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'652\',\'58\',\'1043\',\'0\',\'1\');',
-  424 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'653\',\'58\',\'1044\',\'0\',\'1\');',
-  425 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'654\',\'58\',\'1045\',\'0\',\'1\');',
-  426 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'655\',\'61\',\'1038\',\'0\',\'1\');',
-  427 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'656\',\'61\',\'1039\',\'0\',\'1\');',
-  428 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'657\',\'61\',\'1040\',\'0\',\'1\');',
-  429 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'658\',\'61\',\'1041\',\'0\',\'1\');',
-  430 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'659\',\'61\',\'1042\',\'0\',\'1\');',
-  431 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'660\',\'61\',\'1043\',\'0\',\'1\');',
-  432 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'661\',\'61\',\'1044\',\'0\',\'1\');',
-  433 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'662\',\'61\',\'1045\',\'0\',\'1\');',
-  434 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'663\',\'57\',\'1046\',\'0.10989010989\',\'1\');',
-  435 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'664\',\'57\',\'1047\',\'0.10989010989\',\'1\');',
-  436 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'665\',\'57\',\'1048\',\'0.10989010989\',\'1\');',
-  437 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'666\',\'57\',\'1049\',\'0.10989010989\',\'1\');',
-  438 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'667\',\'61\',\'1046\',\'0.10989010989\',\'1\');',
-  439 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'668\',\'61\',\'1047\',\'0.10989010989\',\'1\');',
-  440 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'669\',\'61\',\'1048\',\'0.10989010989\',\'1\');',
-  441 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'670\',\'61\',\'1049\',\'0.10989010989\',\'1\');',
-  442 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'671\',\'58\',\'1050\',\'0\',\'1\');',
-  443 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'672\',\'58\',\'1051\',\'0\',\'1\');',
-  444 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'673\',\'58\',\'1052\',\'0\',\'1\');',
-  445 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'674\',\'58\',\'1053\',\'0\',\'1\');',
-  446 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'675\',\'61\',\'1050\',\'0\',\'1\');',
-  447 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'676\',\'61\',\'1051\',\'0\',\'1\');',
-  448 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'677\',\'61\',\'1052\',\'0\',\'1\');',
-  449 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'678\',\'61\',\'1053\',\'0\',\'1\');',
-  450 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'679\',\'60\',\'1054\',\'0\',\'1\');',
-  451 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'680\',\'60\',\'1055\',\'0\',\'1\');',
-  452 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'681\',\'62\',\'1054\',\'0\',\'1\');',
-  453 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'682\',\'62\',\'1055\',\'0\',\'1\');',
-  454 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'683\',\'59\',\'1056\',\'0.5\',\'1\');',
-  455 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'684\',\'59\',\'1057\',\'0.5\',\'1\');',
-  456 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'685\',\'62\',\'1056\',\'0.5\',\'1\');',
-  457 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'686\',\'62\',\'1057\',\'0.5\',\'1\');',
-  458 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'687\',\'65\',\'1002\',\'0\',\'1\');',
-  459 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'688\',\'65\',\'1001\',\'0\',\'1\');',
-  460 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'689\',\'66\',\'1001\',\'0\',\'1\');',
-  461 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'690\',\'66\',\'1002\',\'0\',\'1\');',
-  462 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'691\',\'66\',\'1003\',\'0\',\'1\');',
-  463 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'692\',\'66\',\'1004\',\'0\',\'1\');',
-  464 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'693\',\'66\',\'1005\',\'0\',\'1\');',
-  465 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'694\',\'66\',\'1006\',\'0\',\'1\');',
-  466 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'695\',\'66\',\'1007\',\'0\',\'1\');',
-  467 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'696\',\'66\',\'1008\',\'0\',\'1\');',
-  468 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'697\',\'66\',\'1009\',\'0\',\'1\');',
-  469 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'698\',\'66\',\'1010\',\'0\',\'1\');',
-  470 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'699\',\'66\',\'1011\',\'0\',\'1\');',
-  471 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'700\',\'66\',\'1012\',\'0\',\'1\');',
-  472 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'701\',\'66\',\'1013\',\'0\',\'1\');',
-  473 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'702\',\'66\',\'1014\',\'0\',\'1\');',
-  474 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'703\',\'66\',\'1015\',\'0\',\'1\');',
-  475 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'704\',\'66\',\'1016\',\'0\',\'1\');',
-  476 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'705\',\'66\',\'1017\',\'0\',\'1\');',
-  477 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'706\',\'70\',\'117\',\'0\',\'1\');',
-  478 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'707\',\'68\',\'103\',\'0\',\'1\');',
-  479 => 'INSERT INTO ad_zone_assoc (ad_zone_assoc_id,zone_id,ad_id,priority,link_type) VALUES (\'708\',\'69\',\'93\',\'0\',\'1\');',
-  480 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,username,password,permissions,language,publiczones,updated) VALUES (\'1\',\'1\',\'publisher\',\'PUB\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'publisher\',\'52aded165360352a0f5857571d96d68f\',\'31\',\'\',\'f\',\'2005-11-03 15:53:19\');',
-  481 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,username,password,permissions,language,publiczones,updated) VALUES (\'2\',\'1\',\'another publisher\',\'PUB2\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'\',\'\',\'0\',\'\',\'f\',\'2006-08-11 10:51:15\');',
-  482 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'3\',\'1\',\'Arrival tracking\',\'ARR\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.ticketmaster.co.uk\',\'\',\'0\',\'\',\'f\',\'2006-02-21 16:41:03\');',
-  483 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'4\',\'1\',\'Cookieless Conversions\',\'COOKY\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'\',\'0\',\'\',\'f\',\'2006-03-07 16:20:20\');',
-  484 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,username,password,permissions,language,publiczones,updated) VALUES (\'5\',\'1\',\'MAX Ext (Unanimis)\',\'EXT\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'\',\'\',\'0\',\'\',\'f\',\'2006-03-09 16:56:41\');',
-  485 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,username,password,permissions,language,publiczones,updated) VALUES (\'6\',\'1\',\'MAX Int (Migration)\',\'INT\',\'\',\'Chris Nutting\',\'Chris.Nutting\',\'http://www.m3.net\',\'\',\'\',\'0\',\'\',\'f\',\'2006-03-09 16:57:16\');',
-  486 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'7\',\'1\',\'Capping test\',\'CAP\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'\',\'0\',\'\',\'f\',\'2006-03-16 11:33:13\');',
-  487 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'8\',\'0\',\'DHTML Publisher\',\'DHTML\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-03-27 13:41:47\');',
-  488 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,username,password,permissions,language,publiczones,updated) VALUES (\'9\',\'1\',\'Pick-Up point\',\'PUP\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'pickup\',\'4e1196a599961a67d5d23b56ad247e36\',\'33\',\'\',\'f\',\'2006-04-10 10:31:33\');',
-  489 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'10\',\'1\',\'FlashObject\',\'FOB\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-04-04 11:31:06\');',
-  490 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'11\',\'1\',\'No Website\',\'NOSIT\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'\',\'0\',\'\',\'f\',\'2006-04-15 20:22:10\');',
-  491 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'12\',\'1\',\'Psudo-Ticketmaster\',\'TKT\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.ticketmaster.co.uk/\',\'\',\'0\',\'\',\'f\',\'2006-04-21 10:17:04\');',
-  492 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'13\',\'1\',\'Companion Positioning\',\'CMP\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-05-22 11:04:03\');',
-  493 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'14\',\'1\',\'SSL serving\',\'SSL\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-05-23 09:49:21\');',
-  494 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'15\',\'1\',\'Iframe Wrapping\',\'IFRAM\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-05-23 10:28:28\');',
-  495 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'16\',\'1\',\'AAA Tracking Publisher\',\'TRK\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'\',\'0\',\'\',\'f\',\'2006-05-26 09:39:34\');',
-  496 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'17\',\'1\',\'Ad Zone Assoc\',\'AZA\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-06-05 16:36:14\');',
-  497 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'18\',\'1\',\'With Text Publisher\',\'WTXT\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net\',\'\',\'0\',\'\',\'f\',\'2006-06-30 15:43:31\');',
-  498 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,last_accepted_agency_agreement,updated) VALUES (\'19\',\'1\',\'Public Publisher\',\'PUBLI\',\'\',\'Chris Nutting\',\'chris.nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'t\',\'2006-07-10 13:45:51\',\'2006-07-10 13:45:51\');',
-  499 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,last_accepted_agency_agreement,updated) VALUES (\'20\',\'1\',\'Reducing targeting\',\'REDU\',\'\',\'Chris Nutting\',\'chris.nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-07-11 12:10:32\',\'2006-07-11 12:10:32\');',
-  500 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,username,password,permissions,language,publiczones,last_accepted_agency_agreement,updated) VALUES (\'21\',\'1\',\'Affiliate\',\'AFF\',\'\',\'Chris Nutting\',\'chris.nutting@m3.net\',\'http://www.m3.net/\',\'affiliate\',\'6d0bd9c8d2eadeb088b34895fde10c55\',\'161\',\'\',\'f\',\'2006-07-27 16:47:59\',\'2006-07-27 16:52:07\');',
-  501 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,last_accepted_agency_agreement,updated) VALUES (\'22\',\'1\',\'New DE Testing\',\'NDE\',\'\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-08-08 11:45:53\',\'2006-08-08 11:45:53\');',
-  502 => 'INSERT INTO affiliates (affiliateid,agencyid,name,mnemonic,comments,contact,email,website,password,permissions,language,publiczones,updated) VALUES (\'23\',\'2\',\'Publisher (Agency 2)\',\'PUB2\',\'\',\'Chris Nutting\',\'chris.nutting@m3.net\',\'http://www.m3.net/\',\'\',\'0\',\'\',\'f\',\'2006-08-11 10:52:14\');',
-  503 => 'INSERT INTO agency (agencyid,name,contact,email,username,password,permissions,language,logout_url,active,updated) VALUES (\'1\',\'agency\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'agency\',\'1d1d5778763061ebb2bdc5db696077a6\',\'0\',\'\',\'\',\'0\',\'2005-11-03 15:40:00\');',
-  504 => 'INSERT INTO agency (agencyid,name,contact,email,username,password,permissions,language,logout_url,active,updated) VALUES (\'2\',\'agency2\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'agency2\',\'7babfa807a160064a31b52c1cb25054b\',\'0\',\'\',\'\',\'0\',\'2005-11-03 15:40:29\');',
-  505 => 'INSERT INTO agency (agencyid,name,contact,email,username,password,permissions,language,logout_url,active,updated) VALUES (\'3\',\'Agency Three\',\'Chris Nutting\',\'Chris.Nutting@m3.net\',\'agency3\',\'499daf87885cad3bf4b4aa5b9995988c\',\'0\',\'\',\'\',\'0\',\'2006-06-06 10:05:31\');',
-  506 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1\',\'1\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'sql\',\'m3-test-468x60.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Flash SQL banner\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 15:45:06\');',
-  507 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'2\',\'1\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Flash web banner\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'m3_test_468x60.gif\',\'\',\'gif\',\'\',\'2005-11-03 15:46:22\');',
-  508 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'3\',\'1\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'url\',\'\',\'http://www.google.co.uk/intl/en_uk/images/logo.gif\',\'\',\'\',\'276\',\'110\',\'1\',\'0\',\'_blank\',\'http://www.google.co.uk/\',\'\',\'\',\'\',\'External banner\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 15:48:33\');',
-  509 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'4\',\'1\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Test HTML (TangoZebra)\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 15:50:40\');',
-  510 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'5\',\'1\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'m3 media services\',\'Text ad\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 15:51:28\');',
-  511 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'7\',\'2\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Blue - Capped 1 per min\',\'f\',\'\',\'60\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 15:57:38\');',
-  512 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'8\',\'2\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Green - Capped Once Ever\',\'f\',\'\',\'0\',\'1\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 15:58:19\');',
-  513 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'9\',\'2\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Orange - Capped once per session\',\'f\',\'\',\'0\',\'0\',\'1\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 15:59:09\');',
-  514 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'10\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Purple - Targeted weekday\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-10 09:21:52\');',
-  515 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'11\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_red.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Red - Targetted time\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 16:01:47\');',
-  516 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'12\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'sql\',\'m3_test_468x60_turquoise.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Turquoise - Targeted country\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 16:02:53\');',
-  517 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'13\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_yellow.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Yellow - Targeted Source\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkSite_Source(\\\'*test*\\\', \\\'==\\\', $source)\',\'Site:Source\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-11 13:17:41\');',
-  518 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'14\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Blue - Targetted ALL\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkTime_Day(\\\'0,2,4,5\\\', \\\'==\\\') and MAX_checkTime_Hour(\\\'0,3,4,6,8,11,13,15,16,18,19,21,22\\\', \\\'==\\\') and MAX_checkSite_Source(\\\'*test*\\\', \\\'==\\\', $source)\',\'Time:Day,Time:Hour,Site:Source\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-03 16:23:13\');',
-  519 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'15\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Falk 3rd party\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-19 14:02:55\');',
-  520 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'16\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Purple - Targeted SOME\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-08 10:46:33\');',
-  521 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'17\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-19 13:42:03\');',
-  522 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'18\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'sql\',\'m3-test-468x60_2.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'SQL Flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:13:39\');',
-  523 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'19\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_2.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'Alt text\',\'Status text\',\'Text below image\',\'Web Flash (with backup GIF)\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'m3_test_468x60_2.gif\',\'\',\'gif\',\'Comment\',\'2006-04-11 16:38:33\');',
-  524 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'20\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Web GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-22 21:39:17\');',
-  525 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'21\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'url\',\'\',\'http://i.m3.net/m3_test_468x60_red.gif\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'External GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-11 16:19:00\');',
-  526 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'22\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'0\',\'url\',\'\',\'http://i.m3.net/m3-test-468x60-hard-coded.swf\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'External flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:22:48\');',
-  527 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'23\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'\',\'HTML - Atlas\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:52:35\');',
-  528 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'24\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'Text ad\',\'Text Ad\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:44:13\');',
-  529 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'25\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'\',\'HTML - m3\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:51:39\');',
-  530 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'26\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'HTML - DoubleClick\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:54:05\');',
-  531 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'27\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'HTML - TangoZebra\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:55:35\');',
-  532 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'28\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'HTML - EyeBlaster\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:56:39\');',
-  533 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'29\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'sql\',\'m3_test_468x60_green.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'SQL GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-14 17:58:23\');',
-  534 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'30\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Green - Targetted testing\',\'f\',\'\',\'0\',\'0\',\'0\',\'(MAX_checkSite_Channel(\\\'2\\\', \\\'==\\\', $source))\',\'Site:Channel\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-19 13:08:39\');',
-  535 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'31\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Eyeblaster\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-21 15:00:08\');',
-  536 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'32\',\'7\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Banner With ACL\',\'f\',\'\',\'600\',\'0\',\'1\',\'MAX_checkTime_Day(\\\'0,1\\\', \\\'==\\\') and MAX_checkTime_Hour(\\\'0,1,2,3\\\', \\\'==\\\')\',\'Time:Day,Time:Hour\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-28 11:55:24\');',
-  537 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'33\',\'7\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_4.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Banner With ACL\',\'f\',\'\',\'600\',\'0\',\'1\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-11-28 11:56:20\');',
-  538 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'34\',\'8\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_turquoise.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'GeoTargeting test\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkTime_Date(\\\'20070302\\\', \\\'==\\\')\',\'Time:Date\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-12-05 12:57:25\');',
-  539 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'36\',\'9\','.OA_ENTITY_STATUS_PAUSED.',\'swf\',\'6\',\'web\',\'frontroom3.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://game.frontroomcasino.com/frclient/welcome.jsp?lsdID=7401\',\'\',\'\',\'\',\'Frontroom3\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-03 12:37:30\');',
-  540 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'37\',\'9\','.OA_ENTITY_STATUS_PAUSED.',\'swf\',\'7\',\'web\',\'liquid1.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://game.liquidclubscasino.com/lqclient/welcome.jsp?lsdID=7399\',\'\',\'\',\'\',\'Liquid 1\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-03 12:37:32\');',
-  541 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'38\',\'9\','.OA_ENTITY_STATUS_PAUSED.',\'swf\',\'6\',\'web\',\'liquid2.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://game.liquidclubscasino.com/lqclient/welcome.jsp?lsdID=7399\',\'\',\'\',\'\',\'Liquid 2\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-03 12:37:34\');',
-  542 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'40\',\'9\','.OA_ENTITY_STATUS_PAUSED.',\'swf\',\'6\',\'web\',\'frontroom2.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://game.frontroomcasino.com/frclient/welcome.jsp?lsdID=7401\',\'\',\'\',\'\',\'Frontroom2\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-03 12:37:25\');',
-  543 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'41\',\'8\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Old Targeting Rules\',\'f\',\'\',\'0\',\'0\',\'0\',\'\\\') and MAX_checkClient_Ip(\\\'81.179.9.150\\\', \\\'==\\\') and MAX_checkClient_Domain(\\\'domain\\\', \\\'==\\\') and MAX_checkClient_Useragent(\\\'*firefox*\\\', \\\'==\\\') and MAX_checkSite_Referingpage(\\\'google\\\', \\\'==\\\') and MAX_checkSite_Source(\\\'(other)/business.*\\\', \\\'==\\\', $source) and ()\',\'Time:Day,Time:Hour,Time:Date,Client:Ip,Client:Domain,Client:Useragent,Site:Referingpage,Site:Source,Site:Channel\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-12-09 16:51:34\');',
-  544 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'42\',\'8\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_yellow_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://ww.m3.net\',\'\',\'\',\'\',\'New Targeting Rules\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkClient_Domain(\\\'127.0.0.1\\\', \\\'==\\\') and MAX_checkClient_Ip(\\\'127.0.0.1\\\', \\\'==\\\') and MAX_checkClient_Useragent(\\\'.*firefox.*\\\', \\\'==\\\') and (MAX_checkSite_Channel(\\\'8\\\', \\\'==\\\', $source)) and MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\') and MAX_checkSite_Referingpage(\\\'localhost\\\', \\\'==\\\') and MAX_checkSite_Source(\\\'(other)/business.scotsman.com*\\\', \\\'!=\\\', $source) and MAX_checkTime_Date(\\\'20060401\\\', \\\'!=\\\') and MAX_checkTime_Day(\\\'0,1,2,3,4,5,6\\\', \\\'==\\\') and MAX_checkTime_Hour(\\\'0,2,4,6,8,10,12,14,16,18,20,22\\\', \\\'==\\\')\',\'Client:Domain,Client:Ip,Client:Useragent,Site:Channel,Site:Pageurl,Site:Referingpage,Site:Source,Time:Date,Time:Day,Time:Hour\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2005-12-12 16:04:56\');',
-  545 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'43\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'dandj_expandable.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.google.com\',\'\',\'\',\'\',\'expandable flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-11 17:25:22\');',
-  546 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'44\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'expandable flash (html)\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-11 17:14:55\');',
-  547 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'45\',\'10\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/q=1\',\'\',\'\',\'Text ad 1\',\'Test Text ad 1\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-12 09:39:51\');',
-  548 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'46\',\'10\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/q=2\',\'\',\'\',\'Text ad 2\',\'Test text ad 2\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-12 09:41:37\');',
-  549 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'47\',\'10\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/?q=3\',\'\',\'\',\'Text ad 3\',\'Test text ad 3\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-12 09:44:23\');',
-  550 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'48\',\'11\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Copy from\',\'f\',\'\',\'3723\',\'4\',\'5\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-13 15:06:31\');',
-  551 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'49\',\'11\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Copy to\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-16 11:31:20\');',
-  552 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'57\',\'12\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_6.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'GIF Webserver\',\'f\',\'\',\'3723\',\'4\',\'5\',\'true\',\'\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-16 13:00:09\');',
-  553 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'76\',\'12\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Test HTML banner\',\'t\',\'\',\'420\',\'100\',\'5\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'Test HTML banner comments\',\'2006-01-16 18:45:52\');',
-  554 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'79\',\'27\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_9.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'GIF Webserver\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-10 11:41:19\');',
-  555 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'80\',\'27\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Test HTML banner\',\'t\',\'\',\'420\',\'100\',\'5\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'Test HTML banner comments\',\'2006-01-16 18:53:53\');',
-  556 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'81\',\'27\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_10.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Copy of GIF Webserver\',\'f\',\'\',\'3723\',\'4\',\'5\',\'true\',\'\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-16 18:50:49\');',
-  557 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'82\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'\',\'\',\'\',\'\',\'Test for FORM tracking\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-27 17:47:48\');',
-  558 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'83\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Iframe caller for FORM\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-23 16:03:04\');',
-  559 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'86\',\'29\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Zero by Zero\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-01-25 18:18:07\');',
-  560 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'87\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'260\',\'280\',\'1\',\'0\',\'\',\'title=Actresses\',\'\',\'\',\'\',\'Test LoveFilm MPU\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-01 13:06:52\');',
-  561 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'88\',\'1\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.google.com\',\'\',\'\',\'\',\'Max\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-02 14:20:14\');',
-  562 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'89\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'200\',\'200\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'TG-Broadspeed mpu Jan06\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-02 17:41:56\');',
-  563 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'90\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'200\',\'200\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'IFrame Caller for Some ad\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-02 17:38:38\');',
-  564 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'91\',\'31\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_3.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net?search={aa_searchFrom_city}\',\'\',\'\',\'\',\'Test banner for AA location\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'m3_test_468x60_4.gif\',\'\',\'gif\',\'\',\'2006-02-08 17:33:53\');',
-  565 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'92\',\'32\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_4.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.ticketmaster.co.uk\',\'\',\'\',\'\',\'No capping - No limitations\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-16 12:44:33\');',
-  566 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'93\',\'32\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_4.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Capping - No limitations\',\'f\',\'\',\'0\',\'0\',\'3\',\'true\',\'\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-16 12:45:20\');',
-  567 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'94\',\'32\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'No Capping - Limitations\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-16 12:44:57\');',
-  568 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'95\',\'32\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_5.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Capping - Limitations\',\'f\',\'\',\'0\',\'3\',\'0\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-16 12:45:10\');',
-  569 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'96\',\'33\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_5.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'No capping - No limitations\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:38:23\');',
-  570 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'97\',\'33\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_5.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Capping - No limitations\',\'f\',\'\',\'0\',\'0\',\'3\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:38:24\');',
-  571 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'98\',\'33\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_4.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'No Capping - Limitations\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:38:24\');',
-  572 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'99\',\'33\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_11.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Capping - Limitations\',\'f\',\'\',\'0\',\'3\',\'0\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:38:25\');',
-  573 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'100\',\'34\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_6.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'No capping - No limitations\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:39:57\');',
-  574 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'101\',\'34\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_6.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Capping - No limitations\',\'f\',\'\',\'0\',\'0\',\'3\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:39:57\');',
-  575 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'102\',\'34\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_5.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'No Capping - Limitations\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:39:58\');',
-  576 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'103\',\'34\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_12.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Capping - Limitations\',\'f\',\'\',\'0\',\'3\',\'0\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-07 11:39:58\');',
-  577 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'104\',\'31\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.google.co.uk/search?q={aa_searchTo_city}\',\'\',\'\',\'\',\'HTML $_REQUEST var substitution test\',\'t\',\'\',\'0\',\'0\',\'0\',\'(MAX_checkSite_Aalocation(\\\'EITHER|B\\\', \\\'==\\\', $source))\',\'Site:Aalocation\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-08 12:12:12\');',
-  578 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'105\',\'35\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'http://www.ticketmaster.co.uk\',\'\',\'\',\'Click here\',\'Arrival Tracking Test\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-02-21 16:40:11\');',
-  579 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'106\',\'36\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'7\',\'web\',\'shelves_468x400_05am3.swf\',\'\',\'\',\'\',\'468\',\'400\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Expandable test creative\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-01 11:36:10\');',
-  580 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'107\',\'1\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Web GIF 250x250\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-02 14:43:26\');',
-  581 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'108\',\'32\','.OA_ENTITY_STATUS_PAUSED.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Test for callback loging\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-09 16:19:59\');',
-  582 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'109\',\'37\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_7.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Cookieless Test\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-07 16:19:14\');',
-  583 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'110\',\'38\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'MAX Internal redirect\',\'t\',\'max\',\'0\',\'0\',\'0\',\'true\',\'\',\'>\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-24 10:12:49\');',
-  584 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'111\',\'39\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-14 16:58:00\');',
-  585 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'112\',\'40\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_red_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'\',\'Exclusive - One per session\',\'f\',\'\',\'0\',\'0\',\'3\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-16 15:01:43\');',
-  586 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'113\',\'41\','.OA_ENTITY_STATUS_PAUSED.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_7.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'\',\'House - No capping\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-16 12:11:07\');',
-  587 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'114\',\'42\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_8.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Blue (Session Capped 1)\',\'Blue (Session Capped 1)\',\'f\',\'\',\'0\',\'0\',\'1\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-17 10:38:27\');',
-  588 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'115\',\'42\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_8.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Green (Session capped 2)\',\'Green (Session capped 2)\',\'f\',\'\',\'0\',\'0\',\'2\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-17 10:38:47\');',
-  589 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'116\',\'42\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_6.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Orange (Capped 2)\',\'Orange (Capped 2)\',\'f\',\'\',\'0\',\'2\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-17 10:39:22\');',
-  590 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'117\',\'42\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_13.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Purple (Blocked 30s)\',\'Purple (Blocked 30s)\',\'f\',\'\',\'30\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-17 10:39:41\');',
-  591 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'118\',\'42\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_red_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Red (Blocked 65s)\',\'Red (Blocked 65s)\',\'f\',\'\',\'65\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-17 10:40:00\');',
-  592 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'119\',\'42\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_turquoise_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Turquoise (No capping)\',\'Turquoise (No capping)\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-17 10:40:35\');',
-  593 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'120\',\'42\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_yellow_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Yellow (1/session, 2/cap, 2min)\',\'Yellow (1/session, 2/cap, 2min)\',\'f\',\'\',\'120\',\'0\',\'2\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-17 10:40:57\');',
-  594 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'121\',\'43\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_14.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Text below image\',\'Targeted PageURL Exact\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-30 15:40:19\');',
-  595 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'122\',\'44\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_15.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Creative for DHTML invocation\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-27 13:41:09\');',
-  596 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'123\',\'46\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'lq_033_french.swf\',\'\',\'\',\'\',\'300\',\'280\',\'1\',\'0\',\'_blank\',\'http://www.lovefilm.com\',\'\',\'\',\'\',\'Test Quiz MPU\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-03-30 14:32:48\');',
-  597 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'124\',\'9\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_4.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'q=m3\',\'\',\'\',\'\',\'Flash ClickTAG test\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'m3_test_468x60_purple_16.gif\',\'\',\'gif\',\'\',\'2006-04-04 15:54:07\');',
-  598 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'125\',\'9\','.OA_ENTITY_STATUS_PAUSED.',\'swf\',\'0\',\'url\',\'\',\'http://i.dev.m3.net/m3-test-468x60_4.swf\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.google.com\',\'\',\'\',\'\',\'External Flash SWF test\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-03 13:12:10\');',
-  599 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'126\',\'47\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_9.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_top\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Homepage Targeted\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkSite_Homepage(\\\'\\\', \\\'!=\\\')\',\'Site:Homepage\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-03 17:45:28\');',
-  600 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'127\',\'48\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_5.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'468x60 Banner\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-07 15:14:36\');',
-  601 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'128\',\'48\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-120x600.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'120x600 Skyscraper\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-07 15:15:12\');',
-  602 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'129\',\'48\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-120x60.gif\',\'\',\'\',\'\',\'120\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'120x60 Button\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-07 15:15:48\');',
-  603 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'130\',\'48\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_2.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'250x250 MPU\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-07 15:16:19\');',
-  604 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'131\',\'49\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'MediaPlex test\',\'t\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-11 11:26:57\');',
-  605 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'132\',\'6\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Adviva\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-19 13:37:51\');',
-  606 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'133\',\'50\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.ticketmaster.co.uk/\',\'\',\'\',\'Ticketmaster - Generic feed\',\'Ticketmaster - Generic feed\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-21 10:20:17\');',
-  607 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'134\',\'50\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.ticketmaster.co.uk/music/\',\'\',\'\',\'Ticketmaster - Music Feed\',\'Ticketmaster - Music Feed\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-21 10:21:08\');',
-  608 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'135\',\'50\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.ticketmaster.co.uk/\',\'\',\'\',\'\',\'Ticketmaster - Generic feed (GIF)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-21 10:47:25\');',
-  609 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'136\',\'50\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.ticketmaster.co.uk/music/\',\'\',\'\',\'\',\'Ticketmaster - Music feed (GIF)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-04-21 10:50:12\');',
-  610 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'137\',\'52\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Direct selection test - Blue\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-15 11:21:11\');',
-  611 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,keyword,updated) VALUES (\'138\',\'52\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green.gif\',\'\',\'\',\'\',\'468\',\'60\',\'10\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Direct selection test - Green\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'foo bar\',\'2006-05-15 14:17:18\');',
-  612 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,keyword,updated) VALUES (\'139\',\'53\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'http://www.google.com\',\'\',\'\',\'Click ghere\',\'Test Text Ad\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'foo\',\'2006-05-17 11:24:12\');',
-  613 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'140\',\'54\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'url\',\'\',\'https://i.m3.net/m3_test_468x60_red.gif\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'SSL external GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-18 10:22:50\');',
-  614 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'141\',\'54\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'url\',\'\',\'http://i.dev.m3.net/m3_test_468x60_purple_2.gif\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Non-SSL external GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-18 10:24:29\');',
-  615 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'142\',\'55\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'468x60 Companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 11:06:53\');',
-  616 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'143\',\'55\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-120x600.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'120x600 Companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 11:07:40\');',
-  617 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'144\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Blue 468x60 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:17:06\');',
-  618 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'145\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Green 468x60 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:17:23\');',
-  619 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'146\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Orange 468x60 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:17:40\');',
-  620 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'147\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Purple 468x60 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:18:00\');',
-  621 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'148\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_red.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Red 468x60 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:18:17\');',
-  622 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'149\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_turquoise.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Turquoise 468x60 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:18:34\');',
-  623 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'150\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_120x600_blue.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Blue 120x600 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 11:50:52\');',
-  624 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'151\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_120x600_green.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Green 120x600 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:19:22\');',
-  625 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'152\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_120x600_orange.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Orange 120x600 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:21:04\');',
-  626 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'153\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_120x600_purple.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Purple 120x600 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:21:51\');',
-  627 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'154\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_120x600_red.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Red 120x600 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:22:39\');',
-  628 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'155\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_120x600_turquoise.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Turquoise 120x600 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 12:23:20\');',
-  629 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'156\',\'55\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-120x600-upside-down.gif\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'120x600 Companion (2)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:07:19\');',
-  630 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'157\',\'55\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_3.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'250x250 Companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:18:16\');',
-  631 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'158\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_blue.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Blue 250x250 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:38:33\');',
-  632 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'159\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_green.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Green 250x250 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:39:11\');',
-  633 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'160\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_orange.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Orange 250x250 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:39:52\');',
-  634 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'161\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_purple.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Purple 250x250 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:40:34\');',
-  635 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'162\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_red.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Red 250x250 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:41:14\');',
-  636 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'163\',\'56\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test-250x250_turquoise.gif\',\'\',\'\',\'\',\'250\',\'250\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Turquoise 250x250 - Non-companion\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 14:42:05\');',
-  637 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'164\',\'54\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.google.com\',\'\',\'\',\'\',\'SSL safe content\',\'t\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-22 18:01:41\');',
-  638 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'165\',\'57\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'240\',\'150\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Ticketmaster HTML creative\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-25 16:33:35\');',
-  639 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'166\',\'58\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'598\',\'90\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'DVLA - Problematic Creative\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'Appended code\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-23 17:42:51\');',
-  640 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'167\',\'58\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'dvlasearckbackground-canvas.gif\',\'\',\'\',\'\',\'598\',\'90\',\'1\',\'0\',\'_blank\',\'http://clk.atdmt.com/BRM/go/nnmsxdvl0130000004brm/direct/01/\',\'\',\'\',\'\',\'GIF DVLA creative\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-24 16:46:06\');',
-  641 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'168\',\'59\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'500\',\'500\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Test Sooper Pop-up code\',\'t\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-25 17:33:22\');',
-  642 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'169\',\'60\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'Click here\',\'Test banner for tracking de-dupe\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-26 09:40:56\');',
-  643 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'170\',\'61\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Agency2\\\'s banner\',\'t\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-05-26 12:41:22\');',
-  644 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'171\',\'62\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'milkshake_treats.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'ns_type=clickin\',\'\',\'\',\'\',\'Hard-Coded Flash Test\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-02 14:14:09\');',
-  645 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'172\',\'62\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'milkshake_treats_2.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'ns_type=clickin\',\'\',\'\',\'\',\'Test 2\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-02 14:17:00\');',
-  646 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'173\',\'63\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_6.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Pre-Linked\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-05 16:37:53\');',
-  647 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'175\',\'63\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_9.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Not-linked\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-05 16:45:26\');',
-  648 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'176\',\'64\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Eyeblaster creative\',\'t\',\'eyeblaster\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-08 11:19:16\');',
-  649 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'177\',\'65\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'120\',\'200\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'120x200 JS banner\',\'t\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-14 12:18:40\');',
-  650 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'178\',\'62\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'5\',\'web\',\'rubin-m3-test-468x60-hard-coded.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'\',\'Rubin-m3-test-468x60-Hard-Coded.swf\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-15 14:22:43\');',
-  651 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'179\',\'62\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60-hard-coded.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'test\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-15 14:25:14\');',
-  652 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'180\',\'62\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'milkshake_treats_3.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'test\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-15 14:32:00\');',
-  653 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'181\',\'66\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60-hard-coded_3.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Test Flash 8 Hard-Coded\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-15 16:29:18\');',
-  654 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'182\',\'62\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'sql\',\'m3-test-468x60-longer-hard-coded.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net/\',\'\',\'\',\'\',\'\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-15 16:44:23\');',
-  655 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'183\',\'3\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_7.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Orange - Targeted AA Locations\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-06-19 14:52:12\');',
-  656 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'184\',\'76\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'7\',\'web\',\'ducksc_468_mtr.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'TheAA creative as sent\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-06 17:30:15\');',
-  657 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'185\',\'77\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Ticketmaster - Updated search module\',\'t\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 11:24:37\');',
-  658 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'187\',\'79\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_blue_10.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Blue (Session Capped 1)\',\'Blue (Session Capped 1)\',\'f\',\'\',\'0\',\'0\',\'1\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 12:14:49\');',
-  659 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'188\',\'79\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_10.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Green (Session capped 2)\',\'Green (Session capped 2)\',\'f\',\'\',\'0\',\'0\',\'2\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 12:14:49\');',
-  660 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'189\',\'79\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_8.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Orange (Capped 2)\',\'Orange (Capped 2)\',\'f\',\'\',\'0\',\'2\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 12:14:49\');',
-  661 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated,acls_updated) VALUES (\'190\',\'79\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_purple_17.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Purple (Blocked 30s)\',\'Purple (Blocked 30s)\',\'f\',\'\',\'30\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-13 15:24:07\',\'2006-08-01 15:33:58\');',
-  662 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'191\',\'79\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_red_4.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Red (Blocked 65s)\',\'Red (Blocked 65s)\',\'f\',\'\',\'65\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 12:14:49\');',
-  663 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'192\',\'79\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_turquoise_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Turquoise (No capping)\',\'Turquoise (No capping)\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 12:14:49\');',
-  664 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'193\',\'79\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_yellow_4.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'Yellow (1/session, 2/cap, 2min)\',\'Yellow (1/session, 2/cap, 2min)\',\'f\',\'\',\'120\',\'0\',\'2\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 12:14:49\');',
-  665 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'194\',\'78\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_red_5.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Highly targeted ad\',\'f\',\'\',\'3600\',\'2\',\'3\',\'=\\\')\',\'Client:Browser,Client:Domain,Client:Ip,Client:Os,Client:Useragent,Site:Pageurl,Site:Referingpage,Site:Source,Time:Date\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-11 16:44:55\');',
-  666 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated,acls_updated) VALUES (\'195\',\'78\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_orange_9.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Add restrictive limitation\',\'f\',\'\',\'0\',\'0\',\'0\',\'!((MAX_checkSite_Channel(\\\'1\\\', \\\'==\\\', $source) OR MAX_checkSite_Channel(\\\'8\\\', \\\'==\\\', $source) OR MAX_checkSite_Channel(\\\'1\\\', \\\'==\\\', $source) OR MAX_checkSite_Channel(\\\'8\\\', \\\'==\\\', $source)))\',\'Site:Channel\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-13 13:51:07\',\'2006-08-03 17:26:51\');',
-  667 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'196\',\'9\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'flash_that_breaks_when_loaded.swf\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'(Default) Flash that gets corrupted when loaded\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-14 10:05:14\');',
-  668 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'197\',\'9\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'5\',\'web\',\'flash_that_breaks_when_loaded_2.swf\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'(not-altered) Flash that gets corrupted when loaded\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-14 10:04:14\');',
-  669 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated,acls_updated) VALUES (\'198\',\'9\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'5\',\'web\',\'flash_that_breaks_when_loaded_3.swf\',\'\',\'\',\'\',\'120\',\'600\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'(not-compressed) Flash that gets corrupted when loaded\',\'f\',\'\',\'0\',\'0\',\'0\',\'true\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-14 18:04:38\',\'2006-07-14 18:04:38\');',
-  670 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated,acls_updated) VALUES (\'199\',\'80\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_9.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Test Creative for ACL updating\',\'f\',\'\',\'0\',\'0\',\'0\',\'(MAX_checkSite_Channel(\\\'10\\\', \\\'==\\\', $source) OR MAX_checkSite_Channel(\\\'10\\\', \\\'==\\\', $source))\',\'Site:Channel\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-17 10:19:43\',\'2006-07-27 11:59:34\');',
-  671 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated,acls_updated) VALUES (\'200\',\'80\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_10.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Copy of Test Creative for ACL updating\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkClient_Ip(\\\'127.0.0.1\\\', \\\'==\\\') or  !((MAX_checkSite_Channel(\\\'10\\\', \\\'==\\\', $source)))\',\'Client:Ip,Site:Channel\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-17 12:02:54\',\'2006-07-27 11:59:34\');',
-  672 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,acl_plugins,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated,acls_updated) VALUES (\'201\',\'80\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_11.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Copy of Copy of Test Creative for ACL updating\',\'f\',\'\',\'0\',\'0\',\'0\',\'MAX_checkClient_Ip(\\\'127.0.0.1\\\', \\\'==\\\')\',\'Client:Ip\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-17 12:24:51\',\'2006-07-27 11:58:17\');',
-  673 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'202\',\'4\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML creative for JS validation testing\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-19 14:17:17\');',
-  674 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'203\',\'81\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60-short-hard-coded.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'Test short hard-coded URL\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-27 12:38:01\');',
-  675 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'204\',\'81\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60-clicktag-(mixed).swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'http://www.m3.net\',\'\',\'\',\'\',\'cLiKcTaG\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-27 12:43:15\');',
-  676 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'205\',\'82\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'Product feed\',\'Product feed\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-28 15:53:21\');',
-  677 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'206\',\'82\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_12.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Test banner for arrival capable testing\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-28 15:56:57\');',
-  678 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1000\',\'63\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'Grrr\',\'\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-07-28 17:55:20\');',
-  679 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1001\',\'83\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'sql\',\'m3_test_468x60_blue.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'SQL GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 13:14:03\');',
-  680 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1002\',\'83\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_11.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 13:14:28\');',
-  681 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1003\',\'83\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'sql\',\'m3-test-468x60_3.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'SQL Flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 11:48:22\');',
-  682 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1004\',\'83\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_6.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web Flash (No backup)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 11:50:07\');',
-  683 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1005\',\'83\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_7.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web Flash (With backup)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'m3_test_468x60_orange_10.gif\',\'\',\'gif\',\'\',\'2006-08-08 13:14:52\');',
-  684 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1006\',\'84\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Atlas\',\'t\',\'atlas\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:01:37\');',
-  685 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1007\',\'84\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Bluestreak\',\'t\',\'bluestreak\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:00:59\');',
-  686 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1008\',\'84\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Bluestreak\',\'t\',\'doubleclick\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:04:36\');',
-  687 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1009\',\'84\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - EyeBlaster\',\'t\',\'eyeblaster\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:05:32\');',
-  688 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1010\',\'84\','.OA_ENTITY_STATUS_PAUSED.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Falk\',\'t\',\'falk\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:12:38\');',
-  689 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1011\',\'84\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - m3\',\'t\',\'max\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:13:44\');',
-  690 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1012\',\'84\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Mediaplex\',\'t\',\'mediaplex\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:14:35\');',
-  691 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1013\',\'84\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - TangoZebra\',\'t\',\'tangozebra\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:15:48\');',
-  692 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1014\',\'85\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'url\',\'\',\'http://ad.doubleclick.net/ad/N2806.Loot.com.ilevel/B1981389.2;sz=468x60\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://ad.doubleclick.net/jump/N2806.Loot.com.ilevel/B1981389.2;sz=468x60\',\'\',\'\',\'\',\'External DoubleClick GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:19:56\');',
-  693 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1015\',\'85\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'url\',\'\',\'http://banners.affiliatefuture.com/1535/24103.gif\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'url=\',\'\',\'\',\'\',\'External GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:25:34\');',
-  694 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1016\',\'85\','.OA_ENTITY_STATUS_RUNNING.',\'jpeg\',\'0\',\'url\',\'\',\'http://ad.uk.doubleclick.net/viewad/917749/miami_468x60.jpg\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://ad.uk.doubleclick.net/jump/N1084.Lovefilm_International/B1954050\',\'\',\'\',\'\',\'External - Jpeg\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:27:18\');',
-  695 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1017\',\'85\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'0\',\'url\',\'\',\'http://i.m3.net/man_fin_lse_468x60_onlinecfds_2.swf\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.onlinecfds.com\',\'\',\'\',\'\',\'External Flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 12:38:42\');',
-  696 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1018\',\'86\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'Text Ad without destination\',\'Text Ad without destination\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 13:19:16\');',
-  697 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1019\',\'86\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'Text ad with destination\',\'Text ad with destination\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 13:22:18\');',
-  698 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1020\',\'87\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'sql\',\'m3_test_468x60_blue_2.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'SQL GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:24:13\');',
-  699 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1021\',\'87\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_12.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:24:13\');',
-  700 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1022\',\'87\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'sql\',\'m3-test-468x60_4.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'SQL Flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:24:13\');',
-  701 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1023\',\'87\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_8.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web Flash (No backup)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:24:13\');',
-  702 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1024\',\'87\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_9.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web Flash (With backup)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'m3_test_468x60_orange_10.gif\',\'\',\'gif\',\'\',\'2006-08-08 17:24:13\');',
-  703 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1025\',\'88\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'sql\',\'m3_test_468x60_blue_3.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'SQL GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:25:42\');',
-  704 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1026\',\'88\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'web\',\'m3_test_468x60_green_13.gif\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:25:42\');',
-  705 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1027\',\'88\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'sql\',\'m3-test-468x60_5.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'SQL Flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:25:42\');',
-  706 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1028\',\'88\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_10.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web Flash (No backup)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:25:42\');',
-  707 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1029\',\'88\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'6\',\'web\',\'m3-test-468x60_11.swf\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.m3.net/\',\'\',\'\',\'\',\'Web Flash (With backup)\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'m3_test_468x60_orange_10.gif\',\'\',\'gif\',\'\',\'2006-08-08 17:25:42\');',
-  708 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1030\',\'89\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Atlas\',\'t\',\'atlas\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  709 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1031\',\'89\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Bluestreak\',\'t\',\'bluestreak\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  710 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1032\',\'89\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Bluestreak\',\'t\',\'doubleclick\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  711 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1033\',\'89\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - EyeBlaster\',\'t\',\'eyeblaster\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  712 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1034\',\'89\','.OA_ENTITY_STATUS_PAUSED.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Falk\',\'t\',\'falk\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  713 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1035\',\'89\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - m3\',\'t\',\'max\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  714 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1036\',\'89\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Mediaplex\',\'t\',\'mediaplex\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  715 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1037\',\'89\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - TangoZebra\',\'t\',\'tangozebra\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:26:19\');',
-  716 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1038\',\'90\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Atlas\',\'t\',\'atlas\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  717 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1039\',\'90\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Bluestreak\',\'t\',\'bluestreak\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  718 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1040\',\'90\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Bluestreak\',\'t\',\'doubleclick\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  719 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1041\',\'90\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - EyeBlaster\',\'t\',\'eyeblaster\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  720 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1042\',\'90\','.OA_ENTITY_STATUS_PAUSED.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Falk\',\'t\',\'falk\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  721 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1043\',\'90\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - m3\',\'t\',\'max\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  722 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1044\',\'90\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - Mediaplex\',\'t\',\'mediaplex\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  723 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1045\',\'90\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'html\',\'\',\'\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'\',\'HTML - TangoZebra\',\'t\',\'tangozebra\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:27:12\');',
-  724 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1046\',\'91\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'url\',\'\',\'http://ad.doubleclick.net/ad/N2806.Loot.com.ilevel/B1981389.2;sz=468x60\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://ad.doubleclick.net/jump/N2806.Loot.com.ilevel/B1981389.2;sz=468x60\',\'\',\'\',\'\',\'External DoubleClick GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:11\');',
-  725 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1047\',\'91\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'url\',\'\',\'http://banners.affiliatefuture.com/1535/24103.gif\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'url=\',\'\',\'\',\'\',\'External GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:11\');',
-  726 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1048\',\'91\','.OA_ENTITY_STATUS_RUNNING.',\'jpeg\',\'0\',\'url\',\'\',\'http://ad.uk.doubleclick.net/viewad/917749/miami_468x60.jpg\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://ad.uk.doubleclick.net/jump/N1084.Lovefilm_International/B1954050\',\'\',\'\',\'\',\'External - Jpeg\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:11\');',
-  727 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1049\',\'91\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'0\',\'url\',\'\',\'http://i.m3.net/man_fin_lse_468x60_onlinecfds_2.swf\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.onlinecfds.com\',\'\',\'\',\'\',\'External Flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:11\');',
-  728 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1050\',\'92\','.OA_ENTITY_STATUS_RUNNING.',\'\',\'0\',\'url\',\'\',\'http://ad.doubleclick.net/ad/N2806.Loot.com.ilevel/B1981389.2;sz=468x60\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://ad.doubleclick.net/jump/N2806.Loot.com.ilevel/B1981389.2;sz=468x60\',\'\',\'\',\'\',\'External DoubleClick GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:49\');',
-  729 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1051\',\'92\','.OA_ENTITY_STATUS_RUNNING.',\'gif\',\'0\',\'url\',\'\',\'http://banners.affiliatefuture.com/1535/24103.gif\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'\',\'url=\',\'\',\'\',\'\',\'External GIF\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:49\');',
-  730 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1052\',\'92\','.OA_ENTITY_STATUS_RUNNING.',\'jpeg\',\'0\',\'url\',\'\',\'http://ad.uk.doubleclick.net/viewad/917749/miami_468x60.jpg\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://ad.uk.doubleclick.net/jump/N1084.Lovefilm_International/B1954050\',\'\',\'\',\'\',\'External - Jpeg\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:49\');',
-  731 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1053\',\'92\','.OA_ENTITY_STATUS_RUNNING.',\'swf\',\'0\',\'url\',\'\',\'http://i.m3.net/man_fin_lse_468x60_onlinecfds_2.swf\',\'\',\'\',\'468\',\'60\',\'1\',\'0\',\'_blank\',\'http://www.onlinecfds.com\',\'\',\'\',\'\',\'External Flash\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:28:49\');',
-  732 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1054\',\'93\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'Text Ad without destination\',\'Text Ad without destination\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:30:06\');',
-  733 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1055\',\'93\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'Text ad with destination\',\'Text ad with destination\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:30:06\');',
-  734 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1056\',\'94\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'\',\'\',\'\',\'\',\'Text Ad without destination\',\'Text Ad without destination\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:30:30\');',
-  735 => 'INSERT INTO banners (bannerid,campaignid,status,contenttype,pluginversion,storagetype,filename,imageurl,htmltemplate,htmlcache,width,height,weight,seq,target,url,alt,statustext,bannertext,description,autohtml,adserver,block,capping,session_capping,compiledlimitation,append,appendtype,bannertype,alt_filename,alt_imageurl,alt_contenttype,comments,updated) VALUES (\'1057\',\'94\','.OA_ENTITY_STATUS_RUNNING.',\'txt\',\'0\',\'txt\',\'\',\'\',\'\',\'\',\'0\',\'0\',\'1\',\'0\',\'_blank\',\'http://www.m3.net\',\'\',\'\',\'Text ad with destination\',\'Text ad with destination\',\'f\',\'\',\'0\',\'0\',\'0\',\'\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'2006-08-08 17:30:30\');',
-  736 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'1\',\'Advertiser - Default Campaign\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-11-03 15:41:55\');',
-  737 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'2\',\'Advertiser - Capped Campaign\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-11-03 15:56:47\');',
-  738 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'3\',\'Advertiser - Targeted Campaign\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-11-03 15:59:32\');',
-  739 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'4\',\'Advertiser - 3rd party creatives\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-11-03 17:49:55\');',
-  740 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'5\',\'Advertiser - Inactive campaign\',\'1\',\'-1\',\'-1\',\'-1\',\'2005-01-01\','.OA_ENTITY_STATUS_PAUSED.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-11-11 12:52:06\');',
-  741 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,activate,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'6\',\'Advertiser - All Creative Types\',\'1\',\'-1\',\'-1\',\'-1\',\'2010-01-01\',\'2006-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-27 11:29:08\');',
-  742 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'7\',\'Advertiser - ACL Warning\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-11-28 11:53:31\');',
-  743 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'8\',\'Advertiser - Geo Targeting test\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-12-05 12:56:33\');',
-  744 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,updated) VALUES (\'9\',\'Flash - Default Campaign\',\'2\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'2005-12-06 09:46:14\');',
-  745 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,activate,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'10\',\'Text ads advertiser - Default Campaign\',\'3\',\'-1\',\'-1\',\'-1\',\'2006-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-01-12 09:37:47\');',
-  746 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'11\',\'Advertiser - ACL copy test\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-01-12 12:13:16\');',
-  747 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'12\',\'Campaign Copy - Default Campaign\',\'4\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-01-12 15:41:52\');',
-  748 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'27\',\'Copy of Campaign Copy - Default Campaign\',\'4\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-01-16 18:50:34\');',
-  749 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,activate,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'28\',\'Advertiser - One Day Long Campaign\',\'1\',\'-1\',\'-1\',\'-1\',\'2006-02-15\',\'2006-02-15\','.OA_ENTITY_STATUS_PAUSED.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-01-25 13:09:50\');',
-  750 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'29\',\'Advertiser - 0x0 Campaign\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-01-25 18:10:36\');',
-  751 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'30\',\'Exclusive Campaign\',\'5\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'-1\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-01 18:07:32\');',
-  752 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'31\',\'Advertiser - AA Location Targeting\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-06 11:15:12\');',
-  753 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'32\',\'All Campaign types - Low Priority\',\'6\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-07 11:34:15\');',
-  754 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'33\',\'All Campaign types - High Priority\',\'6\',\'10000\',\'-1\',\'-1\',\'2007-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'5\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-07 11:39:37\');',
-  755 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'34\',\'All Campaign types - Exclusive Priority\',\'6\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'-1\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-07 11:40:27\');',
-  756 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'35\',\'Arrival Tracking - Default Campaign\',\'7\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-21 16:39:02\');',
-  757 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'36\',\'Yell.com - Default Campaign\',\'8\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-01 11:35:19\');',
-  758 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'37\',\'Cookieless Conversion Test - Default Campaign\',\'9\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-07 16:17:53\');',
-  759 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'38\',\'MAX Int (Migration) - Default Campaign\',\'10\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-14 12:37:34\');',
-  760 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'39\',\'Advertiser - Window.Open Campaign\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-14 15:57:06\');',
-  761 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'40\',\'Capped Ads - Exclusive capped one per session\',\'11\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'-1\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-16 11:35:13\');',
-  762 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'41\',\'Capped Ads - House no capping\',\'11\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-16 11:37:20\');',
-  763 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'42\',\'Capped Ads - Rainbow\',\'11\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-16 15:08:02\');',
-  764 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'43\',\'Advertiser - PageURL Exact\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-20 14:25:32\');',
-  765 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'44\',\'Advertiser - DHTML creatives\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-27 13:40:19\');',
-  766 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'45\',\'Tracker implementation - Default Campaign\',\'12\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-27 15:55:35\');',
-  767 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'46\',\'LoveFilm MPU - Default Campaign\',\'13\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-30 14:30:25\');',
-  768 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'47\',\'Advertiser - Homepage Targeting\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-03 16:14:33\');',
-  769 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'48\',\'Advertiser - All Creative Sizes\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-07 15:13:51\');',
-  770 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'49\',\'Campaign Copy - Mediaplex tags\',\'4\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-11 11:03:29\');',
-  771 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'50\',\'Psudo-Ticketmaster - Default Campaign\',\'15\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-21 10:17:56\');',
-  772 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'51\',\'Psudo-Ticketmaster - HTML form creatives\',\'15\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-21 17:20:49\');',
-  773 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'52\',\'Direct Selection - Default Campaign\',\'16\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-15 11:20:22\');',
-  774 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'53\',\'Advertiser - Testing\',\'1\',\'10000\',\'-1\',\'-1\',\'2006-07-01\','.OA_ENTITY_STATUS_PAUSED.',\'5\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-17 11:21:00\');',
-  775 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'54\',\'SSL creatives - Default Campaign\',\'17\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-18 10:20:42\');',
-  776 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'55\',\'Companion Advertiser - Companion Campaign\',\'18\',\'10\',\'-1\',\'-1\',\'2007-01-01\','.OA_ENTITY_STATUS_PAUSED.',\'10\',\'0\',\'0\',\'0\',\'0\',\'f\',\'1\',\'\',\'0.0000\',\'0\',\'2006-05-22 12:24:12\');',
-  777 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'56\',\'Companion Advertiser - Non-Companion Campaign\',\'18\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-22 11:36:28\');',
-  778 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'57\',\'SSL creatives - Ticketmaster HTML creative\',\'17\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-23 09:40:09\');',
-  779 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'58\',\'IFrame Wrapping - Default Campaign\',\'19\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-23 10:38:01\');',
-  780 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'59\',\'Popup Advertiser - Default Campaign\',\'20\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-25 17:16:30\');',
-  781 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'60\',\'AAA Tracking advertiser - Default Campaign\',\'21\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-26 09:39:54\');',
-  782 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'61\',\'Agency2 - Advertiser - Default Campaign\',\'22\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-26 12:40:49\');',
-  783 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'62\',\'Flash Hard-Coded Links - Default Campaign\',\'23\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-02 14:11:23\');',
-  784 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'63\',\'Ad Zone Assoc - Default Campaign\',\'24\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-05 16:37:07\');',
-  785 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'64\',\'3rd party creatives - Eyeblaster\',\'26\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-08 11:18:26\');',
-  786 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'65\',\'3rd party creatives - espotting\',\'26\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-14 12:17:33\');',
-  787 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'66\',\'Flash Hard-Coded Links - Flash 8 creatives\',\'23\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-15 16:19:24\');',
-  788 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'67\',\'All Campaign types - Default Campaign\',\'6\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-21 11:31:39\');',
-  789 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'70\',\'Query Log Test - Default Campaign\',\'27\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-21 11:44:11\');',
-  790 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'71\',\'Advertiser - With text HTML\',\'1\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-30 15:50:24\');',
-  791 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'72\',\'Auto Link campaign - Default Campaign\',\'28\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-05 16:33:15\');',
-  792 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'73\',\'test2 - Default Campaign\',\'29\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-05 16:48:21\');',
-  793 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'74\',\'test2 - Default Campaign2\',\'29\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-05 17:00:32\');',
-  794 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'75\',\'Auto Link campaign - Auto Link\',\'28\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-05 17:07:07\');',
-  795 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'76\',\'Flash - TheAA creative\',\'2\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-06 17:22:39\');',
-  796 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'77\',\'3rd party creatives - Ticketmaster Search box\',\'26\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-11 11:19:09\');',
-  797 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'78\',\'Reducing targeting - Default Campaign\',\'30\',\'100000\',\'-1\',\'-1\',\'2006-11-01\','.OA_ENTITY_STATUS_RUNNING.',\'10\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-11 12:11:21\');',
-  798 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'79\',\'Reducing targeting - Rainbow\',\'30\',\'100000\',\'-1\',\'-1\',\'2006-11-01\','.OA_ENTITY_STATUS_RUNNING.',\'10\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-11 12:15:54\');',
-  799 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'80\',\'ACLs updating - Default Campaign\',\'31\',\'10000\',\'-1\',\'-1\',\'2006-09-01\','.OA_ENTITY_STATUS_RUNNING.',\'10\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-18 15:23:22\');',
-  800 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'81\',\'Flash Hard-Coded Links - Short URLs\',\'23\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-27 12:35:48\');',
-  801 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'82\',\'Client - Default Campaign\',\'32\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-27 16:48:54\');',
-  802 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'83\',\'Low - Local creatives\',\'33\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:23:12\');',
-  803 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'84\',\'Low - HTML Creatives\',\'33\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:23:28\');',
-  804 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'85\',\'Low - External creatives\',\'33\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:22:57\');',
-  805 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'86\',\'Low - Text Creatives\',\'33\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'0\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:23:48\');',
-  806 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'87\',\'High - Local creatives\',\'33\',\'100000\',\'-1\',\'-1\',\'2007-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'5\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:25:10\');',
-  807 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'88\',\'Exclusive - Local creatives\',\'33\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'-1\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:26:03\');',
-  808 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'89\',\'High - HTML Creatives\',\'33\',\'100000\',\'-1\',\'-1\',\'2007-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'5\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:27:03\');',
-  809 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'90\',\'Exclusive - HTML Creatives\',\'33\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'-1\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:27:37\');',
-  810 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'91\',\'High - External creatives\',\'33\',\'100000\',\'-1\',\'-1\',\'2007-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'5\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:28:37\');',
-  811 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'92\',\'Exclusive - External creatives\',\'33\',\'-1\',\'-1\',\'-1\',\'2007-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'-1\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:29:07\');',
-  812 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'93\',\'Exclusive - Text Creatives\',\'33\',\'-1\',\'-1\',\'-1\','.OA_ENTITY_STATUS_RUNNING.',\'-1\',\'1\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:30:21\');',
-  813 => 'INSERT INTO campaigns (campaignid,campaignname,clientid,views,clicks,conversions,expire,status,priority,weight,target_impression,target_click,target_conversion,anonymous,companion,comments,revenue,revenue_type,updated) VALUES (\'94\',\'High - Text Creatives\',\'33\',\'100000\',\'-1\',\'-1\',\'2007-01-01\','.OA_ENTITY_STATUS_RUNNING.',\'5\',\'0\',\'0\',\'0\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:30:56\');',
-  814 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'1\',\'1\',\'0\',\'5pm\',\'Agency ACL 1\',\'true\',\'\',\'1\',\'Agency ACL 1\');',
-  815 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'2\',\'1\',\'1\',\'(PUB) PageURL =~ localhost\',\'Publisher ACL 1\',\'MAX_checkSite_Pageurl(\\\'localhost\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'1\',\'Publisher ACL 1\');',
-  816 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'3\',\'1\',\'1\',\'(PUB) 127.0.0.1 ruleset\',\'Publisher ACL 2\',\'MAX_checkClient_Domain(\\\'127.0.0.1\\\', \\\'==\\\') and MAX_checkClient_Ip(\\\'127.0.0.1\\\', \\\'==\\\')\',\'Client:Domain,Client:Ip\',\'1\',\'Publisher ACL 2\');',
-  817 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'4\',\'1\',\'1\',\'Publisher ACL 3\',\'Publisher ACL 3\',\'true\',\'\',\'1\',\'Publisher ACL 3\');',
-  818 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'5\',\'1\',\'1\',\'Publisher ACL 4\',\'Publisher ACL 4\',\'true\',\'\',\'1\',\'Publisher ACL 4\');',
-  819 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'6\',\'1\',\'1\',\'Publisher ACL 5\',\'Publisher ACL 5\',\'true\',\'\',\'1\',\'Publisher ACL 5\');',
-  820 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'7\',\'1\',\'1\',\'Publisher ACL 6\',\'Publisher ACL 6\',\'true\',\'\',\'1\',\'Publisher ACL 6\');',
-  821 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'8\',\'1\',\'0\',\'Fri\',\'Agency ACL 2\',\'true\',\'\',\'1\',\'Agency ACL 2\');',
-  822 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments) VALUES (\'9\',\'1\',\'1\',\'Test\',\'Toast\',\'true\',\'\',\'1\',\'\');',
-  823 => 'INSERT INTO channel (channelid,agencyid,affiliateid,name,description,compiledlimitation,acl_plugins,active,comments,acls_updated) VALUES (\'10\',\'1\',\'0\',\'ACL for acls_update testing\',\'Test\',\'MAX_checkSite_Pageurl(\\\'localhost2\\\', \\\'=~\\\')\',\'Site:Pageurl\',\'1\',\'\',\'2006-07-27 11:59:34\');',
-  824 => 'INSERT INTO trackers (trackerid,trackername,description,clientid,viewwindow,clickwindow,blockwindow,status,linkcampaigns,variablemethod,appendcode,updated) VALUES (\'1\',\'Tracker 1\',\'Tracker 1\',\'1\',\'3600\',\'3600\',\'3600\',\'4\',\'0\',\'js\',\'\',\'2006-07-27 11:59:34\');',
-  825 => 'INSERT INTO preference
-  (
-    agencyid,
-    config_version,
-    company_name,
-    begin_of_week,
-    percentage_decimals,
-    banner_html_auto,
-    admin,
-    admin_pw,
-    admin_fullname,
-    admin_email,
-    warn_admin,
-    warn_agency,
-    warn_client,
-    warn_limit,
-    admin_novice,
-    default_banner_weight,
-    default_campaign_weight,
-    client_welcome,
-    client_welcome_msg,
-    gui_show_campaign_info,
-    gui_show_campaign_preview,
-    gui_campaign_anonymous,
-    gui_show_banner_info,
-    gui_show_banner_preview,
-    gui_show_banner_html,
-    gui_show_matching,
-    gui_show_parents,
-    gui_hide_inactive,
-    gui_link_compact_limit,
-    updates_timestamp,
-    allow_invocation_interstitial,
-    allow_invocation_clickonly,
-    auto_clean_tables,
-    auto_clean_tables_interval,
-    auto_clean_userlog,
-    auto_clean_userlog_interval,
-    auto_clean_tables_vacuum,
-    autotarget_factor,
-    maintenance_timestamp,
-    compact_stats,statslasthour,
-    default_tracker_status,
-    default_tracker_type,
-    default_tracker_linkcampaigns,
-    publisher_agreement,
-    publisher_default_tax_id,
-    publisher_default_approved,
-    gui_column_requests,
-    gui_column_impressions,
-    gui_column_clicks,
-    gui_column_ctr,
-    gui_column_conversions,
-    gui_column_sr_clicks,
-    gui_column_revenue,
-    gui_column_cost,
-    gui_column_bv,
-    gui_column_revcpc,
-    gui_column_costcpc
-  )
-  VALUES
-  (
-    \'0\',
-    \'0.300\',
-    \'mysite.com\',
-    \'1\',
-    \'2\',
-    \'t\',
-    \'admin\',
-    \'21232f297a57a5a743894a0e4a801fc3\',
-    \'Your Name\',
-    \'your@email.com\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'100\',
-    \'t\',
-    \'1\',
-    \'1\',
-    \'t\',
-    \'\',
-    \'t\',
-    \'f\',
-    \'f\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'50\',
-    \'0\',
-    \'t\',
-    \'t\',
-    \'f\',
-    \'5\',
-    \'f\',
-    \'5\',
-    \'t\',
-    \'-1\',
-    \'1156324755\',
-    \'t\',
-    \'0\',
-    \'1\',
-    \'1\',
-    \'f\',
-    \'f\',
-    \'f\',
-    \'f\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\'
-  );',
-  826 => 'INSERT INTO preference (
-    agencyid,
-    config_version,
-    company_name,
-    override_gd_imageformat,
-    begin_of_week,
-    percentage_decimals,
-    banner_html_auto,
-    admin,
-    admin_pw,
-    admin_fullname,
-    admin_email,
-    warn_admin,
-    warn_agency,
-    warn_client,
-    warn_limit,
-    admin_novice,
-    default_banner_weight,
-    default_campaign_weight,
-    default_banner_url,
-    default_banner_destination,
-    client_welcome,
-    client_welcome_msg,
-    gui_show_campaign_info,
-    gui_show_campaign_preview,
-    gui_campaign_anonymous,
-    gui_show_banner_info,
-    gui_show_banner_preview,
-    gui_show_banner_html,
-    gui_show_matching,
-    gui_show_parents,
-    gui_hide_inactive,
-    gui_link_compact_limit,
-    updates_timestamp,
-    allow_invocation_interstitial,
-    allow_invocation_clickonly,
-    auto_clean_tables,
-    auto_clean_tables_interval,
-    auto_clean_userlog,
-    auto_clean_userlog_interval,
-    auto_clean_tables_vacuum,
-    autotarget_factor,
-    maintenance_timestamp,
-    compact_stats,
-    statslasthour,
-    default_tracker_status,
-    default_tracker_type,
-    default_tracker_linkcampaigns,
-    publisher_agreement,
-    publisher_agreement_text,
-    publisher_default_tax_id,
-    publisher_default_approved,
-    gui_column_requests,
-    gui_column_impressions,
-    gui_column_clicks,
-    gui_column_ctr,
-    gui_column_conversions,
-    gui_column_sr_clicks,
-    gui_column_revenue,
-    gui_column_cost,
-    gui_column_bv,
-    gui_column_revcpc,
-    gui_column_costcpc
-  )
-  VALUES
-  (
-    \'1\',
-    \'0.300\',
-    \'mysite.com\',
-    \'\',
-    \'1\',
-    \'2\',
-    \'t\',
-    \'admin\',
-    \'21232f297a57a5a743894a0e4a801fc3\',
-    \'Chris Nutting\',
-    \'Chris.Nutting@m3.net\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'100\',
-    \'t\',
-    \'1\',
-    \'1\',
-    \'\',
-    \'\',
-    \'t\',
-    \'\',
-    \'t\',
-    \'f\',
-    \'f\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'50\',
-    \'0\',
-    \'t\',
-    \'t\',
-    \'f\',
-    \'5\',
-    \'f\',
-    \'5\',
-    \'t\',
-    \'-1\',
-    \'1156324755\',
-    \'t\',
-    \'0\',
-    \'2\',
-    \'1\',
-    \'t\',
-    \'t\',
-    \'\',
-    \'f\',
-    \'f\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\'
-  );',
-  827 => 'INSERT INTO preference (
-    agencyid,
-    config_version,
-    company_name,
-    override_gd_imageformat,
-    begin_of_week,
-    percentage_decimals,
-    banner_html_auto,
-    admin,
-    admin_pw,
-    admin_fullname,
-    admin_email,
-    warn_admin,
-    warn_agency,
-    warn_client,
-    warn_limit,
-    admin_novice,
-    default_banner_weight,
-    default_campaign_weight,
-    default_banner_url,
-    default_banner_destination,
-    client_welcome,
-    client_welcome_msg,
-    gui_show_campaign_info,
-    gui_show_campaign_preview,
-    gui_campaign_anonymous,
-    gui_show_banner_info,
-    gui_show_banner_preview,
-    gui_show_banner_html,
-    gui_show_matching,
-    gui_show_parents,
-    gui_hide_inactive,
-    gui_link_compact_limit,
-    updates_timestamp,
-    allow_invocation_interstitial,
-    allow_invocation_clickonly,
-    auto_clean_tables,
-    auto_clean_tables_interval,
-    auto_clean_userlog,
-    auto_clean_userlog_interval,
-    auto_clean_tables_vacuum,
-    autotarget_factor,
-    maintenance_timestamp,
-    compact_stats,
-    statslasthour,
-    default_tracker_status,
-    default_tracker_type,
-    default_tracker_linkcampaigns,
-    publisher_agreement,
-    publisher_default_tax_id,
-    publisher_default_approved,
-    gui_column_requests,
-    gui_column_impressions,
-    gui_column_clicks,
-    gui_column_ctr,
-    gui_column_conversions,
-    gui_column_sr_clicks,
-    gui_column_revenue,
-    gui_column_cost,
-    gui_column_bv,
-    gui_column_revcpc,
-    gui_column_costcpc
-  )
-  VALUES
-  (
-    \'2\',
-    \'0.300\',
-    \'mysite.com\',
-    \'\',
-    \'1\',
-    \'2\',
-    \'t\',
-    \'admin\',
-    \'21232f297a57a5a743894a0e4a801fc3\',
-    \'Chris Nutting\',
-    \'Chris.Nutting@m3.net\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'100\',
-    \'t\',
-    \'1\',
-    \'1\',
-    \'\',
-    \'\',
-    \'t\',
-    \'\',
-    \'t\',
-    \'f\',
-    \'f\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'50\',
-    \'0\',
-    \'f\',
-    \'f\',
-    \'f\',
-    \'5\',
-    \'f\',
-    \'5\',
-    \'t\',
-    \'-1\',
-    \'1156324755\',
-    \'t\',
-    \'0\',
-    \'1\',
-    \'1\',
-    \'f\',
-    \'f\',
-    \'f\',
-    \'f\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\'
-  );',
-  828 => 'INSERT INTO preference (
-    agencyid,
-    config_version,
-    company_name,
-    override_gd_imageformat,
-    begin_of_week,
-    percentage_decimals,
-    banner_html_auto,
-    admin,
-    admin_pw,
-    admin_fullname,
-    admin_email,
-    warn_admin,
-    warn_agency,
-    warn_client,
-    warn_limit,
-    admin_novice,
-    default_campaign_weight,
-    default_banner_url,
-    default_banner_destination,
-    client_welcome,
-    client_welcome_msg,
-    gui_show_campaign_info,
-    gui_show_campaign_preview,
-    gui_campaign_anonymous,
-    gui_show_banner_info,
-    gui_show_banner_preview,
-    gui_show_banner_html,
-    gui_show_matching,
-    gui_show_parents,
-    gui_hide_inactive,
-    gui_link_compact_limit,
-    updates_timestamp,
-    allow_invocation_interstitial,
-    allow_invocation_clickonly,
-    auto_clean_tables,
-    auto_clean_tables_interval,
-    auto_clean_userlog,
-    auto_clean_userlog_interval,
-    auto_clean_tables_vacuum,
-    autotarget_factor,
-    maintenance_timestamp,
-    compact_stats,
-    statslasthour,
-    default_tracker_status,
-    default_tracker_type,
-    default_tracker_linkcampaigns,
-    publisher_agreement,
-    publisher_agreement_text,
-    publisher_payment_modes,
-    publisher_currencies,
-    publisher_categories,
-    publisher_help_files,
-    publisher_default_tax_id,
-    publisher_default_approved,
-    gui_column_id,
-    gui_column_requests,
-    gui_column_impressions,
-    gui_column_clicks,
-    gui_column_ctr,
-    gui_column_conversions,
-    gui_column_conversions_pending,
-    gui_column_sr_views,
-    gui_column_sr_clicks,
-    gui_column_revenue,
-    gui_column_cost,
-    gui_column_bv,
-    gui_column_revcpc,
-    gui_column_costcpc
-  )
-  VALUES
-  (
-    \'3\',
-    \'0.300\',
-    \'mysite.com\',
-    \'\',
-    \'1\',
-    \'2\',
-    \'t\',
-    \'admin\',
-    \'21232f297a57a5a743894a0e4a801fc3\',
-    \'Chris Nutting\',
-    \'Chris.Nutting@m3.net\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'100\',
-    \'t\',
-    \'1\',
-    \'1\',
-    \'\',
-    \'\',
-    \'t\',
-    \'f\',
-    \'t\',
-    \'f\',
-    \'f\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'f\',
-    \'50\',
-    \'0\',
-    \'t\',
-    \'t\',
-    \'t\',
-    \'f\',
-    \'5\',
-    \'f\',
-    \'5\',
-    \'t\',
-    \'-1\',
-    \'1156324755\',
-    \'t\',
-    \'0\',
-    \'1\',
-    \'1\',
-    \'f\',
-    \'f\',
-    \'\',
-    \'\',
-    \'\',
-    \'\',
-    \'\',
-    \'t\',
-    \'t\',
-    \';i:1;}}\',
-    \';i:2;}}\',
-    \';i:3;}}\',
-    \';i:4;}}\',
-    \';i:5;}}\',
-    \';i:6;}}\',
-    \';i:7;}}\',
-    \';i:8;}}\',
-    \';i:9;}}\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\',
-    \'15\'
-  );',
-  829 => 'INSERT INTO variables (variableid,trackerid,name,datatype,variablecode) VALUES (\'1\',\'1\',\'Variable 1\',\'numeric\',\'\');',
-  830 => 'INSERT INTO variables (variableid,trackerid,name,datatype,variablecode) VALUES (\'2\',\'1\',\'Variable 2\',\'date\',\'\');',
-  831 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,updated) VALUES (\'1\',\'1\',\'publisher - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'2005-11-03 15:53:25\');',
-  832 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,updated) VALUES (\'2\',\'1\',\'publisher - All Creative types\',\'All Creative Types\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'2005-11-14 17:57:29\');',
-  833 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,updated) VALUES (\'3\',\'1\',\'publisher - Targeting test zone\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'2005-11-17 15:59:33\');',
-  834 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,updated) VALUES (\'4\',\'1\',\'publisher - flash creative\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'2005-11-21 13:31:51\');',
-  835 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,updated) VALUES (\'5\',\'2\',\'publisher 2 - All creative types\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'2005-11-21 13:57:02\');',
-  836 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'6\',\'1\',\'publisher - Text Zone\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'1.0000\',\'7\',\'2006-08-15 14:28:55\');',
-  837 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'7\',\'1\',\'publisher - Zero by Zero\',\'Zero by Zero test zone\',\'0\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'Zero by Zero test zone\',\'0.0000\',\'0\',\'2006-01-25 18:19:19\');',
-  838 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'8\',\'1\',\'publisher - All campaign types\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-01 18:06:02\');',
-  839 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'9\',\'2\',\'publisher 2 - AA location test\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-07 10:37:05\');',
-  840 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'10\',\'2\',\'publisher 2 - All campaign types\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-07 11:40:58\');',
-  841 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'11\',\'1\',\'publisher - Interstitial\',\'\',\'1\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-21 15:59:28\');',
-  842 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'12\',\'3\',\'Arrival tracking - Affiliate One\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-02-21 16:41:25\');',
-  843 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'13\',\'4\',\'Cookieless Conversions - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-07 16:20:43\');',
-  844 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'14\',\'6\',\'MAX Int (Migration) - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'>\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-16 12:44:04\');',
-  845 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'15\',\'5\',\'MAX Ext (Unanimis) - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'>\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-16 12:12:21\');',
-  846 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'16\',\'1\',\'publisher - Popup\',\'\',\'2\',\'3\',\'\',\'250\',\'250\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-13 15:12:32\');',
-  847 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'17\',\'1\',\'publisher - Email\',\'\',\'4\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-13 15:14:27\');',
-  848 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type) VALUES (\'18\',\'7\',\'Capping test - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\');',
-  849 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'19\',\'7\',\'Capping test - Rainbow\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-16 15:07:36\');',
-  850 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'20\',\'1\',\'publisher - PageURL Exact Targeting\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-20 14:16:29\');',
-  851 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'21\',\'8\',\'DHTML Publisher - Default\',\'\',\'1\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-03-27 13:41:55\');',
-  852 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'22\',\'9\',\'Pick-Up point - Banner\',\'468x60\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'10.0000\',\'1\',\'2006-04-07 17:11:31\');',
-  853 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'23\',\'9\',\'Pick-Up point - Skyscraper\',\'\',\'0\',\'3\',\'\',\'120\',\'600\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-03 11:36:55\');',
-  854 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'24\',\'1\',\'publisher - Homepage Plugin\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-03 16:53:03\');',
-  855 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'25\',\'10\',\'FlashObject - Zone One\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-04 11:31:22\');',
-  856 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'26\',\'10\',\'FlashObject - Zone Two\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-04 11:31:39\');',
-  857 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'27\',\'10\',\'FlashObject - DHTML\',\'\',\'1\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-05 10:01:40\');',
-  858 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'28\',\'10\',\'FlashObject - Popup\',\'\',\'2\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-05 10:02:02\');',
-  859 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'30\',\'9\',\'Pick-Up point - No Low\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-10 12:49:55\');',
-  860 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'31\',\'9\',\'Pick-Up point - All Creative Types\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-20 15:33:46\');',
-  861 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'32\',\'12\',\'Psudo-Ticketmaster - Default\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-21 10:17:16\');',
-  862 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'33\',\'12\',\'Psudo-Ticketmaster - Banner 468x60\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-21 10:19:10\');',
-  863 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'34\',\'12\',\'Psudo-Ticketmaster - Interstitial\',\'\',\'1\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-24 00:03:41\');',
-  864 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'35\',\'12\',\'Psudo-Ticketmaster - Popup\',\'\',\'2\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-24 01:41:18\');',
-  865 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'36\',\'12\',\'Psudo-Ticketmaster - Fallback zone\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-04-24 02:10:10\');',
-  866 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'37\',\'1\',\'publisher - caching test\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-10 13:38:43\');',
-  867 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'38\',\'6\',\'MAX Int (Migration) - Popup\',\'\',\'2\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-16 15:37:30\');',
-  868 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'39\',\'11\',\'No Website - MPU\',\'\',\'0\',\'3\',\'\',\'300\',\'250\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-17 11:17:12\');',
-  869 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'40\',\'1\',\'publisher - SSL served zone\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-18 10:25:33\');',
-  870 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'41\',\'13\',\'Companion - 468x60\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-22 11:04:46\');',
-  871 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'42\',\'13\',\'Companion - 120x600\',\'\',\'0\',\'3\',\'\',\'120\',\'600\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-22 14:19:34\');',
-  872 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'43\',\'13\',\'Companion - 250x250\',\'\',\'0\',\'3\',\'\',\'250\',\'250\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-22 14:19:07\');',
-  873 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'44\',\'14\',\'SSL serving - Default\',\'\',\'0\',\'3\',\'\',\'240\',\'150\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-23 09:49:34\');',
-  874 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'45\',\'15\',\'Iframe Wrapping - Default\',\'\',\'0\',\'3\',\'\',\'598\',\'90\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-23 11:04:03\');',
-  875 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'46\',\'16\',\'AAA Tracking Publisher - Default\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-05-26 09:39:46\');',
-  876 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'47\',\'17\',\'Ad Zone Assoc - Default\',\'\',\'0\',\'3\',\'\',\'1\',\'1\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-20 17:37:21\');',
-  877 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'48\',\'18\',\'With Text Publisher - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-30 15:43:40\');',
-  878 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'49\',\'18\',\'With Text Publisher - Text Zone\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-06-30 15:44:44\');',
-  879 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'50\',\'19\',\'Public Publisher - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-10 13:45:58\');',
-  880 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'51\',\'3\',\'Arrival tracking - 468x60\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-11 11:26:30\');',
-  881 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'52\',\'20\',\'Reducing targeting - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-11 12:10:39\');',
-  882 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'53\',\'21\',\'Affiliate - Default\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-27 16:48:10\');',
-  883 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'54\',\'21\',\'Affiliate - Banner Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-07-28 15:55:46\');',
-  884 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'55\',\'22\',\'Banner (Low)\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:20:13\');',
-  885 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'56\',\'22\',\'Text (Low)\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:20:59\');',
-  886 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'57\',\'22\',\'Banner (High)\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:19:56\');',
-  887 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'58\',\'22\',\'Banner (Exclusive)\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:19:38\');',
-  888 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'59\',\'22\',\'Text (High)\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:20:33\');',
-  889 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'60\',\'22\',\'Text (Exclusive)\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:21:28\');',
-  890 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'61\',\'22\',\'Banner (Mixed)\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:22:04\');',
-  891 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'62\',\'22\',\'Text (Mixed)\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:22:30\');',
-  892 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'63\',\'22\',\'Banner (Empty)\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:42:57\');',
-  893 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'64\',\'22\',\'Text (Empty)\',\'\',\'3\',\'3\',\'\',\'0\',\'0\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-08 17:43:24\');',
-  894 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'65\',\'22\',\'Banner One linked campaign\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-09 12:54:25\');',
-  895 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'66\',\'22\',\'Banner (Low) - Interstitial\',\'\',\'1\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-09 13:16:26\');',
-  896 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'67\',\'23\',\'Publisher (Agency 2) - Default\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-11 10:52:20\');',
-  897 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'68\',\'22\',\'Banner Capped 3 ever\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-18 14:11:06\');',
-  898 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'69\',\'22\',\'Banner Capped 3 per session\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-18 14:11:31\');',
-  899 => 'INSERT INTO zones (zoneid,affiliateid,zonename,description,delivery,zonetype,category,width,height,ad_selection,chain,prepend,append,appendtype,forceappend,inventory_forecast_type,comments,cost,cost_type,updated) VALUES (\'70\',\'22\',\'Banner Blocked 30s\',\'\',\'0\',\'3\',\'\',\'468\',\'60\',\'\',\'\',\'\',\'\',\'0\',\'f\',\'0\',\'\',\'0.0000\',\'0\',\'2006-08-18 14:11:59\');',
-)
+/*
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id $
+*/
+
+/**
+ *
+ * @abstract A class for generating a large dataset for delivery testing
+ * @package Test Classes
+ * @author Monique Szpak <monique.szpak@openads.org>
+ * @todo replace constant ids with variable ids
+ * @todo refactor ad_zone_assoc links
+ *
+ */
+
+require_once MAX_PATH . '/tests/testClasses/OATestData.php';
+require_once MAX_PATH . '/lib/OA/Dll.php';
+
+class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
+{
+
+    function OA_Test_Data_0_3_27_delivery()
+    {
+        $this->init();
+    }
+
+    function generateTestData()
+    {
+        // agency 0
+
+        $this->_insertDefaultPreference();
+
+        // agency
+
+        $aAgency['name'] = 'agency';
+        $aAgency['contact'] = 'Chris Nutting';
+        $aAgency['email'] = 'Chris.Nutting@m3.net';
+        $aAgency['username'] = 'agency';
+        $aAgency['password'] = '1d1d5778763061ebb2bdc5db696077a6';
+        $aAgency['permissions'] = '0';
+        $aAgency['language'] = '';
+        $aAgency['logout_url'] = '';
+        $aAgency['active'] = '0';
+        $aAgency['updated'] = '2005-11-03 15:40:00';
+        $this->aIds['agency'][1] = $this->_insertAgency($aAgency);
+
+        $aAgency['name'] = 'agency2';
+        $aAgency['contact'] = 'Chris Nutting';
+        $aAgency['email'] = 'Chris.Nutting@m3.net';
+        $aAgency['username'] = 'agency2';
+        $aAgency['password'] = '7babfa807a160064a31b52c1cb25054b';
+        $aAgency['permissions'] = '0';
+        $aAgency['language'] = '';
+        $aAgency['logout_url'] = '';
+        $aAgency['active'] = '0';
+        $aAgency['updated'] = '2005-11-03 15:40:29';
+        $this->aIds['agency'][2] = $this->_insertAgency($aAgency);
+
+        $aAgency['name'] = 'Agency Three';
+        $aAgency['contact'] = 'Chris Nutting';
+        $aAgency['email'] = 'Chris.Nutting@m3.net';
+        $aAgency['username'] = 'agency3';
+        $aAgency['password'] = '499daf87885cad3bf4b4aa5b9995988c';
+        $aAgency['permissions'] = '0';
+        $aAgency['language'] = '';
+        $aAgency['logout_url'] = '';
+        $aAgency['active'] = '0';
+        $aAgency['updated'] = '2006-06-06 10:05:31';
+        $this->aIds['agency'][3] = $this->_insertAgency($aAgency);
+
+        // client
+
+        for ($i=1;$i<34;$i++)
+        {
+            $aClient['name'] = 'Client '.$i;
+            $this->aIds['clients'][$i] = $this->_insertClients($aClient);
+        }
+
+        // affiliate
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'publisher';
+        $aAffiliates['mnemonic'] = 'PUB';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['username'] = 'publisher';
+        $aAffiliates['password'] = '52aded165360352a0f5857571d96d68f';
+        $aAffiliates['permissions'] = '31';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2005-11-03 15:53:19';
+        $this->aIds['affiliates'][1] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'another publisher';
+        $aAffiliates['mnemonic'] = 'PUB2';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['username'] = '';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-08-11 10:51:15';
+        $this->aIds['affiliates'][2] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Arrival tracking';
+        $aAffiliates['mnemonic'] = 'ARR';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.ticketmaster.co.uk';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-02-21 16:41:03';
+        $this->aIds['affiliates'][3] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Cookieless Conversions';
+        $aAffiliates['mnemonic'] = 'COOKY';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-03-07 16:20:20';
+        $this->aIds['affiliates'][4] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'MAX Ext (Unanimis)';
+        $aAffiliates['mnemonic'] = 'EXT';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['username'] = '';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-03-09 16:56:41';
+        $this->aIds['affiliates'][5] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'MAX Int (Migration)';
+        $aAffiliates['mnemonic'] = 'INT';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['username'] = '';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-03-09 16:57:16';
+        $this->aIds['affiliates'][6] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Capping test';
+        $aAffiliates['mnemonic'] = 'CAP';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-03-16 11:33:13';
+        $this->aIds['affiliates'][7] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = '0';
+        $aAffiliates['name'] = 'DHTML Publisher';
+        $aAffiliates['mnemonic'] = 'DHTML';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-03-27 13:41:47';
+        $this->aIds['affiliates'][8] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Pick-Up point';
+        $aAffiliates['mnemonic'] = 'PUP';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['username'] = 'pickup';
+        $aAffiliates['password'] = '4e1196a599961a67d5d23b56ad247e36';
+        $aAffiliates['permissions'] = '33';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-04-10 10:31:33';
+        $this->aIds['affiliates'][9] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'FlashObject';
+        $aAffiliates['mnemonic'] = 'FOB';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-04-04 11:31:06';
+        $this->aIds['affiliates'][10] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'No Website';
+        $aAffiliates['mnemonic'] = 'NOSIT';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-04-15 20:22:10';
+        $this->aIds['affiliates'][11] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Psudo-Ticketmaster';
+        $aAffiliates['mnemonic'] = 'TKT';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.ticketmaster.co.uk/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-04-21 10:17:04';
+        $this->aIds['affiliates'][12] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Companion Positioning';
+        $aAffiliates['mnemonic'] = 'CMP';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-05-22 11:04:03';
+        $this->aIds['affiliates'][13] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'SSL serving';
+        $aAffiliates['mnemonic'] = 'SSL';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-05-23 09:49:21';
+        $this->aIds['affiliates'][14] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Iframe Wrapping';
+        $aAffiliates['mnemonic'] = 'IFRAM';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-05-23 10:28:28';
+        $this->aIds['affiliates'][15] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'AAA Tracking Publisher';
+        $aAffiliates['mnemonic'] = 'TRK';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-05-26 09:39:34';
+        $this->aIds['affiliates'][16] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Ad Zone Assoc';
+        $aAffiliates['mnemonic'] = 'AZA';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-06-05 16:36:14';
+        $this->aIds['affiliates'][17] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'With Text Publisher';
+        $aAffiliates['mnemonic'] = 'WTXT';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-06-30 15:43:31';
+        $this->aIds['affiliates'][18] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Public Publisher';
+        $aAffiliates['mnemonic'] = 'PUBLI';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'chris.nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 't';
+        $aAffiliates['last_accepted_agency_agreement'] = '2006-07-10 13:45:51';
+        $aAffiliates['updated'] = '2006-07-10 13:45:51';
+        $this->aIds['affiliates'][19] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Reducing targeting';
+        $aAffiliates['mnemonic'] = 'REDU';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'chris.nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['last_accepted_agency_agreement'] = '2006-07-11 12:10:32';
+        $aAffiliates['updated'] = '2006-07-11 12:10:32';
+        $this->aIds['affiliates'][20] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'Affiliate';
+        $aAffiliates['mnemonic'] = 'AFF';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'chris.nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['username'] = 'affiliate';
+        $aAffiliates['password'] = '6d0bd9c8d2eadeb088b34895fde10c55';
+        $aAffiliates['permissions'] = '161';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['last_accepted_agency_agreement'] = '2006-07-27 16:47:59';
+        $aAffiliates['updated'] = '2006-07-27 16:52:07';
+        $this->aIds['affiliates'][21] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][1];
+        $aAffiliates['name'] = 'New DE Testing';
+        $aAffiliates['mnemonic'] = 'NDE';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'Chris.Nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['last_accepted_agency_agreement'] = '2006-08-08 11:45:53';
+        $aAffiliates['updated'] = '2006-08-08 11:45:53';
+        $this->aIds['affiliates'][22] = $this->_insertAffiliates($aAffiliates);
+
+        $aAffiliates['agencyid'] = $this->aIds['agency'][2];
+        $aAffiliates['name'] = 'Publisher (Agency 2)';
+        $aAffiliates['mnemonic'] = 'PUB2';
+        $aAffiliates['comments'] = '';
+        $aAffiliates['contact'] = 'Chris Nutting';
+        $aAffiliates['email'] = 'chris.nutting@m3.net';
+        $aAffiliates['website'] = 'http://www.m3.net/';
+        $aAffiliates['password'] = '';
+        $aAffiliates['permissions'] = '0';
+        $aAffiliates['language'] = '';
+        $aAffiliates['publiczones'] = 'f';
+        $aAffiliates['updated'] = '2006-08-11 10:52:14';
+        $this->aIds['affiliates'][23] = $this->_insertAffiliates($aAffiliates);
+
+        // campaign
+
+        $aCampaigns['campaignname'] = 'Advertiser - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-11-03 15:41:55';
+        $this->aIds['campaigns'][1] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - Capped Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-11-03 15:56:47';
+        $this->aIds['campaigns'][2] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - Targeted Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-11-03 15:59:32';
+        $this->aIds['campaigns'][3] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - 3rd party creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-11-03 17:49:55';
+        $this->aIds['campaigns'][4] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - Inactive campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2005-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-11-11 12:52:06';
+        $this->aIds['campaigns'][5] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - All Creative Types';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2010-01-01';
+        $aCampaigns['activate'] = '2006-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-27 11:29:08';
+        $this->aIds['campaigns'][6] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - ACL Warning';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-11-28 11:53:31';
+        $this->aIds['campaigns'][7] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - Geo Targeting test';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-12-05 12:56:33';
+        $this->aIds['campaigns'][8] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Flash - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][2];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['updated'] = '2005-12-06 09:46:14';
+        $this->aIds['campaigns'][9] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Text ads advertiser - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][3];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['activate'] = '2006-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-01-12 09:37:47';
+        $this->aIds['campaigns'][10] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - ACL copy test';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-01-12 12:13:16';
+        $this->aIds['campaigns'][11] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Campaign Copy - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][4];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-01-12 15:41:52';
+        $this->aIds['campaigns'][12] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Copy of Campaign Copy - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][4];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-01-16 18:50:34';
+        $this->aIds['campaigns'][13] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - One Day Long Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2006-02-15';
+        $aCampaigns['activate'] = '2006-02-15';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-01-25 13:09:50';
+        $this->aIds['campaigns'][14] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - 0x0 Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-01-25 18:10:36';
+        $this->aIds['campaigns'][15] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Exclusive Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][4];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '-1';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-02-01 18:07:32';
+        $this->aIds['campaigns'][16] = $this->_insertCampaigns($aCampaigns);
+
+        $aCampaigns['campaignname'] = 'Advertiser - AA Location Targeting';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-02-06 11:15:12';
+        $this->aIds['campaigns'][17] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '32';
+        $aCampaigns['campaignname'] = 'All Campaign types - Low Priority';
+        $aCampaigns['clientid'] = $this->aIds['clients'][6];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-02-07 11:34:15';
+        $this->aIds['campaigns'][18] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '33';
+        $aCampaigns['campaignname'] = 'All Campaign types - High Priority';
+        $aCampaigns['clientid'] = $this->aIds['clients'][6];
+        $aCampaigns['views'] = '10000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2007-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '5';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-02-07 11:39:37';
+        $this->aIds['campaigns'][19] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '34';
+        $aCampaigns['campaignname'] = 'All Campaign types - Exclusive Priority';
+        $aCampaigns['clientid'] = $this->aIds['clients'][6];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '-1';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-02-07 11:40:27';
+        $this->aIds['campaigns'][20] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '35';
+        $aCampaigns['campaignname'] = 'Arrival Tracking - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][7];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-02-21 16:39:02';
+        $this->aIds['campaigns'][21] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '36';
+        $aCampaigns['campaignname'] = 'Yell.com - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][8];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-01 11:35:19';
+        $this->aIds['campaigns'][22] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '37';
+        $aCampaigns['campaignname'] = 'Cookieless Conversion Test - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][9];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-07 16:17:53';
+        $this->aIds['campaigns'][23] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '38';
+        $aCampaigns['campaignname'] = 'MAX Int (Migration) - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][10];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-14 12:37:34';
+        $this->aIds['campaigns'][24] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '39';
+        $aCampaigns['campaignname'] = 'Advertiser - Window.Open Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-14 15:57:06';
+        $this->aIds['campaigns'][25] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '40';
+        $aCampaigns['campaignname'] = 'Capped Ads - Exclusive capped one per session';
+        $aCampaigns['clientid'] = $this->aIds['clients'][11];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '-1';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-16 11:35:13';
+        $this->aIds['campaigns'][26] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '41';
+        $aCampaigns['campaignname'] = 'Capped Ads - House no capping';
+        $aCampaigns['clientid'] = $this->aIds['clients'][11];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-16 11:37:20';
+        $this->aIds['campaigns'][27] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '42';
+        $aCampaigns['campaignname'] = 'Capped Ads - Rainbow';
+        $aCampaigns['clientid'] = $this->aIds['clients'][11];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-16 15:08:02';
+        $this->aIds['campaigns'][28] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '43';
+        $aCampaigns['campaignname'] = 'Advertiser - PageURL Exact';
+        $aCampaigns['clientid'] = $this->aIds['clients'][11];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-20 14:25:32';
+        $this->aIds['campaigns'][29] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '44';
+        $aCampaigns['campaignname'] = 'Advertiser - DHTML creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-27 13:40:19';
+        $this->aIds['campaigns'][30] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '45';
+        $aCampaigns['campaignname'] = 'Tracker implementation - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][12];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-27 15:55:35';
+        $this->aIds['campaigns'][31] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '46';
+        $aCampaigns['campaignname'] = 'LoveFilm MPU - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][13];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-03-30 14:30:25';
+        $this->aIds['campaigns'][32] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '47';
+        $aCampaigns['campaignname'] = 'Advertiser - Homepage Targeting';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-04-03 16:14:33';
+        $this->aIds['campaigns'][33] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '48';
+        $aCampaigns['campaignname'] = 'Advertiser - All Creative Sizes';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-04-07 15:13:51';
+        $this->aIds['campaigns'][34] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '49';
+        $aCampaigns['campaignname'] = 'Campaign Copy - Mediaplex tags';
+        $aCampaigns['clientid'] = $this->aIds['clients'][4];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-04-11 11:03:29';
+        $this->aIds['campaigns'][35] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '50';
+        $aCampaigns['campaignname'] = 'Psudo-Ticketmaster - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][15];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-04-21 10:17:56';
+        $this->aIds['campaigns'][36] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '51';
+        $aCampaigns['campaignname'] = 'Psudo-Ticketmaster - HTML form creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][15];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-04-21 17:20:49';
+        $this->aIds['campaigns'][37] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '52';
+        $aCampaigns['campaignname'] = 'Direct Selection - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][16];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-15 11:20:22';
+        $this->aIds['campaigns'][38] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '53';
+        $aCampaigns['campaignname'] = 'Advertiser - Testing';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '10000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2006-07-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
+        $aCampaigns['priority'] = '5';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-17 11:21:00';
+        $this->aIds['campaigns'][39] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '54';
+        $aCampaigns['campaignname'] = 'SSL creatives - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][17];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-18 10:20:42';
+        $this->aIds['campaigns'][40] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '55';
+        $aCampaigns['campaignname'] = 'Companion Advertiser - Companion Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][18];
+        $aCampaigns['views'] = '10';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2007-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_PAUSED;
+        $aCampaigns['priority'] = '10';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '1';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-22 12:24:12';
+        $this->aIds['campaigns'][41] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '56';
+        $aCampaigns['campaignname'] = 'Companion Advertiser - Non-Companion Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][18];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-22 11:36:28';
+        $this->aIds['campaigns'][42] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '57';
+        $aCampaigns['campaignname'] = 'SSL creatives - Ticketmaster HTML creative';
+        $aCampaigns['clientid'] = $this->aIds['clients'][17];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-23 09:40:09';
+        $this->aIds['campaigns'][43] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '58';
+        $aCampaigns['campaignname'] = 'IFrame Wrapping - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][19];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-23 10:38:01';
+        $this->aIds['campaigns'][44] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '59';
+        $aCampaigns['campaignname'] = 'Popup Advertiser - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][20];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-25 17:16:30';
+        $this->aIds['campaigns'][45] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '60';
+        $aCampaigns['campaignname'] = 'AAA Tracking advertiser - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][21];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-26 09:39:54';
+        $this->aIds['campaigns'][46] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '61';
+        $aCampaigns['campaignname'] = 'Agency2 - Advertiser - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][22];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-05-26 12:40:49';
+        $this->aIds['campaigns'][47] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '62';
+        $aCampaigns['campaignname'] = 'Flash Hard-Coded Links - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][23];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-02 14:11:23';
+        $this->aIds['campaigns'][48] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '63';
+        $aCampaigns['campaignname'] = 'Ad Zone Assoc - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][24];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-05 16:37:07';
+        $this->aIds['campaigns'][49] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '64';
+        $aCampaigns['campaignname'] = '3rd party creatives - Eyeblaster';
+        $aCampaigns['clientid'] = $this->aIds['clients'][26];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-08 11:18:26';
+        $this->aIds['campaigns'][50] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '65';
+        $aCampaigns['campaignname'] = '3rd party creatives - espotting';
+        $aCampaigns['clientid'] = $this->aIds['clients'][26];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-14 12:17:33';
+        $this->aIds['campaigns'][51] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '66';
+        $aCampaigns['campaignname'] = 'Flash Hard-Coded Links - Flash 8 creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][23];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-15 16:19:24';
+        $this->aIds['campaigns'][52] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '67';
+        $aCampaigns['campaignname'] = 'All Campaign types - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][6];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-21 11:31:39';
+        $this->aIds['campaigns'][53] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '70';
+        $aCampaigns['campaignname'] = 'Query Log Test - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][27];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-21 11:44:11';
+        $this->aIds['campaigns'][54] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '71';
+        $aCampaigns['campaignname'] = 'Advertiser - With text HTML';
+        $aCampaigns['clientid'] = $this->aIds['clients'][1];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-06-30 15:50:24';
+        $this->aIds['campaigns'][55] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '72';
+        $aCampaigns['campaignname'] = 'Auto Link campaign - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][28];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-05 16:33:15';
+        $this->aIds['campaigns'][56] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '73';
+        $aCampaigns['campaignname'] = 'test2 - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][29];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-05 16:48:21';
+        $this->aIds['campaigns'][57] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '74';
+        $aCampaigns['campaignname'] = 'test2 - Default Campaign2';
+        $aCampaigns['clientid'] = $this->aIds['clients'][29];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-05 17:00:32';
+        $this->aIds['campaigns'][58] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '75';
+        $aCampaigns['campaignname'] = 'Auto Link campaign - Auto Link';
+        $aCampaigns['clientid'] = $this->aIds['clients'][28];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-05 17:07:07';
+        $this->aIds['campaigns'][59] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '76';
+        $aCampaigns['campaignname'] = 'Flash - TheAA creative';
+        $aCampaigns['clientid'] = $this->aIds['clients'][2];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-06 17:22:39';
+        $this->aIds['campaigns'][60] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '77';
+        $aCampaigns['campaignname'] = '3rd party creatives - Ticketmaster Search box';
+        $aCampaigns['clientid'] = $this->aIds['clients'][26];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-11 11:19:09';
+        $this->aIds['campaigns'][61] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '78';
+        $aCampaigns['campaignname'] = 'Reducing targeting - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][30];
+        $aCampaigns['views'] = '100000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2006-11-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '10';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-11 12:11:21';
+        $this->aIds['campaigns'][62] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '79';
+        $aCampaigns['campaignname'] = 'Reducing targeting - Rainbow';
+        $aCampaigns['clientid'] = $this->aIds['clients'][30];
+        $aCampaigns['views'] = '100000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2006-11-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '10';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-11 12:15:54';
+        $this->aIds['campaigns'][63] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '80';
+        $aCampaigns['campaignname'] = 'ACLs updating - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][31];
+        $aCampaigns['views'] = '10000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2006-09-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '10';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-18 15:23:22';
+        $this->aIds['campaigns'][64] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '81';
+        $aCampaigns['campaignname'] = 'Flash Hard-Coded Links - Short URLs';
+        $aCampaigns['clientid'] = $this->aIds['clients'][23];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-27 12:35:48';
+        $this->aIds['campaigns'][65] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '82';
+        $aCampaigns['campaignname'] = 'Client - Default Campaign';
+        $aCampaigns['clientid'] = $this->aIds['clients'][32];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-07-27 16:48:54';
+        $this->aIds['campaigns'][66] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '83';
+        $aCampaigns['campaignname'] = 'Low - Local creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:23:12';
+        $this->aIds['campaigns'][67] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '84';
+        $aCampaigns['campaignname'] = 'Low - HTML Creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:23:28';
+        $this->aIds['campaigns'][68] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '85';
+        $aCampaigns['campaignname'] = 'Low - External creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:22:57';
+        $this->aIds['campaigns'][69] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '86';
+        $aCampaigns['campaignname'] = 'Low - Text Creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '0';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:23:48';
+        $this->aIds['campaigns'][70] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '87';
+        $aCampaigns['campaignname'] = 'High - Local creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '100000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2007-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '5';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:25:10';
+        $this->aIds['campaigns'][71] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '88';
+        $aCampaigns['campaignname'] = 'Exclusive - Local creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '-1';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:26:03';
+        $this->aIds['campaigns'][72] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '89';
+        $aCampaigns['campaignname'] = 'High - HTML Creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '100000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2007-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '5';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:27:03';
+        $this->aIds['campaigns'][73] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '90';
+        $aCampaigns['campaignname'] = 'Exclusive - HTML Creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '-1';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:27:37';
+        $this->aIds['campaigns'][74] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '91';
+        $aCampaigns['campaignname'] = 'High - External creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '100000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2007-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '5';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:28:37';
+        $this->aIds['campaigns'][75] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '92';
+        $aCampaigns['campaignname'] = 'Exclusive - External creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2007-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '-1';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:29:07';
+        $this->aIds['campaigns'][76] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '93';
+        $aCampaigns['campaignname'] = 'Exclusive - Text Creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '-1';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '-1';
+        $aCampaigns['weight'] = '1';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:30:21';
+        $this->aIds['campaigns'][77] = $this->_insertCampaigns($aCampaigns);
+
+        //$aCampaigns['campaignid'] = '94';
+        $aCampaigns['campaignname'] = 'High - Text Creatives';
+        $aCampaigns['clientid'] = $this->aIds['clients'][33];
+        $aCampaigns['views'] = '100000';
+        $aCampaigns['clicks'] = '-1';
+        $aCampaigns['conversions'] = '-1';
+        $aCampaigns['expire'] = '2007-01-01';
+        $aCampaigns['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aCampaigns['priority'] = '5';
+        $aCampaigns['weight'] = '0';
+        $aCampaigns['target_impression'] = '0';
+        $aCampaigns['target_click'] = '0';
+        $aCampaigns['target_conversion'] = '0';
+        $aCampaigns['anonymous'] = 'f';
+        $aCampaigns['companion'] = '0';
+        $aCampaigns['comments'] = '';
+        $aCampaigns['revenue'] = '0.0000';
+        $aCampaigns['revenue_type'] = '0';
+        $aCampaigns['updated'] = '2006-08-08 17:30:56';
+        $this->aIds['campaigns'][78] = $this->_insertCampaigns($aCampaigns);
+
+        // banner
+
+        //$aBanners['bannerid'] = '1';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3-test-468x60.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Flash SQL banner';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:45:06';
+        $this->aIds['banners'][1] = $this->_insertBanners($aBanners); // $idBanners1 = $this->_insertBanners($aBanners, 1);
+
+        //$aBanners['bannerid'] = '2';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Flash web banner';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = 'm3_test_468x60.gif';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = 'gif';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:46:22';
+        $this->aIds['banners'][2] = $this->_insertBanners($aBanners); // $idBanners2 = $this->_insertBanners($aBanners, 2);
+
+        //$aBanners['bannerid'] = '3';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://www.google.co.uk/intl/en_uk/images/logo.gif';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '276';
+        $aBanners['height'] = '110';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.google.co.uk/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External banner';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:48:33';
+        $this->aIds['banners'][3] = $this->_insertBanners($aBanners); // $idBanners3 = $this->_insertBanners($aBanners, 3);
+
+        //$aBanners['bannerid'] = '4';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test HTML (TangoZebra)';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:50:40';
+        $this->aIds['banners'][4] = $this->_insertBanners($aBanners); // $idBanners4 = $this->_insertBanners($aBanners, 4);
+
+        $aBanners['bannerid'] = '5';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'm3 media services';
+        $aBanners['description'] = 'Text ad';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:51:28';
+        $this->aIds['banners'][5] = $this->_insertBanners($aBanners); // $idBanners5 = $this->_insertBanners($aBanners, 5);
+
+        //$aBanners['bannerid'] = '7';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][2];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Blue - Capped 1 per min';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '60';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:57:38';
+        $this->aIds['banners'][7] = $this->_insertBanners($aBanners); // $idBanners6 = $this->_insertBanners($aBanners, 6);
+
+        //$aBanners['bannerid'] = '8';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][2];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Green - Capped Once Ever';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '1';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:58:19';
+        $this->aIds['banners'][8] = $this->_insertBanners($aBanners); // $idBanners7 = $this->_insertBanners($aBanners, 7);
+
+        //$aBanners['bannerid'] = '9';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][2];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Orange - Capped once per session';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '1';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 15:59:09';
+        $this->aIds['banners'][9] = $this->_insertBanners($aBanners); // $idBanners8 = $this->_insertBanners($aBanners, 8);
+
+        //$aBanners['bannerid'] = '10';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Purple - Targeted weekday';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-10 09:21:52';
+        $this->aIds['banners'][10] = $this->_insertBanners($aBanners); // $idBanners9 = $this->_insertBanners($aBanners, 9);
+
+        //$aBanners['bannerid'] = '11';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_red.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Red - Targetted time';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 16:01:47';
+        $this->aIds['banners'][11] = $this->_insertBanners($aBanners); // $idBanners10 = $this->_insertBanners($aBanners, 10);
+
+        //$aBanners['bannerid'] = '12';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3_test_468x60_turquoise.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Turquoise - Targeted country';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 16:02:53';
+        $this->aIds['banners'][12] = $this->_insertBanners($aBanners); // $idBanners11 = $this->_insertBanners($aBanners, 11);
+
+        //$aBanners['bannerid'] = '13';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_yellow.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Yellow - Targeted Source';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Source('*test*', '==', \$source)";
+        $aBanners['acl_plugins'] =  'Site:Source';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-11 13:17:41';
+        $this->aIds['banners'][13] = $this->_insertBanners($aBanners); // $idBanners12 = $this->_insertBanners($aBanners, 12);
+
+        //$aBanners['bannerid'] = '14';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Blue - Targetted ALL';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkTime_Day('0,2,4,5', '==') and MAX_checkTime_Hour('0,3,4,6,8,11,13,15,16,18,19,21,22', '==') and MAX_checkSite_Source('*test*', '==', \$source)";
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = 0;
+        $aBanners['bannertype'] =  0;
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-03 16:23:13';
+        $this->aIds['banners'][14] = $this->_insertBanners($aBanners); // $idBanners13 = $this->_insertBanners($aBanners, 13);
+
+        //$aBanners['bannerid'] = '15';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Falk 3rd party';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-19 14:02:55';
+        $this->aIds['banners'][15] = $this->_insertBanners($aBanners); // $idBanners14 = $this->_insertBanners($aBanners, 14);
+
+        //$aBanners['bannerid'] = '16';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Purple - Targeted SOME';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-08 10:46:33';
+        $this->aIds['banners'][16] = $this->_insertBanners($aBanners); // $idBanners15 = $this->_insertBanners($aBanners, 15);
+
+        //$aBanners['bannerid'] = '17';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-19 13:42:03';
+        $this->aIds['banners'][17] = $this->_insertBanners($aBanners); // $idBanners16 = $this->_insertBanners($aBanners, 16);
+
+        //$aBanners['bannerid'] = '18';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3-test-468x60_2.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL Flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:13:39';
+        $this->aIds['banners'][18] = $this->_insertBanners($aBanners); // $idBanners17 = $this->_insertBanners($aBanners, 17);
+
+        //$aBanners['bannerid'] = '19';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_2.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = 'Alt text';
+        $aBanners['status'] = 'Status text';
+        $aBanners['bannertext'] = 'Text below image';
+        $aBanners['description'] = 'Web Flash (with backup GIF)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = 'm3_test_468x60_2.gif';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = 'gif';
+        $aBanners['comments'] = 'Comment';
+        $aBanners['updated'] = '2006-04-11 16:38:33';
+        $this->aIds['banners'][19] = $this->_insertBanners($aBanners); // $idBanners18 = $this->_insertBanners($aBanners, 18);
+
+        //$aBanners['bannerid'] = '20';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-22 21:39:17';
+        $this->aIds['banners'][20] = $this->_insertBanners($aBanners); // $idBanners19 = $this->_insertBanners($aBanners, 19);
+
+        //$aBanners['bannerid'] = '21';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://i.m3.net/m3_test_468x60_red.gif';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-11 16:19:00';
+        $this->aIds['banners'][21] = $this->_insertBanners($aBanners); // $idBanners20 = $this->_insertBanners($aBanners, 20);
+
+        //$aBanners['bannerid'] = '22';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://i.m3.net/m3-test-468x60-hard-coded.swf';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:22:48';
+        $this->aIds['banners'][22] = $this->_insertBanners($aBanners); // $idBanners21 = $this->_insertBanners($aBanners, 21);
+
+        //$aBanners['bannerid'] = '23';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Atlas';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:52:35';
+        $this->aIds['banners'][23] = $this->_insertBanners($aBanners); // $idBanners22 = $this->_insertBanners($aBanners, 22);
+
+        //$aBanners['bannerid'] = '24';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text ad';
+        $aBanners['description'] = 'Text Ad';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:44:13';
+        $this->aIds['banners'][24] = $this->_insertBanners($aBanners); // $idBanners23 = $this->_insertBanners($aBanners, 23);
+
+        //$aBanners['bannerid'] = '25';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - m3';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:51:39';
+        $this->aIds['banners'][25] = $this->_insertBanners($aBanners); // $idBanners24 = $this->_insertBanners($aBanners, 24);
+
+        //$aBanners['bannerid'] = '26';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - DoubleClick';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:54:05';
+        $this->aIds['banners'][26] = $this->_insertBanners($aBanners); // $idBanners25 = $this->_insertBanners($aBanners, 25);
+
+        //$aBanners['bannerid'] = '27';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - TangoZebra';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:55:35';
+        $this->aIds['banners'][27] = $this->_insertBanners($aBanners); // $idBanners26 = $this->_insertBanners($aBanners, 26);
+
+        //$aBanners['bannerid'] = '28';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - EyeBlaster';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:56:39';
+        $this->aIds['banners'][28] = $this->_insertBanners($aBanners); // $idBanners27 = $this->_insertBanners($aBanners, 27);
+
+        //$aBanners['bannerid'] = '29';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3_test_468x60_green.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-14 17:58:23';
+        $this->aIds['banners'][29] = $this->_insertBanners($aBanners); // $idBanners28 = $this->_insertBanners($aBanners, 28);
+
+        //$aBanners['bannerid'] = '30';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Green - Targetted testing';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "(MAX_checkSite_Channel('2', '==', \$source))";
+        $aBanners['acl_plugins'] =  'Site:Channel';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] = 0;
+        $aBanners['bannertype'] = 0;
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-19 13:08:39';
+        $this->aIds['banners'][30] = $this->_insertBanners($aBanners); // $idBanners29 = $this->_insertBanners($aBanners, 29);
+
+        //$aBanners['bannerid'] = '31';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Eyeblaster';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-21 15:00:08';
+        $this->aIds['banners'][31] = $this->_insertBanners($aBanners); // $idBanners30 = $this->_insertBanners($aBanners, 30);
+
+        //$aBanners['bannerid'] = '32';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][7];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Banner With ACL';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '600';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '1';
+        $aBanners['compiledlimitation'] = "MAX_checkTime_Day('0,1', '==') and MAX_checkTime_Hour('0,1,2,3', '==')";
+        $aBanners['acl_plugins'] = 'Time:Day,Time:Hour';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] = 0;
+        $aBanners['bannertype'] = 0;
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] =  '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-28 11:55:24';
+        $this->aIds['banners'][32] = $this->_insertBanners($aBanners); // $idBanners31 = $this->_insertBanners($aBanners, 31);
+
+        //$aBanners['bannerid'] = '33';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][7];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_4.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Banner With ACL';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '600';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '1';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-11-28 11:56:20';
+        $this->aIds['banners'][33] = $this->_insertBanners($aBanners); // $idBanners32 = $this->_insertBanners($aBanners, 32);
+
+        //$aBanners['bannerid'] = '34';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][8];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_turquoise.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'GeoTargeting test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkTime_Date('20070302', '==')";
+        $aBanners['acl_plugins'] =  'Time:Date';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-12-05 12:57:25';
+        $this->aIds['banners'][34] = $this->_insertBanners($aBanners); // $idBanners33 = $this->_insertBanners($aBanners, 33);
+
+        //$aBanners['bannerid'] = '36';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'frontroom3.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://game.frontroomcasino.com/frclient/welcome.jsp?lsdID=7401';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Frontroom3';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-03 12:37:30';
+        $this->aIds['banners'][36] = $this->_insertBanners($aBanners); // $idBanners34 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '37';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '7';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'liquid1.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://game.liquidclubscasino.com/lqclient/welcome.jsp?lsdID=7399';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Liquid 1';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-03 12:37:32';
+        $this->aIds['banners'][37] = $this->_insertBanners($aBanners); // $idBanners35 = $this->_insertBanners($aBanners, 34);
+
+        //$aBanners['bannerid'] = '38';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'liquid2.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://game.liquidclubscasino.com/lqclient/welcome.jsp?lsdID=7399';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Liquid 2';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-03 12:37:34';
+        $this->aIds['banners'][38] = $this->_insertBanners($aBanners); // $idBanners36 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '40';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'frontroom2.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://game.frontroomcasino.com/frclient/welcome.jsp?lsdID=7401';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Frontroom2';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-03 12:37:25';
+        $this->aIds['banners'][40] = $this->_insertBanners($aBanners); // $idBanners37 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '41';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][8];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Old Targeting Rules';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkClient_Ip('81.179.9.150', '==') and MAX_checkClient_Domain('domain', '==') and MAX_checkClient_Useragent('*firefox*', '==') and MAX_checkSite_Referingpage('google', '==') and MAX_checkSite_Source('(other)/business.*', '==', \$source) and ()";
+        $aBanners['acl_plugins'] =  'Time:Day,Time:Hour,Time:Date,Client:Ip,Client:Domain,Client:Useragent,Site:Referingpage,Site:Source,Site:Channel';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] =  '0';
+        $aBanners['bannertype'] =  '0';
+        $aBanners['alt_filename'] =  '';
+        $aBanners['alt_imageurl'] =  '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2005-12-09 16:51:34';
+        $this->aIds['banners'][41] = $this->_insertBanners($aBanners); // $idBanners38 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '42';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][8];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_yellow_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://ww.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'New Targeting Rules';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkClient_Domain('127.0.0.1', '==') and MAX_checkClient_Ip('127.0.0.1', '==') and MAX_checkClient_Useragent('.*firefox.*', '==') and (MAX_checkSite_Channel('8', '==', \$source)) and MAX_checkSite_Pageurl('localhost', '=~') and MAX_checkSite_Referingpage('localhost', '==') and MAX_checkSite_Source('(other)/business.scotsman.com*', '!=', $source) and MAX_checkTime_Date('20060401', '!=') and MAX_checkTime_Day('0,1,2,3,4,5,6', '==') and MAX_checkTime_Hour('0,2,4,6,8,10,12,14,16,18,20,22', '==')";
+        $aBanners['acl_plugins'] =  'Client:Domain,Client:Ip,Client:Useragent,Site:Channel,Site:Pageurl,Site:Referingpage,Site:Source,Time:Date,Time:Day,Time:Hour';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] =  '0';
+        $aBanners['bannertype'] =  '0';
+        $aBanners['alt_filename'] =  '';
+        $aBanners['alt_imageurl'] =  '';
+        $aBanners['alt_contenttype'] =  '';
+        $aBanners['comments'] =  '';
+        $aBanners['updated'] =  '2005-12-12 16:04:56';
+        $this->aIds['banners'][42] = $this->_insertBanners($aBanners); // $idBanners39 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '43';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'dandj_expandable.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.google.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'expandable flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-11 17:25:22';
+        $this->aIds['banners'][43] = $this->_insertBanners($aBanners); // $idBanners40 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '44';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'expandable flash (html)';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-11 17:14:55';
+        $this->aIds['banners'][44] = $this->_insertBanners($aBanners); // $idBanners41 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '45';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][10];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/q=1';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text ad 1';
+        $aBanners['description'] = 'Test Text ad 1';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-12 09:39:51';
+        $this->aIds['banners'][45] = $this->_insertBanners($aBanners); // $idBanners42 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '46';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][10];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/q=2';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text ad 2';
+        $aBanners['description'] = 'Test text ad 2';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-12 09:41:37';
+        $this->aIds['banners'][46] = $this->_insertBanners($aBanners); // $idBanners43 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '47';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][10];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/?q=3';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text ad 3';
+        $aBanners['description'] = 'Test text ad 3';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-12 09:44:23';
+        $this->aIds['banners'][47] = $this->_insertBanners($aBanners); // $idBanners44 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '48';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][11];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Copy from';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '3723';
+        $aBanners['capping'] = '4';
+        $aBanners['session_capping'] = '5';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-13 15:06:31';
+        $this->aIds['banners'][48] = $this->_insertBanners($aBanners); // $idBanners45 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '49';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][11];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Copy to';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-16 11:31:20';
+        $this->aIds['banners'][49] = $this->_insertBanners($aBanners); // $idBanners46 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '57';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][12];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_6.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'GIF Webserver';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '3723';
+        $aBanners['capping'] = '4';
+        $aBanners['session_capping'] = '5';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '>';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-16 13:00:09';
+        $this->aIds['banners'][57] = $this->_insertBanners($aBanners); // $idBanners47 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '76';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][12];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test HTML banner';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '420';
+        $aBanners['capping'] = '100';
+        $aBanners['session_capping'] = '5';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = 'Test HTML banner comments';
+        $aBanners['updated'] = '2006-01-16 18:45:52';
+        $this->aIds['banners'][76] = $this->_insertBanners($aBanners); // $idBanners48 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '79';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][27];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_9.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'GIF Webserver';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost', '=~')";
+        $aBanners['acl_plugins'] =  'Site:Pageurl';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '0';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-10 11:41:19';
+        $this->aIds['banners'][79] = $this->_insertBanners($aBanners); // $idBanners49 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '80';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][27];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test HTML banner';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '420';
+        $aBanners['capping'] = '100';
+        $aBanners['session_capping'] = '5';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = 'Test HTML banner comments';
+        $aBanners['updated'] = '2006-01-16 18:53:53';
+        $this->aIds['banners'][80] = $this->_insertBanners($aBanners); // $idBanners50 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '81';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][27];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_10.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Copy of GIF Webserver';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '3723';
+        $aBanners['capping'] = '4';
+        $aBanners['session_capping'] = '5';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '>';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-16 18:50:49';
+        $this->aIds['banners'][81] = $this->_insertBanners($aBanners); // $idBanners51 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '82';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test for FORM tracking';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-27 17:47:48';
+        $this->aIds['banners'][82] = $this->_insertBanners($aBanners); // $idBanners52 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '83';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Iframe caller for FORM';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-23 16:03:04';
+        $this->aIds['banners'][83] = $this->_insertBanners($aBanners); // $idBanners53 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '86';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][29];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Zero by Zero';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-01-25 18:18:07';
+        $this->aIds['banners'][86] = $this->_insertBanners($aBanners); // $idBanners54 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '87';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '260';
+        $aBanners['height'] = '280';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'title=Actresses';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test LoveFilm MPU';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-01 13:06:52';
+        $this->aIds['banners'][87] = $this->_insertBanners($aBanners); // $idBanners55 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '88';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.google.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Max';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-02 14:20:14';
+        $this->aIds['banners'][88] = $this->_insertBanners($aBanners); // $idBanners56 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '89';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '200';
+        $aBanners['height'] = '200';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'TG-Broadspeed mpu Jan06';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-02 17:41:56';
+        $this->aIds['banners'][89] = $this->_insertBanners($aBanners); // $idBanners57 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '90';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '200';
+        $aBanners['height'] = '200';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'IFrame Caller for Some ad';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-02 17:38:38';
+        $this->aIds['banners'][90] = $this->_insertBanners($aBanners); // $idBanners58 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '91';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][31];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_3.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net?search={aa_searchFrom_city}';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test banner for AA location';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = 'm3_test_468x60_4.gif';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = 'gif';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-08 17:33:53';
+        $this->aIds['banners'][91] = $this->_insertBanners($aBanners); // $idBanners59 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '92';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][32];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_4.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.ticketmaster.co.uk';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'No capping - No limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '>';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-16 12:44:33';
+        $this->aIds['banners'][92] = $this->_insertBanners($aBanners); // $idBanners60 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '93';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][32];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_4.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Capping - No limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '3';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '>';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-16 12:45:20';
+        $this->aIds['banners'][93] = $this->_insertBanners($aBanners); // $idBanners61 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '94';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][32];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'No Capping - Limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost', '=~')";
+        $aBanners['acl_plugins'] =  'Site:Pageurl';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-16 12:44:57';
+        $this->aIds['banners'][94] = $this->_insertBanners($aBanners); // $idBanners62 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '95';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][32];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_5.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Capping - Limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '3';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost', '=~')";
+        $aBanners['acl_plugins'] =  'Site:Pageurl';
+        $aBanners['append'] = 'Site:Pageurl';
+        $aBanners['appendtype'] = '>';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '0';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-16 12:45:10';
+        $this->aIds['banners'][95] = $this->_insertBanners($aBanners); // $idBanners63 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '96';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][33];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_5.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'No capping - No limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:38:23';
+        $this->aIds['banners'][96] = $this->_insertBanners($aBanners); // $idBanners64 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '97';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][33];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_5.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Capping - No limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '3';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:38:24';
+        $this->aIds['banners'][97] = $this->_insertBanners($aBanners); // $idBanners65 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '98';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][33];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_4.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'No Capping - Limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost', '=~')";
+        $aBanners['acl_plugins'] =  'Site:Pageurl';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:38:24';
+        $this->aIds['banners'][98] = $this->_insertBanners($aBanners); // $idBanners66 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '99';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][33];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_11.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Capping - Limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '3';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost', '=~')";
+        $aBanners['acl_plugins'] =  'Site:Pageurl';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:38:25';
+        $this->aIds['banners'][99] = $this->_insertBanners($aBanners); // $idBanners67 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '100';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][34];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_6.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'No capping - No limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:39:57';
+        $this->aIds['banners'][100] = $this->_insertBanners($aBanners); // $idBanners68 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '101';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][34];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_6.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Capping - No limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '3';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:39:57';
+        $this->aIds['banners'][101] = $this->_insertBanners($aBanners); // $idBanners69 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '102';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][34];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_5.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'No Capping - Limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost', '=~')";
+        $aBanners['acl_plugins'] =  'Site:Pageurl';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '0';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:39:58';
+        $this->aIds['banners'][102] = $this->_insertBanners($aBanners); // $idBanners70 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '103';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][34];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_12.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Capping - Limitations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '3';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost', '=~')";
+        $aBanners['acl_plugins'] =  'Site:Pageurl';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-07 11:39:58';
+        $this->aIds['banners'][103] = $this->_insertBanners($aBanners); // $idBanners71 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '104';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][31];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.google.co.uk/search?q={aa_searchTo_city}';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML $_REQUEST var substitution test';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "(MAX_checkSite_Aalocation('EITHER|B', '==', \$source))";
+        $aBanners['acl_plugins'] =  'Site:Aalocation';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-08 12:12:12';
+        $this->aIds['banners'][104] = $this->_insertBanners($aBanners); // $idBanners72 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '105';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][35];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.ticketmaster.co.uk';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Click here';
+        $aBanners['description'] = 'Arrival Tracking Test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-02-21 16:40:11';
+        $this->aIds['banners'][105] = $this->_insertBanners($aBanners); // $idBanners73 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '106';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][36];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '7';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'shelves_468x400_05am3.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '400';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Expandable test creative';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-01 11:36:10';
+        $this->aIds['banners'][106] = $this->_insertBanners($aBanners); // $idBanners74 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '107';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web GIF 250x250';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-02 14:43:26';
+        $this->aIds['banners'][107] = $this->_insertBanners($aBanners); // $idBanners75 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '108';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][32];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test for callback loging';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-09 16:19:59';
+        $this->aIds['banners'][108] = $this->_insertBanners($aBanners); // $idBanners76 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '109';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][37];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_7.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Cookieless Test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-07 16:19:14';
+        $this->aIds['banners'][109] = $this->_insertBanners($aBanners); // $idBanners77 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '110';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][38];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'MAX Internal redirect';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'max';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '>';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-24 10:12:49';
+        $this->aIds['banners'][110] = $this->_insertBanners($aBanners); // $idBanners78 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '111';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][39];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-14 16:58:00';
+        $this->aIds['banners'][111] = $this->_insertBanners($aBanners); // $idBanners79 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '112';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][40];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_red_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Exclusive - One per session';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '3';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-16 15:01:43';
+        $this->aIds['banners'][112] = $this->_insertBanners($aBanners); // $idBanners80 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '113';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][41];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_7.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'House - No capping';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-16 12:11:07';
+        $this->aIds['banners'][113] = $this->_insertBanners($aBanners); // $idBanners81 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '114';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][42];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_8.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Blue (Session Capped 1)';
+        $aBanners['description'] = 'Blue (Session Capped 1)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '1';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-17 10:38:27';
+        $this->aIds['banners'][114] = $this->_insertBanners($aBanners); // $idBanners82 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '115';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][42];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_8.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Green (Session capped 2)';
+        $aBanners['description'] = 'Green (Session capped 2)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '2';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-17 10:38:47';
+        $this->aIds['banners'][115] = $this->_insertBanners($aBanners); // $idBanners83 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '116';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][42];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_6.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Orange (Capped 2)';
+        $aBanners['description'] = 'Orange (Capped 2)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '2';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-17 10:39:22';
+        $this->aIds['banners'][116] = $this->_insertBanners($aBanners); // $idBanners84 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '117';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][42];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_13.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Purple (Blocked 30s)';
+        $aBanners['description'] = 'Purple (Blocked 30s)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '30';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-17 10:39:41';
+        $this->aIds['banners'][117] = $this->_insertBanners($aBanners); // $idBanners85 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '118';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][42];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_red_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Red (Blocked 65s)';
+        $aBanners['description'] = 'Red (Blocked 65s)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '65';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-17 10:40:00';
+        $this->aIds['banners'][118] = $this->_insertBanners($aBanners); // $idBanners86 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '119';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][42];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_turquoise_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Turquoise (No capping)';
+        $aBanners['description'] = 'Turquoise (No capping)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-17 10:40:35';
+        $this->aIds['banners'][119] = $this->_insertBanners($aBanners); // $idBanners87 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '120';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][42];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_yellow_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Yellow (1/session, 2/cap, 2min)';
+        $aBanners['description'] =  'Yellow (1/session, 2/cap, 2min)';
+        $aBanners['autohtml'] =  'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] =  '120';
+        $aBanners['capping'] =  '0';
+        $aBanners['session_capping'] = '2';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 12:14:49';
+        $this->aIds['banners'][120] = $this->_insertBanners($aBanners); // $idBanners88 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '121';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][43];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_14.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text below image';
+        $aBanners['description'] = 'Targeted PageURL Exact';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-30 15:40:19';
+        $this->aIds['banners'][121] = $this->_insertBanners($aBanners); // $idBanners89 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '122';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][44];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_15.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Creative for DHTML invocation';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-27 13:41:09';
+        $this->aIds['banners'][122] = $this->_insertBanners($aBanners); // $idBanners90 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '123';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][46];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'lq_033_french.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '300';
+        $aBanners['height'] = '280';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.lovefilm.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test Quiz MPU';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-03-30 14:32:48';
+        $this->aIds['banners'][123] = $this->_insertBanners($aBanners); // $idBanners91 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '124';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_4.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'q=m3';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Flash ClickTAG test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = 'm3_test_468x60_purple_16.gif';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = 'gif';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-04 15:54:07';
+        $this->aIds['banners'][124] = $this->_insertBanners($aBanners); // $idBanners92 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '125';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://i.dev.m3.net/m3-test-468x60_4.swf';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.google.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External Flash SWF test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-03 13:12:10';
+        $this->aIds['banners'][125] = $this->_insertBanners($aBanners); // $idBanners93 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '126';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][47];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_9.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_top';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Homepage Targeted';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkSite_Homepage('', '!=')";
+        $aBanners['acl_plugins'] =  'Site:Homepage';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-03 17:45:28';
+        $this->aIds['banners'][126] = $this->_insertBanners($aBanners); // $idBanners94 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '127';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][48];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_5.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '468x60 Banner';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-07 15:14:36';
+        $this->aIds['banners'][127] = $this->_insertBanners($aBanners); // $idBanners95 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '128';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][48];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-120x600.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '120x600 Skyscraper';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-07 15:15:12';
+        $this->aIds['banners'][128] = $this->_insertBanners($aBanners); // $idBanners96 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '129';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][48];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-120x60.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '120x60 Button';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-07 15:15:48';
+        $this->aIds['banners'][129] = $this->_insertBanners($aBanners); // $idBanners97 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '130';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][48];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '250x250 MPU';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-07 15:16:19';
+        $this->aIds['banners'][130] = $this->_insertBanners($aBanners); // $idBanners98 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '131';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][49];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'MediaPlex test';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-11 11:26:57';
+        $this->aIds['banners'][131] = $this->_insertBanners($aBanners); // $idBanners99 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '132';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][6];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Adviva';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-19 13:37:51';
+        $this->aIds['banners'][132] = $this->_insertBanners($aBanners); // $idBanners100 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '133';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][50];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.ticketmaster.co.uk/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Ticketmaster - Generic feed';
+        $aBanners['description'] = 'Ticketmaster - Generic feed';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-21 10:20:17';
+        $this->aIds['banners'][133] = $this->_insertBanners($aBanners); // $idBanners101 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '134';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][50];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.ticketmaster.co.uk/music/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Ticketmaster - Music Feed';
+        $aBanners['description'] = 'Ticketmaster - Music Feed';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-21 10:21:08';
+        $this->aIds['banners'][134] = $this->_insertBanners($aBanners); // $idBanners102 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '135';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][50];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.ticketmaster.co.uk/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Ticketmaster - Generic feed (GIF)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-21 10:47:25';
+        $this->aIds['banners'][135] = $this->_insertBanners($aBanners); // $idBanners103 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '136';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][50];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.ticketmaster.co.uk/music/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Ticketmaster - Music feed (GIF)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-04-21 10:50:12';
+        $this->aIds['banners'][136] = $this->_insertBanners($aBanners); // $idBanners104 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '137';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][52];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Direct selection test - Blue';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-15 11:21:11';
+        $this->aIds['banners'][137] = $this->_insertBanners($aBanners); // $idBanners105 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '138';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][52];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '10';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Direct selection test - Green';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['keyword'] = 'foo bar';
+        $aBanners['updated'] = '2006-05-15 14:17:18';
+        $this->aIds['banners'][138] = $this->_insertBanners($aBanners); // $idBanners106 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '139';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][53];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.google.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Click ghere';
+        $aBanners['description'] = 'Test Text Ad';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['keyword'] = 'foo';
+        $aBanners['updated'] = '2006-05-17 11:24:12';
+        $this->aIds['banners'][139] = $this->_insertBanners($aBanners); // $idBanners107 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '140';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][54];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'https://i.m3.net/m3_test_468x60_red.gif';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SSL external GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-18 10:22:50';
+        $this->aIds['banners'][140] = $this->_insertBanners($aBanners); // $idBanners108 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '141';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][54];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://i.dev.m3.net/m3_test_468x60_purple_2.gif';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Non-SSL external GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-18 10:24:29';
+        $this->aIds['banners'][141] = $this->_insertBanners($aBanners); // $idBanners109 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '142';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][55];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '468x60 Companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 11:06:53';
+        $this->aIds['banners'][142] = $this->_insertBanners($aBanners); // $idBanners110 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '143';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][55];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-120x600.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '120x600 Companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 11:07:40';
+        $this->aIds['banners'][143] = $this->_insertBanners($aBanners); // $idBanners111 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '144';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Blue 468x60 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:17:06';
+        $this->aIds['banners'][144] = $this->_insertBanners($aBanners); // $idBanners112 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '145';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Green 468x60 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:17:23';
+        $this->aIds['banners'][145] = $this->_insertBanners($aBanners); // $idBanners113 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '146';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Orange 468x60 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:17:40';
+        $this->aIds['banners'][146] = $this->_insertBanners($aBanners); // $idBanners114 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '147';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Purple 468x60 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:18:00';
+        $this->aIds['banners'][147] = $this->_insertBanners($aBanners); // $idBanners115 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '148';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_red.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Red 468x60 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:18:17';
+        $this->aIds['banners'][148] = $this->_insertBanners($aBanners); // $idBanners116 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '149';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_turquoise.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Turquoise 468x60 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:18:34';
+        $this->aIds['banners'][149] = $this->_insertBanners($aBanners); // $idBanners117 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '150';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_120x600_blue.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Blue 120x600 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 11:50:52';
+        $this->aIds['banners'][150] = $this->_insertBanners($aBanners); // $idBanners118 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '151';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_120x600_green.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Green 120x600 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:19:22';
+        $this->aIds['banners'][151] = $this->_insertBanners($aBanners); // $idBanners119 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '152';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_120x600_orange.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Orange 120x600 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:21:04';
+        $this->aIds['banners'][152] = $this->_insertBanners($aBanners); // $idBanners120 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '153';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_120x600_purple.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Purple 120x600 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:21:51';
+        $this->aIds['banners'][153] = $this->_insertBanners($aBanners); // $idBanners121 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '154';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_120x600_red.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Red 120x600 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:22:39';
+        $this->aIds['banners'][154] = $this->_insertBanners($aBanners); // $idBanners122 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '155';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_120x600_turquoise.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Turquoise 120x600 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 12:23:20';
+        $this->aIds['banners'][155] = $this->_insertBanners($aBanners); // $idBanners123 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '156';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][55];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-120x600-upside-down.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '120x600 Companion (2)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:07:19';
+        $this->aIds['banners'][156] = $this->_insertBanners($aBanners); // $idBanners124 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '157';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][55];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '250x250 Companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:18:16';
+        $this->aIds['banners'][157] = $this->_insertBanners($aBanners); // $idBanners125 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '158';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_blue.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Blue 250x250 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:38:33';
+        $this->aIds['banners'][158] = $this->_insertBanners($aBanners); // $idBanners126 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '159';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_green.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Green 250x250 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:39:11';
+        $this->aIds['banners'][159] = $this->_insertBanners($aBanners); // $idBanners127 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '160';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_orange.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Orange 250x250 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:39:52';
+        $this->aIds['banners'][160] = $this->_insertBanners($aBanners); // $idBanners128 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '161';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_purple.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Purple 250x250 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:40:34';
+        $this->aIds['banners'][161] = $this->_insertBanners($aBanners); // $idBanners129 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '162';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_red.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Red 250x250 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:41:14';
+        $this->aIds['banners'][162] = $this->_insertBanners($aBanners); // $idBanners130 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '163';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][56];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test-250x250_turquoise.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '250';
+        $aBanners['height'] = '250';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Turquoise 250x250 - Non-companion';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 14:42:05';
+        $this->aIds['banners'][163] = $this->_insertBanners($aBanners); // $idBanners131 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '164';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][54];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.google.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SSL safe content';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-22 18:01:41';
+        $this->aIds['banners'][164] = $this->_insertBanners($aBanners); // $idBanners132 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '165';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][57];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '240';
+        $aBanners['height'] = '150';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Ticketmaster HTML creative';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-25 16:33:35';
+        $this->aIds['banners'][165] = $this->_insertBanners($aBanners); // $idBanners133 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '166';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][58];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '598';
+        $aBanners['height'] = '90';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'DVLA - Problematic Creative';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = 'Appended code';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-23 17:42:51';
+        $this->aIds['banners'][166] = $this->_insertBanners($aBanners); // $idBanners134 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '167';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][58];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'dvlasearckbackground-canvas.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '598';
+        $aBanners['height'] = '90';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://clk.atdmt.com/BRM/go/nnmsxdvl0130000004brm/direct/01/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'GIF DVLA creative';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-24 16:46:06';
+        $this->aIds['banners'][167] = $this->_insertBanners($aBanners); // $idBanners135 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '168';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][59];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '500';
+        $aBanners['height'] = '500';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test Sooper Pop-up code';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-25 17:33:22';
+        $this->aIds['banners'][168] = $this->_insertBanners($aBanners); // $idBanners136 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '169';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][60];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Click here';
+        $aBanners['description'] = 'Test banner for tracking de-dupe';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-26 09:40:56';
+        $this->aIds['banners'][169] = $this->_insertBanners($aBanners); // $idBanners137 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '170';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][61];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Agency2\'s banner';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-05-26 12:41:22';
+        $this->aIds['banners'][170] = $this->_insertBanners($aBanners); // $idBanners138 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '171';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][62];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'milkshake_treats.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'ns_type=clickin';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Hard-Coded Flash Test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-02 14:14:09';
+        $this->aIds['banners'][171] = $this->_insertBanners($aBanners); // $idBanners139 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '172';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][62];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'milkshake_treats_2.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'ns_type=clickin';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test 2';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-02 14:17:00';
+        $this->aIds['banners'][172] = $this->_insertBanners($aBanners); // $idBanners140 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '173';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][63];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_6.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Pre-Linked';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-05 16:37:53';
+        $this->aIds['banners'][173] = $this->_insertBanners($aBanners); // $idBanners141 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '175';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][63];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_9.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Not-linked';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-05 16:45:26';
+        $this->aIds['banners'][175] = $this->_insertBanners($aBanners); // $idBanners142 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '176';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][64];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Eyeblaster creative';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'eyeblaster';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-08 11:19:16';
+        $this->aIds['banners'][176] = $this->_insertBanners($aBanners); // $idBanners143 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '177';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][65];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '200';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '120x200 JS banner';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-14 12:18:40';
+        $this->aIds['banners'][177] = $this->_insertBanners($aBanners); // $idBanners144 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '178';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][62];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '5';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'rubin-m3-test-468x60-hard-coded.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Rubin-m3-test-468x60-Hard-Coded.swf';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-15 14:22:43';
+        $this->aIds['banners'][178] = $this->_insertBanners($aBanners); // $idBanners145 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '179';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][62];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60-hard-coded.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-15 14:25:14';
+        $this->aIds['banners'][179] = $this->_insertBanners($aBanners); // $idBanners146 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '180';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][62];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'milkshake_treats_3.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'test';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-15 14:32:00';
+        $this->aIds['banners'][180] = $this->_insertBanners($aBanners); // $idBanners147 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '181';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][66];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60-hard-coded_3.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test Flash 8 Hard-Coded';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-15 16:29:18';
+        $this->aIds['banners'][181] = $this->_insertBanners($aBanners); // $idBanners148 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '182';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][62];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3-test-468x60-longer-hard-coded.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-15 16:44:23';
+        $this->aIds['banners'][182] = $this->_insertBanners($aBanners); // $idBanners149 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '183';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][3];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_7.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Orange - Targeted AA Locations';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-06-19 14:52:12';
+        $this->aIds['banners'][183] = $this->_insertBanners($aBanners); // $idBanners150 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '184';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][76];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '7';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'ducksc_468_mtr.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'TheAA creative as sent';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-06 17:30:15';
+        $this->aIds['banners'][184] = $this->_insertBanners($aBanners); // $idBanners151 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '185';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][77];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Ticketmaster - Updated search module';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 11:24:37';
+        $this->aIds['banners'][185] = $this->_insertBanners($aBanners); // $idBanners152 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '187';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_blue_10.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Blue (Session Capped 1)';
+        $aBanners['description'] = 'Blue (Session Capped 1)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '1';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 12:14:49';
+        $this->aIds['banners'][187] = $this->_insertBanners($aBanners); // $idBanners153 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '188';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_10.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Green (Session capped 2)';
+        $aBanners['description'] = 'Green (Session capped 2)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '2';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 12:14:49';
+        $this->aIds['banners'][188] = $this->_insertBanners($aBanners); // $idBanners154 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '189';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_8.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Orange (Capped 2)';
+        $aBanners['description'] = 'Orange (Capped 2)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '2';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 12:14:49';
+        $this->aIds['banners'][189] = $this->_insertBanners($aBanners); // $idBanners155 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '190';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_purple_17.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Purple (Blocked 30s)';
+        $aBanners['description'] = 'Purple (Blocked 30s)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '30';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-13 15:24:07';
+        $aBanners['acls_updated'] = '2006-08-01 15:33:58';
+        $this->aIds['banners'][190] = $this->_insertBanners($aBanners); // $idBanners156 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '191';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_red_4.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Red (Blocked 65s)';
+        $aBanners['description'] = 'Red (Blocked 65s)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '65';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 12:14:49';
+        $this->aIds['banners'][191] = $this->_insertBanners($aBanners); // $idBanners157 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '192';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_turquoise_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Turquoise (No capping)';
+        $aBanners['description'] = 'Turquoise (No capping)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 12:14:49';
+        $this->aIds['banners'][192] = $this->_insertBanners($aBanners); // $idBanners158 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '193';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][79];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_yellow_4.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Yellow (1/session, 2/cap, 2min)';
+        $aBanners['description'] =  'Yellow (1/session, 2/cap, 2min)';
+        $aBanners['autohtml'] =  'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] =  '120';
+        $aBanners['capping'] =  '0';
+        $aBanners['session_capping'] = '2';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 12:14:49';
+        $this->aIds['banners'][193] = $this->_insertBanners($aBanners); // $idBanners159 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '194';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][78];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_red_5.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Highly targeted ad';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '3600';
+        $aBanners['capping'] = '2';
+        $aBanners['session_capping'] = '3';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = 'Client:Browser,Client:Domain,Client:Ip,Client:Os,Client:Useragent,Site:Pageurl,Site:Referingpage,Site:Source,Time:Date';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-11 16:44:55';
+        $this->aIds['banners'][194] = $this->_insertBanners($aBanners); // $idBanners160 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '195';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][78];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_orange_9.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Add restrictive limitation';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "!((MAX_checkSite_Channel('1', '==', \$source) OR MAX_checkSite_Channel('8', '==', \$source) OR MAX_checkSite_Channel('1', '==', \$source) OR MAX_checkSite_Channel('8', '==', \$source)))";
+        $aBanners['acl_plugins'] =  'Site:Channel';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] =  '0';
+        $aBanners['bannertype'] =  '0';
+        $aBanners['alt_filename'] =  '';
+        $aBanners['alt_imageurl'] =  '';
+        $aBanners['alt_contenttype'] =  '';
+        $aBanners['comments'] =  '';
+        $aBanners['updated'] = '2006-07-13 13:51:07';
+        $aBanners['acls_updated'] = '2006-08-03 17:26:51';
+        $this->aIds['banners'][195] = $this->_insertBanners($aBanners); // $idBanners161 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '196';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'flash_that_breaks_when_loaded.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '(Default) Flash that gets corrupted when loaded';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-14 10:05:14';
+        $this->aIds['banners'][196] = $this->_insertBanners($aBanners); // $idBanners162 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '197';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '5';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'flash_that_breaks_when_loaded_2.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '(not-altered) Flash that gets corrupted when loaded';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-14 10:04:14';
+        $this->aIds['banners'][197] = $this->_insertBanners($aBanners); // $idBanners163 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '198';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][9];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '5';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'flash_that_breaks_when_loaded_3.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '120';
+        $aBanners['height'] = '600';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = '(not-compressed) Flash that gets corrupted when loaded';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = 'true';
+        $aBanners['acl_plugins'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-14 18:04:38';
+        $aBanners['acls_updated'] = '2006-07-14 18:04:38';
+        $this->aIds['banners'][198] = $this->_insertBanners($aBanners); // $idBanners164 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '199';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][80];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_9.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test Creative for ACL updating';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "(MAX_checkSite_Channel('10', '==', \$source) OR MAX_checkSite_Channel('10', '==', \$source))";
+        $aBanners['acl_plugins'] =  'Site:Channel';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] =  '0';
+        $aBanners['bannertype'] =  '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '0';
+        $aBanners['comments'] = '0';
+        $aBanners['updated'] = '2006-07-17 10:19:43';
+        $aBanners['acls_updated'] = '2006-07-27 11:59:34';
+        $this->aIds['banners'][199] = $this->_insertBanners($aBanners); // $idBanners165 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '200';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][80];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_10.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Copy of Test Creative for ACL updating';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkClient_Ip('127.0.0.1', '==') or  !((MAX_checkSite_Channel('10', '==', \$source)))";
+        $aBanners['acl_plugins'] =  'Client:Ip,Site:Channel';
+        $aBanners['append'] =  '';
+        $aBanners['appendtype'] =  '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '0';
+        $aBanners['comments'] = '0';
+        $aBanners['updated'] = '2006-07-17 12:02:54';
+        $aBanners['acls_updated'] = '2006-07-27 11:59:34';
+        $this->aIds['banners'][200] = $this->_insertBanners($aBanners); // $idBanners166 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '201';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][80];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_11.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Copy of Copy of Test Creative for ACL updating';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = "MAX_checkClient_Ip('127.0.0.1', '==')";
+        $aBanners['acl_plugins'] =  'Client:Ip';
+        $aBanners['append'] = 'Client:Ip';
+        $aBanners['appendtype'] = '';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '0';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-27 11:58:17';
+        $aBanners['acls_updated'] = '2006-07-17 12:24:51';
+        $this->aIds['banners'][201] = $this->_insertBanners($aBanners); // $idBanners167 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '202';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][4];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML creative for JS validation testing';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-19 14:17:17';
+        $this->aIds['banners'][202] = $this->_insertBanners($aBanners); // $idBanners168 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '203';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][81];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60-short-hard-coded.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test short hard-coded URL';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-27 12:38:01';
+        $this->aIds['banners'][203] = $this->_insertBanners($aBanners); // $idBanners169 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '204';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][81];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60-clicktag-(mixed).swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'cLiKcTaG';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-27 12:43:15';
+        $this->aIds['banners'][204] = $this->_insertBanners($aBanners); // $idBanners170 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '205';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][82];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Product feed';
+        $aBanners['description'] = 'Product feed';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-28 15:53:21';
+        $this->aIds['banners'][205] = $this->_insertBanners($aBanners); // $idBanners171 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '206';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][82];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_12.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Test banner for arrival capable testing';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-28 15:56:57';
+        $this->aIds['banners'][206] = $this->_insertBanners($aBanners); // $idBanners172 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1000';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][63];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Grrr';
+        $aBanners['description'] = '';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-07-28 17:55:20';
+        $this->aIds['banners'][1000] = $this->_insertBanners($aBanners); // $idBanners173 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1001';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][83];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3_test_468x60_blue.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 13:14:03';
+        $this->aIds['banners'][1001] = $this->_insertBanners($aBanners); // $idBanners174 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1002';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][83];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_11.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 13:14:28';
+        $this->aIds['banners'][1002] = $this->_insertBanners($aBanners); // $idBanners175 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1003';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][83];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3-test-468x60_3.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL Flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 11:48:22';
+        $this->aIds['banners'][1003] = $this->_insertBanners($aBanners); // $idBanners176 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1004';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][83];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_6.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web Flash (No backup)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 11:50:07';
+        $this->aIds['banners'][1004] = $this->_insertBanners($aBanners); // $idBanners177 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1005';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][83];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_7.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web Flash (With backup)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = 'm3_test_468x60_orange_10.gif';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = 'gif';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 13:14:52';
+        $this->aIds['banners'][1005] = $this->_insertBanners($aBanners); // $idBanners178 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1006';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Atlas';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'atlas';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:01:37';
+        $this->aIds['banners'][1006] = $this->_insertBanners($aBanners); // $idBanners179 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1007';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Bluestreak';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'bluestreak';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:00:59';
+        $this->aIds['banners'][1007] = $this->_insertBanners($aBanners); // $idBanners180 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1008';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Bluestreak';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'doubleclick';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:04:36';
+        $this->aIds['banners'][1008] = $this->_insertBanners($aBanners); // $idBanners181 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1009';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - EyeBlaster';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'eyeblaster';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:05:32';
+        $this->aIds['banners'][1009] = $this->_insertBanners($aBanners); // $idBanners182 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1010';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Falk';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'falk';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:12:38';
+        $this->aIds['banners'][1010] = $this->_insertBanners($aBanners); // $idBanners183 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1011';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - m3';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'max';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:13:44';
+        $this->aIds['banners'][1011] = $this->_insertBanners($aBanners); // $idBanners184 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1012';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Mediaplex';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'mediaplex';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:14:35';
+        $this->aIds['banners'][1012] = $this->_insertBanners($aBanners); // $idBanners185 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1013';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][84];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - TangoZebra';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'tangozebra';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:15:48';
+        $this->aIds['banners'][1013] = $this->_insertBanners($aBanners); // $idBanners186 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1014';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][85];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://ad.doubleclick.net/ad/N2806.Loot.com.ilevel/B1981389.2;sz=468x60';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://ad.doubleclick.net/jump/N2806.Loot.com.ilevel/B1981389.2;sz=468x60';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External DoubleClick GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:19:56';
+        $this->aIds['banners'][1014] = $this->_insertBanners($aBanners); // $idBanners187 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1015';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][85];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://banners.affiliatefuture.com/1535/24103.gif';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'url=';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:25:34';
+        $this->aIds['banners'][1015] = $this->_insertBanners($aBanners); // $idBanners188 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1016';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][85];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'jpeg';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://ad.uk.doubleclick.net/viewad/917749/miami_468x60.jpg';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://ad.uk.doubleclick.net/jump/N1084.Lovefilm_International/B1954050';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External - Jpeg';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:27:18';
+        $this->aIds['banners'][1016] = $this->_insertBanners($aBanners); // $idBanners189 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1017';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][85];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://i.m3.net/man_fin_lse_468x60_onlinecfds_2.swf';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.onlinecfds.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External Flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 12:38:42';
+        $this->aIds['banners'][1017] = $this->_insertBanners($aBanners); // $idBanners190 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1018';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][86];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text Ad without destination';
+        $aBanners['description'] = 'Text Ad without destination';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 13:19:16';
+        $this->aIds['banners'][1018] = $this->_insertBanners($aBanners); // $idBanners191 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1019';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][86];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text ad with destination';
+        $aBanners['description'] = 'Text ad with destination';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 13:22:18';
+        $this->aIds['banners'][1019] = $this->_insertBanners($aBanners); // $idBanners192 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1020';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][87];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3_test_468x60_blue_2.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:24:13';
+        $this->aIds['banners'][1020] = $this->_insertBanners($aBanners); // $idBanners193 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1021';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][87];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_12.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:24:13';
+        $this->aIds['banners'][1021] = $this->_insertBanners($aBanners); // $idBanners194 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1022';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][87];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3-test-468x60_4.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL Flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:24:13';
+        $this->aIds['banners'][1022] = $this->_insertBanners($aBanners); // $idBanners195 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1023';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][87];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_8.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web Flash (No backup)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:24:13';
+        $this->aIds['banners'][1023] = $this->_insertBanners($aBanners); // $idBanners196 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1024';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][87];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_9.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web Flash (With backup)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = 'm3_test_468x60_orange_10.gif';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = 'gif';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:24:13';
+        $this->aIds['banners'][1024] = $this->_insertBanners($aBanners); // $idBanners197 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1025';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][88];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3_test_468x60_blue_3.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:25:42';
+        $this->aIds['banners'][1025] = $this->_insertBanners($aBanners); // $idBanners198 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1026';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][88];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3_test_468x60_green_13.gif';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:25:42';
+        $this->aIds['banners'][1026] = $this->_insertBanners($aBanners); // $idBanners199 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1027';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][88];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'sql';
+        $aBanners['filename'] = 'm3-test-468x60_5.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'SQL Flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:25:42';
+        $this->aIds['banners'][1027] = $this->_insertBanners($aBanners); // $idBanners200 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1028';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][88];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_10.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web Flash (No backup)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:25:42';
+        $this->aIds['banners'][1028] = $this->_insertBanners($aBanners); // $idBanners201 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1029';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][88];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '6';
+        $aBanners['storagetype'] = 'web';
+        $aBanners['filename'] = 'm3-test-468x60_11.swf';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net/';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'Web Flash (With backup)';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = 'm3_test_468x60_orange_10.gif';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = 'gif';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:25:42';
+        $this->aIds['banners'][1029] = $this->_insertBanners($aBanners); // $idBanners202 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1030';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Atlas';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'atlas';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1030] = $this->_insertBanners($aBanners); // $idBanners203 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1031';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Bluestreak';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'bluestreak';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1031] = $this->_insertBanners($aBanners); // $idBanners204 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1032';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Bluestreak';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'doubleclick';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1032] = $this->_insertBanners($aBanners); // $idBanners205 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1033';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - EyeBlaster';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'eyeblaster';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1033] = $this->_insertBanners($aBanners); // $idBanners206 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1034';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Falk';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'falk';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1034] = $this->_insertBanners($aBanners); // $idBanners207 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1035';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - m3';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'max';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1035] = $this->_insertBanners($aBanners); // $idBanners208 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1036';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Mediaplex';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'mediaplex';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1036] = $this->_insertBanners($aBanners); // $idBanners209 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1037';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][89];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - TangoZebra';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'tangozebra';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:26:19';
+        $this->aIds['banners'][1037] = $this->_insertBanners($aBanners); // $idBanners210 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1038';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Atlas';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'atlas';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1038] = $this->_insertBanners($aBanners); // $idBanners211 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1039';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Bluestreak';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'bluestreak';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1039] = $this->_insertBanners($aBanners); // $idBanners212 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1040';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Bluestreak';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'doubleclick';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1040] = $this->_insertBanners($aBanners); // $idBanners213 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1041';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - EyeBlaster';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'eyeblaster';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1041] = $this->_insertBanners($aBanners); // $idBanners214 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1042';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status']  = OA_ENTITY_STATUS_PAUSED;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Falk';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'falk';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1042] = $this->_insertBanners($aBanners); // $idBanners215 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1043';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - m3';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'max';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1043] = $this->_insertBanners($aBanners); // $idBanners216 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1044';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - Mediaplex';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'mediaplex';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1044] = $this->_insertBanners($aBanners); // $idBanners217 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1045';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][90];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'html';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'HTML - TangoZebra';
+        $aBanners['autohtml'] = 't';
+        $aBanners['adserver'] = 'tangozebra';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:27:12';
+        $this->aIds['banners'][1045] = $this->_insertBanners($aBanners); // $idBanners218 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1046';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][91];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://ad.doubleclick.net/ad/N2806.Loot.com.ilevel/B1981389.2;sz=468x60';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://ad.doubleclick.net/jump/N2806.Loot.com.ilevel/B1981389.2;sz=468x60';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External DoubleClick GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:11';
+        $this->aIds['banners'][1046] = $this->_insertBanners($aBanners); // $idBanners219 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1047';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][91];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://banners.affiliatefuture.com/1535/24103.gif';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'url=';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:11';
+        $this->aIds['banners'][1047] = $this->_insertBanners($aBanners); // $idBanners220 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1048';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][91];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'jpeg';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://ad.uk.doubleclick.net/viewad/917749/miami_468x60.jpg';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://ad.uk.doubleclick.net/jump/N1084.Lovefilm_International/B1954050';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External - Jpeg';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:11';
+        $this->aIds['banners'][1048] = $this->_insertBanners($aBanners); // $idBanners221 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1049';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][91];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://i.m3.net/man_fin_lse_468x60_onlinecfds_2.swf';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.onlinecfds.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External Flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:11';
+        $this->aIds['banners'][1049] = $this->_insertBanners($aBanners); // $idBanners222 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1050';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][92];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = '';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://ad.doubleclick.net/ad/N2806.Loot.com.ilevel/B1981389.2;sz=468x60';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://ad.doubleclick.net/jump/N2806.Loot.com.ilevel/B1981389.2;sz=468x60';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External DoubleClick GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:49';
+        $this->aIds['banners'][1050] = $this->_insertBanners($aBanners); // $idBanners223 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1051';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][92];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'gif';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://banners.affiliatefuture.com/1535/24103.gif';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = 'url=';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External GIF';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:49';
+        $this->aIds['banners'][1051] = $this->_insertBanners($aBanners); // $idBanners224 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1052';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][92];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'jpeg';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://ad.uk.doubleclick.net/viewad/917749/miami_468x60.jpg';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://ad.uk.doubleclick.net/jump/N1084.Lovefilm_International/B1954050';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External - Jpeg';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:49';
+        $this->aIds['banners'][1052] = $this->_insertBanners($aBanners); // $idBanners225 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1053';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][92];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'swf';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'url';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = 'http://i.m3.net/man_fin_lse_468x60_onlinecfds_2.swf';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '468';
+        $aBanners['height'] = '60';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.onlinecfds.com';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = '';
+        $aBanners['description'] = 'External Flash';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:28:49';
+        $this->aIds['banners'][1053] = $this->_insertBanners($aBanners); // $idBanners226 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1054';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][93];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text Ad without destination';
+        $aBanners['description'] = 'Text Ad without destination';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:30:06';
+        $this->aIds['banners'][1054] = $this->_insertBanners($aBanners); // $idBanners227 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1055';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][93];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text ad with destination';
+        $aBanners['description'] = 'Text ad with destination';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:30:06';
+        $this->aIds['banners'][1055] = $this->_insertBanners($aBanners); // $idBanners228 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1056';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][94];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '';
+        $aBanners['url'] = '';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text Ad without destination';
+        $aBanners['description'] = 'Text Ad without destination';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:30:30';
+        $this->aIds['banners'][1056] = $this->_insertBanners($aBanners); // $idBanners229 = $this->_insertBanners($aBanners);
+
+        //$aBanners['bannerid'] = '1057';
+        $aBanners['campaignid'] = $this->aIds['campaigns'][94];
+        $aBanners['status'] = OA_ENTITY_STATUS_RUNNING;
+        $aBanners['contenttype'] = 'txt';
+        $aBanners['pluginversion'] = '0';
+        $aBanners['storagetype'] = 'txt';
+        $aBanners['filename'] = '';
+        $aBanners['imageurl'] = '';
+        $aBanners['htmltemplate'] = '';
+        $aBanners['htmlcache'] = '';
+        $aBanners['width'] = '0';
+        $aBanners['height'] = '0';
+        $aBanners['weight'] = '1';
+        $aBanners['seq'] = '0';
+        $aBanners['target'] = '_blank';
+        $aBanners['url'] = 'http://www.m3.net';
+        $aBanners['alt'] = '';
+        $aBanners['status'] = '';
+        $aBanners['bannertext'] = 'Text ad with destination';
+        $aBanners['description'] = 'Text ad with destination';
+        $aBanners['autohtml'] = 'f';
+        $aBanners['adserver'] = '';
+        $aBanners['block'] = '0';
+        $aBanners['capping'] = '0';
+        $aBanners['session_capping'] = '0';
+        $aBanners['compiledlimitation'] = '';
+        $aBanners['append'] = '';
+        $aBanners['appendtype'] = '0';
+        $aBanners['bannertype'] = '0';
+        $aBanners['alt_filename'] = '';
+        $aBanners['alt_imageurl'] = '';
+        $aBanners['alt_contenttype'] = '';
+        $aBanners['comments'] = '';
+        $aBanners['updated'] = '2006-08-08 17:30:30';
+        $this->aIds['banners'][1057] = $this->_insertBanners($aBanners); // $idBanners230 = $this->_insertBanners($aBanners);
+
+
+        // zone
+
+        $this->aIds['zones'][0] = 0;
+
+        //$aZones['zoneid'] = '1';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['updated'] = '2005-11-03 15:53:25';
+        $this->aIds['zones'][1] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '2';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - All Creative types';
+        $aZones['description'] = 'All Creative Types';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['updated'] = '2005-11-14 17:57:29';
+        $this->aIds['zones'][2] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '3';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Targeting test zone';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['updated'] = '2005-11-17 15:59:33';
+        $this->aIds['zones'][3] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '4';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - flash creative';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['updated'] = '2005-11-21 13:31:51';
+        $this->aIds['zones'][4] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '5';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][2];
+        $aZones['zonename'] = 'publisher 2 - All creative types';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['updated'] = '2005-11-21 13:57:02';
+        $this->aIds['zones'][5] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '6';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Text Zone';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '1.0000';
+        $aZones['cost_type'] = '7';
+        $aZones['updated'] = '2006-08-15 14:28:55';
+        $this->aIds['zones'][6] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '7';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Zero by Zero';
+        $aZones['description'] = 'Zero by Zero test zone';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = 'Zero by Zero test zone';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-01-25 18:19:19';
+        $this->aIds['zones'][7] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '8';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - All campaign types';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-02-01 18:06:02';
+        $this->aIds['zones'][8] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '9';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][2];
+        $aZones['zonename'] = 'publisher 2 - AA location test';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-02-07 10:37:05';
+        $this->aIds['zones'][9] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '10';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][2];
+        $aZones['zonename'] = 'publisher 2 - All campaign types';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-02-07 11:40:58';
+        $this->aIds['zones'][10] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '11';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Interstitial';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '1';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-02-21 15:59:28';
+        $this->aIds['zones'][11] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '12';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][3];
+        $aZones['zonename'] = 'Arrival tracking - Affiliate One';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-02-21 16:41:25';
+        $this->aIds['zones'][12] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '13';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][4];
+        $aZones['zonename'] = 'Cookieless Conversions - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-03-07 16:20:43';
+        $this->aIds['zones'][13] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '14';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][6];
+        $aZones['zonename'] = 'MAX Int (Migration) - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '>';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-16 12:44:04';
+        $this->aIds['zones'][14] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '15';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][5];
+        $aZones['zonename'] = 'MAX Ext (Unanimis) - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '>';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-16 12:12:21';
+        $this->aIds['zones'][15] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '16';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Popup';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '2';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '250';
+        $aZones['height'] = '250';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-03-13 15:12:32';
+        $this->aIds['zones'][16] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '17';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Email';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '4';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-03-13 15:14:27';
+        $this->aIds['zones'][17] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '18';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][7];
+        $aZones['zonename'] = 'Capping test - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $this->aIds['zones'][18] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '19';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][7];
+        $aZones['zonename'] = 'Capping test - Rainbow';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-03-16 15:07:36';
+        $this->aIds['zones'][19] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '20';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - PageURL Exact Targeting';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-03-20 14:16:29';
+        $this->aIds['zones'][20] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '21';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][8];
+        $aZones['zonename'] = 'DHTML Publisher - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '1';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-03-27 13:41:55';
+        $this->aIds['zones'][21] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '22';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][9];
+        $aZones['zonename'] = 'Pick-Up point - Banner';
+        $aZones['description'] = '468x60';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '10.0000';
+        $aZones['cost_type'] = '1';
+        $aZones['updated'] = '2006-04-07 17:11:31';
+        $this->aIds['zones'][22] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '23';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][9];
+        $aZones['zonename'] = 'Pick-Up point - Skyscraper';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '120';
+        $aZones['height'] = '600';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-03 11:36:55';
+        $this->aIds['zones'][23] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '24';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - Homepage Plugin';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-03 16:53:03';
+        $this->aIds['zones'][24] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '25';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][10];
+        $aZones['zonename'] = 'FlashObject - Zone One';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-04 11:31:22';
+        $this->aIds['zones'][25] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '26';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][10];
+        $aZones['zonename'] = 'FlashObject - Zone Two';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-04 11:31:39';
+        $this->aIds['zones'][26] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '27';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][10];
+        $aZones['zonename'] = 'FlashObject - DHTML';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '1';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-05 10:01:40';
+        $this->aIds['zones'][27] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '28';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][10];
+        $aZones['zonename'] = 'FlashObject - Popup';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '2';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-05 10:02:02';
+        $this->aIds['zones'][28] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '30';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][9];
+        $aZones['zonename'] = 'Pick-Up point - No Low';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-10 12:49:55';
+        $this->aIds['zones'][30] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '31';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][9];
+        $aZones['zonename'] = 'Pick-Up point - All Creative Types';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-20 15:33:46';
+        $this->aIds['zones'][31] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '32';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][12];
+        $aZones['zonename'] = 'Psudo-Ticketmaster - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-21 10:17:16';
+        $this->aIds['zones'][32] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '33';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][12];
+        $aZones['zonename'] = 'Psudo-Ticketmaster - Banner 468x60';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-21 10:19:10';
+        $this->aIds['zones'][33] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '34';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][12];
+        $aZones['zonename'] = 'Psudo-Ticketmaster - Interstitial';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '1';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-24 00:03:41';
+        $this->aIds['zones'][34] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '35';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][12];
+        $aZones['zonename'] = 'Psudo-Ticketmaster - Popup';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '2';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-24 01:41:18';
+        $this->aIds['zones'][35] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '36';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][12];
+        $aZones['zonename'] = 'Psudo-Ticketmaster - Fallback zone';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-04-24 02:10:10';
+        $this->aIds['zones'][36] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '37';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - caching test';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-10 13:38:43';
+        $this->aIds['zones'][37] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '38';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][6];
+        $aZones['zonename'] = 'MAX Int (Migration) - Popup';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '2';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-16 15:37:30';
+        $this->aIds['zones'][38] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '39';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][11];
+        $aZones['zonename'] = 'No Website - MPU';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '300';
+        $aZones['height'] = '250';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-17 11:17:12';
+        $this->aIds['zones'][39] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '40';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][1];
+        $aZones['zonename'] = 'publisher - SSL served zone';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-18 10:25:33';
+        $this->aIds['zones'][40] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '41';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][13];
+        $aZones['zonename'] = 'Companion - 468x60';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-22 11:04:46';
+        $this->aIds['zones'][41] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '42';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][13];
+        $aZones['zonename'] = 'Companion - 120x600';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '120';
+        $aZones['height'] = '600';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-22 14:19:34';
+        $this->aIds['zones'][42] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '43';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][13];
+        $aZones['zonename'] = 'Companion - 250x250';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '250';
+        $aZones['height'] = '250';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-22 14:19:07';
+        $this->aIds['zones'][43] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '44';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][14];
+        $aZones['zonename'] = 'SSL serving - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '240';
+        $aZones['height'] = '150';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-23 09:49:34';
+        $this->aIds['zones'][44] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '45';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][15];
+        $aZones['zonename'] = 'Iframe Wrapping - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '598';
+        $aZones['height'] = '90';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-23 11:04:03';
+        $this->aIds['zones'][45] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '46';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][16];
+        $aZones['zonename'] = 'AAA Tracking Publisher - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-05-26 09:39:46';
+        $this->aIds['zones'][46] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '47';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][17];
+        $aZones['zonename'] = 'Ad Zone Assoc - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '1';
+        $aZones['height'] = '1';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-06-20 17:37:21';
+        $this->aIds['zones'][47] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '48';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][18];
+        $aZones['zonename'] = 'With Text Publisher - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-06-30 15:43:40';
+        $this->aIds['zones'][48] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '49';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][18];
+        $aZones['zonename'] = 'With Text Publisher - Text Zone';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-06-30 15:44:44';
+        $this->aIds['zones'][49] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '50';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][19];
+        $aZones['zonename'] = 'Public Publisher - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-07-10 13:45:58';
+        $this->aIds['zones'][50] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '51';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][3];
+        $aZones['zonename'] = 'Arrival tracking - 468x60';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-07-11 11:26:30';
+        $this->aIds['zones'][51] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '52';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][20];
+        $aZones['zonename'] = 'Reducing targeting - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-07-11 12:10:39';
+        $this->aIds['zones'][52] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '53';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][21];
+        $aZones['zonename'] = 'Affiliate - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-07-27 16:48:10';
+        $this->aIds['zones'][53] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '54';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][21];
+        $aZones['zonename'] = 'Affiliate - Banner Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-07-28 15:55:46';
+        $this->aIds['zones'][54] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '55';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner (Low)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:20:13';
+        $this->aIds['zones'][55] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '56';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Text (Low)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:20:59';
+        $this->aIds['zones'][56] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '57';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner (High)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:19:56';
+        $this->aIds['zones'][57] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '58';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner (Exclusive)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:19:38';
+        $this->aIds['zones'][58] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '59';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Text (High)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:20:33';
+        $this->aIds['zones'][59] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '60';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Text (Exclusive)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:21:28';
+        $this->aIds['zones'][60] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '61';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner (Mixed)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:22:04';
+        $this->aIds['zones'][61] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '62';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Text (Mixed)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:22:30';
+        $this->aIds['zones'][62] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '63';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner (Empty)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:42:57';
+        $this->aIds['zones'][63] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '64';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Text (Empty)';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '3';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '0';
+        $aZones['height'] = '0';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-08 17:43:24';
+        $this->aIds['zones'][64] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '65';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner One linked campaign';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-09 12:54:25';
+        $this->aIds['zones'][65] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '66';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner (Low) - Interstitial';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '1';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-09 13:16:26';
+        $this->aIds['zones'][66] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '67';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][23];
+        $aZones['zonename'] = 'Publisher (Agency 2) - Default';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-11 10:52:20';
+        $this->aIds['zones'][67] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '68';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner Capped 3 ever';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-18 14:11:06';
+        $this->aIds['zones'][68] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '69';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner Capped 3 per session';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-18 14:11:31';
+        $this->aIds['zones'][69] = $this->_insertZones($aZones);
+
+        //$aZones['zoneid'] = '70';
+        $aZones['affiliateid'] = $this->aIds['affiliates'][22];
+        $aZones['zonename'] = 'Banner Blocked 30s';
+        $aZones['description'] = '';
+        $aZones['delivery'] = '0';
+        $aZones['zonetype'] = '3';
+        $aZones['category'] = '';
+        $aZones['width'] = '468';
+        $aZones['height'] = '60';
+        $aZones['ad_selection'] = '';
+        $aZones['chain'] = '';
+        $aZones['prepend'] = '';
+        $aZones['append'] = '';
+        $aZones['appendtype'] = '0';
+        $aZones['forceappend'] = 'f';
+        $aZones['inventory_forecast_type'] = '0';
+        $aZones['comments'] = '';
+        $aZones['cost'] = '0.0000';
+        $aZones['cost_type'] = '0';
+        $aZones['updated'] = '2006-08-18 14:11:59';
+        $this->aIds['zones'][70] = $this->_insertZones($aZones);
+
+        // ad_zone_assoc
+
+        $this-> _linkAdZones();
+
+        // channel
+
+        //$aChannel['channelid'] = '1';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = '0';
+        $aChannel['name'] = '5pm';
+        $aChannel['description'] = 'Agency ACL 1';
+        $aChannel['compiledlimitation'] = 'true';
+        $aChannel['acl_plugins'] = '';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Agency ACL 1';
+        $this->aIds['channels'][1] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid'] = '2';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = $this->aIds['affiliates'][1];
+        $aChannel['name'] = '(PUB) PageURL =~ localhost';
+        $aChannel['description'] = 'Publisher ACL 1';
+        $aChannel['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost'=~')";
+        $aChannel['acl_plugins'] =  'Site:Pageurl';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Publisher ACL 1';
+        $this->aIds['channels'][2] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '3';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = $this->aIds['affiliates'][1];
+        $aChannel['name'] = '(PUB) 127.0.0.1 ruleset';
+        $aChannel['description'] = 'Publisher ACL 2';
+        $aChannel['compiledlimitation'] = "MAX_checkClient_Domain('127.0.0.1', '==') and MAX_checkClient_Ip('127.0.0.1', '==')";
+        $aChannel['acl_plugins'] = 'Client:Domain,Client:Ip';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Publisher ACL 2';
+        $this->aIds['channels'][3] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '4';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = $this->aIds['affiliates'][1];
+        $aChannel['name'] = 'Publisher ACL 3';
+        $aChannel['description'] = 'Publisher ACL 3';
+        $aChannel['compiledlimitation'] = 'true';
+        $aChannel['acl_plugins'] = '';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Publisher ACL 3';
+        $this->aIds['channels'][4] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '5';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = $this->aIds['affiliates'][1];
+        $aChannel['name'] = 'Publisher ACL 4';
+        $aChannel['description'] = 'Publisher ACL 4';
+        $aChannel['compiledlimitation'] = 'true';
+        $aChannel['acl_plugins'] = '';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Publisher ACL 4';
+        $this->aIds['channels'][5] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '6';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = $this->aIds['affiliates'][1];
+        $aChannel['name'] = 'Publisher ACL 5';
+        $aChannel['description'] = 'Publisher ACL 5';
+        $aChannel['compiledlimitation'] = 'true';
+        $aChannel['acl_plugins'] = '';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Publisher ACL 5';
+        $this->aIds['channels'][6] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '7';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = $this->aIds['affiliates'][1];
+        $aChannel['name'] = 'Publisher ACL 6';
+        $aChannel['description'] = 'Publisher ACL 6';
+        $aChannel['compiledlimitation'] = 'true';
+        $aChannel['acl_plugins'] = '';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Publisher ACL 6';
+        $this->aIds['channels'][7] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '8';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = '0';
+        $aChannel['name'] = 'Fri';
+        $aChannel['description'] = 'Agency ACL 2';
+        $aChannel['compiledlimitation'] = 'true';
+        $aChannel['acl_plugins'] = '';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = 'Agency ACL 2';
+        $this->aIds['channels'][8] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '9';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = $this->aIds['affiliates'][1];
+        $aChannel['name'] = 'Test';
+        $aChannel['description'] = 'Toast';
+        $aChannel['compiledlimitation'] = 'true';
+        $aChannel['acl_plugins'] = '';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = '';
+        $this->aIds['channels'][9] = $this->_insertChannel($aChannel);
+
+        //$aChannel['channelid']  = '10';
+        $aChannel['agencyid'] = $this->aIds['agency'][1];
+        $aChannel['affiliateid'] = '0';
+        $aChannel['name'] = 'ACL for acls_update testing';
+        $aChannel['description'] = 'Test';
+        $aChannel['compiledlimitation'] = "MAX_checkSite_Pageurl('localhost2', '=~')";
+        $aChannel['acl_plugins'] =  'Site:Pageurl';
+        $aChannel['active'] = '1';
+        $aChannel['comments'] = '';
+        $aChannel['acls_updated'] = '2006-07-27 11:59:34';
+        $this->aIds['channels'][10] = $this->_insertChannel($aChannel);
+
+        // trackers
+
+        //$aTrackers['trackerid'] = '1';
+        $aTrackers['trackername'] = 'Tracker 1';
+        $aTrackers['description'] = 'Tracker 1';
+        $aTrackers['clientid'] = $this->aIds['clients'][1];
+        $aTrackers['viewwindow'] = '3600';
+        $aTrackers['clickwindow'] = '3600';
+        $aTrackers['blockwindow'] = '3600';
+        $aTrackers['status'] = '4';
+        $aTrackers['linkcampaigns'] = '0';
+        $aTrackers['variablemethod'] = 'js';
+        $aTrackers['appendcode'] = '';
+        $aTrackers['updated'] = '2006-07-27 11:59:34';
+        $this->aIds['trackers'][1] = $this->_insertTrackers($aTrackers);
+
+        // preference
+
+        $aPreference['agencyid'] = $this->aIds['agency'][1];
+        $aPreference['config_version'] = '0.300';
+        $aPreference['company_name'] = 'mysite.com';
+        $aPreference['override_gd_imageformat'] = '';
+        $aPreference['begin_of_week'] = '1';
+        $aPreference['percentage_decimals'] = '2';
+        $aPreference['type_txt_allow'] = 't';
+        $aPreference['banner_html_auto'] = 't';
+        $aPreference['admin'] = 'admin';
+        $aPreference['admin_pw'] = '21232f297a57a5a743894a0e4a801fc3';
+        $aPreference['admin_fullname'] = 'Chris Nutting';
+        $aPreference['admin_email'] = 'Chris.Nutting@m3.net';
+        $aPreference['warn_admin'] = 't';
+        $aPreference['warn_agency'] = 't';
+        $aPreference['warn_client'] = 't';
+        $aPreference['warn_limit'] = '100';
+        $aPreference['admin_novice'] = 't';
+        $aPreference['default_banner_weight'] = '1';
+        $aPreference['default_campaign_weight'] = '1';
+        $aPreference['default_banner_url'] = '';
+        $aPreference['default_banner_destination'] = '';
+        $aPreference['client_welcome'] = 't';
+        $aPreference['client_welcome_msg'] = '';
+        $aPreference['gui_show_campaign_info'] = 't';
+        $aPreference['gui_show_campaign_preview'] = 'f';
+        $aPreference['gui_campaign_anonymous'] = 'f';
+        $aPreference['gui_show_banner_info'] = 't';
+        $aPreference['gui_show_banner_preview'] = 't';
+        $aPreference['gui_show_banner_html'] = 't';
+        $aPreference['gui_show_matching'] = 't';
+        $aPreference['gui_show_parents'] = 't';
+        $aPreference['gui_hide_inactive'] = 't';
+        $aPreference['gui_link_compact_limit'] = '50';
+        $aPreference['updates_timestamp'] = '0';
+        $aPreference['allow_invocation_interstitial'] = 't';
+        $aPreference['allow_invocation_clickonly'] = 't';
+        $aPreference['auto_clean_tables'] = 'f';
+        $aPreference['auto_clean_tables_interval'] = '5';
+        $aPreference['auto_clean_userlog'] = 'f';
+        $aPreference['auto_clean_userlog_interval'] = '5';
+        $aPreference['auto_clean_tables_vacuum'] = 't';
+        $aPreference['autotarget_factor'] = '-1';
+        $aPreference['maintenance_timestamp'] = '1156324755';
+        $aPreference['compact_stats'] = 't';
+        $aPreference['statslasthour'] = '0';
+        $aPreference['default_tracker_status'] = '2';
+        $aPreference['default_tracker_type'] = '1';
+        $aPreference['default_tracker_linkcampaigns'] = 't';
+        $aPreference['publisher_agreement'] = 't';
+        $aPreference['publisher_agreement_text'] = '';
+        $aPreference['publisher_default_tax_id'] = 'f';
+        $aPreference['publisher_default_approved'] = 'f';
+        $aPreference['gui_column_requests'] = '15';
+        $aPreference['gui_column_impressions'] = '15';
+        $aPreference['gui_column_clicks'] = '15';
+        $aPreference['gui_column_ctr'] = '15';
+        $aPreference['gui_column_conversions'] = '15';
+        $aPreference['gui_column_sr_clicks'] = '15';
+        $aPreference['gui_column_revenue'] = '15';
+        $aPreference['gui_column_cost'] = '15';
+        $aPreference['gui_column_bv'] = '15';
+        $aPreference['gui_column_revcpc'] = '15';
+        $aPreference['gui_column_costcpc'] = '15';
+        $idPreference1 = $this->_insertPreference($aPreference);
+
+        $aPreference['agencyid'] = $this->aIds['agency'][2];
+        $aPreference['config_version'] = '0.300';
+        $aPreference['company_name'] = 'mysite.com';
+        $aPreference['override_gd_imageformat'] = '';
+        $aPreference['begin_of_week'] = '1';
+        $aPreference['percentage_decimals'] = '2';
+        $aPreference['type_txt_allow'] = 't';
+        $aPreference['banner_html_auto'] = 't';
+        $aPreference['admin'] = 'admin';
+        $aPreference['admin_pw'] = '21232f297a57a5a743894a0e4a801fc3';
+        $aPreference['admin_fullname'] = 'Chris Nutting';
+        $aPreference['admin_email'] = 'Chris.Nutting@m3.net';
+        $aPreference['warn_admin'] = 't';
+        $aPreference['warn_agency'] = 't';
+        $aPreference['warn_client'] = 't';
+        $aPreference['warn_limit'] = '100';
+        $aPreference['admin_novice'] = 't';
+        $aPreference['default_banner_weight'] = '1';
+        $aPreference['default_campaign_weight'] = '1';
+        $aPreference['default_banner_url'] = '';
+        $aPreference['default_banner_destination'] = '';
+        $aPreference['client_welcome'] = 't';
+        $aPreference['client_welcome_msg'] = '';
+        $aPreference['gui_show_campaign_info'] = 't';
+        $aPreference['gui_show_campaign_preview'] = 'f';
+        $aPreference['gui_campaign_anonymous'] = 'f';
+        $aPreference['gui_show_banner_info'] = 't';
+        $aPreference['gui_show_banner_preview'] = 't';
+        $aPreference['gui_show_banner_html'] = 't';
+        $aPreference['gui_show_matching'] = 't';
+        $aPreference['gui_show_parents'] = 't';
+        $aPreference['gui_hide_inactive'] = 't';
+        $aPreference['gui_link_compact_limit'] = '50';
+        $aPreference['updates_timestamp'] = '0';
+        $aPreference['allow_invocation_interstitial'] = 't';
+        $aPreference['allow_invocation_clickonly'] = 't';
+        $aPreference['auto_clean_tables'] = 'f';
+        $aPreference['auto_clean_tables_interval'] = '5';
+        $aPreference['auto_clean_userlog'] = 'f';
+        $aPreference['auto_clean_userlog_interval'] = '5';
+        $aPreference['auto_clean_tables_vacuum'] = 't';
+        $aPreference['autotarget_factor'] = '-1';
+        $aPreference['maintenance_timestamp'] = '1156324755';
+        $aPreference['compact_stats'] = 't';
+        $aPreference['statslasthour'] = '0';
+        $aPreference['default_tracker_status'] = '1';
+        $aPreference['default_tracker_type'] = '1';
+        $aPreference['default_tracker_linkcampaigns'] = 'f';
+        $aPreference['publisher_agreement'] = 'f';
+        $aPreference['publisher_default_tax_id'] = 'f';
+        $aPreference['publisher_default_approved'] = 'f';
+        $aPreference['gui_column_requests'] = '15';
+        $aPreference['gui_column_impressions'] = '15';
+        $aPreference['gui_column_clicks'] = '15';
+        $aPreference['gui_column_ctr'] = '15';
+        $aPreference['gui_column_conversions'] = '15';
+        $aPreference['gui_column_sr_clicks'] = '15';
+        $aPreference['gui_column_revenue'] = '15';
+        $aPreference['gui_column_cost'] = '15';
+        $aPreference['gui_column_bv'] = '15';
+        $aPreference['gui_column_revcpc'] = '15';
+        $aPreference['gui_column_costcpc'] = '15';
+        $idPreference2 = $this->_insertPreference($aPreference);
+
+        $aPreference['agencyid'] = $this->aIds['agency'][3];
+        $aPreference['config_version'] = '0.300';
+        $aPreference['company_name'] = 'mysite.com';
+        $aPreference['override_gd_imageformat'] = '';
+        $aPreference['begin_of_week'] = '1';
+        $aPreference['percentage_decimals'] = '2';
+        $aPreference['type_txt_allow'] = 't';
+        $aPreference['banner_html_auto'] = 't';
+        $aPreference['admin'] = 'admin';
+        $aPreference['admin_pw'] = '21232f297a57a5a743894a0e4a801fc3';
+        $aPreference['admin_fullname'] = 'Chris Nutting';
+        $aPreference['admin_email'] = 'Chris.Nutting@m3.net';
+        $aPreference['warn_admin'] = 't';
+        $aPreference['warn_agency'] = 't';
+        $aPreference['warn_client'] = 't';
+        $aPreference['warn_limit'] = '100';
+        $aPreference['admin_novice'] = 't';
+        $aPreference['default_banner_weight'] = '1';
+        $aPreference['default_campaign_weight'] = '1';
+        $aPreference['default_banner_url'] = '';
+        $aPreference['default_banner_destination'] = '';
+        $aPreference['client_welcome'] = 't';
+        $aPreference['client_welcome_msg'] = '';
+        $aPreference['gui_show_campaign_info'] = 't';
+        $aPreference['gui_show_campaign_preview'] = 'f';
+        $aPreference['gui_campaign_anonymous'] = 'f';
+        $aPreference['gui_show_banner_info'] = 't';
+        $aPreference['gui_show_banner_preview'] = 't';
+        $aPreference['gui_show_banner_html'] = 't';
+        $aPreference['gui_show_matching'] = 't';
+        $aPreference['gui_show_parents'] = 't';
+        $aPreference['gui_hide_inactive'] = 'f';
+        $aPreference['gui_link_compact_limit'] = '50';
+        $aPreference['updates_timestamp'] = '0';
+        $aPreference['allow_invocation_interstitial'] = 't';
+        $aPreference['allow_invocation_clickonly'] = 't';
+        $aPreference['auto_clean_tables'] = 'f';
+        $aPreference['auto_clean_tables_interval'] = '5';
+        $aPreference['auto_clean_userlog'] = 'f';
+        $aPreference['auto_clean_userlog_interval'] = '5';
+        $aPreference['auto_clean_tables_vacuum'] = 't';
+        $aPreference['autotarget_factor'] = '-1';
+        $aPreference['maintenance_timestamp'] = '1156324755';
+        $aPreference['compact_stats'] = 't';
+        $aPreference['statslasthour'] = '0';
+        $aPreference['default_tracker_status'] = '1';
+        $aPreference['default_tracker_type'] = '1';
+        $aPreference['default_tracker_linkcampaigns'] = 'f';
+        $aPreference['publisher_agreement'] = 'f';
+        $aPreference['publisher_agreement_text'] = '';
+        $aPreference['publisher_payment_modes'] = '';
+        $aPreference['publisher_currencies'] = '';
+        $aPreference['publisher_categories'] = '';
+        $aPreference['publisher_help_files'] = '';
+        $aPreference['publisher_default_tax_id'] = 't';
+        $aPreference['publisher_default_approved'] = 't';
+        $aPreference['gui_column_id'] = ';i:1;}}';
+        $aPreference['gui_column_requests'] = ';i:2;}}';
+        $aPreference['gui_column_impressions'] = ';i:3;}}';
+        $aPreference['gui_column_clicks'] = ';i:4;}}';
+        $aPreference['gui_column_ctr'] = ';i:5;}}';
+        $aPreference['gui_column_conversions'] = ';i:6;}}';
+        $aPreference['gui_column_conversions_pending'] = ';i:7;}}';
+        $aPreference['gui_column_sr_views'] = ';i:8;}}';
+        $aPreference['gui_column_sr_clicks'] = ';i:9;}}';
+        $aPreference['gui_column_revenue'] = '15';
+        $aPreference['gui_column_cost'] = '15';
+        $aPreference['gui_column_bv'] = '15';
+        $aPreference['gui_column_revcpc'] = '15';
+        $aPreference['gui_column_costcpc'] = '15';
+        $idPreference3 = $this->_insertPreference($aPreference);
+
+        // variables
+
+        $aVariables['trackerid'] = $idTrackers1;
+        $aVariables['name'] = 'Variable 1';
+        $aVariables['datatype'] = 'numeric';
+        $aVariables['variablecode'] = '';
+        $this->aIds['variables'][1] = $this->_insertVariables($aVariables);
+
+        $aVariables['trackerid'] = $idTrackers1;
+        $aVariables['name'] = 'Variable 2';
+        $aVariables['datatype'] = 'date';
+        $aVariables['variablecode'] = '';
+        $this->aIds['variables'][2] = $this->_insertVariables($aVariables);
+
+    }
+
+    function _linkAdZone()
+    {
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][152];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][83];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][2];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][79];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][87];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][88];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][89];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][152];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][90];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][91];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][9];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][91];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][92];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][93];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][94];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][95];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][96];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][97];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][98];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][99];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][100];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][101];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][102];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][103];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][100];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][101];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][102];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][103];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][96];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][97];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][98];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][99];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][92];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][93];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][94];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][10];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][95];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][104];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][9];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][104];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][105];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][106];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][107];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][108];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][109];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][13];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][109];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][110];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][14];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][92];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][14];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][93];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][14];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][94];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][14];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][95];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][15];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][110];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][111];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][112];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][18];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][112];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][113];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][18];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][113];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][114];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][19];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][114];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][115];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][19];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][115];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][116];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][19];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][116];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][117];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][19];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][117];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][118];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][19];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][118];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][119];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][19];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][119];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][120];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][19];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][120];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][15];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][113];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][121];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][20];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][121];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][122];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][21];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][122];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][123];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][124];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][125];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][4];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][36];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][4];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][37];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][4];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][38];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][4];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][40];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][4];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][124];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][4];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][125];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][126];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][24];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][126];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][25];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][36];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][25];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][37];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][25];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][38];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][25];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][40];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][25];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][124];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][25];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][125];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][26];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][36];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][26];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][37];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][26];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][38];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][26];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][40];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][26];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][124];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][26];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][125];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][27];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][36];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][27];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][37];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][27];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][38];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][27];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][40];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][27];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][124];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][27];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][125];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][28];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][36];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][28];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][37];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][28];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][38];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][28];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][40];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][28];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][124];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][28];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][125];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][127];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][22];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][127];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][128];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][23];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][128];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][129];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][130];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][96];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][97];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][98];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][99];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][92];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][93];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][94];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][30];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][95];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][131];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][132];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][18];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][19];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][20];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][21];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][22];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][23];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][25];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][26];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][27];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][28];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][29];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][31];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][43];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][31];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][44];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][133];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][32];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][133];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][134];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][32];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][134];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][135];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][33];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][135];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][136];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][33];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][136];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][34];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][135];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][34];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][136];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][35];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][135];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][35];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][136];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][100];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][101];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][102];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][103];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][96];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][97];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][98];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][99];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][92];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][93];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][94];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][37];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][95];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][137];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][138];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][38];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][92];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][38];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][93];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][38];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][94];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][38];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][95];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][139];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][6];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][139];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][7];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][139];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][140];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][141];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][40];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][140];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][40];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][141];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][142];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][41];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][142];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][143];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][143];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][144];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][41];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][144];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][145];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][41];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][145];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][146];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][41];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][146];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][147];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][41];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][147];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][148];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][41];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][148];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][149];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][41];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][149];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][150];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][150];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][151];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][151];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][152];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][152];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][153];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][153];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][154];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][154];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][155];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][155];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][156];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][42];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][156];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][157];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][43];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][157];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][158];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][43];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][158];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][159];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][43];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][159];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][160];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][43];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][160];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][161];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][43];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][161];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][162];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][43];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][162];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][163];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][43];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][163];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][164];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][40];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][164];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][165];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][44];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][165];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][166];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][45];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][166];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][167];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][45];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][167];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][168];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][169];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][170];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][171];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][172];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][173];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][175];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][176];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][46];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][169];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][177];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][178];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][179];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][180];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][181];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][182];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][183];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][49];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][24];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][184];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][185];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][51];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][185];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][187];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][188];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][189];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][190];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][191];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][192];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][193];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][194];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][52];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][194];
+        $aAdZoneAssoc['priority'] = '0.32967032967';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][195];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][52];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][195];
+        $aAdZoneAssoc['priority'] = '0.32967032967';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][187];
+        $aAdZoneAssoc['priority'] = '0.13698630137';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][188];
+        $aAdZoneAssoc['priority'] = '0.13698630137';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][189];
+        $aAdZoneAssoc['priority'] = '0.13698630137';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][190];
+        $aAdZoneAssoc['priority'] = '0.13698630137';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][191];
+        $aAdZoneAssoc['priority'] = '0.13698630137';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][192];
+        $aAdZoneAssoc['priority'] = '0.13698630137';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][193];
+        $aAdZoneAssoc['priority'] = '0.13698630137';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][196];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][197];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][198];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][199];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][200];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][201];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][52];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][201];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][52];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][200];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][52];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][199];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][52];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][2];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][202];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][17];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][20];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][203];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][204];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][205];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][53];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][205];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][206];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][54];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][206];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1000];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][100];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][101];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][102];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][8];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][103];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][18];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][12];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1001];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1002];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1003];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1004];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1005];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1006];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1007];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1008];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1009];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1010];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1011];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1012];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1013];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1014];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1015];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1016];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1017];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1018];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1019];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1020];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1021];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1022];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1023];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1024];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1025];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1026];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1027];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1028];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1029];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1030];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1031];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1032];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1033];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1034];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1035];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1036];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1037];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1038];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1039];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1040];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1041];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1042];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1043];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1044];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1045];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1046];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1047];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1048];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1049];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1050];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1051];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1052];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1053];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1054];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1055];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1056];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][0];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1057];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '0';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1001];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1002];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1003];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1004];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1005];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1001];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1002];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1003];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1004];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1005];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1006];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1007];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1008];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1009];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1010];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1011];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1012];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1013];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1006];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1007];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1008];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1009];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1010];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1011];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1012];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1013];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1014];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1015];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1016];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][55];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1017];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1014];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1015];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1016];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1017];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][56];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1018];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][56];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1019];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][62];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1018];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][62];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1019];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1020];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1021];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1022];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1023];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1024];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1020];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1021];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1022];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1023];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1024];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1025];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1026];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1027];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1028];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1029];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1025];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1026];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1027];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1028];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1029];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1030];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1031];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1032];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1033];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1034];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1035];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1036];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1037];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1030];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1031];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1032];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1033];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1034];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1035];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1036];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1037];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1038];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1039];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1040];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1041];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1042];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1043];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1044];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1045];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1038];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1039];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1040];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1041];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1042];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1043];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1044];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1045];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1046];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1047];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1048];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][57];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1049];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1046];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1047];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1048];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1049];
+        $aAdZoneAssoc['priority'] = '0.10989010989';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1050];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1051];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1052];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][58];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1053];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1050];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1051];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1052];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][61];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1053];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][60];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1054];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][60];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1055];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][62];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1054];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][62];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1055];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][59];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1056];
+        $aAdZoneAssoc['priority'] = '0.5';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][59];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1057];
+        $aAdZoneAssoc['priority'] = '0.5';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][62];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1056];
+        $aAdZoneAssoc['priority'] = '0.5';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][62];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1057];
+        $aAdZoneAssoc['priority'] = '0.5';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][65];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1002];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][65];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1001];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1001];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1002];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1003];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1004];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1005];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1006];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1007];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1008];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1009];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1010];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1011];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1012];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1013];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1014];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1015];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1016];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][66];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][1017];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][70];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][117];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][68];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][103];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+
+        $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][69];
+        $aAdZoneAssoc['ad_id'] = $this->aIds['banners'][93];
+        $aAdZoneAssoc['priority'] = '0';
+        $aAdZoneAssoc['link_type'] = '1';
+        $this->_insertAdZoneAssoc($aAdZoneAssoc);
+
+    }
+}
 ?>
+

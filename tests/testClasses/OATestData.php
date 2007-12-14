@@ -121,12 +121,9 @@ class OA_Test_Data
         $this->doAgency->logout_url= 'logout.php';
         $this->doAgency->active = 1;
         $this->doAgency->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
-        foreach ($aData AS $key => $val)
-        {
-            $this->doAgency->$key = $val;
-        }
         $this->doAgency->agencyid = '';
-        return $this->aIds['agency'][] = DataGenerator::generateOne($this->doAgency);
+        $this->doAgency->setFrom($aData);
+        return DataGenerator::generateOne($this->doAgency);
     }
 
     function _insertClients($aData)
@@ -143,12 +140,9 @@ class OA_Test_Data
         $this->doClients->reportinterval=7;
         $this->doClients->reportlastdate='2004-11-26';
         $this->doClients->reportdeactivate='t';
-        foreach ($aData AS $key => $val)
-        {
-            $this->doClients->$key = $val;
-        }
         $this->doClients->clientid='';
-        return $this->aIds['clients'][] = DataGenerator::generateOne($this->doClients);
+        $this->doClients->setFrom($aData);
+        return DataGenerator::generateOne($this->doClients);
     }
 
     function _insertAffiliates($aData)
@@ -164,13 +158,8 @@ class OA_Test_Data
         $this->doAffiliates->language = null;
         $this->doAffiliates->publiczones = 'f';
         $this->doAffiliates->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
-        foreach ($aData AS $key => $val)
-        {
-            $this->doAffiliates->$key = $val;
-        }
-        $this->doAffiliates->affiliateid = '';
-        return $this->aIds['affiliate'][] = DataGenerator::generateOne($this->doAffiliates);
-
+        $this->doAffiliates->setFrom($aData);
+        return DataGenerator::generateOne($this->doAffiliates);
     }
 
     function _insertCampaigns($aData)
@@ -190,12 +179,8 @@ class OA_Test_Data
         $this->doCampaigns->anonymous = 'f';
         $this->doCampaigns->companion = 0;
         $this->doCampaigns->updated = null;
-        foreach ($aData AS $key => $val)
-        {
-            $this->doCampaigns->$key = $val;
-        }
-        $this->doCampaigns->campaignid = '';
-        return $this->aIds['campaigns'][] = DataGenerator::generateOne($this->doCampaigns);
+        $this->doCampaigns->setFrom($aData);
+        return DataGenerator::generateOne($this->doCampaigns);
     }
 
     function _insertBanners($aData)
@@ -231,11 +216,8 @@ class OA_Test_Data
         $this->doBanners->alt_imageurl='';
         $this->doBanners->alt_contenttype='';
         $this->doBanners->bannerid='t';
-        foreach ($aData AS $key => $val)
-        {
-            $this->doBanners->$key = $val;
-        }
-        return $this->aIds['banners'][] = DataGenerator::generateOne($this->doBanners);
+        $this->doBanners->setFrom($aData);
+        return DataGenerator::generateOne($this->doBanners);
     }
 
     function _insertZones($aData)
@@ -253,12 +235,8 @@ class OA_Test_Data
         $this->doZones->appendtype=0;
         $this->doZones->inventory_forecast_type=0;
         $this->doZones->what='';
-        foreach ($aData AS $key => $val)
-        {
-            $this->doZones->$key = $val;
-        }
-        $this->doZones->zoneid='';
-        return $this->aIds['zones'][] = DataGenerator::generateOne($this->doZones);
+        $this->doZones->setFrom($aData);
+        return DataGenerator::generateOne($this->doZones);
     }
 
     function _insertAdZoneAssoc($aData)
@@ -267,79 +245,63 @@ class OA_Test_Data
         $this->doAdZoneAssoc->link_type = 1;
         $this->doAdZoneAssoc->priority_factor = 1;
         $this->doAdZoneAssoc->to_be_delivered = 1;
-        foreach ($aData AS $key => $val)
-        {
-            $this->doAdZoneAssoc->$key = $val;
-        }
-        $this->doAdZoneAssoc->ad_zone_assoc_id = 0;
-        return $this->aIds['ad_zone'][] = DataGenerator::generateOne($this->doAdZoneAssoc);
+        $this->doAdZoneAssoc->setFrom($aData);
+        return DataGenerator::generateOne($this->doAdZoneAssoc);
     }
 
     function _insertCampaignsTracker($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doCampaignsTrackers->$key = $val;
-        }
-        return $this->aIds['campaigns_trackers'][] = DataGenerator::generateOne($this->doCampaignsTrackers);
+        $this->doCampaignsTrackers->setFrom($aData);
+        return DataGenerator::generateOne($this->doCampaignsTrackers);
     }
 
     function _insertAcls($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doAcls->$key = $val;
-        }
-        return $this->aIds['acls'][] = DataGenerator::generateOne($this->doAcls);
+        $this->doAcls->setFrom($aData);
+        return DataGenerator::generateOne($this->doAcls);
     }
 
     function _insertChannel($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doChannel->$key = $val;
-        }
-        return $this->aIds['channel'][] = DataGenerator::generateOne($this->doChannel);
+        $this->doChannel->setFrom($aData);
+        return DataGenerator::generateOne($this->doChannel);
     }
 
     function _insertAclsChannel($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doAclsChannel->$key = $val;
-        }
-        return $this->aIds['acls_channel'][] = DataGenerator::generateOne($this->doAclsChannel);
+        $this->doAclsChannel->setFrom($aData);
+        return DataGenerator::generateOne($this->doAclsChannel);
     }
 
     function _insertTrackers($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doTrackers->$key = $val;
-        }
-        return $this->aIds['trackers'][] = DataGenerator::generateOne($this->doTrackers);
+        $this->doTrackers->setFrom($aData);
+        return DataGenerator::generateOne($this->doTrackers);
     }
 
     function _insertVariables($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doVariables->$key = $val;
-        }
-        return $this->aIds['variables'][] = DataGenerator::generateOne($this->doVariables);
+        $this->doVariables->setFrom($aData);
+        return DataGenerator::generateOne($this->doVariables);
     }
 
     function _insertPreference($aData)
     {
-        foreach ($aData AS $key => $val)
-        {
-            $this->doPreference->$key = $val;
-        }
-        return $this->aIds['preference'][] = DataGenerator::generateOne($this->doPreference);
+        $this->doPreference->setFrom($aData);
+        return DataGenerator::generateOne($this->doPreference);
+    }
+
+    function _insertDefaultPreference()
+    {
+        $aData['agencyid'] = 0;
+        return $this->_insertPreference($aData);
     }
 
     /**
+     * demonstration / default
+     *
      * A method to generate data for testing.
+     * can be overriden by child clases
      *
      * insertion order is important
      *
@@ -365,46 +327,44 @@ class OA_Test_Data
         $aAgency['language'] = 'en_GB';
         $aAgency['logout_url']= 'logout.php';
         $aAgency['active'] = 1;
-        $idAgency = $this->_insertAgency($aAgency);
-
+        $this->aIds['agency'][1] = $this->_insertAgency($aAgency);
 
         // Add a client record (advertiser)
-        $aClient['agencyid'] = $idAgency;
+        $aClient['agencyid'] = $this->aIds['agency'][1];
         $aClient['clientname'] = 'Test Client';
         $aClient['email'] = 'client@example.com';
         $aClient['clientusername'] = 'Client User Name';
-        $idClient = $this->_insertClients($aClient);
+        $this->aIds['clients'][1] = $this->_insertClients($aClient);
 
         // Add an affiliate (publisher) record
-        $aAffiliate['agencyid'] = $idAgency;
+        $aAffiliate['agencyid'] = $this->aIds['agency'][1];
         $aAffiliate['name'] = 'Test Publisher';
         $aAffiliate['mnemonic'] = 'ABC';
         $aAffiliate['contact'] = 'Affiliate Contact';
         $aAffiliate['email'] = 'affiliate@example.com';
         $aAffiliate['website'] = 'www.example.com';
         $aAffiliate['username'] = 'Affiliate User Name';
-        $idAffiliate = $this->_insertAffiliate($aAffiliate);
-
+        $this->aIds['affiliates'][1] = $this->_insertAffiliate($aAffiliate);
 
         // Populate campaigns table
         $aCampaign['campaignname'] = 'Test Campaign';
-        $aCampaign['clientid'] = $idClient;
+        $aCampaign['clientid'] = $this->aIds['clients'][1];
         $aCampaign['views'] = 500;
         $aCampaign['clicks'] = 0;
         $aCampaign['conversions'] = 401;
-        $idCampaign = $this->_insertCampaign($aCampaign);
+        $this->aIds['campaigns'][1] = $this->_insertCampaign($aCampaign);
 
         // Add a banner
-        $aBanners['campaignid'] = $idCampaign;
+        $aBanners['campaignid'] = $this->aIds['campaigns'][1];
         $aBanners['contenttype'] = 'txt';
         $aBanners['storagetype'] = 'txt';
         $aBanners['url'] = 'http://www.example.com';
         $aBanners['alt'] = 'Test Campaign - Text Banner';
         $aBanners['compiledlimitation'] = 'phpAds_aclCheckDate(\'20050502\', \'!=\') and phpAds_aclCheckClientIP(\'2.22.22.2\', \'!=\') and phpAds_aclCheckLanguage(\'(sq)|(eu)|(fo)|(fi)\', \'!=\')';
-        $idBanner = $this->_insertBanner($aBanners);
+        $this->aIds['banners'][1] = $this->_insertBanner($aBanners);
 
         // Add zone record
-        $aZone['affiliateid'] = $idAffiliate;
+        $aZone['affiliateid'] = $this->aIds['affiliates'][1];
         $aZone['zonename'] = 'Default Zone';
         $aZone['description'] = '';
         $aZone['delivery'] = 0;
@@ -412,12 +372,12 @@ class OA_Test_Data
         $aZone['category'] = '';
         $aZone['width'] = 728;
         $aZone['height'] = 90;
-        $idZone = $this->_insertZone($aZone);
+        $this->aIds['zones'][1] = $this->_insertZone($aZone);
 
         // Add ad_zone_assoc record
-        $aAdZone['ad_id'] = $idBanner;
-        $aAdZone['zone_id'] = $idZone;
-        $idAdZone = $this->_insertAdZoneAssoc($aAdZone);
+        $aAdZone['ad_id'] = $this->aIds['banners'][1];
+        $aAdZone['zone_id'] = $this->aIds['zones'][1];
+        $this->aIds['ad_zone_assoc'][1] = $this->_insertAdZoneAssoc($aAdZone);
     }
 }
 
