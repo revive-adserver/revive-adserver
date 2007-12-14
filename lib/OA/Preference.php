@@ -42,8 +42,16 @@ class OA_Preference
      * database and store them in the global array $GLOBALS['_MAX']['PREF'].
      *
      * @static
+     * @param boolean $loadExtraInfo An optional parameter, when set to true,
+     *                               the array of preferences is loaded as
+     *                               an array of arrays, indexed by preference
+     *                               key, containing the preference "value" and
+     *                               "account_type" information. When not set,
+     *                               the preferences are loaded as a
+     *                               one-dimensional array of values, indexed
+     *                               by preference key.
      */
-    function loadPreferences()
+    function loadPreferences($loadExtraInfo = false)
     {
         // Get the type of the current accout
         $currentAccountType = OA_Permission::getAccountType();
@@ -82,7 +90,7 @@ class OA_Preference
         $aPreferences = array();
         // Put the admin account's preferences into the temporary
         // storage array for preferences
-        OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aAdminPreferenceValues);
+        OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aAdminPreferenceValues, $loadExtraInfo);
         // Is the current account NOT the admin account?
         if ($currentAccountType != OA_ACCOUNT_ADMIN) {
             // Is the current account not a manager account?
@@ -97,7 +105,7 @@ class OA_Preference
                 $aManagerPreferenceValues = OA_Preference::_getPreferenceValues($managerAccountId);
                 // Merge the preference values into the temporary
                 // storage array for preferences
-                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues);
+                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues, $loadExtraInfo);
             } else {
                 // This must be an advertiser or trafficker account, so
                 // need to locate the manager account that "owns" this account
@@ -119,7 +127,7 @@ class OA_Preference
                 $aManagerPreferenceValues = OA_Preference::_getPreferenceValues($managerAccountId);
                 // Merge the preference values into the temporary
                 // storage array for preferences
-                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues);
+                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues, $loadExtraInfo);
                 // Get the current account's ID
                 $currentAccountId = OA_Permission::getAccountId();
                 if ($currentAccountId == 0) {
@@ -130,7 +138,7 @@ class OA_Preference
                 $aCurrentPreferenceValues = OA_Preference::_getPreferenceValues($currentAccountId);
                 // Merge the preference values into the temporary
                 // storage array for preferences
-                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aCurrentPreferenceValues);
+                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aCurrentPreferenceValues, $loadExtraInfo);
             }
         }
         // Store the preferences!
@@ -174,7 +182,19 @@ class OA_Preference
      * @access private
      * @param array $aPreferences      A reference to an array in which preference values
      *                                 will be stored. The format of the array after storing
-     *                                 preference values will be:
+     *                                 preference values will be one of two formats, depending
+     *                                 on the value of the $aPreferences parameter. When false,
+     *                                 the array will be:
+     *
+     *      array(
+     *          'preference_name' => 'Preference Value',
+     *          .
+     *          .
+     *          .
+     *      )
+     *
+     *                                 When true, the array will be:
+     *
      *      array(
      *          'preference_name' => array(
      *              'account_type' => ACCOUNT_TYPE_CONSTANT,
@@ -196,19 +216,25 @@ class OA_Preference
      *                                 "account_preference_assoc" table that match the
      *                                 appropriate account for which the preference
      *                                 values should be stored in $aPreferences.
+     * @param boolean $loadExtraInfo   See the $aPreferences parameter.
      */
-    function _setPreferences(&$aPreferences, $aPreferenceTypes, $aPreferenceValues)
+    function _setPreferences(&$aPreferences, $aPreferenceTypes, $aPreferenceValues, $loadExtraInfo)
     {
         // Loop over each preference value
         foreach ($aPreferenceValues as $aPreferenceValue) {
             // Is the preference_id value for the preference value valid?
             if (isset($aPreferenceTypes[$aPreferenceValue['preference_id']])) {
                 // This is a valid preference value, so store it
-                $aPreferences[$aPreferenceTypes[$aPreferenceValue['preference_id']]['preference_name']] =
-                    array(
-                        account_type => $aPreferenceTypes[$aPreferenceValue['preference_id']]['account_type'],
-                        value        => $aPreferenceValue['value']
-                    );
+                if (!$loadExtraInfo) {
+                    $aPreferences[$aPreferenceTypes[$aPreferenceValue['preference_id']]['preference_name']] =
+                        $aPreferenceValue['value'];
+                } else {
+                    $aPreferences[$aPreferenceTypes[$aPreferenceValue['preference_id']]['preference_name']] =
+                        array(
+                            account_type => $aPreferenceTypes[$aPreferenceValue['preference_id']]['account_type'],
+                            value        => $aPreferenceValue['value']
+                        );
+                }
             }
         }
 
