@@ -26,7 +26,7 @@ a:hover {
 
 #oaHeader {
 	position: relative;
-	background-color: #000063;
+	background-color: #FFF;
 	height: 56px;
 }
 
@@ -105,9 +105,10 @@ a:hover {
 	top: -12px;
 	z-index: 2;
 	
-	background-color: #000063;
+	background-color: #FFF;
 	height: 26px;
 	line-height: 25px;
+	border-bottom: 1px solid #9c9c9c;
 }
 #oaNavigation ul {
 	margin: 0;
@@ -141,13 +142,15 @@ a:hover {
 	border-color: #fff;
 	color: #299B3C;
 	background: #fff;
+	border: 1px solid #9c9c9c;
+	border-bottom: 1px solid #fff;
 }
 
 #oaNavigationExtra {
 	position: absolute;
 	top: 0;
 	right: 0;
-	color: #fff;
+	color: #9c9c9c;
 }
 #oaNavigationExtra img {
 	position: relative;
@@ -157,7 +160,7 @@ a:hover {
 	-top: 6px;
 }
 #oaNavigationExtra a {
-	color: #fff;
+	color: #299b3c;
 	font-weight: bold;
 }
 #oaNavigationExtra li {
