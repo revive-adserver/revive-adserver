@@ -126,12 +126,12 @@ class OA_Permission_User
     {
         $doEntity = $this->_getEntityDO();
         if (!empty($doEntity)) {
-            $doEntity->selectAdd();
-            $doEntity->selectAdd('agencyid');
             $doEntity->account_id = $this->aAccount['account_id'];
-            $agencyId = $doEntity->getAll();
+            $doEntity->find();
 
-            return $agencyId;
+            if ($doEntity->fetch()) {
+                return $doEntity->agencyid;
+            }
         }
 
         return 0;

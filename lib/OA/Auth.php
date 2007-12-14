@@ -87,6 +87,14 @@ class OA_Auth
         OA_Auth::restart();
     }
 
+    /**
+     * A method to logout and redirect to the correct URL
+     *
+     * @static
+     *
+     * @todo Fix when preferences are ready and logout url is stored into the
+     * preferences table
+     */
     function logout()
     {
         phpAds_SessionDataDestroy();
@@ -96,7 +104,7 @@ class OA_Auth
     }
 
     /**
-     * Enter description here...
+     * A method to check if the login credential were supplied as POST parameters
      *
      * @static
      *
@@ -118,7 +126,9 @@ class OA_Auth
     }
 
     /**
-     * Enter description here...
+     * A method to get the login credential supplied as POST parameters
+     *
+     * Additional checks are also performed and error eventually returned
      *
      * @static
      *
