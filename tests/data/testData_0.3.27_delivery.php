@@ -12229,7 +12229,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
 
     }
 
-    function _linkAdZone()
+    function _linkAdZones()
     {
 
         $aAdZoneAssoc['zone_id'] = $this->aIds['zones'][152];
