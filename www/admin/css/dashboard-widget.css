@@ -64,7 +64,8 @@ a:hover {
 
 a.site-link  {
     font-size: 7px;
-    color: #00B0D8;
+    /*color: #00B0D8;*/
+    color: #299b3c;
     font-weight: normal;
     text-decoration: none;
 }
