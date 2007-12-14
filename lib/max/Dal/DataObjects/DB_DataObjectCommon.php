@@ -192,11 +192,11 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
      *                          able to find object in references
      */
-    function belongToUsersAccount()
+    function belongsToUsersAccount()
     {
         $accountTable = OA_Permission::getAccountTable();
         $accountId = OA_Permission::getAccountId();
-        return $this->belongToAccount($accountTable, $accountId);
+        return $this->belongsToAccount($accountTable, $accountId);
     }
 
     /**
@@ -209,7 +209,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return boolean|null     Returns true if belong to account, false if doesn't and null if it wasn't
      *                          able to find object in references
      */
-    function belongToAccount($accountTable = null, $accountId = null)
+    function belongsToAccount($accountTable = null, $accountId = null)
     {
         if (empty($accountTable)) {
             $accountTable = OA_Permission::getAccountTable();
@@ -231,14 +231,14 @@ class DB_DataObjectCommon extends DB_DataObject
                 $table = $this->getTableWithoutPrefix($table);
                 if ($table == $userTable) {
                     $doCheck = $this->getLink($key, $table, $link);
-                    return $doCheck->belongToAccount($accountTable, $accountId);
+                    return $doCheck->belongsToAccount($accountTable, $accountId);
                 } else {
                     // recursive
                     $doCheck = $this->getLink($key, $table, $link);
                     if (!$doCheck) {
                         return null;
                     }
-                    $found = $doCheck->belongToAccount($accountTable, $accountId);
+                    $found = $doCheck->belongsToAccount($accountTable, $accountId);
                     if ($found !== null) {
                         return $found;
                     }
@@ -260,7 +260,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @return boolean|null     Returns true if belong to user, false if doesn't and null if it wasn't able to find
      *                          object in references
      */
-    function belongToUser($userTable, $userId)
+    function belongsToUser($userTable, $userId)
     {
         if (!$this->N && !$this->find($autoFetch = true)) {
             return null;
@@ -277,14 +277,14 @@ class DB_DataObjectCommon extends DB_DataObject
                 $table = $this->getTableWithoutPrefix($table);
                 if ($table == $userTable) {
                     $doCheck = $this->getLink($key, $table, $link);
-                    return $doCheck->belongToUser($userTable, $userId);
+                    return $doCheck->belongsToUser($userTable, $userId);
                 } else {
                     // recursive
                     $doCheck = $this->getLink($key, $table, $link);
                     if (!$doCheck) {
                         return null;
                     }
-                    $found = $doCheck->belongToUser($userTable, $userId);
+                    $found = $doCheck->belongsToUser($userTable, $userId);
                     if ($found !== null) {
                         return $found;
                     }

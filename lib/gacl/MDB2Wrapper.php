@@ -81,7 +81,7 @@ class MDB2Wrapper
      */
     function quote($value)
     {
-        $ret = $this->db->quote($value);
+        $ret = $this->db->quote($value, 'text');
         return $this->_checkErrorReturn($ret, null);
     }
 
@@ -241,13 +241,13 @@ class MDB2Wrapper
         $tables = $this->db->listTables();
         return $this->_checkErrorReturn($tables);
     }
-    
-    	
+
+
 	/**
 	 * Correctly quotes a string so that all strings are escaped. We prefix and append
 	 * to the string single-quotes.
 	 * An example is  $db->qstr("Don't bother",magic_quotes_runtime());
-	 * 
+	 *
 	 * @param s			the string to quote
 	 * @param [magic_quotes]	if $s is GET/POST var, set to get_magic_quotes_gpc().
 	 *				This undoes the stupidity of magic quotes for GPC.
@@ -255,15 +255,15 @@ class MDB2Wrapper
 	 * @return  quoted string to be sent back to database
 	 */
 	function qstr($s,$magic_quotes=false)
-	{	
+	{
 		if (!$magic_quotes) {
 		    return $this->quote($s);
 		}
-		
+
 		// This part of method was copied from ADODBConnection class
 		// undo magic quotes for "
 		$s = str_replace('\\"','"',$s);
-		
+
 		if ($this->replaceQuote == "\\'")  // ' already quoted, no need to change anything
 			return "'$s'";
 		else {// change \' to '' for sybase/mssql
@@ -292,10 +292,10 @@ class MDB2Wrapper
         }
         return $result;
     }
-    
+
    /**
-    * Will select the supplied $page number from a recordset, given that it is paginated in pages of 
-    * $nrows rows per page. It also saves two boolean values saying if the given page is the first 
+    * Will select the supplied $page number from a recordset, given that it is paginated in pages of
+    * $nrows rows per page. It also saves two boolean values saying if the given page is the first
     * and/or last one of the recordset. Added by Iv�n Oliva to provide recordset pagination.
     *
     * See readme.htm#ex8 for an example of usage.
@@ -308,7 +308,7 @@ class MDB2Wrapper
     * @return        the recordset ($rs->databaseType == 'array')
     *
     */
-    function &PageExecute($sql, $nrows, $page, $inputarr=false, $secs2cache=0) 
+    function &PageExecute($sql, $nrows, $page, $inputarr=false, $secs2cache=0)
     {
         if ($nrows <= 0) $nrows = 10;
         if (empty($page) || $page <= 0) $page = 1;
@@ -318,11 +318,11 @@ class MDB2Wrapper
         $rs->AbsolutePage($page);
         return $rs;
     }
-    
+
    /**
     * Get server version info...
-    * 
-    * @returns An array with 2 elements: $arr['string'] is the description string, 
+    *
+    * @returns An array with 2 elements: $arr['string'] is the description string,
     *    and $arr[version] is the version (also a string).
     */
     function ServerInfo()
@@ -331,7 +331,7 @@ class MDB2Wrapper
 		$arr['version'] = MDB2Wrapper::_findvers($arr['description']);
 		return $arr;
     }
-    
+
     function _findvers($str)
 	{
 		if (preg_match('/([0-9]+\.([0-9\.])+)/',$str, $arr)) return $arr[1];
@@ -382,7 +382,7 @@ class MDB2ADORecordSetWrapper
      * @var int
      */
     var $fetchMode;
-    
+
     var $_currentPage = -1;
 
     /**
@@ -418,13 +418,13 @@ class MDB2ADORecordSetWrapper
         $this->MoveNext();
         return $ret;
     }
-    
+
     /**
      * Clean up recordset
      *
      * @return true or false
      */
-    function Close() 
+    function Close()
     {
         return $this->res->free();
     }
@@ -478,7 +478,7 @@ class MDB2ADORecordSetWrapper
     {
         return $this->RecordCount();
     }
-    
+
     /**
      * set/returns the current recordset page when paginating
      */
@@ -496,13 +496,13 @@ class MDB2ADORecordSetWrapper
         if ($status != false) $this->_atFirstPage = $status;
         return $this->_atFirstPage;
     }
-    
+
     function LastPageNo($page = false)
     {
         if ($page != false) $this->_lastPageNo = $page;
         return $this->_lastPageNo;
     }
-    
+
     /**
      * set/returns the status of the atLastPage flag when paginating
      */
@@ -511,7 +511,7 @@ class MDB2ADORecordSetWrapper
         if ($status != false) $this->_atLastPage = $status;
         return $this->_atLastPage;
     }
-    
+
     /**
      * Fetch all records and check whether the result is and error or not
      *

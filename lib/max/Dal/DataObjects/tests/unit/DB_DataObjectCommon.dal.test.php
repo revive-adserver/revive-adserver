@@ -26,7 +26,7 @@ $Id$
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
-require_once MAX_PATH . '/lib/gacl/tests/unit/acl.mol.test.php';
+require_once MAX_PATH . '/lib/gacl/tests/acl_setup.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
@@ -48,7 +48,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
     }
 
     /**
-     * @TODO: modify this method so it should be executed 
+     * @TODO: modify this method so it should be executed
      *        once for all the tests from this class
      *
      */
@@ -58,7 +58,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $aclSetup->cleanUp();
         OA_GaclPermissions::insert();
     }
-    
+
     function setUp()
     {
         DataGenerator::cleanUp(
@@ -148,14 +148,26 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual(array_keys($aCheck), array($clientId, $clientId2));
     }
 
-    function testBelongToUser()
+    function testBelongsToUser()
     {
-        // @TODO: should we remove this code after 
+        // @TODO: should we remove this code after
         //        fixing startUpFixture?
         $aclSetup = new acl_setup($options = array());
         $aclSetup->cleanUp();
         OA_GaclPermissions::insert();
-        
+
+        // Create dummy user
+        $aUser = array(
+            'contact_name' => 'contact',
+            'email_address' => 'email@example.com',
+            'username' => 'dummy'.rand(1,1000),
+            'password' => 'password',
+            'default_account_id' => 222,
+        );
+        $doUser = OA_Dal::factoryDO('users');
+        $doUser->setFrom($aUser);
+        $doUser->insert();
+
         // Test that user belong to itself
         $doAgencyInsert = OA_Dal::factoryDO('agency');
         $agencyid = DataGenerator::generateOne($doAgencyInsert);
@@ -168,8 +180,8 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
             'default_account_id' => $doAgency->account_id,
         );
         $userId = $doAgency->createUser($aUser);
-        $this->assertTrue($doAgency->belongToUser('agency', $userId));
-        $this->assertFalse($doAgency->belongToUser('agency', 222));
+        $this->assertTrue($doAgency->belongsToUser('agency', $userId));
+        $this->assertFalse($doAgency->belongsToUser('agency', 222));
 
         // Create necessary test data
         $doClients = OA_Dal::factoryDO('clients');
@@ -188,23 +200,23 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         // Test dependency on one level
         $doClients = OA_Dal::staticGetDO('clients', $clientId);
-        $this->assertTrue($doClients->belongToUser('agency', $agencyid));
-        $this->assertFalse($doClients->belongToUser('agency', 222));
+        $this->assertTrue($doClients->belongsToUser('agency', $userId));
+        $this->assertFalse($doClients->belongsToUser('agency', 222));
 
         // Test dependency on two and more levels
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertTrue($doCampaigns->belongToUser('agency', $agencyid));
-        $this->assertFalse($doCampaigns->belongToUser('agency', 222));
+        $this->assertTrue($doCampaigns->belongsToUser('agency', $userId));
+        $this->assertFalse($doCampaigns->belongsToUser('agency', 222));
 
         $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
-        $this->assertTrue($doBanners->belongToUser('agency', $agencyid));
-        $this->assertFalse($doBanners->belongToUser('agency', 222));
+        $this->assertTrue($doBanners->belongsToUser('agency', $userId));
+        $this->assertFalse($doBanners->belongsToUser('agency', 222));
 
-        // Test that belongToUser() will find and fetch data by itself
+        // Test that belongsToUser() will find and fetch data by itself
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->bannerid = $bannerId;
-        $this->assertTrue($doBanners->belongToUser('agency', $agencyid));
-        $this->assertFalse($doBanners->belongToUser('agency', 222));
+        $this->assertTrue($doBanners->belongsToUser('agency', $userId));
+        $this->assertFalse($doBanners->belongsToUser('agency', 222));
     }
 
     function testAddReferenceFilter()

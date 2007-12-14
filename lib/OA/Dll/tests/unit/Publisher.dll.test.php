@@ -31,7 +31,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 require_once MAX_PATH . '/lib/OA/Dll/PublisherInfo.php';
 require_once MAX_PATH . '/lib/OA/Dll/tests/util/DllUnitTestCase.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
-require_once MAX_PATH . '/lib/gacl/tests/unit/acl.mol.test.php';
+require_once MAX_PATH . '/lib/gacl/tests/acl_setup.php';
 
 /**
  * A class for testing DLL Publisher methods
@@ -128,7 +128,7 @@ class OA_Dll_PublisherTest extends DllUnitTestCase
         $aclSetup = new acl_setup($options = array());
         $aclSetup->cleanUp();
         OA_GaclPermissions::insert();
-        
+
         $dllPublisherPartialMock = new PartialMockOA_Dll_Publisher($this);
         $dllAgencyPartialMock    = new PartialMockOA_Dll_Agency($this);
 

@@ -143,7 +143,7 @@ class gacl {
 		} else {
     		require_once( ADODB_DIR .'/adodb.inc.php');
     		require_once( ADODB_DIR .'/adodb-pager.inc.php');
-    		
+
 			$this->db = ADONewConnection($this->_db_type);
 			//Use NUM for slight performance/memory reasons.
 			$this->db->SetFetchMode(ADODB_FETCH_NUM);

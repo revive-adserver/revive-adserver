@@ -29,7 +29,7 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
-require_once MAX_PATH . '/lib/gacl/tests/unit/acl.mol.test.php';
+require_once MAX_PATH . '/lib/gacl/tests/acl_setup.php';
 
 
 /**
