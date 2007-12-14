@@ -55,13 +55,10 @@ phpAds_registerGlobal (
     ,'viewwindowsecond'
 );
 
-/*-------------------------------------------------------*/
-/* Affiliate interface security                          */
-/*-------------------------------------------------------*/
-
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkAccessToObject('trackers', $trackerid);
-OA_Permission::checkAccessToObject('clients', $clientid);
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
 // Initalise any tracker based plugins
 $plugins = array();

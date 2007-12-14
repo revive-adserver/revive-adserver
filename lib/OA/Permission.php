@@ -215,7 +215,7 @@ class OA_Permission
         if ($accountId === null) {
             $accountId = OA_Permission::getAccountId();
         }
-        return $do->belongToAccount($accountTable, $accountId);
+        return $do->belongsToAccount($accountTable, $accountId);
     }
 
     /**

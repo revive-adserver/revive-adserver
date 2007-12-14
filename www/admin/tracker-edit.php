@@ -49,6 +49,11 @@ phpAds_registerGlobal (
     ,'linkcampaigns'
 );
 
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid);
+
 // Initalise any tracker based plugins
 $plugins = array();
 $invocationPlugins = &MAX_Plugin::getPlugins('invocationTags');
@@ -58,14 +63,6 @@ foreach($invocationPlugins as $pluginKey => $plugin) {
         $fieldName = strtolower($plugin->trackerEvent);
         phpAds_registerGlobal("{$fieldName}window");
     }
-}
-
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
-if (!empty($trackerid)) {
-    OA_Permission::checkAccessToObject('trackers', $trackerid);
-} else {
-    OA_Permission::checkAccessToObject('clients', $clientid);
 }
 
 /*-------------------------------------------------------*/

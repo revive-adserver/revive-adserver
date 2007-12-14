@@ -43,19 +43,9 @@ phpAds_registerGlobal ('returnurl');
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
-	$doTrackers = OA_Dal::factoryDO('trackers');
-	$doTrackers->trackerid = $trackerid;
-
-	if (!$doTrackers->belongToUsersAccount())
-	{
-		phpAds_PageHeader("1");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
-}
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
 
 /*-------------------------------------------------------*/

@@ -49,9 +49,9 @@ phpAds_registerGlobal (
 );
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkAccessToObject('trackers', $trackerid);
-OA_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('trackers', $trackerid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
