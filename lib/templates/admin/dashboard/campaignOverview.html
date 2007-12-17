@@ -1,0 +1,82 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id: feed.html 13495 2007-12-13 14:10:19Z bernard.lange@openads.org $
+
+-->*}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Campaign Overview</title>
+  <link rel='stylesheet' type='text/css' href='css/dashboard-widget.css'>
+  <!--[if IE]>
+      <link rel="stylesheet" type="text/css" href="css/dashboard-widget-ie.css" />
+  <![endif]-->
+</head>
+
+<body>
+  <div class="campaignOverview">
+  <!-- normal view -->
+	  <ul class="campaigns">
+	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Google AdSense - TextLinks</a></div><div class="started">Started</div></li>
+	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Google AdSense - Banner ads</a></div><div class="started">Started</div></li>
+	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Openads - forum banners</a></div><div class="finished">Completed</div></li>
+	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Kontera - Kontera default campaignn</a></div><div class="started">Started</div></li>
+	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Openads - RHSSkycrapers</a></div><div class="finished">Completed</div></li>
+	  </ul>
+	<!-- end of normal view -->
+
+	<!-- no campaigns view -->
+	<!-- 
+  <ul class="no-campaigns">
+    <li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
+    <li>Save time by grouping banners within a campaign and no longer define delivery settings for each add separately</li>
+    <li>Interested in learning more? Read the <a class="site-link" href="http://docs.openads.org/openads-2.4-guide/campaigns.html">Campaign documentation</a></li>
+  </ul>
+  <a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a>
+  -->	
+	<!-- end of no campaigns view -->
+	
+	<!-- no items view  -->
+  <!-- 
+  <ul class="no-items">
+    <li>No campaigns have started or finished during the timeframe you have selected</li>
+  </ul>
+  <a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a>
+  --> 
+  <!-- end of no items view  -->	
+	
+	<!-- Audit Trail inactive view -->
+  <!-- 
+	<ul class="not-activated">
+	 <li>In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated</li>
+	</ul>
+	<a class="site-link" target="_top" href="www/admin/account-settings-debug.php">Activate Audit Trail</a> to start viewing campaigns
+  --> 
+  <!-- end of Audit Trail inactive view-->
+</div>
+</body>
+</html>

@@ -1,6 +1,7 @@
 body, table, td, select, textarea, input {
     font-family: Tahoma,Verdana,Arial,Helvetica,sans-serif;
     font-size: 8pt;
+    color: #444444;
 }
 img, input, select, body, form {
    border: 0;
@@ -63,7 +64,6 @@ a:hover {
 }
 
 a.site-link  {
-    font-size: 7px;
     /*color: #00B0D8;*/
     color: #299b3c;
     font-weight: normal;
@@ -74,27 +74,72 @@ a.site-link:hover {
     text-decoration: underline;
 }
 
-
-
-ul#feed {
+ul {
     color: #444444;
-    width: 215px;
     padding-left: 0px;    
     margin: 0px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     list-style-image: url('../images/listIcon.gif');
 }
 
+/* feeds */
+ul#feed {
+    width: 230px;
+}
+
 ul#feed li {
-    font-size: 7pt;
     margin-left: 12px;    
     margin-bottom: 5px;
 }
 
+
+/*  stats */
 img#graph {
     width: 239px;
     height: 132px;
 }
+
+/* camp overview */
+.campaignOverview {
+  width:240px; 
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.campaignOverview ul li {
+  width: 100%;
+}
+
+.campaignOverview ul li {
+    margin-left: 12px;    
+    margin-bottom: 5px;
+}
+
+.campaignOverview .campaigns li .title {
+	float: left;
+	width: 68%;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-right:2%;
+	text-overflow: ellipsis;
+}
+
+.campaignOverview .campaigns li .status {
+  float: left;
+  width: 30%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.campaignOverview .campaigns .started {
+	color: green;
+}
+
+.campaignOverview .campaigns .finished {
+	color: red;
+}
+
+
 
 /**
  * Login form
