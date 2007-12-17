@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: $
+$Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
@@ -47,8 +47,19 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
     function OA_Dashboard_Widget_CampaignOverview($aParams)
     {
         parent::OA_Dashboard_Widget($aParams);
-        $this->oTpl = new OA_Admin_Template('dashboard/campaignOverview.html');
+        $this->oTpl = new OA_Admin_Template('dashboard/campaign-overview.html');
     }
+
+    /**
+     * A method to launch and display the widget
+     *
+     * @param array $aParams The parameters array, usually $_REQUEST
+     */
+    function display()
+    {
+        $this->oTpl->display();
+    }
+
 }
 
 ?>
