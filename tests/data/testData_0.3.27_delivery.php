@@ -71,7 +71,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAgency['language'] = '';
         $aAgency['logout_url'] = '';
         $aAgency['active'] = '0';
-        $aAgency['updated'] = '2005-11-03 15:40:00';
         $this->aIds['agency'][1] = $this->_insertAgency($aAgency);
 
         $aAgency['name'] = 'agency2';
@@ -81,7 +80,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAgency['language'] = '';
         $aAgency['logout_url'] = '';
         $aAgency['active'] = '0';
-        $aAgency['updated'] = '2005-11-03 15:40:29';
         $this->aIds['agency'][2] = $this->_insertAgency($aAgency);
 
         $aAgency['name'] = 'Agency Three';
@@ -91,7 +89,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAgency['language'] = '';
         $aAgency['logout_url'] = '';
         $aAgency['active'] = '0';
-        $aAgency['updated'] = '2006-06-06 10:05:31';
         $this->aIds['agency'][3] = $this->_insertAgency($aAgency);
 
         // client
@@ -114,7 +111,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '31';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2005-11-03 15:53:19';
         $this->aIds['affiliates'][1] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -127,7 +123,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-08-11 10:51:15';
         $this->aIds['affiliates'][2] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -141,7 +136,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-02-21 16:41:03';
         $this->aIds['affiliates'][3] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -155,7 +149,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-03-07 16:20:20';
         $this->aIds['affiliates'][4] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -168,7 +161,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-03-09 16:56:41';
         $this->aIds['affiliates'][5] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -181,7 +173,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-03-09 16:57:16';
         $this->aIds['affiliates'][6] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -195,7 +186,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-03-16 11:33:13';
         $this->aIds['affiliates'][7] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = '0';
@@ -209,7 +199,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-03-27 13:41:47';
         $this->aIds['affiliates'][8] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -222,7 +211,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '33';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-04-10 10:31:33';
         $this->aIds['affiliates'][9] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -236,7 +224,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-04-04 11:31:06';
         $this->aIds['affiliates'][10] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -250,7 +237,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-04-15 20:22:10';
         $this->aIds['affiliates'][11] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -264,7 +250,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-04-21 10:17:04';
         $this->aIds['affiliates'][12] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -278,7 +263,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-05-22 11:04:03';
         $this->aIds['affiliates'][13] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -292,7 +276,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-05-23 09:49:21';
         $this->aIds['affiliates'][14] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -306,7 +289,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-05-23 10:28:28';
         $this->aIds['affiliates'][15] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -320,7 +302,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-05-26 09:39:34';
         $this->aIds['affiliates'][16] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -334,7 +315,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-06-05 16:36:14';
         $this->aIds['affiliates'][17] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -348,7 +328,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-06-30 15:43:31';
         $this->aIds['affiliates'][18] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -363,7 +342,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 't';
         $aAffiliates['last_accepted_agency_agreement'] = '2006-07-10 13:45:51';
-        $aAffiliates['updated'] = '2006-07-10 13:45:51';
         $this->aIds['affiliates'][19] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -378,7 +356,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
         $aAffiliates['last_accepted_agency_agreement'] = '2006-07-11 12:10:32';
-        $aAffiliates['updated'] = '2006-07-11 12:10:32';
         $this->aIds['affiliates'][20] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -392,7 +369,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
         $aAffiliates['last_accepted_agency_agreement'] = '2006-07-27 16:47:59';
-        $aAffiliates['updated'] = '2006-07-27 16:52:07';
         $this->aIds['affiliates'][21] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][1];
@@ -407,7 +383,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
         $aAffiliates['last_accepted_agency_agreement'] = '2006-08-08 11:45:53';
-        $aAffiliates['updated'] = '2006-08-08 11:45:53';
         $this->aIds['affiliates'][22] = $this->_insertAffiliates($aAffiliates);
 
         $aAffiliates['agencyid'] = $this->aIds['agency'][2];
@@ -421,7 +396,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAffiliates['permissions'] = '0';
         $aAffiliates['language'] = '';
         $aAffiliates['publiczones'] = 'f';
-        $aAffiliates['updated'] = '2006-08-11 10:52:14';
         $this->aIds['affiliates'][23] = $this->_insertAffiliates($aAffiliates);
 
         // campaign
@@ -440,7 +414,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-11-03 15:41:55';
         $this->aIds['campaigns'][1] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - Capped Campaign';
@@ -457,7 +430,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-11-03 15:56:47';
         $this->aIds['campaigns'][2] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - Targeted Campaign';
@@ -474,7 +446,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-11-03 15:59:32';
         $this->aIds['campaigns'][3] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - 3rd party creatives';
@@ -491,7 +462,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-11-03 17:49:55';
         $this->aIds['campaigns'][4] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - Inactive campaign';
@@ -509,7 +479,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-11-11 12:52:06';
         $this->aIds['campaigns'][5] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - All Creative Types';
@@ -531,7 +500,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-27 11:29:08';
         $this->aIds['campaigns'][6] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - ACL Warning';
@@ -548,7 +516,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-11-28 11:53:31';
         $this->aIds['campaigns'][7] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - Geo Targeting test';
@@ -565,7 +532,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-12-05 12:56:33';
         $this->aIds['campaigns'][8] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Flash - Default Campaign';
@@ -582,7 +548,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['anonymous'] = 'f';
         $aCampaigns['companion'] = '0';
         $aCampaigns['comments'] = '';
-        $aCampaigns['updated'] = '2005-12-06 09:46:14';
         $this->aIds['campaigns'][9] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Text ads advertiser - Default Campaign';
@@ -602,7 +567,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-01-12 09:37:47';
         $this->aIds['campaigns'][10] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - ACL copy test';
@@ -621,7 +585,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-01-12 12:13:16';
         $this->aIds['campaigns'][11] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Campaign Copy - Default Campaign';
@@ -640,7 +603,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-01-12 15:41:52';
         $this->aIds['campaigns'][12] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Copy of Campaign Copy - Default Campaign';
@@ -659,7 +621,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-01-16 18:50:34';
         $this->aIds['campaigns'][27] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - One Day Long Campaign';
@@ -680,7 +641,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-01-25 13:09:50';
         $this->aIds['campaigns'][28] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - 0x0 Campaign';
@@ -699,7 +659,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-01-25 18:10:36';
         $this->aIds['campaigns'][29] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Exclusive Campaign';
@@ -718,7 +677,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-02-01 18:07:32';
         $this->aIds['campaigns'][30] = $this->_insertCampaigns($aCampaigns);
 
         $aCampaigns['campaignname'] = 'Advertiser - AA Location Targeting';
@@ -737,7 +695,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-02-06 11:15:12';
         $this->aIds['campaigns'][31] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '32';
@@ -757,7 +714,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-02-07 11:34:15';
         $this->aIds['campaigns'][32] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '33';
@@ -778,7 +734,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-02-07 11:39:37';
         $this->aIds['campaigns'][33] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '34';
@@ -798,7 +753,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-02-07 11:40:27';
         $this->aIds['campaigns'][34] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '35';
@@ -818,7 +772,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-02-21 16:39:02';
         $this->aIds['campaigns'][35] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '36';
@@ -838,7 +791,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-01 11:35:19';
         $this->aIds['campaigns'][36] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '37';
@@ -858,7 +810,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-07 16:17:53';
         $this->aIds['campaigns'][37] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '38';
@@ -878,7 +829,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-14 12:37:34';
         $this->aIds['campaigns'][38] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '39';
@@ -898,7 +848,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-14 15:57:06';
         $this->aIds['campaigns'][39] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '40';
@@ -918,7 +867,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-16 11:35:13';
         $this->aIds['campaigns'][40] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '41';
@@ -938,7 +886,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-16 11:37:20';
         $this->aIds['campaigns'][41] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '42';
@@ -958,7 +905,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-16 15:08:02';
         $this->aIds['campaigns'][42] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '43';
@@ -978,7 +924,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-20 14:25:32';
         $this->aIds['campaigns'][43] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '44';
@@ -998,7 +943,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-27 13:40:19';
         $this->aIds['campaigns'][44] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '45';
@@ -1018,7 +962,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-27 15:55:35';
         $this->aIds['campaigns'][45] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '46';
@@ -1038,7 +981,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-03-30 14:30:25';
         $this->aIds['campaigns'][46] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '47';
@@ -1058,7 +1000,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-04-03 16:14:33';
         $this->aIds['campaigns'][47] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '48';
@@ -1078,7 +1019,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-04-07 15:13:51';
         $this->aIds['campaigns'][48] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '49';
@@ -1098,7 +1038,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-04-11 11:03:29';
         $this->aIds['campaigns'][49] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '50';
@@ -1118,7 +1057,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-04-21 10:17:56';
         $this->aIds['campaigns'][50] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '51';
@@ -1138,7 +1076,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-04-21 17:20:49';
         $this->aIds['campaigns'][51] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '52';
@@ -1158,7 +1095,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-15 11:20:22';
         $this->aIds['campaigns'][52] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '53';
@@ -1179,7 +1115,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-17 11:21:00';
         $this->aIds['campaigns'][53] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '54';
@@ -1199,7 +1134,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-18 10:20:42';
         $this->aIds['campaigns'][54] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '55';
@@ -1220,7 +1154,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-22 12:24:12';
         $this->aIds['campaigns'][55] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '56';
@@ -1240,7 +1173,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-22 11:36:28';
         $this->aIds['campaigns'][56] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '57';
@@ -1260,7 +1192,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-23 09:40:09';
         $this->aIds['campaigns'][57] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '58';
@@ -1280,7 +1211,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-23 10:38:01';
         $this->aIds['campaigns'][58] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '59';
@@ -1300,7 +1230,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-25 17:16:30';
         $this->aIds['campaigns'][59] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '60';
@@ -1320,7 +1249,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-26 09:39:54';
         $this->aIds['campaigns'][60] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '61';
@@ -1340,7 +1268,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-05-26 12:40:49';
         $this->aIds['campaigns'][61] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '62';
@@ -1360,7 +1287,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-02 14:11:23';
         $this->aIds['campaigns'][62] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '63';
@@ -1380,7 +1306,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-05 16:37:07';
         $this->aIds['campaigns'][63] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '64';
@@ -1400,7 +1325,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-08 11:18:26';
         $this->aIds['campaigns'][64] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '65';
@@ -1420,7 +1344,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-14 12:17:33';
         $this->aIds['campaigns'][65] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '66';
@@ -1440,7 +1363,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-15 16:19:24';
         $this->aIds['campaigns'][66] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '67';
@@ -1460,7 +1382,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-21 11:31:39';
         $this->aIds['campaigns'][67] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '70';
@@ -1480,7 +1401,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-21 11:44:11';
         $this->aIds['campaigns'][70] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '71';
@@ -1500,7 +1420,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-06-30 15:50:24';
         $this->aIds['campaigns'][71] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '72';
@@ -1520,7 +1439,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-05 16:33:15';
         $this->aIds['campaigns'][72] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '73';
@@ -1540,7 +1458,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-05 16:48:21';
         $this->aIds['campaigns'][73] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '74';
@@ -1560,7 +1477,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-05 17:00:32';
         $this->aIds['campaigns'][74] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '75';
@@ -1580,7 +1496,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-05 17:07:07';
         $this->aIds['campaigns'][75] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '76';
@@ -1600,7 +1515,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-06 17:22:39';
         $this->aIds['campaigns'][76] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '77';
@@ -1620,7 +1534,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-11 11:19:09';
         $this->aIds['campaigns'][77] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '78';
@@ -1641,7 +1554,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-11 12:11:21';
         $this->aIds['campaigns'][78] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '79';
@@ -1662,7 +1574,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-11 12:15:54';
         $this->aIds['campaigns'][79] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '80';
@@ -1683,7 +1594,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-18 15:23:22';
         $this->aIds['campaigns'][80] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '81';
@@ -1703,7 +1613,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-27 12:35:48';
         $this->aIds['campaigns'][81] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '82';
@@ -1723,7 +1632,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-07-27 16:48:54';
         $this->aIds['campaigns'][82] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '83';
@@ -1743,7 +1651,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:23:12';
         $this->aIds['campaigns'][83] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '84';
@@ -1763,7 +1670,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:23:28';
         $this->aIds['campaigns'][84] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '85';
@@ -1783,7 +1689,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:22:57';
         $this->aIds['campaigns'][85] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '86';
@@ -1803,7 +1708,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:23:48';
         $this->aIds['campaigns'][86] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '87';
@@ -1824,7 +1728,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:25:10';
         $this->aIds['campaigns'][87] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '88';
@@ -1844,7 +1747,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:26:03';
         $this->aIds['campaigns'][88] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '89';
@@ -1865,7 +1767,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:27:03';
         $this->aIds['campaigns'][89] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '90';
@@ -1885,7 +1786,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:27:37';
         $this->aIds['campaigns'][90] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '91';
@@ -1906,7 +1806,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:28:37';
         $this->aIds['campaigns'][91] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '92';
@@ -1927,7 +1826,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:29:07';
         $this->aIds['campaigns'][92] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '93';
@@ -1947,7 +1845,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:30:21';
         $this->aIds['campaigns'][93] = $this->_insertCampaigns($aCampaigns);
 
         //$aCampaigns['campaignid'] = '94';
@@ -1968,7 +1865,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aCampaigns['comments'] = '';
         $aCampaigns['revenue'] = '0.0000';
         $aCampaigns['revenue_type'] = '0';
-        $aCampaigns['updated'] = '2006-08-08 17:30:56';
         $this->aIds['campaigns'][94] = $this->_insertCampaigns($aCampaigns);
 
         // banner
@@ -2009,7 +1905,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:45:06';
         $this->aIds['banners'][1] = $this->_insertBanners($aBanners); // $idBanners1 = $this->_insertBanners($aBanners, 1);
 
         //$aBanners['bannerid'] = '2';
@@ -2047,7 +1942,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = 'gif';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:46:22';
         $this->aIds['banners'][2] = $this->_insertBanners($aBanners); // $idBanners2 = $this->_insertBanners($aBanners, 2);
 
         //$aBanners['bannerid'] = '3';
@@ -2085,7 +1979,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:48:33';
         $this->aIds['banners'][3] = $this->_insertBanners($aBanners); // $idBanners3 = $this->_insertBanners($aBanners, 3);
 
         //$aBanners['bannerid'] = '4';
@@ -2123,7 +2016,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:50:40';
         $this->aIds['banners'][4] = $this->_insertBanners($aBanners); // $idBanners4 = $this->_insertBanners($aBanners, 4);
 
         $aBanners['bannerid'] = '5';
@@ -2160,7 +2052,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:51:28';
         $this->aIds['banners'][5] = $this->_insertBanners($aBanners); // $idBanners5 = $this->_insertBanners($aBanners, 5);
 
         //$aBanners['bannerid'] = '7';
@@ -2198,7 +2089,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:57:38';
         $this->aIds['banners'][7] = $this->_insertBanners($aBanners); // $idBanners6 = $this->_insertBanners($aBanners, 6);
 
         //$aBanners['bannerid'] = '8';
@@ -2236,7 +2126,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:58:19';
         $this->aIds['banners'][8] = $this->_insertBanners($aBanners); // $idBanners7 = $this->_insertBanners($aBanners, 7);
 
         //$aBanners['bannerid'] = '9';
@@ -2274,7 +2163,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 15:59:09';
         $this->aIds['banners'][9] = $this->_insertBanners($aBanners); // $idBanners8 = $this->_insertBanners($aBanners, 8);
 
         //$aBanners['bannerid'] = '10';
@@ -2312,7 +2200,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-10 09:21:52';
         $this->aIds['banners'][10] = $this->_insertBanners($aBanners); // $idBanners9 = $this->_insertBanners($aBanners, 9);
 
         //$aBanners['bannerid'] = '11';
@@ -2350,7 +2237,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 16:01:47';
         $this->aIds['banners'][11] = $this->_insertBanners($aBanners); // $idBanners10 = $this->_insertBanners($aBanners, 10);
 
         //$aBanners['bannerid'] = '12';
@@ -2388,7 +2274,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 16:02:53';
         $this->aIds['banners'][12] = $this->_insertBanners($aBanners); // $idBanners11 = $this->_insertBanners($aBanners, 11);
 
         //$aBanners['bannerid'] = '13';
@@ -2426,7 +2311,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-11 13:17:41';
         $this->aIds['banners'][13] = $this->_insertBanners($aBanners); // $idBanners12 = $this->_insertBanners($aBanners, 12);
 
         //$aBanners['bannerid'] = '14';
@@ -2464,7 +2348,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-03 16:23:13';
         $this->aIds['banners'][14] = $this->_insertBanners($aBanners); // $idBanners13 = $this->_insertBanners($aBanners, 13);
 
         //$aBanners['bannerid'] = '15';
@@ -2502,7 +2385,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-19 14:02:55';
         $this->aIds['banners'][15] = $this->_insertBanners($aBanners); // $idBanners14 = $this->_insertBanners($aBanners, 14);
 
         //$aBanners['bannerid'] = '16';
@@ -2540,7 +2422,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-08 10:46:33';
         $this->aIds['banners'][16] = $this->_insertBanners($aBanners); // $idBanners15 = $this->_insertBanners($aBanners, 15);
 
         //$aBanners['bannerid'] = '17';
@@ -2578,7 +2459,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-19 13:42:03';
         $this->aIds['banners'][17] = $this->_insertBanners($aBanners); // $idBanners16 = $this->_insertBanners($aBanners, 16);
 
         //$aBanners['bannerid'] = '18';
@@ -2616,7 +2496,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:13:39';
         $this->aIds['banners'][18] = $this->_insertBanners($aBanners); // $idBanners17 = $this->_insertBanners($aBanners, 17);
 
         //$aBanners['bannerid'] = '19';
@@ -2654,7 +2533,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = 'gif';
         $aBanners['comments'] = 'Comment';
-        $aBanners['updated'] = '2006-04-11 16:38:33';
         $this->aIds['banners'][19] = $this->_insertBanners($aBanners); // $idBanners18 = $this->_insertBanners($aBanners, 18);
 
         //$aBanners['bannerid'] = '20';
@@ -2692,7 +2570,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-22 21:39:17';
         $this->aIds['banners'][20] = $this->_insertBanners($aBanners); // $idBanners19 = $this->_insertBanners($aBanners, 19);
 
         //$aBanners['bannerid'] = '21';
@@ -2730,7 +2607,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-11 16:19:00';
         $this->aIds['banners'][21] = $this->_insertBanners($aBanners); // $idBanners20 = $this->_insertBanners($aBanners, 20);
 
         //$aBanners['bannerid'] = '22';
@@ -2768,7 +2644,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:22:48';
         $this->aIds['banners'][22] = $this->_insertBanners($aBanners); // $idBanners21 = $this->_insertBanners($aBanners, 21);
 
         //$aBanners['bannerid'] = '23';
@@ -2806,7 +2681,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:52:35';
         $this->aIds['banners'][23] = $this->_insertBanners($aBanners); // $idBanners22 = $this->_insertBanners($aBanners, 22);
 
         //$aBanners['bannerid'] = '24';
@@ -2844,7 +2718,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:44:13';
         $this->aIds['banners'][24] = $this->_insertBanners($aBanners); // $idBanners23 = $this->_insertBanners($aBanners, 23);
 
         //$aBanners['bannerid'] = '25';
@@ -2882,7 +2755,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:51:39';
         $this->aIds['banners'][25] = $this->_insertBanners($aBanners); // $idBanners24 = $this->_insertBanners($aBanners, 24);
 
         //$aBanners['bannerid'] = '26';
@@ -2920,7 +2792,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:54:05';
         $this->aIds['banners'][26] = $this->_insertBanners($aBanners); // $idBanners25 = $this->_insertBanners($aBanners, 25);
 
         //$aBanners['bannerid'] = '27';
@@ -2958,7 +2829,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:55:35';
         $this->aIds['banners'][27] = $this->_insertBanners($aBanners); // $idBanners26 = $this->_insertBanners($aBanners, 26);
 
         //$aBanners['bannerid'] = '28';
@@ -2996,7 +2866,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:56:39';
         $this->aIds['banners'][28] = $this->_insertBanners($aBanners); // $idBanners27 = $this->_insertBanners($aBanners, 27);
 
         //$aBanners['bannerid'] = '29';
@@ -3034,7 +2903,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-14 17:58:23';
         $this->aIds['banners'][29] = $this->_insertBanners($aBanners); // $idBanners28 = $this->_insertBanners($aBanners, 28);
 
         //$aBanners['bannerid'] = '30';
@@ -3072,7 +2940,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-19 13:08:39';
         $this->aIds['banners'][30] = $this->_insertBanners($aBanners); // $idBanners29 = $this->_insertBanners($aBanners, 29);
 
         //$aBanners['bannerid'] = '31';
@@ -3110,7 +2977,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-21 15:00:08';
         $this->aIds['banners'][31] = $this->_insertBanners($aBanners); // $idBanners30 = $this->_insertBanners($aBanners, 30);
 
         //$aBanners['bannerid'] = '32';
@@ -3148,7 +3014,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] =  '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-28 11:55:24';
         $this->aIds['banners'][32] = $this->_insertBanners($aBanners); // $idBanners31 = $this->_insertBanners($aBanners, 31);
 
         //$aBanners['bannerid'] = '33';
@@ -3186,7 +3051,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-11-28 11:56:20';
         $this->aIds['banners'][33] = $this->_insertBanners($aBanners); // $idBanners32 = $this->_insertBanners($aBanners, 32);
 
         //$aBanners['bannerid'] = '34';
@@ -3224,7 +3088,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-12-05 12:57:25';
         $this->aIds['banners'][34] = $this->_insertBanners($aBanners); // $idBanners33 = $this->_insertBanners($aBanners, 33);
 
         //$aBanners['bannerid'] = '36';
@@ -3262,7 +3125,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-03 12:37:30';
         $this->aIds['banners'][36] = $this->_insertBanners($aBanners); // $idBanners34 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '37';
@@ -3300,7 +3162,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-03 12:37:32';
         $this->aIds['banners'][37] = $this->_insertBanners($aBanners); // $idBanners35 = $this->_insertBanners($aBanners, 34);
 
         //$aBanners['bannerid'] = '38';
@@ -3338,7 +3199,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-03 12:37:34';
         $this->aIds['banners'][38] = $this->_insertBanners($aBanners); // $idBanners36 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '40';
@@ -3376,7 +3236,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-03 12:37:25';
         $this->aIds['banners'][40] = $this->_insertBanners($aBanners); // $idBanners37 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '41';
@@ -3414,7 +3273,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] =  '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2005-12-09 16:51:34';
         $this->aIds['banners'][41] = $this->_insertBanners($aBanners); // $idBanners38 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '42';
@@ -3452,7 +3310,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] =  '';
         $aBanners['alt_contenttype'] =  '';
         $aBanners['comments'] =  '';
-        $aBanners['updated'] =  '2005-12-12 16:04:56';
         $this->aIds['banners'][42] = $this->_insertBanners($aBanners); // $idBanners39 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '43';
@@ -3490,7 +3347,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-11 17:25:22';
         $this->aIds['banners'][43] = $this->_insertBanners($aBanners); // $idBanners40 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '44';
@@ -3528,7 +3384,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-11 17:14:55';
         $this->aIds['banners'][44] = $this->_insertBanners($aBanners); // $idBanners41 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '45';
@@ -3566,7 +3421,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-12 09:39:51';
         $this->aIds['banners'][45] = $this->_insertBanners($aBanners); // $idBanners42 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '46';
@@ -3604,7 +3458,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-12 09:41:37';
         $this->aIds['banners'][46] = $this->_insertBanners($aBanners); // $idBanners43 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '47';
@@ -3642,7 +3495,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-12 09:44:23';
         $this->aIds['banners'][47] = $this->_insertBanners($aBanners); // $idBanners44 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '48';
@@ -3680,7 +3532,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-13 15:06:31';
         $this->aIds['banners'][48] = $this->_insertBanners($aBanners); // $idBanners45 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '49';
@@ -3718,7 +3569,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-16 11:31:20';
         $this->aIds['banners'][49] = $this->_insertBanners($aBanners); // $idBanners46 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '57';
@@ -3756,7 +3606,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-16 13:00:09';
         $this->aIds['banners'][57] = $this->_insertBanners($aBanners); // $idBanners47 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '76';
@@ -3794,7 +3643,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = 'Test HTML banner comments';
-        $aBanners['updated'] = '2006-01-16 18:45:52';
         $this->aIds['banners'][76] = $this->_insertBanners($aBanners); // $idBanners48 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '79';
@@ -3832,7 +3680,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-10 11:41:19';
         $this->aIds['banners'][79] = $this->_insertBanners($aBanners); // $idBanners49 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '80';
@@ -3870,7 +3717,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = 'Test HTML banner comments';
-        $aBanners['updated'] = '2006-01-16 18:53:53';
         $this->aIds['banners'][80] = $this->_insertBanners($aBanners); // $idBanners50 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '81';
@@ -3908,7 +3754,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-16 18:50:49';
         $this->aIds['banners'][81] = $this->_insertBanners($aBanners); // $idBanners51 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '82';
@@ -3946,7 +3791,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-27 17:47:48';
         $this->aIds['banners'][82] = $this->_insertBanners($aBanners); // $idBanners52 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '83';
@@ -3984,7 +3828,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-23 16:03:04';
         $this->aIds['banners'][83] = $this->_insertBanners($aBanners); // $idBanners53 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '86';
@@ -4022,7 +3865,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-01-25 18:18:07';
         $this->aIds['banners'][86] = $this->_insertBanners($aBanners); // $idBanners54 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '87';
@@ -4060,7 +3902,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-01 13:06:52';
         $this->aIds['banners'][87] = $this->_insertBanners($aBanners); // $idBanners55 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '88';
@@ -4098,7 +3939,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-02 14:20:14';
         $this->aIds['banners'][88] = $this->_insertBanners($aBanners); // $idBanners56 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '89';
@@ -4136,7 +3976,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-02 17:41:56';
         $this->aIds['banners'][89] = $this->_insertBanners($aBanners); // $idBanners57 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '90';
@@ -4174,7 +4013,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-02 17:38:38';
         $this->aIds['banners'][90] = $this->_insertBanners($aBanners); // $idBanners58 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '91';
@@ -4212,7 +4050,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = 'gif';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-08 17:33:53';
         $this->aIds['banners'][91] = $this->_insertBanners($aBanners); // $idBanners59 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '92';
@@ -4250,7 +4087,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-16 12:44:33';
         $this->aIds['banners'][92] = $this->_insertBanners($aBanners); // $idBanners60 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '93';
@@ -4288,7 +4124,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-16 12:45:20';
         $this->aIds['banners'][93] = $this->_insertBanners($aBanners); // $idBanners61 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '94';
@@ -4326,7 +4161,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-16 12:44:57';
         $this->aIds['banners'][94] = $this->_insertBanners($aBanners); // $idBanners62 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '95';
@@ -4364,7 +4198,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-16 12:45:10';
         $this->aIds['banners'][95] = $this->_insertBanners($aBanners); // $idBanners63 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '96';
@@ -4402,7 +4235,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:38:23';
         $this->aIds['banners'][96] = $this->_insertBanners($aBanners); // $idBanners64 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '97';
@@ -4440,7 +4272,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:38:24';
         $this->aIds['banners'][97] = $this->_insertBanners($aBanners); // $idBanners65 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '98';
@@ -4478,7 +4309,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:38:24';
         $this->aIds['banners'][98] = $this->_insertBanners($aBanners); // $idBanners66 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '99';
@@ -4516,7 +4346,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:38:25';
         $this->aIds['banners'][99] = $this->_insertBanners($aBanners); // $idBanners67 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '100';
@@ -4554,7 +4383,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:39:57';
         $this->aIds['banners'][100] = $this->_insertBanners($aBanners); // $idBanners68 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '101';
@@ -4592,7 +4420,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:39:57';
         $this->aIds['banners'][101] = $this->_insertBanners($aBanners); // $idBanners69 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '102';
@@ -4630,7 +4457,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:39:58';
         $this->aIds['banners'][102] = $this->_insertBanners($aBanners); // $idBanners70 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '103';
@@ -4668,7 +4494,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-07 11:39:58';
         $this->aIds['banners'][103] = $this->_insertBanners($aBanners); // $idBanners71 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '104';
@@ -4706,7 +4531,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-08 12:12:12';
         $this->aIds['banners'][104] = $this->_insertBanners($aBanners); // $idBanners72 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '105';
@@ -4744,7 +4568,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-02-21 16:40:11';
         $this->aIds['banners'][105] = $this->_insertBanners($aBanners); // $idBanners73 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '106';
@@ -4782,7 +4605,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-01 11:36:10';
         $this->aIds['banners'][106] = $this->_insertBanners($aBanners); // $idBanners74 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '107';
@@ -4820,7 +4642,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-02 14:43:26';
         $this->aIds['banners'][107] = $this->_insertBanners($aBanners); // $idBanners75 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '108';
@@ -4858,7 +4679,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-09 16:19:59';
         $this->aIds['banners'][108] = $this->_insertBanners($aBanners); // $idBanners76 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '109';
@@ -4896,7 +4716,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-07 16:19:14';
         $this->aIds['banners'][109] = $this->_insertBanners($aBanners); // $idBanners77 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '110';
@@ -4934,7 +4753,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-24 10:12:49';
         $this->aIds['banners'][110] = $this->_insertBanners($aBanners); // $idBanners78 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '111';
@@ -4972,7 +4790,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-14 16:58:00';
         $this->aIds['banners'][111] = $this->_insertBanners($aBanners); // $idBanners79 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '112';
@@ -5010,7 +4827,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-16 15:01:43';
         $this->aIds['banners'][112] = $this->_insertBanners($aBanners); // $idBanners80 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '113';
@@ -5048,7 +4864,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-16 12:11:07';
         $this->aIds['banners'][113] = $this->_insertBanners($aBanners); // $idBanners81 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '114';
@@ -5086,7 +4901,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-17 10:38:27';
         $this->aIds['banners'][114] = $this->_insertBanners($aBanners); // $idBanners82 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '115';
@@ -5124,7 +4938,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-17 10:38:47';
         $this->aIds['banners'][115] = $this->_insertBanners($aBanners); // $idBanners83 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '116';
@@ -5162,7 +4975,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-17 10:39:22';
         $this->aIds['banners'][116] = $this->_insertBanners($aBanners); // $idBanners84 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '117';
@@ -5200,7 +5012,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-17 10:39:41';
         $this->aIds['banners'][117] = $this->_insertBanners($aBanners); // $idBanners85 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '118';
@@ -5238,7 +5049,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-17 10:40:00';
         $this->aIds['banners'][118] = $this->_insertBanners($aBanners); // $idBanners86 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '119';
@@ -5276,7 +5086,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-17 10:40:35';
         $this->aIds['banners'][119] = $this->_insertBanners($aBanners); // $idBanners87 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '120';
@@ -5314,7 +5123,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 12:14:49';
         $this->aIds['banners'][120] = $this->_insertBanners($aBanners); // $idBanners88 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '121';
@@ -5352,7 +5160,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-30 15:40:19';
         $this->aIds['banners'][121] = $this->_insertBanners($aBanners); // $idBanners89 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '122';
@@ -5390,7 +5197,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-27 13:41:09';
         $this->aIds['banners'][122] = $this->_insertBanners($aBanners); // $idBanners90 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '123';
@@ -5428,7 +5234,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-03-30 14:32:48';
         $this->aIds['banners'][123] = $this->_insertBanners($aBanners); // $idBanners91 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '124';
@@ -5466,7 +5271,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = 'gif';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-04 15:54:07';
         $this->aIds['banners'][124] = $this->_insertBanners($aBanners); // $idBanners92 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '125';
@@ -5504,7 +5308,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-03 13:12:10';
         $this->aIds['banners'][125] = $this->_insertBanners($aBanners); // $idBanners93 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '126';
@@ -5542,7 +5345,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-03 17:45:28';
         $this->aIds['banners'][126] = $this->_insertBanners($aBanners); // $idBanners94 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '127';
@@ -5580,7 +5382,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-07 15:14:36';
         $this->aIds['banners'][127] = $this->_insertBanners($aBanners); // $idBanners95 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '128';
@@ -5618,7 +5419,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-07 15:15:12';
         $this->aIds['banners'][128] = $this->_insertBanners($aBanners); // $idBanners96 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '129';
@@ -5656,7 +5456,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-07 15:15:48';
         $this->aIds['banners'][129] = $this->_insertBanners($aBanners); // $idBanners97 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '130';
@@ -5694,7 +5493,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-07 15:16:19';
         $this->aIds['banners'][130] = $this->_insertBanners($aBanners); // $idBanners98 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '131';
@@ -5732,7 +5530,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-11 11:26:57';
         $this->aIds['banners'][131] = $this->_insertBanners($aBanners); // $idBanners99 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '132';
@@ -5769,7 +5566,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-19 13:37:51';
         $this->aIds['banners'][132] = $this->_insertBanners($aBanners); // $idBanners100 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '133';
@@ -5806,7 +5602,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-21 10:20:17';
         $this->aIds['banners'][133] = $this->_insertBanners($aBanners); // $idBanners101 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '134';
@@ -5843,7 +5638,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-21 10:21:08';
         $this->aIds['banners'][134] = $this->_insertBanners($aBanners); // $idBanners102 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '135';
@@ -5880,7 +5674,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-21 10:47:25';
         $this->aIds['banners'][135] = $this->_insertBanners($aBanners); // $idBanners103 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '136';
@@ -5917,7 +5710,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-04-21 10:50:12';
         $this->aIds['banners'][136] = $this->_insertBanners($aBanners); // $idBanners104 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '137';
@@ -5954,7 +5746,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-15 11:21:11';
         $this->aIds['banners'][137] = $this->_insertBanners($aBanners); // $idBanners105 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '138';
@@ -5992,7 +5783,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
         $aBanners['keyword'] = 'foo bar';
-        $aBanners['updated'] = '2006-05-15 14:17:18';
         $this->aIds['banners'][138] = $this->_insertBanners($aBanners); // $idBanners106 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '139';
@@ -6030,7 +5820,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
         $aBanners['keyword'] = 'foo';
-        $aBanners['updated'] = '2006-05-17 11:24:12';
         $this->aIds['banners'][139] = $this->_insertBanners($aBanners); // $idBanners107 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '140';
@@ -6067,7 +5856,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-18 10:22:50';
         $this->aIds['banners'][140] = $this->_insertBanners($aBanners); // $idBanners108 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '141';
@@ -6104,7 +5892,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-18 10:24:29';
         $this->aIds['banners'][141] = $this->_insertBanners($aBanners); // $idBanners109 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '142';
@@ -6141,7 +5928,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 11:06:53';
         $this->aIds['banners'][142] = $this->_insertBanners($aBanners); // $idBanners110 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '143';
@@ -6178,7 +5964,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 11:07:40';
         $this->aIds['banners'][143] = $this->_insertBanners($aBanners); // $idBanners111 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '144';
@@ -6215,7 +6000,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:17:06';
         $this->aIds['banners'][144] = $this->_insertBanners($aBanners); // $idBanners112 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '145';
@@ -6252,7 +6036,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:17:23';
         $this->aIds['banners'][145] = $this->_insertBanners($aBanners); // $idBanners113 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '146';
@@ -6289,7 +6072,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:17:40';
         $this->aIds['banners'][146] = $this->_insertBanners($aBanners); // $idBanners114 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '147';
@@ -6326,7 +6108,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:18:00';
         $this->aIds['banners'][147] = $this->_insertBanners($aBanners); // $idBanners115 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '148';
@@ -6363,7 +6144,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:18:17';
         $this->aIds['banners'][148] = $this->_insertBanners($aBanners); // $idBanners116 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '149';
@@ -6400,7 +6180,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:18:34';
         $this->aIds['banners'][149] = $this->_insertBanners($aBanners); // $idBanners117 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '150';
@@ -6437,7 +6216,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 11:50:52';
         $this->aIds['banners'][150] = $this->_insertBanners($aBanners); // $idBanners118 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '151';
@@ -6474,7 +6252,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:19:22';
         $this->aIds['banners'][151] = $this->_insertBanners($aBanners); // $idBanners119 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '152';
@@ -6511,7 +6288,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:21:04';
         $this->aIds['banners'][152] = $this->_insertBanners($aBanners); // $idBanners120 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '153';
@@ -6548,7 +6324,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:21:51';
         $this->aIds['banners'][153] = $this->_insertBanners($aBanners); // $idBanners121 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '154';
@@ -6585,7 +6360,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:22:39';
         $this->aIds['banners'][154] = $this->_insertBanners($aBanners); // $idBanners122 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '155';
@@ -6622,7 +6396,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 12:23:20';
         $this->aIds['banners'][155] = $this->_insertBanners($aBanners); // $idBanners123 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '156';
@@ -6659,7 +6432,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:07:19';
         $this->aIds['banners'][156] = $this->_insertBanners($aBanners); // $idBanners124 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '157';
@@ -6696,7 +6468,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:18:16';
         $this->aIds['banners'][157] = $this->_insertBanners($aBanners); // $idBanners125 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '158';
@@ -6733,7 +6504,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:38:33';
         $this->aIds['banners'][158] = $this->_insertBanners($aBanners); // $idBanners126 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '159';
@@ -6770,7 +6540,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:39:11';
         $this->aIds['banners'][159] = $this->_insertBanners($aBanners); // $idBanners127 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '160';
@@ -6807,7 +6576,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:39:52';
         $this->aIds['banners'][160] = $this->_insertBanners($aBanners); // $idBanners128 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '161';
@@ -6844,7 +6612,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:40:34';
         $this->aIds['banners'][161] = $this->_insertBanners($aBanners); // $idBanners129 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '162';
@@ -6881,7 +6648,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:41:14';
         $this->aIds['banners'][162] = $this->_insertBanners($aBanners); // $idBanners130 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '163';
@@ -6918,7 +6684,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 14:42:05';
         $this->aIds['banners'][163] = $this->_insertBanners($aBanners); // $idBanners131 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '164';
@@ -6955,7 +6720,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-22 18:01:41';
         $this->aIds['banners'][164] = $this->_insertBanners($aBanners); // $idBanners132 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '165';
@@ -6992,7 +6756,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-25 16:33:35';
         $this->aIds['banners'][165] = $this->_insertBanners($aBanners); // $idBanners133 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '166';
@@ -7029,7 +6792,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-23 17:42:51';
         $this->aIds['banners'][166] = $this->_insertBanners($aBanners); // $idBanners134 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '167';
@@ -7066,7 +6828,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-24 16:46:06';
         $this->aIds['banners'][167] = $this->_insertBanners($aBanners); // $idBanners135 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '168';
@@ -7103,7 +6864,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-25 17:33:22';
         $this->aIds['banners'][168] = $this->_insertBanners($aBanners); // $idBanners136 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '169';
@@ -7140,7 +6900,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-26 09:40:56';
         $this->aIds['banners'][169] = $this->_insertBanners($aBanners); // $idBanners137 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '170';
@@ -7177,7 +6936,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-05-26 12:41:22';
         $this->aIds['banners'][170] = $this->_insertBanners($aBanners); // $idBanners138 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '171';
@@ -7214,7 +6972,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-02 14:14:09';
         $this->aIds['banners'][171] = $this->_insertBanners($aBanners); // $idBanners139 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '172';
@@ -7251,7 +7008,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-02 14:17:00';
         $this->aIds['banners'][172] = $this->_insertBanners($aBanners); // $idBanners140 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '173';
@@ -7288,7 +7044,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-05 16:37:53';
         $this->aIds['banners'][173] = $this->_insertBanners($aBanners); // $idBanners141 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '175';
@@ -7325,7 +7080,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-05 16:45:26';
         $this->aIds['banners'][175] = $this->_insertBanners($aBanners); // $idBanners142 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '176';
@@ -7362,7 +7116,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-08 11:19:16';
         $this->aIds['banners'][176] = $this->_insertBanners($aBanners); // $idBanners143 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '177';
@@ -7399,7 +7152,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-14 12:18:40';
         $this->aIds['banners'][177] = $this->_insertBanners($aBanners); // $idBanners144 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '178';
@@ -7436,7 +7188,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-15 14:22:43';
         $this->aIds['banners'][178] = $this->_insertBanners($aBanners); // $idBanners145 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '179';
@@ -7473,7 +7224,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-15 14:25:14';
         $this->aIds['banners'][179] = $this->_insertBanners($aBanners); // $idBanners146 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '180';
@@ -7510,7 +7260,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-15 14:32:00';
         $this->aIds['banners'][180] = $this->_insertBanners($aBanners); // $idBanners147 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '181';
@@ -7547,7 +7296,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-15 16:29:18';
         $this->aIds['banners'][181] = $this->_insertBanners($aBanners); // $idBanners148 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '182';
@@ -7584,7 +7332,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-15 16:44:23';
         $this->aIds['banners'][182] = $this->_insertBanners($aBanners); // $idBanners149 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '183';
@@ -7621,7 +7368,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-06-19 14:52:12';
         $this->aIds['banners'][183] = $this->_insertBanners($aBanners); // $idBanners150 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '184';
@@ -7658,7 +7404,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-06 17:30:15';
         $this->aIds['banners'][184] = $this->_insertBanners($aBanners); // $idBanners151 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '185';
@@ -7695,7 +7440,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 11:24:37';
         $this->aIds['banners'][185] = $this->_insertBanners($aBanners); // $idBanners152 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '187';
@@ -7733,7 +7477,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 12:14:49';
         $this->aIds['banners'][187] = $this->_insertBanners($aBanners); // $idBanners153 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '188';
@@ -7771,7 +7514,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 12:14:49';
         $this->aIds['banners'][188] = $this->_insertBanners($aBanners); // $idBanners154 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '189';
@@ -7809,7 +7551,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 12:14:49';
         $this->aIds['banners'][189] = $this->_insertBanners($aBanners); // $idBanners155 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '190';
@@ -7847,8 +7588,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-13 15:24:07';
-        $aBanners['acls_updated'] = '2006-08-01 15:33:58';
+               $aBanners['acls_updated'] = '2006-08-01 15:33:58';
         $this->aIds['banners'][190] = $this->_insertBanners($aBanners); // $idBanners156 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '191';
@@ -7886,7 +7626,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 12:14:49';
         $this->aIds['banners'][191] = $this->_insertBanners($aBanners); // $idBanners157 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '192';
@@ -7924,7 +7663,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 12:14:49';
         $this->aIds['banners'][192] = $this->_insertBanners($aBanners); // $idBanners158 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '193';
@@ -7962,7 +7700,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 12:14:49';
         $this->aIds['banners'][193] = $this->_insertBanners($aBanners); // $idBanners159 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '194';
@@ -8000,7 +7737,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-11 16:44:55';
         $this->aIds['banners'][194] = $this->_insertBanners($aBanners); // $idBanners160 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '195';
@@ -8038,8 +7774,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] =  '';
         $aBanners['alt_contenttype'] =  '';
         $aBanners['comments'] =  '';
-        $aBanners['updated'] = '2006-07-13 13:51:07';
-        $aBanners['acls_updated'] = '2006-08-03 17:26:51';
+               $aBanners['acls_updated'] = '2006-08-03 17:26:51';
         $this->aIds['banners'][195] = $this->_insertBanners($aBanners); // $idBanners161 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '196';
@@ -8076,7 +7811,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-14 10:05:14';
         $this->aIds['banners'][196] = $this->_insertBanners($aBanners); // $idBanners162 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '197';
@@ -8113,7 +7847,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-14 10:04:14';
         $this->aIds['banners'][197] = $this->_insertBanners($aBanners); // $idBanners163 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '198';
@@ -8151,8 +7884,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-14 18:04:38';
-        $aBanners['acls_updated'] = '2006-07-14 18:04:38';
+               $aBanners['acls_updated'] = '2006-07-14 18:04:38';
         $this->aIds['banners'][198] = $this->_insertBanners($aBanners); // $idBanners164 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '199';
@@ -8190,8 +7922,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '0';
         $aBanners['comments'] = '0';
-        $aBanners['updated'] = '2006-07-17 10:19:43';
-        $aBanners['acls_updated'] = '2006-07-27 11:59:34';
+               $aBanners['acls_updated'] = '2006-07-27 11:59:34';
         $this->aIds['banners'][199] = $this->_insertBanners($aBanners); // $idBanners165 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '200';
@@ -8229,8 +7960,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '0';
         $aBanners['comments'] = '0';
-        $aBanners['updated'] = '2006-07-17 12:02:54';
-        $aBanners['acls_updated'] = '2006-07-27 11:59:34';
+               $aBanners['acls_updated'] = '2006-07-27 11:59:34';
         $this->aIds['banners'][200] = $this->_insertBanners($aBanners); // $idBanners166 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '201';
@@ -8268,8 +7998,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-27 11:58:17';
-        $aBanners['acls_updated'] = '2006-07-17 12:24:51';
+               $aBanners['acls_updated'] = '2006-07-17 12:24:51';
         $this->aIds['banners'][201] = $this->_insertBanners($aBanners); // $idBanners167 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '202';
@@ -8306,7 +8035,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-19 14:17:17';
         $this->aIds['banners'][202] = $this->_insertBanners($aBanners); // $idBanners168 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '203';
@@ -8343,7 +8071,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-27 12:38:01';
         $this->aIds['banners'][203] = $this->_insertBanners($aBanners); // $idBanners169 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '204';
@@ -8380,7 +8107,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-27 12:43:15';
         $this->aIds['banners'][204] = $this->_insertBanners($aBanners); // $idBanners170 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '205';
@@ -8417,7 +8143,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-28 15:53:21';
         $this->aIds['banners'][205] = $this->_insertBanners($aBanners); // $idBanners171 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '206';
@@ -8454,7 +8179,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-28 15:56:57';
         $this->aIds['banners'][206] = $this->_insertBanners($aBanners); // $idBanners172 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1000';
@@ -8491,7 +8215,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-07-28 17:55:20';
         $this->aIds['banners'][1000] = $this->_insertBanners($aBanners); // $idBanners173 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1001';
@@ -8528,7 +8251,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 13:14:03';
         $this->aIds['banners'][1001] = $this->_insertBanners($aBanners); // $idBanners174 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1002';
@@ -8565,7 +8287,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 13:14:28';
         $this->aIds['banners'][1002] = $this->_insertBanners($aBanners); // $idBanners175 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1003';
@@ -8602,7 +8323,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 11:48:22';
         $this->aIds['banners'][1003] = $this->_insertBanners($aBanners); // $idBanners176 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1004';
@@ -8639,7 +8359,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 11:50:07';
         $this->aIds['banners'][1004] = $this->_insertBanners($aBanners); // $idBanners177 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1005';
@@ -8676,7 +8395,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = 'gif';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 13:14:52';
         $this->aIds['banners'][1005] = $this->_insertBanners($aBanners); // $idBanners178 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1006';
@@ -8713,7 +8431,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:01:37';
         $this->aIds['banners'][1006] = $this->_insertBanners($aBanners); // $idBanners179 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1007';
@@ -8750,7 +8467,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:00:59';
         $this->aIds['banners'][1007] = $this->_insertBanners($aBanners); // $idBanners180 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1008';
@@ -8787,7 +8503,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:04:36';
         $this->aIds['banners'][1008] = $this->_insertBanners($aBanners); // $idBanners181 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1009';
@@ -8824,7 +8539,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:05:32';
         $this->aIds['banners'][1009] = $this->_insertBanners($aBanners); // $idBanners182 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1010';
@@ -8861,7 +8575,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:12:38';
         $this->aIds['banners'][1010] = $this->_insertBanners($aBanners); // $idBanners183 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1011';
@@ -8898,7 +8611,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:13:44';
         $this->aIds['banners'][1011] = $this->_insertBanners($aBanners); // $idBanners184 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1012';
@@ -8935,7 +8647,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:14:35';
         $this->aIds['banners'][1012] = $this->_insertBanners($aBanners); // $idBanners185 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1013';
@@ -8972,7 +8683,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:15:48';
         $this->aIds['banners'][1013] = $this->_insertBanners($aBanners); // $idBanners186 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1014';
@@ -9009,7 +8719,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:19:56';
         $this->aIds['banners'][1014] = $this->_insertBanners($aBanners); // $idBanners187 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1015';
@@ -9046,7 +8755,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:25:34';
         $this->aIds['banners'][1015] = $this->_insertBanners($aBanners); // $idBanners188 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1016';
@@ -9083,7 +8791,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:27:18';
         $this->aIds['banners'][1016] = $this->_insertBanners($aBanners); // $idBanners189 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1017';
@@ -9120,7 +8827,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 12:38:42';
         $this->aIds['banners'][1017] = $this->_insertBanners($aBanners); // $idBanners190 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1018';
@@ -9157,7 +8863,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 13:19:16';
         $this->aIds['banners'][1018] = $this->_insertBanners($aBanners); // $idBanners191 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1019';
@@ -9194,7 +8899,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 13:22:18';
         $this->aIds['banners'][1019] = $this->_insertBanners($aBanners); // $idBanners192 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1020';
@@ -9231,7 +8935,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:24:13';
         $this->aIds['banners'][1020] = $this->_insertBanners($aBanners); // $idBanners193 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1021';
@@ -9268,7 +8971,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:24:13';
         $this->aIds['banners'][1021] = $this->_insertBanners($aBanners); // $idBanners194 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1022';
@@ -9305,7 +9007,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:24:13';
         $this->aIds['banners'][1022] = $this->_insertBanners($aBanners); // $idBanners195 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1023';
@@ -9342,7 +9043,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:24:13';
         $this->aIds['banners'][1023] = $this->_insertBanners($aBanners); // $idBanners196 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1024';
@@ -9379,7 +9079,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = 'gif';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:24:13';
         $this->aIds['banners'][1024] = $this->_insertBanners($aBanners); // $idBanners197 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1025';
@@ -9416,7 +9115,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:25:42';
         $this->aIds['banners'][1025] = $this->_insertBanners($aBanners); // $idBanners198 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1026';
@@ -9453,7 +9151,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:25:42';
         $this->aIds['banners'][1026] = $this->_insertBanners($aBanners); // $idBanners199 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1027';
@@ -9490,7 +9187,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:25:42';
         $this->aIds['banners'][1027] = $this->_insertBanners($aBanners); // $idBanners200 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1028';
@@ -9527,7 +9223,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:25:42';
         $this->aIds['banners'][1028] = $this->_insertBanners($aBanners); // $idBanners201 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1029';
@@ -9564,7 +9259,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = 'gif';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:25:42';
         $this->aIds['banners'][1029] = $this->_insertBanners($aBanners); // $idBanners202 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1030';
@@ -9601,7 +9295,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1030] = $this->_insertBanners($aBanners); // $idBanners203 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1031';
@@ -9638,7 +9331,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1031] = $this->_insertBanners($aBanners); // $idBanners204 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1032';
@@ -9675,7 +9367,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1032] = $this->_insertBanners($aBanners); // $idBanners205 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1033';
@@ -9712,7 +9403,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1033] = $this->_insertBanners($aBanners); // $idBanners206 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1034';
@@ -9749,7 +9439,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1034] = $this->_insertBanners($aBanners); // $idBanners207 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1035';
@@ -9786,7 +9475,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1035] = $this->_insertBanners($aBanners); // $idBanners208 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1036';
@@ -9823,7 +9511,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1036] = $this->_insertBanners($aBanners); // $idBanners209 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1037';
@@ -9860,7 +9547,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:26:19';
         $this->aIds['banners'][1037] = $this->_insertBanners($aBanners); // $idBanners210 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1038';
@@ -9897,7 +9583,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1038] = $this->_insertBanners($aBanners); // $idBanners211 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1039';
@@ -9934,7 +9619,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1039] = $this->_insertBanners($aBanners); // $idBanners212 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1040';
@@ -9971,7 +9655,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1040] = $this->_insertBanners($aBanners); // $idBanners213 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1041';
@@ -10008,7 +9691,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1041] = $this->_insertBanners($aBanners); // $idBanners214 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1042';
@@ -10045,7 +9727,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1042] = $this->_insertBanners($aBanners); // $idBanners215 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1043';
@@ -10082,7 +9763,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1043] = $this->_insertBanners($aBanners); // $idBanners216 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1044';
@@ -10119,7 +9799,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1044] = $this->_insertBanners($aBanners); // $idBanners217 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1045';
@@ -10156,7 +9835,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:27:12';
         $this->aIds['banners'][1045] = $this->_insertBanners($aBanners); // $idBanners218 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1046';
@@ -10193,7 +9871,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:11';
         $this->aIds['banners'][1046] = $this->_insertBanners($aBanners); // $idBanners219 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1047';
@@ -10230,7 +9907,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:11';
         $this->aIds['banners'][1047] = $this->_insertBanners($aBanners); // $idBanners220 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1048';
@@ -10267,7 +9943,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:11';
         $this->aIds['banners'][1048] = $this->_insertBanners($aBanners); // $idBanners221 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1049';
@@ -10304,7 +9979,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:11';
         $this->aIds['banners'][1049] = $this->_insertBanners($aBanners); // $idBanners222 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1050';
@@ -10341,7 +10015,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:49';
         $this->aIds['banners'][1050] = $this->_insertBanners($aBanners); // $idBanners223 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1051';
@@ -10378,7 +10051,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:49';
         $this->aIds['banners'][1051] = $this->_insertBanners($aBanners); // $idBanners224 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1052';
@@ -10415,7 +10087,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:49';
         $this->aIds['banners'][1052] = $this->_insertBanners($aBanners); // $idBanners225 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1053';
@@ -10452,7 +10123,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:28:49';
         $this->aIds['banners'][1053] = $this->_insertBanners($aBanners); // $idBanners226 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1054';
@@ -10489,7 +10159,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:30:06';
         $this->aIds['banners'][1054] = $this->_insertBanners($aBanners); // $idBanners227 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1055';
@@ -10526,7 +10195,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:30:06';
         $this->aIds['banners'][1055] = $this->_insertBanners($aBanners); // $idBanners228 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1056';
@@ -10563,7 +10231,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:30:30';
         $this->aIds['banners'][1056] = $this->_insertBanners($aBanners); // $idBanners229 = $this->_insertBanners($aBanners);
 
         //$aBanners['bannerid'] = '1057';
@@ -10600,7 +10267,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aBanners['alt_imageurl'] = '';
         $aBanners['alt_contenttype'] = '';
         $aBanners['comments'] = '';
-        $aBanners['updated'] = '2006-08-08 17:30:30';
         $this->aIds['banners'][1057] = $this->_insertBanners($aBanners); // $idBanners230 = $this->_insertBanners($aBanners);
 
 
@@ -10625,7 +10291,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['forceappend'] = 'f';
         $aZones['inventory_forecast_type'] = '0';
         $aZones['comments'] = '';
-        $aZones['updated'] = '2005-11-03 15:53:25';
         $this->aIds['zones'][1] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '2';
@@ -10645,7 +10310,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['forceappend'] = 'f';
         $aZones['inventory_forecast_type'] = '0';
         $aZones['comments'] = '';
-        $aZones['updated'] = '2005-11-14 17:57:29';
         $this->aIds['zones'][2] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '3';
@@ -10665,7 +10329,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['forceappend'] = 'f';
         $aZones['inventory_forecast_type'] = '0';
         $aZones['comments'] = '';
-        $aZones['updated'] = '2005-11-17 15:59:33';
         $this->aIds['zones'][3] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '4';
@@ -10685,7 +10348,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['forceappend'] = 'f';
         $aZones['inventory_forecast_type'] = '0';
         $aZones['comments'] = '';
-        $aZones['updated'] = '2005-11-21 13:31:51';
         $this->aIds['zones'][4] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '5';
@@ -10705,7 +10367,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['forceappend'] = 'f';
         $aZones['inventory_forecast_type'] = '0';
         $aZones['comments'] = '';
-        $aZones['updated'] = '2005-11-21 13:57:02';
         $this->aIds['zones'][5] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '6';
@@ -10727,7 +10388,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '1.0000';
         $aZones['cost_type'] = '7';
-        $aZones['updated'] = '2006-08-15 14:28:55';
         $this->aIds['zones'][6] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '7';
@@ -10749,7 +10409,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = 'Zero by Zero test zone';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-01-25 18:19:19';
         $this->aIds['zones'][7] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '8';
@@ -10771,7 +10430,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-02-01 18:06:02';
         $this->aIds['zones'][8] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '9';
@@ -10793,7 +10451,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-02-07 10:37:05';
         $this->aIds['zones'][9] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '10';
@@ -10815,7 +10472,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-02-07 11:40:58';
         $this->aIds['zones'][10] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '11';
@@ -10837,7 +10493,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-02-21 15:59:28';
         $this->aIds['zones'][11] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '12';
@@ -10859,7 +10514,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-02-21 16:41:25';
         $this->aIds['zones'][12] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '13';
@@ -10881,7 +10535,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-03-07 16:20:43';
         $this->aIds['zones'][13] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '14';
@@ -10903,7 +10556,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-16 12:44:04';
         $this->aIds['zones'][14] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '15';
@@ -10925,7 +10577,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-16 12:12:21';
         $this->aIds['zones'][15] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '16';
@@ -10947,7 +10598,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-03-13 15:12:32';
         $this->aIds['zones'][16] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '17';
@@ -10969,7 +10619,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-03-13 15:14:27';
         $this->aIds['zones'][17] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '18';
@@ -11012,7 +10661,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-03-16 15:07:36';
         $this->aIds['zones'][19] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '20';
@@ -11034,7 +10682,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-03-20 14:16:29';
         $this->aIds['zones'][20] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '21';
@@ -11056,7 +10703,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-03-27 13:41:55';
         $this->aIds['zones'][21] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '22';
@@ -11078,7 +10724,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '10.0000';
         $aZones['cost_type'] = '1';
-        $aZones['updated'] = '2006-04-07 17:11:31';
         $this->aIds['zones'][22] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '23';
@@ -11100,7 +10745,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-03 11:36:55';
         $this->aIds['zones'][23] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '24';
@@ -11122,7 +10766,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-03 16:53:03';
         $this->aIds['zones'][24] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '25';
@@ -11144,7 +10787,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-04 11:31:22';
         $this->aIds['zones'][25] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '26';
@@ -11166,7 +10808,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-04 11:31:39';
         $this->aIds['zones'][26] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '27';
@@ -11188,7 +10829,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-05 10:01:40';
         $this->aIds['zones'][27] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '28';
@@ -11210,7 +10850,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-05 10:02:02';
         $this->aIds['zones'][28] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '30';
@@ -11232,7 +10871,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-10 12:49:55';
         $this->aIds['zones'][30] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '31';
@@ -11254,7 +10892,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-20 15:33:46';
         $this->aIds['zones'][31] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '32';
@@ -11276,7 +10913,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-21 10:17:16';
         $this->aIds['zones'][32] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '33';
@@ -11298,7 +10934,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-21 10:19:10';
         $this->aIds['zones'][33] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '34';
@@ -11320,7 +10955,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-24 00:03:41';
         $this->aIds['zones'][34] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '35';
@@ -11342,7 +10976,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-24 01:41:18';
         $this->aIds['zones'][35] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '36';
@@ -11364,7 +10997,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-04-24 02:10:10';
         $this->aIds['zones'][36] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '37';
@@ -11386,7 +11018,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-10 13:38:43';
         $this->aIds['zones'][37] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '38';
@@ -11408,7 +11039,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-16 15:37:30';
         $this->aIds['zones'][38] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '39';
@@ -11430,7 +11060,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-17 11:17:12';
         $this->aIds['zones'][39] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '40';
@@ -11452,7 +11081,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-18 10:25:33';
         $this->aIds['zones'][40] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '41';
@@ -11474,7 +11102,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-22 11:04:46';
         $this->aIds['zones'][41] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '42';
@@ -11496,7 +11123,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-22 14:19:34';
         $this->aIds['zones'][42] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '43';
@@ -11518,7 +11144,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-22 14:19:07';
         $this->aIds['zones'][43] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '44';
@@ -11540,7 +11165,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-23 09:49:34';
         $this->aIds['zones'][44] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '45';
@@ -11562,7 +11186,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-23 11:04:03';
         $this->aIds['zones'][45] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '46';
@@ -11584,7 +11207,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-05-26 09:39:46';
         $this->aIds['zones'][46] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '47';
@@ -11606,7 +11228,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-06-20 17:37:21';
         $this->aIds['zones'][47] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '48';
@@ -11628,7 +11249,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-06-30 15:43:40';
         $this->aIds['zones'][48] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '49';
@@ -11650,7 +11270,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-06-30 15:44:44';
         $this->aIds['zones'][49] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '50';
@@ -11672,7 +11291,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-07-10 13:45:58';
         $this->aIds['zones'][50] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '51';
@@ -11694,7 +11312,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-07-11 11:26:30';
         $this->aIds['zones'][51] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '52';
@@ -11716,7 +11333,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-07-11 12:10:39';
         $this->aIds['zones'][52] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '53';
@@ -11738,7 +11354,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-07-27 16:48:10';
         $this->aIds['zones'][53] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '54';
@@ -11760,7 +11375,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-07-28 15:55:46';
         $this->aIds['zones'][54] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '55';
@@ -11782,7 +11396,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:20:13';
         $this->aIds['zones'][55] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '56';
@@ -11804,7 +11417,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:20:59';
         $this->aIds['zones'][56] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '57';
@@ -11826,7 +11438,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:19:56';
         $this->aIds['zones'][57] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '58';
@@ -11848,7 +11459,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:19:38';
         $this->aIds['zones'][58] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '59';
@@ -11870,7 +11480,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:20:33';
         $this->aIds['zones'][59] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '60';
@@ -11892,7 +11501,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:21:28';
         $this->aIds['zones'][60] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '61';
@@ -11914,7 +11522,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:22:04';
         $this->aIds['zones'][61] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '62';
@@ -11936,7 +11543,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:22:30';
         $this->aIds['zones'][62] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '63';
@@ -11958,7 +11564,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:42:57';
         $this->aIds['zones'][63] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '64';
@@ -11980,7 +11585,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-08 17:43:24';
         $this->aIds['zones'][64] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '65';
@@ -12002,7 +11606,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-09 12:54:25';
         $this->aIds['zones'][65] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '66';
@@ -12024,7 +11627,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-09 13:16:26';
         $this->aIds['zones'][66] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '67';
@@ -12046,7 +11648,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-11 10:52:20';
         $this->aIds['zones'][67] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '68';
@@ -12068,7 +11669,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-18 14:11:06';
         $this->aIds['zones'][68] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '69';
@@ -12090,7 +11690,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-18 14:11:31';
         $this->aIds['zones'][69] = $this->_insertZones($aZones);
 
         //$aZones['zoneid'] = '70';
@@ -12112,7 +11711,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aZones['comments'] = '';
         $aZones['cost'] = '0.0000';
         $aZones['cost_type'] = '0';
-        $aZones['updated'] = '2006-08-18 14:11:59';
         $this->aIds['zones'][70] = $this->_insertZones($aZones);
 
         // ad_zone_assoc
@@ -12245,7 +11843,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aTrackers['linkcampaigns'] = '0';
         $aTrackers['variablemethod'] = 'js';
         $aTrackers['appendcode'] = '';
-        $aTrackers['updated'] = '2006-07-27 11:59:34';
         $this->aIds['trackers'][1] = $this->_insertTrackers($aTrackers);
 
         // preference
