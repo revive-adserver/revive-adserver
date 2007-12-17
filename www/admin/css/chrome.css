@@ -26,7 +26,7 @@ a:hover {
 
 #oaHeader {
 	position: relative;
-	background-color: #FFF;
+	background-color: #fff;
 	height: 56px;
 }
 
@@ -73,29 +73,44 @@ a:hover {
 
 #oaSearch {
 	position: absolute;
-	top: 0;
-	right: 0;
-	height: 24px;
-	width: 200px;
+	top: 5px;
+	right: 5px;
+	height: 31px;
+	width: 214px;
 	
-	background: #299B3C;
+	background: url("../images/searchfull.png") no-repeat;
 	font-weight: bold;
 	color: #fff;
-	line-height: 24px;
-
-	border-left: 1px solid #09c;
-	border-bottom: 1px solid #09c;
+	line-height: 31px;
 }
 #oaSearch form {
 	margin: 0;
 }
-#oaSearch label {
-	margin: 0 0 0 12px;
-}
-#oaSearch input {
+
+#oaSearch input[type=text] {
+	position: relative;
+	left: 32px;
+	top: 7px;
 	border: none;
+	width: 130px;
+	height: 13px;
 }
 
+#oaSearch input:focus {
+	background-color: white;
+}
+
+/*#oaSearch input:submit {
+  position: relative;
+  background: url("../images/searchfull.png") no-repeat;
+  left: 40px;
+  top: 8px;
+  border: none;
+  width: 36px;
+  height: 12px;
+  padding: 0px;
+  margin: 0px;
+}/*
 
 
 /*	Navigation */
