@@ -115,8 +115,8 @@ class OA_Test_Data
         $this->doAgency->contact = 'Test Contact';
         $this->doAgency->email = 'agency@example.com';
         $this->doAgency->permissions = 0;
-        $this->doAgency->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doAgency->agencyid = '';
+        $this->doAgency->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doAgency->setFrom($aData);
         return DataGenerator::generateOne($this->doAgency);
     }
@@ -132,6 +132,7 @@ class OA_Test_Data
         $this->doClients->reportlastdate='2004-11-26';
         $this->doClients->reportdeactivate='t';
         $this->doClients->clientid='';
+        $this->doClients->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doClients->setFrom($aData);
         return DataGenerator::generateOne($this->doClients);
     }
@@ -164,7 +165,7 @@ class OA_Test_Data
         $this->doCampaigns->target_conversion = 0;
         $this->doCampaigns->anonymous = 'f';
         $this->doCampaigns->companion = 0;
-        $this->doCampaigns->updated = null;
+        $this->doCampaigns->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doCampaigns->setFrom($aData);
         return DataGenerator::generateOne($this->doCampaigns);
     }
@@ -202,9 +203,10 @@ class OA_Test_Data
         $this->doBanners->alt_imageurl='';
         $this->doBanners->alt_contenttype='';
         $this->doBanners->bannerid='t';
+        $this->doBanners->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doBanners->setFrom($aData);
-        if (empty($this->doBanners->acls_updated) && !empty($this->doBanners->updated)) {
-            $this->doBanners->acls_updated = $this->doBanners->updated;
+        if (empty($this->doBanners->acls_updated)) {
+            $this->doBanners->acls_updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         }
         return DataGenerator::generateOne($this->doBanners);
     }
@@ -224,6 +226,7 @@ class OA_Test_Data
         $this->doZones->appendtype=0;
         $this->doZones->inventory_forecast_type=0;
         $this->doZones->what='';
+        $this->doZones->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doZones->setFrom($aData);
         return DataGenerator::generateOne($this->doZones);
     }
@@ -252,6 +255,7 @@ class OA_Test_Data
 
     function _insertChannel($aData)
     {
+        $this->doChannel->acls_updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doChannel->setFrom($aData);
         return DataGenerator::generateOne($this->doChannel);
     }
