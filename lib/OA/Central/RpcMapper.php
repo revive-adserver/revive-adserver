@@ -675,6 +675,38 @@ class OA_Central_RpcMapper
     	return $this->oRpc->callNoAuth('adsenseGetSupportedWebsiteLocales');
     }
 
+    /**
+     * A method to get user locales supported by AdSense
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [0] => Array
+     *         (
+     *             [name] => English (United Kingdom)
+     *             [code] => en_GB
+     *         )
+     *
+     *     [1] => Array
+     *         (
+     *             [name] => Polish
+     *             [code] => pl
+     *         )
+     *
+     * )
+     * 
+     * @see http://code.google.com/apis/adsense/developer/adsense_api_locales.html
+     *  
+     * @return mixed An array described above
+     * 
+     */    
+    function adsenseGetSupportedUserLocales()
+    {
+    	return $this->oRpc->callNoAuth('adsenseGetSupportedUserLocales');
+    }
+
+
 }
 
 ?>
