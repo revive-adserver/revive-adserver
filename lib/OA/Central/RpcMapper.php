@@ -643,6 +643,38 @@ class OA_Central_RpcMapper
             new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int'])
         ));
     }
+
+    /**
+     * A method to get ad unit types and ad layout sizes supported by AdSense
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [FourLinkUnit] => Array
+     *         (
+     *             [0] => 200x90
+     *             [1] => 468x15
+     *         )
+     *
+     *     [ImageOnly] => Array
+     *         (
+     *             [0] => 336x280
+     *             [1] => 250x250
+     *         )
+     *
+     * )
+     * 
+     * @see http://code.google.com/apis/adsense/developer/adsense_api_adformats.html
+     *  
+     * @return mixed An array described above
+     * 
+     */    
+    function adsenseGetUnitTypesAndLayouts()
+    {
+    	return $this->oRpc->callNoAuth('adsenseGetUnitTypesAndLayouts');
+    }
+
     
     /**
      * A method to get website locales supported by AdSense
