@@ -54,8 +54,6 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $this->oDbh = OA_DB::singleton();
         $this->prefix = $GLOBALS['_MAX']['CONF']['table']['prefix'];
         $this->aIds = TestEnv::loadData('0.3.27_delivery');
-        $this->assertIsA($this->aIds,'array');
-
     }
 
     /**
@@ -123,7 +121,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getZoneInfo()
     {
-        $zoneid     = 61;
+        $zoneid     = $this->aIds['zones'][61];
         $aReturn    = OA_Dal_Delivery_getZoneInfo($zoneid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn, 'array');
@@ -136,13 +134,13 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getZoneLinkedAds()
     {
-        $zoneid     = 61;
+        $zoneid     = $this->aIds['zones'][61];
         $aReturn    = OA_Dal_Delivery_getZoneLinkedAds($zoneid);
 
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($zoneid, $aReturn['zone_id']);
-        $this->assertNull($aReturn['default_banner_url']);
-        $this->assertNull($aReturn['default_banner_dest']);
+        $this->assertEqual($aReturn['default_banner_url'], 1);
+        $this->assertEqual($aReturn['default_banner_dest'], 1);
         $this->assertIsA($aReturn['xAds'], 'array');
         $this->assertIsA($aReturn['cAds'], 'array');
         $this->assertIsA($aReturn['clAds'], 'array');
@@ -166,7 +164,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getLinkedAds()
     {
-        $placementid = 1;
+        $placementid = $this->aIds['campaigns'][1];
         $search     = 'campaignid:'.$placementid;
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         //$prn        = var_export($aReturn, TRUE);
@@ -226,7 +224,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
         $search     = 'textad';
         $aReturn    = OA_Dal_Delivery_getLinkedAds($search);
         $this->assertIsA($aReturn, 'array');
-        $this->assertEqual($aReturn['count_active'], 12);
+        $this->assertEqual($aReturn['count_active'], 17);
 	}
 
     /**
@@ -235,7 +233,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getAd()
     {
-        $ad_id      = 1;
+        $ad_id      = $this->aIds['banners'][1];
         $aReturn    = OA_Dal_Delivery_getAd($ad_id);
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($aReturn['ad_id'], $ad_id);
@@ -247,7 +245,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getChannelLimitations()
     {
-        $channelid  = 1;
+        $channelid  = $this->aIds['channels'][1];
         $aReturn    = OA_Dal_Delivery_getChannelLimitations($channelid);
         //$prn        = var_export($aReturn, TRUE);
         $this->assertIsA($aReturn['acl_plugins'],'string');
@@ -273,7 +271,7 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
      */
     function test_OA_Dal_Delivery_getTracker()
     {
-        $trackerid  = 1;
+        $trackerid  = $this->aIds['trackers'][1];
         $aReturn    = OA_Dal_Delivery_getTracker($trackerid);
         $this->assertEqual($aReturn['advertiser_id'],1);
         $this->assertEqual($aReturn['tracker_id'],1);
