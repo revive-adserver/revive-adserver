@@ -203,6 +203,9 @@ class OA_Test_Data
         $this->doBanners->alt_contenttype='';
         $this->doBanners->bannerid='t';
         $this->doBanners->setFrom($aData);
+        if (empty($this->doBanners->acls_updated) && !empty($this->doBanners->updated)) {
+            $this->doBanners->acls_updated = $this->doBanners->updated;
+        }
         return DataGenerator::generateOne($this->doBanners);
     }
 
