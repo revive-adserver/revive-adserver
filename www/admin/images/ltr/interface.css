@@ -118,6 +118,10 @@ textarea.code {
     border-left-width: 1px;
 }
 
+select.error:focus, textarea.error:focus, input.error:focus {
+  background-color:  #ffd4d4;
+}
+
 select.flat, textarea.flat, input.flat,
 textarea.code {
     border-color : #888888;
@@ -480,6 +484,10 @@ a.time:before
 .section .label label {
     display: block;
     width: 100%;
+}
+label.error {
+    padding-left: 0.5em;
+    color: red;
 }
 .section .element {
     width: 70%;

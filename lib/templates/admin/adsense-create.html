@@ -49,7 +49,7 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
   </div>
   {/if}
 
-  <form action="adsense-accounts.php">
+  <form id="adsense-create" class="validate" action="adsense-accounts.php">
     <input type="hidden" name="info" value="linked" />
     {include file=edit-table/create.html from=$fields}
 
@@ -71,7 +71,8 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 {literal}
   $(document).ready(function() {
     var checkTerms = function() {
-      if (this.checked) {
+      var checkbox = $("#termsconsent")[0];
+      if (checkbox.checked) {
         $("#termshint").fadeOut();
         $("#submit").attr("disabled", false);
       }
@@ -80,7 +81,8 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
         $("#submit").attr("disabled", true);
       }
     };
-    $("#termsconsent").change(checkTerms).trigger("change");
+    $("#termsconsent").click(checkTerms);
+    checkTerms();
   });
 {/literal}
 </script>

@@ -55,11 +55,10 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 <script>
 {literal}
   $(document).ready(function() {
-    $("#haveaccount-yes, #haveaccount-no").change(function() {
+    var switchForm = function() {
       var selected = $("#haveaccount-yes").attr("checked") || $("#haveaccount-no").attr("checked") || false;
       var haveAccount = $("#haveaccount-yes").attr("checked") || !$("#haveaccount-no").attr("checked");
 
-      console.log(selected, haveAccount);
       if (!selected) {
         $("#intro").slideFadeIn(500);
         $("#adsense-link-form, #adsense-create-form").slideFadeOut(500);
@@ -74,10 +73,13 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
           $("#adsense-link-form").slideFadeOut(500);
           $("#adsense-create-form").slideFadeIn(500);
         }
-      }
-    });
 
-    $("#haveaccount-yes").trigger("change");
+        $(":input:visible:eq(0)").focus();
+      }
+    }
+
+    $("#haveaccount-yes, #haveaccount-no").click(switchForm);
+    switchForm();
   });
 {/literal}
 </script>

@@ -63,17 +63,26 @@ $oTpl->assign('fields', array(
             array(
                 'name'      => 'email',
                 'label'     => 'Email',
-                'value'     => $email
+                'value'     => $email,
+                'id'        => 'adsenseemail',
+                'title'     => 'Provide valid email',
+                'clientValid' => 'required:true'
             ),
             array(
                 'name'      => 'phone5digits',
                 'label'     => 'Last 5 digits of phone number',
-                'value'     => ''
+                'value'     => '',
+                'id'        => 'phonedigits',
+                'title'     => 'Provide last 5 phone digits',
+                'clientValid' => 'required:true'
             ),
             array(
                 'name'      => 'postalcode',
                 'label'     => 'Postal Code',
-                'value'     => ''
+                'value'     => '',
+                'id'        => 'postcode',
+                'title'     => 'Provide postal code',
+                'clientValid' => 'required:true'
             )
         )
     ),

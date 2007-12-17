@@ -96,17 +96,26 @@ else
                array(
                    'name'      => 'email',
                    'label'     => 'Email',
-                   'value'     => $email
+                   'value'     => $email,
+                   'id'        => 'adsenseemail',
+                   'title'     => 'Provide valid email',
+                   'clientValid' => 'required:true,email:true'
                ),
                array(
                    'name'      => 'phone5digits',
                    'label'     => 'Last 5 digits of phone number',
-                   'value'     => ''
+                   'value'     => '',
+                   'id'        => 'phonedigits',
+                   'title'     => 'Provide last 5 phone digits',
+                   'clientValid' => 'required:true'
                ),
                array(
                    'name'      => 'postalcode',
                    'label'     => 'Postal Code',
-                   'value'     => ''
+                   'value'     => '',
+                   'id'        => 'postcode',
+                   'title'     => 'Provide postal code',
+                   'clientValid' => 'required:true'
                )
            )
        ),
@@ -114,14 +123,19 @@ else
            'title'     => 'Name for the AdSense Account in Openads',
            'fields'    => array(
                array(
-                   'name'      => 'email',
+                   'name'      => 'name',
                    'label'     => 'Name for the AdSense Account in Openads',
-                   'value'     => ''
+                   'value'     => '',
+                   'id'        => 'accountname',
+                   'title'     => 'Provide name in Openads',
+                   'clientValid' => 'required:true'
                )
            )
        )
    ));
 
+   // TODO: fields are the same as in adsense-create.php, it would be a good idea to
+   // refactor them to one common place to avoid duplication
    $oTpl->assign('fieldsCreate', array(
        array(
            'title'     => 'Email address for AdSense Account',
@@ -129,7 +143,10 @@ else
                array(
                    'name'      => 'email',
                    'label'     => 'Email',
-                   'value'     => ''
+                   'value'     => '',
+                   'id'        => 'adsenseemail-create',
+                   'title'     => 'Provide valid email',
+                   'clientValid' => 'required:true,email:true'
                )
            )
        ),
@@ -137,9 +154,12 @@ else
            'title'     => 'Name for the AdSense Account in Openads',
            'fields'    => array(
                array(
-                   'name'      => 'email',
+                   'name'      => 'name',
                    'label'     => 'Name for the AdSense Account in Openads',
-                   'value'     => ''
+                   'value'     => '',
+                   'id'        => 'accountname-create',
+                   'title'     => 'Provide name in Openads',
+                   'clientValid' => 'required:true'
                )
            )
        )

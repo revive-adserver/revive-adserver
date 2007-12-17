@@ -63,7 +63,10 @@ $oTpl->assign('fields', array(
             array(
                 'name'      => 'email',
                 'label'     => 'Email',
-                'value'     => ''
+                'value'     => '',
+                'id'        => 'adsenseemail',
+                'title'     => 'Provide valid email',
+                'clientValid' => 'required:true,email:true'
             )
         )
     ),
@@ -71,9 +74,12 @@ $oTpl->assign('fields', array(
         'title'     => 'Name for the AdSense Account in Openads',
         'fields'    => array(
             array(
-                'name'      => 'email',
+                'name'      => 'name',
                 'label'     => 'Name for the AdSense Account in Openads',
-                'value'     => ''
+                'value'     => '',
+                'id'        => 'accountname',
+                'title'     => 'Provide name in Openads',
+                'clientValid' => 'required:true'
             )
         )
     )
