@@ -682,7 +682,40 @@ class OA_Central_RpcMapper
             new XML_RPC_Value($isFramedPage, $GLOBALS['XML_RPC_Boolean'])
         ));
 	}
-
+	
+    /**
+     * A method to update AdSense banner
+     *
+     * @param int $bannerId
+     * @param int $accountId
+     * @param string $backgroundColor
+     * @param string $borderColor
+     * @param string $textColor
+     * @param string $titleColor
+     * @param string $urlColor
+     * @param string $adUnitType
+     * @param string $layout
+     * @param boolean $isFramedPage
+     * 
+     * @return mixed A string Banner code on success, PEAR_Error otherwise 
+     * 
+     */
+	function adsenseUpdateBanner($bannerId, $accountId, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
+	{
+		return $this->oRpc->callNoAuth('adsenseUpdateBanner', array(
+			new XML_RPC_Value($bannerId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($backgroundColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($borderColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($textColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($titleColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($urlColor, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($adUnitType, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($layout, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($isFramedPage, $GLOBALS['XML_RPC_Boolean'])
+        ));
+	}	
+	
     /**
      * A method to get ad unit types and ad layout sizes supported by AdSense
      *
