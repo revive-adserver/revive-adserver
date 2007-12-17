@@ -717,6 +717,40 @@ class OA_Central_RpcMapper
 	}	
 	
     /**
+     * A method to get AdSense revenue
+     *
+     * @param int $batchSequence
+     * 
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [0] => Array
+     *         (
+     *             [banner_id] => 31337 (int)
+     *             [start] => UTC string
+     *             [end] => UTC string
+     *             [clicks] => 31337 (int)
+     *             [impressions] => 31337 (int)
+     *             [revenue] => string
+     *             [currency] => string (should be constant)
+     *             [type] => string (should be constant)
+     *         )
+     *     [1] => Array
+     * 			...
+     *	)
+     * 
+     * @return mixed An array described above
+     * 
+     */
+	function adsenseGetRevenue($batchSequence)
+	{
+		return $this->oRpc->callNoAuth('adsenseGetRevenue', array(
+			new XML_RPC_Value($batchSequence, $GLOBALS['XML_RPC_Int'])
+        ));
+	}		
+	
+    /**
      * A method to get ad unit types and ad layout sizes supported by AdSense
      *
      * The result array looks like:
