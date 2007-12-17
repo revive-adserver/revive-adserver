@@ -602,6 +602,34 @@ class OA_Central_RpcMapper
             new XML_RPC_Value($usersPreferredLocale, 'REPLACE_ME')
         ));
     }
+
+    /**
+     * A method to link AdSense account
+     *
+     * @param string $loginEmail
+     * @param string $postalCode
+     * @param string $phone (last 5 digits)
+     * 
+     * The result array looks like:
+     *
+     * Array
+     * (
+     * 		[account_id] => 1
+     * 		[affiliate_code] => code
+     * )
+     * 
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     * 
+     */
+    function adsenseLinkAccount($loginEmail, $postalCode, $phone)
+    {
+        return $this->oRpc->callNoAuth('adsenseLinkAccount', array(
+            new XML_RPC_Value($loginEmail, 'REPLACE_ME'),
+            new XML_RPC_Value($postalCode, 'REPLACE_ME'),
+            new XML_RPC_Value($phone, 'REPLACE_ME')
+        ));
+    }
+
 }
 
 ?>
