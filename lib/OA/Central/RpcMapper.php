@@ -569,6 +569,39 @@ class OA_Central_RpcMapper
 
         return $aResult;
     }
+    
+    /**
+     * Google AdSense procedures
+     */
+    
+    /**
+     * A method to create AdSense account
+     *
+     * @param string $loginEmail
+     * @param string $websiteUrl
+     * @param string $websiteLocale
+     * @param string $usersPreferredLocale
+     * 
+     * The result array looks like:
+     *
+     * Array
+     * (
+     * 		[account_id] => 1
+     * 		[affiliate_code] => code
+     * )
+     * 
+     * @return mixed An array described above on success, PEAR_Error otherwise
+     * 
+     */
+    function adsenseCreateAccount($loginEmail, $websiteUrl, $websiteLocale, $usersPreferredLocale)
+    {
+        return $this->oRpc->callNoAuth('adsenseCreateAccount', array(
+            new XML_RPC_Value($loginEmail, 'REPLACE_ME'),
+            new XML_RPC_Value($websiteUrl, 'REPLACE_ME'),
+            new XML_RPC_Value($websiteLocale, 'REPLACE_ME'),
+            new XML_RPC_Value($usersPreferredLocale, 'REPLACE_ME')
+        ));
+    }
 }
 
 ?>
