@@ -35,6 +35,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Register input variables
+
+// TODO: the "info" variable has been introduced only for the sake of prototype
+// to show the info box when an account has been linke/created on another page
+// and this page was shown as a confirmation of that action. Feel free to keep
+// it or remove, depending on the implementation strategy.
 phpAds_registerGlobalUnslashed ('info');
 
 
@@ -43,6 +48,9 @@ phpAds_registerGlobalUnslashed ('info');
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("4.1.3.4.7");
+// TODO: The path here should probably start with the advertiser's data
+// Not sure if we need to include the campaign and banner in the path though.
+// We'll need to clarify this with the Product team.
 echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>GoogleAdSense Accounts</b><br /><br /><br />";
 phpAds_ShowSections(array("4.1.3.4.7"));
 
@@ -53,6 +61,9 @@ phpAds_ShowSections(array("4.1.3.4.7"));
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
+// TODO: depending on whether there are any AdSense accounts already linked,
+// we display different UI. Set the variable below to "true" if any
+// AdSense accounts have already been linked.
 $accountsExist = false;
 
 if ($accountsExist) {
@@ -60,6 +71,7 @@ if ($accountsExist) {
 
    $oTpl->assign('info', $info);
 
+   // TODO: an array of the already linked AdSense accounts
    $oTpl->assign('adsenseAccounts', array(
      'aAdsenseAccounts'  => array (
             array  (

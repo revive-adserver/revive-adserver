@@ -35,6 +35,11 @@ require_once '../../init.php';
 require_once MAX_PATH . '/www/admin/config.php';
 
 // Register input variables
+
+// TODO: This variable has been added to demonstrate that clicking on
+// links from error messages could bring the already entered e-mail address
+// to the new form. Feel free to keep it or remove, depending on the 
+// implementation strategy.
 phpAds_registerGlobalUnslashed ('email');
 
 
@@ -44,6 +49,9 @@ phpAds_registerGlobalUnslashed ('email');
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("4.1.3.4.7.2");
+// TODO: The path here should probably start with the advertiser's data
+// Not sure if we need to include the campaign and banner in the path though.
+// We'll need to clarify this with the Product team.
 echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>Create AdSense Account</b><br /><br /><br />";
 phpAds_ShowSections(array("4.1.3.4.7.2"));
 

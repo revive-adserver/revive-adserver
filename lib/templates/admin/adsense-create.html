@@ -32,20 +32,29 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 *}
 
 <div id="adsense-create-form" {if $hide}style="display: none"{/if}>
+  {*
+    Information message, do not display when the error messages below are displayed.
+  *}
+  {if true}
   <div class="infomessage">
     Please provide an address to which Google will send an email requesting a bit more
     information from you to get your Google AdSense account set up. Also, provide a name for
     this account within Openads.
   </div>
+  {/if}
 
+  {*
+    Error message to be shown when there already is an AdSense account 
+    associated with the provided email.
+  *}
   {if false}
   <div class="errormessageicon">
     There is already an AdSense account associated with email: <b>test@test.com</b>. Please
     provide a different e-mail address or <a href="adsense-link.php?email=test@test.com">link Openads to this existing AdSense account</a>.
-    <!-- 
+    {*
       TODO: It would be good to prefill the Email field on the adsense-link screen reachable
       from the link above with the Email address the user has typed.
-    -->
+    *}
   </div>
   {/if}
 
