@@ -596,10 +596,10 @@ class OA_Central_RpcMapper
     function adsenseCreateAccount($loginEmail, $websiteUrl, $websiteLocale, $usersPreferredLocale)
     {
         return $this->oRpc->callNoAuth('adsenseCreateAccount', array(
-            new XML_RPC_Value($loginEmail, 'REPLACE_ME'),
-            new XML_RPC_Value($websiteUrl, 'REPLACE_ME'),
-            new XML_RPC_Value($websiteLocale, 'REPLACE_ME'),
-            new XML_RPC_Value($usersPreferredLocale, 'REPLACE_ME')
+            new XML_RPC_Value($loginEmail, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($websiteUrl, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($websiteLocale, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($usersPreferredLocale, $GLOBALS['XML_RPC_String'])
         ));
     }
 
@@ -624,9 +624,23 @@ class OA_Central_RpcMapper
     function adsenseLinkAccount($loginEmail, $postalCode, $phone)
     {
         return $this->oRpc->callNoAuth('adsenseLinkAccount', array(
-            new XML_RPC_Value($loginEmail, 'REPLACE_ME'),
-            new XML_RPC_Value($postalCode, 'REPLACE_ME'),
-            new XML_RPC_Value($phone, 'REPLACE_ME')
+            new XML_RPC_Value($loginEmail, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($postalCode, $GLOBALS['XML_RPC_String']),
+            new XML_RPC_Value($phone, $GLOBALS['XML_RPC_String'])
+        ));
+    }
+    
+    /**
+     * A method to check AdSense account status
+     *
+     * @param int $accountId
+     * @return int Account status
+     * 
+     */
+    function adsenseGetAccountStatus($accountId)
+    {
+    	return $this->oRpc->callNoAuth('adsenseLinkAccount', array(
+            new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int'])
         ));
     }
 
