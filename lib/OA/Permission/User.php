@@ -86,7 +86,7 @@ class OA_Permission_User
                     $this->aAccount['entity_id'] = $this->_getEntityId();
 
                     if ($this->aAccount['account_type'] == OA_ACCOUNT_MANAGER) {
-                        $this->aAccount['agency_id'] = $this->account['entity_id'];
+                        $this->aAccount['agency_id'] = $this->aAccount['entity_id'];
                     } else {
                         $this->aAccount['agency_id'] = $this->_getAgencyId();
                     }
