@@ -70,7 +70,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
             <input type='hidden' name='compact' value='{$compact}'>
             <label>
                 {t str=Search}:
-                <input type='text' name='keyword' size='15' class='search' accesskey='{t key=Search}'>
+                <input value="{$keyword|escape}" type='text' name='keyword' size='15' class='search' accesskey='{t key=Search}'>
             </label>
         </form>
 	</div>

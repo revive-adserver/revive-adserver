@@ -37,7 +37,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
     <table width='100%' border='0' cellspacing='0' cellpadding='0'>
         <form name='searchselection' action='admin-search.php'>
-        <input type='hidden' name='keyword' value='{$keyword|escape}'>
+        <input type='hidden' name='keyword' value="{$keyword|escape}">
         <tr>
             <td nowrap><input type='checkbox' name='client' value='t'{if $client} checked="checked"{/if} onClick='this.form.submit()'>
                 {t str=Clients}&nbsp;&nbsp;&nbsp;</td>

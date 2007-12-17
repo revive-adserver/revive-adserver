@@ -62,11 +62,13 @@ if ($client == false &&    $campaign == false &&
     $affiliate = true;
 }
 
-if (!isset($compact))
+if (!isset($compact)) {
     $compact = false;
+}
 
-if (!isset($keyword))
+if (!isset($keyword)) {
     $keyword = '';
+}
 
 
 // Send header with charset info
@@ -235,7 +237,7 @@ $oTpl->assign('aZones', $aZones);
 
 $oUI = new OA_Admin_UI_Search();
 
-$oUI->showHeader();
+$oUI->showHeader($keyword);
 $oTpl->display();
 $oUI->showFooter();
 
