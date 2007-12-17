@@ -53,7 +53,7 @@ phpAds_ShowSections(array("4.1.3.4.7"));
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$accountsExist = true;
+$accountsExist = false;
 
 if ($accountsExist) {
    $oTpl = new OA_Admin_Template('adsense-accounts.html');
@@ -109,6 +109,16 @@ else
                    'value'     => ''
                )
            )
+       ),
+       array(
+           'title'     => 'Name for the AdSense Account in Openads',
+           'fields'    => array(
+               array(
+                   'name'      => 'email',
+                   'label'     => 'Name for the AdSense Account in Openads',
+                   'value'     => ''
+               )
+           )
        )
    ));
 
@@ -119,6 +129,16 @@ else
                array(
                    'name'      => 'email',
                    'label'     => 'Email',
+                   'value'     => ''
+               )
+           )
+       ),
+       array(
+           'title'     => 'Name for the AdSense Account in Openads',
+           'fields'    => array(
+               array(
+                   'name'      => 'email',
+                   'label'     => 'Name for the AdSense Account in Openads',
                    'value'     => ''
                )
            )

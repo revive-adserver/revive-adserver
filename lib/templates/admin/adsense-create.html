@@ -33,8 +33,9 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 
 <div id="adsense-create-form" {if $hide}style="display: none"{/if}>
   <div class="infomessage">
-    Please provide an to which Google will send an email requesting a bit more
-    information from you to get your Google AdSense account set up.
+    Please provide an address to which Google will send an email requesting a bit more
+    information from you to get your Google AdSense account set up. Also, provide a name for
+    this account within Openads.
   </div>
 
   {if false}
@@ -52,7 +53,7 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
     <input type="hidden" name="info" value="linked" />
     {include file=edit-table/create.html from=$fields}
 
-    <div class="terms">
+    <div class="terms" style="margin-top: 30px">
       {include file=adsense-terms.html}
     </div>
 

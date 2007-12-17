@@ -32,15 +32,16 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 *}
 
 <div id="adsense-link-form" {if $hide}style="display: none"{/if}>
-  {if false} <!-- TODO: don'd display info message in case of errors -->
+  {if true} <!-- TODO: don'd display info message in case of errors -->
   <div class="infomessage">
     To link your AdSense account to Openads, enter the email address, zipcode/
     postal code and the last 5 digits of the phone number that you gave to Google
-    when you signed up for your AdSense account.
+    when you signed up for your AdSense account. Also, provide a name for
+    this account within Openads.
   </div>
   {/if}
 
-  {if true}
+  {if false}
   <div class="errormessageicon">
     There is no Google AdSense account associated with email: <b>test@test.com</b>. Please
     correct the email you provided or <a href="adsense-create.php?email=test@test.com">create a new Google AdSense account</a>.

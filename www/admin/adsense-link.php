@@ -76,7 +76,18 @@ $oTpl->assign('fields', array(
                 'value'     => ''
             )
         )
+    ),
+    array(
+        'title'     => 'Name for the AdSense Account in Openads',
+        'fields'    => array(
+            array(
+                'name'      => 'email',
+                'label'     => 'Name for the AdSense Account in Openads',
+                'value'     => ''
+            )
+        )
     )
+
 ));
 
 //var_dump($oTpl);
