@@ -28,7 +28,7 @@ $Id: $
 require_once MAX_PATH . '/lib/OA/Dashboard/Widget.php';
 
 /**
- * A dashboard widget to diplay an RSS feed of the Openads Blog
+ * A dashboard widget to diplay an Campaign overview
  *
  */
 class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
