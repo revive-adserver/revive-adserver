@@ -643,6 +643,37 @@ class OA_Central_RpcMapper
             new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int'])
         ));
     }
+    
+    /**
+     * A method to get website locales supported by AdSense
+     *
+     * The result array looks like:
+     *
+     * Array
+     * (
+     *     [0] => Array
+     *         (
+     *             [name] => English 
+     *             [code] => en
+     *         )
+     *
+     *     [1] => Array
+     *         (
+     *             [name] => Chinese (Taiwan)
+     *             [code] => zh_TW
+     *         )
+     *
+     * )
+     * 
+     * @see http://code.google.com/apis/adsense/developer/adsense_api_locales.html
+     *  
+     * @return mixed An array described above
+     * 
+     */    
+    function adsenseGetSupportedWebsiteLocales()
+    {
+    	return $this->oRpc->callNoAuth('adsenseGetSupportedWebsiteLocales');
+    }
 
 }
 
