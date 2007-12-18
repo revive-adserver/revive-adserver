@@ -72,18 +72,18 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 $oTpl = new OA_Admin_Template('affiliate-user.html');
 
 // TODO: will need to know whether we're hosted or downloaded
-$HOSTED = false; 
+$HOSTED = false;
 $oTpl->assign('hosted', $HOSTED);
 
 // TODO: indicates whether the user exists (otherwise, a new user will be created or invitation sent)
 $existingUser = false;
-$oTpl->assign('existingUser', $existingUser); 
+$oTpl->assign('existingUser', $existingUser);
 
 // TODO: indicates whether the form is in editing user properties mode
 // (linked from the "Permissions" link in the User Access table)
 // Alternatively, we may want to have two separate templates/php files for these
 // with common parts included from another template
-$oTpl->assign('editMode', false); 
+$oTpl->assign('editMode', false);
 
 $oTpl->assign('error', $oPublisherDll->_errorMessage);
 
@@ -159,7 +159,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => phpAds_ModifyInfo,
                 'checked'   => $affiliate['permissions'] & phpAds_ModifyInfo,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate)
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
             ),
             array(
                 'name'      => 'affiliatepermissions[]',
@@ -167,7 +167,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => phpAds_EditZone,
                 'checked'   => $affiliate['permissions'] & phpAds_EditZone,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
                 'id'        => 'affiliatepermissions_'.phpAds_EditZone,
                 'onclick'   => 'MMM_cascadePermissionsChange()'
@@ -178,7 +178,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => phpAds_AddZone,
                 'checked'   => $affiliate['permissions'] & phpAds_AddZone,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
                 'id'        => 'affiliatepermissions_'.phpAds_AddZone,
                 'indent'    => true
@@ -189,7 +189,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => phpAds_DeleteZone,
                 'checked'   => $affiliate['permissions'] & phpAds_DeleteZone,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
                 'id'        => 'affiliatepermissions_'.phpAds_DeleteZone,
                 'indent'    => true
@@ -200,7 +200,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => phpAds_LinkBanners,
                 'checked'   => $affiliate['permissions'] & phpAds_LinkBanners,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
                 'id'        => 'affiliatepermissions_'.phpAds_LinkBanners
             ),
@@ -210,7 +210,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => MAX_AffiliateGenerateCode,
                 'checked'   => $affiliate['permissions'] & MAX_AffiliateGenerateCode,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
                 'id'        => 'affiliatepermissions_'.MAX_AffiliateGenerateCode
             ),
@@ -220,7 +220,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => MAX_AffiliateViewZoneStats,
                 'checked'   => $affiliate['permissions'] & MAX_AffiliateViewZoneStats,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
                 'id'        => 'affiliatepermissions_'.MAX_AffiliateViewZoneStats
             ),
@@ -230,7 +230,7 @@ $oTpl->assign('fields', array(
                 'type'      => 'checkbox',
                 'value'     => MAX_AffiliateViewOnlyApprPendConv,
                 'checked'   => $affiliate['permissions'] & MAX_AffiliateViewOnlyApprPendConv,
-                'hidden'    => phpAds_isUser(phpAds_Affiliate),
+                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'id'        => 'affiliatepermissions_'.MAX_AffiliateViewOnlyApprPendConv
             )
         )
@@ -244,7 +244,7 @@ $oTpl->display();
 
 <script language='JavaScript'>
 <!--
-<?php if (phpAds_isUser(phpAds_Admin) || phpAds_isUser(phpAds_Agency)) { ?>
+<?php if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) { ?>
     function MMM_cascadePermissionsChange()
     {
         var e = findObj('affiliatepermissions_<?php echo phpAds_EditZone; ?>');
