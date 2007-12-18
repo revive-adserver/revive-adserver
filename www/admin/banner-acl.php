@@ -48,7 +48,7 @@ phpAds_registerGlobal ('acl', 'action', 'submit');
 /*-------------------------------------------------------*/
 /* Client interface security                             */
 /*-------------------------------------------------------*/
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);

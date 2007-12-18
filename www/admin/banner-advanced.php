@@ -60,7 +60,7 @@ foreach ($invPlugins as $plugin) {
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $doBanners = OA_Dal::factoryDO('banners');
