@@ -33,7 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Preference.php';
 
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
@@ -42,6 +42,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
+// Re-load the account's preferences, with additional information
+OA_Preference::loadPreferences(true);
+
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
 
@@ -49,55 +52,30 @@ $oOptions = new OA_Admin_Option('preferences');
 $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
-
-
-
-
-
-
-
-
-
-
-
-
-
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Register input variables
-    phpAds_registerGlobal('default_banner_url', 'default_banner_destination',
-                          'banner_html_auto', 'default_banner_weight',
-                          'default_campaign_weight');
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    if (isset($default_banner_url)) {
-        $oPreferences->setPrefChange('default_banner_url', $default_banner_url);
+    // Prepare an array of the HTML elements to process
+    $aElements = array();
+    // Default Banners
+    $aElements[] = 'default_banner_image_url';
+    $aElements[] = 'default_banner_destination_url';
+    // HTML Banner Options
+    $aElements[] = 'auto_alter_html_banners_for_click_tracking';
+    // Default Weight
+    $aElements[] = 'default_banner_weight';
+    $aElements[] = 'default_campaign_weight';
+    // Save the preferences
+    $result = OA_Preference::processPreferencesFromForm($aElements);
+    if ($result) {
+        // The preferences were written correctly saved to the database,
+        // go to the "next" preferences page from here
+        MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
     }
-    if (isset($default_banner_destination)) {
-        $oPreferences->setPrefChange('default_banner_destination', $default_banner_destination);
-    }
-    if (isset($default_banner_weight)) {
-        $oPreferences->setPrefChange('default_banner_weight',    $default_banner_weight);
-    }
-    if (isset($default_campaign_weight)) {
-        $oPreferences->setPrefChange('default_campaign_weight',  $default_campaign_weight);
-    }
-
-    $oPreferences->setPrefChange('banner_html_auto', isset($banner_html_auto));
-
-    if (!$oPreferences->writePrefChange()) {
-        // Unable to update the preferences
-        $aErrormessage[0][] = $strUnableToWritePrefs;
-    } else {
-       if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-            MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
-        } else {
-          MAX_Admin_Redirect::redirect('account-settings-defaults.php');
-       }
-    }
+    // Could not write the preferences to the database, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
-// Display the settings page's header and sections
+// Display the preference page's header and sections
 phpAds_PageHeader("5.1");
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     // Show all "My Account" sections
@@ -113,18 +91,18 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1"));
 }
 
-
-
-
+// Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("banner");
 
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
         'text'  => $strDefaultBanners,
         'items' => array (
             array (
                 'type'    => 'text',
-                'name'    => 'default_banner_url',
+                'name'    => 'default_banner_image_url',
                 'text'    => $strDefaultBannerUrl,
                 'size'    => 35,
                 'check'   => 'url'
@@ -134,7 +112,7 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'default_banner_destination',
+                'name'    => 'default_banner_destination_url',
                 'text'    => $strDefaultBannerDestination,
                 'size'    => 35,
                 'check'   => 'url'
@@ -146,7 +124,7 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'banner_html_auto',
+                'name'    => 'auto_alter_html_banners_for_click_tracking',
                 'text'    => $strTypeHtmlAuto,
                 'depends' => 'type_html_allow==true'
             )
