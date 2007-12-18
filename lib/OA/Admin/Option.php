@@ -122,7 +122,7 @@ class OA_Admin_Option
     /**
      * Build a menu with all settings or preferences
      *
-     * @param unknown_type $section
+     * @param string $section The drop down section name.
      */
     function selection($section)
     {
@@ -200,114 +200,133 @@ class OA_Admin_Option
     /**
      * Build and display the settings or preferences user interface
      *
-     * @param unknown_type $data
-     * @param unknown_type $errors
-     * @param unknown_type $disableSubmit
-     * @param unknown_type $imgPath
+     * @param array $aData
+     * @param array $aErrors
+     * @param integer $disableSubmit
+     * @param string $imgPath
      */
-    function show($data, $errors = array(), $disableSubmit=0, $imgPath="")
+    function show($aData, $aErrors = array(), $disableSubmit = 0, $imgPath = "")
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        $pref = $GLOBALS['_MAX']['PREF'];
-        global $tabindex;
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aPref = $GLOBALS['_MAX']['PREF'];
+
         // Initialize tabindex (if not already done)
+        global $tabindex;
         if (!isset($tabindex)) {
             $tabindex = 1;
         }
+
         // Determine if config file is writable
-        $configLocked = !OA_Admin_Settings::isConfigWritable();
-        $image        = $this->configLocked ? 'closed' : 'open';
+        $aConfigLocked = !OA_Admin_Settings::isConfigWritable();
+        $image = $this->configLocked ? 'closed' : 'open';
 
         $dependbuffer   = "function phpAds_refreshEnabled() {\n";
         $checkbuffer    = '';
         $usertypebuffer = '';
         $helpbuffer     = '';
         $i = 0;
-        $count = count($data);
+        $count = count($aData);
         for ($i = 0; $i < $count; $i++) {
-            $section = $data[$i];
+            $section = $aData[$i];
             if (!isset($section['visible']) || $section['visible']) {
-                if (isset($errors[$i])) {
-                    $this->_showStartSection($section['text'], $errors[$i], $disableSubmit, $imgPath);
+                if (isset($aErrors[$i])) {
+                    $this->_showStartSection($section['text'], $aErrors[$i], $disableSubmit, $imgPath);
                 } else {
-                    $this->_showStartSection($section['text'], NULL ,$disableSubmit, $imgPath);
+                    $this->_showStartSection($section['text'], NULL, $disableSubmit, $imgPath);
                 }
-                foreach ($section['items'] as $item) {
-                    if (!isset($item['visible']) || $item['visible']) {
-                        if (!$item['enabled']) {
-                            $item['enabled'] = $this->_showLocked($item);
-                            $dependbuffer .= $this->_showCheckDependancies($data, $item);
+                foreach ($section['items'] as $aItem) {
+                    if (!isset($aItem['visible']) || $aItem['visible']) {
+                        if (!$aItem['enabled']) {
+                            $aItem['enabled'] = $this->_showLocked($aItem);
+                            $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
                         }
-                        if (count($errors)) {
+                        if (count($aErrors)) {
                             // Page is the result of an error message, get values from the input
                             $value = '';
-                            if (isset($item['name']) && isset($GLOBALS[$item['name']])) {
-                                $value = $GLOBALS[$item['name']];
-                                if ($errors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $errors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
-                                    if (isset($GLOBALS[$item['name'].'_defVal'])) {
-                                        $value = $GLOBALS[$item['name'].'_defVal'];
+                            if (isset($aItem['name']) && isset($GLOBALS[$aItem['name']])) {
+                                $value = $GLOBALS[$aItem['name']];
+                                if ($aErrors[0] != MAX_ERROR_YOU_HAVE_NO_TRACKERS && $aErrors[0] != MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS) {
+                                    if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
+                                        $value = $GLOBALS[$aItem['name'].'_defVal'];
                                     }
                                 }
                             }
                         } else {
                             // Get the values from the config file
                             $value = '';
-                            if (isset($item['name'])) {
+                            if (isset($aItem['name'])) {
                                 // Split into config sections
-                                $confixExploded = explode('_', $item['name']);
-                                $configLevel = isset($confixExploded[0]) ? $confixExploded[0] : null;
-                                $configItem = isset($confixExploded[1]) ? $confixExploded[1] : null;
-                                if (isset($GLOBALS[$item['name'].'_defVal'])) {
+                                $aConfixExploded = explode('_', $aItem['name']);
+                                $aConfigLevel = isset($aConfixExploded[0]) ? $aConfixExploded[0] : null;
+                                $aConfigItem = isset($aConfixExploded[1]) ? $aConfixExploded[1] : null;
+                                if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
                                     // Load value from globals if set
-                                    $value = $GLOBALS[$item['name'].'_defVal'];
-                                } elseif (isset($conf[$configLevel][$configItem])) {
-                                    // Load the configuration .ini file value
-                                    $value = $conf[$configLevel][$configItem];
-                                } elseif (isset($conf[$item['name']][0])) {
-                                    // Configuration .ini file item is stored as an array,
+                                    $value = $GLOBALS[$aItem['name'].'_defVal'];
+                                } elseif (isset($aConf[$aConfigLevel][$aConfigItem])) {
+                                    // Load the configuration .php file value
+                                    $value = $aConf[$aConfigLevel][$aConfigItem];
+                                } elseif (isset($aConf[$aItem['name']][0])) {
+                                    // Configuration .php file item is stored as an array,
                                     // re-constitute into a comma separated list
-                                    $value = implode(', ', $conf[$item['name']]);
-                                } elseif (isset($pref[$item['name']])) {
+                                    $value = implode(', ', $aConf[$aItem['name']]);
+                                } elseif (isset($aPref[$aItem['name']]['value'])) {
+                                    // Are we displaying a preference value to a non-admin account?
+                                    $accountType = OA_Permission::getAccountType();
+                                    if ($accountType == OA_ACCOUNT_ADVERTISER || $accountType == OA_ACCOUNT_TRAFFICKER) {
+                                        // Check to see if the preference value should be displayed or disabled
+                                        $valueType = $aPref[$aItem['name']]['account_type'];
+                                        if ($valueType == OA_ACCOUNT_MANAGER) {
+                                            // Disable the preference, so that it can be seen, but not altered
+                                            $aItem['depends'] = false;
+                                        } else if ($valueType == OA_ACCOUNT_ADVERTISER && $valueType == OA_ACCOUNT_TRAFFICKER) {
+                                            // Hide the preference from being seen!
+                                            $aItem['visible'] = false;
+                                        } else if ($valueType == OA_ACCOUNT_TRAFFICKER && $valueType == OA_ACCOUNT_ADVERTISER) {
+                                            // Hide the preference from being seen!
+                                            $aItem['visible'] = false;
+                                        }
+
+                                    }
                                     // Load the preference value
-                                    $value = $pref[$item['name']];
-                                } elseif (isset($item['value'])) {
-                                    $value = $item['value'];
+                                    $value = $aPref[$aItem['name']]['value'];
+                                } elseif (isset($aItem['value'])) {
+                                    $value = $aItem['value'];
                                 }
                             }
                         }
-                        switch ($item['type']) {
-                            case 'plaintext': $this->_showPlainText($item); break;
-                            case 'break':     $this->_showBreak($item, $imgPath); break;
-                            case 'checkbox':  $this->_showCheckbox($item, $value); break;
-                            case 'text':      $this->_showText($item, $value); break;
-                            case 'url':       $this->_showUrl($item, $value); break;
-                            case 'urln':      $this->_showUrl($item, $value, 'n'); break;
-                            case 'urls':      $this->_showUrl($item, $value, 's'); break;
-                            case 'textarea':  $this->_showTextarea($item, $value); break;
-                            case 'password':  $this->_showPassword($item, $value); break;
-                            case 'select':    $this->_showSelect($item, $value, $disableSubmit); break;
+                        switch ($aItem['type']) {
+                            case 'plaintext': $this->_showPlainText($aItem); break;
+                            case 'break':     $this->_showBreak($aItem, $imgPath); break;
+                            case 'checkbox':  $this->_showCheckbox($aItem, $value); break;
+                            case 'text':      $this->_showText($aItem, $value); break;
+                            case 'url':       $this->_showUrl($aItem, $value); break;
+                            case 'urln':      $this->_showUrl($aItem, $value, 'n'); break;
+                            case 'urls':      $this->_showUrl($aItem, $value, 's'); break;
+                            case 'textarea':  $this->_showTextarea($aItem, $value); break;
+                            case 'password':  $this->_showPassword($aItem, $value); break;
+                            case 'select':    $this->_showSelect($aItem, $value, $disableSubmit); break;
                             case 'usertype_textboxes':
-                                $this->_showUsertypeTextboxes($item, $value);
+                                $this->_showUsertypeTextboxes($aItem, $value);
                                 break;
                             case 'usertype_checkboxes':
-                                $this->_showUsertypeCheckboxes($item, $value);
-                                $usertypebuffer .= "phpAds_UsertypeChange(findObj('".$item['name']."'));\n";
+                                $this->_showUsertypeCheckboxes($aItem, $value);
+                                $usertypebuffer .= "phpAds_UsertypeChange(findObj('".$aItem['name']."'));\n";
                                 break;
                         }
-                        if (isset($item['check']) || isset($item['req'])) {
-                            if (!isset($item['check'])) {
-                                $item['check'] = '';
+                        if (isset($aItem['check']) || isset($aItem['req'])) {
+                            if (!isset($aItem['check'])) {
+                                $aItem['check'] = '';
                             }
-                            if (!isset($item['req'])) {
-                                $item['req'] = false;
+                            if (!isset($aItem['req'])) {
+                                $aItem['req'] = false;
                             }
-                            $checkbuffer .= "max_formSetRequirements('".$item['name']."', '".addslashes($item['text'])."', ".($item['req'] ? 'true' : 'false').", '".$item['check']."');\n";
-                            if (isset($item['unique'])) {
-                                $checkbuffer .= "max_formSetUnique('".$item['name']."', '|".addslashes(implode('|', $item['unique']))."|');\n";
+                            $checkbuffer .= "max_formSetRequirements('".$aItem['name']."', '".addslashes($aItem['text'])."', ".($aItem['req'] ? 'true' : 'false').", '".$aItem['check']."');\n";
+                            if (isset($aItem['unique'])) {
+                                $checkbuffer .= "max_formSetUnique('".$aItem['name']."', '|".addslashes(implode('|', $aItem['unique']))."|');\n";
                             }
                         }
-                        if (isset($item['name'])) {
-                            $helpbuffer .= $this->_help($item['name']);
+                        if (isset($aItem['name'])) {
+                            $helpbuffer .= $this->_help($aItem['name']);
                         }
                     }
                 }
@@ -330,7 +349,7 @@ class OA_Admin_Option
 
         $this->oTpl->assign('this',             $this);
         $this->oTpl->assign('aOption',          $this->aOption);
-        $this->oTpl->assign('configLocked',     $configLocked);
+        $this->oTpl->assign('configLocked',     $aConfigLocked);
         $this->oTpl->assign('image',            $image);
         $this->oTpl->assign('formUrl',          $_SERVER['PHP_SELF']);
         $this->oTpl->assign('checkbuffer',      $checkbuffer);
@@ -363,17 +382,17 @@ class OA_Admin_Option
     /**
      * Enter description here...
      *
-     * @param unknown_type $data
-     * @param unknown_type $item
+     * @param unknown_type $aData
+     * @param unknown_type $aItem
      * @return unknown
      */
-    function _showCheckDependancies($data, $item)
+    function _showCheckDependancies($aData, $aItem)
     {
         global $phpAds_config_locked;
         $formName = empty($GLOBALS['settings_formName'])?'settingsform' :$GLOBALS['settings_formName'];
-        if (isset($item['depends'])) {
-            //$miArray  = split('[ & ]+', $item['depends']);
-            $depends    = split('[ ]+', $item['depends']);
+        if (isset($aItem['depends'])) {
+            //$miArray  = split('[ & ]+', $aItem['depends']);
+            $depends    = split('[ ]+', $aItem['depends']);
             $javascript = "\tenabled = (";
             $result     = true;
             foreach ($depends as $word) {
@@ -383,7 +402,7 @@ class OA_Admin_Option
                 } else {
                     // Assignment
                     eregi ("^(\(?)([a-z0-9_-]+)([\=\!\<\>]{1,2})([\"\'a-z0-9_-]+)(\)?)$", $word, $regs);
-                    $type          = $this->_showGetType($data, $regs[2]);
+                    $type          = $this->_showGetType($aData, $regs[2]);
                     if ($phpAds_config_locked) $javascript .= $regs[1]."document.".$formName.".".$regs[2].".enabled && ";
                     $javascript .= $regs[1]."document.".$formName.".".$regs[2].".";
                     switch ($type){
@@ -395,8 +414,8 @@ class OA_Admin_Option
                 }
             }
             $javascript .= ");\n";
-            $javascript .= "\tdocument.".$formName.".".$item['name'].".disabled = !enabled;\n";
-            $javascript .= "\tobj = findObj('cell_".$item['name']."'); if (enabled) { obj.className = 'cellenabled'; } else { obj.className =  'celldisabled'; }\n";
+            $javascript .= "\tdocument.".$formName.".".$aItem['name'].".disabled = !enabled;\n";
+            $javascript .= "\tobj = findObj('cell_".$aItem['name']."'); if (enabled) { obj.className = 'cellenabled'; } else { obj.className =  'celldisabled'; }\n";
             $javascript .= "\t\n";
             return ($javascript);
         }
@@ -408,12 +427,12 @@ class OA_Admin_Option
     /* Settings GUI Functions Wrappers                       */
     /*-------------------------------------------------------*/
 
-    function _showGetType ($data, $name)
+    function _showGetType ($aData, $name)
     {
-        foreach ($data as $section) {
-            foreach ($section['items'] as $item) {
-                if (isset($item['name']) && $item['name'] == $name) {
-                    return ($item['type']);
+        foreach ($aData as $section) {
+            foreach ($section['items'] as $aItem) {
+                if (isset($aItem['name']) && $aItem['name'] == $name) {
+                    return ($aItem['type']);
                 }
             }
         }
@@ -423,15 +442,15 @@ class OA_Admin_Option
 
     function _showStartSection($name, $error = array(), $disableSubmit=0, $imgPath="")
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
+        $aConf = $GLOBALS['_MAX']['CONF'];
         $icon = (OA_INSTALLATION_STATUS != OA_INSTALLATION_STATUS_INSTALLED) ? 'setup' : 'settings';
 
-        $item['name']   = $name;
-        $item['error']  = $error;
-        $item['icon']   = $icon;
-        $item['disabledSubmit'] = $disableSubmit;
-        $item['imgPath']        = $imgPath;
-        $this->aOption[] = array('startsection.html' => $item);
+        $aItem['name'] = $name;
+        $aItem['error'] = $error;
+        $aItem['icon'] = $icon;
+        $aItem['disabledSubmit'] = $disableSubmit;
+        $aItem['imgPath'] = $imgPath;
+        $this->aOption[] = array('startsection.html' => $aItem);
     }
 
     function _showEndSection()
@@ -439,129 +458,129 @@ class OA_Admin_Option
         $this->aOption[] = array('endsection.html' => array());
     }
 
-    function _showPlainText($item)
+    function _showPlainText($aItem)
     {
-        $this->aOption[] = array('plaintext.html' => $item);
+        $this->aOption[] = array('plaintext.html' => $aItem);
     }
 
-    function _showBreak($item, $imgPath='')
+    function _showBreak($aItem, $imgPath='')
     {
-        $item['imgPath'] = $imgPath;
+        $aItem['imgPath'] = $imgPath;
 
-        $this->aOption[] = array('break.html' => $item);
+        $this->aOption[] = array('break.html' => $aItem);
     }
 
-    function _showCheckbox($item, $value)
+    function _showCheckbox($aItem, $value)
     {
         global $tabindex;
 
-        $item['tabindex']   = $tabindex++;
+        $aItem['tabindex'] = $tabindex++;
 
-        // make sure that 'f' for enums is also considered
-        $value              = !empty($value) && (bool)strcasecmp($value, 'f');
-        $item['value']      = $value;
+        // Make sure that 'f' for enums is also considered
+        $value = !empty($value) && (bool)strcasecmp($value, 'f');
+        $aItem['value'] = $value;
 
-        $this->aOption[]    = array('checkbox.html' => $item);
+        $this->aOption[] = array('checkbox.html' => $aItem);
     }
 
-    function _showText($item, $value)
+    function _showText($aItem, $value)
     {
         global $tabindex;
 
-        $item['tabindex'] = $tabindex;
-        $item['value']    = htmlspecialchars($value);
+        $aItem['tabindex'] = $tabindex;
+        $aItem['value'] = htmlspecialchars($value);
 
-        if (!isset($item['size'])) {
-            $item['size'] = 25;
+        if (!isset($aItem['size'])) {
+            $aItem['size'] = 25;
         }
 
-        $this->aOption[] = array('text.html' => $item);
+        $this->aOption[] = array('text.html' => $aItem);
     }
 
-    function _showUrl($item, $value, $type = '')
+    function _showUrl($aItem, $value, $type = '')
     {
         global $tabindex;
 
-        $item['tabindex'] = $tabindex;
-        $item['value']    = htmlspecialchars($value);
-        $item['type']     = $type;
+        $aItem['tabindex'] = $tabindex;
+        $aItem['value'] = htmlspecialchars($value);
+        $aItem['type'] = $type;
 
-        if (!isset($item['size'])) {
-            $item['size'] = 25;
+        if (!isset($aItem['size'])) {
+            $aItem['size'] = 25;
         }
 
-        $this->aOption[] = array('url.html' => $item);
+        $this->aOption[] = array('url.html' => $aItem);
     }
 
-    function _showTextarea($item, $value)
+    function _showTextarea($aItem, $value)
     {
         global $tabindex;
 
-        $item['tabindex'] = $tabindex;
-        $item['value']    = htmlspecialchars($value);
+        $aItem['tabindex'] = $tabindex;
+        $aItem['value'] = htmlspecialchars($value);
 
-        if (!isset($item['rows'])) {
-            $item['rows'] = 5;
+        if (!isset($aItem['rows'])) {
+            $aItem['rows'] = 5;
         }
 
-        $this->aOption[] = array('textarea.html' => $item);
+        $this->aOption[] = array('textarea.html' => $aItem);
     }
 
-    function _showPassword($item, $value)
+    function _showPassword($aItem, $value)
     {
         global $tabindex;
 
-        if (!isset($item['size'])) {
-            $item['size'] = 25;
+        if (!isset($aItem['size'])) {
+            $aItem['size'] = 25;
         }
 
         //  if config file is not writeable do not display password
         $hidePassword = false;
         $writeable = OA_Admin_Settings::isConfigWritable();
 
-        if ($item['name'] == 'database_password' && !$writeable) {
+        if ($aItem['name'] == 'database_password' && !$writeable) {
             $value = 'password';
             $hidePassword = true;
         }
 
-        $item['value']          = $value;
-        $item['hidePassword']   = $hidePassword;
-        $item['tabindex']       = $tabindex;
+        $aItem['value'] = $value;
+        $aItem['hidePassword'] = $hidePassword;
+        $aItem['tabindex'] = $tabindex;
 
-        $this->aOption[] = array('password.html' => $item);
+        $this->aOption[] = array('password.html' => $aItem);
     }
 
-    function _showSelect($item, $value, $showSubmitButton=0)
+    function _showSelect($aItem, $value, $showSubmitButton=0)
     {
         global $tabindex;
 
-        $item['tabindex']   = $tabindex;
-        $item['value']      = $value;
-        $item['showSubmitButton'] = $showSubmitButton;
+        $aItem['tabindex'] = $tabindex;
+        $aItem['value'] = $value;
+        $aItem['showSubmitButton'] = $showSubmitButton;
 
-        foreach ($item['items'] as $k => $v) {
+        foreach ($aItem['items'] as $k => $v) {
             $k = htmlspecialchars($k);
-            $item['items'][$k] = $v;
+            $aItem['items'][$k] = $v;
         }
 
-        $this->aOption[] = array('select.html' => $item);
+        $this->aOption[] = array('select.html' => $aItem);
 
 
     }
 
-    function _showUsertypeCheckboxes($item, $value)
+    function _showUsertypeCheckboxes($aItem, $value)
     {
         global $tabindex;
 
-        $item['tabindex']   = $tabindex;
-        $item['value'] = $value ? (int)$value : 0;
+        $aItem['tabindex'] = $tabindex;
+        $aItem['value'] = $value ? (int)$value : 0;
 
         $this->oTpl->assign('isAdmin', OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
         $this->oTpl->assign('isManager', OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
         $this->oTpl->assign('isAdvertiser', OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
         $this->oTpl->assign('isTrafficker', OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
         $this->_assignAccountsIds();
-        $this->aOption[] = array('usertype-checkboxes.html' => $item);
+        $this->aOption[] = array('usertype-checkboxes.html' => $aItem);
     }
 
     function _assignAccountsIds()
@@ -572,41 +591,41 @@ class OA_Admin_Option
         $this->oTpl->assign('OA_ACCOUNT_TRAFFICKER_ID', OA_ACCOUNT_TRAFFICKER_ID);
     }
 
-    function _showUsertypeTextboxes($item, $value)
+    function _showUsertypeTextboxes($aItem, $value)
     {
         global $tabindex;
 
-        $item['tabindex']   = $tabindex;
+        $aItem['tabindex'] = $tabindex;
 
         $value = unserialize($value);
         foreach ($value as $key => $value) {
-            $item['value'][$key] = htmlspecialchars($value);
+            $aItem['value'][$key] = htmlspecialchars($value);
         }
         $this->_assignAccountsIds();
-        $this->aOption[]    = array('usertype-textboxes.html' => $item);
+        $this->aOption[]    = array('usertype-textboxes.html' => $aItem);
     }
 
-    function _showPadLock($item)
+    function _showPadLock($aItem)
     {
-        if ($this->_showLocked($item) || $item['enabled']==true) {
+        if ($this->_showLocked($aItem) || $aItem['enabled']==true) {
             return '<img src="images/padlock-closed.gif">';
         } else {
             return '&nbsp;';
         }
     }
 
-    function _showLocked($item)
+    function _showLocked($aItem)
     {
-        $conf = $GLOBALS['_MAX']['CONF'];
-        //if ($conf['openads']['installed'] && isset($item['name']))
-        if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($item['name']))
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        //if ($aConf['openads']['installed'] && isset($aItem['name']))
+        if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name']))
         {
             // Split into config sections
-            $confixExploded = explode('_', $item['name']);
-            $configLevel = isset($confixExploded[0]) ? $confixExploded[0] : null;
-            $configItem = isset($confixExploded[1]) ? $confixExploded[1] : null;
-            //list($configLevel, $configItem) = explode('_', $item['name']);
-            if (isset($conf[$configLevel][$configItem]) && (!OA_Admin_Settings::isConfigWritable())) {
+            $aConfixExploded = explode('_', $aItem['name']);
+            $aConfigLevel = isset($aConfixExploded[0]) ? $aConfixExploded[0] : null;
+            $aConfigItem = isset($aConfixExploded[1]) ? $aConfixExploded[1] : null;
+            //list($aConfigLevel, $aConfigItem) = explode('_', $aItem['name']);
+            if (isset($aConf[$aConfigLevel][$aConfigItem]) && (!OA_Admin_Settings::isConfigWritable())) {
                 return true;
             }
         }
