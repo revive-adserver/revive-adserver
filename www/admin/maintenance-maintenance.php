@@ -44,7 +44,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("5.4");
-phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3", "5.6", "5.7"));
+phpAds_ShowSections(array("5.1", "5.2", "5.4", "5.5", "5.3"));
 phpAds_MaintenanceSelection("maintenance");
 
 
