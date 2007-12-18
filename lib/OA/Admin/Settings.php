@@ -428,7 +428,7 @@ class OA_Admin_Settings
      * A method for processing settings values from a UI form, and updating the settings
      * values in the configuration file.
      *
-     * @param array $aElements An array or arrays, indexed by the HTML form element names,
+     * @param array $aElements An array of arrays, indexed by the HTML form element names,
      *                         and then the top level configuration file item, containing
      *                         the configuration file key.
      *
