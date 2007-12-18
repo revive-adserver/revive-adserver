@@ -77,6 +77,12 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $this->assertEqual(false, $aTimezone['generated']);
         } else {
             //  this test is dependant upon the system clock
+            // Clear any TZ env
+            putenv("TZ=");
+            if (is_callable('apache_setenv')) {
+                apache_setenv('TZ', null);
+            }
+
             $aTimezone = OA_Admin_Timezones::getTimezone();
             $diff = date('O');
             $diffSign = substr($diff, 0, 1);
@@ -99,6 +105,10 @@ class Test_OA_Admin_Timezones extends UnitTestCase
             $this->assertEqual($aTimezone['calculated'], true);
 
             putenv("TZ=America/Detroit");
+            if (is_callable('apache_setenv')) {
+                apache_setenv('TZ', 'America/Detroit');
+            }
+
             $aTimezone = OA_Admin_Timezones::getTimezone();
             $this->assertTrue(is_array($aTimezone));
             $this->assertEqual(count($aTimezone), 2);
