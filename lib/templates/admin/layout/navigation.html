@@ -32,7 +32,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {if $aNav[n].selected}
       <li class="tab active {if $smarty.section.n.first}active-first{else}{if $smarty.section.n.last}active-last{else}active-middle{/if}{/if}">
 {else}
-      <li class="tab passive {if $smarty.section.n.first}passive-first{else}{if $smarty.section.n.last}passive-last{else}passive-middle{/if}{/if}{if $aNav[$smarty.section.n.index_prev].selected} active-before{elseif $aNav[$smarty.section.n.index_next].selected} active-after{/if}">
+      <li class="tab passive {if $smarty.section.n.first}passive-first{else}{if $smarty.section.n.last}passive-last{else}passive-middle{/if}{/if}{if $aNav[$smarty.section.n.index_prev].selected} after-active{elseif $aNav[$smarty.section.n.index_next].selected} before-active{/if}">
 {/if}
         <div class="tab-left"><div class="tab-right"><div class="tab-inside">
           <div class="label"><a href="{$aNav[n].filename|escape}" accesskey="{t key=Home}">{$aNav[n].title|escape}</a></div>
