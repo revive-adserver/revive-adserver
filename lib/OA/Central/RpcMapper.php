@@ -574,7 +574,7 @@ class OA_Central_RpcMapper
      * Google AdSense procedures
      * 
      * NOTE:
-     * Exceptions mimics the original ones mentioned here:
+     * Exceptions mimic the original ones mentioned here:
      * @see http://code.google.com/apis/adsense/developer/adsense_api_error_codes.html
      * but they are increased by 10000
      * so e.g. AdSense exception #301 (User does not have an AdSense account) is mapped to #10301
