@@ -77,11 +77,13 @@ a:hover {
 	right: 5px;
 	height: 31px;
 	width: 214px;
-	
-	background: url("../images/searchfull.png") no-repeat;
 	font-weight: bold;
 	color: #fff;
 	line-height: 31px;
+  background: url("../images/searchfull.png") no-repeat;
+  /* Fix IE bug: transparent PNG support */ 
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/searchfull.png');
 }
 #oaSearch form {
 	margin: 0;
@@ -100,17 +102,29 @@ a:hover {
 	background-color: white;
 }
 
-/*#oaSearch input:submit {
-  position: relative;
-  background: url("../images/searchfull.png") no-repeat;
-  left: 40px;
-  top: 8px;
-  border: none;
-  width: 36px;
-  height: 12px;
+#oaSearch input[type=submit] {
   padding: 0px;
   margin: 0px;
-}/*
+  cursor: pointer;
+  position: relative;
+  left: 43px;
+  top: 9px;
+  width: 33px;
+  height: 12px;
+  border: none;
+  background: url("../images/search-go.png") no-repeat;
+  /* Fix IE bug: transparent PNG support */ 
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go.png');
+}
+
+#oaSearch input[type=submit]:hover, #oaSearch input[type=submit]:focus{
+  background: url("../images/search-go-hv.png") no-repeat;
+  /* Fix IE bug: transparent PNG support */ 
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go-hv.png');
+}
+
 
 
 /*	Navigation */

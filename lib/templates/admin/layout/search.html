@@ -62,17 +62,14 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 	<div id='oaSearch'>
 		<form name='search' action='admin-search.php' method='post'>
-            <input type='hidden' name='client' value='{$client}'>
-            <input type='hidden' name='campaign' value='{$campaign}'>
-            <input type='hidden' name='banner' value='{$banner}'>
-            <input type='hidden' name='zone' value='{$zone}'>
-            <input type='hidden' name='affiliate' value='{$affiliate}'>
-            <input type='hidden' name='compact' value='{$compact}'>
-            <label>
-                {t str=Search}:
-                <input value="{$keyword|escape}" type='text' name='keyword' size='15' class='search' accesskey='{t key=Search}'>
-            </label>
-        </form>
+	    <input type='hidden' name='client' value='{$client}'>
+	    <input type='hidden' name='campaign' value='{$campaign}'>
+	    <input type='hidden' name='banner' value='{$banner}'>
+	    <input type='hidden' name='zone' value='{$zone}'>
+	    <input type='hidden' name='affiliate' value='{$affiliate}'>
+	    <input type='hidden' name='compact' value='{$compact}'>
+	    <input value="{$keyword|escape}" type='text' name='keyword' class='search' accesskey='{t key=Search}'><input type="submit" value="&nbsp" >
+    </form>
 	</div>
 </div>
 
