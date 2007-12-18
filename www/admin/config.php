@@ -29,11 +29,12 @@ $Id$
 */
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/max/language/Default.php';
 require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
+
+require_once MAX_PATH . '/lib/OA/Preference.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
 
@@ -65,9 +66,6 @@ if (PEAR::isError($oDbh))
                 </ul>");
 }
 
-// Load the user preferences from the database
-$pref = OA_Admin_Preferences::loadPrefs();
-
 // First thing to do is clear the $session variable to
 // prevent users from pretending to be logged in.
 unset($session);
@@ -75,14 +73,9 @@ unset($session);
 // Authorize the user
 OA_Start();
 
-if (!OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-    // Reload user preferences from the database because we are using
-    // agency/advertiser/publisher settings
-    $pref = OA_Admin_Preferences::loadPrefs(OA_Permission::getAgencyId());
-}
-
-// Rewrite column preferences
-$pref = OA_Admin_Preferences::expandColumnPrefs();
+// Load the account's preferences
+OA_Preference::loadPreferences();
+$pref = $GLOBALS['_MAX']['CONF'];
 
 // Load the required language files
 Language_Default::load();
