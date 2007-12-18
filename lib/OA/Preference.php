@@ -50,8 +50,18 @@ class OA_Preference
      *                               the preferences are loaded as a
      *                               one-dimensional array of values, indexed
      *                               by preference key.
+     * @param boolean $return        An optional parameter, when set to true,
+     *                               returns the preferences instead of setting
+     *                               them into $GLOBALS['_MAX']['PREF'].
+     * @param boolean $parentOnly    An optional parameter, when set to true,
+     *                               only loads those preferences that are
+     *                               inherited from parent accounts, not preferences
+     *                               at the current account level. If the current
+     *                               account is the admin account, and this option
+     *                               is true, no preferences will be loaded!
+     * @return mixed The array of preferences if $return is true, otherwise null.
      */
-    function loadPreferences($loadExtraInfo = false)
+    function loadPreferences($loadExtraInfo = false, $return = false, $parentOnly = false)
     {
         // Get the type of the current accout
         $currentAccountType = OA_Permission::getAccountType();
@@ -90,22 +100,26 @@ class OA_Preference
         $aPreferences = array();
         // Put the admin account's preferences into the temporary
         // storage array for preferences
-        OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aAdminPreferenceValues, $loadExtraInfo);
+        if (!($currentAccountType == OA_ACCOUNT_ADMIN && $parentOnly)) {
+            OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aAdminPreferenceValues, $loadExtraInfo);
+        }
         // Is the current account NOT the admin account?
         if ($currentAccountType != OA_ACCOUNT_ADMIN) {
             // Is the current account not a manager account?
             if ($currentAccountType == OA_ACCOUNT_MANAGER) {
                 // This is a manager account
-                $managerAccountId = OA_Permission::getAccountId();
-                if ($managerAccountId == 0) {
-                    OA_Preference::_unsetPreferences();
-                    return;
+                if (!$parentOnly) {
+                    $managerAccountId = OA_Permission::getAccountId();
+                    if ($managerAccountId == 0) {
+                        OA_Preference::_unsetPreferences();
+                        return;
+                    }
+                    // Get the manager account's preference values
+                    $aManagerPreferenceValues = OA_Preference::_getPreferenceValues($managerAccountId);
+                    // Merge the preference values into the temporary
+                    // storage array for preferences
+                    OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues, $loadExtraInfo);
                 }
-                // Get the manager account's preference values
-                $aManagerPreferenceValues = OA_Preference::_getPreferenceValues($managerAccountId);
-                // Merge the preference values into the temporary
-                // storage array for preferences
-                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues, $loadExtraInfo);
             } else {
                 // This must be an advertiser or trafficker account, so
                 // need to locate the manager account that "owns" this account
@@ -117,32 +131,129 @@ class OA_Preference
                 $doAgency = OA_Dal::factoryDO('agency');
                 $doAgency->agency_id = $owningAgencyId;
                 $doAgency->find();
-                if ($doAgency->getRowCount() != 1) {
-                    OA_Preference::_unsetPreferences();
-                    return;
+                if ($doAgency->getRowCount() > 0) {
+                    // The manager account "owning" the advertiser or
+                    // trafficker account has some preferences that
+                    // override the admin account preferences
+                    $aManagerAccountId = $doAgency->getAll(array('account_id'), false, true);
+                    $managerAccountId = $aManagerAccountId[0];
+                    // Get the manager account's preference values
+                    $aManagerPreferenceValues = OA_Preference::_getPreferenceValues($managerAccountId);
+                    // Merge the preference values into the temporary
+                    // storage array for preferences
+                    OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues, $loadExtraInfo);
                 }
-                $aManagerAccountId = $doAgency->getAll(array('account_id'), false, true);
-                $managerAccountId = $aManagerAccountId[0];
-                // Get the manager account's preference values
-                $aManagerPreferenceValues = OA_Preference::_getPreferenceValues($managerAccountId);
-                // Merge the preference values into the temporary
-                // storage array for preferences
-                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aManagerPreferenceValues, $loadExtraInfo);
-                // Get the current account's ID
-                $currentAccountId = OA_Permission::getAccountId();
-                if ($currentAccountId == 0) {
-                    OA_Preference::_unsetPreferences();
-                    return;
+                if (!$parentOnly) {
+                    // Get the current account's ID
+                    $currentAccountId = OA_Permission::getAccountId();
+                    if ($currentAccountId == 0) {
+                        OA_Preference::_unsetPreferences();
+                        return;
+                    }
+                    // Get the current account's preference values
+                    $aCurrentPreferenceValues = OA_Preference::_getPreferenceValues($currentAccountId);
+                    // Merge the preference values into the temporary
+                    // storage array for preferences
+                    OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aCurrentPreferenceValues, $loadExtraInfo);
                 }
-                // Get the current account's preference values
-                $aCurrentPreferenceValues = OA_Preference::_getPreferenceValues($currentAccountId);
-                // Merge the preference values into the temporary
-                // storage array for preferences
-                OA_Preference::_setPreferences($aPreferences, $aPreferenceTypes, $aCurrentPreferenceValues, $loadExtraInfo);
             }
         }
-        // Store the preferences!
-        $GLOBALS['_MAX']['PREF'] = $aPreferences;
+        // Return or store the preferences
+        if ($return) {
+            return $aPreferences;
+        } else {
+            $GLOBALS['_MAX']['PREF'] = $aPreferences;
+        }
+    }
+
+    /**
+     * A static method for processing preference values from a UI form, and
+     * updating the preference values in the database.
+     *
+     * @static
+     * @param array $aElementNames An array of HTML form element names, which
+     *                             are also the preference value names.
+     * @return boolean True on success, false otherwise.
+     */
+    function processPreferencesFromForm($aElementNames)
+    {
+        // Get the type of the current accout
+        $currentAccountType = OA_Permission::getAccountType();
+        // Get the current account's ID
+        $currentAccountId = OA_Permission::getAccountId();
+        // Get the parent account preferences
+        $aParentPreferences = OA_Preference::loadPreferences(false, true, true);
+        // Prepare the preference values that should be saved or deleted
+        $aSavePreferences = array();
+        $aDeletePreferences = array();
+        foreach ($aElementNames as $preferenceName) {
+            // Register the HTML element value
+            MAX_commonRegisterGlobalsArray(array($preferenceName));
+            // Was the HTML element value set?
+            if (isset($GLOBALS[$preferenceName])) {
+                // Is the preference value different from the parent value?
+                if ($GLOBALS[$preferenceName] != $aParentPreferences[$preferenceName]) {
+                    // The preference value is different from the parent, so it
+                    // needs to be stored
+                    $aSavePreferences[$preferenceName] = $GLOBALS[$preferenceName];
+                } else if ($currentAccountType != OA_ACCOUNT_ADMIN) {
+                    // The preference value is not different from the parent, so
+                    // it should be deleted if not the admin account (in case it
+                    // exists for the account, and so would not inherit correctly
+                    // if the admin account changes preferences)
+                    $aDeletePreferences[$preferenceName] = $GLOBALS[$preferenceName];
+                }
+            }
+        }
+        // Get all of the preference types that exist
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $aPreferenceTypes = $doPreferences->getAll(array(), true);
+        // Are there any preference types in the system?
+        if (empty($aPreferenceTypes)) {
+            return false;
+        }
+        // Save the required preferences
+        foreach ($aPreferenceTypes as $aPreferenceType) {
+            if (isset($aSavePreferences[$aPreferenceType['preference_name']])) {
+                $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+                $doAccount_preference_assoc->account_id = $currentAccountId;
+                $doAccount_preference_assoc->preference_id = $aPreferenceType['preference_id'];
+                $doAccount_preference_assoc->find();
+                if ($doAccount_preference_assoc->getRowCount() != 1) {
+                    // Insert the preference
+                    $doAccount_preference_assoc->value = $aSavePreferences[$aPreferenceType['preference_name']];
+                    $result = $doAccount_preference_assoc->insert();
+                    if (!$result) {
+                        return false;
+                    }
+                } else {
+                    // Update the preference
+                    $doAccount_preference_assoc->fetch();
+                    $doAccount_preference_assoc->value = $aSavePreferences[$aPreferenceType['preference_name']];
+                    $result = $doAccount_preference_assoc->update();
+                    if (!$result) {
+                        return false;
+                    }
+                }
+            }
+        }
+        // Delete the required preferences
+        foreach ($aPreferenceTypes as $aPreferenceType) {
+            if (isset($aDeletePreferences[$aPreferenceType['preference_name']])) {
+                $doAccount_preference_assoc = OA_Dal::factoryDO('account_preference_assoc');
+                $doAccount_preference_assoc->account_id = $currentAccountId;
+                $doAccount_preference_assoc->preference_id = $aPreferenceType['preference_id'];
+                $doAccount_preference_assoc->find();
+                if ($doAccount_preference_assoc->getRowCount() == 1) {
+                    // Delete the preference
+                    $result = $doAccount_preference_assoc->delete();
+                    if (!$result) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -237,7 +348,12 @@ class OA_Preference
                 }
             }
         }
-
+        // If extra information is being loaded, ensure all preference types are set
+        foreach ($aPreferenceTypes as $aPreferenceType) {
+            if (!isset($aPreferences[$aPreferenceType['preference_name']])) {
+                $aPreferences[$aPreferenceType['preference_name']]['account_type'] = $aPreferenceType['account_type'];
+            }
+        }
     }
 
 }
