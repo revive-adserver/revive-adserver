@@ -122,7 +122,9 @@ class TestEnv
     function teardownDB()
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        $result = OA_DB::dropDatabase($aConf['database']['name']);
+        if (strtolower($aConf['database']['type']) == 'pgsql' && version_compare(phpversion(), '5.0.0', '<')) {
+            $result = OA_DB::dropDatabase($aConf['database']['name']);
+        }
     }
 
     /**
