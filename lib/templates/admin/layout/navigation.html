@@ -30,9 +30,9 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     <ul id="oaNavigationTabs" class="tabs"> 
 {foreach item=n from=$aNav name=tabLoop}
 {if $n.selected}
-      <li class="tab active {if $smarty.foreach.tabLoop.first}active-first{else}active-middle{/if}">
+      <li class="tab active {if $smarty.foreach.tabLoop.first}active-first{else}{if $smarty.foreach.tabLoop.last}active-last{else}active-middle{/if}{/if}">
 {else}
-      <li class="tab passive {if $smarty.foreach.tabLoop.first}passive-first{else}passive-middle{/if}">
+      <li class="tab passive {if $smarty.foreach.tabLoop.first}passive-first{else}{if $smarty.foreach.tabLoop.last}passive-last{else}passive-middle{/if}{/if}">
 {/if}
         <div class="tab-left"><div class="tab-right"><div class="tab-inside">
           <div class="label"><a href="{$n.filename|escape}" accesskey="{t key=Home}">{$n.title|escape}</a></div>
