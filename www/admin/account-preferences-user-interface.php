@@ -33,7 +33,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Preference.php';
 
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
@@ -63,6 +63,9 @@ foreach ($aInvPlugins as $pluginKey => $oPlugin) {
 $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
+if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
+
+}
 
 
 
