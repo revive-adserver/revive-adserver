@@ -163,9 +163,15 @@ $Id: Timezone.php 6032 2007-04-25 16:12:07Z aj@seagullproject.org $
                 unset($tz);
                 $diff = date('O');
                 $diffSign = substr($diff, 0, 1);
-                $diffHour = (int) substr($diff, 1, 2);
+                if ($diffSign == "+") {
+                    $diffHour = (int) substr($diff, 1, 2) - date('I'); // minus 1 hour if date in DST
+                } else {
+                    $diffHour = (int) substr($diff, 1, 2) + date('I'); // add 1 hour if date in DST
+                }
                 $diffMin  = (int) substr($diff, 3, 2);
                 $offset = (($diffHour * 60) + ($diffMin)) * 60 * 1000; // Milliseconds
+                $offset = $diffSign . $offset;
+
                 // Deliberately require via direct path, not using MAX_PATH,
                 // as this method should be called before the ini scripts!
                 global $_DATE_TIMEZONE_DATA;
