@@ -22,7 +22,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: Acls.dal.test.php 5552 2007-04-03 19:52:40Z andrew.hill@openads.org $
+$Id$
 */
 
 /**
@@ -74,7 +74,7 @@ BEGIN
  IF LENGTH($2) > 0 THEN
    a := string_to_array($2, ',');
    FOR i IN 1..array_upper(a, 1) LOOP
-     IF $1 = a[i] THEN
+     IF $1 = a[i]::integer THEN
        RETURN i;
      END IF;
    END LOOP;
