@@ -79,46 +79,50 @@ a:hover {
 	width: 214px;
 	font-weight: bold;
 	color: #fff;
-	line-height: 31px;
-  background: url("../images/searchfull.png") no-repeat;
+	padding: 0px;
+  border: 0px;
+  margin: 0px;
+	background: url("../images/searchfull.png") no-repeat;
   /* Fix IE bug: transparent PNG support */ 
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/searchfull.png');
 }
 #oaSearch form {
-	margin: 0;
+	margin: 0px;
+	padding: 0px;
 }
 
-#oaSearch input[type=text] {
+#oaSearch input.search {
 	position: relative;
 	left: 32px;
 	top: 7px;
-	border: none;
+	border: 0px;
+	margin: 0px;
 	width: 130px;
 	height: 13px;
+	background: none;
 }
 
-#oaSearch input:focus {
-	background-color: white;
-}
 
-#oaSearch input[type=submit] {
-  padding: 0px;
-  margin: 0px;
-  cursor: pointer;
-  position: relative;
-  left: 43px;
+#oaSearch input.submit {
+  position: absolute;
+  right: 8px;
   top: 9px;
   width: 33px;
   height: 12px;
-  border: none;
+  
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  cursor: pointer;
+  
   background: url("../images/search-go.png") no-repeat;
   /* Fix IE bug: transparent PNG support */ 
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go.png');
 }
 
-#oaSearch input[type=submit]:hover, #oaSearch input[type=submit]:focus{
+#oaSearch input.submit:hover, #oaSearch input.submit:focus{
   background: url("../images/search-go-hv.png") no-repeat;
   /* Fix IE bug: transparent PNG support */ 
   -background: none;

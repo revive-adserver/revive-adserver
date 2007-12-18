@@ -93,7 +93,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {if $displaySearch}
     <div id="oaSearch">
         <form name="search" action="admin-search.php" target="SearchWindow" onsubmit="search_window(document.search.keyword.value,'{$searchUrl|escape:js}'); return false;">
-            <input type="text" name="keyword" class="search" accesskey="{t key=Search}"><input type="submit" value="&nbsp" >
+            <input type="text" name="keyword" class="search" accesskey="{t key=Search}"><input class="submit" type="submit" value="&nbsp" >
         </form>
     </div>
 {/if}
