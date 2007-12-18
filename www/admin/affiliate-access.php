@@ -60,7 +60,7 @@ $agencyid = OA_Permission::getAgencyId();
 /*-------------------------------------------------------*/
 
 if ($affiliateid != "") {
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER)) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         if (isset($session['prefs']['affiliate-index.php']['listorder'])) {
             $navorder = $session['prefs']['affiliate-index.php']['listorder'];
         } else {

@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 $auditId = MAX_getStoredValue('auditId', 0);
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
