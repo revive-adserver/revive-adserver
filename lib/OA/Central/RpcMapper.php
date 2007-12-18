@@ -780,7 +780,7 @@ class OA_Central_RpcMapper
      * 
      * @see http://code.google.com/apis/adsense/developer/adsense_api_adformats.html
      *  
-     * @return mixed An array described above
+     * @return mixed An array described above on success, PEAR_Error otherwise 
      * 
      */    
     function adsenseGetUnitTypesAndLayouts()
@@ -812,7 +812,7 @@ class OA_Central_RpcMapper
      * 
      * @see http://code.google.com/apis/adsense/developer/adsense_api_locales.html
      *  
-     * @return mixed An array described above
+     * @return mixed An array described above on success, PEAR_Error otherwise
      * 
      */    
     function adsenseGetSupportedWebsiteLocales()
@@ -843,7 +843,7 @@ class OA_Central_RpcMapper
      * 
      * @see http://code.google.com/apis/adsense/developer/adsense_api_locales.html
      *  
-     * @return mixed An array described above
+     * @return mixed An array described above on success, PEAR_Error otherwise
      * 
      */    
     function adsenseGetSupportedUserLocales()
