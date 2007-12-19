@@ -640,7 +640,7 @@ class OA_Central_RpcMapper
     /**
      * A method to check AdSense account status
      *
-     * @see org.openads.adnetworks.adsense.AccountStatus enumeration in OAC for details
+     * @see org.openads.adnetworks.adsense.AdSenseAccountStatus enumeration in OAC for details
      * @todo decide on available statuses and put the info here
      *     
      * @param int $adsenseAccountId
