@@ -1338,7 +1338,7 @@ return false;
 $filename = OA_Delivery_Cache_buildFileName($name, $isHash);
 $cache_literal  = "<"."?php\n\n";
 $cache_literal .= "$"."cache_contents   = ".var_export($cache, true).";\n\n";
-$cache_literal .= "$"."cache_name       = '".addcslashes($name, "'")."';\n";
+$cache_literal .= "$"."cache_name       = '".addcslashes($name, "\\'")."';\n";
 $cache_literal .= "$"."cache_time       = ".MAX_commonGetTimeNow().";\n";
 if ($expireAt !== null) {
 $cache_literal .= "$"."cache_expire     = ".$expireAt.";\n";
