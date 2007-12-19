@@ -644,7 +644,7 @@ class OA_Central_RpcMapper
      * @todo decide on available statuses and put the info here
      *     
      * @param int $adsenseAccountId
-     * @return int Account status
+     * @return mixed Account status (int) on success, PEAR_Error otherwise
      * 
      */
     function adsenseGetAccountStatus($adsenseAccountId)
