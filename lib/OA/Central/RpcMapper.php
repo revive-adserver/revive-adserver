@@ -593,7 +593,7 @@ class OA_Central_RpcMapper
      *
      * Array
      * (
-     * 		[account_id] => 1
+     * 		[adsense_account_id] => 1
      * 		[affiliate_code] => code
      * )
      * 
@@ -621,7 +621,7 @@ class OA_Central_RpcMapper
      *
      * Array
      * (
-     * 		[account_id] => 1
+     * 		[adsense_account_id] => 1
      * 		[affiliate_code] => code
      * )
      * 
@@ -640,21 +640,21 @@ class OA_Central_RpcMapper
     /**
      * A method to check AdSense account status
      *
-     * @param int $accountId
+     * @param int $adsenseAccountId
      * @return int Account status
      * 
      */
-    function adsenseGetAccountStatus($accountId)
+    function adsenseGetAccountStatus($adsenseAccountId)
     {
     	return $this->oRpc->callNoAuth('adsenseGetAccountStatus', array(
-            new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int'])
+            new XML_RPC_Value($adsenseAccountId, $GLOBALS['XML_RPC_Int'])
         ));
     }
 
     /**
      * A method to create AdSense banner
      *
-     * @param int $accountId
+     * @param int $adsenseAccountId
      * @param string $name
      * @param string $backgroundColor
      * @param string $borderColor
@@ -676,10 +676,10 @@ class OA_Central_RpcMapper
      * @return mixed An array described above on success, PEAR_Error otherwise
      * 
      */
-	function adsenseCreateBanner($accountId, $name, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
+	function adsenseCreateBanner($adsenseAccountId, $name, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
 	{
 		return $this->oRpc->callNoAuth('adsenseCreateBanner', array(
-            new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($adsenseAccountId, $GLOBALS['XML_RPC_Int']),
             new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($backgroundColor, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($borderColor, $GLOBALS['XML_RPC_String']),
