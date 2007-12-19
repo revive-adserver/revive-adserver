@@ -82,20 +82,20 @@ class OA_Admin_UI
         $aSideContext   = array();
         $aSideShortcuts = array();
 
-    	$pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
+        $pageTitle = !empty($conf['ui']['applicationName']) ? $conf['ui']['applicationName'] : MAX_PRODUCT_NAME;
 
         // Travel navigation
         if ($ID != phpAds_Login && $ID != phpAds_Error) {
             // Select active navigation array
             $accountType = OA_Permission::getAccountType();
-    		$pages = $OA_Navigation[$accountType];
+            $pages = isset($OA_Navigation[$accountType]) ? $OA_Navigation[$accountType] : array();
 
             // Build sidebar
             $sections = explode('.', $ID);
             $sectionID = '';
 
             for ($i = 0; $i < count($sections) - 1; $i++)
-    		{
+            {
                 $sectionID .= $sections[$i];
                 list($filename, $title) = each($pages[$sectionID]);
                 $sectionID .= ".";
@@ -128,7 +128,7 @@ class OA_Admin_UI
                 $pageTitle .= ' - '.$title;
             }
 
-    		$up_limit = count($phpAds_context);
+            $up_limit = count($phpAds_context);
             $down_limit = 0;
 
             // Build Context
