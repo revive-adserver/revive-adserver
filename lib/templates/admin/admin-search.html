@@ -95,7 +95,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;
             <img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;
-            <a href='JavaScript:GoOpener(\"advertiser-edit.php?clientid={$row_clients.clientid|escape:js}\")'>{$row_clients.clientname|escape}</a>
+            <a href='JavaScript:GoOpener("advertiser-edit.php?clientid={$row_clients.clientid|escape:js}")'>{$row_clients.clientname|escape}</a>
         </td>
 
         <td height='25'>{$row_clients.clientid|escape}</td>
@@ -103,15 +103,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"advertiser-campaigns.php?clientid={$row_clients.clientid|escape:js}\")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("advertiser-campaigns.php?clientid={$row_clients.clientid|escape:js}")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"advertiser-delete.php?clientid={$row_clients.clientid|escape:js}\", true)'{phpAds_delConfirm str=ConfirmDeleteClient}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("advertiser-delete.php?clientid={$row_clients.clientid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteClient}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=advertiser&breakdown=history&clientid={$row_clients.clientid|escape:js}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=advertiser&breakdown=history&clientid={$row_clients.clientid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
     </tr>
 
@@ -123,7 +123,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;
-            <a href='JavaScript:GoOpener(\"campaign-edit.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape}\")'>{$row_c_expand.campaignname|escape}</a>
+            <a href='JavaScript:GoOpener("campaign-edit.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}")'>{$row_c_expand.campaignname|escape}</a>
         </td>
 
         <td height='25'>{$row_c_expand.campaignid|escape}</td>
@@ -131,15 +131,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"campaign-banners.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape}\")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("campaign-banners.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"campaign-delete.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("campaign-delete.php?clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=campaign&breakdown=history&clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=campaign&breakdown=history&clientid={$row_clients.clientid|escape}&campaignid={$row_c_expand.campaignid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
     </tr>
 
@@ -151,7 +151,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <img src="{oa_icon banner=$row_b_expand}" align="absmiddle" />
-            <a href='JavaScript:GoOpener(\"banner-edit.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\")'>{$row_b_expand.name|escape}</a>
+            <a href='JavaScript:GoOpener("banner-edit.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'>{$row_b_expand.name|escape}</a>
         </td>
 
         <td height='25'>{$row_b_expand.bannerid|escape}</td>
@@ -159,15 +159,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"banner-acl.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("banner-acl.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"banner-delete.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("banner-delete.php?clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=banner&breakdown=history&clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=banner&breakdown=history&clientid={$row_clients.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
     </tr>
 
@@ -188,7 +188,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;
             <img src='images/icon-campaign.gif' align='absmiddle'>&nbsp;
-            <a href='JavaScript:GoOpener(\"campaign-edit.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape}\")'>{$row_campaigns.campaignname|escape}</a>
+            <a href='JavaScript:GoOpener("campaign-edit.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}")'>{$row_campaigns.campaignname|escape}</a>
         </td>
 
         <td height='25'>{$row_campaigns.campaignid|escape}</td>
@@ -196,15 +196,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"campaign-banners.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape}\")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("campaign-banners.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"campaign-delete.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("campaign-delete.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteCampaign}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=campaign&breakdown=history&clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=campaign&breakdown=history&clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
     </tr>
 
@@ -216,7 +216,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <img src="{oa_icon banner=$row_b_expand}" align="absmiddle" />
-            <a href='JavaScript:GoOpener(\"banner-edit.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\")'>{$row_b_expand.name|escape}</a>
+            <a href='JavaScript:GoOpener("banner-edit.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_campaigns.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'>{$row_b_expand.name|escape}</a>
         </td>
 
         <td height='25'>{$row_b_expand.bannerid|escape}</td>
@@ -224,15 +224,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"banner-acl.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("banner-acl.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"banner-delete.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("banner-delete.php?clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=banner&breakdown=history&clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=banner&breakdown=history&clientid={$row_campaigns.clientid|escape}&campaignid={$row_b_expand.campaignid|escape}&bannerid={$row_b_expand.bannerid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td></tr>
 
 {/foreach}
@@ -251,7 +251,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;
             <img src="{oa_icon banner=$row_banners}" align="absmiddle" />
-            <a href='JavaScript:GoOpener(\"banner-edit.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape}\")'>{$row_banners.name|escape}</a>
+            <a href='JavaScript:GoOpener("banner-edit.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}")'>{$row_banners.name|escape}</a>
         </td>
 
         <td height='25'>{$row_banners.bannerid|escape}</td>
@@ -259,15 +259,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"banner-acl.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape}\")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("banner-acl.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}")'><img src='images/icon-acl.gif' border='0' align='absmiddle' alt='{t str=ACL}'>&nbsp;{t str=ACL}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"banner-delete.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("banner-delete.php?clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteBanner}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=banner&breakdown=history&clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=banner&breakdown=history&clientid={$row_banners.clientid|escape}&campaignid={$row_banners.campaignid|escape}&bannerid={$row_banners.bannerid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td></tr>
 
 {/foreach}
@@ -285,7 +285,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;
             <img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;
-            <a href='JavaScript:GoOpener(\"affiliate-edit.php?affiliateid={$row_affiliates.affiliateid|escape}\")'>{$row_affiliates.name|escape}</a>
+            <a href='JavaScript:GoOpener("affiliate-edit.php?affiliateid={$row_affiliates.affiliateid|escape:js}")'>{$row_affiliates.name|escape}</a>
         </td>
 
         <td height='25'>{$row_affiliates.affiliateid|escape}</td>
@@ -293,25 +293,27 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"affiliate-zones.php?affiliateid={$row_affiliates.affiliateid|escape}\")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("affiliate-zones.php?affiliateid={$row_affiliates.affiliateid|escape:js}")'><img src='images/icon-overview.gif' border='0' align='absmiddle' alt='{t str=Overview}'>&nbsp;{t str=Overview}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"affiliate-delete.php?affiliateid={$row_affiliates.affiliateid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteAffiliate}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("affiliate-delete.php?affiliateid={$row_affiliates.affiliateid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteAffiliate}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=affiliate&breakdown=history&affiliateid={$row_affiliates.affiliateid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=affiliate&breakdown=history&affiliateid={$row_affiliates.affiliateid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
     </tr>
 
 {foreach item=row_z_expand from=$row_affiliates.zones}
+    <tr height='1'><td colspan='6' bgcolor='#888888'><img src='images/break-el.gif' height='1' width='100%'></td></tr>
+
     <tr height='25' bgcolor="{cycle name=bgcolor}">
 
         <td height='25'>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <img src='images/icon-zone.gif' align='absmiddle'>&nbsp;
-            <a href='JavaScript:GoOpener(\"zone-edit.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape}\")'>{$row_z_expand.zonename|escape}</a>
+            <a href='JavaScript:GoOpener("zone-edit.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}")'>{$row_z_expand.zonename|escape}</a>
         </td>
 
         <td height='25'>{$row_z_expand.zoneid|escape}</td>
@@ -319,15 +321,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"zone-include.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape}\")'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;{t str=IncludedBanners}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("zone-include.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}")'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;{t str=IncludedBanners}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"zone-delete.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteZone}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("zone-delete.php?affiliateid={$row_z_expand.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteZone}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=zone&breakdown=history&affiliateid={$row_affiliates.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=zone&breakdown=history&affiliateid={$row_affiliates.affiliateid|escape}&zoneid={$row_z_expand.zoneid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td></tr>
 
 {/foreach}
@@ -346,7 +348,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td height='25'>
             &nbsp;&nbsp;
             <img src='images/icon-zone.gif' align='absmiddle'>&nbsp;
-            <a href='JavaScript:GoOpener(\"zone-edit.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape}\")'>{$row_zones.zonename|escape}</a>
+            <a href='JavaScript:GoOpener("zone-edit.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}")'>{$row_zones.zonename|escape}</a>
         </td>
 
         <td height='25'>{$row_zones.zoneid|escape}</td>
@@ -354,15 +356,15 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <td>&nbsp;</td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"zone-include.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape}\")'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;{t str=IncludedBanners}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("zone-include.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}")'><img src='images/icon-zone-linked.gif' border='0' align='absmiddle' alt='{t str=IncludedBanners}'>&nbsp;{t str=IncludedBanners}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"zone-delete.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape}\", true)'{phpAds_delConfirm str=ConfirmDeleteZone}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("zone-delete.php?affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}", true)'{phpAds_delConfirm str=ConfirmDeleteZone}><img src='images/icon-recycle.gif' border='0' align='absmiddle' alt='{t str=Delete}'>&nbsp;{t str=Delete}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
 
         <td height='25'>
-            <a href='JavaScript:GoOpener(\"stats.php?entity=zone&breakdown=history&affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape}\")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href='JavaScript:GoOpener("stats.php?entity=zone&breakdown=history&affiliateid={$row_zones.affiliateid|escape}&zoneid={$row_zones.zoneid|escape:js}")'><img src='images/icon-statistics.gif' border='0' align='absmiddle' alt='{t str=Stats}'>&nbsp;{t str=Stats}</a>&nbsp;&nbsp;&nbsp;&nbsp;
         </td>
     </tr>
 
