@@ -655,6 +655,7 @@ class OA_Central_RpcMapper
      * A method to create AdSense banner
      *
      * @param int $accountId
+     * @param string $name
      * @param string $backgroundColor
      * @param string $borderColor
      * @param string $textColor
@@ -675,10 +676,11 @@ class OA_Central_RpcMapper
      * @return mixed An array described above on success, PEAR_Error otherwise
      * 
      */
-	function adsenseCreateBanner($accountId, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
+	function adsenseCreateBanner($accountId, $name, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
 	{
 		return $this->oRpc->callNoAuth('adsenseCreateBanner', array(
             new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($backgroundColor, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($borderColor, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($textColor, $GLOBALS['XML_RPC_String']),
@@ -694,7 +696,7 @@ class OA_Central_RpcMapper
      * A method to update AdSense banner
      *
      * @param int $bannerId
-     * @param int $accountId
+     * @param string $name
      * @param string $backgroundColor
      * @param string $borderColor
      * @param string $textColor
@@ -707,11 +709,11 @@ class OA_Central_RpcMapper
      * @return mixed A string Banner code on success, PEAR_Error otherwise 
      * 
      */
-	function adsenseUpdateBanner($bannerId, $accountId, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
+	function adsenseUpdateBanner($bannerId, $name, $backgroundColor, $borderColor, $textColor, $titleColor, $urlColor, $adUnitType, $layout, $isFramedPage)
 	{
 		return $this->oRpc->callNoAuth('adsenseUpdateBanner', array(
 			new XML_RPC_Value($bannerId, $GLOBALS['XML_RPC_Int']),
-            new XML_RPC_Value($accountId, $GLOBALS['XML_RPC_Int']),
+            new XML_RPC_Value($name, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($backgroundColor, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($borderColor, $GLOBALS['XML_RPC_String']),
             new XML_RPC_Value($textColor, $GLOBALS['XML_RPC_String']),
