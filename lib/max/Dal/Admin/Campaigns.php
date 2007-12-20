@@ -250,7 +250,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			    $aImpressions = $rsImpressions->toArray();
 			    // Get the number of days until the campaign will end
 			    // based on the impression target delivery data
-                $aExpiration[] = $this->_calculateRemainingDays($aImpressions, $aCampaignData['impressions']);
+                $aExpiration[0] = $this->_calculateRemainingDays($aImpressions, $aCampaignData['impressions']);
 			}
         }
 
@@ -272,7 +272,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			    $aClicks = $rsClicks->toArray();
 			    // Get the number of days until the campaign will end
 			    // based on the click target delivery data
-                $aExpiration[] = $this->_calculateRemainingDays($aClicks, $aCampaignData['clicks']);
+                $aExpiration[0] = $this->_calculateRemainingDays($aClicks, $aCampaignData['clicks']);
 
 			}
         }
@@ -295,13 +295,13 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			    $aConversions = $rsConversions->toArray();
 			    // Get the number of days until the campaign will end
 			    // based on the conversion target delivery data
-                $aExpiration[] = $this->_calculateRemainingDays($aConversions, $aCampaignData['conversions']);
+                $aExpiration[0] = $this->_calculateRemainingDays($aConversions, $aCampaignData['conversions']);
 			}
         }
 
         $result = '';
         // Is there a possible expiration date?
-        if (empty($aExpiration) || count($aExpiration) == 0)
+        if (empty($aExpiration[0]) || count($aExpiration[0]) == 0)
         {
             // No, so return the "no expiration date" value
     		$result = $strExpiration.": ".$strNoExpiration;
@@ -384,15 +384,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 		    // No impressions/clicks/conversions been delivered so far,
 		    // so cannot estimate how long it will take to expire the
 		    // campaign - estimate
-		    $daysLeft = PHP_INT_MAX;
-            $oEstimatedEndDate = new Date('1960-01-01 00:00:00');
-            $oEstimatedEndDate->subtractSeconds(1);
-            $estimatedEndDate = $oEstimatedEndDate->format($date_format);
-        	$aExpiration = array(
-        		'daysLeft' => $daysLeft,
-        		'date'     => $estimatedEndDate,
-        		'absolute' => true
-        	);
+        	$aExpiration = array();
 		}
 		return $aExpiration;
     }
