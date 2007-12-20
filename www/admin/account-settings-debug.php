@@ -53,7 +53,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     $aElements = array();
     // Audit Trail
     $aElements += array(
-        'adit_enabled' => array(
+        'audit_enabled' => array(
             'audit' => 'enabled',
             'bool'  => true
         )
