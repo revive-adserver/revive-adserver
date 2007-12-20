@@ -76,6 +76,13 @@
     <default></default>
    </field>
    
+   <field>
+    <name>linked</name>
+    <type>openads_datetime</type>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
    <index>
     <name>account_user_assoc_pkey</name>
     <primary>true</primary>
