@@ -59,6 +59,9 @@ class Migration
 
     var $affectedRows = 0;
 
+    /**
+     * @var MDB2_Driver_Common
+     */
     var $oDBH;
 
     function Migration()

@@ -46,7 +46,7 @@ class OA_UpgradePostscript_2_4_45
     {
         $this->oUpgrade = & $aParams[0];
 
-        if (PEAR::isError($this->migrateUsers())) {
+        if (!$this->migrateUsers()) {
             return false;
         }
         return true;
@@ -54,8 +54,8 @@ class OA_UpgradePostscript_2_4_45
 
     /**
      * Migrate users to new tables, migrate their permissions as well
-     * 
-     * @return true on success else pear_error
+     *
+     * @return bool True on success
      */
     function migrateUsers()
     {
@@ -133,8 +133,8 @@ class OA_UpgradePostscript_2_4_45
 
 	    foreach ($aUserdata as $group => $aUser) {
     	    $result = $this->_migrateUsers($group, $aUser);
-    	    if (PEAR::isError($result)) {
-    	        return $result;
+    	    if (!$result) {
+    	        return false;
     	    }
 	    }
 
@@ -176,7 +176,7 @@ class OA_UpgradePostscript_2_4_45
 
         if (PEAR::isError($aSource)) {
             $this->oUpgrade->oLogger->logError("Error while retrieving existing {$group} accounts");
-            return $aSource;
+            return false;
         }
 
 	    foreach ($aSource as $sourceId => $aData) {
@@ -204,12 +204,19 @@ class OA_UpgradePostscript_2_4_45
 
             if (PEAR::isError($result)) {
                 $this->oUpgrade->oLogger->logError("Error while creating account for {$group} {$sourceId}");
-                return $result;
+                return false;
             }
 
             $accountId = $oDbh->lastInsertID($prefix.'accounts', 'account_id');
 
             if ($group == 'ADMIN') {
+        	    // Add the admin account ID to the application variables
+                $result = OA_Dal_ApplicationVariables::set('admin_account_id', $adminAccountId);
+                if (!$result) {
+                    $this->oUpgrade->oLogger->logError('Error saving the admin account ID as application variable');
+                    return false;
+                }
+
                 // Create a new manager account
                 $query = "
                     INSERT INTO {$tblAccounts} (
@@ -225,7 +232,7 @@ class OA_UpgradePostscript_2_4_45
 
                 if (PEAR::isError($result)) {
                     $this->oUpgrade->oLogger->logError("Error while creating manager account for {$group} {$sourceId}");
-                    return $result;
+                    return false;
                 }
 
                 $managerAccountId = $oDbh->lastInsertID($prefix.'accounts', 'account_id');
@@ -248,7 +255,7 @@ class OA_UpgradePostscript_2_4_45
 
                 if (PEAR::isError($result)) {
                     $this->oUpgrade->oLogger->logError("Error while creating default agency for {$group} {$sourceId}");
-                    return $result;
+                    return false;
                 }
 
                 $agencyId = $oDbh->lastInsertID($prefix.'agency', 'agencyid');
@@ -267,7 +274,7 @@ class OA_UpgradePostscript_2_4_45
 
                     if (PEAR::isError($result)) {
                         $this->oUpgrade->oLogger->logError("Error while migrating {$entity} table for {$group} {$sourceId}");
-                        return $result;
+                        return false;
                     }
                 }
             } else {
@@ -285,7 +292,7 @@ class OA_UpgradePostscript_2_4_45
 
                 if (PEAR::isError($result)) {
                     $this->oUpgrade->oLogger->logError("Error while updating entity {$group} {$sourceId} with account details");
-                    return $result;
+                    return false;
                 }
             }
 
@@ -312,7 +319,7 @@ class OA_UpgradePostscript_2_4_45
 
                 if (PEAR::isError($result)) {
                     $this->oUpgrade->oLogger->logError("Error while creating user for {$group} {$sourceId}");
-                    return $result;
+                    return false;
                 }
 
                 $userId = $oDbh->lastInsertID($prefix.'users', 'user_id');
@@ -340,12 +347,12 @@ class OA_UpgradePostscript_2_4_45
                             }
                         }
                     }
-                    
+
                     $result = OA_Permission::storeUserAccountsPermissions($aPermissions, $accountId, $userId);
-                    
+
                     if (!$result) {
                         $this->oUpgrade->oLogger->logError("Error creating permissions for account: {$accountId} and user {$userId}");
-                        return new PEAR_Error();
+                        return false;
                     }
                 }
             }

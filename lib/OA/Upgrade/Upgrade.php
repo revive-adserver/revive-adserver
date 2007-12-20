@@ -1455,6 +1455,13 @@ class OA_Upgrade
             return false;
         }
 
+        // Add the admin account id to the application variables
+        $result = OA_Dal_ApplicationVariables::set('admin_account_id', $adminAccountId);
+        if (!$result) {
+            $this->oLogger->logError('error saving the admin account ID as application variable');
+            return false;
+        }
+
         // Create Manager entity
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name   = 'Default manager';
@@ -1488,7 +1495,7 @@ class OA_Upgrade
             $this->oLogger->logError('error creating the admin user');
             return false;
         }
-        
+
         $result = OA_Permission::setAccountAccess($adminAccountId, true, $userId);
         if (!$result) {
             $this->oLogger->logError("error creating access to admin account, account id: $adminAccountId, user ID: $userId");

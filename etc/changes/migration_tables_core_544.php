@@ -1,6 +1,7 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once(MAX_PATH.'/lib/OA/Dal/ApplicationVariables.php');
 
 class Migration_544 extends Migration
 {

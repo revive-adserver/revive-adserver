@@ -5,7 +5,7 @@
  <name>openads</name>
  <create>true</create>
  <overwrite>false</overwrite>
- <version>544</version>
+ <version>545</version>
  <status>final</status>
 
  <table>
@@ -75,7 +75,7 @@
     <notnull>true</notnull>
     <default></default>
    </field>
-   
+
    <field>
     <name>linked</name>
     <type>openads_datetime</type>
@@ -186,6 +186,22 @@
     <name>account_name</name>
     <type>openads_varchar</type>
     <length>255</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>m2m_password</name>
+    <type>openads_varchar</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>m2m_ticket</name>
+    <type>openads_varchar</type>
+    <length>32</length>
     <notnull>false</notnull>
     <default></default>
    </field>
