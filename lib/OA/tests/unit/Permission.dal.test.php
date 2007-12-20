@@ -50,7 +50,6 @@ class Test_OA_Permission extends UnitTestCase
 
     function setUp()
     {
-        // TODOPERM - insert any necessary permissions here
     }
 
     function tearDown()

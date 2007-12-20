@@ -29,27 +29,6 @@ class DataObjects_Users extends DB_DataObjectCommon
     ###END_AUTOCODE
 
     /**
-     * Handle all necessary operations when new user is created
-     *
-     * @see DB_DataObject::insert()
-     */
-    function insert()
-    {
-        // TODOPERM - is anything necessary here?
-        return parent::insert();
-    }
-
-    /**
-     * Handle all necessary operations when a user is updated
-     *
-     * @see DB_DataObject::update()
-     */
-    function update($dataObject = false)
-    {
-        return parent::update($dataObject);
-    }
-
-    /**
      * Checks is a username already exists in the database
      *
      * @param string $username

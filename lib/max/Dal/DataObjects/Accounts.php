@@ -24,39 +24,4 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
 
-    /**
-     * Handle all necessary operations when new account is created
-     *
-     * @see DB_DataObject::insert()
-     */
-    function insert()
-    {
-        $accountId = parent::insert();
-
-        if (!empty($accountId)) {
-            if (empty($this->__accountName)) {
-                // TODOPERM - is this variable necessary anymore?
-                $this->__accountName = 'Unnamed account';
-            }
-        }
-
-        return $accountId;
-    }
-
-    /**
-     * Handle all necessary operations when an account is deleted
-     *
-     * @see DB_DataObject::delete()
-     */
-    function delete($useWhere = false, $cascade = true, $parentid = null)
-    {
-        $ret = parent::delete($useWhere, $cascade, $parentid);
-
-        if ($ret) {
-            // TODOPERM - remove any referenced objects
-        }
-
-        return $ret;
-    }
-
 }

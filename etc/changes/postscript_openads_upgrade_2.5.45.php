@@ -53,9 +53,9 @@ class OA_UpgradePostscript_2_4_45
     }
 
     /**
-     * TODOPERM - clean up this code and insert new users here
-     *
-     * @return unknown
+     * Migrate users to new tables, migrate their permissions as well
+     * 
+     * @return true on success else pear_error
      */
     function migrateUsers()
     {

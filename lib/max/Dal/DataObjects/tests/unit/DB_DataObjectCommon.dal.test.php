@@ -131,11 +131,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual(array_keys($aCheck), array($clientId, $clientId2));
     }
 
-    /**
-     * TODOPERM - test belongsToUserAccount() instead here!
-     *
-     */
-    function testBelongsToUser()
+    function testBelongsToAccount()
     {
         // Create dummy user
         $aUser = array(
@@ -161,7 +157,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
             'default_account_id' => $doAgency->account_id,
         );
         $userId = $doAgency->createUser($aUser);
-        $this->assertTrue($doAgency->belongsToUser('agency', $userId));
+        $this->assertTrue($doAgency->belongsToAccount('agency', $doAgency->account_id));
         $this->assertFalse($doAgency->belongsToUser('agency', 222));
 
         // Create necessary test data
@@ -181,23 +177,23 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
 
         // Test dependency on one level
         $doClients = OA_Dal::staticGetDO('clients', $clientId);
-        $this->assertTrue($doClients->belongsToUser('agency', $userId));
-        $this->assertFalse($doClients->belongsToUser('agency', 222));
+        $this->assertTrue($doClients->belongsToAccount('agency', $doAgency->account_id));
+        $this->assertFalse($doClients->belongsToAccount('agency', 222));
 
         // Test dependency on two and more levels
         $doCampaigns = OA_Dal::staticGetDO('campaigns', $campaignId);
-        $this->assertTrue($doCampaigns->belongsToUser('agency', $userId));
-        $this->assertFalse($doCampaigns->belongsToUser('agency', 222));
+        $this->assertTrue($doCampaigns->belongsToAccount('clients', $doClients->account_id));
+        $this->assertFalse($doCampaigns->belongsToAccount('clients', 222));
 
         $doBanners = OA_Dal::staticGetDO('banners', $bannerId);
-        $this->assertTrue($doBanners->belongsToUser('agency', $userId));
-        $this->assertFalse($doBanners->belongsToUser('agency', 222));
+        $this->assertTrue($doBanners->belongsToAccount('agency', $doAgency->account_id));
+        $this->assertFalse($doBanners->belongsToAccount('agency', 222));
 
         // Test that belongsToUser() will find and fetch data by itself
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->bannerid = $bannerId;
-        $this->assertTrue($doBanners->belongsToUser('agency', $userId));
-        $this->assertFalse($doBanners->belongsToUser('agency', 222));
+        $this->assertTrue($doBanners->belongsToAccount('agency', $doAgency->account_id));
+        $this->assertFalse($doBanners->belongsToAccount('agency', 222));
     }
 
     function testAddReferenceFilter()
