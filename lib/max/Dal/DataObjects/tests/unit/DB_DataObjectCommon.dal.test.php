@@ -158,7 +158,7 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         );
         $userId = $doAgency->createUser($aUser);
         $this->assertTrue($doAgency->belongsToAccount('agency', $doAgency->account_id));
-        $this->assertFalse($doAgency->belongsToUser('agency', 222));
+        $this->assertFalse($doAgency->belongsToAccount('agency', 222));
 
         // Create necessary test data
         $doClients = OA_Dal::factoryDO('clients');
