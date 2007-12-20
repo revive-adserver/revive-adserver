@@ -349,9 +349,11 @@ class OA_Preference
             }
         }
         // If extra information is being loaded, ensure all preference types are set
-        foreach ($aPreferenceTypes as $aPreferenceType) {
-            if (!isset($aPreferences[$aPreferenceType['preference_name']])) {
-                $aPreferences[$aPreferenceType['preference_name']]['account_type'] = $aPreferenceType['account_type'];
+        if ($loadExtraInfo) {
+            foreach ($aPreferenceTypes as $aPreferenceType) {
+                if (!isset($aPreferences[$aPreferenceType['preference_name']])) {
+                    $aPreferences[$aPreferenceType['preference_name']]['account_type'] = $aPreferenceType['account_type'];
+                }
             }
         }
     }

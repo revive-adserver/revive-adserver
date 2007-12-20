@@ -537,7 +537,7 @@ class Test_OA_Preference extends UnitTestCase
         OA_Preference::loadPreferences(true);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']));
-        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 1);
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']), 2);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']);
         $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_1']));
         $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_1']), 2);
@@ -545,6 +545,11 @@ class Test_OA_Preference extends UnitTestCase
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1']['account_type'], OA_ACCOUNT_ADMIN);
         $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_1']['value']);
         $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_1']['value'], 'foo!');
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']);
+        $this->assertTrue(is_array($GLOBALS['_MAX']['PREF']['preference_2']));
+        $this->assertEqual(count($GLOBALS['_MAX']['PREF']['preference_2']), 1);
+        $this->assertNotNull($GLOBALS['_MAX']['PREF']['preference_2']['account_type']);
+        $this->assertEqual($GLOBALS['_MAX']['PREF']['preference_2']['account_type'], OA_ACCOUNT_MANAGER);
 
         // Insert a second fake preference value
         $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
