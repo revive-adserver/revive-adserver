@@ -177,11 +177,13 @@ class Migration_543Test extends MigrationTest
           array (
             'account_id' => '1',
             'account_type' => 'ADMIN',
+            'account_name' => 'Administrator',
           ),
           1 =>
           array (
             'account_id' => '2',
             'account_type' => 'MANAGER',
+            'account_name' => 'Default manager',
           ),
         );
    }
@@ -251,26 +253,31 @@ class Migration_543Test extends MigrationTest
           array (
             'account_id' => '3',
             'account_type' => 'MANAGER',
+            'account_name' => 'Agency 1',
           ),
           1 =>
           array (
             'account_id' => '4',
             'account_type' => 'MANAGER',
+            'account_name' => 'Agency 2',
           ),
           2 =>
           array (
             'account_id' => '5',
             'account_type' => 'MANAGER',
+            'account_name' => 'Agency 3',
           ),
           3 =>
           array (
             'account_id' => '6',
             'account_type' => 'MANAGER',
+            'account_name' => 'Agency 4',
           ),
           4 =>
           array (
             'account_id' => '7',
             'account_type' => 'MANAGER',
+            'account_name' => 'Agency 5',
           ),
         );
    }
@@ -328,11 +335,13 @@ class Migration_543Test extends MigrationTest
           array (
             'account_id' => '10',
             'account_type' => 'TRAFFICKER',
+            'account_name' => 'Publisher 1',
           ),
           1 =>
           array (
             'account_id' => '11',
             'account_type' => 'TRAFFICKER',
+            'account_name' => 'Publisher 2',
           ),
         );
    }
@@ -379,11 +388,13 @@ class Migration_543Test extends MigrationTest
           array (
             'account_id' => '8',
             'account_type' => 'ADVERTISER',
+            'account_name' => 'Advertiser 1',
           ),
           1 =>
           array (
             'account_id' => '9',
             'account_type' => 'ADVERTISER',
+            'account_name' => 'Advertiser 2',
           ),
         );
    }

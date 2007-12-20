@@ -675,7 +675,7 @@ class OA_Permission
 	    $doAccount_user_permission_assoc->delete();
 	    
 	    // add new rights
-	    foreach ($aRights as $permissionId) {
+	    foreach ($aPermissions as $permissionId) {
     	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
     	    $doAccount_user_permission_assoc->account_id = $accountId;
     	    $doAccount_user_permission_assoc->user_id = $userId;

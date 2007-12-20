@@ -217,7 +217,7 @@ class OA_UpgradePostscript_2_4_45
                         account_name
                     ) VALUES (
                         ".$oDbh->quote('MANAGER').",
-                        ".$oDbh->quote($aData['name'])."
+                        ".$oDbh->quote('Default manager')."
                     )
                 ";
 
