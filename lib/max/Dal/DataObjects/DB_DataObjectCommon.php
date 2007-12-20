@@ -968,6 +968,10 @@ class DB_DataObjectCommon extends DB_DataObject
      */
     function updateAccountName($name)
     {
+        if (empty($this->account_id)) {
+            // do not perform update if object wasn't fetched
+            return true;
+        }
         $doAccounts = OA_Dal::factoryDO('accounts');
         $doAccounts->get($this->account_id);
         $doAccounts->account_name = $name;
