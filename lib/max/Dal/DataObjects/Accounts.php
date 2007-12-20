@@ -13,7 +13,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     var $__table = 'accounts';                        // table name
     var $account_id;                      // int(9)  not_null primary_key auto_increment
     var $account_type;                    // string(16)  not_null multiple_key
-    var $account_name;                    // string(255)  not_null
+    var $account_name;                    // string(255)  
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}

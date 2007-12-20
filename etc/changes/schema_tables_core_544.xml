@@ -54,7 +54,7 @@
 
  </table>
 
-  <table>
+ <table>
 
   <name>account_user_assoc</name>
 
@@ -75,7 +75,7 @@
     <notnull>true</notnull>
     <default></default>
    </field>
-   
+
    <field>
     <name>linked</name>
     <type>openads_datetime</type>
@@ -189,7 +189,7 @@
     <notnull>false</notnull>
     <default></default>
    </field>
-   
+
    <index>
     <name>accounts_pkey</name>
     <primary>true</primary>
@@ -923,8 +923,7 @@
 
    <field>
     <name>value</name>
-    <type>openads_varchar</type>
-    <length>255</length>
+    <type>openads_text</type>
     <notnull>true</notnull>
     <default></default>
    </field>
@@ -6189,7 +6188,7 @@
   </declaration>
 
  </table>
- 
+
  <table>
 
   <name>session</name>

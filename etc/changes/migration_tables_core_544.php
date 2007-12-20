@@ -15,6 +15,8 @@ class Migration_544 extends Migration
 		$this->aTaskList_constructive[] = 'afterAddTable__preferences';
 		$this->aTaskList_constructive[] = 'beforeAddIndex__accounts__account_type';
 		$this->aTaskList_constructive[] = 'afterAddIndex__accounts__account_type';
+		$this->aTaskList_constructive[] = 'beforeAlterField__application_variable__value';
+		$this->aTaskList_constructive[] = 'afterAlterField__application_variable__value';
 		$this->aTaskList_destructive[] = 'beforeRemoveField__affiliates__username';
 		$this->aTaskList_destructive[] = 'afterRemoveField__affiliates__username';
 		$this->aTaskList_destructive[] = 'beforeRemoveField__affiliates__password';
@@ -77,6 +79,16 @@ class Migration_544 extends Migration
 	function afterAddIndex__accounts__account_type()
 	{
 		return $this->afterAddIndex('accounts', 'account_type');
+	}
+
+	function beforeAlterField__application_variable__value()
+	{
+		return $this->beforeAlterField('application_variable', 'value');
+	}
+
+	function afterAlterField__application_variable__value()
+	{
+		return $this->afterAlterField('application_variable', 'value');
 	}
 
 	function beforeRemoveField__affiliates__username()
@@ -225,7 +237,7 @@ class Migration_544 extends Migration
 
 	    // Migrate language from affiliates
 
-	    // Migrate language from agency
+	    // Migrate language/logout_url from agency
 
 	    // Migrate language from clients
 

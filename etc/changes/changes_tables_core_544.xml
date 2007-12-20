@@ -39,6 +39,15 @@
         <name>agency</name>
     </table>
       <table>
+        <name>application_variable</name>
+      <change>
+        <field>
+          <name>value</name>
+          <length></length>
+        </field>
+      </change>
+    </table>
+      <table>
         <name>clients</name>
     </table>
   </change>
@@ -48,65 +57,65 @@
   <changeset>
     <name>openads</name>
     <version>544</version>
-        <change>
-          <table>
-            <name>affiliates</name>
-          <remove>
+    <change>
+      <table>
+        <name>affiliates</name>
+      <remove>
+        <field>
+          <name>username</name>
+        </field>
+          <field>
+            <name>password</name>
+          </field>
             <field>
-              <name>username</name>
+              <name>permissions</name>
             </field>
               <field>
-                <name>password</name>
+                <name>language</name>
               </field>
                 <field>
-                  <name>permissions</name>
+                  <name>publiczones</name>
                 </field>
                   <field>
-                    <name>language</name>
+                    <name>last_accepted_agency_agreement</name>
+                  </field>
+                </remove>
+              </table>
+                <table>
+                  <name>agency</name>
+                <remove>
+                  <field>
+                    <name>username</name>
                   </field>
                     <field>
-                      <name>publiczones</name>
+                      <name>password</name>
                     </field>
                       <field>
-                        <name>last_accepted_agency_agreement</name>
-                      </field>
-                    </remove>
-                  </table>
-                    <table>
-                      <name>agency</name>
-                    <remove>
-                      <field>
-                        <name>username</name>
+                        <name>permissions</name>
                       </field>
                         <field>
-                          <name>password</name>
+                          <name>language</name>
+                        </field>
+                      </remove>
+                    </table>
+                      <table>
+                        <name>clients</name>
+                      <remove>
+                        <field>
+                          <name>clientusername</name>
                         </field>
                           <field>
-                            <name>permissions</name>
+                            <name>clientpassword</name>
                           </field>
                             <field>
-                              <name>language</name>
-                            </field>
-                          </remove>
-                        </table>
-                          <table>
-                            <name>clients</name>
-                          <remove>
-                            <field>
-                              <name>clientusername</name>
+                              <name>permissions</name>
                             </field>
                               <field>
-                                <name>clientpassword</name>
+                                <name>language</name>
                               </field>
-                                <field>
-                                  <name>permissions</name>
-                                </field>
-                                  <field>
-                                    <name>language</name>
-                                  </field>
-                                </remove>
-                              </table>
-                            </change>
-                          </changeset>
-                        </destructive>
-                      </instructionset>
+                            </remove>
+                          </table>
+                        </change>
+                      </changeset>
+                    </destructive>
+                  </instructionset>

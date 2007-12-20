@@ -37,7 +37,7 @@ class DataObjects_Application_variable extends DB_DataObjectCommon
 
     var $__table = 'application_variable';            // table name
     var $name;                            // string(255)  not_null primary_key
-    var $value;                           // string(255)  not_null
+    var $value;                           // blob(65535)  not_null blob
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
