@@ -13,6 +13,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     var $__table = 'accounts';                        // table name
     var $account_id;                      // int(9)  not_null primary_key auto_increment
     var $account_type;                    // string(16)  not_null multiple_key
+    var $account_name;                    // string(255)  not_null
 
     /* ZE2 compatibility trick*/
     function __clone() { return $this;}
@@ -33,25 +34,9 @@ class DataObjects_Accounts extends DB_DataObjectCommon
         $accountId = parent::insert();
 
         if (!empty($accountId)) {
-            require_once MAX_PATH . '/lib/OA/Permission/Gacl.php';
-
             if (empty($this->__accountName)) {
+                // TODOPERM - is this variable necessary anymore?
                 $this->__accountName = 'Unnamed account';
-            }
-
-            // Create GACL AXO
-            $oGacl = &OA_Permission_Gacl::factory();
-            if (!$oGacl->add_object('ACCOUNTS', $this->__accountName, $accountId, 0, 0, 'AXO')) {
-                OA::debug('Error creating the gacl accounts AXO entry', PEAR_LOG_ERROR);
-            } else {
-                // Assign the AXO to a group, if any
-                $groupName = "{$this->account_type}_ACCOUNTS";
-                $groupId = $oGacl->get_group_id($groupName, null, 'AXO');
-                if (!empty($groupId)) {
-                    if (!$oGacl->add_group_object($groupId, 'ACCOUNTS', $accountId, 'AXO')) {
-                        OA::debug('Error assigning the gacl accounts AXO entry to its group', PEAR_LOG_ERROR);
-                    }
-                }
             }
         }
 
@@ -68,11 +53,7 @@ class DataObjects_Accounts extends DB_DataObjectCommon
         $ret = parent::delete($useWhere, $cascade, $parentid);
 
         if ($ret) {
-            $oGacl = OA_Permission_Gacl::factory();
-            $acoId = $oGacl->get_object_id('ACCOUNTS', $this->account_id, 'AXO');
-            if ($acoId) {
-                $oGacl->del_object($acoId, 'AXO', true);
-            }
+            // TODOPERM - remove any referenced objects
         }
 
         return $ret;

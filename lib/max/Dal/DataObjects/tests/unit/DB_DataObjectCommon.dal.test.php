@@ -25,8 +25,6 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
-require_once MAX_PATH . '/lib/gacl/tests/acl_setup.php';
 require_once MAX_PATH . '/lib/max/Dal/DataObjects/DB_DataObjectCommon.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
@@ -47,26 +45,11 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->UnitTestCase();
     }
 
-    /**
-     * @TODO: modify this method so it should be executed
-     *        once for all the tests from this class
-     *
-     */
-    function setUpFixture()
-    {
-        $aclSetup = new acl_setup($options = array());
-        $aclSetup->cleanUp();
-        OA_GaclPermissions::insert();
-    }
-
     function setUp()
     {
         DataGenerator::cleanUp(
             array('agency', 'clients')
         );
-        $aclSetup = new acl_setup($options = array());
-        $aclSetup->cleanUp();
-        OA_GaclPermissions::insert();
     }
 
     function tearDown()
@@ -148,14 +131,12 @@ class DB_DataObjectCommonTest extends DalUnitTestCase
         $this->assertEqual(array_keys($aCheck), array($clientId, $clientId2));
     }
 
+    /**
+     * TODOPERM - test belongsToUserAccount() instead here!
+     *
+     */
     function testBelongsToUser()
     {
-        // @TODO: should we remove this code after
-        //        fixing startUpFixture?
-        $aclSetup = new acl_setup($options = array());
-        $aclSetup->cleanUp();
-        OA_GaclPermissions::insert();
-
         // Create dummy user
         $aUser = array(
             'contact_name' => 'contact',

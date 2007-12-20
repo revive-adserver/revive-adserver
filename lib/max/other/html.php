@@ -712,7 +712,7 @@ function MAX_displayNavigationBanner($pageName, $aOtherCampaigns, $aOtherBanners
         phpAds_PageContext($otherBannerName, $page, $current);
     }
 
-    if (OA_Permission::isAllowed(OA_PERM_ACCOUNT_ACCESS)) {
+    if (OA_Permission::hasAccessToObject('clients', $advertiserId)) {
         phpAds_PageShortcut($GLOBALS['strClientProperties'], "advertiser-edit.php?clientid=$advertiserId", 'images/icon-advertiser.gif');
     }
     if (!OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {

@@ -172,7 +172,7 @@ class OA_Dll_Publisher extends OA_Dll
     function modify(&$oPublisher)
     {
         if (!$this->checkPermissions($this->aAllowTraffickerAndAbovePerm,
-             'affiliates', $oPublisher->publisherId, OA_PERM_ACCOUNT_ACCESS))
+             'affiliates', $oPublisher->publisherId))
         {
             return false;
         }

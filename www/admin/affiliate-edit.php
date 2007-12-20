@@ -142,11 +142,7 @@ if ($affiliateid != "") {
         echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
     } else {
-        $sections = array();
-        $sections[] = "4.1";
-        if (OA_Permission::isAllowed(phpAds_ModifyInfo)) {
-            $sections[] = "4.2";
-        }
+        $sections = array("4.1", "4.2");
         phpAds_PageHeader('4.2');
         phpAds_ShowSections($sections);
     }

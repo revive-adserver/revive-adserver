@@ -10,80 +10,16 @@
       <version>543</version>
       <add>
         <table>
+        <name>account_user_assoc</name>
+        <was>account_user_assoc</was>
+      </table>
+        <table>
+        <name>account_user_permission_assoc</name>
+        <was>account_user_permission_assoc</was>
+      </table>
+        <table>
         <name>accounts</name>
         <was>accounts</was>
-      </table>
-        <table>
-        <name>gacl_acl</name>
-        <was>gacl_acl</was>
-      </table>
-        <table>
-        <name>gacl_acl_sections</name>
-        <was>gacl_acl_sections</was>
-      </table>
-        <table>
-        <name>gacl_aco</name>
-        <was>gacl_aco</was>
-      </table>
-        <table>
-        <name>gacl_aco_map</name>
-        <was>gacl_aco_map</was>
-      </table>
-        <table>
-        <name>gacl_aco_sections</name>
-        <was>gacl_aco_sections</was>
-      </table>
-        <table>
-        <name>gacl_aro</name>
-        <was>gacl_aro</was>
-      </table>
-        <table>
-        <name>gacl_aro_groups</name>
-        <was>gacl_aro_groups</was>
-      </table>
-        <table>
-        <name>gacl_aro_groups_map</name>
-        <was>gacl_aro_groups_map</was>
-      </table>
-        <table>
-        <name>gacl_aro_map</name>
-        <was>gacl_aro_map</was>
-      </table>
-        <table>
-        <name>gacl_aro_sections</name>
-        <was>gacl_aro_sections</was>
-      </table>
-        <table>
-        <name>gacl_axo</name>
-        <was>gacl_axo</was>
-      </table>
-        <table>
-        <name>gacl_axo_groups</name>
-        <was>gacl_axo_groups</was>
-      </table>
-        <table>
-        <name>gacl_axo_groups_map</name>
-        <was>gacl_axo_groups_map</was>
-      </table>
-        <table>
-        <name>gacl_axo_map</name>
-        <was>gacl_axo_map</was>
-      </table>
-        <table>
-        <name>gacl_axo_sections</name>
-        <was>gacl_axo_sections</was>
-      </table>
-        <table>
-        <name>gacl_groups_aro_map</name>
-        <was>gacl_groups_aro_map</was>
-      </table>
-        <table>
-        <name>gacl_groups_axo_map</name>
-        <was>gacl_groups_axo_map</was>
-      </table>
-        <table>
-        <name>gacl_phpgacl</name>
-        <was>gacl_phpgacl</was>
       </table>
         <table>
         <name>users</name>

@@ -49,7 +49,6 @@ $GLOBALS['_MAX']['TEST']['directories'] =
         'lib/util',
         'plugins',
         'tests',
-        'lib/gacl'
     );
 
 // Project path - helpful for testing external projects

@@ -177,8 +177,8 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
         if (!empty($aUser)) {
             $this->createUser($aUser);
         }
-
-        $this->updateGaclAccountName();
+        
+        $this->updateAccountName($this->name);
 
         return $ret;
     }

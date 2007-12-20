@@ -53,9 +53,10 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
     {cycle name=row assign=rowType}
     <tbody class="{$rowType}">
       <tr height="25" {if $user.justModified}class="hl"{/if}>
-        <td class="first"><a href="affiliate-user.php">{$user.email}</a></td>
-        <td>{$user.name}</td>
-        <td>{$user.login}</td>
+        <!-- TODOPERM: add ticket - it is possible that email may not exist, should other columns be linked as well? -->
+        <td class="first"><a href="affiliate-user.php?userid={$user.user_id}&amp;affiliateid={$affiliateid}">{$user.email_address}</a></td>
+        <td>{$user.contact_name}</td>
+        <td>{$user.username}</td>
         <td>{$user.dateLinked}</td>
         <td class="last">
           <!-- TODO: need to parametrize this link probably, for now hardcoded -->

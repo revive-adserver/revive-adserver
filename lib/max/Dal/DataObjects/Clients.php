@@ -169,8 +169,8 @@ class DataObjects_Clients extends DB_DataObjectCommon
         if (!empty($aUser)) {
             $this->createUser($aUser);
         }
-
-        $this->updateGaclAccountName('clientname');
+        
+        $this->updateAccountName($this->clientname);
 
         return $ret;
     }

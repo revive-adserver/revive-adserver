@@ -28,8 +28,6 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
-require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
-require_once MAX_PATH . '/lib/gacl/tests/acl_setup.php';
 
 
 /**
@@ -52,9 +50,7 @@ class Test_OA_Permission extends UnitTestCase
 
     function setUp()
     {
-        $aclSetup = new acl_setup($options = array());
-        $aclSetup->cleanUp();
-        OA_GaclPermissions::insert();
+        // TODOPERM - insert any necessary permissions here
     }
 
     function tearDown()

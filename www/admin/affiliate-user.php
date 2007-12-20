@@ -42,13 +42,15 @@ require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
+phpAds_registerGlobalUnslashed ('userid', 'move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
                                'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
                                'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+$accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
+OA_Permission::enforceAccess($accountId, $userid);
 
 // Initialise Ad  Networks
 $oAdNetworks = new OA_Central_AdNetworks();
@@ -91,6 +93,9 @@ $oTpl->assign('affiliateid', $affiliateid);
 
 $userDetailsFields = array();
 
+$doUsers = OA_Dal::staticGetDO('users', $userid);
+$affiliate = $doUsers->toArray();
+
 if ($HOSTED) {
    $userDetailsFields[] = array(
                   'name'      => 'email',
@@ -120,18 +125,18 @@ else {
    $userDetailsFields[] = array(
                    'name'      => 'username',
                    'label'     => $strUsername,
-                   'value'     => 'username', // TODO: put user name here
+                   'value'     => $affiliate['username'],
                    'freezed'   => true
                );
    $userDetailsFields[] = array(
-                   'name'      => 'contact',
+                   'name'      => 'contact_name',
                    'label'     => $strContactName,
-                   'value'     => $affiliate['contact']
+                   'value'     => $affiliate['contact_name']
                );
    $userDetailsFields[] = array(
-                   'name'      => 'email',
+                   'name'      => 'email_address',
                    'label'     => $strEMail,
-                   'value'     => $affiliate['email']
+                   'value'     => $affiliate['email_address']
                );
 
    if ($existingUser) {

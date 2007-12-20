@@ -249,76 +249,6 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
-     * This method uses information from links.ini to handle hierarchy of tables.
-     * It checks if there is a linked (referenced) object to this object with
-     * table==$userTable and id==$userId
-     *
-     * @TODO - remove this method
-     *
-     * @param string $userTable It's table name where user belongs, eg: agency, affiliates, clients
-     * @param string $userId    User id
-     * @return boolean|null     Returns true if belong to user, false if doesn't and null if it wasn't able to find
-     *                          object in references
-     */
-    function belongsToUser($userTable, $userId)
-    {
-        if (!$this->N && !$this->find($autoFetch = true)) {
-            return null;
-        }
-        $found = null;
-        if ($this->getTableWithoutPrefix() == $userTable) {
-            return $this->checkUserRightToInventoryEntity(
-                        $this->account_id, $userId);
-        }
-        $links = $this->links();
-        if(!empty($links)) {
-            foreach ($links as $key => $match) {
-                list($table,$link) = explode(':', $match);
-                $table = $this->getTableWithoutPrefix($table);
-                if ($table == $userTable) {
-                    $doCheck = $this->getLink($key, $table, $link);
-                    return $doCheck->belongsToUser($userTable, $userId);
-                } else {
-                    // recursive
-                    $doCheck = $this->getLink($key, $table, $link);
-                    if (!$doCheck) {
-                        return null;
-                    }
-                    $found = $doCheck->belongsToUser($userTable, $userId);
-                    if ($found !== null) {
-                        return $found;
-                    }
-                }
-            }
-        }
-        return $found;
-    }
-
-    /**
-     * Check if user has access to specific account
-     *
-     * @TODO Replace used string with constants
-     *
-     * @param Inventory entity table name $entityType
-     * @param Row id $entityId
-     * @param User Id $userId
-     * @return boolean  True if user has access to account, else false
-     */
-    function checkUserRightToInventoryEntity($entityId, $userId)
-    {
-        require_once MAX_PATH . '/lib/OA/Permission/Gacl.php';
-        $oGacl = &OA_Permission_Gacl::factory();
-        return $oGacl->acl_check(
-            $aco_section_value = 'ACCOUNT',
-            $aco_value = 'ACCESS',
-            $aro_section_value = 'USERS',
-            $userId,
-            'ACCOUNTS',
-            $entityId
-        );
-    }
-
-    /**
      * This method allows to automatically join DataObject with other records
      * using information from links.ini file. It allow for example to very
      * easly select all campaign which belong to specific agency.
@@ -1025,17 +955,23 @@ class DB_DataObjectCommon extends DB_DataObject
     {
         $doAccount = $this->factory('accounts');
         $doAccount->account_type = $accountType;
-
-        // Hack the name into the dataobject
-        $doAccount->__accountName = $accountName;
-
+        $doAccount->account_name = $accountName;
         $this->account_id = $doAccount->insert();
-
-        if (!$this->account_id) {
-            return $this->account_id;
-        }
-
-        return true;
+        return $this->account_id;
+    }
+    
+    /**
+     * Updates account name
+     *
+     * @param String $name
+     * @return boolean
+     */
+    function updateAccountName($name)
+    {
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->get($this->account_id);
+        $doAccounts->account_name = $name;
+        return $doAccounts->update();
     }
 
     /**
@@ -1066,36 +1002,12 @@ class DB_DataObjectCommon extends DB_DataObject
             return false;
         }
 
-        // Create ACL
-        $oGacl = OA_Permission_Gacl::factory();
-        $result = $oGacl->add_acl(
-            array('ACCOUNT' => array('ACCESS')),
-            array('USERS' => array($userId)),
-            null,
-            array('ACCOUNTS' => array($this->account_id))
-        );
-
+        $result = OA_Permission::setAccountAccess($this->account_id, true, $userId);
         if (!$result) {
             return false;
         }
 
         return $userId;
-    }
-
-    /**
-     * A method to update the GACL AXO entry for an account
-     *
-     * @param string $nameField
-     */
-    function updateGaclAccountName($nameField = 'name')
-    {
-        if (isset($this->account_id)) {
-            $oGacl = OA_Permission_Gacl::factory();
-            $acoId = $oGacl->get_object_id('ACCOUNTS', $this->account_id, 'AXO');
-            if ($acoId) {
-                $oGacl->edit_object($acoId, 'ACCOUNTS', $this->$nameField, $this->account_id, 0, 0, 'AXO');
-            }
-        }
     }
 
     function _auditEnabled()

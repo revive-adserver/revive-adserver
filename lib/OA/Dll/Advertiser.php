@@ -193,7 +193,7 @@ class OA_Dll_Advertiser extends OA_Dll
     function modify(&$oAdvertiser)
     {
         if (!$this->checkPermissions($this->aAllowAdvertiserAndAbovePerm, 'clients',
-            $oAdvertiser->advertiserId, OA_PERM_ACCOUNT_ACCESS)) 
+            $oAdvertiser->advertiserId)) 
         {
             return false;
         }

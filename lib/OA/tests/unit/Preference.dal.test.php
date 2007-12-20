@@ -69,7 +69,7 @@ class Test_OA_Preference extends UnitTestCase
 
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->__accountName = 'Administrator Account';
+        $doAccounts->account_name = 'Administrator Account';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 
@@ -458,7 +458,7 @@ class Test_OA_Preference extends UnitTestCase
 
         // Create the admin account
         $doAccounts = OA_Dal::factoryDO('accounts');
-        $doAccounts->__accountName = 'Administrator Account';
+        $doAccounts->account_name = 'Administrator Account';
         $doAccounts->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = DataGenerator::generateOne($doAccounts);
 

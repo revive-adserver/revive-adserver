@@ -35,8 +35,6 @@ $Id $
  */
 
 require_once MAX_PATH . '/tests/testClasses/OATestData.php';
-require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
-require_once MAX_PATH . '/lib/gacl/tests/acl_setup.php';
 require_once MAX_PATH . '/lib/OA/Dll.php';
 
 class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
@@ -52,11 +50,7 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         // Disable Auditing while loading the test data:
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = false;
 
-
-        // Insert GACL
-        $aclSetup = new acl_setup($options = array());
-        $aclSetup->cleanUp();
-        OA_GaclPermissions::insert();
+        // TODOPERM - insert permissions
 
         // agency 0
 

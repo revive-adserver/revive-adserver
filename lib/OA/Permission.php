@@ -28,8 +28,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Permission/Gacl.php';
-
 // Following files were included by lib-permissions
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
@@ -57,6 +55,7 @@ define ("OA_ACCOUNT_MANAGER_ID", 8);
 // @TODO: Following constants should be replaced with new permissions (or removed)
 // in order to do that the UI pages should be first refactored
 
+// TODOPERM - remove old permissions
 // Define client permissions bitwise, so 1, 2, 4, 8, 16, etc.
 define ("phpAds_ModifyInfo", 1);
 define ("phpAds_ModifyBanner", 2);
@@ -79,19 +78,20 @@ define ("MAX_AffiliateGenerateCode", 32);
 
 /**
  * Per-account permissions
+ * 
+ * Warning: Do not change the values of following rights - they are used
+ * as a IDs in database and should be the same as in "rights" table.
  */
-define('OA_PERM_ACCOUNT_ACCESS',    'ACCOUNT/ACCESS');
+define('OA_PERM_BANNER_ACTIVATE',   1);
+define('OA_PERM_BANNER_DEACTIVATE', 2);
+define('OA_PERM_BANNER_ADD',        3);
+define('OA_PERM_BANNER_EDIT',       4);
 
-define('OA_PERM_BANNER_ACTIVATE',   'BANNER/ACTIVATE');
-define('OA_PERM_BANNER_DEACTIVATE', 'BANNER/DEACTIVATE');
-define('OA_PERM_BANNER_ADD',        'BANNER/ADD');
-define('OA_PERM_BANNER_EDIT',       'BANNER/EDIT');
-
-define('OA_PERM_ZONE_ADD',          'ZONE/ADD');
-define('OA_PERM_ZONE_DELETE',       'ZONE/DELETE');
-define('OA_PERM_ZONE_EDIT',         'ZONE/EDIT');
-define('OA_PERM_ZONE_INVOCATION',   'ZONE/INVOCATION');
-define('OA_PERM_ZONE_LINK',         'ZONE/LINK');
+define('OA_PERM_ZONE_ADD',          5);
+define('OA_PERM_ZONE_DELETE',       6);
+define('OA_PERM_ZONE_EDIT',         7);
+define('OA_PERM_ZONE_INVOCATION',   8);
+define('OA_PERM_ZONE_LINK',         9);
 
 
 /**
@@ -128,10 +128,15 @@ class OA_Permission
      *
      * @static
      * @param int $accountId
+     * @param int $userId  Get current user if null
      */
-    function enforceAccess($accountId)
+    function enforceAccess($accountId, $userId = null)
     {
-        OA_Permission::enforceAllowed(OA_PERM_ACCOUNT_ACCESS, $accountId);
+        if (!OA_Permission::hasAccess($accountId, $userId)) {
+            phpAds_PageHeader('2');
+            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+        }
+        return true;
     }
 
     /**
@@ -299,14 +304,48 @@ class OA_Permission
 
     /**
      * A method to check if the user has access to a specific account
+     * 
+     * User cuold either has direct access to account or indirect.
+     * Indirect access could be in case if user has access to one of the parent
+     * entities.
+     * 
+     * TODOPERM - should we implement indirect access here?
      *
      * @static
      * @param int $accountId
      * @return boolean
      */
-    function hasAccess($accountId = null)
+    function hasAccess($accountId, $userId = null)
     {
-        return OA_Permission::isAllowed(OA_PERM_ACCOUNT_ACCESS, $accountId);
+        if (empty($userId)) {
+            $userId = OA_Permission::getUserId();
+        }
+        $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_Assoc->user_id = $userId;
+        $doAccount_user_Assoc->account_id = $accountId;
+        return (bool) $doAccount_user_Assoc->count() || OA_Permission::isUserLinkedToAdmin();
+    }
+    
+    /**
+     * Set user access to account
+     *
+     * @param integer $accountId  account ID
+     * @param boolean $hasAccess  defines whether user should or shouldn't have an access to account
+     * @param integer $userId  User ID (if null a logged user id is used)
+     * @return boolean  True on success else false
+     */
+    function setAccountAccess($accountId, $hasAccess = true, $userId = null)
+    {
+        if (empty($userId)) {
+            $userId = OA_Permission::getUserId();
+        }
+        $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_Assoc->account_id = $accountId;
+        $doAccount_user_Assoc->user_id = $userId;
+        if (!$hasAccess) {
+            return $doAccount_user_Assoc->delete();
+        }
+        return $doAccount_user_Assoc->insert();
     }
 
     /**
@@ -314,38 +353,21 @@ class OA_Permission
      * an action on an account
      *
      * @static
-     * @param string $section
-     * @param string $action
+     * @param integer $permissionId
      * @param int $accountId
      * @return boolean
      */
-    function isAllowed($aAllowed, $accountId = null)
+    function isAllowed($permissionId, $accountId = null)
     {
-        if (!is_array($aAllowed)) {
-            $aAllowed = explode('/', $aAllowed);
-        }
-        $section = $aAllowed[0];
-        $action  = $aAllowed[1];
-
         if (empty($accountId)) {
             $accountId = OA_Permission::getAccountId();
         }
-
-        $userId = OA_Permission::getUserId();
-        $oGacl = OA_Permission_Gacl::factory();
-
-        if ($userId && $oGacl && $oGacl->acl_check(
-                $section,    // $aco_section_value
-                $action,     // $aco_value
-                'USERS',     // $aro_section_value
-                $userId,     // $aro_value
-                'ACCOUNTS',  // $axo_section_value
-                $accountId)) // $axo_value
-        {
-            return true;
-        }
-
-        return false;
+        $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_user_permission_assoc->user_id = OA_Permission::getUserId();
+        $doAccount_user_permission_assoc->account_id = $accountId;
+        $doAccount_user_permission_assoc->permission_id = $permissionId;
+        $doAccount_user_permission_assoc->find(true);
+        return $doAccount_user_permission_assoc->N && $doAccount_user_permission_assoc->is_allowed;
     }
 
     /**
@@ -359,57 +381,59 @@ class OA_Permission
         if (OA_Permission::getCurrentUser()) {
             $doAccount = OA_Dal::factoryDO('accounts');
             $doAccount->account_type = OA_ACCOUNT_ADMIN;
-            $doAccount->find();
-
-            $hasAdminAccess = false;
-            while (!$hasAdminAccess && $doAccount->fetch()) {
-                $hasAdminAccess = OA_Permission::hasAccess($doAccount->account_id);
-            }
-            return $hasAdminAccess;
+            $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+            $doAccount_user_assoc->user_id = OA_Permission::getUserId();
+            $doAccount_user_assoc->joinAdd($doAccount);
+            return (bool) $doAccount->count();
         }
-
         return false;
     }
 
     /**
      * A method which returns all the accounts linked to the user
-     *
+     * 
      * @param boolean $groupByType
      * @return array
      */
     function getLinkedAccounts($groupByType = false)
     {
-        $oGacl = OA_Permission_Gacl::factory();
-
-        $aAxos = $oGacl->get_object('ACCOUNTS', 1, 'AXO');
-
-        $userId = OA_Permission::getUserId();
-
-        $aAccounts = array();
-        foreach ($aAxos as $id) {
-            $aAxo = $oGacl->get_object_data($id, 'AXO');
-            if ($oGacl->acl_check('ACCOUNT', 'ACCESS', 'USERS', $userId, 'ACCOUNTS', $aAxo[0][1])) {
-                $aAccounts[$aAxo[0][1]] = $aAxo[0][3];
-            }
+        $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_Assoc->user_id = OA_Permission::getUserId();
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->orderBy('account_type, account_name');
+        $doAccount_user_Assoc->joinAdd($doAccounts);
+        $doAccount_user_Assoc->find();
+        
+        $aAccountsByType = array();
+        while($doAccount_user_Assoc->fetch()) {
+            $aAccountsByType[$doAccount_user_Assoc->account_type][$doAccount_user_Assoc->account_id] =
+                $doAccount_user_Assoc->account_name;
         }
-
-        if ($groupByType) {
-            $doAccounts = OA_Dal::factoryDO('accounts');
-            $aAccountTypes = $doAccounts->getAll(array('account_type'), true, false);
-
-            $aAccountsByType = array();
-            foreach ($aAccounts as $id => $name) {
-                if (isset($aAccountTypes[$id]['account_type'])) {
-                    $aAccountsByType[$aAccountTypes[$id]['account_type']][$id] = $name;
+        if (OA_Permission::isUserLinkedToAdmin()) {
+            $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
+        }
+        if (!$groupByType) {
+            $aAccounts = array();
+            foreach ($aAccountsByType as $accountType => $aAccount) {
+                foreach ($aAccount as $id => $name) {
+                    $aAccounts[$id] = $name;
                 }
             }
-
-            uksort($aAccountsByType, array('OA_Permission', '_sortByAccountType'));
-
-            return $aAccountsByType;
+            return $aAccounts;
         }
-
-        return $aAccounts;
+        return $aAccountsByType;
+    }
+    
+    function mergeAdminAccounts($aAccountsByType)
+    {
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_MANAGER;
+        $doAccounts->find();
+        while ($doAccounts->fetch()) {
+            $aAccountsByType[$doAccounts->account_type][$doAccounts->account_id] =
+                $doAccounts->account_name;
+        }
+        return $aAccountsByType;
     }
 
     /**
@@ -553,6 +577,22 @@ class OA_Permission
     }
 
     /**
+     * Returns accountId for entity
+     *
+     * @param string $entity  Entity name (clients, advertiser, agency etc)
+     * @param integer $entityId  Entity ID (client id, advertiser id, etc)
+     * @return integer  Account ID or false on error
+     */
+    function getAccountIdForEntity($entity, $entityId)
+    {
+        $doEntity = OA_Dal::staticGetDO($entity, $entityId);
+        if (!$doEntity) {
+            return false;
+        }
+        return $doEntity->account_id;
+    }
+
+    /**
      * Checks if username is still available and if
      * it is allowed to use.
      *
@@ -611,23 +651,41 @@ class OA_Permission
 			phpAds_Die($strAccessDenied, $strNotAdmin);
 		}
 	}
-
+	
 	/**
-	 * Privete method to sort account types
+	 * Store user rights per account
 	 *
-	 * @param string $a
-	 * @param string $b
-	 * @return int
+	 * @param array $aPermissions  Array of permission IDs
+	 * @param integer $accountId  account ID
+	 * @param integer $userId  user ID
+	 * @return true on success else false
 	 */
-	function _sortByAccountType($a, $b) {
-	    $aTypes = array(
-	       OA_ACCOUNT_ADMIN      => 0,
-	       OA_ACCOUNT_MANAGER    => 1,
-	       OA_ACCOUNT_ADVERTISER => 2,
-	       OA_ACCOUNT_TRAFFICKER => 3,
-       );
-
-       return $aTypes[$a] - $aTypes[$b];
+	function storeUserAccountsPermissions($aPermissions, $accountId = null, $userId = null)
+	{
+	    if (empty($userId)) {
+	        $userId = OA_Permission::getUserId();
+	    }
+	    if (empty($accountId)) {
+	        $accountId = OA_Permission::getAccountId();
+	    }
+	    // delete all rights
+	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+	    $doAccount_user_permission_assoc->account_id = $accountId;
+	    $doAccount_user_permission_assoc->user_id = $userId;
+	    $doAccount_user_permission_assoc->delete();
+	    
+	    // add new rights
+	    foreach ($aRights as $permissionId) {
+    	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+    	    $doAccount_user_permission_assoc->account_id = $accountId;
+    	    $doAccount_user_permission_assoc->user_id = $userId;
+    	    $doAccount_user_permission_assoc->permission_id = $permissionId;
+    	    $doAccount_user_permission_assoc->is_allowed = 1;
+    	    if (!$doAccount_user_permission_assoc->insert()) {
+    	        return false;
+    	    }
+	    }
+	    return true;
 	}
 
 }

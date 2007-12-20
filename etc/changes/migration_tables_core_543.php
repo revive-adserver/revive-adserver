@@ -9,44 +9,12 @@ class Migration_543 extends Migration
     {
         //$this->__construct();
 
+		$this->aTaskList_constructive[] = 'beforeAddTable__account_user_assoc';
+		$this->aTaskList_constructive[] = 'afterAddTable__account_user_assoc';
+		$this->aTaskList_constructive[] = 'beforeAddTable__account_user_permission_assoc';
+		$this->aTaskList_constructive[] = 'afterAddTable__account_user_permission_assoc';
 		$this->aTaskList_constructive[] = 'beforeAddTable__accounts';
 		$this->aTaskList_constructive[] = 'afterAddTable__accounts';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_acl';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_acl';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_acl_sections';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_acl_sections';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aco';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aco';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aco_map';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aco_map';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aco_sections';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aco_sections';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aro';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aro';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aro_groups';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aro_groups';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aro_groups_map';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aro_groups_map';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aro_map';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aro_map';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_aro_sections';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_aro_sections';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_axo';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_axo';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_axo_groups';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_axo_groups';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_axo_groups_map';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_axo_groups_map';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_axo_map';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_axo_map';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_axo_sections';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_axo_sections';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_groups_aro_map';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_groups_aro_map';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_groups_axo_map';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_groups_axo_map';
-		$this->aTaskList_constructive[] = 'beforeAddTable__gacl_phpgacl';
-		$this->aTaskList_constructive[] = 'afterAddTable__gacl_phpgacl';
 		$this->aTaskList_constructive[] = 'beforeAddTable__users';
 		$this->aTaskList_constructive[] = 'afterAddTable__users';
 		$this->aTaskList_constructive[] = 'beforeAddField__affiliates__account_id';
@@ -70,6 +38,26 @@ class Migration_543 extends Migration
 
 
 
+	function beforeAddTable__account_user_assoc()
+	{
+		return $this->beforeAddTable('account_user_assoc');
+	}
+
+	function afterAddTable__account_user_assoc()
+	{
+		return $this->afterAddTable('account_user_assoc');
+	}
+
+	function beforeAddTable__account_user_permission_assoc()
+	{
+		return $this->beforeAddTable('account_user_permission_assoc');
+	}
+
+	function afterAddTable__account_user_permission_assoc()
+	{
+		return $this->afterAddTable('account_user_permission_assoc');
+	}
+
 	function beforeAddTable__accounts()
 	{
 		return $this->beforeAddTable('accounts');
@@ -78,186 +66,6 @@ class Migration_543 extends Migration
 	function afterAddTable__accounts()
 	{
 		return $this->afterAddTable('accounts');
-	}
-
-	function beforeAddTable__gacl_acl()
-	{
-		return $this->beforeAddTable('gacl_acl');
-	}
-
-	function afterAddTable__gacl_acl()
-	{
-		return $this->afterAddTable('gacl_acl');
-	}
-
-	function beforeAddTable__gacl_acl_sections()
-	{
-		return $this->beforeAddTable('gacl_acl_sections');
-	}
-
-	function afterAddTable__gacl_acl_sections()
-	{
-		return $this->afterAddTable('gacl_acl_sections');
-	}
-
-	function beforeAddTable__gacl_aco()
-	{
-		return $this->beforeAddTable('gacl_aco');
-	}
-
-	function afterAddTable__gacl_aco()
-	{
-		return $this->afterAddTable('gacl_aco');
-	}
-
-	function beforeAddTable__gacl_aco_map()
-	{
-		return $this->beforeAddTable('gacl_aco_map');
-	}
-
-	function afterAddTable__gacl_aco_map()
-	{
-		return $this->afterAddTable('gacl_aco_map');
-	}
-
-	function beforeAddTable__gacl_aco_sections()
-	{
-		return $this->beforeAddTable('gacl_aco_sections');
-	}
-
-	function afterAddTable__gacl_aco_sections()
-	{
-		return $this->afterAddTable('gacl_aco_sections');
-	}
-
-	function beforeAddTable__gacl_aro()
-	{
-		return $this->beforeAddTable('gacl_aro');
-	}
-
-	function afterAddTable__gacl_aro()
-	{
-		return $this->afterAddTable('gacl_aro');
-	}
-
-	function beforeAddTable__gacl_aro_groups()
-	{
-		return $this->beforeAddTable('gacl_aro_groups');
-	}
-
-	function afterAddTable__gacl_aro_groups()
-	{
-		return $this->afterAddTable('gacl_aro_groups');
-	}
-
-	function beforeAddTable__gacl_aro_groups_map()
-	{
-		return $this->beforeAddTable('gacl_aro_groups_map');
-	}
-
-	function afterAddTable__gacl_aro_groups_map()
-	{
-		return $this->afterAddTable('gacl_aro_groups_map');
-	}
-
-	function beforeAddTable__gacl_aro_map()
-	{
-		return $this->beforeAddTable('gacl_aro_map');
-	}
-
-	function afterAddTable__gacl_aro_map()
-	{
-		return $this->afterAddTable('gacl_aro_map');
-	}
-
-	function beforeAddTable__gacl_aro_sections()
-	{
-		return $this->beforeAddTable('gacl_aro_sections');
-	}
-
-	function afterAddTable__gacl_aro_sections()
-	{
-		return $this->afterAddTable('gacl_aro_sections');
-	}
-
-	function beforeAddTable__gacl_axo()
-	{
-		return $this->beforeAddTable('gacl_axo');
-	}
-
-	function afterAddTable__gacl_axo()
-	{
-		return $this->afterAddTable('gacl_axo');
-	}
-
-	function beforeAddTable__gacl_axo_groups()
-	{
-		return $this->beforeAddTable('gacl_axo_groups');
-	}
-
-	function afterAddTable__gacl_axo_groups()
-	{
-		return $this->afterAddTable('gacl_axo_groups');
-	}
-
-	function beforeAddTable__gacl_axo_groups_map()
-	{
-		return $this->beforeAddTable('gacl_axo_groups_map');
-	}
-
-	function afterAddTable__gacl_axo_groups_map()
-	{
-		return $this->afterAddTable('gacl_axo_groups_map');
-	}
-
-	function beforeAddTable__gacl_axo_map()
-	{
-		return $this->beforeAddTable('gacl_axo_map');
-	}
-
-	function afterAddTable__gacl_axo_map()
-	{
-		return $this->afterAddTable('gacl_axo_map');
-	}
-
-	function beforeAddTable__gacl_axo_sections()
-	{
-		return $this->beforeAddTable('gacl_axo_sections');
-	}
-
-	function afterAddTable__gacl_axo_sections()
-	{
-		return $this->afterAddTable('gacl_axo_sections');
-	}
-
-	function beforeAddTable__gacl_groups_aro_map()
-	{
-		return $this->beforeAddTable('gacl_groups_aro_map');
-	}
-
-	function afterAddTable__gacl_groups_aro_map()
-	{
-		return $this->afterAddTable('gacl_groups_aro_map');
-	}
-
-	function beforeAddTable__gacl_groups_axo_map()
-	{
-		return $this->beforeAddTable('gacl_groups_axo_map');
-	}
-
-	function afterAddTable__gacl_groups_axo_map()
-	{
-		return $this->afterAddTable('gacl_groups_axo_map');
-	}
-
-	function beforeAddTable__gacl_phpgacl()
-	{
-		return $this->beforeAddTable('gacl_phpgacl');
-	}
-
-	function afterAddTable__gacl_phpgacl()
-	{
-		return $this->afterAddTable('gacl_phpgacl');
 	}
 
 	function beforeAddTable__users()

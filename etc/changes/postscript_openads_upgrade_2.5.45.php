@@ -25,10 +25,6 @@
 $Id$
 */
 
-require_once MAX_PATH . '/lib/OA/Permission/Gacl.php';
-require_once MAX_PATH . '/lib/OA/Upgrade/GaclPermissions.php';
-
-
 $className = 'OA_UpgradePostscript_2_4_45';
 
 
@@ -50,17 +46,17 @@ class OA_UpgradePostscript_2_4_45
     {
         $this->oUpgrade = & $aParams[0];
 
-        $oGaclPermissions = new OA_GaclPermissions();
-        if (!$oGaclPermissions->insert()) {
-            return false;
-        }
-
         if (PEAR::isError($this->migrateUsers())) {
             return false;
         }
         return true;
     }
 
+    /**
+     * TODOPERM - clean up this code and insert new users here
+     *
+     * @return unknown
+     */
     function migrateUsers()
     {
 	    $aConf = $GLOBALS['_MAX']['CONF'];
@@ -107,14 +103,10 @@ class OA_UpgradePostscript_2_4_45
             	        'permissions'   => 'permissions',
                     ),
                 'permissionMap' => array(
-//                        1   => array('ADVERTISER', 'EDIT'),
-//                        2   => array('BANNER', 'EDIT'),
-//                        4   => array('BANNER', 'ADD'),
-                        8   => array('BANNER', 'DEACTIVATE'),
-                        16  => array('BANNER', 'ACTIVATE'),
-//                        32  => array('STATS', 'TARGETING'),
-//                        64  => array('CONVERSION', 'EDIT'),
-//                        128 => array('CONVERSION', 'IMPORT'),
+                        2   => OA_PERM_BANNER_EDIT,
+                        4   => OA_PERM_BANNER_ADD,
+                        8   => OA_PERM_BANNER_DEACTIVATE,
+                        16  => OA_PERM_BANNER_ACTIVATE,
                     ),
 	       ),
 
@@ -130,19 +122,17 @@ class OA_UpgradePostscript_2_4_45
             	        'permissions'   => 'permissions',
                     ),
                 'permissionMap' => array(
-//                        1   => array('TRAFFICKER', 'EDIT'),
-                        2   => array('ZONE', 'LINK'),
-                        4   => array('ZONE', 'ADD'),
-                        8   => array('ZONE', 'DELETE'),
-                        16  => array('ZONE', 'EDIT'),
-                        32  => array('ZONE', 'INVOCATION'),
-//                        64  => array('STATS', 'ZONE'),
+                        2   => OA_PERM_ZONE_LINK,
+                        4   => OA_PERM_ZONE_ADD,
+                        8   => OA_PERM_ZONE_DELETE,
+                        16  => OA_PERM_ZONE_EDIT,
+                        32  => OA_PERM_ZONE_INVOCATION,
                     ),
 	       ),
 	    );
 
-	    foreach ($aUserdata as $gaclGroup => $aUser) {
-    	    $result = $this->_migrateUsers($gaclGroup, $aUser);
+	    foreach ($aUserdata as $group => $aUser) {
+    	    $result = $this->_migrateUsers($group, $aUser);
     	    if (PEAR::isError($result)) {
     	        return $result;
     	    }
@@ -151,14 +141,12 @@ class OA_UpgradePostscript_2_4_45
 		return true;
     }
 
-	function _migrateUsers($gaclGroup, $aUser)
+	function _migrateUsers($group, $aUser)
 	{
 	    extract($aUser);
 
 	    $aConf = $GLOBALS['_MAX']['CONF'];
 	    $oDbh  = OA_DB::singleton();
-	    $oGacl = OA_Permission_Gacl::factory();
-	    $groupId = $oGacl->get_group_id("{$gaclGroup}_ACCOUNTS", null, 'AXO');
 
         $prefix      = $aConf['table']['prefix'];
 	    $tblSource   = $oDbh->quoteIdentifier($prefix.$sourceTable, true);
@@ -187,13 +175,13 @@ class OA_UpgradePostscript_2_4_45
 	    $aSource = $oDbh->getAssoc($query);
 
         if (PEAR::isError($aSource)) {
-            $this->oUpgrade->oLogger->logError("Error while retrieving existing {$gaclGroup} accounts");
+            $this->oUpgrade->oLogger->logError("Error while retrieving existing {$group} accounts");
             return $aSource;
         }
 
 	    foreach ($aSource as $sourceId => $aData) {
             if (empty($aData['name'])) {
-                $aData['name'] = ucwords(strtolower($gaclGroup)).' '.$sourceId;
+                $aData['name'] = ucwords(strtolower($group)).' '.$sourceId;
             }
             if (empty($aData['contact_name'])) {
                 $aData['contact_name'] = $aData['name'];
@@ -204,49 +192,39 @@ class OA_UpgradePostscript_2_4_45
 
             $query = "
                 INSERT INTO {$tblAccounts} (
-                    account_type
+                    account_type,
+                    account_name
                 ) VALUES (
-                    ".$oDbh->quote($gaclGroup)."
+                    ".$oDbh->quote($group).",
+                    ".$oDbh->quote($aData['name'])."
                 )
             ";
 
             $result = $oDbh->exec($query);
 
             if (PEAR::isError($result)) {
-                $this->oUpgrade->oLogger->logError("Error while creating account for {$gaclGroup} {$sourceId}");
+                $this->oUpgrade->oLogger->logError("Error while creating account for {$group} {$sourceId}");
                 return $result;
             }
 
             $accountId = $oDbh->lastInsertID($prefix.'accounts', 'account_id');
 
-            $result = $oGacl->add_object('ACCOUNTS', $aData['name'], $accountId, 0, 0, 'AXO');
-            if (!$result) {
-                $this->oUpgrade->oLogger->logError("Error while adding {$gaclGroup} {$sourceId} AXO");
-                return new PEAR_Error();
-            }
-
-            if ($groupId) {
-                $result = $oGacl->add_group_object($groupId, 'ACCOUNTS', $accountId, 'AXO');
-                if (!$result) {
-                    $this->oUpgrade->oLogger->logError("Error while adding {$gaclGroup} {$sourceId} to the accounts AXO group");
-                    return new PEAR_Error();
-                }
-            }
-
-            if ($gaclGroup == 'ADMIN') {
+            if ($group == 'ADMIN') {
                 // Create a new manager account
                 $query = "
                     INSERT INTO {$tblAccounts} (
-                        account_type
+                        account_type,
+                        account_name
                     ) VALUES (
-                        ".$oDbh->quote('MANAGER')."
+                        ".$oDbh->quote('MANAGER').",
+                        ".$oDbh->quote($aData['name'])."
                     )
                 ";
 
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while creating manager account for {$gaclGroup} {$sourceId}");
+                    $this->oUpgrade->oLogger->logError("Error while creating manager account for {$group} {$sourceId}");
                     return $result;
                 }
 
@@ -269,27 +247,11 @@ class OA_UpgradePostscript_2_4_45
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while creating default agency for {$gaclGroup} {$sourceId}");
+                    $this->oUpgrade->oLogger->logError("Error while creating default agency for {$group} {$sourceId}");
                     return $result;
                 }
 
                 $agencyId = $oDbh->lastInsertID($prefix.'agency', 'agencyid');
-
-                $result = $oGacl->add_object('ACCOUNTS', 'Default manager', $managerAccountId, 0, 0, 'AXO');
-                if (!$result) {
-                    $this->oUpgrade->oLogger->logError("Error while adding {$gaclGroup} {$sourceId} manager AXO");
-                    return new PEAR_Error();
-                }
-
-        	    $managerGid = $oGacl->get_group_id("MANAGER_ACCOUNTS", null, 'AXO');
-
-                if ($managerGid) {
-                    $result = $oGacl->add_group_object($managerGid, 'ACCOUNTS', $managerAccountId, 'AXO');
-                    if (!$result) {
-                        $this->oUpgrade->oLogger->logError("Error while adding {$gaclGroup} {$sourceId} manager to the accounts AXO group");
-                        return new PEAR_Error();
-                    }
-                }
 
                 foreach (array('clients', 'affiliates', 'channel') as $entity) {
                     $query = "
@@ -304,7 +266,7 @@ class OA_UpgradePostscript_2_4_45
                     $result = $oDbh->exec($query);
 
                     if (PEAR::isError($result)) {
-                        $this->oUpgrade->oLogger->logError("Error while migrating {$entity} table for {$gaclGroup} {$sourceId}");
+                        $this->oUpgrade->oLogger->logError("Error while migrating {$entity} table for {$group} {$sourceId}");
                         return $result;
                     }
                 }
@@ -322,13 +284,13 @@ class OA_UpgradePostscript_2_4_45
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while updating entity {$gaclGroup} {$sourceId} with account details");
+                    $this->oUpgrade->oLogger->logError("Error while updating entity {$group} {$sourceId} with account details");
                     return $result;
                 }
             }
 
             if (!empty($aData['username']) && !empty($aData['password'])) {
-                $defaultAccountId = $gaclGroup == 'ADMIN' ? $managerAccountId : $accountId;
+                $defaultAccountId = $group == 'ADMIN' ? $managerAccountId : $accountId;
 
                 $query = "
                     INSERT INTO {$tblUsers} (
@@ -349,56 +311,40 @@ class OA_UpgradePostscript_2_4_45
                 $result = $oDbh->exec($query);
 
                 if (PEAR::isError($result)) {
-                    $this->oUpgrade->oLogger->logError("Error while creating user for {$gaclGroup} {$sourceId}");
+                    $this->oUpgrade->oLogger->logError("Error while creating user for {$group} {$sourceId}");
                     return $result;
                 }
 
                 $userId = $oDbh->lastInsertID($prefix.'users', 'user_id');
-
-                $result = $oGacl->add_object('USERS', $aData['contact_name'], $userId, 0, 0, 'ARO');
+                $result = OA_Permission::setAccountAccess($accountId, true, $userId);
                 if (!$result) {
-                    $this->oUpgrade->oLogger->logError("Error while adding {$gaclGroup} {$sourceId} ARO");
-                    return new PEAR_Error();
+                    $this->oLogger->logError("error while giving access to user id: $userId to account: $accountId");
+                    return false;
                 }
-
-                if ($gaclGroup == 'ADMIN') {
-                    // Grant access to the admin AXO group
-                    $result = $oGacl->add_acl(
-                        array('ACCOUNT' => array('ACCESS')),
-                        array('USERS' => array($userId)),
-                        null,
-                        null,
-                        array('ACCOUNTS' => $groupId)
-                    );
+                if ($group == 'ADMIN' && !empty($managerAccountId)) {
+                    $result = OA_Permission::setAccountAccess($managerAccountId, true, $userId);
                     if (!$result) {
-                        $this->oLogger->logError('error creating the admin ACL');
+                        $this->oLogger->logError("error while giving access to user id: $userId to account: $managerAccountId");
                         return false;
                     }
-                } else {
+                }
+
+                if ($group != 'ADMIN') {
                     // Grant access to the user
-                    $aPermissions = array('ACCOUNT' => array('ACCESS'));
+                    $aPermissions = array();
 
                     if (!empty($permissionMap)) {
                         foreach ($permissionMap as $k => $v) {
                             if ($aData['permissions'] & $k) {
-                                if (!isset($aPermissions[$v[0]])) {
-                                    $aPermissions[$v[0]] = array();
-                                }
-                                $aPermissions[$v[0]][] = $v[1];
+                                $aPermissions[] = $v;
                             }
                         }
                     }
-
-                    // Create a single ACL
-                    $result = $oGacl->add_acl(
-                        $aPermissions,
-                        array('USERS' => array($userId)),
-                        null,
-                        array('ACCOUNTS' => array($accountId))
-                    );
-
+                    
+                    $result = OA_Permission::storeUserAccountsPermissions($aPermissions, $accountId, $userId);
+                    
                     if (!$result) {
-                        $this->oUpgrade->oLogger->logError("Error creating ACL {$gaclGroup} {$sourceId}");
+                        $this->oUpgrade->oLogger->logError("Error creating permissions for account: {$accountId} and user {$userId}");
                         return new PEAR_Error();
                     }
                 }

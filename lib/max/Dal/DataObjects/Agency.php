@@ -142,8 +142,8 @@ class DataObjects_Agency extends DB_DataObjectCommon
         $doPreference->get($this->agencyid);
         $doPreference = $this->_updatePreferences($doPreference);
         $doPreference->update();
-
-        $this->updateGaclAccountName();
+        
+        $this->updateAccountName($this->name);
 
         return $ret;
     }

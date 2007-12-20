@@ -1438,15 +1438,15 @@ class OA_Upgrade
             return false;
         }
 
-        // Set up GACL
-        if (!$this->insertGaclPermissions()) {
-            $this->oLogger->logError('error inserting GACL permissions');
+        // Set up Permissions
+        if (!$this->insertPermissions()) {
+            $this->oLogger->logError('error inserting permissions');
             return false;
         }
 
         // Create Admin account
         $doAccount = OA_Dal::factoryDO('accounts');
-        $doAccount->__accountName = 'Administrator account';
+        $doAccount->account_name = 'Administrator account';
         $doAccount->account_type = OA_ACCOUNT_ADMIN;
         $adminAccountId = $doAccount->insert();
 
@@ -1488,20 +1488,15 @@ class OA_Upgrade
             $this->oLogger->logError('error creating the admin user');
             return false;
         }
-
-        // Create GACLs
-        $oGacl = OA_Permission_Gacl::factory();
-
-        $adminGid = $oGacl->get_group_id('ADMIN_ACCOUNTS', null, 'AXO');
-        $result = $oGacl->add_acl(
-            array('ACCOUNT' => array('ACCESS')),
-            array('USERS' => array($userId)),
-            null,
-            null,
-            array('ACCOUNTS' => $adminGid)
-        );
+        
+        $result = OA_Permission::setAccountAccess($adminAccountId, true, $userId);
         if (!$result) {
-            $this->oLogger->logError('error creating the admin ACL');
+            $this->oLogger->logError("error creating access to admin account, account id: $adminAccountId, user ID: $userId");
+            return false;
+        }
+        $result = OA_Permission::setAccountAccess($agencyAccountId, true, $userId);
+        if (!$result) {
+            $this->oLogger->logError("error creating access to default agency account, account id: $agencyAccountId, user ID: $userId");
             return false;
         }
 
@@ -1563,15 +1558,12 @@ class OA_Upgrade
     }
 
     /**
-     * calls
+     * TODOPERM - insert any necessary rights here
      *
      * @return boolean
      */
-    function insertGaclPermissions()
+    function insertPermissions()
     {
-        require_once MAX_PATH.'/lib/OA/Upgrade/GaclPermissions.php';
-        $oGaclPermissions = new OA_GaclPermissions();
-        $oGaclPermissions->insert();
         return true;
     }
 

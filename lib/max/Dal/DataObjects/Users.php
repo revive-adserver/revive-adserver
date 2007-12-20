@@ -35,19 +35,8 @@ class DataObjects_Users extends DB_DataObjectCommon
      */
     function insert()
     {
-        $userId = parent::insert();
-
-        if (!empty($userId)) {
-            require_once MAX_PATH . '/lib/OA/Permission/Gacl.php';
-
-            // Create GACL ARO
-            $oGacl = OA_Permission_Gacl::factory();
-            if (!$oGacl->add_object('USERS', $this->contact_name, $userId, 0, 0, 'ARO')) {
-                OA::debug('Error creating the gacl users ARO entry', PEAR_LOG_ERROR);
-            }
-        }
-
-        return $userId;
+        // TODOPERM - is anything necessary here?
+        return parent::insert();
     }
 
     /**
@@ -57,38 +46,7 @@ class DataObjects_Users extends DB_DataObjectCommon
      */
     function update($dataObject = false)
     {
-        $ret = parent::update($dataObject);
-        if (!$ret) {
-            return $ret;
-        }
-
-        $oGacl = OA_Permission_Gacl::factory();
-        $acoId = $oGacl->get_object_id('USERS', $this->user_id, 'ARO');
-        if ($acoId) {
-            $oGacl->edit_object($acoId, 'ACCOUNTS', $this->contact_name, 0, 0, 0, 'ARO');
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Handle all necessary operations when a user is deleted
-     *
-     * @see DB_DataObject::delete()
-     */
-    function delete($useWhere = false, $cascade = true, $parentid = null)
-    {
-        $ret = parent::delete($useWhere, $cascade, $parentid);
-
-        if ($ret) {
-            $oGacl = OA_Permission_Gacl::factory();
-            $acoId = $oGacl->get_object_id('USERS', $this->user_id, 'ARO');
-            if ($acoId) {
-                $oGacl->del_object($acoId, 'ARO', true);
-            }
-        }
-
-        return $ret;
+        return parent::update($dataObject);
     }
 
     /**
