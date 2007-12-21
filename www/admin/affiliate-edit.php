@@ -43,8 +43,7 @@ require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
-                               'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
-                               'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
+                               'errormessage', 'submit', 'publiczones_old', 'formId', 'category', 'country', 'language');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
@@ -78,15 +77,12 @@ if (isset($formId)) {
     $oPublisher->agencyId       = $agencyid;
     $oPublisher->contactName    = $contact;
     $oPublisher->emailAddress   = $email;
-    $oPublisher->password       = $affiliatepassword;
     $oPublisher->publisherId    = $affiliateid;
     $oPublisher->publisherName  = $name;
-    $oPublisher->username       = $affiliateusername;
     $oPublisher->oacCategoryId  = $category;
     $oPublisher->oacCountryCode = $country;
     $oPublisher->oacLanguageId  = $language;
     $oPublisher->website        = $website;
-    $oPublisher->permissions    = $affiliatepermissions;
 
     // Do I need to handle this?
     $oPublisher->adNetworks =   ($adnetworks == 't') ? true : false;
@@ -153,11 +149,6 @@ if ($affiliateid != "") {
         if ($doAffiliates->get($affiliateid)) {
             $affiliate = $doAffiliates->toArray();
         }
-
-        // Set password to default value
-        if ($affiliate['password'] != '') {
-            $affiliate['password'] = '********';
-        }
     }
 } else {
     phpAds_PageHeader("4.2.1");
@@ -172,9 +163,8 @@ if ($affiliateid != "") {
 // Get unique affiliate
 // XXX: Although the JS suggests otherwise, this unique_name constraint isn't enforced.
 $doAffiliates = OA_Dal::factoryDO('affiliates');
+// TODOPERM - do we really want unique names here?
 $aUniqueNames = $doAffiliates->getUniqueValuesFromColumn('name', $affiliate['name']);
-$aUniqueUsers = OA_Permission::getUniqueUserNames($affiliate['username']);
-
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -249,112 +239,6 @@ $oTpl->assign('fieldsTop', array(
     )
 ));
 
-$oTpl->assign('fieldsBottom', array(
-    array(
-        'title'     => $strLoginInformation,
-        'errors'    => count($errormessage) ? $error_message : false,
-        'fields'    => array(
-            array(
-                'name'      => 'affiliateusername',
-                'style'     => 'small',
-                'label'     => $strUsername,
-                'value'     => $affiliate['username'],
-                'freezed'   => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
-            ),
-            array(
-                'name'      => 'affiliatepassword',
-                'style'     => 'small',
-                'label'     => $strPassword,
-                'type'      => 'password',
-                'value'     => $affiliate['password'],
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
-            ),
-            array(
-                'name'      => 'pwold',
-                'style'     => 'small',
-                'label'     => $strOldPassword,
-                'type'      => 'password',
-                'hidden'    => !OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
-            ),
-            array(
-                'name'      => 'pw',
-                'style'     => 'small',
-                'label'     => $strNewPassword,
-                'type'      => 'password',
-                'hidden'    => !OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
-            ),
-            array(
-                'name'      => 'pw2',
-                'style'     => 'small',
-                'label'     => $strRepeatPassword,
-                'type'      => 'password',
-                'hidden'    => !OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateModifyInfo,
-                'type'      => 'checkbox',
-                'value'     => phpAds_ModifyInfo,
-                'checked'   => $affiliate['permissions'] & phpAds_ModifyInfo,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateModifyZones,
-                'type'      => 'checkbox',
-                'value'     => phpAds_EditZone,
-                'checked'   => $affiliate['permissions'] & phpAds_EditZone,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_EditZone,
-                'onclick'   => 'MMM_cascadePermissionsChange()'
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateAddZone,
-                'type'      => 'checkbox',
-                'value'     => phpAds_AddZone,
-                'checked'   => $affiliate['permissions'] & phpAds_AddZone,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_AddZone,
-                'indent'    => true
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateDeleteZone,
-                'type'      => 'checkbox',
-                'value'     => phpAds_DeleteZone,
-                'checked'   => $affiliate['permissions'] & phpAds_DeleteZone,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_DeleteZone,
-                'indent'    => true
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateLinkBanners,
-                'type'      => 'checkbox',
-                'value'     => phpAds_LinkBanners,
-                'checked'   => $affiliate['permissions'] & phpAds_LinkBanners,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_LinkBanners
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateGenerateCode,
-                'type'      => 'checkbox',
-                'value'     => MAX_AffiliateGenerateCode,
-                'checked'   => $affiliate['permissions'] & MAX_AffiliateGenerateCode,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.MAX_AffiliateGenerateCode
-            ),
-        )
-    )
-));
-
 //var_dump($oTpl);
 //die();
 $oTpl->display();
@@ -373,23 +257,7 @@ $oTpl->display();
 
 <?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
-    max_formSetRequirements('affiliateusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
-
     max_formSetUnique('name', '|<?php echo addslashes(implode('|', $aUniqueNames)); ?>|');
-    max_formSetUnique('affiliateusername', '|<?php echo addslashes(implode('|', $aUniqueUsers)); ?>|');
-
-    function MMM_cascadePermissionsChange()
-    {
-        var e = findObj('affiliatepermissions_<?php echo phpAds_EditZone; ?>');
-        var a = findObj('affiliatepermissions_<?php echo phpAds_AddZone; ?>');
-        var d = findObj('affiliatepermissions_<?php echo phpAds_DeleteZone; ?>');
-
-        a.disabled = d.disabled = !e.checked;
-        if (!e.checked) {
-            a.checked = d.checked = false;
-        }
-    }
-    MMM_cascadePermissionsChange();
 <?php } ?>
 //-->
 </script>
