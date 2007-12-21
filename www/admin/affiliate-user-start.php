@@ -68,6 +68,8 @@ phpAds_ShowSections(array("4.2.7.1"));
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user-start.html');
+$oTpl->assign('action', 'affiliate-user.php');
+$oTpl->assign('method', 'GET');
 
 // TODO: will need to know whether we're hosted or downloaded
 $HOSTED = false; 
@@ -103,13 +105,13 @@ else
            'title'     => $strUsername,
            'fields'    => array(
                array(
-                   'name'      => 'username',
+                   'name'      => 'login',
                    'label'     => $strUsernameToLink,
                    'value'     => '',
                    'id'        => 'user-key'
-               )
+               ),
            )
-       )
+       ),
    ));
 }
 

@@ -6,6 +6,8 @@ require_once 'DB_DataObjectCommon.php';
 
 class DataObjects_Users extends DB_DataObjectCommon
 {
+    var $onDeleteCascade = true;
+    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -49,6 +51,49 @@ class DataObjects_Users extends DB_DataObjectCommon
     function getUniqueUsers()
     {
         return $this->getUniqueValuesFromColumn('username');
+    }
+    
+    /**
+     * Check whether user is linked only to one account
+     *
+     * @return boolean  True if linked only to one account, else false
+     */
+    function countLinkedAccounts()
+    {
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_assoc->user_id = $this->user_id;
+        return $doAccount_user_assoc->count();
+    }
+    
+    /**
+     * Returns user ID for specific username
+     *
+     * @param string $userName  Username
+     * @return integer  User ID or false if user do not exists
+     */
+    function getUserIdByUserName($userName)
+    {
+        $this->username = $userName;
+        if ($this->find()) {
+            $this->fetch();
+            return $this->user_id;
+        }
+        return false;
+    }
+    
+    /**
+     * Fetch user by it's username
+     *
+     * @param string $userName
+     * @return boolean True on success else false
+     */
+    function fetchUserByUserName($userName)
+    {
+        $this->username = $userName;
+        if (!$this->find()) {
+            return false;
+        }
+        return $this->fetch();
     }
 
 }

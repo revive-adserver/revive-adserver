@@ -342,7 +342,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			echo "<img src='images/icon-campaign-d.gif' align='absmiddle'>&nbsp;";
 		}
 		if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-		    if (OA_Permission::isAllowed(OA_PERM_BANNER_ACTIVATE) || OA_Permission::isAllowed(OA_PERM_BANNER_EDIT)) {
+		    if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
         		echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."'>".$campaigns[$ckey]['campaignname']."</td>";
 		    } else {
 		        echo $campaigns[$ckey]['campaignname'];
@@ -436,7 +436,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 				}
 
 				echo "&nbsp;";
-				if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::isAllowed(OA_PERM_BANNER_EDIT)) {
+				if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
 				    echo $name;
 				} else {
     				echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaigns[$ckey]['campaignid']."&bannerid=".$banners[$bkey]['bannerid']."'>".$name."</a></td>";

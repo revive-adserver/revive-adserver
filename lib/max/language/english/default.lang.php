@@ -197,6 +197,7 @@ $GLOBALS['strToLinkProvideUsername']    = "To link user, provide username";
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
 $GLOBALS['strUserProperties']           = "User Properties";
+$GLOBALS['strLinkNewUser']              = "Link New User";
 $GLOBALS['strPermissions']              = "Permissions";
 $GLOBALS['strAuthentification']         = "Authentication";
 $GLOBALS['strWelcomeTo']                = "Welcome to";

@@ -40,9 +40,10 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
+require_once MAX_PATH . '/lib/OA/Session.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('userid', 'move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
+phpAds_registerGlobalUnslashed ('login', 'passwd', 'move', 'link', 'name', 'website', 'contact_name', 'email_address', 'language', 'adnetworks', 'advsignup',
                                'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
                                'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
 
@@ -50,11 +51,35 @@ phpAds_registerGlobalUnslashed ('userid', 'move', 'name', 'website', 'contact', 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::checkAccessToObject('affiliates', $affiliateid);
 $accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
-OA_Permission::enforceAccess($accountId, $userid);
+$doUsers = OA_Dal::factoryDO('users');
+$userid = $doUsers->getUserIdByUserName($login);
+if (!empty($userid)) {
+//    OA_Permission::enforceAccess($accountId, $userid); // TODOPERM - is it necessary?
+}
 
 // Initialise Ad  Networks
-$oAdNetworks = new OA_Central_AdNetworks();
 $agencyid = OA_Permission::getAgencyId();
+
+if (!empty($submit)) {
+    $doUsers = OA_Dal::factoryDO('users');
+    $userExists = $doUsers->fetchUserByUserName($login);
+    $doUsers->contact_name = $contact_name;
+    $doUsers->email_address = $email_address;
+    if ($userExists) {
+        $doUsers->update();
+    } else {
+        $doUsers->password = md5($passwd);
+        $userid = $doUsers->insert();
+    }
+    
+    if (!$userid) {
+        OA_Session::setMessage('Error while creating user:' . $login);
+    } else {
+        OA_Permission::setAccountAccess($accountId, $userid);
+        OA_Permission::storeUserAccountsPermissions($affiliatepermissions, $accountId, $userid);
+        MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
+    }
+}
 
 
 /*-------------------------------------------------------*/
@@ -72,20 +97,22 @@ phpAds_ShowSections(array("4.2.7.2"));
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user.html');
+$oTpl->assign('action', 'affiliate-user.php');
+$oTpl->assign('method', 'POST');
 
 // TODO: will need to know whether we're hosted or downloaded
 $HOSTED = false;
 $oTpl->assign('hosted', $HOSTED);
 
 // TODO: indicates whether the user exists (otherwise, a new user will be created or invitation sent)
-$existingUser = false;
-$oTpl->assign('existingUser', $existingUser);
+$existingUser = !empty($userid);
+$oTpl->assign('existingUser', !empty($userid));
 
-// TODO: indicates whether the form is in editing user properties mode
+// TODOPERM: indicates whether the form is in editing user properties mode
 // (linked from the "Permissions" link in the User Access table)
 // Alternatively, we may want to have two separate templates/php files for these
 // with common parts included from another template
-$oTpl->assign('editMode', false);
+$oTpl->assign('editMode', !$link);
 
 $oTpl->assign('error', $oPublisherDll->_errorMessage);
 
@@ -94,11 +121,16 @@ $oTpl->assign('affiliateid', $affiliateid);
 $userDetailsFields = array();
 
 $doUsers = OA_Dal::staticGetDO('users', $userid);
-$affiliate = $doUsers->toArray();
+$affiliate = array();
+if ($doUsers) {
+    $affiliate = $doUsers->toArray();
+} else {
+    $affiliate['username'] = $login;
+}
 
 if ($HOSTED) {
    $userDetailsFields[] = array(
-                  'name'      => 'email',
+                  'name'      => 'email_address',
                   'label'     => $strEMail,
                   'value'     => 'test@test.com', // TODO: put e-mail here
                   'freezed'   => true
@@ -123,32 +155,44 @@ if ($HOSTED) {
 }
 else {
    $userDetailsFields[] = array(
-                   'name'      => 'username',
+                   'name'      => 'login',
                    'label'     => $strUsername,
                    'value'     => $affiliate['username'],
-                   'freezed'   => true
+                   'freezed'   => $existingUser
+               );
+   $userDetailsFields[] = array(
+                   'name'      => 'passwd',
+                   'label'     => $strPassword,
+                   'value'     => '',
+                   'hidden'   => $existingUser
                );
    $userDetailsFields[] = array(
                    'name'      => 'contact_name',
                    'label'     => $strContactName,
-                   'value'     => $affiliate['contact_name']
+                   'value'     => $affiliate['contact_name'],
                );
    $userDetailsFields[] = array(
                    'name'      => 'email_address',
                    'label'     => $strEMail,
                    'value'     => $affiliate['email_address']
                );
-
-   if ($existingUser) {
-      $userDetailsFields[] = array(
-                   'type'      => 'custom',
-                   'template'  => 'link',
-                   'label'     => $strPwdRecReset,
-                   'href'      => 'affiliate-access.php', // TODO: I guess the password reset screen could send the e-mail and then redirect to the User Access list (and display a confirmation message on the list -- see affiliate-access.html)
-                   'text'      => $strPwdRecResetPwdThisUser
-               );
-   }
 }
+
+$oTpl->assign('hiddenFields', array(
+    array(
+        'name' => 'submit',
+        'value' => true
+    ),
+    array(
+        'name' => 'affiliateid',
+        'value' => $affiliateid
+    ),
+    array(
+        'name' => 'login',
+        'value' => $login
+    ),
+
+));
 
 $oTpl->assign('fields', array(
     array(
@@ -160,84 +204,57 @@ $oTpl->assign('fields', array(
         'fields'    => array(
             array(
                 'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateModifyInfo,
-                'type'      => 'checkbox',
-                'value'     => phpAds_ModifyInfo,
-                'checked'   => $affiliate['permissions'] & phpAds_ModifyInfo,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
                 'label'     => $strAllowAffiliateModifyZones,
                 'type'      => 'checkbox',
-                'value'     => phpAds_EditZone,
-                'checked'   => $affiliate['permissions'] & phpAds_EditZone,
+                'value'     => OA_PERM_ZONE_EDIT,
+                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_EDIT, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_EditZone,
+                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_EDIT,
                 'onclick'   => 'MMM_cascadePermissionsChange()'
             ),
             array(
                 'name'      => 'affiliatepermissions[]',
                 'label'     => $strAllowAffiliateAddZone,
                 'type'      => 'checkbox',
-                'value'     => phpAds_AddZone,
-                'checked'   => $affiliate['permissions'] & phpAds_AddZone,
+                'value'     => OA_PERM_ZONE_ADD,
+                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_ADD, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_AddZone,
+                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_ADD,
                 'indent'    => true
             ),
             array(
                 'name'      => 'affiliatepermissions[]',
                 'label'     => $strAllowAffiliateDeleteZone,
                 'type'      => 'checkbox',
-                'value'     => phpAds_DeleteZone,
-                'checked'   => $affiliate['permissions'] & phpAds_DeleteZone,
+                'value'     => OA_PERM_ZONE_DELETE,
+                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_DELETE, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_DeleteZone,
+                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_DELETE,
                 'indent'    => true
             ),
             array(
                 'name'      => 'affiliatepermissions[]',
                 'label'     => $strAllowAffiliateLinkBanners,
                 'type'      => 'checkbox',
-                'value'     => phpAds_LinkBanners,
-                'checked'   => $affiliate['permissions'] & phpAds_LinkBanners,
+                'value'     => OA_PERM_ZONE_LINK,
+                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_LINK, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.phpAds_LinkBanners
+                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_LINK
             ),
             array(
                 'name'      => 'affiliatepermissions[]',
                 'label'     => $strAllowAffiliateGenerateCode,
                 'type'      => 'checkbox',
-                'value'     => MAX_AffiliateGenerateCode,
-                'checked'   => $affiliate['permissions'] & MAX_AffiliateGenerateCode,
+                'value'     => OA_PERM_ZONE_INVOCATION,
+                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.MAX_AffiliateGenerateCode
+                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_INVOCATION
             ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateZoneStats,
-                'type'      => 'checkbox',
-                'value'     => MAX_AffiliateViewZoneStats,
-                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewZoneStats,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewZoneStats
-            ),
-            array(
-                'name'      => 'affiliatepermissions[]',
-                'label'     => $strAllowAffiliateApprPendConv,
-                'type'      => 'checkbox',
-                'value'     => MAX_AffiliateViewOnlyApprPendConv,
-                'checked'   => $affiliate['permissions'] & MAX_AffiliateViewOnlyApprPendConv,
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'id'        => 'affiliatepermissions_'.MAX_AffiliateViewOnlyApprPendConv
-            )
         )
     )
 ));
@@ -252,9 +269,9 @@ $oTpl->display();
 <?php if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) { ?>
     function MMM_cascadePermissionsChange()
     {
-        var e = findObj('affiliatepermissions_<?php echo phpAds_EditZone; ?>');
-        var a = findObj('affiliatepermissions_<?php echo phpAds_AddZone; ?>');
-        var d = findObj('affiliatepermissions_<?php echo phpAds_DeleteZone; ?>');
+        var e = findObj('affiliatepermissions_<?php echo OA_PERM_ZONE_EDIT; ?>');
+        var a = findObj('affiliatepermissions_<?php echo OA_PERM_ZONE_ADD; ?>');
+        var d = findObj('affiliatepermissions_<?php echo OA_PERM_ZONE_DELETE; ?>');
 
         a.disabled = d.disabled = !e.checked;
         if (!e.checked) {

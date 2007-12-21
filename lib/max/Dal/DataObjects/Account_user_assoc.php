@@ -28,4 +28,15 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
         $this->linked = date('Y-m-d H:i:s');
         return parent::insert();
     }
+    
+    function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
+    {
+        // delete also all permissions linked to this account/user
+        $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_user_permission_assoc->user_id = $this->user_id;
+        $doAccount_user_permission_assoc->account_id = $this->account_id;
+        $doAccount_user_permission_assoc->delete();
+        
+        return parent::delete($useWhere, $cascadeDelete, $parentid);
+    }
 }

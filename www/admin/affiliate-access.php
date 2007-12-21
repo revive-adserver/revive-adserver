@@ -124,6 +124,9 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-access.html');
 
+// TODOPERM - assign info messages here
+$oTpl->assign('infomessage', '');
+
 $oTpl->assign('error', $oPublisherDll->_errorMessage);
 
 $oTpl->assign('affiliateid', $affiliateid);
@@ -131,45 +134,18 @@ $oTpl->assign('move', $move);
 
 $doUsers = OA_Dal::factoryDO('users');
 $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
-$doAccount_user_assoc->account_id = 
+$doAccount_user_assoc->account_id =
     OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
 $doUsers->joinAdd($doAccount_user_assoc);
-$aUsers = $doUsers->getAll();
-
+$doUsers->find();
+$aUsers = array();
+while($doUsers->fetch()) {
+    $aUsers[$doUsers->user_id] = $doUsers->toArray();
+    // is user linked to his last account
+    $aUsers[$doUsers->user_id]['toDelete'] = ($doUsers->countLinkedAccounts() == 1);
+}
 $oTpl->assign('users', array('aUsers' => $aUsers));
 
-//$oTpl->assign('users', array(
-//  'aUsers'  => array (
-//                  array  (
-//                     'name' => 'John Smith',
-//                     'email' => 'john@smith.com',
-//                     'login' => 'johns',
-//                     'dateLinked' => '20/12/2007',
-//                     'toDelete' => true // TODO: indicates whether the user is linked to his last entity, and unlinkin will result in user being deleted
-//                  ),
-//
-//                  array  (
-//                     'name' => 'Larry Page',
-//                     'email' => 'larry@yahoo.com',
-//                     'login' => 'larry',
-//                     'dateLinked' => '20/12/2007',
-//                     'toDelete' => true, // TODO: indicates whether the user is linked to his last entity, and unlinkin will result in user being deleted
-//                     'justModified' => true // TODO: [this is a nice-to-have, can be omitted] if a user has just been linked (or an invitation sent), this property set to "true" will allow to highlight the corresponding row
-//                  ),
-//
-//                  array  (
-//                     'name' => 'Andy Test',
-//                     'email' => 'andy@test.com',
-//                     'login' => 'andyt',
-//                     'dateLinked' => '20/05/2007',
-//                     'toDelete' => false // TODO: indicates whether the user is linked to his last entity, and unlinkin will result in user being deleted
-//                  )
-//               )
-//  )
-//);
-
-//var_dump($oTpl);
-//die();
 $oTpl->display();
 
 /*-------------------------------------------------------*/

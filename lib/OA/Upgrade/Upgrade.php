@@ -1496,12 +1496,12 @@ class OA_Upgrade
             return false;
         }
 
-        $result = OA_Permission::setAccountAccess($adminAccountId, true, $userId);
+        $result = OA_Permission::setAccountAccess($adminAccountId, $userId);
         if (!$result) {
             $this->oLogger->logError("error creating access to admin account, account id: $adminAccountId, user ID: $userId");
             return false;
         }
-        $result = OA_Permission::setAccountAccess($agencyAccountId, true, $userId);
+        $result = OA_Permission::setAccountAccess($agencyAccountId, $userId);
         if (!$result) {
             $this->oLogger->logError("error creating access to default agency account, account id: $agencyAccountId, user ID: $userId");
             return false;

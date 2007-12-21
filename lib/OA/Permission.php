@@ -153,7 +153,7 @@ class OA_Permission
         //         to assign permissions to users in UI
         return true;
 
-        if (OA_Permission::isAllowed($permission, $accountId)) {
+        if (OA_Permission::hasPermission($permission, $accountId)) {
             return true;
         }
 
@@ -334,40 +334,55 @@ class OA_Permission
      * @param integer $userId  User ID (if null a logged user id is used)
      * @return boolean  True on success else false
      */
-    function setAccountAccess($accountId, $hasAccess = true, $userId = null)
+    function setAccountAccess($accountId, $userId, $hasAccess = true)
     {
-        if (empty($userId)) {
-            $userId = OA_Permission::getUserId();
-        }
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->account_id = $accountId;
         $doAccount_user_Assoc->user_id = $userId;
-        if (!$hasAccess) {
-            return $doAccount_user_Assoc->delete();
+        $ret = $doAccount_user_Assoc->delete();
+        if ($hasAccess) {
+            return $doAccount_user_Assoc->insert();
         }
-        return $doAccount_user_Assoc->insert();
+        return $ret;
     }
 
     /**
      * A method to check if the user has specific permissions to perform
      * an action on an account
+     * 
+     * TODOPERM - consider caching permissions in user session so they could
+     *            be reused across many user requests
      *
      * @static
      * @param integer $permissionId
      * @param int $accountId
      * @return boolean
      */
-    function isAllowed($permissionId, $accountId = null)
+    function hasPermission($permissionId, $accountId = null, $userId = null)
     {
-        if (empty($accountId)) {
+        if ($accountId === null) {
             $accountId = OA_Permission::getAccountId();
         }
-        $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
-        $doAccount_user_permission_assoc->user_id = OA_Permission::getUserId();
-        $doAccount_user_permission_assoc->account_id = $accountId;
-        $doAccount_user_permission_assoc->permission_id = $permissionId;
-        $doAccount_user_permission_assoc->find(true);
-        return $doAccount_user_permission_assoc->N && $doAccount_user_permission_assoc->is_allowed;
+        if ($userId === null) {
+            $userId = OA_Permission::getUserId();
+        }
+        if (empty($accountId) || empty($userId)) {
+            return false;
+        }
+        static $permissions;
+        if (!isset($permissions[$userId][$accountId])) {
+            $permissions = array();
+            $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+            $doAccount_user_permission_assoc->user_id = $userId;
+            $doAccount_user_permission_assoc->account_id = $accountId;
+            $doAccount_user_permission_assoc->find();
+            while ($doAccount_user_permission_assoc->fetch()) {
+                $permissions[$userId][$accountId][$doAccount_user_permission_assoc->permission_id] =
+                    $doAccount_user_permission_assoc->is_allowed;
+            }
+        }
+        return isset($permissions[$userId][$accountId][$permissionId]) ?
+            $permissions[$userId][$accountId][$permissionId] : false;
     }
 
     /**

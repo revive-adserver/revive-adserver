@@ -74,8 +74,8 @@ else
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER))
 {
-	if (($value == OA_ENTITY_STATUS_PAUSED && OA_Permission::isAllowed(OA_PERM_BANNER_DEACTIVATE)) ||
-	    ($value == OA_ENTITY_STATUS_RUNNING && OA_Permission::isAllowed(OA_PERM_BANNER_ACTIVATE)))
+	if (($value == OA_ENTITY_STATUS_PAUSED && OA_Permission::hasPermission(OA_PERM_BANNER_DEACTIVATE)) ||
+	    ($value == OA_ENTITY_STATUS_RUNNING && OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE)))
 	{
         $doBanners = OA_Dal::factoryDO('banners');
         $doBanners->get($bannerid);

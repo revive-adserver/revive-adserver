@@ -287,7 +287,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         }
 
         echo "&nbsp;";
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::isAllowed(OA_PERM_BANNER_EDIT)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
             echo $name;
         } else {
             echo "<a href='banner-edit.php?clientid=".$clientid."&campaignid=".$campaignid."&bannerid=".$bkey."'>".$name."</a>";
@@ -308,7 +308,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
 
         // Button 2
         echo "<td height='25' align='".$phpAds_TextAlignRight."'>";
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::isAllowed(OA_PERM_BANNER_ACTIVATE)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER) && !OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE)) {
             echo "&nbsp;";
         } else {
             if ($banners[$bkey]["status"] == OA_ENTITY_STATUS_RUNNING) {

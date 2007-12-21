@@ -162,7 +162,7 @@ if (isset($submitbutton))
         // Do not redirect until not finished with zone appending, if present
         if (!empty($appendsave)) {
             if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-                if (OA_Permission::isAllowed(OA_PERM_ZONE_LINK)) {
+                if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
                     MAX_Admin_Redirect::redirect('zone-include.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);
                 } else {
                     MAX_Admin_Redirect::redirect('zone-probability.php?affiliateid='.$affiliateid.'&zoneid='.$zoneid);

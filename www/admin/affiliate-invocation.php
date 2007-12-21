@@ -84,7 +84,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
 } else {
     $sections = array();
     $sections[] = "2.1";
-    if (OA_Permission::isAllowed(OA_PERM_ZONE_INVOCATION)) {
+    if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
         $sections[] = "2.2";
     }
     phpAds_PageHeader('2.2');

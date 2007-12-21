@@ -391,7 +391,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (isset($id) && !OA_Permission::hasAccessToObject($table, $id)) {
             $isError = true;
         }
-        if (isset($allowed) && !OA_Permission::isAllowed($allowed)) {
+        if (isset($allowed) && !OA_Permission::hasPermission($allowed)) {
             $isError = true;
         }
         if ($isError) {

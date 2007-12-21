@@ -113,7 +113,7 @@ class OA_Admin_Statistics_Delivery_Controller_BannerHistory extends OA_Admin_Sta
         } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
             $this->pageId = '1.2.2.1';
             $this->aPageSections[] = '1.2.2.1';
-            if (OA_Permission::isAllowed(OA_PERM_BANNER_EDIT)) {
+            if (OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
                 $this->aPageSections[] = '1.2.2.2';
             }
             $this->aPageSections[] = '1.2.2.4';

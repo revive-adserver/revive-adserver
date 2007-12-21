@@ -832,10 +832,10 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
         }
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $tabSections = array();
-        if (OA_Permission::isAllowed(OA_PERM_ZONE_EDIT)) { $tabSections[] = '2.1.1'; }
-        if (OA_Permission::isAllowed(OA_PERM_ZONE_LINK)) { $tabSections[] = '2.1.2'; }
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT)) { $tabSections[] = '2.1.1'; }
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) { $tabSections[] = '2.1.2'; }
         $tabSections[] = '2.1.3';
-        if (OA_Permission::isAllowed(OA_PERM_ZONE_INVOCATION)) { $tabSections[] = '2.1.4'; }
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) { $tabSections[] = '2.1.4'; }
         switch($pageName) {
             case 'zone-edit.php': $tabValue = '2.1.1'; if (empty($zoneId)) $tabSections = array('2.1.1'); break;
             case 'zone-include.php': $tabValue = '2.1.2'; break;
@@ -859,7 +859,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
     }
     phpAds_PageShortcut($GLOBALS['strZoneHistory'], "stats.php?entity=zone&breakdown=history&$entityString", 'images/icon-statistics.gif');
 
-    if (!empty($zoneId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || (OA_Permission::isAllowed(OA_PERM_ZONE_EDIT) || OA_Permission::isAllowed(OA_PERM_ZONE_DELETE) || OA_Permission::isAllowed(OA_PERM_ZONE_ADD)))) {
+    if (!empty($zoneId) && (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)))) {
         $extra = "
             <form action='zone-modify.php'>
             <input type='hidden' name='affiliateid' value='$publisherId'>
@@ -867,11 +867,11 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
             <input type='hidden' name='returnurl' value='$pageName'>
             <br /><br />
             ";
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_DELETE)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
             $extra .= "<b>{$GLOBALS['strModifyZone']}</b><br />
             <img src='images/break.gif' height='1' width='160' vspace='4'><br />";
         }
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_ADD)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
                 $extra .= "
                     <img src='images/icon-duplicate-zone.gif' align='absmiddle'>&nbsp;<a href='zone-modify.php?duplicate=true&$entityString&returnurl=$pageName'>{$GLOBALS['strDuplicate']}</a><br />
                     <img src='images/break.gif' height='1' width='160' vspace='4'><br />
@@ -892,7 +892,7 @@ function MAX_displayNavigationZone($pageName, $aOtherPublishers, $aOtherZones, $
                     }
                 }
         }
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAllowed(OA_PERM_ZONE_DELETE)) {
+        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_DELETE)) {
             $deleteConfirm = phpAds_DelConfirm($GLOBALS['strConfirmDeleteZone']);
             $extra .= "
                 </select>

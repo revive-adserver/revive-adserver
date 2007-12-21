@@ -388,21 +388,21 @@ function MMM_buildNavigation()
     );
 
     if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-        if (OA_Permission::isAllowed(OA_PERM_BANNER_ACTIVATE) || OA_Permission::isAllowed(OA_PERM_BANNER_EDIT)) {
+        if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2'] = array("advertiser-campaigns.php?clientid=$clientid" => $GLOBALS['strAdminstration']);
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.1'] = array("campaign-banners.php?clientid=$clientid&campaignid=$campaignid" => $GLOBALS['strBannerOverview']);
-            if (OA_Permission::isAllowed(OA_PERM_BANNER_EDIT)) {
+            if (OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
                 $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.1.1'] = array("banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strBannerProperties']);
             }
         }
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        if (OA_Permission::isAllowed(OA_PERM_ZONE_EDIT) || OA_Permission::isAllowed(OA_PERM_ZONE_ADD)) {
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.1'] = array("zone-edit.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strZoneProperties']);
         }
-        if (OA_Permission::isAllowed(OA_PERM_ZONE_LINK)) {
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_LINK)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.2'] = array("zone-include.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strIncludedBanners']);
         }
-        if (OA_Permission::isAllowed(OA_PERM_ZONE_INVOCATION)) {
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.1.4'] = array("zone-invocation.php?affiliateid=$affiliateid&zoneid=$zoneid" => $GLOBALS['strInvocationcode']);
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_TRAFFICKER]['2.2']   = array("affiliate-invocation.php?affiliateid=$affiliateid" => $GLOBALS['strInvocationcode']);
         }

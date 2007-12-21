@@ -42,14 +42,15 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
   be put in this form. Otherwise, the user won't get redirected to the entity page
   he started at.
 -->
-<form action="affiliate-access.php">
+<form action="{$action}" method="{$method}">
+  {include file=edit-table/hidden.html from=$hiddenFields}
   {include file=edit-table/create.html from=$fields}
   
   <div class="controls">
     {if $editMode}
       <input value="{t str=SaveChanges}" class="main-submit" type="submit" {tabindex}>
     {else}
-      <input value="<< {t str=Back}" type="button" {tabindex} onclick="javascript:location.href='affiliate-user-start.php'">
+      <input value="<< {t str=Back}" type="button" {tabindex} onclick="javascript:location.href='affiliate-user-start.php?affiliateid={$affiliateid}'">
       <input value="{t str=LinkUser}" class="main-submit" type="submit" {tabindex}>
       {if !$existingUser}<span class="hint">{t str=NewUserWillBeCreated}</span>{/if}
     {/if}

@@ -323,13 +323,13 @@ class OA_UpgradePostscript_2_4_45
                 }
 
                 $userId = $oDbh->lastInsertID($prefix.'users', 'user_id');
-                $result = OA_Permission::setAccountAccess($accountId, true, $userId);
+                $result = OA_Permission::setAccountAccess($accountId, $userId);
                 if (!$result) {
                     $this->oLogger->logError("error while giving access to user id: $userId to account: $accountId");
                     return false;
                 }
                 if ($group == 'ADMIN' && !empty($managerAccountId)) {
-                    $result = OA_Permission::setAccountAccess($managerAccountId, true, $userId);
+                    $result = OA_Permission::setAccountAccess($managerAccountId, $userId);
                     if (!$result) {
                         $this->oLogger->logError("error while giving access to user id: $userId to account: $managerAccountId");
                         return false;

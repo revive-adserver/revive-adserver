@@ -39,14 +39,16 @@ require_once 'DB/DataObject.php';
 class DB_DataObjectCommon extends DB_DataObject
 {
     /**
-     * If its true the delete() method will try to delete also all records which has reference to this record
+     * If its true the delete() method will try to delete also all 
+     * records which has reference to this record
      *
      * @var boolean
      */
     var $onDeleteCascade = false;
 
     /**
-     * If true "updated" field is automatically updated with current time on every insert and update
+     * If true "updated" field is automatically updated with
+     * current time on every insert and update
      *
      * @var unknown_type
      */
@@ -183,6 +185,21 @@ class DB_DataObjectCommon extends DB_DataObject
         }
         $this->free();
         return $rows;
+    }
+    
+    /**
+     * Either insert new record or update existing one 
+     * if the object is already created
+     *
+     * @return integer  ID of new record (if PK is sequence) or boolean
+     */
+    function save()
+    {
+        $this->limit(1);
+        if (!$this->update()) {
+            return $this->insert();
+        }
+        return true;
     }
 
     /**
@@ -609,7 +626,9 @@ class DB_DataObjectCommon extends DB_DataObject
         $doOriginal = $this->getChanges();
         $this->_refreshUpdated();
         $result = parent::update($dataObject);
-        $this->audit(2, $doOriginal);
+        if ($result) {
+            $this->audit(2, $doOriginal);
+        }
         return $result;
     }
 
@@ -1006,7 +1025,7 @@ class DB_DataObjectCommon extends DB_DataObject
             return false;
         }
 
-        $result = OA_Permission::setAccountAccess($this->account_id, true, $userId);
+        $result = OA_Permission::setAccountAccess($this->account_id, $userId);
         if (!$result) {
             return false;
         }

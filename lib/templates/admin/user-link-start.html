@@ -29,8 +29,9 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 --> *}
 
 <script language="javascript">
-    var HOSTED = {if $hosted}true{else}false{/if};
-<!--{literal}
+<!--
+var HOSTED = {if $hosted}true{else}false{/if};
+{literal}
 
     $(document).ready(function() {
       $("#user-key").autocomplete("user-search.php", {
@@ -76,6 +77,9 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 
 <form action="affiliate-user.php">
   {include file=edit-table/create.html from=$fields}
+  
+  {if $affiliateid}<input type="hidden" name="affiliateid" value="{$affiliateid}" />{/if}
+  <input type="hidden" name="link" value="1" />
 
   <div class="controls">
     <input id="link-user-button" value="{t str=LinkUser}" type="submit" {tabindex}>
