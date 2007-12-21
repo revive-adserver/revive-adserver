@@ -95,6 +95,32 @@ class DataObjects_Users extends DB_DataObjectCommon
         }
         return $this->fetch();
     }
+    
+    /**
+     * Returns array of users linked to entity
+     *
+     * @param string $entityName  Inventory entity name (affiliates, clients, etc)
+     * @param integer $entityId  Inventory entity ID
+     * @return array
+     */
+    function getAccountUsersByEntity($entityName, $entityId)
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_assoc->account_id =
+            OA_Permission::getAccountIdForEntity($entityName, $entityId);
+        $doUsers->joinAdd($doAccount_user_assoc);
+        $doUsers->find();
+        
+        $aUsers = array();
+        while($doUsers->fetch()) {
+            $aUsers[$doUsers->user_id] = $doUsers->toArray();
+            // is user linked to his last account
+            $aUsers[$doUsers->user_id]['toDelete'] = ($doUsers->countLinkedAccounts() == 1);
+        }
+        return $aUsers;
+    }
+
 
 }
 

@@ -101,9 +101,9 @@ foreach ($invPlugins as $plugin) {
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
 if (!empty($bannerid)) {
-    OA_Permission::checkAccessToObject('banners', $bannerid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid);
 } else {
-    OA_Permission::checkAccessToObject('campaigns', $campaignid);
+    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 }
 
 /*-------------------------------------------------------*/
@@ -277,18 +277,6 @@ if ($bannerid != '') {
     $doBanners = OA_Dal::factoryDO('banners');
     if ($doBanners->get($bannerid)) {
         $row = $doBanners->toArray();
-    }
-
-    if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
-        $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
-    } else {
-        $navorder = '';
-    }
-
-    if (isset($session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'])) {
-        $navdirection = $session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'];
-    } else {
-        $navdirection = '';
     }
 
     // Set basic values

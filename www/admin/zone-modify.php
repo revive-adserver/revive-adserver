@@ -53,7 +53,7 @@ if (!MAX_checkZone($affiliateid, $zoneid)) {
 
 if (isset($zoneid) && $zoneid != '') {
 
-    OA_Permission::checkAccessToObject('zones', $zoneid);
+    OA_Permission::enforceAccessToObject('zones', $zoneid);
 
     if (isset($newaffiliateid) && $newaffiliateid != '') {
         // A publisher cannot move a zone to another publisher!

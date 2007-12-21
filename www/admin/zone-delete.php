@@ -51,7 +51,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_T
 if (!empty($zoneid)) {
 
     OA_Permission::enforceAllowed(OA_PERM_ZONE_DELETE);
-    OA_Permission::checkAccessToObject('zones', $zoneid);
+    OA_Permission::enforceAccessToObject('zones', $zoneid);
 
     $doZones = OA_Dal::factoryDO('zones');
     $doZones->zoneid = $zoneid;

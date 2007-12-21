@@ -55,11 +55,11 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 /*-------------------------------------------------------*/
 
 if (!empty($bannerid)) {
-    OA_Permission::checkAccessToObject('banners', $bannerid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid);
 
     if (!empty($moveto) && isset($moveto_x)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            OA_Permission::checkAccessToObject('campaigns', $moveto);
+            OA_Permission::enforceAccessToObject('campaigns', $moveto);
         }
 
         // Move the banner
@@ -84,7 +84,7 @@ if (!empty($bannerid)) {
 
     } elseif (!empty($applyto) && isset($applyto_x)) {
         if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            OA_Permission::checkAccessToObject('banners', $applyto);
+            OA_Permission::enforceAccessToObject('banners', $applyto);
         }
         if (MAX_AclCopy(basename($_SERVER['PHP_SELF']), $bannerid, $applyto)) {
             // Rebuild cache

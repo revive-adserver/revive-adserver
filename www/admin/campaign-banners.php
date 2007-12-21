@@ -46,23 +46,11 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderd
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
-if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['listorder'])) {
-    $navorder = $session['prefs']['advertiser-campaigns.php'][$clientid]['listorder'];
-} else {
-    $navorder = '';
-}
-
-if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['orderdirection'])) {
-    $navdirection = $session['prefs']['advertiser-campaigns.php'][$clientid]['orderdirection'];
-} else {
-    $navdirection = '';
-}
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);

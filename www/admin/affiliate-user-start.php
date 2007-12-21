@@ -32,26 +32,13 @@ $Id: affiliate-edit.php 12839 2007-11-27 16:32:39Z bernard.lange@openads.org $
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
-
-// Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
-                               'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
-                               'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
-
-$oAdNetworks = new OA_Central_AdNetworks();
-$agencyid = OA_Permission::getAgencyId();
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -59,7 +46,7 @@ $agencyid = OA_Permission::getAgencyId();
 
 phpAds_PageHeader("4.2.7.1");
 echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-phpAds_ShowSections(array("4.2.7.1"));
+phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7", "4.2.7.1"));
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -68,56 +55,10 @@ phpAds_ShowSections(array("4.2.7.1"));
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user-start.html');
+OA_Admin_UI_UserAccess::assignUserStartTemplateVariables($oTpl);
 $oTpl->assign('action', 'affiliate-user.php');
-$oTpl->assign('method', 'GET');
-
-// TODO: will need to know whether we're hosted or downloaded
-$HOSTED = false; 
-$oTpl->assign('hosted', $HOSTED);
-
-$oTpl->assign('error', $oPublisherDll->_errorMessage);
-
-$oTpl->assign('affiliateid', $affiliateid);
-
-// TODO: this bit should probably be refactored to a library -- it looks it should
-// be the same for publishers, advertisers, agencies and admins. Alternatively,
-// maybe one PHP page (with a parameter identitfying the entity) could handle
-// the "start" page of user linking?
-if ($HOSTED) {
-   $oTpl->assign('fields', array(
-       array(
-           'title'     => "E-mail",
-           'fields'    => array(
-               array(
-                   'name'      => 'email',
-                   'label'     => $strEmailToLink,
-                   'value'     => '',
-                   'id'        => 'user-key'
-               )
-           )
-       )
-   ));
-}
-else
-{
-   $oTpl->assign('fields', array(
-       array(
-           'title'     => $strUsername,
-           'fields'    => array(
-               array(
-                   'name'      => 'login',
-                   'label'     => $strUsernameToLink,
-                   'value'     => '',
-                   'id'        => 'user-key'
-               ),
-           )
-       ),
-   ));
-}
-
-
-//var_dump($oTpl);
-//die();
+$oTpl->assign('entityIdName', 'affiliateid');
+$oTpl->assign('entityIdValue', $affiliateid);
 $oTpl->display();
 
 /*-------------------------------------------------------*/

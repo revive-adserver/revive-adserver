@@ -45,7 +45,7 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -75,22 +75,10 @@ if (!isset($orderdirection))
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
-	if (isset($session['prefs']['advertiser-index.php']['listorder']))
-		$navorder = $session['prefs']['advertiser-index.php']['listorder'];
-	else
-		$navorder = '';
-
-	if (isset($session['prefs']['advertiser-index.php']['orderdirection']))
-		$navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
-	else
-		$navdirection = '';
-
-
 	// Get other advertisers
     $doAdvertiser = OA_Dal::factoryDO('clients');
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-		$doAdvertiser->agencyid = OA_Permission::getEntityId();
-    }
+	$doAdvertiser->agencyid = OA_Permission::getEntityId();
+    $doAdvertiser->addSessionListOrderBy('advertiser-index.php');
     $doAdvertiser->find();
 	while ($doAdvertiser->fetch() && $row = $doAdvertiser->toArray())
 	{

@@ -41,7 +41,7 @@ phpAds_registerGlobal ('returnurl', 'agencyid', 'channelid', 'affiliateid');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::checkAccessToObject('channel', $channelid);
+OA_Permission::enforceAccessToObject('channel', $channelid);
 
 
 

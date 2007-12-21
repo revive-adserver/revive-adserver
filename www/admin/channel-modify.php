@@ -40,7 +40,7 @@ phpAds_registerGlobal('newaffiliateid', 'returnurl', 'duplicate');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::checkAccessToObject('channel', $channelid);
+OA_Permission::enforceAccessToObject('channel', $channelid);
 
 $affiliateid    = (int) $affiliateid;
 $channelid      = (int) $channelid;

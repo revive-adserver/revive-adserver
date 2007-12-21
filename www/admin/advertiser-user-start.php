@@ -32,45 +32,39 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
-
-// Register input variables
-phpAds_registerGlobal ('returnurl');
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceAccessToObject('banners', $bannerid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
+
+phpAds_PageHeader("4.1.5.1");
+echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.1"));
+		
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-$doBanners = OA_Dal::factoryDO('banners');
+require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-if (!empty($bannerid)) {
-    $doBanners->bannerid = $bannerid;
-    $doBanners->delete();
-} else if (!empty($campaignid)) {
-    $doBanners->campaignid = $campaignid;
-    $doBanners->delete();
-}
+$oTpl = new OA_Admin_Template('advertiser-user-start.html');
+OA_Admin_UI_UserAccess::assignUserStartTemplateVariables($oTpl);
+$oTpl->assign('action', 'advertiser-user.php');
+$oTpl->assign('entityIdName', 'clientid');
+$oTpl->assign('entityIdValue', $clientid);
+$oTpl->display();
 
-// Run the Maintenance Priority Engine process
-OA_Maintenance_Priority::scheduleRun();
+/*-------------------------------------------------------*/
+/* HTML framework                                        */
+/*-------------------------------------------------------*/
 
-// Rebuild cache
-// include_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-// phpAds_cacheDelete();
-
-if (empty($returnurl)) {
-    $returnurl = 'campaign-banners.php';
-}
-
-header("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid);
+phpAds_PageFooter();
 
 ?>

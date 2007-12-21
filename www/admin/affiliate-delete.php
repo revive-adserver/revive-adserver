@@ -45,8 +45,8 @@ phpAds_registerGlobal ('returnurl');
 $oAdNetworks = new OA_Central_AdNetworks();
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

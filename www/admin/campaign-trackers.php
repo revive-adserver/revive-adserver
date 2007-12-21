@@ -60,9 +60,9 @@ phpAds_registerGlobal (
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 if (!empty($campaignid)) {
-    OA_Permission::checkAccessToObject('campaigns', $campaignid);
+    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 } else {
-    OA_Permission::checkAccessToObject('clients', $clientid);
+    OA_Permission::enforceAccessToObject('clients', $clientid);
 }
 
 // Initalise any tracker based plugins

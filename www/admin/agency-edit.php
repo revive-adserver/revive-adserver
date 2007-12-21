@@ -145,16 +145,6 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($agencyid != '') {
-	if (isset($session['prefs']['agency-index.php']['listorder'])) {
-		$navorder = $session['prefs']['agency-index.php']['listorder'];
-	} else {
-		$navorder = '';
-	}
-	if (isset($session['prefs']['agency-index.php']['orderdirection'])) {
-		$navdirection = $session['prefs']['agency-index.php']['orderdirection'];
-	} else {
-		$navdirection = '';
-	}
 	$doAgency = OA_Dal::factoryDO('agency');
 	$doAgency->find();
 	while ($doAgency->fetch() && $row = $doAgency->toArray()) {

@@ -54,12 +54,12 @@ phpAds_registerGlobalUnslashed('convert', 'cancel', 'compress', 'convert_links',
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
 if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::checkAccessToObject('banners', $bannerid);
-    OA_Permission::checkAccessToObject('campaigns', $campaignid);
-    OA_Permission::checkAccessToObject('clients', $clientid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid);
+    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+    OA_Permission::enforceAccessToObject('clients', $clientid);
 }
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    OA_Permission::checkAccessToObject('banners', $bannerid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid);
     $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->get($bannerid);
     $campaignid = $doBanners->campaignid;
@@ -162,21 +162,10 @@ if (isset($cancel)) {
 /*-------------------------------------------------------*/
 
 if ($bannerid != '') {
-    if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
-        $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
-    } else {
-        $navorder = '';
-    }
-    if (isset($session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'])) {
-        $navdirection = $session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'];
-    } else {
-        $navdirection = '';
-    }
-
     // Get other banners
     $doBanners = OA_Dal::factoryDO('banners');
     $doBanners->campaignid = $campaignid;
-    $doBanners->addListOrderBy($navorder, $navdirection);
+    $doBanners->addSessionListOrderBy('campaign-banners.php');
     $doBanners->find();
 
     while ($doBanners->fetch() && $row = $doBanners->toArray()) {

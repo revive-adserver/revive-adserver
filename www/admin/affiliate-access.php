@@ -35,59 +35,24 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
-
-// Register input variables
-phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
-                               'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
-                               'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
+require_once MAX_PATH . '/lib/OA/Session.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
-
-// Initialise Ad  Networks
-$oAdNetworks = new OA_Central_AdNetworks();
-
-$agencyid = OA_Permission::getAgencyId();
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if ($affiliateid != "") {
+if (!empty($affiliateid)) {
     if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        if (isset($session['prefs']['affiliate-index.php']['listorder'])) {
-            $navorder = $session['prefs']['affiliate-index.php']['listorder'];
-        } else {
-            $navorder = '';
-        }
-        if (isset($session['prefs']['affiliate-index.php']['orderdirection'])) {
-            $navdirection = $session['prefs']['affiliate-index.php']['orderdirection'];
-        } else {
-            $navdirection = '';
-        }
-        // Get other affiliates
-
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $doAffiliates->agencyid = $agencyid;
-        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            $doAffiliates->affiliateid = $affiliateid;
-        }
-        $doAffiliates->addListOrderBy($navorder, $navdirection);
-        $doAffiliates->find();
-        while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
-            phpAds_PageContext(
-                phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
-                "affiliate-edit.php?affiliateid=".$row['affiliateid'],
-                $affiliateid == $row['affiliateid']
-            );
-        }
+        OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-access.php');
         phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
         phpAds_PageHeader("4.2.7");
         echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
@@ -95,19 +60,6 @@ if ($affiliateid != "") {
     } else {
         $sections = array('4.1', '4.7');
         phpAds_ShowSections($sections);
-    }
-    // Do not get this information if the page
-    // is the result of an error message
-    if (!isset($affiliate)) {
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        if ($doAffiliates->get($affiliateid)) {
-            $affiliate = $doAffiliates->toArray();
-        }
-
-        // Set password to default value
-        if ($affiliate['password'] != '') {
-            $affiliate['password'] = '********';
-        }
     }
 } else {
     phpAds_PageHeader("4.2.1");
@@ -124,28 +76,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-access.html');
 
-// TODOPERM - assign info messages here
-$oTpl->assign('infomessage', '');
-
-$oTpl->assign('error', $oPublisherDll->_errorMessage);
-
+$oTpl->assign('infomessage', OA_Session::getMessage());
 $oTpl->assign('affiliateid', $affiliateid);
-$oTpl->assign('move', $move);
-
 $doUsers = OA_Dal::factoryDO('users');
-$doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
-$doAccount_user_assoc->account_id =
-    OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
-$doUsers->joinAdd($doAccount_user_assoc);
-$doUsers->find();
-$aUsers = array();
-while($doUsers->fetch()) {
-    $aUsers[$doUsers->user_id] = $doUsers->toArray();
-    // is user linked to his last account
-    $aUsers[$doUsers->user_id]['toDelete'] = ($doUsers->countLinkedAccounts() == 1);
-}
-$oTpl->assign('users', array('aUsers' => $aUsers));
-
+$oTpl->assign('users', array('aUsers' => $doUsers->getAccountUsersByEntity('affiliates', $affiliateid)));
 $oTpl->display();
 
 /*-------------------------------------------------------*/

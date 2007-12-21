@@ -35,6 +35,7 @@ require_once '../../init.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
@@ -196,40 +197,11 @@ if (isset($submit)) {
 
 if ($clientid != "") {
 	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-		if (isset($session['prefs']['advertiser-index.php']['listorder'])) {
-			$navorder = $session['prefs']['advertiser-index.php']['listorder'];
-		} else {
-			$navorder = '';
-		}
-		if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
-			$navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
-		} else {
-			$navdirection = '';
-		}
-
-		// Get other clients
-		$doClients = OA_Dal::factoryDO('clients');
-
-		// Unless admin, restrict results
-		if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $doClients->agencyid = OA_Permission::getEntityId();
-		}
-
-        $doClients->addListorderBy($navorder, $navdirection);
-        $doClients->find();
-
-		while ($doClients->fetch() && $row = $doClients->toArray()) {
-			phpAds_PageContext(
-				phpAds_buildName ($row['clientid'], $row['clientname']),
-				"advertiser-edit.php?clientid=".$row['clientid'],
-				$clientid == $row['clientid']
-			);
-		}
+		OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-index.php');
 		phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 		phpAds_PageHeader("4.1.2");
 		echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-		phpAds_ShowSections(array("4.1.2", "4.1.3"//, "4.1.4"
-		));
+		phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));
 	} else {
 		phpAds_PageHeader("4");
 	}

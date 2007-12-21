@@ -43,7 +43,7 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !is_numeric($clientid)) {
     header("Location: advertiser-index.php");
@@ -52,19 +52,6 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !is_numeric($clientid)) {
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
-if (isset($session['prefs']['advertiser-index.php']['listorder'])) {
-    $navorder = $session['prefs']['advertiser-index.php']['listorder'];
-} else {
-    $navorder = '';
-}
-
-if (isset($session['prefs']['advertiser-index.php']['orderdirection'])) {
- $session['prefs']['advertiser-index.php']['orderdirection'];
-    $navdirection = $session['prefs']['advertiser-index.php']['orderdirection'];
-} else {
-	$navdirection = '';
-}
 
 // Get other clients
 $doClients = OA_Dal::factoryDO('clients');
@@ -76,7 +63,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     $doClients->clientid = OA_Permission::getEntityId();
 }
 
-$doClients->addListOrderBy($navorder, $navdirection);
+$doClients->addSessionListOrderBy('advertiser-index.php');
 $doClients->find();
 
 while ($doClients->fetch() && $row = $doClients->toArray()) {

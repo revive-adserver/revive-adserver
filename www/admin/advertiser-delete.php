@@ -41,7 +41,7 @@ phpAds_registerGlobal ('returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
-OA_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Restore cache of $node_array, if it exists            */

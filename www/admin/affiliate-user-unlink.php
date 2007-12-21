@@ -35,19 +35,17 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
+require_once MAX_PATH . '/lib/OA/Session.php';
 
 // Register input variables
 phpAds_registerGlobal ('login', 'returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 $accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
-OA_Permission::enforceAccess($accountId, $userid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -55,20 +53,26 @@ OA_Permission::enforceAccess($accountId, $userid);
 
 if (!empty($affiliateid) && !empty($userid))
 {
-	$doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
-	$doAccount_user_assoc->account_id = $accountId;
-	$doAccount_user_assoc->user_id = $userid;
-	$doAccount_user_assoc->delete();
-	
-	$doUsers = OA_Dal::staticGetDO('users', $userid);
-	// delete user account if he is not linked anymore to any account
-	if ($doUsers->countLinkedAccounts() == 0) {
-	    $doUsers->delete();
-	}
+    if (OA_Permission::isUserLinkedToAccount($accountId, $userid)) {
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_assoc->account_id = $accountId;
+        $doAccount_user_assoc->user_id = $userid;
+        $doAccount_user_assoc->delete();
+        OA_Session::setMessage('User was unlinked from account');
+        
+        $doUsers = OA_Dal::staticGetDO('users', $userid);
+        // delete user account if he is not linked anymore to any account
+        if ($doUsers->countLinkedAccounts() == 0) {
+            $doUsers->delete();
+            OA_Session::setMessage('User was deleted');
+        }
+    } else {
+        OA_Session::setMessage('Such user is not linked with account');
+    }
 }
 
 if (empty($returnurl)) {
-	$returnurl = 'affiliate-access.php?affiliateid='.$affiliateid;
+    $returnurl = 'affiliate-access.php?affiliateid='.$affiliateid;
 }
 
 Header("Location: ".$returnurl);

@@ -41,7 +41,7 @@ phpAds_registerGlobal ('acl', 'action', 'submit');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 
 // Initialise some parameters

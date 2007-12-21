@@ -313,6 +313,31 @@ class DB_DataObjectCommon extends DB_DataObject
     }
 
     /**
+     * Reads the correct sorting order from session and calls addListOrderBy() 
+     *
+     * This method is used as a common way of sorting rows in OpenAds UI
+     *
+     * @see MAX_Dal_Common::addListOrderBy
+     * @param string $pageName  Page name where session sorting data is kept
+     * @access public
+     */
+    function addSessionListOrderBy($pageName)
+    {
+        global $session;
+        if (isset($session['prefs'][$pageName]['listorder'])) {
+			$navorder = $session['prefs'][$pageName]['listorder'];
+		} else {
+			$navorder = '';
+		}
+		if (isset($session['prefs'][$pageName]['orderdirection'])) {
+			$navdirection = $session['prefs'][$pageName]['orderdirection'];
+		} else {
+			$navdirection = '';
+		}
+		$this->addListOrderBy($navorder, $navdirection);
+    }
+
+    /**
      * This method is a equivalent of phpAds_getFooListOrder
      * It adds orderBy() limitations to current DB_DataObject
      *
@@ -323,7 +348,7 @@ class DB_DataObjectCommon extends DB_DataObject
      * @param string $direction
      * @access public
      */
-    function addListOrderBy($listOrder, $orderDirection)
+    function addListOrderBy($listOrder = '', $orderDirection = '')
     {
         $dalModel = &$this->factoryDAL();
         if (!$dalModel) {

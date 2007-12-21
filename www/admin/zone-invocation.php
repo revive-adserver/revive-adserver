@@ -46,22 +46,11 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_T
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-OA_Permission::checkAccessToObject('zones', $zoneid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
-if (isset($session['prefs']['affiliate-zones.php']['listorder'])) {
-    $navorder = $session['prefs']['affiliate-zones.php']['listorder'];
-} else {
-    $navorder = '';
-}
-if (isset($session['prefs']['affiliate-zones.php']['orderdirection'])) {
-    $navdirection = $session['prefs']['affiliate-zones.php']['orderdirection'];
-} else {
-    $navdirection = '';
-}
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);

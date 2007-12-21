@@ -32,35 +32,25 @@ $Id: affiliate-edit.php 12839 2007-11-27 16:32:39Z bernard.lange@openads.org $
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
-require_once MAX_PATH . '/lib/OA/Central/AdNetworks.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
 require_once MAX_PATH . '/lib/OA/Session.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('login', 'passwd', 'move', 'link', 'name', 'website', 'contact_name', 'email_address', 'language', 'adnetworks', 'advsignup',
-                               'errormessage', 'affiliateusername', 'affiliatepassword', 'affiliatepermissions', 'submit',
-                               'publiczones_old', 'pwold', 'pw', 'pw2', 'formId', 'category', 'country', 'language');
+phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'email_address', 'permissions', 'submit');
 
 // Security check
+// TODOPERM - should we add here some additional or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 $accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
-if (!empty($userid)) {
-//    OA_Permission::enforceAccess($accountId, $userid); // TODOPERM - is it necessary?
-}
-
-// Initialise Ad  Networks
-$agencyid = OA_Permission::getAgencyId();
 
 if (!empty($submit)) {
+    // link a user to account
     $doUsers = OA_Dal::factoryDO('users');
     $userExists = $doUsers->fetchUserByUserName($login);
     $doUsers->contact_name = $contact_name;
@@ -75,8 +65,13 @@ if (!empty($submit)) {
     if (!$userid) {
         OA_Session::setMessage('Error while creating user:' . $login);
     } else {
+        if (!OA_Permission::isUserLinkedToAccount($accountId, $userid)) {
+            OA_Session::setMessage('User was linked with account');
+        } else {
+            OA_Session::setMessage('User account updated');
+        }
         OA_Permission::setAccountAccess($accountId, $userid);
-        OA_Permission::storeUserAccountsPermissions($affiliatepermissions, $accountId, $userid);
+        OA_Permission::storeUserAccountsPermissions($permissions, $accountId, $userid);
         MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
     }
 }
@@ -88,7 +83,7 @@ if (!empty($submit)) {
 
 phpAds_PageHeader("4.2.7.2");
 echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-phpAds_ShowSections(array("4.2.7.2"));
+phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7", "4.2.7.2"));
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -104,21 +99,16 @@ $oTpl->assign('method', 'POST');
 $HOSTED = false;
 $oTpl->assign('hosted', $HOSTED);
 
-// TODO: indicates whether the user exists (otherwise, a new user will be created or invitation sent)
+// indicates whether the user exists (otherwise, a new user will be created or invitation sent)
 $existingUser = !empty($userid);
 $oTpl->assign('existingUser', !empty($userid));
 
-// TODOPERM: indicates whether the form is in editing user properties mode
+// indicates whether the form is in editing user properties mode
 // (linked from the "Permissions" link in the User Access table)
 // Alternatively, we may want to have two separate templates/php files for these
 // with common parts included from another template
 $oTpl->assign('editMode', !$link);
-
-$oTpl->assign('error', $oPublisherDll->_errorMessage);
-
 $oTpl->assign('affiliateid', $affiliateid);
-
-$userDetailsFields = array();
 
 $doUsers = OA_Dal::staticGetDO('users', $userid);
 $affiliate = array();
@@ -126,56 +116,6 @@ if ($doUsers) {
     $affiliate = $doUsers->toArray();
 } else {
     $affiliate['username'] = $login;
-}
-
-if ($HOSTED) {
-   $userDetailsFields[] = array(
-                  'name'      => 'email_address',
-                  'label'     => $strEMail,
-                  'value'     => 'test@test.com', // TODO: put e-mail here
-                  'freezed'   => true
-              );
-
-   if ($existingUser) {
-      $userDetailsFields[] = array(
-                   'type'      => 'custom',
-                   'template'  => 'link',
-                   'label'     => $strPwdRecReset,
-                   'href'      => 'user-password-reset.php', // TODO: put the actual password resetting script here
-                   'text'      => $strPwdRecResetPwdThisUser
-               );
-   }
-   else {
-      $userDetailsFields[] = array(
-                   'name'      => 'contact',
-                   'label'     => $strContactName,
-                   'value'     => $affiliate['contact']
-               );
-   }
-}
-else {
-   $userDetailsFields[] = array(
-                   'name'      => 'login',
-                   'label'     => $strUsername,
-                   'value'     => $affiliate['username'],
-                   'freezed'   => $existingUser
-               );
-   $userDetailsFields[] = array(
-                   'name'      => 'passwd',
-                   'label'     => $strPassword,
-                   'value'     => '',
-                   'hidden'   => $existingUser
-               );
-   $userDetailsFields[] = array(
-                   'name'      => 'contact_name',
-                   'label'     => $strContactName,
-                   'value'     => $affiliate['contact_name'],
-               );
-   $userDetailsFields[] = array(
-                   'name'      => 'email_address',
-                   'label'     => $strEMail,
-                   'value'     => $affiliate['email_address']
-               );
 }
 
 $oTpl->assign('hiddenFields', array(
@@ -197,63 +137,63 @@ $oTpl->assign('hiddenFields', array(
 $oTpl->assign('fields', array(
     array(
         'title'     => $strUserDetails,
-        'fields'    => $userDetailsFields
+        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($affiliate)
     ),
     array(
         'title'     => $strPermissions,
         'fields'    => array(
             array(
-                'name'      => 'affiliatepermissions[]',
+                'name'      => 'permissions[]',
                 'label'     => $strAllowAffiliateModifyZones,
                 'type'      => 'checkbox',
                 'value'     => OA_PERM_ZONE_EDIT,
                 'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_EDIT, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_EDIT,
+                'id'        => 'permissions_'.OA_PERM_ZONE_EDIT,
                 'onclick'   => 'MMM_cascadePermissionsChange()'
             ),
             array(
-                'name'      => 'affiliatepermissions[]',
+                'name'      => 'permissions[]',
                 'label'     => $strAllowAffiliateAddZone,
                 'type'      => 'checkbox',
                 'value'     => OA_PERM_ZONE_ADD,
                 'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_ADD, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_ADD,
+                'id'        => 'permissions_'.OA_PERM_ZONE_ADD,
                 'indent'    => true
             ),
             array(
-                'name'      => 'affiliatepermissions[]',
+                'name'      => 'permissions[]',
                 'label'     => $strAllowAffiliateDeleteZone,
                 'type'      => 'checkbox',
                 'value'     => OA_PERM_ZONE_DELETE,
                 'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_DELETE, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_DELETE,
+                'id'        => 'permissions_'.OA_PERM_ZONE_DELETE,
                 'indent'    => true
             ),
             array(
-                'name'      => 'affiliatepermissions[]',
+                'name'      => 'permissions[]',
                 'label'     => $strAllowAffiliateLinkBanners,
                 'type'      => 'checkbox',
                 'value'     => OA_PERM_ZONE_LINK,
                 'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_LINK, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_LINK
+                'id'        => 'permissions_'.OA_PERM_ZONE_LINK
             ),
             array(
-                'name'      => 'affiliatepermissions[]',
+                'name'      => 'permissions[]',
                 'label'     => $strAllowAffiliateGenerateCode,
                 'type'      => 'checkbox',
                 'value'     => OA_PERM_ZONE_INVOCATION,
                 'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION, $accountId, $userid),
                 'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
                 'break'     => false,
-                'id'        => 'affiliatepermissions_'.OA_PERM_ZONE_INVOCATION
+                'id'        => 'permissions_'.OA_PERM_ZONE_INVOCATION
             ),
         )
     )
@@ -269,9 +209,9 @@ $oTpl->display();
 <?php if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) { ?>
     function MMM_cascadePermissionsChange()
     {
-        var e = findObj('affiliatepermissions_<?php echo OA_PERM_ZONE_EDIT; ?>');
-        var a = findObj('affiliatepermissions_<?php echo OA_PERM_ZONE_ADD; ?>');
-        var d = findObj('affiliatepermissions_<?php echo OA_PERM_ZONE_DELETE; ?>');
+        var e = findObj('permissions_<?php echo OA_PERM_ZONE_EDIT; ?>');
+        var a = findObj('permissions_<?php echo OA_PERM_ZONE_ADD; ?>');
+        var d = findObj('permissions_<?php echo OA_PERM_ZONE_DELETE; ?>');
 
         a.disabled = d.disabled = !e.checked;
         if (!e.checked) {

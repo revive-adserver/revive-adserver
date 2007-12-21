@@ -1,6 +1,5 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
@@ -26,51 +25,7 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
-// Require the initialisation file
-require_once '../../init.php';
+-->*}
 
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-storage.inc.php';
-require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
-
-// Register input variables
-phpAds_registerGlobal ('returnurl');
-
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceAccessToObject('banners', $bannerid);
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-$doBanners = OA_Dal::factoryDO('banners');
-
-if (!empty($bannerid)) {
-    $doBanners->bannerid = $bannerid;
-    $doBanners->delete();
-} else if (!empty($campaignid)) {
-    $doBanners->campaignid = $campaignid;
-    $doBanners->delete();
-}
-
-// Run the Maintenance Priority Engine process
-OA_Maintenance_Priority::scheduleRun();
-
-// Rebuild cache
-// include_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-// phpAds_cacheDelete();
-
-if (empty($returnurl)) {
-    $returnurl = 'campaign-banners.php';
-}
-
-header("Location: ".$returnurl."?clientid=".$clientid."&campaignid=".$campaignid);
-
-?>
+{include file=user-link-start.html fields=$fields}

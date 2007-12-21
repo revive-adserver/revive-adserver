@@ -46,6 +46,7 @@ class OA_Session
      */
     function setMessage($message)
     {
+        global $session;
         $session['message'] = $message;
         phpAds_SessionDataStore();
     }
@@ -59,7 +60,10 @@ class OA_Session
     function getMessage()
     {
         global $session;
-        return $session['message'];
+        $message = isset($session['message']) ? $session['message'] : null;
+        unset($session['message']);
+        phpAds_SessionDataStore();
+        return $message;
     }
     
 }

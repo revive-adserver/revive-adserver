@@ -135,18 +135,6 @@ if (isset($submitbutton)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (isset($session['prefs']['campaign-banners.php'][$campaignid]['listorder'])) {
-    $navorder = $session['prefs']['campaign-banners.php'][$campaignid]['listorder'];
-} else {
-    $navorder = '';
-}
-
-if (isset($session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'])) {
-    $navdirection = $session['prefs']['campaign-banners.php'][$campaignid]['orderdirection'];
-} else {
-    $navdirection = '';
-}
-
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;

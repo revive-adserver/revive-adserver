@@ -47,7 +47,7 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* Get preferences                                       */
@@ -74,21 +74,9 @@ if (!isset($orderdirection)) {
 /*-------------------------------------------------------*/
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    if (isset($session['prefs']['affiliate-index.php']['listorder'])) {
-        $navorder = $session['prefs']['affiliate-index.php']['listorder'];
-    } else {
-        $navorder = '';
-    }
-
-    if (isset($session['prefs']['affiliate-index.php']['orderdirection'])) {
-        $navdirection = $session['prefs']['affiliate-index.php']['orderdirection'];
-    } else {
-        $navdirection = '';
-    }
-
     // Get other affiliates
     $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $doAffiliates->addListorderBy($navorder, $navdirection);
+    $doAffiliates->addSessionListOrderBy('affiliate-index.php');
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
         $doAffiliates->agencyid = $agencyid;

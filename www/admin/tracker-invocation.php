@@ -80,18 +80,9 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($trackerid != "") {
-	if (isset($session['prefs']['advertiser-trackers.php'][$clientid]['listorder'])) {
-		$navorder = $session['prefs']['advertiser-trackers.php'][$clientid]['listorder'];
-	} else {
-		$navorder = '';
-	}
-	if (isset($session['prefs']['advertiser-trackers.php'][$clientid]['orderdirection'])) {
-		$navdirection = $session['prefs']['advertiser-trackers.php'][$clientid]['orderdirection'];
-	} else {
-		$navdirection = '';
-	}
 	// Get other trackers
 	$doTrackers = OA_Dal::factoryDO('trackers');
+	$doTrackers->addSessionListOrderBy('advertiser-trackers.php');
 	$doTrackers->clientid = $clientid;
 	$doTrackers->find();
 

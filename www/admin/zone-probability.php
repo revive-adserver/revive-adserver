@@ -44,27 +44,17 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::checkAccessToObject('zones', $zoneid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     $affiliateid = OA_Permission::getEntityId();
 } elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 }
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
-
-if (isset($session['prefs']['affiliate-zones.php']['listorder']))
-    $navorder = $session['prefs']['affiliate-zones.php']['listorder'];
-else
-    $navorder = '';
-
-if (isset($session['prefs']['affiliate-zones.php']['orderdirection']))
-    $navdirection = $session['prefs']['affiliate-zones.php']['orderdirection'];
-else
-    $navdirection = '';
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);

@@ -44,7 +44,7 @@ phpAds_registerGlobalUnslashed('name', 'description', 'comments', 'submit', 'age
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::checkAccessToObject('channel', $channelid);
+OA_Permission::enforceAccessToObject('channel', $channelid);
 
 $pageName = basename($_SERVER['PHP_SELF']);
 $agencyId = OA_Permission::getAgencyId();

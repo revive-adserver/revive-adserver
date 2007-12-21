@@ -45,10 +45,10 @@ phpAds_registerGlobal ('returnurl');
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 if (!empty($campaignid)) {
-    OA_Permission::checkAccessToObject('campaigns', $campaignid);
+    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 }
 if (!empty($clientid)) {
-    OA_Permission::checkAccessToObject('clients', $clientid);
+    OA_Permission::enforceAccessToObject('clients', $clientid);
 }
 
 /*-------------------------------------------------------*/

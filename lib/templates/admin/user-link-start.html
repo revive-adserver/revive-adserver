@@ -75,10 +75,10 @@ var HOSTED = {if $hosted}true{else}false{/if};
 //-->{/literal}
 </script>
 
-<form action="affiliate-user.php">
+<form action="{$action}">
   {include file=edit-table/create.html from=$fields}
   
-  {if $affiliateid}<input type="hidden" name="affiliateid" value="{$affiliateid}" />{/if}
+  <input type="hidden" name="{$entityIdName}" value="{$entityIdValue}" />
   <input type="hidden" name="link" value="1" />
 
   <div class="controls">

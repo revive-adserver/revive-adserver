@@ -40,14 +40,15 @@ require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/OA/Dll/Publisher.php';
+require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', 'language', 'adnetworks', 'advsignup',
                                'errormessage', 'submit', 'publiczones_old', 'formId', 'category', 'country', 'language');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::checkAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 // Initialise Ad  Networks
 $oAdNetworks = new OA_Central_AdNetworks();
@@ -105,34 +106,8 @@ if (isset($formId)) {
 /*-------------------------------------------------------*/
 
 if ($affiliateid != "") {
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        if (isset($session['prefs']['affiliate-index.php']['listorder'])) {
-            $navorder = $session['prefs']['affiliate-index.php']['listorder'];
-        } else {
-            $navorder = '';
-        }
-        if (isset($session['prefs']['affiliate-index.php']['orderdirection'])) {
-            $navdirection = $session['prefs']['affiliate-index.php']['orderdirection'];
-        } else {
-            $navdirection = '';
-        }
-        // Get other affiliates
-
-        $doAffiliates = OA_Dal::factoryDO('affiliates');
-        if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            $doAffiliates->agencyid = $agencyid;
-        } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            $doAffiliates->affiliateid = $affiliateid;
-        }
-        $doAffiliates->addListOrderBy($navorder, $navdirection);
-        $doAffiliates->find();
-        while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
-            phpAds_PageContext(
-                phpAds_buildAffiliateName ($row['affiliateid'], $row['name']),
-                "affiliate-edit.php?affiliateid=".$row['affiliateid'],
-                $affiliateid == $row['affiliateid']
-            );
-        }
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
         phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
         phpAds_PageHeader("4.2.2");
         echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";

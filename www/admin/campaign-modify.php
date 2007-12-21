@@ -46,9 +46,9 @@ phpAds_registerGlobal ('campaignid', 'clientid', 'newclientid', 'returnurl', 'du
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
 if (!empty($newclientid)) {
-    OA_Permission::checkAccessToObject('campaigns', $campaignid);
-    OA_Permission::checkAccessToObject('clients', $clientid);
-    OA_Permission::checkAccessToObject('clients', $newclientid);
+    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+    OA_Permission::enforceAccessToObject('clients', $clientid);
+    OA_Permission::enforceAccessToObject('clients', $newclientid);
 }
 
 /*-------------------------------------------------------*/

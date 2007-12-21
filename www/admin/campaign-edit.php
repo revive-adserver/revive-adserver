@@ -89,7 +89,7 @@ phpAds_registerGlobalUnslashed(
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::checkAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -321,18 +321,6 @@ if (isset($submit_status)) {
 /*-------------------------------------------------------*/
 
 if ($campaignid != "") {
-    if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['listorder'])) {
-        $navorder = $session['prefs']['advertiser-campaigns.php'][$clientid]['listorder'];
-    } else {
-        $navorder = '';
-    }
-
-    if (isset($session['prefs']['advertiser-campaigns.php'][$clientid]['orderdirection'])) {
-        $navdirection = $session['prefs']['advertiser-campaigns.php'][$clientid]['orderdirection'];
-    } else {
-        $navdirection = '';
-    }
-
     // Initialise some parameters
     $pageName = basename($_SERVER['PHP_SELF']);
     $tabindex = 1;

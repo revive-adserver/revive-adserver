@@ -104,6 +104,21 @@ class OA_Permission
 {
 
     /**
+     * Helper method which checks whether $condition is true, if it is not true
+     * it prints to the end user error message
+     *
+     * @static
+     * @param boolean $condition  Condition to check
+     */
+    function enforceTrue($condition)
+    {
+        if (!$condition) {
+            phpAds_PageHeader(0);
+            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+        }
+    }
+
+    /**
      * A method to show an error if the currently active account of an user
      * doesn't match
      *
@@ -116,10 +131,7 @@ class OA_Permission
     function enforceAccount($accountType)
     {
         $aArgs = is_array($accountType) ? $accountType : func_get_args();
-        if (!OA_Permission::isAccount($aArgs)) {
-            phpAds_PageHeader(0);
-            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        OA_Permission::enforceTrue(OA_Permission::isAccount($aArgs));
     }
 
     /**
@@ -129,13 +141,11 @@ class OA_Permission
      * @static
      * @param int $accountId
      * @param int $userId  Get current user if null
+     * @return boolean True if user has access
      */
     function enforceAccess($accountId, $userId = null)
     {
-        if (!OA_Permission::hasAccess($accountId, $userId)) {
-            phpAds_PageHeader('2');
-            phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
-        }
+        OA_Permission::enforceTrue(OA_Permission::hasAccess($accountId, $userId));
         return true;
     }
 
@@ -149,16 +159,12 @@ class OA_Permission
      */
     function enforceAllowed($permission, $accountId = null)
     {
-        // FIXME - always allow, temporal hack before it will be possible
+        // TODOPERM - always allow, temporal hack before it will be possible
         //         to assign permissions to users in UI
         return true;
 
-        if (OA_Permission::hasPermission($permission, $accountId)) {
-            return true;
-        }
-
-        phpAds_PageHeader('2');
-        phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+        OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
+        return true;
     }
 
     /**
@@ -172,12 +178,8 @@ class OA_Permission
      */
     function enforceAccessToObject($objectTable, $objectId, $accountId = null)
     {
-        if (OA_Permission::hasAccessToObject($objectTable, $objectId, $accountId)) {
-            return true;
-        }
-
-        phpAds_PageHeader('2');
-        phpAds_Die($GLOBALS['strAccessDenied'], $GLOBALS['strNotAdmin']);
+        OA_Permission::enforceTrue(OA_Permission::hasAccessToObject($objectTable, $objectId, $accountId));
+        return true;
     }
 
     /**
@@ -320,10 +322,24 @@ class OA_Permission
         if (empty($userId)) {
             $userId = OA_Permission::getUserId();
         }
+        return OA_Permission::isUserLinkedToAccount($accountId, $userId)
+            || OA_Permission::isUserLinkedToAdmin();
+    }
+    
+    /**
+     * A method to check if the user is linked to an account
+     * 
+     * @static
+     * @param int $accountId
+     * @param int $userId
+     * @return boolean
+     */
+    function isUserLinkedToAccount($accountId, $userId)
+    {
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->user_id = $userId;
         $doAccount_user_Assoc->account_id = $accountId;
-        return (bool) $doAccount_user_Assoc->count() || OA_Permission::isUserLinkedToAdmin();
+        return (bool) $doAccount_user_Assoc->count();
     }
     
     /**
@@ -424,9 +440,7 @@ class OA_Permission
             $aAccountsByType[$doAccount_user_Assoc->account_type][$doAccount_user_Assoc->account_id] =
                 $doAccount_user_Assoc->account_name;
         }
-        if (OA_Permission::isUserLinkedToAdmin()) {
-            $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
-        }
+        $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
         if (!$groupByType) {
             $aAccounts = array();
             foreach ($aAccountsByType as $accountType => $aAccount) {
@@ -651,22 +665,6 @@ class OA_Permission
         return $uniqueUsers;
     }
 
-	/**
-	 * Checks the user is allowed to access the requested object.
-	 *
-     * @static
-	 * @param string $objectTable  the DB table of object
-	 * @param int $id  the primary key of object
-	 */
-	function checkAccessToObject($objectTable, $id)
-	{
-		if (!OA_Permission::hasAccessToObject($objectTable, $id)) {
-			global $strNotAdmin, $strAccessDenied;
-			phpAds_PageHeader("2");
-			phpAds_Die($strAccessDenied, $strNotAdmin);
-		}
-	}
-	
 	/**
 	 * Store user rights per account
 	 *
