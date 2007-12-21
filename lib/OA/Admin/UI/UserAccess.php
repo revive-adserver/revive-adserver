@@ -72,7 +72,13 @@ class OA_Admin_UI_UserAccess
         }
     }
     
-    function getUserDetailsFields($affiliate)
+    /**
+     * Set user details fields required by user access (edit) pages
+     *
+     * @param array $userData  Array containing users data (see users table)
+     * @return array  Array formatted for use in template object as in user access pages
+     */
+    function getUserDetailsFields($userData)
     {
         
         if ($HOSTED) {
@@ -96,7 +102,7 @@ class OA_Admin_UI_UserAccess
               $userDetailsFields[] = array(
                            'name'      => 'contact',
                            'label'     => $GLOBALS['strContactName'],
-                           'value'     => $affiliate['contact']
+                           'value'     => $userData['contact']
                        );
            }
         }
@@ -104,27 +110,100 @@ class OA_Admin_UI_UserAccess
            $userDetailsFields[] = array(
                            'name'      => 'login',
                            'label'     => $GLOBALS['strUsername'],
-                           'value'     => $affiliate['username'],
-                           'freezed'   => !empty($affiliate['user_id'])
+                           'value'     => $userData['username'],
+                           'freezed'   => !empty($userData['user_id'])
                        );
            $userDetailsFields[] = array(
                            'name'      => 'passwd',
                            'label'     => $GLOBALS['strPassword'],
                            'value'     => '',
-                           'hidden'   => !empty($affiliate['user_id'])
+                           'hidden'   => !empty($userData['user_id'])
                        );
            $userDetailsFields[] = array(
                            'name'      => 'contact_name',
                            'label'     => $GLOBALS['strContactName'],
-                           'value'     => $affiliate['contact_name'],
+                           'value'     => $userData['contact_name'],
                        );
            $userDetailsFields[] = array(
                            'name'      => 'email_address',
                            'label'     => $GLOBALS['strEMail'],
-                           'value'     => $affiliate['email_address']
+                           'value'     => $userData['email_address']
                        );
         }
         return $userDetailsFields;
+    }
+    
+    /**
+     * Unlinks user from account and if necessary deletes user account.
+     * Sets apropriate message
+     *
+     * @param integer $accountId  Account ID
+     * @param integer $userId  User ID
+     */
+    function unlinkUserFromAccount($accountId, $userId)
+    {
+        if (OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
+            $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+            $doAccount_user_assoc->account_id = $accountId;
+            $doAccount_user_assoc->user_id = $userId;
+            $doAccount_user_assoc->delete();
+            OA_Session::setMessage('User was unlinked from account');
+            
+            $doUsers = OA_Dal::staticGetDO('users', $userId);
+            // delete user account if he is not linked anymore to any account
+            if ($doUsers->countLinkedAccounts() == 0) {
+                $doUsers->delete();
+                OA_Session::setMessage('User was deleted');
+            }
+        } else {
+            OA_Session::setMessage('Such user is not linked with account');
+        }
+    }
+    
+    /**
+     * Method used in user access pages. Either creates new user if necessary or update existing one.
+     *
+     * @param string $login  User name
+     * @param string $password  Password
+     * @param string $contactName  Contact name
+     * @param string $emailAddress  Email address
+     * @return integer  User ID or false on error
+     */
+    function saveUser($login, $password, $contactName, $emailAddress)
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        $userExists = $doUsers->fetchUserByUserName($login);
+        $doUsers->contact_name = $contactName;
+        $doUsers->email_address = $emailAddress;
+        if ($userExists) {
+            $doUsers->update();
+            return $doUsers->user_id;
+        } else {
+            $doUsers->password = md5($passwd);
+            return $doUsers->insert();
+        }
+    }
+    
+    /**
+     * Links user with account and set apropriate messages.
+     * Common method reused across user access pages
+     *
+     * @param integer $userId  User ID
+     * @param integer $accountId  Account ID
+     */
+    function linkUserToAccount($userId, $accountId, $permissions)
+    {
+        if (empty($userId)) {
+            OA_Session::setMessage('Error while creating user:' . $login);
+        } else {
+            if (!OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
+                OA_Session::setMessage('User was linked with account');
+            } else {
+                OA_Session::setMessage('User account updated');
+            }
+            OA_Permission::setAccountAccess($accountId, $userId);
+            OA_Permission::storeUserAccountsPermissions($permissions, $accountId, $userId);
+        }
     }
     
 }

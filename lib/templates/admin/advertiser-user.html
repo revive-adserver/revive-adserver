@@ -1,6 +1,5 @@
-<?php
+{*<!--
 
-/*
 +---------------------------------------------------------------------------+
 | Openads v${RELEASE_MAJOR_MINOR}                                                              |
 | ============                                                              |
@@ -26,41 +25,7 @@
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
 $Id$
-*/
 
+-->*}
 
-// Require the initialisation file
-require_once '../../init.php';
-
-// Required files
-require_once MAX_PATH . '/lib/OA/Dal.php';
-require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/lib/OA/Session.php';
-require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
-
-// Register input variables
-phpAds_registerGlobal ('login', 'returnurl');
-
-// Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-$accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
-
-/*-------------------------------------------------------*/
-/* Main code                                             */
-/*-------------------------------------------------------*/
-
-if (!empty($accountId) && !empty($userid))
-{
-    OA_Admin_UI_UserAccess::unlinkUserFromAccount($accountId, $userid);
-}
-
-if (empty($returnurl)) {
-    $returnurl = 'affiliate-access.php?affiliateid='.$affiliateid;
-}
-
-Header("Location: ".$returnurl);
-
-?>
+{include file=user-link.html fields=$fields}

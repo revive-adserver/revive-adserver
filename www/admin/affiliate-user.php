@@ -44,36 +44,19 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 // Security check
 // TODOPERM - should we add here some additional or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-$accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
+
+$entityName = 'affiliates';
+$entityId = $affiliateid;
+OA_Permission::enforceAccessToObject($entityName, $entityId);
+$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
+
 if (!empty($submit)) {
-    // link a user to account
-    $doUsers = OA_Dal::factoryDO('users');
-    $userExists = $doUsers->fetchUserByUserName($login);
-    $doUsers->contact_name = $contact_name;
-    $doUsers->email_address = $email_address;
-    if ($userExists) {
-        $doUsers->update();
-    } else {
-        $doUsers->password = md5($passwd);
-        $userid = $doUsers->insert();
-    }
-    
-    if (!$userid) {
-        OA_Session::setMessage('Error while creating user:' . $login);
-    } else {
-        if (!OA_Permission::isUserLinkedToAccount($accountId, $userid)) {
-            OA_Session::setMessage('User was linked with account');
-        } else {
-            OA_Session::setMessage('User account updated');
-        }
-        OA_Permission::setAccountAccess($accountId, $userid);
-        OA_Permission::storeUserAccountsPermissions($permissions, $accountId, $userid);
-        MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
-    }
+    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
+    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
+    MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
 }
 
 
@@ -93,6 +76,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user.html');
 $oTpl->assign('action', 'affiliate-user.php');
+$oTpl->assign('backUrl', 'affiliate-user-start.php?affiliate='.$entityId);
 $oTpl->assign('method', 'POST');
 
 // TODO: will need to know whether we're hosted or downloaded
@@ -111,11 +95,11 @@ $oTpl->assign('editMode', !$link);
 $oTpl->assign('affiliateid', $affiliateid);
 
 $doUsers = OA_Dal::staticGetDO('users', $userid);
-$affiliate = array();
+$userData = array();
 if ($doUsers) {
-    $affiliate = $doUsers->toArray();
+    $userData = $doUsers->toArray();
 } else {
-    $affiliate['username'] = $login;
+    $userData['username'] = $login;
 }
 
 $oTpl->assign('hiddenFields', array(
@@ -137,7 +121,7 @@ $oTpl->assign('hiddenFields', array(
 $oTpl->assign('fields', array(
     array(
         'title'     => $strUserDetails,
-        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($affiliate)
+        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
     ),
     array(
         'title'     => $strPermissions,

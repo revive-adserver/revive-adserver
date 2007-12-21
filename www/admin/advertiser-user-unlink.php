@@ -42,9 +42,12 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 phpAds_registerGlobal ('login', 'returnurl');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-$accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
+$entityName = 'clients';
+$entityId = $clientid;
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject($entityName, $entityId);
+$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
+
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
@@ -58,7 +61,7 @@ if (!empty($accountId) && !empty($userid))
 }
 
 if (empty($returnurl)) {
-    $returnurl = 'affiliate-access.php?affiliateid='.$affiliateid;
+    $returnurl = 'advertiser-access.php?clientid='.$clientid;
 }
 
 Header("Location: ".$returnurl);

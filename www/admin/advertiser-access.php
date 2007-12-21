@@ -74,7 +74,12 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 $oTpl = new OA_Admin_Template('advertiser-access.html');
 
 $oTpl->assign('infomessage', OA_Session::getMessage());
-$oTpl->assign('clientid', $clientid);
+
+$oTpl->assign('entityIdName', 'clientid');
+$oTpl->assign('entityIdValue', $clientid);
+$oTpl->assign('editPage', 'advertiser-user.php');
+$oTpl->assign('unlinkPage', 'advertiser-user-unlink.php');
+
 $doUsers = OA_Dal::factoryDO('users');
 $oTpl->assign('users', array('aUsers' => $doUsers->getAccountUsersByEntity('clients', $clientid)));
 $oTpl->display();

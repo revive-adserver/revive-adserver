@@ -77,7 +77,13 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 $oTpl = new OA_Admin_Template('affiliate-access.html');
 
 $oTpl->assign('infomessage', OA_Session::getMessage());
-$oTpl->assign('affiliateid', $affiliateid);
+
+$oTpl->assign('entityIdName', 'affiliateid');
+$oTpl->assign('entityIdValue', $affiliateid);
+$oTpl->assign('editPage', 'affiliate-user.php');
+$oTpl->assign('unlinkPage', 'affiliate-user-unlink.php');
+
+
 $doUsers = OA_Dal::factoryDO('users');
 $oTpl->assign('users', array('aUsers' => $doUsers->getAccountUsersByEntity('affiliates', $affiliateid)));
 $oTpl->display();

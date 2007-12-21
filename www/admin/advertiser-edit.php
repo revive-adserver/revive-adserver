@@ -41,24 +41,18 @@ require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
 
 // Register input variables
 phpAds_registerGlobalUnslashed(
-	 'errormessage'
-	,'clientname'
-	,'contact'
-	,'comments'
-	,'email'
-	,'clientlanguage'
-	,'clientreportlastdate'
-	,'clientreportprevious'
-	,'clientreportdeactivate'
-	,'clientreport'
-	,'clientreportinterval'
-	,'clientusername'
-	,'clientpassword'
-	,'clientpermissions'
-	,'pwold'
-	,'pw'
-	,'pw2'
-	,'submit'
+     'errormessage'
+    ,'clientname'
+    ,'contact'
+    ,'comments'
+    ,'email'
+    ,'clientlanguage'
+    ,'clientreportlastdate'
+    ,'clientreportprevious'
+    ,'clientreportdeactivate'
+    ,'clientreport'
+    ,'clientreportinterval'
+    ,'submit'
 );
 
 
@@ -71,124 +65,61 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 /*-------------------------------------------------------*/
 
 if (isset($submit)) {
-	$errormessage = array();
-	// Get previous values
-	if (!empty($clientid)) {
+    $errormessage = array();
+    // Get previous values
+    if (!empty($clientid)) {
         $doClients = OA_Dal::factoryDO('clients');
-		if ($doClients->get($clientid)) {
-			$client = $doClients->toArray();
-		}
-	}
-	// Name
-	if ( OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
-		$client['clientname'] = trim($clientname);
-	}
-	// Default fields
-	$client['contact'] 	 = trim($contact);
-	$client['email'] 	 = trim($email);
-	$client['language']   = trim($clientlanguage);
-	$client['comments']  = trim($comments);
+        if ($doClients->get($clientid)) {
+            $client = $doClients->toArray();
+        }
+    }
+    // Name
+    if ( OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
+        $client['clientname'] = trim($clientname);
+    }
+    // Default fields
+    $client['contact']      = trim($contact);
+    $client['email']      = trim($email);
+    $client['language']   = trim($clientlanguage);
+    $client['comments']  = trim($comments);
 
-	// Reports
-	$client['report'] = isset($clientreport) ? 't' : 'f';
-	$client['reportdeactivate'] = isset($clientreportdeactivate) ? 't' : 'f';
-	$client['reportinterval'] = (int)$clientreportinterval;
-	if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $client['report']) {
-		$client['reportlastdate'] = date ("Y-m-d");
-	}
-	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-		// Password
-		if (isset($clientpassword)) {
-			if ($clientpassword == '') {
-				$client['clientpassword'] = '';
-			} elseif ($clientpassword != '********') {
-				$client['clientpassword'] = md5($clientpassword);
-			}
-		}
-		// Username
-		if (!empty($clientusername)) {
-		    $oldClientUserName = isset($client['clientusername']) ? $client['clientusername'] : '';
-            if (!OA_Permission::isUsernameAllowed($oldClientUserName, $clientusername)) {
-                $errormessage[] = $strDuplicateAgencyName;
-            } else {
-				// Set username
-				$client['clientusername'] = $clientusername;
-			}
-		}
-		// Permissions
-		$client['permissions'] = 0;
-		if (isset($clientpermissions) && is_array($clientpermissions)) {
-			for ($i=0;$i<sizeof($clientpermissions);$i++) {
-				$client['permissions'] += $clientpermissions[$i];
-			}
-		}
-		// Agency
-		if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-			$client['agencyid'] = OA_Permission::getEntityId();
-		}
-	} else {
-		// Password
-		if (isset($pwold) && strlen($pwold) ||
-			isset($pw) && strlen($pw) ||
-			isset($pw2) && strlen($pw2)) {
-			if (md5($pwold) != $client['clientpassword']) {
-				$errormessage[] = $strPasswordWrong;
-			} elseif (!strlen($pw) || strstr("\\", $pw)) {
-				$errormessage[] = $strInvalidPassword;
-			} elseif (strcmp($pw, $pw2)) {
-				$errormessage[] = $strNotSamePasswords;
-			} else {
-				$client['clientpassword'] = md5($pw);
-			}
-		}
-	}
-	/*
-	echo "<pre>";
-	var_dump ($final);
-	echo "</pre><hr>";
-	*/
-	if (count($errormessage) == 0) {
-		if (empty($clientid)) {
+    // Reports
+    $client['report'] = isset($clientreport) ? 't' : 'f';
+    $client['reportdeactivate'] = isset($clientreportdeactivate) ? 't' : 'f';
+    $client['reportinterval'] = (int)$clientreportinterval;
+    if ($clientreportlastdate == '' || $clientreportlastdate == '0000-00-00' ||  $clientreportprevious != $client['report']) {
+        $client['reportlastdate'] = date ("Y-m-d");
+    }
+    if (count($errormessage) == 0) {
+        if (empty($clientid)) {
             $doClients = OA_Dal::factoryDO('clients');
             $doClients->setFrom($client);
-		    /**
-		     * @todo The current mechanism requires the dataobject to have the username/password fields
-		     *       set in order to trigger the User-creation, this should be factored out since the
-		     *       $do->setFrom method won't set the fields if they've been removed from the DataObject
-		     */
-		    $doClients->clientusername = $client['clientusername'];
-		    $doClients->clientpassword = $client['clientpassword'];
-		    $doClients->updated = OA::getNow();
+            $doClients->updated = OA::getNow();
 
-			// Insert
-			$clientid = $doClients->insert();
+            // Insert
+            $clientid = $doClients->insert();
 
-			// Go to next page
-			MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
-		} else {
+            // Go to next page
+            MAX_Admin_Redirect::redirect("campaign-edit.php?clientid=$clientid");
+        } else {
             $doClients = OA_Dal::factoryDO('clients');
             $doClients->get($clientid);
             $doClients->setFrom($client);
             $doClients->updated = OA::getNow();
-
-			// Update
-			$doClients->update();
+            $doClients->update();
 
             // Go to next page
-			if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-				// Set current session to new language
-				$session['language'] = $clientlanguage;
-				phpAds_SessionDataStore();
-				MAX_Admin_Redirect::redirect('index.php');
-			} else {
-				MAX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=$clientid");
-			}
-		}
-		exit;
-	} else {
-		// If an error occured set the password back to its previous value
-		$client['clientpassword'] = $password;
-	}
+            if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+                // Set current session to new language
+                $session['language'] = $clientlanguage;
+                phpAds_SessionDataStore();
+                MAX_Admin_Redirect::redirect('index.php');
+            } else {
+                MAX_Admin_Redirect::redirect("advertiser-campaigns.php?clientid=$clientid");
+            }
+        }
+        exit;
+    }
 }
 
 /*-------------------------------------------------------*/
@@ -196,47 +127,44 @@ if (isset($submit)) {
 /*-------------------------------------------------------*/
 
 if ($clientid != "") {
-	if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-		OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-index.php');
-		phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
-		phpAds_PageHeader("4.1.2");
-		echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-		phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));
-	} else {
-		phpAds_PageHeader("4");
-	}
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+        OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-index.php');
+        phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
+        phpAds_PageHeader("4.1.2");
+        echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+        phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));
+    } else {
+        phpAds_PageHeader("4");
+    }
 
-	// Do not get this information if the page
-	// is the result of an error message
-	if (!isset($client)) {
+    // Do not get this information if the page
+    // is the result of an error message
+    if (!isset($client)) {
         $doClients = OA_Dal::factoryDO('clients');
-		if ($doClients->get($clientid)) {
-			$client = $doClients->toArray();
-		}
+        if ($doClients->get($clientid)) {
+            $client = $doClients->toArray();
+        }
 
-		// Set password to default value
-		if ($client['clientpassword'] != '') {
-			$client['clientpassword'] = '********';
-		}
-	}
+        // Set password to default value
+        if ($client['clientpassword'] != '') {
+            $client['clientpassword'] = '********';
+        }
+    }
 } else {
-	phpAds_PageHeader("4.1.1");
-	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	phpAds_ShowSections(array("4.1.1"));
-	// Do not set this information if the page
-	// is the result of an error message
-	if (!isset($client)) {
-		$client['clientname']			= $strUntitled;
-		$client['contact']				= '';
-		$client['comments']				= '';
-		$client['email']				= '';
-		$client['reportdeactivate'] 	= 't';
-		$client['report'] 				= 'f';
-		$client['reportinterval'] 		= 7;
-		$client['clientusername']		= '';
-		$client['clientpassword']		= '';
-		$client['permissions'] 			= 0;
-	}
+    phpAds_PageHeader("4.1.1");
+    echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+    phpAds_ShowSections(array("4.1.1"));
+    // Do not set this information if the page
+    // is the result of an error message
+    if (!isset($client)) {
+        $client['clientname']            = $strUntitled;
+        $client['contact']                = '';
+        $client['comments']                = '';
+        $client['email']                = '';
+        $client['reportdeactivate']     = 't';
+        $client['report']                 = 'f';
+        $client['reportinterval']         = 7;
+    }
 }
 $tabindex = 1;
 
@@ -260,10 +188,10 @@ echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 // Clientname
 echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strName."</td>";
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-	echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientname' size='25' value='".phpAds_htmlQuotes($client['clientname'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientname' size='25' value='".phpAds_htmlQuotes($client['clientname'])."' style='width: 350px;' tabindex='".($tabindex++)."'></td>";
 } else {
-	echo "<td>".(isset($client['clientname']) ? $client['clientname'] : '')."</td>";
+    echo "<td>".(isset($client['clientname']) ? $client['clientname'] : '')."</td>";
 }
 
 echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
@@ -288,22 +216,17 @@ echo "<option value='' SELECTED>".$strDefault."</option>";
 
 $languages = MAX_Admin_Languages::AvailableLanguages();
 foreach ($languages as $k => $v) {
-	if (isset($client['language']) && $client['language'] == $k) {
-		echo "<option value='$k' selected>$v</option>";
-	} else {
-		echo "<option value='$k'>$v</option>";
-	}
+    if (isset($client['language']) && $client['language'] == $k) {
+        echo "<option value='$k' selected>$v</option>";
+    } else {
+        echo "<option value='$k'>$v</option>";
+    }
 }
 
 echo "</select></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Footer
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
-
-// Spacer
-echo "<br /><br />";
-echo "<br /><br />";
 
 // Header
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
@@ -335,99 +258,23 @@ echo "<input onBlur='max_formValidateElement(this);' class='flat' type='text' na
 echo "</td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Footer
-echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
 echo "</table>";
-
-// Spacer
-echo "<br /><br />";
-echo "<br /><br />";
 
 // Header
 echo "<table border='0' width='100%' cellpadding='0' cellspacing='0'>";
-echo "<tr><td height='25' colspan='3'><b>".$strLoginInformation."</b></td></tr>";
-echo "<tr height='1'><td width='30'><img src='images/break.gif' height='1' width='30'></td>";
-echo "<td width='200'><img src='images/break.gif' height='1' width='200'></td>";
-echo "<td width='100%'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
 
 // Error message?
 if (isset($errormessage) && count($errormessage)) {
-	echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
-	echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
-	echo "<img src='images/error.gif' align='absmiddle'>&nbsp;";
+    echo "<tr><td>&nbsp;</td><td height='10' colspan='2'>";
+    echo "<table cellpadding='0' cellspacing='0' border='0'><tr><td>";
+    echo "<img src='images/error.gif' align='absmiddle'>&nbsp;";
     foreach ($errormessage as $k => $v)
-		echo "<font color='#AA0000'><b>".$v."</b></font><br />";
+        echo "<font color='#AA0000'><b>".$v."</b></font><br />";
 
-	echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-	echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-	echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
+    echo "</td></tr></table></td></tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
+    echo "<tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
+    echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
 }
-
-echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strUsername."</td>";
-
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-	echo "<td><input onBlur='max_formValidateElement(this);' class='flat' type='text' name='clientusername' size='25' value='".phpAds_htmlQuotes($client['clientusername'])."' tabindex='".($tabindex++)."'></td>";
-} else {
-	echo "<td>".(isset($client['clientusername']) ? $client['clientusername'] : '')."</td>";
-}
-
-echo "</tr><tr><td><img src='images/spacer.gif' height='1' width='100%'></td>";
-echo "<td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td></tr>";
-
-
-// Password
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strPassword."</td>";
-	echo "<td width='370'><input class='flat' type='password' name='clientpassword' size='25' value='".$client['clientpassword']."' tabindex='".($tabindex++)."'></td>";
-	echo "</tr><tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-} else {
-	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strOldPassword."</td><td width='100%'>";
-	echo "<input onBlur='max_formValidateElement(this);' class='flat' type='password' name='pwold' size='25' value='' tabindex='".($tabindex++)."'>";
-	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-	echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strNewPassword."</td><td width='100%'>";
-	echo "<input onBlur='max_formValidateElement(this);' class='flat' type='password' name='pw' size='25' value='' tabindex='".($tabindex++)."'>";
-	echo "</td></tr><tr><td><img src='images/spacer.gif' height='1' width='30'></td>";
-	echo "<td colspan='1'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td><td><img src='images/spacer.gif' height='1' width='100%'></tr>";
-
-	echo "<tr><td width='30'>&nbsp;</td><td width='200'>".$strRepeatPassword."</td><td width='100%'>";
-	echo "<input onBlur='max_formValidateElement(this);' class='flat' type='password' name='pw2' size='25' value='' tabindex='".($tabindex++)."'>";
-	echo "</td></tr>";
-}
-
-// Permissions
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
-	echo "<tr height='1'><td colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
-	echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>";
-
-	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_ModifyInfo."'".(phpAds_ModifyInfo & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-	echo $strAllowClientModifyInfo;
-	echo "</td></tr>";
-
-	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_ModifyBanner."'".(phpAds_ModifyBanner & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-	echo $strAllowClientModifyBanner;
-	echo "</td></tr>";
-
-	// Allow this user to deactivate his own banners
-	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_DisableBanner."'".(phpAds_DisableBanner & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-	echo $strAllowClientDisableBanner;
-	echo "</td></tr>";
-
-	// Allow this user to activate his own banners
-	echo "<tr><td width='30'>&nbsp;</td><td colspan='2'>";
-	echo "<input type='checkbox' name='clientpermissions[]' value='".phpAds_ActivateBanner."'".(phpAds_ActivateBanner & $client['permissions'] ? ' CHECKED' : '')." tabindex='".($tabindex++)."'>&nbsp;";
-	echo $strAllowClientActivateBanner;
-	echo "</td></tr>";
-
-}
-
-echo "</td>"."\n";
-echo "</tr>"."\n";
 
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
 echo "<tr><td height='25' colspan='3'><b>".$strMiscellaneous."</b></td></tr>"."\n";
@@ -459,21 +306,17 @@ echo "</form>";
 $doClients = OA_Dal::factoryDO('clients');
 $unique_names = $doClients->getUniqueValuesFromColumn('clientname', $client['clientname']);
 
-$unique_users = OA_Permission::getUniqueUserNames($client['clientusername']);
-
 ?>
 
 <script language='JavaScript'>
 <!--
-	max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
-	max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
-	max_formSetRequirements('clientreportinterval', '<?php echo addslashes($strNoDaysBetweenReports); ?>', true, 'number+');
+    max_formSetRequirements('contact', '<?php echo addslashes($strContact); ?>', true);
+    max_formSetRequirements('email', '<?php echo addslashes($strEMail); ?>', true, 'email');
+    max_formSetRequirements('clientreportinterval', '<?php echo addslashes($strNoDaysBetweenReports); ?>', true, 'number+');
 <?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) { ?>
-	max_formSetRequirements('clientname', '<?php echo addslashes($strName); ?>', true, 'unique');
-	max_formSetRequirements('clientusername', '<?php echo addslashes($strUsername); ?>', false, 'unique');
+    max_formSetRequirements('clientname', '<?php echo addslashes($strName); ?>', true, 'unique');
 
-	max_formSetUnique('clientname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
-	max_formSetUnique('clientusername', '|<?php echo addslashes(implode('|', $unique_users)); ?>|');
+    max_formSetUnique('clientname', '|<?php echo addslashes(implode('|', $unique_names)); ?>|');
 <?php } ?>
 //-->
 </script>
