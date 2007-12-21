@@ -87,6 +87,19 @@ class OA_Admin_Menu
 			);
 		}
     }
+    
+    function setAgencyPageContext($agencyid, $pageName)
+    {
+        $doAgency = OA_Dal::factoryDO('agency');
+    	$doAgency->find();
+    	while ($doAgency->fetch()) {
+    		phpAds_PageContext(
+    			phpAds_buildName ($doAgency->agencyid, $doAgency->name),
+    			"$pageName?agencyid=".$doAgency->agencyid,
+    			$agencyid == $doAgency->agencyid
+    		);
+    	}
+    }
 
 }
 

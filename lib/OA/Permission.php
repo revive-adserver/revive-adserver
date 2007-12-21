@@ -178,7 +178,9 @@ class OA_Permission
      */
     function enforceAccessToObject($objectTable, $objectId, $accountId = null)
     {
-        OA_Permission::enforceTrue(OA_Permission::hasAccessToObject($objectTable, $objectId, $accountId));
+        OA_Permission::enforceTrue(
+            OA_Permission::hasAccessToObject($objectTable, $objectId, $accountId)
+            || OA_Permission::isUserLinkedToAdmin());
         return true;
     }
 
