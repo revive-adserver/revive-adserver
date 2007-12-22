@@ -190,22 +190,6 @@
     <default></default>
    </field>
 
-   <field>
-    <name>m2m_password</name>
-    <type>openads_varchar</type>
-    <length>32</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>m2m_ticket</name>
-    <type>openads_varchar</type>
-    <length>32</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
    <index>
     <name>accounts_pkey</name>
     <primary>true</primary>
