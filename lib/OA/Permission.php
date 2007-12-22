@@ -78,7 +78,7 @@ define ("MAX_AffiliateGenerateCode", 32);
 
 /**
  * Per-account permissions
- * 
+ *
  * Warning: Do not change the values of following rights - they are used
  * as a IDs in database and should be the same as in "rights" table.
  */
@@ -308,11 +308,11 @@ class OA_Permission
 
     /**
      * A method to check if the user has access to a specific account
-     * 
+     *
      * User cuold either has direct access to account or indirect.
      * Indirect access could be in case if user has access to one of the parent
      * entities.
-     * 
+     *
      * TODOPERM - should we implement indirect access here?
      *
      * @static
@@ -327,10 +327,10 @@ class OA_Permission
         return OA_Permission::isUserLinkedToAccount($accountId, $userId)
             || OA_Permission::isUserLinkedToAdmin();
     }
-    
+
     /**
      * A method to check if the user is linked to an account
-     * 
+     *
      * @static
      * @param int $accountId
      * @param int $userId
@@ -343,7 +343,7 @@ class OA_Permission
         $doAccount_user_Assoc->account_id = $accountId;
         return (bool) $doAccount_user_Assoc->count();
     }
-    
+
     /**
      * Set user access to account
      *
@@ -367,7 +367,7 @@ class OA_Permission
     /**
      * A method to check if the user has specific permissions to perform
      * an action on an account
-     * 
+     *
      * TODOPERM - consider caching permissions in user session so they could
      *            be reused across many user requests
      *
@@ -378,6 +378,12 @@ class OA_Permission
      */
     function hasPermission($permissionId, $accountId = null, $userId = null)
     {
+        static $permissions;
+
+        if (is_null($permissions)) {
+            $permissions = array();
+        }
+
         if ($accountId === null) {
             $accountId = OA_Permission::getAccountId();
         }
@@ -387,9 +393,7 @@ class OA_Permission
         if (empty($accountId) || empty($userId)) {
             return false;
         }
-        static $permissions;
         if (!isset($permissions[$userId][$accountId])) {
-            $permissions = array();
             $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
             $doAccount_user_permission_assoc->user_id = $userId;
             $doAccount_user_permission_assoc->account_id = $accountId;
@@ -424,7 +428,7 @@ class OA_Permission
 
     /**
      * A method which returns all the accounts linked to the user
-     * 
+     *
      * @param boolean $groupByType
      * @return array
      */
@@ -436,7 +440,7 @@ class OA_Permission
         $doAccounts->orderBy('account_type, account_name');
         $doAccount_user_Assoc->joinAdd($doAccounts);
         $doAccount_user_Assoc->find();
-        
+
         $aAccountsByType = array();
         while($doAccount_user_Assoc->fetch()) {
             $aAccountsByType[$doAccount_user_Assoc->account_type][$doAccount_user_Assoc->account_id] =
@@ -454,7 +458,7 @@ class OA_Permission
         }
         return $aAccountsByType;
     }
-    
+
     function mergeAdminAccounts($aAccountsByType)
     {
         $doAccounts = OA_Dal::factoryDO('accounts');
@@ -688,7 +692,7 @@ class OA_Permission
 	    $doAccount_user_permission_assoc->account_id = $accountId;
 	    $doAccount_user_permission_assoc->user_id = $userId;
 	    $doAccount_user_permission_assoc->delete();
-	    
+
 	    // add new rights
 	    foreach ($aPermissions as $permissionId) {
     	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');

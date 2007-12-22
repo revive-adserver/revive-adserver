@@ -48,10 +48,10 @@ class DataObjects_Agency extends DB_DataObjectCommon
     var $__table = 'agency';                          // table name
     var $agencyid;                        // int(9)  not_null primary_key auto_increment
     var $name;                            // string(255)  not_null
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $logout_url;                      // string(255)  
-    var $active;                          // int(1)  
+    var $logout_url;                      // string(255)
+    var $active;                          // int(1)
     var $updated;                         // datetime(19)  not_null binary
     var $account_id;                      // int(9)  multiple_key
 
@@ -142,7 +142,7 @@ class DataObjects_Agency extends DB_DataObjectCommon
         $doPreference->get($this->agencyid);
         $doPreference = $this->_updatePreferences($doPreference);
         $doPreference->update();
-        
+
         $this->updateAccountName($this->name);
 
         return $ret;
@@ -155,8 +155,12 @@ class DataObjects_Agency extends DB_DataObjectCommon
      */
     function delete($useWhere = false, $cascade = true, $parentid = null)
     {
-        $this->deleteAccount();
-        return parent::delete($useWhere, $cascade, $parentid);
+        $result =  parent::delete($useWhere, $cascade, $parentid);
+        if ($result) {
+            $this->deleteAccount();
+        }
+
+        return $result;
     }
 
     /**

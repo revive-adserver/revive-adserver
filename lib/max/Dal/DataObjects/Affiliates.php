@@ -51,15 +51,15 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
     var $name;                            // string(255)  not_null
     var $mnemonic;                        // string(5)  not_null
     var $comments;                        // blob(65535)  blob
-    var $contact;                         // string(255)  
+    var $contact;                         // string(255)
     var $email;                           // string(64)  not_null
-    var $website;                         // string(255)  
+    var $website;                         // string(255)
     var $updated;                         // datetime(19)  not_null binary
-    var $an_website_id;                   // int(11)  
+    var $an_website_id;                   // int(11)
     var $oac_country_code;                // string(2)  not_null
-    var $oac_language_id;                 // int(11)  
-    var $oac_category_id;                 // int(11)  
-    var $as_website_id;                   // int(11)  
+    var $oac_language_id;                 // int(11)
+    var $oac_category_id;                 // int(11)
+    var $as_website_id;                   // int(11)
     var $account_id;                      // int(9)  multiple_key
 
     /* ZE2 compatibility trick*/
@@ -177,7 +177,7 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
         if (!empty($aUser)) {
             $this->createUser($aUser);
         }
-        
+
         $this->updateAccountName($this->name);
 
         return $ret;
@@ -190,8 +190,12 @@ class DataObjects_Affiliates extends DB_DataObjectCommon
      */
     function delete($useWhere = false, $cascade = true, $parentid = null)
     {
-        $this->deleteAccount();
-        return parent::delete($useWhere, $cascade, $parentid);
+        $result =  parent::delete($useWhere, $cascade, $parentid);
+        if ($result) {
+            $this->deleteAccount();
+        }
+
+        return $result;
     }
 
     /**
