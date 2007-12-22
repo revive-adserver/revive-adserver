@@ -42,7 +42,7 @@ class Migration_543Test extends MigrationTest
     function testMigrateData()
     {
         $prefix = $this->getPrefix();
-        $this->initDatabase(542, array('agency', 'affiliates', 'channel', 'clients', 'preference'));
+        $this->initDatabase(542, array('agency', 'affiliates', 'application_variable', 'channel', 'clients', 'preference'));
 
         $tblPreference = $this->oDbh->quoteIdentifier($prefix.'preference', true);
         $tblAgency     = $this->oDbh->quoteIdentifier($prefix.'agency', true);
