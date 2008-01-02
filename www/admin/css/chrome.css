@@ -189,14 +189,6 @@ ul.tabs a
   padding-left: 8px;
 }
 
-.tabs li.passive-first div.tab-left {
-  background-image: url('../images/tab-passive-lead-in.gif');
-}
-
-.tabs li.active-first div.tab-left {
-  background-image: url('../images/tab-active-lead-in.gif');
-}
-
 .tabs li.passive-first div.tab-right,
 .tabs li.passive-middle div.tab-right,
 .tabs li.active-first div.tab-right,
@@ -238,6 +230,16 @@ ul.tabs a
 .tabs li.passive-last div.tab-right {
   background-image: url('../images/tab-passive-lead-out.gif');
 }
+
+/** a single tab is first and last at the same time do not move this styles up **/
+.tabs li.active-first div.tab-left {
+  background-image: url('../images/tab-active-lead-in.gif');
+}
+
+.tabs li.passive-first div.tab-left {
+  background-image: url('../images/tab-passive-lead-in.gif');
+}
+
 .tabs li.before-active div.tab-right {
   padding: 0;
 }
