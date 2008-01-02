@@ -300,10 +300,8 @@ ul.tabs a
 #oaNavigationExtra img, #oaNavigationExtraTop img {
 	position: relative;
 	border: none;
-
-	/* Fix IE: vertical align is wrong */
-	-top: 6px;
 }
+
 #oaNavigationExtra a {
 	color: #299b3c;
 	font-weight: bold;
