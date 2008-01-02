@@ -40,13 +40,12 @@ a:hover {
 .brandingDefault {
 	width: 180px;
 	height: 48px;
-	/*background: url(../images/logo-bk.png) no-repeat;*/
 	background: url(../images/logo-wtag.png) no-repeat;
 	text-indent: -1000px;
 
 	/* Fix IE bug: transparent PNG support */	
 	-background: none;
-	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-bk.png', sizingMethod='scale');
+	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/logo-wtag.png', sizingMethod='scale');
 }
 .brandingName {
 	height: 48px;
