@@ -30,6 +30,7 @@ a:hover {
 	height: 56px;
 }
 
+
 #oaHeaderBranding {
 	position: absolute;
 	top: 0;
@@ -86,6 +87,7 @@ a:hover {
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/searchfull.png');
 }
+
 #oaSearch form {
 	margin: 0px;
 	padding: 0px;
@@ -99,7 +101,7 @@ a:hover {
 	margin: 0px;
 	width: 130px;
 	height: 13px;
-	background: none;
+		background: none;
 }
 
 
@@ -142,7 +144,7 @@ a:hover {
 	/*line-height: 25px;*/
 	border-bottom: 1px solid #d1d1d1;
 }
-#oaNavigation ul {
+#oaNavigation ul, #oaHeader ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
@@ -278,6 +280,13 @@ ul.tabs a
   color: white;
 }
 
+#oaNavigationExtraTop {
+  position: absolute;
+  top: 13px;
+  right: 120px;
+  width:400px;
+  color: #9c9c9c;
+}
 
 #oaNavigationExtra {
 	position: absolute;
@@ -285,7 +294,7 @@ ul.tabs a
 	right: 0;
 	color: #9c9c9c;
 }
-#oaNavigationExtra img {
+#oaNavigationExtra img, #oaNavigationExtraTop img {
 	position: relative;
 	border: none;
 
@@ -296,15 +305,20 @@ ul.tabs a
 	color: #299b3c;
 	font-weight: bold;
 }
-#oaNavigationExtra li {
+
+#oaNavigationExtra li, #oaNavigationExtraTop li {
 	float: left;
 	margin: 0 12px 0 0;
 }
+
 #oaNavigationExtra .infoUser {
 	font-weight: bold;
 }
 
-
+#oaNavigationExtraTop .buttonLogout {
+  background: url("../images/logout-close.png") no-repeat center right;
+  padding-right: 17px;
+}
 
 
 #oaMain {

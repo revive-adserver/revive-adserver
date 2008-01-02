@@ -90,6 +90,26 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 
 {include file=layout/branding.html}
 
+    <ul id="oaNavigationExtraTop">
+
+{if $infoUser}
+        <li class="infoUser">{$infoUser|escape}</li>
+{/if}
+
+{if $helpLink}
+        <li class="buttonHelp"><a href="{$helpLink|escape}" target="_blank" onclick="openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;">{t str=Help} ?</a></li>
+{/if}
+
+{if $buttonLogout}
+        <li class="buttonLogout"><a href="logout.php">{t str=Logout}</a></li>
+{/if}
+
+{if $buttonReportBugs}
+        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank"><img alt="Report a bug" src="{$imgPath}images/bug.gif" /></a></li>
+{/if}
+    </ul>
+
+
 {if $displaySearch}
     <div id="oaSearch">
         <form name="search" action="admin-search.php" target="SearchWindow" onsubmit="search_window(document.search.keyword.value,'{$searchUrl|escape:js}'); return false;">
@@ -105,11 +125,6 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 
     <ul id="oaNavigationExtra">
-{*
-{if $infoUser}
-        <li class="infoUser">{$infoUser|escape}</li>
-{/if}
-*}
 
 {if $buttonStartOver}
         <li class="buttonStartOver"><a href="index.php">{t str=StartOver}</a></li>
@@ -126,17 +141,25 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
             <input type="submit" value="" class="arrow-submit" />
           </form>
         </li>
+{/if}
 
-        <li class="buttonLogout"><a href="logout.php">{t str=Logout}</a></li>
+{* --- commmented
+{if $infoUser}
+        <li class="infoUser">{$infoUser|escape}</li>
 {/if}
 
 {if $helpLink}
-        <li class="buttonHelp"><a href="{$helpLink|escape}" target="_blank" onclick="openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;">{t str=Help}</a></li>
+        <li class="buttonHelp"><a href="{$helpLink|escape}" target="_blank" onclick="openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;">{t str=Help} ?</a></li>
+{/if}
+
+{if $buttonLogout}
+        <li class="buttonLogout"><a href="logout.php">{t str=Logout}</a></li>
 {/if}
 
 {if buttonReportBugs}
-        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs' target='_blank'><img alt='Report a bug' src='{$imgPath}images/bug.png" /></a></li>
+        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank"><img alt="Report a bug" src="{$imgPath}images/bug.gif" /></a></li>
 {/if}
+-- comment end *}
     </ul>
 </div>
 
