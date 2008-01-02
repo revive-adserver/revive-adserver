@@ -32,46 +32,49 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 <!--
 var HOSTED = {if $hosted}true{else}false{/if};
 {literal}
-
-    $(document).ready(function() {
-      $("#user-key").autocomplete("user-search.php", {
-        width: 500,
-        formatItem: function(row) {
-          return row[2] + " &lt;" + row[1] + "&gt;";
-        },
-        formatResult: function(row) {
-          if (HOSTED) {
-            return row[1];
-          } else {
-            return row[2];
-          }
-        },
-        selectFirst: false,
-        mustMatch: false
-      }).result(function() {
-        updateHint();
-        $("#link-user-button").focus();
-      }).focus();
-
-      $("#user-key").change(function() {
-        updateHint();
-      });
-
+  $(document).ready(function() {
+    $("#user-key").keyup(function() {
       updateHint();
     });
 
-    function updateHint()
-    {
-      var key = $("#user-key").val();
-      if (key && key.length > 0) {
-        $("#link-user-hint").fadeOut(400); 
-        $("#link-user-button").attr("disabled", false);
-      }
-      else {
-        $("#link-user-hint").fadeIn(400); 
-        $("#link-user-button").attr("disabled", true);
-      }
+    $("#user-key").autocomplete("user-search.php", {
+      width: 500,
+      formatItem: function(row) {
+        if (row[1] && row[1].length > 0) {
+          return row[2] + " <" + row[1] + ">";
+        } else {
+          return row[2];
+        }
+      },
+      formatResult: function(row) {
+        if (HOSTED) {
+          return row[1];
+        } else {
+          return row[2];
+        }
+      },
+      selectFirst: false,
+      mustMatch: false
+    }).result(function() {
+      updateHint();
+      $("#link-user-button").focus();
+    }).focus();
+
+    updateHint();
+  });
+
+  function updateHint()
+  {
+    var key = $("#user-key").val();
+    if (key && key.length > 0) {
+      $("#link-user-hint").fadeOut(400); 
+      $("#link-user-button").attr("disabled", false);
     }
+    else {
+      $("#link-user-hint").fadeIn(400); 
+      $("#link-user-button").attr("disabled", true);
+    }
+  }
 //-->{/literal}
 </script>
 
