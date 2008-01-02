@@ -281,10 +281,8 @@ ul.tabs a
 }
 
 #oaNavigationExtraTop {
-  position: absolute;
-  top: 13px;
-  right: 120px;
-  width:400px;
+  padding-top: 12px;
+  padding-right: 215px;
   color: #9c9c9c;
 }
 
@@ -309,6 +307,16 @@ ul.tabs a
 #oaNavigationExtra a {
 	color: #299b3c;
 	font-weight: bold;
+}
+
+#oaNavigationExtraTop ul {
+  float: right;
+}
+
+
+#oaNavigationExtraTop li {
+  float: right;
+  margin: 0 12px 0 0;
 }
 
 #oaNavigationExtra li, #oaNavigationExtraTop li {

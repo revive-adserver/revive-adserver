@@ -89,8 +89,8 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 <div id="oaHeader">
 
 {include file=layout/branding.html}
-
-    <ul id="oaNavigationExtraTop">
+  <div id="oaNavigationExtraTop">
+    <ul>
 
 {if $infoUser}
         <li class="infoUser">{$infoUser|escape}</li>
@@ -108,6 +108,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank"><img alt="Report a bug" src="{$imgPath}images/bug.gif" /></a></li>
 {/if}
     </ul>
+    </div>
 
 
 {if $displaySearch}
