@@ -161,7 +161,7 @@ ul.tabs {
   list-style-type: none;
   min-width: 300px;
   font-family: Helvetica, Trebuchet MS, sans-serif;
-  font-size: 8pt;
+  font-size: 11px;
 }
 
 
@@ -259,7 +259,7 @@ ul.tabs a
 .tabs li.tab div.tab-inside {
   background-repeat: repeat-x;
   height: 21px;
-  padding-top: 8px;
+  padding-top: 7px;
 }
 
 .tabs div.label {
@@ -270,7 +270,7 @@ ul.tabs a
 
 .tabs li.active div.label {
   background-image: url("../images/tab-active-inside-down.gif");
-  background-position: center 13px;
+  background-position: center 14px;
 }
 
 .tabs li.active div.label,
@@ -278,32 +278,6 @@ ul.tabs a
   color: white;
 }
 
-
-/*#oaNavigationTabs li {
-	float: left;
-	margin: 0 2px 0 0;
-}
-#oaNavigationTabs li a {
-	display: block;
-	float: left;
-	
-	background: #299B3C;
-	color: #fff;
-	font-size: 12px;
-	font-weight: bold;
-	
-	padding: 0 8px;
-	border-top: 1px solid #09c;
-	border-right: 1px solid #09c;
-	border-left: 1px solid #09c;
-}
-#oaNavigationTabs li.selected a {
-	border-color: #fff;
-	color: #299B3C;
-	background: #fff;
-	border: 1px solid #9c9c9c;
-	border-bottom: 1px solid #fff;
-}*/
 
 #oaNavigationExtra {
 	position: absolute;
