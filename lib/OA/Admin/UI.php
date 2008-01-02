@@ -233,7 +233,7 @@ class OA_Admin_UI
         if (($ID != "" && OA_Auth::isLoggedIn()) || defined('phpAds_installing')) {
             $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
             if (!defined('phpAds_installing')) {
-                $this->oTpl->assign('infoUser', OA_Permission::getUsername()." [{$_SERVER['REMOTE_ADDR']}]");
+                $this->oTpl->assign('infoUser', OA_Permission::getUsername());
                 $this->oTpl->assign('buttonLogout', true);
                 $this->oTpl->assign('buttonReportBugs', true);
 

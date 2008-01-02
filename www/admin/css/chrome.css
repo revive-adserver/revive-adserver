@@ -282,7 +282,7 @@ ul.tabs a
 
 #oaNavigationExtraTop {
   padding-top: 12px;
-  padding-right: 215px;
+  padding-right: 225px;
   color: #9c9c9c;
 }
 
@@ -313,22 +313,26 @@ ul.tabs a
 
 
 #oaNavigationExtraTop li {
-  float: right;
-  margin: 0 12px 0 0;
+  float: left;
+  padding: 0 7px 0 7px;
 }
 
-#oaNavigationExtra li, #oaNavigationExtraTop li {
+#oaNavigationExtra li {
 	float: left;
 	margin: 0 12px 0 0;
 }
 
-#oaNavigationExtra .infoUser {
-	font-weight: bold;
+#oaNavigationExtraTop li.infoUser, #oaNavigationExtraTop li.buttonHelp, #oaNavigationExtraTop li.buttonLogout {
+	border-right: 1px solid #9c9c9c;
 }
 
-#oaNavigationExtraTop .buttonLogout {
-  background: url("../images/logout-close.png") no-repeat center right;
-  padding-right: 17px;
+#oaNavigationExtraTop .buttonReportBugs {
+} 
+
+#oaNavigationExtraTop .buttonReportBugs a {
+  background: url("../images/bug.gif") no-repeat;
+  background-position:  center right;
+  padding-right: 23px;
 }
 
 
@@ -398,9 +402,11 @@ ul.tabs a
 #oaSidebarContext li {
 	background: url(../images/box-0.gif) 18px 4px no-repeat;
 }
+
 #oaSidebarContext li.selected {
 	background-image: url(../images/box-1.gif);
 }
+
 #oaSidebarContext a {
 	display: block;
 	padding: 0 0 0 36px;

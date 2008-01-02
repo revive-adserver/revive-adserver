@@ -97,7 +97,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 
 {if $helpLink}
-        <li class="buttonHelp"><a href="{$helpLink|escape}" target="_blank" onclick="openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;">{t str=Help} ?</a></li>
+        <li class="buttonHelp"><a href="{$helpLink|escape}" target="_blank" onclick="openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;">{t str=Help}</a></li>
 {/if}
 
 {if $buttonLogout}
@@ -105,7 +105,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 
 {if $buttonReportBugs}
-        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank"><img alt="Report a bug" src="{$imgPath}images/bug.gif" /></a></li>
+        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank">Report a bug</a></li>
 {/if}
     </ul>
     </div>
@@ -144,23 +144,6 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
         </li>
 {/if}
 
-{* --- commmented
-{if $infoUser}
-        <li class="infoUser">{$infoUser|escape}</li>
-{/if}
-
-{if $helpLink}
-        <li class="buttonHelp"><a href="{$helpLink|escape}" target="_blank" onclick="openWindow('{$helpLink}','','status=yes,menubar=yes,scrollbars=yes,resizable=yes,width=700,height=500'); return false;">{t str=Help} ?</a></li>
-{/if}
-
-{if $buttonLogout}
-        <li class="buttonLogout"><a href="logout.php">{t str=Logout}</a></li>
-{/if}
-
-{if buttonReportBugs}
-        <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank"><img alt="Report a bug" src="{$imgPath}images/bug.gif" /></a></li>
-{/if}
--- comment end *}
     </ul>
 </div>
 
