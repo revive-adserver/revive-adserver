@@ -30,7 +30,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
     <ul id="oaNavigationTabs" class="tabs">
 {section name=n loop=$aNav}
 {if $aNav[n].selected}
-      <li class="tab active {if $smarty.section.n.first} active-first{/if}{if $smarty.section.n.last} active-last{/if}{if !$smarty.section.n.first || !$smarty.section.n.last} active-middle{/if}">
+      <li class="tab active {if $smarty.section.n.first} active-first{/if}{if $smarty.section.n.last} active-last{/if}{if !($smarty.section.n.first || $smarty.section.n.last)} active-middle{/if}">
 {else}
       <li class="tab passive {if $smarty.section.n.first} passive-first{else}{if $smarty.section.n.last} passive-last{else} passive-middle{/if}{/if}{if $aNav[$smarty.section.n.index_prev].selected} after-active{elseif $aNav[$smarty.section.n.index_next].selected} before-active{/if}">
 {/if}
