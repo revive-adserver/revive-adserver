@@ -294,6 +294,11 @@ ul.tabs a
 	right: 0;
 	color: #9c9c9c;
 }
+
+#oaNavigationExtra select:focus, #oaNavigationExtraTop select:focus {
+	background-color:  white;
+}
+
 #oaNavigationExtra img, #oaNavigationExtraTop img {
 	position: relative;
 	border: none;
