@@ -57,7 +57,7 @@ phpAds_registerGlobalUnslashed(
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
@@ -74,7 +74,7 @@ if (isset($submit)) {
         }
     }
     // Name
-    if ( OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
+    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) ) {
         $client['clientname'] = trim($clientname);
     }
     // Default fields
@@ -92,6 +92,9 @@ if (isset($submit)) {
     }
     if (count($errormessage) == 0) {
         if (empty($clientid)) {
+            // Set agency ID
+            $client['agencyid'] = OA_Permission::getAgencyId();
+
             $doClients = OA_Dal::factoryDO('clients');
             $doClients->setFrom($client);
             $doClients->updated = OA::getNow();
