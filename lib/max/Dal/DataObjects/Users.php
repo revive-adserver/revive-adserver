@@ -110,14 +110,7 @@ class DataObjects_Users extends DB_DataObjectCommon
             OA_Permission::getAccountIdForEntity($entityName, $entityId);
         $doUsers->joinAdd($doAccount_user_assoc);
         $doUsers->find();
-        
-        $aUsers = array();
-        while($doUsers->fetch()) {
-            $aUsers[$doUsers->user_id] = $doUsers->toArray();
-            // is user linked to his last account
-            $aUsers[$doUsers->user_id]['toDelete'] = ($doUsers->countLinkedAccounts() == 1);
-        }
-        return $aUsers;
+        return $this->_buildUsersTable($doUsers);
     }
 
     
@@ -135,7 +128,17 @@ class DataObjects_Users extends DB_DataObjectCommon
         $doAccount_user_assoc->joinAdd($doAccounts);
         $doUsers->joinAdd($doAccount_user_assoc);
         $doUsers->find();
-        
+        return $this->_buildUsersTable($doUsers);
+    }
+    
+    /**
+     * Formats 
+     *
+     * @param unknown_type $doUsers
+     * @return unknown
+     */
+    function _buildUsersTable(&$doUsers)
+    {
         $aUsers = array();
         while($doUsers->fetch()) {
             $aUsers[$doUsers->user_id] = $doUsers->toArray();
