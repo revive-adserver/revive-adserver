@@ -81,9 +81,13 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
 	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));
 } else {
-    phpAds_PageHeader("2");
+    phpAds_PageHeader('2.2');
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-	//phpAds_ShowSections();
+	$sections = array('2.2');
+	if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
+	    $sections[] = '2.3';
+	}
+	phpAds_ShowSections($sections);
 }
 
 /*-------------------------------------------------------*/

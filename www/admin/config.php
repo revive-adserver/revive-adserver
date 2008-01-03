@@ -368,6 +368,9 @@ function MMM_buildNavigation()
                     '2.1.1.2'           =>  array("banner-acl.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strModifyBannerAcl']),
                     '2.1.1.3'           =>  array("banner-advanced.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strAdvanced']),
             */
+              "2.3"                     =>  array("advertiser-access.php?clientid=$clientid" => $GLOBALS['strUserAccess']),
+                "2.3.1"                 =>  array("advertiser-user-start.php?clientid=$clientid" => $GLOBALS['strLinkNewUser']),
+                "2.3.2"                 =>  array("advertiser-user.php?clientid=$clientid&login=".$_GET['login'] => $GLOBALS['strUserProperties']),
             "3"                         =>  array("report-index.php?clientid=$clientid" => $GLOBALS['strReports']),
             "5"                         =>  array("account-index.php" => $GLOBALS['strMyAccount']),
               "5.1"                     =>  array("account-preferences-index.php" => $GLOBALS['strPreferences'])
@@ -409,6 +412,7 @@ function MMM_buildNavigation()
             if (OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
                 $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.1.1'] = array("banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strBannerProperties']);
             }
+            $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.2'] = array("advertiser-campaigns.php?clientid=$clientid" => $GLOBALS['strCampaignOverview']);
         }
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         if (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {

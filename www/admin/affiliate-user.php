@@ -44,9 +44,7 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 // Security check
 // TODOPERM - should we add here some additional or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
-}
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_SUPER_ACCOUNT);
 
 $entityName = 'affiliates';
 $entityId = $affiliateid;

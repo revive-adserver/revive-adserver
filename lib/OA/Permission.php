@@ -151,7 +151,7 @@ class OA_Permission
      */
     function enforceAccountPermission($accountType, $permission)
     {
-        if (OA_Permission::isAccount($permission)) {
+        if (OA_Permission::isAccount($accountType)) {
             OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
         }
         return true;
