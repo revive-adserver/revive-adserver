@@ -387,21 +387,6 @@ class OA_Admin_Statistics_Delivery_Common extends OA_Admin_Statistics_Delivery_F
         return $GLOBALS['strNoStats'];
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * A private method that can be inherited and used by children classes to
      * calculate the CTR and SR ratios of the impressions, clicks and conversions

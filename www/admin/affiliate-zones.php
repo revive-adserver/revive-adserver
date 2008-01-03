@@ -73,7 +73,7 @@ if (!isset($orderdirection)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Get other affiliates
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->addSessionListOrderBy('affiliate-index.php');
@@ -98,13 +98,14 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_AC
 
     phpAds_PageHeader("4.2.3");
     echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-
-    phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5", "4.2.6","4.2.7"));
+    phpAds_ShowSections(array("4.2.2", "4.2.3", "4.2.4", "4.2.5", "4.2.6", "4.2.7"));
 } else {
-    $sections = array();
-    $sections[] = "2.1";
+    $sections = array("2.1");
     if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
         $sections[] = "2.2";
+    }
+    if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
+        $sections[] = "2.3";
     }
     phpAds_PageHeader('2.1');
     phpAds_ShowSections($sections);

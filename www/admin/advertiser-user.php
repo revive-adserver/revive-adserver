@@ -116,14 +116,18 @@ $oTpl->assign('hiddenFields', array(
 
 ));
 
-$permissions = array(
-    OA_PERM_BANNER_EDIT => $strAllowClientModifyBanner,
-    OA_PERM_BANNER_DEACTIVATE => $strAllowClientDisableBanner,
-    OA_PERM_BANNER_ACTIVATE => $strAllowClientActivateBanner,
-);
+$aPermissions = array();
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
+    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
+{
+    $aPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
+}
+$aPermissions[OA_PERM_BANNER_EDIT] = $strAllowClientModifyBanner;
+$aPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;
+$aPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
 
 $aPermissionsFields = array();
-foreach ($permissions as $permissionId => $permissionName) {
+foreach ($aPermissions as $permissionId => $permissionName) {
     $aPermissionsFields[] = array(
                 'name'      => 'permissions[]',
                 'label'     => $permissionName,

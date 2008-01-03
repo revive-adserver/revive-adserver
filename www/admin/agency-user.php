@@ -93,10 +93,35 @@ if ($doUsers) {
     $userData['username'] = $login;
 }
 
+$aPermissions = array();
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
+    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
+{
+    $aPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
+}
+
+$aPermissionsFields = array();
+foreach ($aPermissions as $permissionId => $permissionName) {
+    $aPermissionsFields[] = array(
+                'name'      => 'permissions[]',
+                'label'     => $permissionName,
+                'type'      => 'checkbox',
+                'value'     => $permissionId,
+                'checked'   => OA_Permission::hasPermission($permissionId, $accountId, $userid),
+                'break'     => false,
+                'id'        => 'permissions_'.$permissionId,
+            );
+}
+
+
 $oTpl->assign('fields', array(
     array(
         'title'     => $strUserDetails,
         'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
+    ),
+    array(
+        'title'     => $strPermissions,
+        'fields'    => $aPermissionsFields
     )
  )
 );

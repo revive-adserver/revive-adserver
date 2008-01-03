@@ -316,6 +316,7 @@ $GLOBALS['strAllowClientAddBanner']             = "Allow this user to add his ow
 $GLOBALS['strAllowClientDisableBanner']         = "Allow this user to deactivate his own banners";
 $GLOBALS['strAllowClientActivateBanner']        = "Allow this user to activate his own banners";
 $GLOBALS['strAllowClientViewTargetingStats']    = "Allow this user to view targeting statistics";
+$GLOBALS['strAllowCreateAccounts']              = "Allow this user to create new accounts";
 $GLOBALS['strCsvImportConversions']             = "Allow this user to import offline conversions";
 
 // Campaign

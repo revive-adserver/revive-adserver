@@ -69,6 +69,8 @@ define('OA_PERM_ZONE_EDIT',         7);
 define('OA_PERM_ZONE_INVOCATION',   8);
 define('OA_PERM_ZONE_LINK',         9);
 
+define('OA_PERM_SUPER_ACCOUNT',    10);
+
 
 /**
  * A generic class which provides permissions related methods.

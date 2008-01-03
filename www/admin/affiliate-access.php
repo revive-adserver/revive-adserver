@@ -44,6 +44,9 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
+}
 OA_Permission::enforceTrue(!empty($affiliateid));
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
@@ -59,7 +62,12 @@ if (!empty($affiliateid)) {
         echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
         phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
     } else {
-        $sections = array('4.1', '4.7');
+        phpAds_PageHeader('2.3');
+        $sections = array('2.1');
+        if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
+            $sections[] = '2.2';
+        }
+        $sections[] = '2.3';
         phpAds_ShowSections($sections);
     }
 } else {

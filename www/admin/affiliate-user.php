@@ -44,6 +44,9 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 // Security check
 // TODOPERM - should we add here some additional or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
+}
 
 $entityName = 'affiliates';
 $entityId = $affiliateid;
@@ -65,9 +68,20 @@ if (!empty($submit)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("4.2.7.2");
-echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7", "4.2.7.2"));
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    phpAds_PageHeader("4.2.7.2");
+    echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7", "4.2.7.2"));
+} else {
+    phpAds_PageHeader('2.3.2');
+    $sections = array('2.1');
+    if (OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION)) {
+        $sections[] = '2.2';
+    }
+    $sections[] = '2.3';
+    $sections[] = '2.3.2';
+    phpAds_ShowSections($sections);
+}
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -119,73 +133,48 @@ $oTpl->assign('hiddenFields', array(
 
 ));
 
-$oTpl->assign('fields', array(
+$aPermissions = array();
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
+    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
+{
+    $aPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
+}
+$aPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones, false);
+$aPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone, true);
+$aPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone, true);
+$aPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners, false);
+$aPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false);
+
+$aPermissionsFields = array();
+$isTrafficker = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER);
+foreach ($aPermissions as $permissionId => $aPermission) {
+    list($permissionName, $ident) = $aPermission;
+    $aPermissionsFields[] = array(
+                'name'      => 'permissions[]',
+                'label'     => $permissionName,
+                'type'      => 'checkbox',
+                'value'     => $permissionId,
+                'checked'   => OA_Permission::hasPermission($permissionId, $accountId, $userid),
+                'hidden'    => $isTrafficker,
+                'break'     => false,
+                'id'        => 'permissions_'.$permissionId,
+                'ident'     => $ident,
+            );
+}
+
+$tplFields = array(
     array(
         'title'     => $strUserDetails,
         'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
-    ),
-    array(
-        'title'     => $strPermissions,
-        'fields'    => array(
-            array(
-                'name'      => 'permissions[]',
-                'label'     => $strAllowAffiliateModifyZones,
-                'type'      => 'checkbox',
-                'value'     => OA_PERM_ZONE_EDIT,
-                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_EDIT, $accountId, $userid),
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'permissions_'.OA_PERM_ZONE_EDIT,
-                'onclick'   => 'MMM_cascadePermissionsChange()'
-            ),
-            array(
-                'name'      => 'permissions[]',
-                'label'     => $strAllowAffiliateAddZone,
-                'type'      => 'checkbox',
-                'value'     => OA_PERM_ZONE_ADD,
-                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_ADD, $accountId, $userid),
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'permissions_'.OA_PERM_ZONE_ADD,
-                'indent'    => true
-            ),
-            array(
-                'name'      => 'permissions[]',
-                'label'     => $strAllowAffiliateDeleteZone,
-                'type'      => 'checkbox',
-                'value'     => OA_PERM_ZONE_DELETE,
-                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_DELETE, $accountId, $userid),
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'permissions_'.OA_PERM_ZONE_DELETE,
-                'indent'    => true
-            ),
-            array(
-                'name'      => 'permissions[]',
-                'label'     => $strAllowAffiliateLinkBanners,
-                'type'      => 'checkbox',
-                'value'     => OA_PERM_ZONE_LINK,
-                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_LINK, $accountId, $userid),
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'permissions_'.OA_PERM_ZONE_LINK
-            ),
-            array(
-                'name'      => 'permissions[]',
-                'label'     => $strAllowAffiliateGenerateCode,
-                'type'      => 'checkbox',
-                'value'     => OA_PERM_ZONE_INVOCATION,
-                'checked'   => OA_Permission::hasPermission(OA_PERM_ZONE_INVOCATION, $accountId, $userid),
-                'hidden'    => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER),
-                'break'     => false,
-                'id'        => 'permissions_'.OA_PERM_ZONE_INVOCATION
-            ),
-        )
     )
-));
-
-//var_dump($oTpl);
-//die();
+);
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    $tplFields[] = array(
+        'title'     => $strPermissions,
+        'fields'    => $aPermissionsFields
+    );
+}
+$oTpl->assign('fields', $tplFields);
 $oTpl->display();
 ?>
 
