@@ -72,9 +72,9 @@ if (!empty($zoneid)) {
 } else {
     if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         $affiliateid = OA_Permission::getEntityId();
+        OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
     }
     OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-    OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
 }
 
 /*-------------------------------------------------------*/
