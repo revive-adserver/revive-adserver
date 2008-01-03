@@ -49,7 +49,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 /*-------------------------------------------------------*/
 
 phpAds_PageHeader("4.1");
-phpAds_ShowSections(array("4.1", "4.3"));
+phpAds_ShowSections(array("4.1", "4.3", "4.4"));
 
 
 /*-------------------------------------------------------*/

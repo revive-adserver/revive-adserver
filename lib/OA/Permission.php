@@ -52,30 +52,6 @@ define ("OA_ACCOUNT_ADVERTISER_ID", 2);
 define ("OA_ACCOUNT_TRAFFICKER_ID", 4);
 define ("OA_ACCOUNT_MANAGER_ID", 8);
 
-// @TODO: Following constants should be replaced with new permissions (or removed)
-// in order to do that the UI pages should be first refactored
-
-// TODOPERM - remove old permissions
-// Define client permissions bitwise, so 1, 2, 4, 8, 16, etc.
-define ("phpAds_ModifyInfo", 1);
-define ("phpAds_ModifyBanner", 2);
-//define ("phpAds_AddBanner", 4); // not in use?
-define ("phpAds_DisableBanner", 8);
-define ("phpAds_ActivateBanner", 16);
-//define ("phpAds_ViewTargetingStats", 32); - removed
-//define ("phpAds_EditConversions", 64); - removed
-//define ("phpAds_CsvImport", 128); - removed
-
-// Define affiliate permissions bitwise, so 1, 2, 4, 8, 16, etc.
-define ("phpAds_LinkBanners", 2);
-define ("phpAds_AddZone", 4);
-define ("phpAds_DeleteZone", 8);
-define ("phpAds_EditZone", 16);
-define ("MAX_AffiliateGenerateCode", 32);
-//define ("MAX_AffiliateViewZoneStats", 64); - removed
-//define ("MAX_AffiliateIsReallyAffiliate", 128); - removed
-//define ("MAX_AffiliateViewOnlyApprPendConv", 256); - removed
-
 /**
  * Per-account permissions
  *
@@ -159,10 +135,6 @@ class OA_Permission
      */
     function enforceAllowed($permission, $accountId = null)
     {
-        // TODOPERM - always allow, temporal hack before it will be possible
-        //         to assign permissions to users in UI
-        return true;
-
         OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
         return true;
     }

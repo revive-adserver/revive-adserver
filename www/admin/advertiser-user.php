@@ -46,6 +46,7 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 $entityName = 'clients';
 $entityId = $clientid;
+OA_Permission::enforceTrue(!empty($entityId));
 OA_Permission::enforceAccessToObject($entityName, $entityId);
 $accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
 $doUsers = OA_Dal::factoryDO('users');

@@ -120,7 +120,30 @@ class DataObjects_Users extends DB_DataObjectCommon
         return $aUsers;
     }
 
-
+    
+    /**
+     * Returns array of admin users
+     *
+     * @return array
+     */
+    function getAdminUsers()
+    {
+        $doUsers = OA_Dal::factoryDO('users');
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_assoc->joinAdd($doAccounts);
+        $doUsers->joinAdd($doAccount_user_assoc);
+        $doUsers->find();
+        
+        $aUsers = array();
+        while($doUsers->fetch()) {
+            $aUsers[$doUsers->user_id] = $doUsers->toArray();
+            // is user linked to his last account
+            $aUsers[$doUsers->user_id]['toDelete'] = ($doUsers->countLinkedAccounts() == 1);
+        }
+        return $aUsers;
+    }
 }
 
 ?>

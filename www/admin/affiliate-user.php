@@ -48,6 +48,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 $entityName = 'affiliates';
 $entityId = $affiliateid;
 OA_Permission::enforceAccessToObject($entityName, $entityId);
+OA_Permission::enforceTrue(!empty($entityId));
 $accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);

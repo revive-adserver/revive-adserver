@@ -28,44 +28,40 @@
 $Id$
 */
 
+
 // Require the initialisation file
 require_once '../../init.php';
 
 // Required files
+require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/www/admin/config.php';
-require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
+require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
+// Register input variables
+phpAds_registerGlobal ('login', 'returnurl');
+
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-OA_Permission::enforceTrue(!empty($agencyid));
-OA_Permission::enforceAccessToObject('agency', $agencyid);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
+$doAccounts = OA_Dal::factoryDO('accounts');
+$accountId = $doAccounts->getAdminAccountId();
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
+$doUsers = OA_Dal::factoryDO('users');
+$userid = $doUsers->getUserIdByUserName($login);
 
-phpAds_PageHeader("4.1.3.1");
-echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
-phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.1"));
-		
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-require_once MAX_PATH . '/lib/OA/Admin/Template.php';
+if (!empty($accountId) && !empty($userid))
+{
+    OA_Admin_UI_UserAccess::unlinkUserFromAccount($accountId, $userid);
+}
 
-$oTpl = new OA_Admin_Template('agency-user-start.html');
-OA_Admin_UI_UserAccess::assignUserStartTemplateVariables($oTpl);
-$oTpl->assign('action', 'agency-user.php');
-$oTpl->assign('entityIdName', 'agencyid');
-$oTpl->assign('entityIdValue', $agencyid);
-$oTpl->display();
+if (empty($returnurl)) {
+    $returnurl = 'admin-access.php';
+}
 
-/*-------------------------------------------------------*/
-/* HTML framework                                        */
-/*-------------------------------------------------------*/
-
-phpAds_PageFooter();
+Header("Location: ".$returnurl);
 
 ?>

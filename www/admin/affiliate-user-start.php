@@ -38,6 +38,7 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceTrue(!empty($affiliateid));
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/

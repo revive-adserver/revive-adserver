@@ -43,6 +43,7 @@ phpAds_registerGlobal ('login', 'returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceTrue(!empty($affiliateid));
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 $accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
 $doUsers = OA_Dal::factoryDO('users');

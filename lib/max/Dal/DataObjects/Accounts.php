@@ -23,5 +23,16 @@ class DataObjects_Accounts extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
+    
+    /**
+     * Returns ADMIN account ID
+     *
+     */
+    function getAdminAccountId()
+    {
+        $this->account_type = OA_ACCOUNT_ADMIN;
+        $this->find(true);
+        return $this->account_id;
+    }
 
 }

@@ -45,6 +45,7 @@ phpAds_registerGlobal ('login', 'returnurl');
 $entityName = 'agency';
 $entityId = $agencyid;
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+OA_Permission::enforceTrue(!empty($entityId));
 OA_Permission::enforceAccessToObject($entityName, $entityId);
 $accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
 

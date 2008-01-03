@@ -32,39 +32,19 @@ $Id$
 require_once '../../init.php';
 
 // Required files
-require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/www/admin/config.php';
 require_once MAX_PATH . '/www/admin/lib-statistics.inc.php';
-require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
-// Register input variables
-phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'email_address', 'permissions', 'submit');
-
 // Security check
-// TODOPERM - should we add here some additional check or every super user should have access to all accounts?
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-$entityName = 'agency';
-$entityId = $agencyid;
-OA_Permission::enforceTrue(!empty($entityId));
-OA_Permission::enforceAccessToObject($entityName, $entityId);
-$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
-$doUsers = OA_Dal::factoryDO('users');
-$userid = $doUsers->getUserIdByUserName($login);
-
-if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
-    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
-    MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$entityId);
-}
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("4.1.3.2");
-echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
-phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.2"));
+phpAds_PageHeader("4.4.1");
+phpAds_ShowSections(array("4.1", "4.3", "4.4", "4.4.1"));
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -72,52 +52,9 @@ phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.2"));
 
 require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
-$oTpl = new OA_Admin_Template('agency-user.html');
-$oTpl->assign('action', 'agency-user.php');
-$oTpl->assign('backUrl', 'agency-user-start.php?agencyid='.$entityId);
-$oTpl->assign('method', 'POST');
-
-// TODO: will need to know whether we're hosted or downloaded
-$HOSTED = false;
-$oTpl->assign('hosted', $HOSTED);
-
-// indicates whether the user exists (otherwise, a new user will be created or invitation sent)
-$existingUser = !empty($userid);
-$oTpl->assign('existingUser', !empty($userid));
-$oTpl->assign('editMode', !$link);
-$doUsers = OA_Dal::staticGetDO('users', $userid);
-$userData = array();
-if ($doUsers) {
-    $userData = $doUsers->toArray();
-} else {
-    $userData['username'] = $login;
-}
-
-$oTpl->assign('fields', array(
-    array(
-        'title'     => $strUserDetails,
-        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
-    )
- )
-);
-
-
-$oTpl->assign('hiddenFields', array(
-    array(
-        'name' => 'submit',
-        'value' => true
-    ),
-    array(
-        'name' => 'agencyid',
-        'value' => $agencyid
-    ),
-    array(
-        'name' => 'login',
-        'value' => $login
-    ),
-
-));
-
+$oTpl = new OA_Admin_Template('admin-user-start.html');
+OA_Admin_UI_UserAccess::assignUserStartTemplateVariables($oTpl);
+$oTpl->assign('action', 'admin-user.php');
 $oTpl->display();
 
 /*-------------------------------------------------------*/

@@ -1438,12 +1438,6 @@ class OA_Upgrade
             return false;
         }
 
-        // Set up Permissions
-        if (!$this->insertPermissions()) {
-            $this->oLogger->logError('error inserting permissions');
-            return false;
-        }
-
         // Create Admin account
         $doAccount = OA_Dal::factoryDO('accounts');
         $doAccount->account_name = 'Administrator account';
@@ -1561,16 +1555,6 @@ class OA_Upgrade
         require_once MAX_PATH.'/lib/OA/Upgrade/DummyData.php';
         $oDummy = new OA_Dummy_Data();
         $oDummy->insert();
-        return true;
-    }
-
-    /**
-     * TODOPERM - insert any necessary rights here
-     *
-     * @return boolean
-     */
-    function insertPermissions()
-    {
         return true;
     }
 
