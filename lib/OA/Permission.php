@@ -142,6 +142,22 @@ class OA_Permission
     }
 
     /**
+     * A method to show an error if the user doesn't have specific permissions to
+     * perform an action on an account
+     *
+     * @static
+     * @param string $permission  See OA_PERM_* constants
+     * @param int $accountId Defaults to the current active account
+     */
+    function enforceAccountPermission($accountType, $permission)
+    {
+        if (OA_Permission::isAccount($permission)) {
+            OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
+        }
+        return true;
+    }
+
+    /**
      * A method to show an error is the current user/account doesn't have access
      * to DataObject (defined by it's table name)
      *
