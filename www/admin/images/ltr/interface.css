@@ -102,9 +102,8 @@ img#helpIcon {
 }
 
 /* Form elements */
-select:focus, textarea:focus, input:focus {
-  /*background-color:  #D0E5FF;*/
-  background-color:  #caf2c5;
+select:focus, textarea:focus, input[type=text]:focus, input[type=password]:focus {
+  background-color:  #c7e9d1;
 }
 
 
@@ -665,11 +664,12 @@ select.inline {
 
 .arrow-submit {
   border: 0;
-  background-image: url('go.gif');
+  background-image: url('go_blue.gif');
   background-repeat: no-repeat;
   background-color: transparent;
-  background-position: 0 2px;
+  background-position: 0px 1px;
   cursor: pointer;
+  width: 11px;
 }
 
 .arrow-submit:focus {
