@@ -16,8 +16,8 @@ body.hasInterface {
 
 
 a {
-	color: #299B3C;
-    text-decoration: none;
+	color: #0767A8;
+  text-decoration: none;
 }
 a:hover {
     text-decoration: underline;
@@ -303,7 +303,7 @@ ul.tabs a
 }
 
 #oaNavigationExtra a {
-	color: #299b3c;
+	color: #0767A8;
 	font-weight: bold;
 }
 
@@ -330,7 +330,7 @@ ul.tabs a
 } 
 
 #oaNavigationExtraTop .buttonReportBugs a {
-  background: url("../images/bug.gif") no-repeat;
+  background: url("../images/bug-fam.gif") no-repeat;
   background-position:  center right;
   padding-right: 25px;
 }
@@ -350,7 +350,7 @@ ul.tabs a
 	width: 160px;
 	margin: 0 1px 0 0;
 	padding: 0 0 0 20px;
-	color: #299B3C;
+	color: #0767A8;
 	
 	/* Fix IE bug: absolute position should not be relative to padding of parent element */
 	-left: -180px;
@@ -465,7 +465,7 @@ ul.tabs a
 }
 #oaSectionTabs li.selected span,
 #oaSectionTabs li.selected a {
-	color: #299B3C;
+	color: #0767A8;
 	background: #fff;
 	border: 1px solid #888;
 	border-bottom: 1px solid #fff;
