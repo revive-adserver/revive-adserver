@@ -107,6 +107,10 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {if $buttonReportBugs}
         <li class="buttonReportBugs"><a href="https://developer.openads.org/wiki/ReportingBugs" target="_blank">Report a bug</a></li>
 {/if}
+
+{if $buttonStartOver}
+        <li class="buttonStartOver"><a href="index.php">{t str=StartOver}</a></li>
+{/if}
     </ul>
     </div>
 
@@ -126,10 +130,6 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {/if}
 
     <ul id="oaNavigationExtra">
-
-{if $buttonStartOver}
-        <li class="buttonStartOver"><a href="index.php">{t str=StartOver}</a></li>
-{/if}
 
 {if $buttonLogout}
         <li class="switchAccount">

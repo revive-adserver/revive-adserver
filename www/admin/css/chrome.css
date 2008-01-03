@@ -330,9 +330,13 @@ ul.tabs a
 } 
 
 #oaNavigationExtraTop .buttonReportBugs a {
-  background: url("../images/bug-fam.gif") no-repeat;
+  background: url("../images/bug-fam.png") no-repeat;
   background-position:  center right;
   padding-right: 25px;
+}
+
+#oaNavigationExtraTop .buttonStartOver {
+	font-weight: bold;
 }
 
 
