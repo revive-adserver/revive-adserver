@@ -41,7 +41,7 @@ $Id$
 
 <ul id="feed">
 {foreach item=f from=$feed}
-    <li><a href="{$f.link|escape}" target="_blank">{$f.title|escape}</a></li>
+    <li><a href="{$f.link|escape}" target="_blank" title="{$f.origTitle}">{$f.title|escape}</a></li>
 {/foreach}
 </ul>
 <div><a class="site-link" href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
