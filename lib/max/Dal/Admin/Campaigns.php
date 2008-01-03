@@ -250,7 +250,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			    $aImpressions = $rsImpressions->toArray();
 			    // Get the number of days until the campaign will end
 			    // based on the impression target delivery data
-                $aExpiration[0] = $this->_calculateRemainingDays($aImpressions, $aCampaignData['impressions']);
+                $aExpiration[] = $this->_calculateRemainingDays($aImpressions, $aCampaignData['impressions']);
 			}
         }
 
@@ -272,7 +272,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			    $aClicks = $rsClicks->toArray();
 			    // Get the number of days until the campaign will end
 			    // based on the click target delivery data
-                $aExpiration[0] = $this->_calculateRemainingDays($aClicks, $aCampaignData['clicks']);
+                $aExpiration[] = $this->_calculateRemainingDays($aClicks, $aCampaignData['clicks']);
 
 			}
         }
@@ -295,13 +295,16 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
 			    $aConversions = $rsConversions->toArray();
 			    // Get the number of days until the campaign will end
 			    // based on the conversion target delivery data
-                $aExpiration[0] = $this->_calculateRemainingDays($aConversions, $aCampaignData['conversions']);
+                $aExpiration[] = $this->_calculateRemainingDays($aConversions, $aCampaignData['conversions']);
 			}
         }
 
         $result = '';
         // Is there a possible expiration date?
-        if (empty($aExpiration[0]) || count($aExpiration[0]) == 0)
+        if (empty($aExpiration) || count($aExpiration) == 0 ||
+            // The Dal will return an empty array for unknown expiration dates, so catch this as well
+            (count($aExpiration == 1) && empty($aExpiration[0]))
+        )
         {
             // No, so return the "no expiration date" value
     		$result = $strExpiration.": ".$strNoExpiration;
@@ -348,7 +351,7 @@ class MAX_Dal_Admin_Campaigns extends MAX_Dal_Common
      */
     function _calculateRemainingDays($aDeliveryData, $target)
     {
-        global $date_format;
+        global $date_format, $strNoExpiration;
         $oNowDate = new Date();
         $aExpiration = array();
         // How many days since the first impression/click/conversion?
