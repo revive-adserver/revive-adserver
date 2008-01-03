@@ -41,7 +41,7 @@ var HOSTED = {if $hosted}true{else}false{/if};
       width: 500,
       formatItem: function(row) {
         if (row[1] && row[1].length > 0) {
-          return row[2] + " <" + row[1] + ">";
+          return row[2] + " [" + row[1] + "]";
         } else {
           return row[2];
         }
