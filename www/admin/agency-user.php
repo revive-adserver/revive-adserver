@@ -44,6 +44,10 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 // Security check
 // TODOPERM - should we add here some additional check or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
+    $agencyid = OA_Permission::getAgencyId();
+}
 $entityName = 'agency';
 $entityId = $agencyid;
 OA_Permission::enforceTrue(!empty($entityId));
@@ -52,9 +56,15 @@ $accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
+$aAllowedPermissions = array();
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
+{
+    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
+}
+
 if (!empty($submit)) {
     $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
-    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
+    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
     MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$entityId);
 }
 
@@ -62,9 +72,14 @@ if (!empty($submit)) {
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("4.1.3.2");
-echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
-phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.2"));
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    phpAds_PageHeader("4.1.3.2");
+    echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
+    phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.2"));
+} else {
+    phpAds_PageHeader('4.4.2');
+    phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4", "4.4.2"));
+}
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
@@ -93,15 +108,8 @@ if ($doUsers) {
     $userData['username'] = $login;
 }
 
-$aPermissions = array();
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
-    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
-{
-    $aPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
-}
-
 $aPermissionsFields = array();
-foreach ($aPermissions as $permissionId => $permissionName) {
+foreach ($aAllowedPermissions as $permissionId => $permissionName) {
     $aPermissionsFields[] = array(
                 'name'      => 'permissions[]',
                 'label'     => $permissionName,
@@ -112,19 +120,19 @@ foreach ($aPermissions as $permissionId => $permissionName) {
                 'id'        => 'permissions_'.$permissionId,
             );
 }
-
-
-$oTpl->assign('fields', array(
+$aTplFields = array(
     array(
         'title'     => $strUserDetails,
         'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
-    ),
-    array(
+    )
+);
+if (!empty($aPermissionsFields)) {
+    $aTplFields[] = array(
         'title'     => $strPermissions,
         'fields'    => $aPermissionsFields
-    )
- )
-);
+    );
+}
+$oTpl->assign('fields', $aTplFields);
 
 
 $oTpl->assign('hiddenFields', array(

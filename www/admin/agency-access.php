@@ -41,6 +41,10 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
+    $agencyid = OA_Permission::getAgencyId();
+}
 OA_Permission::enforceTrue(!empty($agencyid));
 OA_Permission::enforceAccessToObject('agency', $agencyid);
 
@@ -49,11 +53,16 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 /*-------------------------------------------------------*/
 
 if ($agencyid != '') {
-	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
-	phpAds_PageHeader("4.1.3");
-	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
-	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
-	phpAds_ShowSections(array("4.1.2", "4.1.3"));
+    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    	OA_Admin_Menu::setAgencyPageContext($agencyid, 'agency-edit.php');
+    	phpAds_PageHeader("4.1.3");
+    	$doAgency = OA_Dal::staticGetDO('agency', $agencyid);
+    	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".$doAgency->name."</b><br /><br /><br />";
+    	phpAds_ShowSections(array("4.1.2", "4.1.3"));
+    } else {
+        phpAds_PageHeader('4.4');
+        phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4"));
+    }
 } else {
 	phpAds_PageHeader("4.1.1");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";

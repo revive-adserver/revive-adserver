@@ -190,8 +190,10 @@ class OA_Admin_UI_UserAccess
      *
      * @param integer $userId  User ID
      * @param integer $accountId  Account ID
+     * @param array $permissions Array of permissions
+     * @param array $aAllowedPermissions  Array of allowed permissions
      */
-    function linkUserToAccount($userId, $accountId, $permissions)
+    function linkUserToAccount($userId, $accountId, $permissions, $aAllowedPermissions)
     {
         if (empty($userId)) {
             OA_Session::setMessage('Error while creating user:' . $login);
@@ -202,7 +204,8 @@ class OA_Admin_UI_UserAccess
                 OA_Session::setMessage('User account updated');
             }
             OA_Permission::setAccountAccess($accountId, $userId);
-            OA_Permission::storeUserAccountsPermissions($permissions, $accountId, $userId);
+            OA_Permission::storeUserAccountsPermissions($permissions, $accountId,
+                $userId, $aAllowedPermissions);
         }
     }
     

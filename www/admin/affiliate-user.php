@@ -56,10 +56,22 @@ $accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
+// Permissions
+$aAllowedPermissions = array();
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
+    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
+{
+    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
+}
+$aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones, false);
+$aAllowedPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone, true);
+$aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone, true);
+$aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners, false);
+$aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false);
 
 if (!empty($submit)) {
     $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
-    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
+    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
     MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
 }
 
@@ -133,21 +145,9 @@ $oTpl->assign('hiddenFields', array(
 
 ));
 
-$aPermissions = array();
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
-    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
-{
-    $aPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
-}
-$aPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones, false);
-$aPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone, true);
-$aPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone, true);
-$aPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners, false);
-$aPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false);
-
 $aPermissionsFields = array();
 $isTrafficker = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER);
-foreach ($aPermissions as $permissionId => $aPermission) {
+foreach ($aAllowedPermissions as $permissionId => $aPermission) {
     list($permissionName, $ident) = $aPermission;
     $aPermissionsFields[] = array(
                 'name'      => 'permissions[]',

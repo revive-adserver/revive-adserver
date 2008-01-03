@@ -38,6 +38,10 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
+    $agencyid = OA_Permission::getAgencyId();
+}
 OA_Permission::enforceTrue(!empty($agencyid));
 OA_Permission::enforceAccessToObject('agency', $agencyid);
 
@@ -45,10 +49,15 @@ OA_Permission::enforceAccessToObject('agency', $agencyid);
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-phpAds_PageHeader("4.1.3.1");
-echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
-phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.1"));
-		
+if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+    phpAds_PageHeader("4.1.3.1");
+    echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($agencyid)."</b><br /><br /><br />";
+    phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.3.1"));
+} else {
+    phpAds_PageHeader('4.4.1');
+    phpAds_ShowSections(array("4.1", "4.2", "4.3", "4.4", "4.4.1"));
+}
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/

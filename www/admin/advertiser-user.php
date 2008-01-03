@@ -52,9 +52,19 @@ $accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
+$aAllowedPermissions = array();
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
+    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
+{
+    $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
+}
+$aAllowedPermissions[OA_PERM_BANNER_EDIT] = $strAllowClientModifyBanner;
+$aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;
+$aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
+
 if (!empty($submit)) {
     $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
-    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
+    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
     MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$entityId);
 }
 
@@ -116,18 +126,8 @@ $oTpl->assign('hiddenFields', array(
 
 ));
 
-$aPermissions = array();
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
-    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
-{
-    $aPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
-}
-$aPermissions[OA_PERM_BANNER_EDIT] = $strAllowClientModifyBanner;
-$aPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;
-$aPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
-
 $aPermissionsFields = array();
-foreach ($aPermissions as $permissionId => $permissionName) {
+foreach ($aAllowedPermissions as $permissionId => $permissionName) {
     $aPermissionsFields[] = array(
                 'name'      => 'permissions[]',
                 'label'     => $permissionName,

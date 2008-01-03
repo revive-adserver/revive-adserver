@@ -322,20 +322,23 @@ class OA_Permission
      * Set user access to account
      *
      * @param integer $accountId  account ID
-     * @param boolean $hasAccess  defines whether user should or shouldn't have an access to account
+     * @param boolean $setAccess  defines whether user should or shouldn't have an access to account
      * @param integer $userId  User ID (if null a logged user id is used)
      * @return boolean  True on success else false
      */
-    function setAccountAccess($accountId, $userId, $hasAccess = true)
+    function setAccountAccess($accountId, $userId, $setAccess = true)
     {
         $doAccount_user_Assoc = OA_Dal::factoryDO('account_user_assoc');
         $doAccount_user_Assoc->account_id = $accountId;
         $doAccount_user_Assoc->user_id = $userId;
-        $ret = $doAccount_user_Assoc->delete();
-        if ($hasAccess) {
+        $isExists = (bool) $doAccount_user_Assoc->count();
+        if ($isExists && !$setAccess) {
+            return $doAccount_user_Assoc->delete();
+        }
+        if (!$isExists) {
             return $doAccount_user_Assoc->insert();
         }
-        return $ret;
+        return true;
     }
 
     /**
@@ -651,9 +654,11 @@ class OA_Permission
 	 * @param array $aPermissions  Array of permission IDs
 	 * @param integer $accountId  account ID
 	 * @param integer $userId  user ID
+	 * @param array $aAllowedPermissions  Array of allowed permissions - keys of array are permissions IDs
 	 * @return true on success else false
 	 */
-	function storeUserAccountsPermissions($aPermissions, $accountId = null, $userId = null)
+	function storeUserAccountsPermissions($aPermissions, $accountId = null, $userId = null,
+	   $aAllowedPermissions = null)
 	{
 	    if (empty($userId)) {
 	        $userId = OA_Permission::getUserId();
@@ -661,14 +666,14 @@ class OA_Permission
 	    if (empty($accountId)) {
 	        $accountId = OA_Permission::getAccountId();
 	    }
-	    // delete all rights
-	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
-	    $doAccount_user_permission_assoc->account_id = $accountId;
-	    $doAccount_user_permission_assoc->user_id = $userId;
-	    $doAccount_user_permission_assoc->delete();
+	    OA_Permission::deleteExistingPermissions($accountId, $userId, $aAllowedPermissions);
 
-	    // add new rights
+	    // add new permissions
 	    foreach ($aPermissions as $permissionId) {
+	        if (!is_null($aAllowedPermissions) && !isset($aAllowedPermissions[$permissionId])) {
+	            // check if permission is on the list of allowed permissions
+	            continue;
+	        }
     	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
     	    $doAccount_user_permission_assoc->account_id = $accountId;
     	    $doAccount_user_permission_assoc->user_id = $userId;
@@ -679,6 +684,33 @@ class OA_Permission
     	    }
 	    }
 	    return true;
+	}
+	
+	/**
+	 * Deletes existing users permissions. If list of permissions is provided it
+	 * only clean up permissions from that list
+	 *
+	 * @param int $accountId
+	 * @param int $userId
+	 * @param array $allowedPermissions
+	 */
+	function deleteExistingPermissions($accountId, $userId, $allowedPermissions)
+	{
+	    if (is_array($allowedPermissions)) {
+	        foreach ($allowedPermissions as $permissionId => $perm) {
+        	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        	    $doAccount_user_permission_assoc->permission_id = $permissionId;
+        	    $doAccount_user_permission_assoc->account_id = $accountId;
+        	    $doAccount_user_permission_assoc->user_id = $userId;
+        	    $doAccount_user_permission_assoc->delete();
+	        }
+	        
+	    } else {
+    	    $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+    	    $doAccount_user_permission_assoc->account_id = $accountId;
+    	    $doAccount_user_permission_assoc->user_id = $userId;
+    	    $doAccount_user_permission_assoc->delete();
+	    }
 	}
 
 }
