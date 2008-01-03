@@ -194,9 +194,8 @@ class OA_Dashboard_Widget_Graph extends OA_Dashboard_Widget
 
             $Graph->add($Plotarea = Image_Graph::factory('plotarea'));
 
-            $FillBG =& Image_Graph::factory('Image_Graph_Fill_Image', MAX_PATH . '/www/admin/images/dashboard-graph-bg.gif');
-            $Graph->setBackground($FillBG);
-
+            /*$FillBG =& Image_Graph::factory('Image_Graph_Fill_Image', MAX_PATH . '/www/admin/images/dashboard-graph-bg.gif');
+            $Graph->setBackground($FillBG);*/
 
     		$Grid =& $Plotarea->addNew('line_grid', IMAGE_GRAPH_AXIS_Y);
     		$Grid->setLineColor('#cccccc');
