@@ -333,6 +333,9 @@ ul.tabs a
   background: url("../images/bug-fam.png") no-repeat;
   background-position:  center right;
   padding-right: 25px;
+  /* Fix IE bug: transparent PNG support */ 
+  -background: none;
+  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bug-fam.png');
 }
 
 #oaNavigationExtraTop .buttonStartOver {
@@ -494,7 +497,7 @@ select.switcher option {
   font-size: 10px;
 }
 select.switcher optgroup {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Tahoma, Verdana, Arial, sans-serif;
   font-size: 10px;
   font-style: normal;
 }

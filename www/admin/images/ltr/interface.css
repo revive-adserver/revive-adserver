@@ -2,7 +2,7 @@
 /* Fonts */
 
 body, table, td, select, textarea, input  {
-    font-family: Tahoma,Helvetica, Verdana, Arial, sans-serif;
+    font-family: Helvetica, Tahoma, Verdana, Arial, sans-serif;
     font-size: 11px;
 }
 
