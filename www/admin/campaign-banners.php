@@ -46,7 +46,8 @@ phpAds_registerGlobal('expand', 'collapse', 'hideinactive', 'listorder', 'orderd
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

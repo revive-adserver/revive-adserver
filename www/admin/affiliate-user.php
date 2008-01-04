@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: affiliate-edit.php 12839 2007-11-27 16:32:39Z bernard.lange@openads.org $
+$Id$
 */
 
 // Require the initialisation file
@@ -45,12 +45,10 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 // TODOPERM - should we add here some additional or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_SUPER_ACCOUNT);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
-$entityName = 'affiliates';
-$entityId = $affiliateid;
-OA_Permission::enforceAccessToObject($entityName, $entityId);
-OA_Permission::enforceTrue(!empty($entityId));
-$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
+$accountId = OA_Permission::getAccountIdForEntity('affiliates', $affiliateid);
+
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
@@ -101,7 +99,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('affiliate-user.html');
 $oTpl->assign('action', 'affiliate-user.php');
-$oTpl->assign('backUrl', 'affiliate-user-start.php?affiliate='.$entityId);
+$oTpl->assign('backUrl', 'affiliate-user-start.php?affiliate='.$affiliateid);
 $oTpl->assign('method', 'POST');
 
 // TODO: will need to know whether we're hosted or downloaded

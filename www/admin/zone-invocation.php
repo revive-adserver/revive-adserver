@@ -40,13 +40,13 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/lib/max/Admin/Invocation.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-
-/*-------------------------------------------------------*/
-/* Affiliate interface security                          */
-/*-------------------------------------------------------*/
-
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 OA_Permission::enforceAccessToObject('zones', $zoneid);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_INVOCATION);
+}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */

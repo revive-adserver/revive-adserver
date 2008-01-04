@@ -43,13 +43,10 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 phpAds_registerGlobal ('returnurl');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-if (!empty($campaignid)) {
-    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
-}
-if (!empty($clientid)) {
-    OA_Permission::enforceAccessToObject('clients', $clientid);
-}
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+
 
 /*-------------------------------------------------------*/
 /* Restore cache of $node_array, if it exists            */

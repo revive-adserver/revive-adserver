@@ -44,15 +44,11 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 // Security check
 // TODOPERM - should we add here some additional check or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
-    $agencyid = OA_Permission::getAgencyId();
-}
-$entityName = 'agency';
-$entityId = $agencyid;
-OA_Permission::enforceTrue(!empty($entityId));
-OA_Permission::enforceAccessToObject($entityName, $entityId);
-$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_SUPER_ACCOUNT);
+OA_Permission::enforceAccessToObject('agency', $agencyid);
+
+$accountId = OA_Permission::getAccountIdForEntity('agency', $agencyid);
+
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
@@ -65,7 +61,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
 if (!empty($submit)) {
     $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
     OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-    MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$entityId);
+    MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$agencyid);
 }
 
 /*-------------------------------------------------------*/
@@ -89,7 +85,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('agency-user.html');
 $oTpl->assign('action', 'agency-user.php');
-$oTpl->assign('backUrl', 'agency-user-start.php?agencyid='.$entityId);
+$oTpl->assign('backUrl', 'agency-user-start.php?agencyid='.$agencyid);
 $oTpl->assign('method', 'POST');
 
 // TODO: will need to know whether we're hosted or downloaded

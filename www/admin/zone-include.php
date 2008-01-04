@@ -38,8 +38,14 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 require_once MAX_PATH . '/www/admin/lib-zones.inc.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
-    // Security check
-    OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_LINK);
+}
 
     // Get input parameters
     $pref =& $GLOBALS['_MAX']['PREF'];
@@ -70,13 +76,6 @@ require_once MAX_PATH . '/lib/max/Admin_DA.php';
     $tabIndex = 1;
     $agencyId = OA_Permission::getAgencyId();
     $aEntities = array('affiliateid' => $publisherId, 'zoneid' => $zoneId);
-
-    // Parameter check
-    if (!MAX_checkZone($publisherId, $zoneId)) {
-        // TODO:  Change the code below to be standard...
-        phpAds_PageHeader('2');
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
 
     if (isset($action)) {
         $result = true;

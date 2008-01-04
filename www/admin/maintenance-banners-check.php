@@ -41,7 +41,7 @@ require_once MAX_PATH . '/www/admin/lib-maintenance.inc.php';
 require_once MAX_PATH . '/www/admin/lib-banner.inc.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 
 phpAds_registerGlobal('action', 'returnurl');
 

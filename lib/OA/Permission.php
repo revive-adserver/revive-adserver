@@ -119,12 +119,10 @@ class OA_Permission
      * @static
      * @param int $accountId
      * @param int $userId  Get current user if null
-     * @return boolean True if user has access
      */
     function enforceAccess($accountId, $userId = null)
     {
         OA_Permission::enforceTrue(OA_Permission::hasAccess($accountId, $userId));
-        return true;
     }
 
     /**
@@ -138,7 +136,6 @@ class OA_Permission
     function enforceAllowed($permission, $accountId = null)
     {
         OA_Permission::enforceTrue(OA_Permission::hasPermission($permission, $accountId));
-        return true;
     }
 
     /**
@@ -162,34 +159,36 @@ class OA_Permission
      * to DataObject (defined by it's table name)
      *
      * @static
-     * @param string $objectTable  Table name
-     * @param int $objectId  Id (or empty if new is created)
-     * @return boolean  True if has access
+     * @param string $entityTable  Table name
+     * @param int $entityId  Entity ID (or empty if a new one is being created)
+     * @param bool $allowNewEntity  Allow creation of a new entity, defaults to false
      */
-    function enforceAccessToObject($objectTable, $objectId, $accountId = null)
+    function enforceAccessToObject($entityTable, $entityId, $allowNewEntity = false)
     {
+        if (!$allowNewEntity) {
+            OA_Permission::enforceTrue(!empty($entityId));
+        }
         OA_Permission::enforceTrue(
-            OA_Permission::hasAccessToObject($objectTable, $objectId, $accountId)
+            OA_Permission::hasAccessToObject($entityTable, $entityId, $accountId)
             || OA_Permission::isUserLinkedToAdmin());
-        return true;
     }
 
     /**
      * Check if logged user has access to DataObject (defined by it's table name)
      *
      * @static
-     * @param string $objectTable  Table name
-     * @param int $objectId  Id (or empty if new is created)
+     * @param string $entityTable  Table name
+     * @param int $entityId  Id (or empty if new is created)
      * @param int $accountId  Account Id (if null account from session is taken)
      * @return boolean  True if has access
      */
-    function hasAccessToObject($objectTable, $objectId, $accountId = null, $accountType = null)
+    function hasAccessToObject($entityTable, $entityId, $accountId = null, $accountType = null)
     {
-        if (empty($objectId)) {
+        if (empty($entityId)) {
             // when a new object is created
             return true;
         }
-        $do = OA_Dal::factoryDO($objectTable);
+        $do = OA_Dal::factoryDO($entityTable);
         if (!$do) {
             return false;
         }
@@ -197,15 +196,15 @@ class OA_Permission
         if (!$key) {
             return false;
         }
-        $do->$key = $objectId;
+        $do->$key = $entityId;
         $accountTable = OA_Permission::getAccountTable($accountType);
         if (!$accountTable) {
             return false;
         }
-        if ($objectTable == $accountTable) {
+        if ($entityTable == $accountTable) {
             // user has access to itself
             if ($accountId === null) {
-                return ($objectId == OA_Permission::getEntityId());
+                return ($entityId == OA_Permission::getEntityId());
             } else {
                 $do->account_id = OA_Permission::getAccountId();
                 return (bool)$do->count();

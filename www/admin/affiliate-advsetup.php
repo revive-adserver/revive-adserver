@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: affiliate-channels.php 9558 2007-09-11 06:50:55Z aj.tarachanowicz@openads.org $
+$Id$
 */
 
 //
@@ -44,6 +44,10 @@ require_once MAX_PATH . '/lib/OA/Dal.php';
 
 // Register input variables
 phpAds_registerGlobal ('acl', 'action', 'submit');
+
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 
 // Initialise some parameters

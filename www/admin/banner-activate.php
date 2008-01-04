@@ -42,23 +42,23 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 // Register input variables
 phpAds_registerGlobal ('value');
 
+if ($value == OA_ENTITY_STATUS_RUNNING) {
+	$value = OA_ENTITY_STATUS_PAUSED;
+} else {
+	$value = OA_ENTITY_STATUS_RUNNING;
+}
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-{
-    $doBanners = OA_Dal::factoryDO('banners');
-    $doBanners->addReferenceFilter('agency', OA_Permission::getEntityId());
-    $doBanners->addReferenceFilter('campaigns', $campaignid);
-    $doBanners->addReferenceFilter('clients', $clientid);
-    if (!empty($bannerid)) {
-        $doBanners->addReferenceFilter('banners', $bannerid);
-    }
-    $doBanners->find();
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('banners',   $bannerid, true);
 
-    if (!$doBanners->getRowCount()) {
-        phpAds_PageHeader("2");
-    	phpAds_Die ($strAccessDenied, $strNotAdmin);
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+    if ($value == OA_ENTITY_STATUS_RUNNING) {
+        OA_Permission::enforceAllowed(OA_PERM_BANNER_DEACTIVATE);
+    } else {
+        OA_Permission::enforceAllowed(OA_PERM_BANNER_ACTIVATE);
     }
 }
 
@@ -67,74 +67,30 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if ($value == OA_ENTITY_STATUS_RUNNING)
-	$value = OA_ENTITY_STATUS_PAUSED;
-else
-	$value = OA_ENTITY_STATUS_RUNNING;
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER))
+if (!empty($bannerid))
 {
-	if (($value == OA_ENTITY_STATUS_PAUSED && OA_Permission::hasPermission(OA_PERM_BANNER_DEACTIVATE)) ||
-	    ($value == OA_ENTITY_STATUS_RUNNING && OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE)))
-	{
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->get($bannerid);
-
-
-		if ($doBanners->campaignid == '' || OA_Permission::getEntityId() != phpAds_getCampaignParentClientID ($doBanners->campaignid))
-		{
-			phpAds_PageHeader("1");
-			phpAds_Die ($strAccessDenied, $strNotAdmin);
-		}
-		else
-		{
-			$campaignid = $doBanners->campaignid;
-            $doBanners->status = $value;
-            $doBanners->update();
-
-			// Run the Maintenance Priority Engine process
-            OA_Maintenance_Priority::run();
-
-			// Rebuild cache
-			// require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-			// phpAds_cacheDelete();
-
-			Header("Location: stats.php?entity=campaign&breakdown=banners&clientid=".$clientid."&campaignid=".$campaignid);
-		}
-	}
-	else
-	{
-		phpAds_PageHeader("1");
-		phpAds_Die ($strAccessDenied, $strNotAdmin);
-	}
+    $doBanners = OA_Dal::factoryDO('banners');
+    $doBanners->get($bannerid);
+    $doBanners->status = $value;
+    $doBanners->update();
 }
-elseif (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
+elseif (!empty($campaignid))
 {
-	if (!empty($bannerid))
-	{
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->get($bannerid);
-        $doBanners->status = $value;
-        $doBanners->update();
-	}
-	elseif (!empty($campaignid))
-	{
-        $doBanners = OA_Dal::factoryDO('banners');
-        $doBanners->status = $value;
-        $doBanners->whereAdd('campaignid = ' . $campaignid);
+    $doBanners = OA_Dal::factoryDO('banners');
+    $doBanners->status = $value;
+    $doBanners->whereAdd('campaignid = ' . $campaignid);
 
-        // Update all the banners
-        $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
-	}
-
-	// Run the Maintenance Priority Engine process
-    OA_Maintenance_Priority::scheduleRun();
-
-	// Rebuild cache
-	// require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
-	// phpAds_cacheDelete();
-	Header("Location: campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
+    // Update all the banners
+    $doBanners->update(DB_DATAOBJECT_WHEREADD_ONLY);
 }
 
+// Run the Maintenance Priority Engine process
+OA_Maintenance_Priority::scheduleRun();
+
+// Rebuild cache
+// require_once MAX_PATH . '/lib/max/deliverycache/cache-'.$conf['delivery']['cache'].'.inc.php';
+// phpAds_cacheDelete();
+header("Location: campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid);
 
 ?>

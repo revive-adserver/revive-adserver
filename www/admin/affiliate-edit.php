@@ -47,26 +47,11 @@ phpAds_registerGlobalUnslashed ('move', 'name', 'website', 'contact', 'email', '
                                'errormessage', 'submit', 'publiczones_old', 'formId', 'category', 'country', 'language');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid, true);
 
 // Initialise Ad  Networks
 $oAdNetworks = new OA_Central_AdNetworks();
-
-/*-------------------------------------------------------*/
-/* Affiliate interface security                          */
-/*-------------------------------------------------------*/
-
-if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    $doAffiliates = OA_Dal::factoryDO('affiliates');
-    $affiliateid = OA_Permission::getEntityId();
-    $doAffiliates->get($affiliateid);
-    $agencyid = $doAffiliates->agencyid;
-} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    $agencyid = OA_Permission::getEntityId();
-} else {
-    $agencyid = 0;
-}
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */
@@ -91,11 +76,7 @@ if (isset($formId)) {
 
     $oPublisherDll = new OA_Dll_Publisher();
     if ($oPublisherDll->modify($oPublisher)) {
-        if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-            $redirect_url = "affiliate-edit.php?affiliateid={$oPublisher->publisherId}";
-        } else {
-            $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
-        }
+        $redirect_url = "affiliate-zones.php?affiliateid={$oPublisher->publisherId}";
         MAX_Admin_Redirect::redirect($redirect_url);
         exit;
     }
@@ -106,17 +87,12 @@ if (isset($formId)) {
 /*-------------------------------------------------------*/
 
 if ($affiliateid != "") {
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
-        phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
-        phpAds_PageHeader("4.2.2");
-        echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
-        phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
-    } else {
-        $sections = array("4.1", "4.2");
-        phpAds_PageHeader('4.2');
-        phpAds_ShowSections($sections);
-    }
+    OA_Admin_Menu::setPublisherPageContext($affiliateid, 'affiliate-edit.php');
+    phpAds_PageShortcut($strAffiliateHistory, 'stats.php?entity=affiliate&breakdown=history&affiliateid='.$affiliateid, 'images/icon-statistics.gif');
+    phpAds_PageHeader("4.2.2");
+    echo "<img src='images/icon-affiliate.gif' align='absmiddle'>&nbsp;<b>".phpAds_getAffiliateName($affiliateid)."</b><br /><br /><br />";
+    phpAds_ShowSections(array("4.2.2", "4.2.3","4.2.4","4.2.5","4.2.6","4.2.7"));
+
     // Do not get this information if the page
     // is the result of an error message
     if (!isset($affiliate)) {
@@ -171,14 +147,12 @@ $oTpl->assign('fieldsTop', array(
                                     'checked'           => !empty($affiliate['an_website_id']),
                                     'checked_advsignup' => !empty($affiliate['as_website_id']),
                                     'disabled'          => !$GLOBALS['_MAX']['CONF']['sync']['checkForUpdates']
-                                        || !OA_Permission::isAccount(OA_ACCOUNT_ADMIN)
                                    ),
             ),
             array(
                 'name'      => 'name',
                 'label'     => $strName,
-                'value'     => $affiliate['name'],
-                'freezed'   => OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)
+                'value'     => $affiliate['name']
             ),
             array(
                 'name'      => 'category',
@@ -229,11 +203,8 @@ $oTpl->display();
     max_formSetConditionalValidate('category', '$("#advsignup").get(0).checked==true');
     max_formSetConditionalValidate('country', '$("#advsignup").get(0).checked==true');
     max_formSetConditionalValidate('language', '$("#advsignup").get(0).checked==true');
-
-<?php if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) { ?>
     max_formSetRequirements('name', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetUnique('name', '|<?php echo addslashes(implode('|', $aUniqueNames)); ?>|');
-<?php } ?>
 //-->
 </script>
 

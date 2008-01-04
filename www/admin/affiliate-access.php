@@ -25,7 +25,7 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id: affiliate-edit.php 12839 2007-11-27 16:32:39Z bernard.lange@openads.org $
+$Id$
 */
 
 // Require the initialisation file
@@ -44,10 +44,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
-}
-OA_Permission::enforceTrue(!empty($affiliateid));
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_SUPER_ACCOUNT);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/

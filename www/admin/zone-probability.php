@@ -44,13 +44,9 @@ require_once MAX_PATH . '/lib/max/other/html.php';
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 OA_Permission::enforceAccessToObject('zones', $zoneid);
 
-if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-    $affiliateid = OA_Permission::getEntityId();
-} elseif (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
-}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -120,7 +116,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
-                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
                 } else {
                     echo $name;
@@ -134,10 +130,10 @@ function phpAds_showZoneBanners ($zoneId)
                 $limitations = _isAdLimited($aLinkedAd);
 
                 echo "<td height='25'>";
-                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
                     $linkEnd = "</a>";
-                } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                } else {
                     $linkStart = '';
                     $linkEnd = '';
                 }
@@ -201,7 +197,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
-                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
                 } else {
                     echo $name;
@@ -220,10 +216,10 @@ function phpAds_showZoneBanners ($zoneId)
                 $capping = _isAdCapped($aLinkedAd);
                 $limitations = _isAdLimited($aLinkedAd);
 
-                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
                     $linkEnd = "</a>";
-                } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                } else {
                     $linkStart = '';
                     $linkEnd = '';
                 }
@@ -291,7 +287,7 @@ function phpAds_showZoneBanners ($zoneId)
                     echo "<img src='images/icon-banner-stored.gif' align='absmiddle'>&nbsp;";
                 }
                 // Name
-                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     echo "<a href='banner-edit.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid=".$aLinkedAd['placement_id']."&bannerid=".$adId."'>".$name."</a>";
                 } else {
                     echo $name;
@@ -309,10 +305,10 @@ function phpAds_showZoneBanners ($zoneId)
                 $capping = _isAdCapped($aLinkedAd);
                 $limitations = _isAdLimited($aLinkedAd);
 
-                if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+                if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
                     $linkStart = "<a href='banner-acl.php?clientid=".phpAds_getCampaignParentClientID($aLinkedAd['placement_id'])."&campaignid={$aLinkedAd['placement_id']}&bannerid={$aLinkedAd['ad_id']}'>";
                     $linkEnd = "</a>";
-                } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+                } else {
                     $linkStart = '';
                     $linkEnd = '';
                 }

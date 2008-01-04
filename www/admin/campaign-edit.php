@@ -89,7 +89,8 @@ phpAds_registerGlobalUnslashed(
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
-OA_Permission::enforceAccessToObject('clients', $clientid);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid, true);
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */

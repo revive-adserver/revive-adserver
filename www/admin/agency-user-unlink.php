@@ -43,15 +43,10 @@ phpAds_registerGlobal ('login', 'returnurl');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
-    $agencyid = OA_Permission::getAgencyId();
-}
-$entityName = 'agency';
-$entityId = $agencyid;
-OA_Permission::enforceTrue(!empty($entityId));
-OA_Permission::enforceAccessToObject($entityName, $entityId);
-$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_SUPER_ACCOUNT);
+OA_Permission::enforceAccessToObject('agency', $agencyid);
+
+$accountId = OA_Permission::getAccountIdForEntity('agency', $agencyid);
 
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);

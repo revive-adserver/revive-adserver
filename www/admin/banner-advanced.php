@@ -61,20 +61,10 @@ foreach ($invPlugins as $plugin) {
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    $doBanners = OA_Dal::factoryDO('banners');
-    $doBanners->addReferenceFilter('agency', OA_Permission::getEntityId());
-    $doBanners->addReferenceFilter('campaigns', $campaignid);
-    $doBanners->addReferenceFilter('clients', $clientid);
-    $doBanners->addReferenceFilter('banners', $bannerid);
-    $doBanners->find();
-
-    if (!$doBanners->getRowCount()) {
-        phpAds_PageHeader("2");
-        phpAds_Die ($strAccessDenied, $strNotAdmin);
-    }
-}
 
 /*-------------------------------------------------------*/
 /* Process submitted form                                */

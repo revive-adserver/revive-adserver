@@ -44,7 +44,7 @@ phpAds_registerGlobal ('listorder', 'orderdirection');
 /* Advertiser interface security                          */
 /*-------------------------------------------------------*/
 
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/

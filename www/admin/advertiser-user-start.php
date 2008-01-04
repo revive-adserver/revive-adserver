@@ -38,7 +38,7 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceTrue(!empty($clientid));
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_SUPER_ACCOUNT);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
@@ -55,7 +55,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     echo $icon;
 	phpAds_ShowSections(array('2.2', '2.3', '2.3.1'));
 }
-		
+
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/

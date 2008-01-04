@@ -42,20 +42,18 @@ require_once MAX_PATH . '/www/admin/lib-size.inc.php';
 /* Affiliate interface security                          */
 /*-------------------------------------------------------*/
 
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
 /*-------------------------------------------------------*/
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     // Get other affiliates
     $doAffiliates = OA_Dal::factoryDO('affiliates');
     $doAffiliates->addSessionListOrderBy('affiliate-zones.php');
-    if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-        $doAffiliates->agencyid = $agencyid;
-    }
+    $doAffiliates->agencyid = $agencyid;
     $doAffiliates->find();
     while ($doAffiliates->fetch() && $row = $doAffiliates->toArray()) {
         phpAds_PageContext(

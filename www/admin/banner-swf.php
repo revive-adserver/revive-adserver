@@ -47,22 +47,14 @@ phpAds_registerGlobalUnslashed('convert', 'cancel', 'compress', 'convert_links',
                        'overwrite_source');
 
 
-/*-------------------------------------------------------*/
-/* Client interface security                             */
-/*-------------------------------------------------------*/
-
+// Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::enforceAccessToObject('banners', $bannerid);
-    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
-    OA_Permission::enforceAccessToObject('clients', $clientid);
-}
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('banners',   $bannerid);
+
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-    OA_Permission::enforceAccessToObject('banners', $bannerid);
-    $doBanners = OA_Dal::factoryDO('banners');
-    $doBanners->get($bannerid);
-    $campaignid = $doBanners->campaignid;
+    OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
 }
 
 /*-------------------------------------------------------*/

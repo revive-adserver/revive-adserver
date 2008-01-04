@@ -43,7 +43,9 @@ require_once MAX_PATH . '/lib/max/other/stats.php';
 require_once MAX_PATH . '/lib/max/Admin_DA.php';
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 // Get input parameters
 $advertiserId   = MAX_getValue('clientid');
@@ -58,13 +60,6 @@ $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
 $agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $advertiserId, 'campaignid' => $campaignId);
-
-// Parameter check
-if (!MAX_checkPlacement($advertiserId, $campaignId)) {
-    // TODO:  Change the code below to be standard...
-    phpAds_PageHeader('2');
-    phpAds_Die ($strAccessDenied, $strNotAdmin);
-}
 
 // Process submitted form
 if (isset($submit))

@@ -99,13 +99,14 @@ foreach ($invPlugins as $plugin) {
 /* Client interface security                             */
 /*-------------------------------------------------------*/
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
-}
-if (!empty($bannerid)) {
-    OA_Permission::enforceAccessToObject('banners', $bannerid);
+    OA_Permission::enforceAccessToObject('banners',   $bannerid);
 } else {
-    OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+    OA_Permission::enforceAccessToObject('banners',   $bannerid, true);
 }
 
 /*-------------------------------------------------------*/

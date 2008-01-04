@@ -41,11 +41,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Menu.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    OA_Permission::enforceAllowed(OA_PERM_SUPER_ACCOUNT);
-    $agencyid = OA_Permission::getAgencyId();
-}
-OA_Permission::enforceTrue(!empty($agencyid));
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_SUPER_ACCOUNT);
 OA_Permission::enforceAccessToObject('agency', $agencyid);
 
 /*-------------------------------------------------------*/

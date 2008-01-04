@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This script provides lists of users for the user name autocomplete 
+ * This script provides lists of users for the user name autocomplete
  * used in the first screen of user linking.
  *
  * Currently, the script takes two parameters:
@@ -26,6 +26,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Dal.php';
+require_once MAX_PATH . '/www/admin/config.php';
 
 $oDbh  = OA_DB::singleton();
 $query = $oDbh->quote('%'.$q.'%');

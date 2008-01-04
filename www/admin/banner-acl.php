@@ -45,20 +45,16 @@ require_once MAX_PATH . '/lib/max/other/capping/lib-capping.inc.php';
 // Register input variables
 phpAds_registerGlobal ('acl', 'action', 'submit');
 
-/*-------------------------------------------------------*/
-/* Client interface security                             */
-/*-------------------------------------------------------*/
+// Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
 // Initialise some parameters
 $pageName = basename($_SERVER['PHP_SELF']);
 $tabindex = 1;
-$agencyId = OA_Permission::getAgencyId();
 $aEntities = array('clientid' => $clientid, 'campaignid' => $campaignid, 'bannerid' => $bannerid);
-
-if (!MAX_checkAd($clientid, $campaignid, $bannerid)) {
-    phpAds_Die($strAccessDenied, $strNotAdmin);
-}
 
 if (!empty($action)) {
     $acl = MAX_AclAdjust($acl, $action);

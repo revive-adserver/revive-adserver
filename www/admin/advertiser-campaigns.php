@@ -42,12 +42,10 @@ require_once MAX_PATH . '/lib/pear/Date.php';
 
 phpAds_registerGlobalUnslashed('expand', 'collapse', 'hideinactive', 'listorder', 'orderdirection');
 
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+// Security check
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
-if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !is_numeric($clientid)) {
-    header("Location: advertiser-index.php");
-}
 
 /*-------------------------------------------------------*/
 /* HTML framework                                        */
@@ -57,10 +55,10 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) && !is_numeric($clientid)) {
 $doClients = OA_Dal::factoryDO('clients');
 
 // Unless admin, restrict results shown.
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-    $doClients->agencyid = OA_Permission::getEntityId();
-} elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     $doClients->clientid = OA_Permission::getEntityId();
+} else {
+    $doClients->agencyid = OA_Permission::getEntityId();
 }
 
 $doClients->addSessionListOrderBy('advertiser-index.php');
@@ -76,7 +74,7 @@ while ($doClients->fetch() && $row = $doClients->toArray()) {
 
 phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     phpAds_PageHeader("4.1.3");
 	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
 	phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));

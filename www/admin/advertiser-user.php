@@ -44,12 +44,10 @@ phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'emai
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_SUPER_ACCOUNT);
+OA_Permission::enforceAccessToObject('clients', $clientid);
 
-$entityName = 'clients';
-$entityId = $clientid;
-OA_Permission::enforceTrue(!empty($entityId));
-OA_Permission::enforceAccessToObject($entityName, $entityId);
-$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
+$accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
+
 
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
@@ -67,7 +65,7 @@ $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
 if (!empty($submit)) {
     $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
     OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-    MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$entityId);
+    MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
 }
 
 /*-------------------------------------------------------*/
@@ -93,7 +91,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Template.php';
 
 $oTpl = new OA_Admin_Template('advertiser-user.html');
 $oTpl->assign('action', 'advertiser-user.php');
-$oTpl->assign('backUrl', 'advertiser-user-start.php?clientid='.$entityId);
+$oTpl->assign('backUrl', 'advertiser-user-start.php?clientid='.$clientid);
 $oTpl->assign('method', 'POST');
 
 // TODO: will need to know whether we're hosted or downloaded

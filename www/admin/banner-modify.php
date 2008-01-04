@@ -47,7 +47,7 @@ phpAds_registerGlobal('bannerid', 'campaignid', 'clientid', 'returnurl', 'duplic
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 
 
 /*-------------------------------------------------------*/

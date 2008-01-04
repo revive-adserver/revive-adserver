@@ -45,7 +45,7 @@ phpAds_registerGlobal ('returnurl');
 $oAdNetworks = new OA_Central_AdNetworks();
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 
 /*-------------------------------------------------------*/
@@ -56,7 +56,7 @@ if (!empty($affiliateid))
 {
 	$doAffiliates = OA_Dal::factoryDO('affiliates');
 	$doAffiliates->affiliateid = $affiliateid;
-	
+
     // User unsubscribed from adnetworks
     $doAffiliates->get($affiliateid);
     $oacWebsiteId = ($doAffiliates->an_website_id) ? $doAffiliates->an_website_id : $doAffiliates->as_website_id;

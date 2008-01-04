@@ -42,29 +42,28 @@ phpAds_registerGlobal ('returnurl');
 
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    OA_Permission::enforceAllowed(OA_PERM_ZONE_DELETE);
+}
 
 /*-------------------------------------------------------*/
 /* Main code                                             */
 /*-------------------------------------------------------*/
 
-if (!empty($zoneid)) {
+$doZones = OA_Dal::factoryDO('zones');
+$doZones->zoneid = $zoneid;
 
-    OA_Permission::enforceAllowed(OA_PERM_ZONE_DELETE);
-    OA_Permission::enforceAccessToObject('zones', $zoneid);
+$doZones->get($zoneid);
 
-    $doZones = OA_Dal::factoryDO('zones');
-    $doZones->zoneid = $zoneid;
-    
-    $doZones->get($zoneid);
-    
-	// Ad  Networks
-	$oAdNetworks = new OA_Central_AdNetworks();
-	$oAdNetworks->deleteZone($doZones->as_zone_id);
-    
-    $doZones->delete();
-    
-}
+// Ad  Networks
+$oAdNetworks = new OA_Central_AdNetworks();
+$oAdNetworks->deleteZone($doZones->as_zone_id);
+
+$doZones->delete();
 
 if (!isset($returnurl) && $returnurl == '') {
     $returnurl = 'affiliate-zones.php';

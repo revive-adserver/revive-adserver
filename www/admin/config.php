@@ -95,7 +95,7 @@ phpAds_registerGlobalUnslashed(
 );
 
 if (!isset($affiliateid))   $affiliateid = (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) ? OA_Permission::getEntityId() : '';
-if (!isset($agencyid))      $agencyid = OA_Permission::getAgencyId();
+if (!isset($agencyid))      $agencyid = (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) ? '' : OA_Permission::getAgencyId();
 if (!isset($bannerid))      $bannerid = '';
 if (!isset($campaignid))    $campaignid = '';
 if (!isset($channelid))     $channelid = '';

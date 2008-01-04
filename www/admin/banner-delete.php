@@ -43,8 +43,10 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 phpAds_registerGlobal ('returnurl');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceAccessToObject('banners', $bannerid);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
+OA_Permission::enforceAccessToObject('clients',   $clientid);
+OA_Permission::enforceAccessToObject('campaigns', $campaignid);
+OA_Permission::enforceAccessToObject('banners',   $bannerid);
 
 /*-------------------------------------------------------*/
 /* Main code                                             */

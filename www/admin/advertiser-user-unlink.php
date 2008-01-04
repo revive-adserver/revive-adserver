@@ -42,12 +42,11 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 phpAds_registerGlobal ('login', 'returnurl');
 
 // Security check
-$entityName = 'clients';
-$entityId = $clientid;
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
-OA_Permission::enforceTrue(!empty($entityId));
-OA_Permission::enforceAccessToObject($entityName, $entityId);
-$accountId = OA_Permission::getAccountIdForEntity($entityName, $entityId);
+OA_Permission::enforceAccountPermission(OA_ACCOUNT_ADVERTISER, OA_PERM_SUPER_ACCOUNT);
+OA_Permission::enforceAccessToObject('clients', $clientid);
+
+$accountId = OA_Permission::getAccountIdForEntity('clients', $clientid);
 
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);

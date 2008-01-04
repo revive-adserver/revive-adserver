@@ -66,15 +66,15 @@ phpAds_registerGlobalUnslashed(
 /*-------------------------------------------------------*/
 
 OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
-if (!empty($zoneid)) {
-    OA_Permission::enforceAccessToObject('zones', $zoneid);
-    OA_Permission::enforceAccountPermission(OA_ACCOUNT_TRAFFICKER, OA_PERM_ZONE_EDIT);
-} else {
-    if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
-        $affiliateid = OA_Permission::getEntityId();
+OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
+OA_Permission::enforceAccessToObject('zones', $zoneid, true);
+
+if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
+    if (!empty($zoneid)) {
+        OA_Permission::enforceAllowed(OA_PERM_ZONE_EDIT);
+    } else {
         OA_Permission::enforceAllowed(OA_PERM_ZONE_ADD);
     }
-    OA_Permission::enforceAccessToObject('affiliates', $affiliateid);
 }
 
 /*-------------------------------------------------------*/
