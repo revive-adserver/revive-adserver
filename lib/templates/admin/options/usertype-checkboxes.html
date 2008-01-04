@@ -35,7 +35,7 @@
 			{if $isAdmin || $isManager}
 			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$OA_ACCOUNT_MANAGER_ID}' value='true'
 			    {if $aItem.value & $OA_ACCOUNT_MANAGER_ID}checked='true'{/if}{if $aItem.enabled}disabled='disabled'{/if}
-			    onClick="phpAds_UsertypeChange(this);" tabindex='$aItem.tabindex++'>
+			    onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'>
 			{/if}
 			{if $isAdmin || $isManager || $isAdvertiser}
 			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$OA_ACCOUNT_ADVERTISER_ID}' value='true'

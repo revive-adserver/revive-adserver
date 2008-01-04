@@ -17,7 +17,7 @@
 
 {if OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED}
     {if $disableSubmit == 0}
-        <br /><br /><input type="submit" name="submitsettings" value="{$GLOBALS.strSaveChanges}"></form>
+        <br /><br /><input type="submit" name="submitsettings" value="{$GLOBALS.strSaveChanges}" tabindex="{$tabindex++}"></form>
     {else}
         <input type="submit" name="submitCreateTemplate"
         {if $errors[0] == MAX_ERROR_YOU_HAVE_NO_TRACKERS || $errors[0] == MAX_ERROR_YOU_HAVE_NO_CAMPAIGNS}

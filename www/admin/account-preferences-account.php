@@ -59,11 +59,6 @@ $aErrormessage = array();
 
 
 
-
-
-
-
-
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 

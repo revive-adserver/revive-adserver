@@ -74,21 +74,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
 
 

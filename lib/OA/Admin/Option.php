@@ -356,6 +356,7 @@ class OA_Admin_Option
         $this->oTpl->assign('dependbuffer',     $dependbuffer);
         $this->oTpl->assign('usertypebuffer',   $usertypebuffer);
         $this->oTpl->assign('GLOBALS',          $GLOBALS);
+        $this->oTpl->assign('tabindex',         $tabindex);
         $this->oTpl->display();
     }
 
@@ -487,7 +488,7 @@ class OA_Admin_Option
     {
         global $tabindex;
 
-        $aItem['tabindex'] = $tabindex;
+        $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = htmlspecialchars($value);
 
         if (!isset($aItem['size'])) {
@@ -501,7 +502,7 @@ class OA_Admin_Option
     {
         global $tabindex;
 
-        $aItem['tabindex'] = $tabindex;
+        $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = htmlspecialchars($value);
         $aItem['type'] = $type;
 
@@ -516,7 +517,7 @@ class OA_Admin_Option
     {
         global $tabindex;
 
-        $aItem['tabindex'] = $tabindex;
+        $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = htmlspecialchars($value);
 
         if (!isset($aItem['rows'])) {
@@ -545,7 +546,7 @@ class OA_Admin_Option
 
         $aItem['value'] = $value;
         $aItem['hidePassword'] = $hidePassword;
-        $aItem['tabindex'] = $tabindex;
+        $aItem['tabindex'] = $tabindex++;
 
         $this->aOption[] = array('password.html' => $aItem);
     }
@@ -554,7 +555,7 @@ class OA_Admin_Option
     {
         global $tabindex;
 
-        $aItem['tabindex'] = $tabindex;
+        $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = $value;
         $aItem['showSubmitButton'] = $showSubmitButton;
 
@@ -568,11 +569,20 @@ class OA_Admin_Option
 
     }
 
+    /**
+     * @todo The tabindex numeration will only work for situations where there
+     *       are three checkboxes in a row, an alternate solution will be needed
+     *       if we need more checkboxes in a row
+     *
+     * @param array $aItem
+     * @param int $value
+     */
     function _showUsertypeCheckboxes($aItem, $value)
     {
         global $tabindex;
 
         $aItem['tabindex'] = $tabindex;
+        $tabindex = $tabindex + 3;
         $aItem['value'] = $value ? (int)$value : 0;
 
         $this->oTpl->assign('isAdmin', OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
@@ -591,11 +601,20 @@ class OA_Admin_Option
         $this->oTpl->assign('OA_ACCOUNT_TRAFFICKER_ID', OA_ACCOUNT_TRAFFICKER_ID);
     }
 
+    /**
+     * @todo The tabindex numeration will only work for situations where there
+     *       are three textboxes in a row, an alternate solution will be needed
+     *       if we need more texboxes in a row
+     *
+     * @param array $aItem
+     * @param string $value
+     */
     function _showUsertypeTextboxes($aItem, $value)
     {
         global $tabindex;
 
         $aItem['tabindex'] = $tabindex;
+        $tabindex = $tabindex + 3;
 
         $value = unserialize($value);
         foreach ($value as $key => $value) {
