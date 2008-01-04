@@ -413,6 +413,8 @@ function MMM_buildNavigation()
                 $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.1.1'] = array("banner-edit.php?clientid=$clientid&campaignid=$campaignid&bannerid=$bannerid" => $GLOBALS['strBannerProperties']);
             }
             $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2.2'] = array("advertiser-campaigns.php?clientid=$clientid" => $GLOBALS['strCampaignOverview']);
+        } else if (OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT)) {
+            $GLOBALS['OA_Navigation'][OA_ACCOUNT_ADVERTISER]['2'] = array("advertiser-access.php?clientid=$clientid" => $GLOBALS['strUserAccess']);
         }
     } elseif (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
         if (OA_Permission::hasPermission(OA_PERM_ZONE_EDIT) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD)) {

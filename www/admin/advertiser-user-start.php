@@ -51,9 +51,15 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
     echo $icon;
     phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5", "4.1.5.1"));
 } else {
+	$sections = array();
+	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
+    	$sections[] = '2.2';
+	}
+    $sections[] = '2.3';
+    $sections[] = '2.3.1';
     phpAds_PageHeader('2.3.1');
     echo $icon;
-	phpAds_ShowSections(array('2.2', '2.3', '2.3.1'));
+	phpAds_ShowSections($sections);
 }
 
 /*-------------------------------------------------------*/

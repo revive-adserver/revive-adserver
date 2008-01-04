@@ -49,16 +49,22 @@ OA_Permission::enforceAccessToObject('clients', $clientid);
 /*-------------------------------------------------------*/
 
 if (!empty($clientid)) {
+    $icon = "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
 	if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 		OA_Admin_Menu::setAdvertiserPageContext($clientid, 'advertiser-access.php');
 		phpAds_PageShortcut($strClientHistory, 'stats.php?entity=advertiser&breakdown=history&clientid='.$clientid, 'images/icon-statistics.gif');
 		phpAds_PageHeader("4.1.5");
-		echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
+		echo $icon;
 		phpAds_ShowSections(array("4.1.2", "4.1.3", "4.1.5"));
 	} else {
 		phpAds_PageHeader('2.3');
-    	echo "<img src='images/icon-advertiser.gif' align='absmiddle'>&nbsp;<b>".phpAds_getClientName($clientid)."</b><br /><br /><br />";
-    	phpAds_ShowSections(array('2.2', '2.3'));
+		echo $icon;
+    	$sections = array();
+    	if (OA_Permission::hasPermission(OA_PERM_BANNER_ACTIVATE) || OA_Permission::hasPermission(OA_PERM_BANNER_EDIT)) {
+        	$sections[] = '2.2';
+    	}
+        $sections[] = '2.3';
+    	phpAds_ShowSections($sections);
 	}
 } else {
 	phpAds_PageHeader("4.1.1");
