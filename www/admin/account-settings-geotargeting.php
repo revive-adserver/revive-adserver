@@ -92,7 +92,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                     $aErrormessage[0][] = $strGeotrackingGeoipCountryLocationError;
                 }
             } else {
-                $oConfig->settingChange('geotargeting', 'geoipCountryLocation', '');
+                $oSettings->settingChange('geotargeting', 'geoipCountryLocation', '');
             }
             if (isset($geotargeting_geoipRegionLocation) && ($geotargeting_geoipRegionLocation != '')) {
                 if (is_readable($geotargeting_geoipRegionLocation)) {
@@ -101,7 +101,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
                     $aErrormessage[0][] = $strGeotrackingGeoipRegionLocationError;
                 }
             } else {
-                $oConfig->settingChange('geotargeting', 'geoipRegionLocation', '');
+                $oSettings->settingChange('geotargeting', 'geoipRegionLocation', '');
             }
             if (isset($geotargeting_geoipCityLocation) && ($geotargeting_geoipCityLocation != '')) {
                 if (is_readable($geotargeting_geoipCityLocation)) {
