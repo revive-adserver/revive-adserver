@@ -186,6 +186,8 @@ $GLOBALS['strID']                       = "ID";
 $GLOBALS['strComments']                 = "Comments";
 
 // User access
+$GLOBALS['strWorkingAs']                = 'Working as';
+$GLOBALS['strWorkingFor']               = '%s for...';
 $GLOBALS['strLinkUser']                 = "Link user";
 $GLOBALS['strLinkUser_Key']             = "Link <u>u</u>ser";
 $GLOBALS['strUsernameToLink']           = "Username of user to link";

@@ -238,9 +238,11 @@ class OA_Admin_UI
                 $this->oTpl->assign('buttonReportBugs', true);
 
                 // Account switcher
+                $this->oTpl->assign('strWorkingAs', $GLOBALS['strWorkingAs']);
                 $aAccounts = array();
                 foreach (OA_Permission::getLinkedAccounts(true) as $k => $v) {
-                    $aAccounts[ucfirst(strtolower($k)).' for...'] = $v;
+                    $workingFor = sprintf($GLOBALS['strWorkingFor'], ucfirst(strtolower($k)));
+                    $aAccounts[$workingFor] = $v;
                 }
                 $aAdminAccounts = array_shift($aAccounts);
                 $this->oTpl->assign('aAdminAccounts', $aAdminAccounts);

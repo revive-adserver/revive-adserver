@@ -104,13 +104,10 @@ $HOSTED = false;
 $oTpl->assign('hosted', $HOSTED);
 
 // indicates whether the user exists (otherwise, a new user will be created or invitation sent)
-$existingUser = !empty($userid);
 $oTpl->assign('existingUser', !empty($userid));
 
 // indicates whether the form is in editing user properties mode
 // (linked from the "Permissions" link in the User Access table)
-// Alternatively, we may want to have two separate templates/php files for these
-// with common parts included from another template
 $oTpl->assign('editMode', !$link);
 
 $doUsers = OA_Dal::staticGetDO('users', $userid);

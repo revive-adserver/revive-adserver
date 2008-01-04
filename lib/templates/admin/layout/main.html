@@ -134,7 +134,7 @@ $Id:captcha-dialog.html 11612 2007-10-26 11:00:05Z matteo.beccati@openads.org $
 {if $buttonLogout}
         <li class="switchAccount">
           <form action="account-switch.php" method="get">
-            <label for="user-switch">Working as</label>
+            <label for="user-switch">{$strWorkingAs}</label>
             <select name="account_id" id="user-switch" class="switcher submit-on-change">
                 {html_options options=$aAdminAccounts selected=$accountId}
                 {html_options options=$aAccounts selected=$accountId}

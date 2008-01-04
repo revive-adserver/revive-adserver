@@ -39,7 +39,8 @@ require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'email_address', 'permissions', 'submit');
+phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 
+    'email_address', 'permissions', 'submit');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
@@ -49,7 +50,8 @@ $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
 if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
+    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name,
+                                               $email_address, $accountId);
     OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
     MAX_Admin_Redirect::redirect("admin-access.php");
 }
@@ -75,11 +77,9 @@ $oTpl->assign('method', 'POST');
 // TODO: will need to know whether we're hosted or downloaded
 $HOSTED = false;
 $oTpl->assign('hosted', $HOSTED);
-
-// indicates whether the user exists (otherwise, a new user will be created or invitation sent)
-$existingUser = !empty($userid);
 $oTpl->assign('existingUser', !empty($userid));
 $oTpl->assign('editMode', !$link);
+
 $doUsers = OA_Dal::staticGetDO('users', $userid);
 $userData = array();
 if ($doUsers) {
@@ -90,23 +90,21 @@ if ($doUsers) {
 
 $oTpl->assign('fields', array(
     array(
-        'title'     => $strUserDetails,
-        'fields'    => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
+        'title'  => $strUserDetails,
+        'fields' => OA_Admin_UI_UserAccess::getUserDetailsFields($userData)
     )
  )
 );
 
-
 $oTpl->assign('hiddenFields', array(
     array(
-        'name' => 'submit',
+        'name'  => 'submit',
         'value' => true
     ),
     array(
-        'name' => 'login',
+        'name'  => 'login',
         'value' => $login
-    ),
-
+    )
 ));
 
 $oTpl->display();

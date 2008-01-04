@@ -412,7 +412,7 @@ class OA_Permission
             $doAccount->account_type = OA_ACCOUNT_ADMIN;
             $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
             $doAccount_user_assoc->user_id = OA_Permission::getUserId();
-            $doAccount_user_assoc->joinAdd($doAccount);
+            $doAccount->joinAdd($doAccount_user_assoc);
             return (bool) $doAccount->count();
         }
         return false;
@@ -438,7 +438,9 @@ class OA_Permission
             $aAccountsByType[$doAccount_user_Assoc->account_type][$doAccount_user_Assoc->account_id] =
                 $doAccount_user_Assoc->account_name;
         }
-        $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
+        if (OA_Permission::isUserLinkedToAdmin()) {
+            $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
+        }
         if (!$groupByType) {
             $aAccounts = array();
             foreach ($aAccountsByType as $accountType => $aAccount) {

@@ -39,7 +39,6 @@ require_once MAX_PATH . '/www/admin/config.php';
 
 if (!empty($_GET['account_id'])) {
     OA_Permission::enforceAccess($_GET['account_id']);
-
     OA_Permission::switchAccount($_GET['account_id']);
 }
 

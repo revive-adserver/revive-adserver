@@ -50,15 +50,6 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 
-
-
-
-
-
-
-
-
-
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 

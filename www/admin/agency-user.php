@@ -93,7 +93,6 @@ $HOSTED = false;
 $oTpl->assign('hosted', $HOSTED);
 
 // indicates whether the user exists (otherwise, a new user will be created or invitation sent)
-$existingUser = !empty($userid);
 $oTpl->assign('existingUser', !empty($userid));
 $oTpl->assign('editMode', !$link);
 $doUsers = OA_Dal::staticGetDO('users', $userid);
