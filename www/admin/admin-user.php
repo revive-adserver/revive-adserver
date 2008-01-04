@@ -49,7 +49,7 @@ $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
 if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
+    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
     OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
     MAX_Admin_Redirect::redirect("admin-access.php");
 }

@@ -54,8 +54,7 @@ $userid = $doUsers->getUserIdByUserName($login);
 
 // Permissions
 $aAllowedPermissions = array();
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
-    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
 }
@@ -66,7 +65,7 @@ $aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBann
 $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false);
 
 if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
+    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
     OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
     MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
 }

@@ -7,6 +7,7 @@ require_once 'DB_DataObjectCommon.php';
 class DataObjects_Users extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
+    
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -115,7 +116,7 @@ class DataObjects_Users extends DB_DataObjectCommon
 
     
     /**
-     * Returns array of admin users
+     * Returns array of admin users (@see _buildUsersTable)
      *
      * @return array
      */
@@ -132,10 +133,11 @@ class DataObjects_Users extends DB_DataObjectCommon
     }
     
     /**
-     * Formats 
+     * Reads users data from database and returns them as array when 
+     * key is user id and value is array of user values
      *
-     * @param unknown_type $doUsers
-     * @return unknown
+     * @param DataObjects_Users $doUsers
+     * @return array
      */
     function _buildUsersTable(&$doUsers)
     {

@@ -116,6 +116,7 @@ class OA_Admin_UI_UserAccess
            $userDetailsFields[] = array(
                            'name'      => 'passwd',
                            'label'     => $GLOBALS['strPassword'],
+                           'type'      => 'password',
                            'value'     => '',
                            'hidden'   => !empty($userData['user_id'])
                        );
@@ -147,16 +148,16 @@ class OA_Admin_UI_UserAccess
             $doAccount_user_assoc->account_id = $accountId;
             $doAccount_user_assoc->user_id = $userId;
             $doAccount_user_assoc->delete();
-            OA_Session::setMessage('User was unlinked from account');
+            OA_Session::setMessage($GLOBALS['strUserUnlinkedFromAccount']);
             
             $doUsers = OA_Dal::staticGetDO('users', $userId);
             // delete user account if he is not linked anymore to any account
             if ($doUsers->countLinkedAccounts() == 0) {
                 $doUsers->delete();
-                OA_Session::setMessage('User was deleted');
+                OA_Session::setMessage($GLOBALS['strUserWasDeleted']);
             }
         } else {
-            OA_Session::setMessage('Such user is not linked with account');
+            OA_Session::setMessage($GLOBALS['strUserNotLinkedWithAccount']);
         }
     }
     
@@ -167,9 +168,10 @@ class OA_Admin_UI_UserAccess
      * @param string $password  Password
      * @param string $contactName  Contact name
      * @param string $emailAddress  Email address
+     * @param integer $accountId  a
      * @return integer  User ID or false on error
      */
-    function saveUser($login, $password, $contactName, $emailAddress)
+    function saveUser($login, $password, $contactName, $emailAddress, $accountId)
     {
         $doUsers = OA_Dal::factoryDO('users');
         $userExists = $doUsers->fetchUserByUserName($login);
@@ -179,7 +181,8 @@ class OA_Admin_UI_UserAccess
             $doUsers->update();
             return $doUsers->user_id;
         } else {
-            $doUsers->password = md5($passwd);
+            $doUsers->default_account_id = $accountId;
+            $doUsers->password = md5($password);
             return $doUsers->insert();
         }
     }
@@ -196,12 +199,13 @@ class OA_Admin_UI_UserAccess
     function linkUserToAccount($userId, $accountId, $permissions, $aAllowedPermissions)
     {
         if (empty($userId)) {
-            OA_Session::setMessage('Error while creating user:' . $login);
+            $message = sprintf($GLOBALS['strNoStatsForPeriod'], $login);
+            OA_Session::setMessage($message);
         } else {
             if (!OA_Permission::isUserLinkedToAccount($accountId, $userId)) {
-                OA_Session::setMessage('User was linked with account');
+                OA_Session::setMessage($GLOBALS['strUserLinkedToAccount']);
             } else {
-                OA_Session::setMessage('User account updated');
+                OA_Session::setMessage($GLOBALS['strUserAccountUpdated']);
             }
             OA_Permission::setAccountAccess($accountId, $userId);
             OA_Permission::storeUserAccountsPermissions($permissions, $accountId,

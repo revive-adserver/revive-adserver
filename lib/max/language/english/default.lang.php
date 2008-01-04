@@ -193,6 +193,12 @@ $GLOBALS['strEmailToLink']              = "Email of user to link";
 $GLOBALS['strNewUserWillBeCreated']     = "New user will be created";
 $GLOBALS['strToLinkProvideEmail']       = "To link user, provide user's email";
 $GLOBALS['strToLinkProvideUsername']    = "To link user, provide username";
+$GLOBALS['strErrorWhileCreatingUser']   = "Error while creating user: %s";
+$GLOBALS['strUserLinkedToAccount']      = 'User was linked with account';
+$GLOBALS['strUserAccountUpdated']       = 'User account updated';
+$GLOBALS['strUserUnlinkedFromAccount']  = 'User was unlinked from account';
+$GLOBALS['strUserWasDeleted']           = 'User was deleted';
+$GLOBALS['strUserNotLinkedWithAccount'] = 'Such user is not linked with account';
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";

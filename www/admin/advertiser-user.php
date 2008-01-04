@@ -53,8 +53,7 @@ $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
 $aAllowedPermissions = array();
-if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)
-    || OA_Permission::hasPermission(OA_PERM_SUPER_ACCOUNT, $accountId))
+if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
 }
@@ -63,7 +62,7 @@ $aAllowedPermissions[OA_PERM_BANNER_DEACTIVATE] = $strAllowClientDisableBanner;
 $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
 
 if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address);
+    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
     OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
     MAX_Admin_Redirect::redirect("advertiser-access.php?clientid=".$clientid);
 }
