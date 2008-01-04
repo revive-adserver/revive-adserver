@@ -34,6 +34,7 @@ require_once '../../init.php';
 // Required files
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
@@ -41,9 +42,6 @@ require_once MAX_PATH . '/www/admin/config.php';
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
-
-// Create a new option object for displaying the setting's page's HTML form
-$oOptions = new OA_Admin_Option('preferences');
 
 // Prepare an array for storing error messages
 $aErrormessage = array();
@@ -53,48 +51,43 @@ $aErrormessage = array();
 // Required files
 require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 
-
+$doUsers = OA_Dal::factoryDO('users');
+$doUsers->get(OA_Permission::getUserId());
+    
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
-    phpAds_registerGlobalUnslashed('admin', 'pwold', 'pw', 'pw2', 'admin_fullname', 'admin_email',
+    phpAds_registerGlobalUnslashed('login', 'pwold', 'pw', 'pw2', 'contact_name', 'email_address',
                                    'company_name');
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    if (isset($admin)) {
-        if (!strlen($admin)) {
+    
+    if (isset($login)) {
+        if (!strlen($login)) {
             $aErrormessage[0][] = $strInvalidUsername;
-        } elseif (!OA_Permission::isUsernameAllowed($pref['admin'], $admin)) {
+        } elseif (!OA_Permission::isUsernameAllowed($doUsers->username, $login)) {
             $aErrormessage[0][] = $strDuplicateClientName;
         } else {
-            $oPreferences->setPrefChange('admin', $admin);
+            $doUsers->username = $login;
         }
     }
     if (isset($pwold) && strlen($pwold) || isset($pw) && strlen($pw) || isset($pw2) && strlen($pw2)) {
-        $pref = $GLOBALS['_MAX']['PREF'];
-        if (md5($pwold) != $pref['admin_pw']) {
+        if (md5($pwold) != $doUsers->password) {
             $aErrormessage[0][] = $strPasswordWrong;
         } elseif (!strlen($pw)  || strstr("\\", $pw)) {
             $aErrormessage[0][] = $strInvalidPassword;
         } elseif (strcmp($pw, $pw2)) {
             $aErrormessage[0][] = $strNotSamePasswords;
         } else {
-            $admin_pw = $pw;
-            $oPreferences->setPrefChange('admin_pw', md5($admin_pw));
+            $doUsers->password = md5($pw);
         }
     }
-    if (isset($admin_fullname)) {
-        $oPreferences->setPrefChange('admin_fullname', $admin_fullname);
+    if (isset($contact_name)) {
+        $doUsers->contact_name = $contact_name;
     }
-    if (isset($admin_email)) {
-        $oPreferences->setPrefChange('admin_email', $admin_email);
-    }
-    if (isset($company_name)) {
-        $oPreferences->setPrefChange('company_name', $company_name);
+    if (isset($email_address)) {
+        $doUsers->email_address = $email_address;
     }
 
     if (!count($aErrormessage)) {
-        if (!$oPreferences->writePrefChange()) {
+        if ($doUsers->update() === false) {
             // Unable to update the preferences
             $aErrormessage[0][] = $strUnableToWritePrefs;
         } else {
@@ -120,18 +113,18 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1"));
 }
 
-
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('preferences');
 
 $oOptions->selection("account");
-
-
 $aSettings = array (
     array (
         'text'  => $strLoginCredentials,
         'items' => array (
             array (
                 'type'    => 'text',
-                'name'    => 'admin',
+                'name'    => 'login',
+                'value'   => $doUsers->username,
                 'text'    => $strUsername,
                 'check'   => 'unique',
                 'unique'  => $unique_users
@@ -170,7 +163,8 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'    => 'text',
-                'name'    => 'admin_fullname',
+                'name'    => 'contact_name',
+                'value'   => $doUsers->contact_name,
                 'text'    => $strFullName,
                 'size'    => 35
             ),
@@ -179,7 +173,8 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'admin_email',
+                'name'    => 'email_address',
+                'value'   => $doUsers->email_address,
                 'text'    => $strEmailAddress,
                 'size'    => 35,
                 'check'   => 'email'
@@ -187,12 +182,6 @@ $aSettings = array (
             array (
                 'type'    => 'break'
             ),
-            array (
-                'type'    => 'text',
-                'name'    => 'company_name',
-                'text'    => $strCompanyName,
-                'size'    => 35
-            )
         )
     )
 );

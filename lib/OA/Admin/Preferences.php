@@ -114,7 +114,7 @@ class OA_Admin_Preferences
             }
         }
         $oDbh =& OA_DB::singleton();
-        $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'],true);
+        $tablePrefs = $oDbh->quoteIdentifier($conf['table']['prefix'].$conf['table']['preference'], true);
         $query = "
             SELECT
                 *
