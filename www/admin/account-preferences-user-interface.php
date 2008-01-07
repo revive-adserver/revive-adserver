@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -42,6 +39,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
+// Re-load the account's preferences, with additional information
+OA_Preference::loadPreferences(true);
+
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
 
@@ -64,7 +64,26 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-
+    // Prepare an array of the HTML elements to process
+    $aElements = array();
+    // Default Banners
+    $aElements[] = 'default_banner_image_url';
+    $aElements[] = 'default_banner_destination_url';
+    // HTML Banner Options
+    $aElements[] = 'auto_alter_html_banners_for_click_tracking';
+    // Default Weight
+    $aElements[] = 'default_banner_weight';
+    $aElements[] = 'default_campaign_weight';
+    // Save the preferences
+    $result = OA_Preference::processPreferencesFromForm($aElements);
+    if ($result) {
+        // The preferences were written correctly saved to the database,
+        // go to the "next" preferences page from here
+        MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
+    }
+    // Could not write the preferences to the database, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
 
@@ -179,10 +198,11 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1"));
 }
 
+// Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("user-interface");
 
-$admin_settings = OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER);
-
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
         'text'  => $strInventory,
@@ -191,72 +211,59 @@ $aSettings = array (
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_show_campaign_info',
-                'text'  => $strShowCampaignInfo,
-                'visible' => $admin_settings
+                'text'  => $strShowCampaignInfo
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_show_banner_info',
-                'text'  => $strShowBannerInfo,
-                'visible' => $admin_settings
+                'text'  => $strShowBannerInfo
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_show_campaign_preview',
-                'text'  => $strShowCampaignPreview,
-                'visible' => $admin_settings
+                'text'  => $strShowCampaignPreview
             ),
             array (
-                'type'  => 'break',
-                'visible' => $admin_settings
+                'type'  => 'break'
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_show_banner_html',
-                'text'  => $strShowBannerHTML,
-                'visible' => $admin_settings
+                'text'  => $strShowBannerHTML
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_show_banner_preview',
-                'text'  => $strShowBannerPreview,
-                'visible' => $admin_settings
+                'text'  => $strShowBannerPreview
             ),
             array (
-                'type'  => 'break',
-                'visible' => $admin_settings
+                'type'  => 'break'
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_hide_inactive',
-                'text'  => $strHideInactive,
-                'visible' => $admin_settings
+                'text'  => $strHideInactive
             ),
             array (
-                'type'  => 'break',
-                'visible' => $admin_settings
+                'type'  => 'break'
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_show_matching',
-                'text'  => $strGUIShowMatchingBanners,
-                'visible' => $admin_settings
+                'text'  => $strGUIShowMatchingBanners
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_show_parents',
-                'text'  => $strGUIShowParentCampaigns,
-                'visible' => $admin_settings
+                'text'  => $strGUIShowParentCampaigns
             ),
             array (
-                'type'  => 'break',
-                'visible' => $admin_settings
+                'type'  => 'break'
             ),
             array (
                 'type'  => 'checkbox',
                 'name'  => 'gui_campaign_anonymous',
-                'text'  => $strGUIAnonymousCampaignsByDefault,
-                'visible' => $admin_settings
+                'text'  => $strGUIAnonymousCampaignsByDefault
             )
         )
     ),
@@ -277,23 +284,19 @@ $aSettings = array (
                 'type'  => 'select',
                 'name'  => 'begin_of_week',
                 'text'  => $strBeginOfWeek,
-                'items' => array($strDayFullNames[0], $strDayFullNames[1]),
-                'visible' => $admin_settings
+                'items' => array($strDayFullNames[0], $strDayFullNames[1])
             ),
             array (
-                'type'  => 'break',
-                'visible' => $admin_settings
+                'type'  => 'break'
             ),
             array (
                 'type'  => 'select',
                 'name'  => 'percentage_decimals',
                 'text'  => $strPercentageDecimals,
-                'items' => array(0, 1, 2, 3),
-                'visible' => $admin_settings
+                'items' => array(0, 1, 2, 3)
             ),
             array (
-                'type'  => 'break',
-                'visible' => $admin_settings
+                'type'  => 'break'
             )
         )
     )
