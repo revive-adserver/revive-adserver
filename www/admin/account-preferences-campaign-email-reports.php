@@ -39,6 +39,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER);
 
+// Re-load the account's preferences, with additional information
+OA_Preference::loadPreferences(true);
+
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
 
@@ -47,75 +50,30 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * @todo add warn_limit and warn_limit_days for agency and advertiser,
- *       now is only in the interface
- */
-
-require_once MAX_PATH . '/lib/OA/OperationInterval.php';
-
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-
-    // Register input variables
-    phpAds_registerGlobal('warn_admin', 'warn_client', 'warn_agency', 'warn_limit',
-                          'warn_limit_days');
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    $oPreferences->setPrefChange('warn_admin',  isset($warn_admin));
-    $oPreferences->setPrefChange('warn_client', isset($warn_client));
-    $oPreferences->setPrefChange('warn_agency', isset($warn_agency));
-    if (isset($warn_limit)) {
-        if ((!is_numeric($warn_limit)) || ($warn_limit <= 0)) {
-            $aErrormessage[4][] = $strWarnLimitErr;
-        } else {
-            $oPreferences->setPrefChange('warn_limit', $warn_limit);
-        }
+    // Prepare an array of the HTML elements to process
+    $aElements = array();
+    // Administrator email Warnings
+    $aElements[] = 'warn_email_admin';
+    $aElements[] = 'warn_email_admin_impression_limit';
+    $aElements[] = 'warn_email_admin_day_limit';
+    // Manager email Warnings
+    $aElements[] = 'warn_email_manager';
+    $aElements[] = 'warn_email_manager_impression_limit';
+    $aElements[] = 'warn_email_manager_day_limit';
+    // Advertiser email Warnings
+    $aElements[] = 'warn_email_advertiser';
+    $aElements[] = 'warn_email_advertiser_impression_limit';
+    $aElements[] = 'warn_email_advertiser_day_limit';
+    // Save the preferences
+    $result = OA_Preference::processPreferencesFromForm($aElements);
+    if ($result) {
+        // The preferences were written correctly saved to the database,
+        // go to the "next" preferences page from here
+        MAX_Admin_Redirect::redirect('account-preferences-language-timezone.php');
     }
-    if (isset($warn_limit_days)) {
-        if ((!is_numeric($warn_limit_days)) || ($warn_limit_days <= 0)) {
-            $aErrormessage[4][] = $strWarnLimitDaysErr;
-        } else {
-            $oPreferences->setPrefChange('warn_limit_days', $warn_limit_days);
-        }
-    }
-
-    if (!count($aErrormessage)) {
-        if (!$oPreferences->writePrefChange()) {
-            // Unable to update the preferences
-            $aErrormessage[0][] = $strUnableToWritePrefs;
-        } else {
-            MAX_Admin_Redirect::redirect('account-preferences-language-timezone.php');
-        }
-    }
+    // Could not write the preferences to the database, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
 // Display the settings page's header and sections
@@ -134,18 +92,18 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1"));
 }
 
+// Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("campaign-email-reports");
 
-// Change ignore_hosts into a string, so the function handles it good
-$conf['ignoreHosts'] = join("\n", $conf['ignoreHosts']);
-
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
         'text'  => $strAdminEmailWarnings,
         'items' => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'warn_admin',
+                'name'    => 'warn_email_admin',
                 'text'    => $strWarnAdmin
             ),
             array (
@@ -153,10 +111,10 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'warn_limit',
+                'name'    => 'warn_email_admin_impression_limit',
                 'text'    => $strWarnLimit,
                 'size'    => 12,
-                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
+                'depends' => 'warn_email_admin==true',
                 'req'     => true,
                 'check'   => 'number+'
             ),
@@ -165,10 +123,10 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'warn_limit_days',
+                'name'    => 'warn_email_admin_day_limit',
                 'text'    => $strWarnLimitDays,
                 'size'    => 12,
-                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
+                'depends' => 'warn_email_admin==true',
                 'req'     => true,
                 'check'   => 'number+'
             ),
@@ -179,7 +137,7 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'warn_agency',
+                'name'    => 'warn_email_manager',
                 'text'    => $strWarnAgency
             ),
             array (
@@ -187,10 +145,10 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'warn_limit',
+                'name'    => 'warn_email_manager_impression_limit',
                 'text'    => $strWarnLimit,
                 'size'    => 12,
-                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
+                'depends' => 'warn_email_manager==true',
                 'req'     => true,
                 'check'   => 'number+'
             ),
@@ -199,10 +157,10 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'warn_limit_days',
+                'name'    => 'warn_email_manager_day_limit',
                 'text'    => $strWarnLimitDays,
                 'size'    => 12,
-                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
+                'depends' => 'warn_email_manager==true',
                 'req'     => true,
                 'check'   => 'number+'
             ),
@@ -213,7 +171,7 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'    => 'checkbox',
-                'name'    => 'warn_client',
+                'name'    => 'warn_email_advertiser',
                 'text'    => $strWarnClient
             ),
             array (
@@ -221,10 +179,10 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'warn_limit',
+                'name'    => 'warn_email_advertiser_impression_limit',
                 'text'    => $strWarnLimit,
                 'size'    => 12,
-                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
+                'depends' => 'warn_email_advertiser==true',
                 'req'     => true,
                 'check'   => 'number+'
             ),
@@ -233,10 +191,10 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'text',
-                'name'    => 'warn_limit_days',
+                'name'    => 'warn_email_advertiser_day_limit',
                 'text'    => $strWarnLimitDays,
                 'size'    => 12,
-                'depends' => 'warn_client==true || warn_admin==true || warn_agency==true',
+                'depends' => 'warn_email_advertiser==true',
                 'req'     => true,
                 'check'   => 'number+'
             )
