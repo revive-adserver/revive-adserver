@@ -234,8 +234,10 @@ class DB_DataObjectCommon extends DB_DataObject
         if (empty($accountId)) {
             $accountId = OA_Permission::getAccountId();
         }
-        if (!$this->N && !$this->find($autoFetch = true)) {
-            return null;
+        if (!$this->N) {
+            if (!$this->find($autoFetch = true)) {
+                return null;
+            }
         }
         $found = null;
         if ($this->getTableWithoutPrefix() == $accountTable) {
@@ -247,11 +249,11 @@ class DB_DataObjectCommon extends DB_DataObject
                 list($table,$link) = explode(':', $match);
                 $table = $this->getTableWithoutPrefix($table);
                 if ($table == $userTable) {
-                    $doCheck = $this->getLink($key, $table, $link);
+                    $doCheck = &$this->getCachedLink($key, $table, $link);
                     return $doCheck->belongsToAccount($accountTable, $accountId);
                 } else {
                     // recursive
-                    $doCheck = $this->getLink($key, $table, $link);
+                    $doCheck = &$this->getCachedLink($key, $table, $link);
                     if (!$doCheck) {
                         return null;
                     }
@@ -263,6 +265,38 @@ class DB_DataObjectCommon extends DB_DataObject
             }
         }
         return $found;
+    }
+    
+    /**
+     * Cache in static variable records found in the process of checking
+     * whether the object belongs to user. This eliminates sending some
+     * queries few times to database.
+     *
+     * @see DB_DataObject::getLink() for a description of used parameters.
+     * 
+     * @param string $key
+     * @param string $table
+     * @param string $link
+     * @return DB_DataObject_Common
+     */
+    function &getCachedLink($key, $table, $link)
+    {
+        static $cachedTables;
+        if (is_null($cachedTables)) {
+            $cachedTables = array();
+        }
+        if (isset($cachedTables[$table][$link][$ths->$key])) {
+            $doCheck = OA_Dal::factoryDO($table);
+            $doCheck->setFrom($cachedTables[$table][$link][$ths->$key]);
+            $doCheck->N = 1;
+        } else {
+            $doCheck = $this->getLink($key, $table, $link);
+            if (!$doCheck) {
+                return null;
+            }
+            $cachedTables[$table][$link][$ths->$key] = $doCheck->toArray();
+        }
+        return $doCheck;
     }
 
     /**
