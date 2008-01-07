@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -36,6 +33,7 @@ require_once MAX_PATH . '/lib/OA/Admin/Option.php';
 require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
+require_once MAX_PATH . '/lib/max/Admin/Languages.php';
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
 require_once MAX_PATH . '/www/admin/config.php';
@@ -43,22 +41,28 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
+// Get the DB_DataObject for the current user
+$doUsers = OA_Dal::factoryDO('users');
+$doUsers->get(OA_Permission::getUserId());
+
+// Create a new option object for displaying the setting's page's HTML form
+$oOptions = new OA_Admin_Option('preferences');
+
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
-
-// Required files
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-
-$doUsers = OA_Dal::factoryDO('users');
-$doUsers->get(OA_Permission::getUserId());
-    
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Register input variables
-    phpAds_registerGlobalUnslashed('login', 'pwold', 'pw', 'pw2', 'contact_name', 'email_address',
-                                   'company_name');
-    
+    phpAds_registerGlobalUnslashed(
+        'login',
+        'pwold',
+        'pw',
+        'pw2',
+        'contact_name',
+        'email_address',
+        'company_name'
+    );
     if (isset($login)) {
         if (!strlen($login)) {
             $aErrormessage[0][] = $strInvalidUsername;
@@ -85,7 +89,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($email_address)) {
         $doUsers->email_address = $email_address;
     }
-
     if (!count($aErrormessage)) {
         if ($doUsers->update() === false) {
             // Unable to update the preferences
@@ -113,10 +116,11 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1"));
 }
 
-// Create a new option object for displaying the setting's page's HTML form
-$oOptions = new OA_Admin_Option('preferences');
-
+// Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("account");
+
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
         'text'  => $strLoginCredentials,
@@ -178,10 +182,7 @@ $aSettings = array (
                 'text'    => $strEmailAddress,
                 'size'    => 35,
                 'check'   => 'email'
-            ),
-            array (
-                'type'    => 'break'
-            ),
+            )
         )
     )
 );
