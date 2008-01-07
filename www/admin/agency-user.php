@@ -57,10 +57,16 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = $strAllowCreateAccounts;
 }
 
+$aErrors = array();
 if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
-    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-    MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$agencyid);
+    if ($link) {
+        $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
+    }    
+    if (empty($aErrors)) {
+        $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
+        MAX_Admin_Redirect::redirect("agency-access.php?agencyid=".$agencyid);
+    }
 }
 
 /*-------------------------------------------------------*/
@@ -142,7 +148,10 @@ $oTpl->assign('hiddenFields', array(
         'name' => 'login',
         'value' => $login
     ),
-
+    array(
+        'name'  => 'link',
+        'value' => $link
+    ),
 ));
 
 $oTpl->display();

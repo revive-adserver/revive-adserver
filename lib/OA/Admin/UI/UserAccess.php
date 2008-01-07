@@ -31,9 +31,63 @@ $Id$
  */
 class OA_Admin_UI_UserAccess
 {
+    /**
+     * Validates user login and password - required for linking new users
+     *
+     * @param string $login
+     * @param string $password
+     * @return array  Array containing error strings or empty
+     *                array if no validation errors were found
+     */
+    function validateUsersData($login, $password)
+    {
+        $aErrors = OA_Admin_UI_UserAccess::validateUsersLogin($login);
+        return array_merge($aErrors, OA_Admin_UI_UserAccess::validateUsersPassword($password));
+    }
+    
+    /**
+     * Validates user login - required for linking new users
+     *
+     * @param string $login
+     * @return array  Array containing error strings or empty
+     *                array if no validation errors were found
+     */
+    function validateUsersLogin($login)
+    {
+        $aErrormessage = array();
+        if (empty($login)) {
+            $aErrormessage[] = $GLOBALS['strInvalidUsername'];
+        } elseif (!OA_Permission::isUsernameAllowed('', $login)) {
+            $aErrormessage[] = $GLOBALS['strDuplicateClientName'];
+        }
+        return $aErrormessage;
+    }
+    
+    /**
+     * Validates user password - required for linking new users
+     *
+     * @param string $password
+     * @return array  Array containing error strings or empty
+     *                array if no validation errors were found
+     */
+    function validateUsersPassword($password)
+    {
+        $aErrormessage = array();
+        if (!strlen($password) || strstr("\\", $password)) {
+            $aErrormessage[] = $GLOBALS['strInvalidPassword'];
+        }
+        return $aErrormessage;
+    }
+    
+    /**
+     * Assign common template variables
+     *
+     * @param Admin_Template $oTpl
+     */
     function assignUserStartTemplateVariables(&$oTpl)
     {
         $oTpl->assign('method', 'GET');
+        $oTpl->assign('strLinkUserHelp', $GLOBALS['strLinkUserHelp']);
         
         // TODOHOSTED: will need to know whether we're hosted or downloaded
         $HOSTED = false; 

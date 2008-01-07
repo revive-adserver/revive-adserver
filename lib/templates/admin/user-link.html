@@ -28,12 +28,15 @@ $Id: custom-adnetworks.html 12771 2007-11-23 15:29:03Z matteo.beccati@openads.or
 
 --> *}
 
-{if false}
-  <!-- TODO: display errors if any -->
+{if $aErrors}
   <div class='errormessage' id='errors'>
     <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />
     <span class='tab-r'>The following errors were found:</span><br />
-    {$error}
+    <ul>
+        {foreach item=error from=$aErrors}
+            <li>{$error} </li>
+        {/foreach}
+    </ul>
   </div>
 {/if}
 

@@ -49,11 +49,17 @@ $accountId = $doAccounts->getAdminAccountId();
 $doUsers = OA_Dal::factoryDO('users');
 $userid = $doUsers->getUserIdByUserName($login);
 
+$aErrors = array();
 if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name,
-                                               $email_address, $accountId);
-    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
-    MAX_Admin_Redirect::redirect("admin-access.php");
+    if ($link) {
+        $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
+    }
+    if (empty($aErrors)) {
+        $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name,
+            $email_address, $accountId);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions);
+        MAX_Admin_Redirect::redirect("admin-access.php");
+    }
 }
 
 /*-------------------------------------------------------*/
@@ -73,6 +79,7 @@ $oTpl = new OA_Admin_Template('admin-user.html');
 $oTpl->assign('action', 'admin-user.php');
 $oTpl->assign('backUrl', 'admin-user-start.php');
 $oTpl->assign('method', 'POST');
+$oTpl->assign('aErrors', $aErrors);
 
 // TODO: will need to know whether we're hosted or downloaded
 $HOSTED = false;
@@ -86,6 +93,8 @@ if ($doUsers) {
     $userData = $doUsers->toArray();
 } else {
     $userData['username'] = $login;
+    $userData['contact_name'] = $contact_name;
+    $userData['email_address'] = $email_address;
 }
 
 $oTpl->assign('fields', array(
@@ -104,7 +113,11 @@ $oTpl->assign('hiddenFields', array(
     array(
         'name'  => 'login',
         'value' => $login
-    )
+    ),
+    array(
+        'name'  => 'link',
+        'value' => $link
+    ),
 ));
 
 $oTpl->display();

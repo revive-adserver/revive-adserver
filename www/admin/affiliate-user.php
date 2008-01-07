@@ -63,10 +63,16 @@ $aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZo
 $aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners, false);
 $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false);
 
+$aErrors = array();
 if (!empty($submit)) {
-    $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
-    OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
-    MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
+    if ($link) {
+        $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
+    }
+    if (empty($aErrors)) {
+        $userid = OA_Admin_UI_UserAccess::saveUser($login, $passwd, $contact_name, $email_address, $accountId);
+        OA_Admin_UI_UserAccess::linkUserToAccount($userid, $accountId, $permissions, $aAllowedPermissions);
+        MAX_Admin_Redirect::redirect('affiliate-access.php?affiliateid='.$affiliateid);
+    }
 }
 
 
@@ -133,7 +139,10 @@ $oTpl->assign('hiddenFields', array(
         'name' => 'login',
         'value' => $login
     ),
-
+    array(
+        'name'  => 'link',
+        'value' => $link
+    ),
 ));
 
 $aPermissionsFields = array();
