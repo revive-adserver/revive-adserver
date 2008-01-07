@@ -57,11 +57,11 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
 {
     $aAllowedPermissions[OA_PERM_SUPER_ACCOUNT] = array($strAllowCreateAccounts, false);
 }
-$aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones, false);
-$aAllowedPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone, true);
-$aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone, true);
-$aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners, false);
-$aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false);
+$aAllowedPermissions[OA_PERM_ZONE_EDIT]       = array($strAllowAffiliateModifyZones,  false, true);
+$aAllowedPermissions[OA_PERM_ZONE_ADD]        = array($strAllowAffiliateAddZone,      true, false);
+$aAllowedPermissions[OA_PERM_ZONE_DELETE]     = array($strAllowAffiliateDeleteZone,   true, false);
+$aAllowedPermissions[OA_PERM_ZONE_LINK]       = array($strAllowAffiliateLinkBanners,  false, false);
+$aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerateCode, false, false);
 
 $aErrors = array();
 if (!empty($submit)) {
@@ -147,9 +147,10 @@ $oTpl->assign('hiddenFields', array(
 
 $aPermissionsFields = array();
 $isTrafficker = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER);
+$c = 0;
 foreach ($aAllowedPermissions as $permissionId => $aPermission) {
-    list($permissionName, $ident) = $aPermission;
-    $aPermissionsFields[] = array(
+    list($permissionName, $ident, $cascade) = $aPermission;
+    $aPermissionsFields[$c] = array(
                 'name'      => 'permissions[]',
                 'label'     => $permissionName,
                 'type'      => 'checkbox',
@@ -160,6 +161,10 @@ foreach ($aAllowedPermissions as $permissionId => $aPermission) {
                 'id'        => 'permissions_'.$permissionId,
                 'ident'     => $ident,
             );
+    if ($cascade) {
+        $aPermissionsFields[$c]['onclick'] = 'MMM_cascadePermissionsChange()';
+    }
+    $c++;
 }
 
 $tplFields = array(
