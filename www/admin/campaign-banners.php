@@ -107,6 +107,7 @@ if (isset($session['prefs']['campaign-banners.php'][$campaignid]['nodes'])) {
 
 $doBanners = OA_Dal::factoryDO('banners');
 $doBanners->campaignid = $campaignid;
+$doBanners->addListorderBy($listorder, $orderdirection);
 $doBanners->selectAdd('storagetype AS type');
 $doBanners->find();
 

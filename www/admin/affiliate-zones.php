@@ -118,7 +118,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
 // Get clients & campaign and build the tree
 $doZones = OA_Dal::factoryDO('zones');
 $doZones->affiliateid = $affiliateid;
-$doZones->addListorderBy($navorder, $navdirection);
+$doZones->addListorderBy($listorder, $orderdirection);
 $doZones->find();
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER) || OA_Permission::hasPermission(OA_PERM_ZONE_ADD))

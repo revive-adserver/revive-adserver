@@ -33,7 +33,8 @@ class MAX_Dal_Admin_Zones extends MAX_Dal_Common
 
     var $orderListName = array(
         'name' => 'zonename',
-        'id'   => 'zoneid'
+        'id'   => 'zoneid',
+        'size' => array('width', 'height')
     );
 
 	function getZoneByKeyword($keyword, $agencyId = null, $affiliateId = null)
