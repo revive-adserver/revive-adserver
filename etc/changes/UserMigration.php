@@ -1,144 +1,16 @@
 <?php
 
-/*
-+---------------------------------------------------------------------------+
-| Openads v${RELEASE_MAJOR_MINOR}                                                              |
-| ============                                                              |
-|                                                                           |
-| Copyright (c) 2003-2007 Openads Limited                                   |
-| For contact details, see: http://www.openads.org/                         |
-|                                                                           |
-| This program is free software; you can redistribute it and/or modify      |
-| it under the terms of the GNU General Public License as published by      |
-| the Free Software Foundation; either version 2 of the License, or         |
-| (at your option) any later version.                                       |
-|                                                                           |
-| This program is distributed in the hope that it will be useful,           |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-| GNU General Public License for more details.                              |
-|                                                                           |
-| You should have received a copy of the GNU General Public License         |
-| along with this program; if not, write to the Free Software               |
-| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-+---------------------------------------------------------------------------+
-$Id$
-*/
+require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
 
-$className = 'OA_UpgradePostscript_2_4_45';
-
-
-class OA_UpgradePostscript_2_4_45
+/**
+ * 2.6 new User, Roles, Accounts & Permissions system
+ *
+ */
+class UserMigration extends Migration
 {
-    /**
-     * @var OA_Upgrade
-     */
-    var $oUpgrade;
 
-    var $oSchema;
-
-    function OA_UpgradePostscript_2_4_45()
+    function UserMigration()
     {
-
-    }
-
-    function execute($aParams)
-    {
-        $this->oUpgrade = & $aParams[0];
-
-        if (!$this->migrateUsers()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Migrate users to new tables, migrate their permissions as well
-     *
-     * @return bool True on success
-     */
-    function migrateUsers()
-    {
-	    $aConf = $GLOBALS['_MAX']['CONF'];
-	    $oDbh  = OA_DB::singleton();
-
-	    $aUserdata = array(
-	       'ADMIN' => array(
-	           'sourceTable' => $aConf['table']['preference'],
-	           'primaryKey'  => 'agencyid',
-	           'fieldMap'    => array(
-	                    'name'          => $oDbh->quote('Administrator'),
-            	        'contact_name'  => 'admin_fullname',
-            	        'email_address' => 'admin_email',
-            	        'username'      => 'admin',
-            	        'password'      => 'admin_pw',
-            	        'permissions'   => $oDbh->quote(0, 'integer'),
-                   ),
-               'whereAdd'     => 'agencyid = 0',
-	       ),
-
-	       'MANAGER' => array(
-	           'sourceTable' => $aConf['table']['agency'],
-	           'primaryKey'  => 'agencyid',
-	           'fieldMap'    => array(
-                        'name'          => 'name',
-                        'contact_name'  => 'contact',
-                        'email_address' => 'email',
-                        'username'      => 'username',
-                        'password'      => 'password',
-            	        'permissions'   => $oDbh->quote(0, 'integer'),
-                    ),
-               'whereAdd'     => 'account_id IS NULL',
-	       ),
-
-	       'ADVERTISER' => array(
-	           'sourceTable' => $aConf['table']['clients'],
-	           'primaryKey'  => 'clientid',
-	           'fieldMap'    => array(
-                        'name'          => 'clientname',
-                        'contact_name'  => 'contact',
-                        'email_address' => 'email',
-                        'username'      => 'clientusername',
-                        'password'      => 'clientpassword',
-            	        'permissions'   => 'permissions',
-                    ),
-                'permissionMap' => array(
-                        2   => OA_PERM_BANNER_EDIT,
-                        4   => OA_PERM_BANNER_ADD,
-                        8   => OA_PERM_BANNER_DEACTIVATE,
-                        16  => OA_PERM_BANNER_ACTIVATE,
-                    ),
-	       ),
-
-	       'TRAFFICKER' => array(
-	           'sourceTable' => $aConf['table']['affiliates'],
-	           'primaryKey'  => 'affiliateid',
-	           'fieldMap'    => array(
-                        'name'          => 'name',
-                        'contact_name'  => 'contact',
-                        'email_address' => 'email',
-                        'username'      => 'username',
-                        'password'      => 'password',
-            	        'permissions'   => 'permissions',
-                    ),
-                'permissionMap' => array(
-                        2   => OA_PERM_ZONE_LINK,
-                        4   => OA_PERM_ZONE_ADD,
-                        8   => OA_PERM_ZONE_DELETE,
-                        16  => OA_PERM_ZONE_EDIT,
-                        32  => OA_PERM_ZONE_INVOCATION,
-                    ),
-	       ),
-	    );
-
-	    foreach ($aUserdata as $group => $aUser) {
-    	    $result = $this->_migrateUsers($group, $aUser);
-    	    if (!$result) {
-    	        return false;
-    	    }
-	    }
-
-		return true;
     }
 
 	function _migrateUsers($group, $aUser)
@@ -360,6 +232,8 @@ class OA_UpgradePostscript_2_4_45
 
         return true;
 	}
+
+
 }
 
 ?>

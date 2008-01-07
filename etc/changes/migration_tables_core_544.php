@@ -1,6 +1,7 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
+require_once MAX_PATH . '/etc/changes/UserMigration.php';
 require_once(MAX_PATH.'/lib/OA/Dal/ApplicationVariables.php');
 
 class Migration_544 extends Migration
@@ -82,8 +83,91 @@ class Migration_544 extends Migration
 		return $this->afterAddIndex('accounts', 'account_type');
 	}
 
+	/**
+	 * User Account migration
+	 *
+	 * @return boolean
+	 */
 	function beforeAlterField__application_variable__value()
 	{
+	    $aConf = $GLOBALS['_MAX']['CONF'];
+
+	    $aUserdata = array(
+	       'ADMIN' => array(
+	           'sourceTable' => $aConf['table']['preference'],
+	           'primaryKey'  => 'agencyid',
+	           'fieldMap'    => array(
+	                    'name'          => $this->oDBH->quote('Administrator'),
+            	        'contact_name'  => 'admin_fullname',
+            	        'email_address' => 'admin_email',
+            	        'username'      => 'admin',
+            	        'password'      => 'admin_pw',
+            	        'permissions'   => $this->oDBH->quote(0, 'integer'),
+                   ),
+               'whereAdd'     => 'agencyid = 0',
+	       ),
+	       'MANAGER' => array(
+	           'sourceTable' => $aConf['table']['agency'],
+	           'primaryKey'  => 'agencyid',
+	           'fieldMap'    => array(
+                        'name'          => 'name',
+                        'contact_name'  => 'contact',
+                        'email_address' => 'email',
+                        'username'      => 'username',
+                        'password'      => 'password',
+            	        'permissions'   => $this->oDBH->quote(0, 'integer'),
+                    ),
+               'whereAdd'     => 'account_id IS NULL',
+	       ),
+	       'ADVERTISER' => array(
+	           'sourceTable' => $aConf['table']['clients'],
+	           'primaryKey'  => 'clientid',
+	           'fieldMap'    => array(
+                        'name'          => 'clientname',
+                        'contact_name'  => 'contact',
+                        'email_address' => 'email',
+                        'username'      => 'clientusername',
+                        'password'      => 'clientpassword',
+            	        'permissions'   => 'permissions',
+                    ),
+                'permissionMap' => array(
+                        2   => OA_PERM_BANNER_EDIT,
+                        4   => OA_PERM_BANNER_ADD,
+                        8   => OA_PERM_BANNER_DEACTIVATE,
+                        16  => OA_PERM_BANNER_ACTIVATE,
+                    ),
+	       ),
+	       'TRAFFICKER' => array(
+	           'sourceTable' => $aConf['table']['affiliates'],
+	           'primaryKey'  => 'affiliateid',
+	           'fieldMap'    => array(
+                        'name'          => 'name',
+                        'contact_name'  => 'contact',
+                        'email_address' => 'email',
+                        'username'      => 'username',
+                        'password'      => 'password',
+            	        'permissions'   => 'permissions',
+                    ),
+                'permissionMap' => array(
+                        2   => OA_PERM_ZONE_LINK,
+                        4   => OA_PERM_ZONE_ADD,
+                        8   => OA_PERM_ZONE_DELETE,
+                        16  => OA_PERM_ZONE_EDIT,
+                        32  => OA_PERM_ZONE_INVOCATION,
+                    ),
+	       ),
+	    );
+
+	    $oUserMigration = new UserMigration();
+
+	    foreach ($aUserdata as $group => $aUser)
+	    {
+    	    $result = $oUserMigration->_migrateUsers($group, $aUser);
+    	    if (!$result) {
+    	        return false;
+    	    }
+	    }
+
 		return $this->beforeAlterField('application_variable', 'value');
 	}
 
@@ -94,7 +178,7 @@ class Migration_544 extends Migration
 
 	function beforeRemoveField__affiliates__username()
 	{
-		return $this->migrateData() && $this->beforeRemoveField('affiliates', 'username');
+		return $this->beforeRemoveField('affiliates', 'username');
 	}
 
 	function afterRemoveField__affiliates__username()
@@ -230,21 +314,6 @@ class Migration_544 extends Migration
 	function afterRemoveField__clients__language()
 	{
 		return $this->afterRemoveField('clients', 'language');
-	}
-
-	function migrateData()
-	{
-	    // Migrate preference table
-
-	    // Migrate language from affiliates
-
-	    // Migrate language/logout_url from agency
-
-	    // Migrate language from clients
-
-	    // Migrate timezone (is it needed?)
-
-	    return true;
 	}
 
 }

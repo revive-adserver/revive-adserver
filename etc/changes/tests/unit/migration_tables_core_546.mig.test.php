@@ -22,80 +22,115 @@
 | along with this program; if not, write to the Free Software               |
 | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 +---------------------------------------------------------------------------+
-$Id$
+$Id $
 */
 
-require_once MAX_PATH . '/etc/changes/migration_tables_core_543.php';
+require_once MAX_PATH . '/etc/changes/migration_tables_core_546.php';
 require_once MAX_PATH . '/lib/OA/DB/Sql.php';
 require_once MAX_PATH . '/etc/changes/tests/unit/MigrationTest.php';
 require_once MAX_PATH . '/lib/OA/Upgrade/Upgrade.php';
 
 /**
- * Test for migration class #543.
+ * Test for migration class #546
+ *
  *
  * @package    changes
  * @subpackage TestSuite
  * @author     Matteo Beccati <matteo.beccati@openads.org>
  */
-class Migration_543Test extends MigrationTest
+class Migration_546Test extends MigrationTest
 {
-    function testMigrateData()
+    var $tblPreference;
+    var $tblAgency;
+    var $tblAffilates;
+    var $tblChannel;
+    var $tblClients;
+    var $tblUsers;
+    var $tblAccounts;
+
+    function Migration_546Test()
     {
+        $this->oDbh = &OA_DB::singleton();
         $prefix = $this->getPrefix();
+        $this->tblPreference = $this->oDbh->quoteIdentifier($prefix.'preference', true);
+        $this->tblAgency     = $this->oDbh->quoteIdentifier($prefix.'agency', true);
+        $this->tblAffilates  = $this->oDbh->quoteIdentifier($prefix.'affiliates', true);
+        $this->tblChannel    = $this->oDbh->quoteIdentifier($prefix.'channel', true);
+        $this->tblClients    = $this->oDbh->quoteIdentifier($prefix.'clients', true);
+        $this->tblUsers      = $this->oDbh->quoteIdentifier($prefix.'users', true);
+        $this->tblAccounts   = $this->oDbh->quoteIdentifier($prefix.'accounts', true);
+
+        $this->_setupAccounts();
+    }
+
+    function setUp()
+    {
+    }
+
+    function tearDown()
+    {
+    }
+
+    function _setupAccounts()
+    {
+
         $this->initDatabase(542, array('agency', 'affiliates', 'application_variable', 'channel', 'clients', 'preference'));
 
-        $tblPreference = $this->oDbh->quoteIdentifier($prefix.'preference', true);
-        $tblAgency     = $this->oDbh->quoteIdentifier($prefix.'agency', true);
-        $tblAffilates  = $this->oDbh->quoteIdentifier($prefix.'affiliates', true);
-        $tblChannel    = $this->oDbh->quoteIdentifier($prefix.'channel', true);
-        $tblClients    = $this->oDbh->quoteIdentifier($prefix.'clients', true);
-        $tblUsers      = $this->oDbh->quoteIdentifier($prefix.'users', true);
-        $tblAccounts   = $this->oDbh->quoteIdentifier($prefix.'accounts', true);
 
-        $this->oDbh->exec("INSERT INTO {$tblPreference} (agencyid, admin_fullname, admin_email, admin, admin_pw) VALUES
+        $this->oDbh->exec("INSERT INTO {$this->tblPreference} (agencyid, admin_fullname, admin_email, admin, admin_pw) VALUES
             (0, 'Administrator', 'admin@example.com', 'admin', 'admin')");
-        $this->oDbh->exec("INSERT INTO {$tblPreference} (agencyid) VALUES (1)");
+        $this->oDbh->exec("INSERT INTO {$this->tblPreference} (agencyid) VALUES (1)");
 
-        $this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblPreference}"), 2);
+        //$this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblPreference}"), 2);
 
-        $this->oDbh->exec("INSERT INTO {$tblAgency} (name, email) VALUES ('Agency 1', 'ag1@example.com')");
-        $this->oDbh->exec("INSERT INTO {$tblAgency} (name, email, username, password) VALUES ('Agency 2', 'ag2@example.com', 'agency2', 'agency2')");
-        $this->oDbh->exec("INSERT INTO {$tblAgency} (name, email, username, password) VALUES ('Agency 3', 'ag3@example.com', 'agency3', 'agency3')");
-        $this->oDbh->exec("INSERT INTO {$tblAgency} (name, email, username, password) VALUES ('Agency 4', 'ag4@example.com', 'agency4', NULL)");
-        $this->oDbh->exec("INSERT INTO {$tblAgency} (name, email, username, password) VALUES ('Agency 5', 'ag5@example.com', NULL, 'agency3')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email) VALUES ('Agency 1', 'ag1@example.com')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 2', 'ag2@example.com', 'agency2', 'agency2')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 3', 'ag3@example.com', 'agency3', 'agency3')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 4', 'ag4@example.com', 'agency4', NULL)");
+        $this->oDbh->exec("INSERT INTO {$this->tblAgency} (name, email, username, password) VALUES ('Agency 5', 'ag5@example.com', NULL, 'agency3')");
 
-        $this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblAgency}"), 5);
+        //$this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblAgency}"), 5);
 
-        $this->oDbh->exec("INSERT INTO {$tblAffilates} (name, email, agencyid) VALUES ('Publisher 1', 'pu1@example.com', 1)");
-        $this->oDbh->exec("INSERT INTO {$tblAffilates} (name, email, username, password) VALUES ('Publisher 2', 'pu2@example.com', 'publisher2', 'publisher2')");
+        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, agencyid) VALUES ('Publisher 1', 'pu1@example.com', 1)");
+        $this->oDbh->exec("INSERT INTO {$this->tblAffilates} (name, email, username, password) VALUES ('Publisher 2', 'pu2@example.com', 'publisher2', 'publisher2')");
 
-        $this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblAffilates}"), 2);
+        //$this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblAffilates}"), 2);
 
-        $this->oDbh->exec("INSERT INTO {$tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 1', 0, 0)");
-        $this->oDbh->exec("INSERT INTO {$tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 2', 0, 2)");
-        $this->oDbh->exec("INSERT INTO {$tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 3', 1, 0)");
-        $this->oDbh->exec("INSERT INTO {$tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 4', 1, 1)");
+        $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 1', 0, 0)");
+        $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 2', 0, 2)");
+        $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 3', 1, 0)");
+        $this->oDbh->exec("INSERT INTO {$this->tblChannel} (name, agencyid, affiliateid) VALUES ('Channel 4', 1, 1)");
 
-        $this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblChannel}"), 4);
+        //$this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblChannel}"), 4);
 
-        $this->oDbh->exec("INSERT INTO {$tblClients} (clientname, email, agencyid) VALUES ('Advertiser 1', 'ad1@example.com', 1)");
-        $this->oDbh->exec("INSERT INTO {$tblClients} (clientname, email, clientusername, clientpassword) VALUES ('Advertiser 2', 'ad2@example.com', 'advertiser2', 'advertiser2')");
+        $this->oDbh->exec("INSERT INTO {$this->tblClients} (clientname, email, agencyid) VALUES ('Advertiser 1', 'ad1@example.com', 1)");
+        $this->oDbh->exec("INSERT INTO {$this->tblClients} (clientname, email, clientusername, clientpassword) VALUES ('Advertiser 2', 'ad2@example.com', 'advertiser2', 'advertiser2')");
 
-        $this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblClients}"), 2);
+        //$this->assertEqual($this->oDbh->getOne("SELECT COUNT(*) FROM {$tblClients}"), 2);
 
-        // Migrate!
+    }
+
+    function testUpgradeSchema()
+    {
         $this->upgradeToVersion(543);
+        $this->upgradeToVersion(544);
+        $this->upgradeToVersion(546);
+    }
 
-        // Run postscript!
-        $oUpgrade = new OA_Upgrade();
-        $oUpgrade->runScript('postscript_openads_upgrade_2.5.45.php');
+    function testMigratePreferences()
+    {
 
-        $aAgencies   = $this->oDbh->queryAll("SELECT agencyid, name, email, account_id FROM {$tblAgency} ORDER BY agencyid");
-        $aAffiliates = $this->oDbh->queryAll("SELECT affiliateid, agencyid, account_id FROM {$tblAffilates} ORDER BY affiliateid");
-        $aChannels   = $this->oDbh->queryAll("SELECT channelid, agencyid FROM {$tblChannel} ORDER BY channelid");
-        $aClients    = $this->oDbh->queryAll("SELECT clientid, agencyid, account_id FROM {$tblClients} ORDER BY clientid");
-        $aAccounts   = $this->oDbh->queryAll("SELECT * FROM {$tblAccounts} ORDER BY account_id");
-        $aUsers      = $this->oDbh->queryAll("SELECT * FROM {$tblUsers} ORDER BY user_id");
+    }
+
+
+    function testMigrateUsers()
+    {
+        $aAgencies   = $this->oDbh->queryAll("SELECT agencyid, name, email, account_id FROM {$this->tblAgency} ORDER BY agencyid");
+        $aAffiliates = $this->oDbh->queryAll("SELECT affiliateid, agencyid, account_id FROM {$this->tblAffilates} ORDER BY affiliateid");
+        $aChannels   = $this->oDbh->queryAll("SELECT channelid, agencyid FROM {$this->tblChannel} ORDER BY channelid");
+        $aClients    = $this->oDbh->queryAll("SELECT clientid, agencyid, account_id FROM {$this->tblClients} ORDER BY clientid");
+        $aAccounts   = $this->oDbh->queryAll("SELECT * FROM {$this->tblAccounts} ORDER BY account_id");
+        $aUsers      = $this->oDbh->queryAll("SELECT * FROM {$this->tblUsers} ORDER BY user_id");
 
         // Check Admin
         $acCount = 2;
@@ -104,9 +139,9 @@ class Migration_543Test extends MigrationTest
         $aReturnAccounts = array_slice($aAccounts, 0, $acCount);
         $aReturnUsers    = array_slice($aUsers, 0, $usCount);
 
-        $this->assertEqual($aReturnAgencies, $this->getAdminAgencies());
-        $this->assertEqual($aReturnAccounts, $this->getAdminAccounts());
-        $this->assertEqual($aReturnUsers,    $this->getAdminUsers());
+        $this->assertEqual($aReturnAgencies, $this->_getAdminAgencies());
+        $this->assertEqual($aReturnAccounts, $this->_getAdminAccounts());
+        $this->assertEqual($aReturnUsers,    $this->_getAdminUsers());
 
         // Check Manager
         $ac = 5;
@@ -119,9 +154,9 @@ class Migration_543Test extends MigrationTest
         $aReturnAccounts = array_slice($aAccounts, $acOffset, $ac);
         $aReturnUsers    = array_slice($aUsers, $usOffset, $us);
 
-        $this->assertEqual($aReturnAgencies, $this->getManagerAgencies());
-        $this->assertEqual($aReturnAccounts, $this->getManagerAccounts());
-        $this->assertEqual($aReturnUsers,    $this->getManagerUsers());
+        $this->assertEqual($aReturnAgencies, $this->_getManagerAgencies());
+        $this->assertEqual($aReturnAccounts, $this->_getManagerAccounts());
+        $this->assertEqual($aReturnUsers,    $this->_getManagerUsers());
 
         // Check Advertiser
         $ac = 2;
@@ -134,9 +169,9 @@ class Migration_543Test extends MigrationTest
         $aReturnAccounts = array_slice($aAccounts, $acOffset, $ac);
         $aReturnUsers    = array_slice($aUsers, $usOffset, $us);
 
-        $this->assertEqual($aReturnClients,  $this->getAdvertiserClients());
-        $this->assertEqual($aReturnAccounts, $this->getAdvertiserAccounts());
-        $this->assertEqual($aReturnUsers,    $this->getAdvertiserUsers());
+        $this->assertEqual($aReturnClients,  $this->_getAdvertiserClients());
+        $this->assertEqual($aReturnAccounts, $this->_getAdvertiserAccounts());
+        $this->assertEqual($aReturnUsers,    $this->_getAdvertiserUsers());
 
         // Check Trafficker
         $ac = 2;
@@ -149,15 +184,15 @@ class Migration_543Test extends MigrationTest
         $aReturnAccounts   = array_slice($aAccounts, $acOffset, $ac);
         $aReturnUsers      = array_slice($aUsers, $usOffset, $us);
 
-        $this->assertEqual($aReturnAffiliates, $this->getTraffickerAffiliates());
-        $this->assertEqual($aReturnAccounts,   $this->getTraffickerAccounts());
-        $this->assertEqual($aReturnUsers,      $this->getTraffickerUsers());
+        $this->assertEqual($aReturnAffiliates, $this->_getTraffickerAffiliates());
+        $this->assertEqual($aReturnAccounts,   $this->_getTraffickerAccounts());
+        $this->assertEqual($aReturnUsers,      $this->_getTraffickerUsers());
 
         // Check channels
-        $this->assertEqual($aChannels, $this->getChannels());
+        $this->assertEqual($aChannels, $this->_getChannels());
    }
 
-   function getAdminAgencies()
+   function _getAdminAgencies()
    {
        return array (
           0 =>
@@ -170,7 +205,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getAdminAccounts()
+   function _getAdminAccounts()
    {
        return array (
           0 =>
@@ -188,7 +223,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getAdminUsers()
+   function _getAdminUsers()
    {
        return array (
           0 =>
@@ -205,7 +240,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getManagerAgencies()
+   function _getManagerAgencies()
    {
        return array (
           0 =>
@@ -246,7 +281,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getManagerAccounts()
+   function _getManagerAccounts()
    {
        return array (
           0 =>
@@ -282,7 +317,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getManagerUsers()
+   function _getManagerUsers()
    {
        return array (
           0 =>
@@ -310,7 +345,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getTraffickerAffiliates()
+   function _getTraffickerAffiliates()
    {
        return array (
           0 =>
@@ -328,7 +363,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getTraffickerAccounts()
+   function _getTraffickerAccounts()
    {
        return array (
           0 =>
@@ -346,7 +381,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getTraffickerUsers()
+   function _getTraffickerUsers()
    {
        return array (
           0 =>
@@ -363,7 +398,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getAdvertiserClients()
+   function _getAdvertiserClients()
    {
        return array (
           0 =>
@@ -381,7 +416,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getAdvertiserAccounts()
+   function _getAdvertiserAccounts()
    {
        return array (
           0 =>
@@ -399,7 +434,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getAdvertiserUsers()
+   function _getAdvertiserUsers()
    {
        return array (
           0 =>
@@ -416,7 +451,7 @@ class Migration_543Test extends MigrationTest
         );
    }
 
-   function getChannels()
+   function _getChannels()
    {
        return array (
           0 =>
