@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -49,6 +46,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER);
 
+// Re-load the account's preferences, with additional information
+OA_Preference::loadPreferences(true);
+
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
 
@@ -57,70 +57,21 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Required files
-require_once MAX_PATH . '/lib/max/Admin/Languages.php';
-
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Register input variables
-    phpAds_registerGlobalUnslashed('language', 'timezone_location');
-
-    // Set up the config object
-    $oConfig = new OA_Admin_Settings();
-
-    //  Update config with timezone changes
-    if (isset($timezone_location)) {
-        $timezone_location = OA_Admin_Timezones::getConfigTimezoneValue($timezone_location, $aTimezone);
-        $oConfig->settingChange('timezone', 'location', $timezone_location);
+    // Prepare an array of the HTML elements to process
+    $aElements = array();
+    // Language & Timezone
+    $aElements[] = 'language';
+    $aElements[] = 'timezone';
+    // Save the preferences
+    $result = OA_Preference::processPreferencesFromForm($aElements);
+    if ($result) {
+        // The preferences were written correctly saved to the database,
+        // go to the "next" preferences page from here
+        MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
     }
-
-    if (!$oConfig->writeConfigChange()) {
-        // Unable to write the config file out
-        $aErrormessage[0][] = $strUnableToWriteConfig;
-    }
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    if (isset($language)) {
-        $oPreferences->setPrefChange('language', $language);
-    }
-
-    if (!count($aErrormessage)) {
-        if (!$oPreferences->writePrefChange()) {
-            // Unable to update the preferences
-            $aErrormessage[0][] = $strUnableToWritePrefs;
-        } else {
-            MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
-        }
-    }
-
+    // Could not write the preferences to the database, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
 // Display the settings page's header and sections
@@ -139,10 +90,10 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1"));
 }
 
+// Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("language-timezone");
 
-$aUnique_users   = OA_Permission::getUniqueUserNames($pref['admin']);
-
+// Get timezone dropdown information
 $aTimezones = OA_Admin_Timezones::availableTimezones(true);
 $oConfigTimezone = trim($GLOBALS['_MAX']['CONF']['timezone']['location']);
 if (empty($oConfigTimezone)) {
@@ -158,6 +109,8 @@ if (empty($oConfigTimezone) && $aTimezone['calculated']) {
     $strTimezoneToDisplay = $strTimezone;
 }
 
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
         'text'  => $strLanguageTimezone,
