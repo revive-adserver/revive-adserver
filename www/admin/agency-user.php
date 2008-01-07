@@ -42,7 +42,6 @@ require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'email_address', 'permissions', 'submit');
 
 // Security check
-// TODOPERM - should we add here some additional check or every super user should have access to all accounts?
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccountPermission(OA_ACCOUNT_MANAGER, OA_PERM_SUPER_ACCOUNT);
 OA_Permission::enforceAccessToObject('agency', $agencyid);

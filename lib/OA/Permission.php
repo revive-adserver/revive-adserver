@@ -109,7 +109,11 @@ class OA_Permission
     function enforceAccount($accountType)
     {
         $aArgs = is_array($accountType) ? $accountType : func_get_args();
-        OA_Permission::enforceTrue(OA_Permission::isAccount($aArgs));
+        $isAccount = OA_Permission::isAccount($aArgs);
+        if (!$isAccount) {
+            $isAccount = OA_Permission::attemptToSwitchToAccount($aArgs);
+        }
+        OA_Permission::enforceTrue($isAccount);
     }
 
     /**
@@ -221,11 +225,14 @@ class OA_Permission
      *
      * @static
      * @param int $accountId
+     * @param boolean $hasAccess  Can be used for optimization - if we know that user
+     *                            has access to the account he is switching to there is
+     *                            no need to check it again
      */
-    function switchAccount($accountId)
+    function switchAccount($accountId, $hasAccess = null)
     {
-        if (OA_Permission::hasAccess($accountId)) {
-            $oUser = OA_Permission::getCurrentUser();
+        if ($hasAccess || OA_Permission::hasAccess($accountId)) {
+            $oUser = &OA_Permission::getCurrentUser();
             $oUser->switchAccount($accountId);
         }
 
@@ -251,6 +258,30 @@ class OA_Permission
         if ($oUser = OA_Permission::getCurrentUser()) {
             $aArgs = is_array($accountType) ? $accountType : func_get_args();
             return in_array($oUser->aAccount['account_type'], $aArgs);
+        }
+        return false;
+    }
+
+
+    function attemptToSwitchToAccount($accountType)
+    {
+        $oUser = OA_Permission::getCurrentUser();
+        if (!$oUser) {
+            return false;
+        }
+        $aAccountTypes = is_array($accountType) ? $accountType : func_get_args();
+        $aAccountIds = OA_Permission::getLinkedAccounts(true);
+        $defaultUserAccountId = $oUser->aUser['default_account_id'];
+        foreach ($aAccountTypes as $accountType) {
+            if (isset($aAccountIds[$accountType])) {
+                if (isset($aAccountIds[$accountType][$defaultUserAccountId])) {
+                    $accountId = $defaultUserAccountId;
+                } else {
+                    $accountId = array_shift(array_keys($aAccountIds[$accountType]));
+                }
+                OA_Permission::switchAccount($accountId, $hasAccess = true);
+                return true;
+            }
         }
         return false;
     }
@@ -313,6 +344,7 @@ class OA_Permission
         if (empty($userId)) {
             $userId = OA_Permission::getUserId();
         }
+        // TODOPERM - should admin has access only to MANAGER accounts here?
         return OA_Permission::isUserLinkedToAccount($accountId, $userId)
             || OA_Permission::isUserLinkedToAdmin();
     }
@@ -421,6 +453,14 @@ class OA_Permission
     /**
      * A method which returns all the accounts linked to the user
      *
+     * Returns array of:
+     *   accountId => 'account name'
+     * 
+     * If $groupByType is equal true returns:
+     *   accountType => accountId => 'account name'
+     * 
+     * where accountType is one of: OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, etc.
+     * 
      * @param boolean $groupByType
      * @return array
      */
@@ -438,7 +478,7 @@ class OA_Permission
             $aAccountsByType[$doAccount_user_Assoc->account_type][$doAccount_user_Assoc->account_id] =
                 $doAccount_user_Assoc->account_name;
         }
-        if (OA_Permission::isUserLinkedToAdmin()) {
+        if (isset($aAccountsByType[OA_ACCOUNT_ADMIN])) {
             $aAccountsByType = OA_Permission::mergeAdminAccounts($aAccountsByType);
         }
         if (!$groupByType) {
