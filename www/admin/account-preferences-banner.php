@@ -8,9 +8,6 @@
 | Copyright (c) 2003-2007 Openads Limited                                   |
 | For contact details, see: http://www.openads.org/                         |
 |                                                                           |
-| Copyright (c) 2000-2003 the phpAdsNew developers                          |
-| For contact details, see: http://www.phpadsnew.com/                       |
-|                                                                           |
 | This program is free software; you can redistribute it and/or modify      |
 | it under the terms of the GNU General Public License as published by      |
 | the Free Software Foundation; either version 2 of the License, or         |
@@ -132,27 +129,23 @@ $aSettings = array (
     ),
     array (
         'text'  => $strWeightDefaults,
-        'visible' => $admin_settings,
         'items' => array (
             array (
                 'type'  => 'text',
                 'name'  => 'default_banner_weight',
                 'text'  => $strDefaultBannerWeight,
                 'size'  => 12,
-                'check' => 'number+',
-                'visible' => $admin_settings
+                'check' => 'number+'
             ),
             array (
-                'type'  => 'break',
-                'visible' => $admin_settings
+                'type'  => 'break'
             ),
             array (
                 'type'  => 'text',
                 'name'  => 'default_campaign_weight',
                 'text'  => $strDefaultCampaignWeight,
                 'size'  => 12,
-                'check' => 'number+',
-                'visible' => $admin_settings
+                'check' => 'number+'
             )
         )
     )
