@@ -427,7 +427,7 @@ $exists = phpAds_sizeExists ($zone['width'], $zone['height']);
 
 echo "<table><tr><td>";
 echo "<input type='radio' name='sizetype' value='default'".($exists ? ' CHECKED' : '').$sizedisabled." tabindex='".($tabindex++)."'>&nbsp;";
-echo "<select name='size' onchange='phpAds_formSelectSize(this);oa_show(\"warning_change_zone_size\");'".$sizedisabled." tabindex='".($tabindex++)."'>";
+echo "<select name='size' onchange='phpAds_formSelectSize(this); oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");'".$sizedisabled." tabindex='".($tabindex++)."'>";
 
 foreach (array_keys($phpAds_IAB) as $key)
 {
@@ -443,10 +443,10 @@ echo "</select>";
 
 echo "</td></tr><tr><td>";
 
-echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()' tabindex='".($tabindex++)."'>&nbsp;";
-echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_show(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
+echo "<input type='radio' name='sizetype' value='custom'".(!$exists ? ' CHECKED' : '').$sizedisabled." onclick='phpAds_formEditSize()'  tabindex='".($tabindex++)."'>&nbsp;";
+echo $strWidth.": <input class='flat' size='5' type='text' name='width' value='".(isset($zone["width"]) ? $zone["width"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
 echo "&nbsp;&nbsp;&nbsp;";
-echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_show(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
+echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".(isset($zone["height"]) ? $zone["height"] : '')."'".$sizedisabled." onkeydown='phpAds_formEditSize()' onBlur='max_formValidateElement(this);' onChange='oa_sizeChangeUpdateMessage(\"warning_change_zone_size\");' tabindex='".($tabindex++)."'>";
 echo "</td></tr></table>";
 echo "</td></tr>";
 
@@ -595,6 +595,18 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
 
 <script language='JavaScript'>
 <!--
+    <?php
+
+    if (isset($zone["height"])) {
+        echo "document.zoneHeight =" .$zone["height"]. ";\n";
+    }
+    if (isset($zone["width"])) {
+        echo "document.zoneWidth =" .$zone["width"]. ";\n";
+    }
+
+    ?>
+
+
     max_formSetRequirements('zonename', '<?php echo addslashes($strName); ?>', true, 'unique');
     max_formSetRequirements('width', '<?php echo addslashes($strWidth); ?>', true, 'number*');
     max_formSetRequirements('height', '<?php echo addslashes($strHeight); ?>', true, 'number*');
@@ -669,6 +681,18 @@ $unique_names = $doZones->getUniqueValuesFromColumn('zonename', $zoneName);
         } else {
             p.style.display = 'none';
             p2.style.display = 'none';
+        }
+    }
+
+    function oa_sizeChangeUpdateMessage(id)
+    {
+        if (document.zoneWidth != document.zoneform.width.value ||
+            document.zoneHeight !=  document.zoneform.height.value) {
+                oa_show(id);
+
+        } else if (document.zoneWidth == document.zoneform.width.value &&
+                   document.zoneHeight ==  document.zoneform.height.value) {
+            oa_hide(id);
         }
     }
 

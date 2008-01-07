@@ -728,6 +728,7 @@ $GLOBALS['strWarnChangeZoneType']           = 'Changing the zone type to text or
                                                     <li>Email zone campaigns can only have one active banner at a time</li>
                                                 </ul>';
 $GLOBALS['strWarnChangeZoneSize']           = 'Changing the zone size will unlink any banners that are not the new size, and will add any banners from linked campaigns which are the new size';
+$GLOBALS['strWarnChangeBannerSize']         = 'Changing the banner size will unlink this banner from any zones that are not the new size, and if this banner\'s <strong>campaign</strong> is linked to a zone of the new size, this banner will be automatically linked';
 
 // Advanced zone settings
 $GLOBALS['strAdvanced']                    = "Advanced";

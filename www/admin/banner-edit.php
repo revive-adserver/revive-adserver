@@ -391,12 +391,34 @@ if (!isset($bannerid) || $bannerid == '') {
     echo "</td></tr></table>";
     phpAds_ShowBreak();
     echo "</form>";
+
+} else {
+    // Only display the notices when *changing* a banner size, not for new banners
+    echo "<div class='errormessage' id='warning_change_zone_type' style='display:none'> <img class='errormessage' src='images/errormessage.gif' align='absmiddle' />";
+    echo "<span class='tab-r'> {$GLOBALS['strWarning']}:</span><br />";
+    echo "{$GLOBALS['strWarnChangeZoneType']}";
+    echo "</div>";
+
+    echo "<div class='errormessage' id='warning_change_banner_size' style='display:none'> <img class='errormessage' src='images/warning.gif' align='absmiddle' />";
+    echo "<span class='tab-s'> {$GLOBALS['strNotice']}:</span><br />";
+    echo "{$GLOBALS['strWarnChangeBannerSize']}";
+    echo "</div>";
 }
 
 ?>
 
 <script language='JavaScript'>
 <!--
+
+    <?php
+
+    if (isset($bannerid) && $bannerid != '') {
+        echo "document.bannerHeight =" .$row["height"]. ";\n";
+        echo "document.bannerWidth =" .$row["width"]. ";\n";
+    }
+
+    ?>
+
     function selectFile(o)
     {
         var filename = o.value.toLowerCase();
@@ -429,12 +451,38 @@ if (!isset($bannerid) || $bannerid == '') {
             editbanner.adserver.disabled = true;
         }
     }
+
+    function oa_sizeChangeUpdateMessage(id)
+    {
+        if (document.bannerWidth != document.bannerForm.width.value ||
+            document.bannerHeight !=  document.bannerForm.height.value) {
+                oa_show(id);
+
+        } else if (document.bannerWidth == document.bannerForm.width.value &&
+                   document.bannerHeight ==  document.bannerForm.height.value) {
+            oa_hide(id);
+        }
+    }
+
+    function oa_show(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'block'; }
+    }
+
+    function oa_hide(id)
+    {
+        var obj = findObj(id);
+        if (obj) { obj.style.display = 'none'; }
+    }
+
 //-->
 </script>
 
 <?php
+
 echo "
-    <form id='editbanner' action='banner-edit.php' method='POST' enctype='multipart/form-data'";
+    <form name='bannerForm' id='bannerForm' action='banner-edit.php' method='POST' enctype='multipart/form-data'";
 if($type == 'html') {
     echo " onsubmit='return max_formValidateHtml(this.banner)'";
 }
@@ -584,8 +632,8 @@ if ($type == 'sql') {
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSize."</td>";
-        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'></td></tr>";
     }
 
     if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
@@ -783,8 +831,8 @@ if ($type == 'web') {
 
         echo "<tr><td width='30'>&nbsp;</td>";
         echo "<td width='200'>".$strSize."</td>";
-        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+        echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+        echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");' tabindex='".($tabindex++)."'></td></tr>";
     }
 
     if (!isset($row['contenttype']) || $row['contenttype'] == 'swf')
@@ -852,8 +900,9 @@ if ($type == 'url') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strSize."</td>";
-    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+
+    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
@@ -912,8 +961,8 @@ if ($type == 'html') {
 
     echo "<tr><td width='30'>&nbsp;</td>";
     echo "<td width='200'>".$strSize."</td>";
-    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
-    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' tabindex='".($tabindex++)."'></td></tr>";
+    echo "<td>".$strWidth.": <input class='flat' size='5' type='text' name='width' value='".$row["width"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'>&nbsp;&nbsp;&nbsp;";
+    echo $strHeight.": <input class='flat' size='5' type='text' name='height' value='".$row["height"]."' " . (!empty($bannerid) ? "onChange='oa_sizeChangeUpdateMessage(\"warning_change_banner_size\");'" : '' )." tabindex='".($tabindex++)."'></td></tr>";
 
     echo "<tr><td height='20' colspan='3'>&nbsp;</td></tr>";
     echo "<tr><td height='1' colspan='3' bgcolor='#888888'><img src='images/break.gif' height='1' width='100%'></td></tr>";
