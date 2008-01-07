@@ -229,7 +229,7 @@ class OA_Permission
      *                            has access to the account he is switching to there is
      *                            no need to check it again
      */
-    function switchAccount($accountId, $hasAccess = null)
+    function switchAccount($accountId, $hasAccess = false)
     {
         if ($hasAccess || OA_Permission::hasAccess($accountId)) {
             $oUser = &OA_Permission::getCurrentUser();

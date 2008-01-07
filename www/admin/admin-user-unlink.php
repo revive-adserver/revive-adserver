@@ -55,7 +55,11 @@ $userid = $doUsers->getUserIdByUserName($login);
 
 if (!empty($accountId) && !empty($userid))
 {
-    OA_Admin_UI_UserAccess::unlinkUserFromAccount($accountId, $userid);
+    if (OA_Admin_UI_UserAccess::countNumberOfUserLinkedToAccount($accountId) > 1) {
+        OA_Admin_UI_UserAccess::unlinkUserFromAccount($accountId, $userid);
+    } else {
+        OA_Session::setMessage($GLOBALS['strCantDeleteOneAdminUser']);
+    }
 }
 
 if (empty($returnurl)) {

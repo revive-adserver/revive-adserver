@@ -162,6 +162,19 @@ class OA_Admin_UI_UserAccess
     }
     
     /**
+     * Returns number of users linked to account
+     *
+     * @param integer $accountId
+     * @return integer
+     */
+    function countNumberOfUserLinkedToAccount($accountId)
+    {
+        $doAccount_user_assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_user_assoc->account_id = $accountId;
+        return $doAccount_user_assoc->count();
+    }
+    
+    /**
      * Method used in user access pages. Either creates new user if necessary or update existing one.
      *
      * @param string $login  User name

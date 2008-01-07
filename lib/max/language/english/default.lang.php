@@ -201,6 +201,7 @@ $GLOBALS['strUserAccountUpdated']       = 'User account updated';
 $GLOBALS['strUserUnlinkedFromAccount']  = 'User was unlinked from account';
 $GLOBALS['strUserWasDeleted']           = 'User was deleted';
 $GLOBALS['strUserNotLinkedWithAccount'] = 'Such user is not linked with account';
+$GLOBALS['strCantDeleteOneAdminUser']   = 'You can\'t delete a user. At least one user needs to be linked with admin account.';
 
 // Login & Permissions
 $GLOBALS['strUserAccess']               = "User Access";
@@ -221,7 +222,7 @@ $GLOBALS['strAccessDenied']             = "Access denied";
 $GLOBALS['strUsernameOrPasswordWrong']  = "The username and/or password were not correct. Please try again.";
 $GLOBALS['strPasswordWrong']            = "The password is not correct";
 $GLOBALS['strParametersWrong']          = "The parameters you supplied are not correct";
-$GLOBALS['strNotAdmin']                 = "You may not have enough privileges. Switch to different account or if you know the correct user details, you may login again below";
+$GLOBALS['strNotAdmin']                 = "You may not have enough privileges. Switch to different account or if you know the correct user details, you may login again below as a different user.";
 $GLOBALS['strDuplicateClientName']      = "The username you provided already exists, please use a different username.";
 $GLOBALS['strDuplicateAgencyName']      = "The username you provided already exists, please use a different username.";
 $GLOBALS['strInvalidPassword']          = "The new password is invalid, please use a different password.";
