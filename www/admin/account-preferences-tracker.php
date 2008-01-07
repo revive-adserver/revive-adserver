@@ -39,6 +39,9 @@ require_once MAX_PATH . '/www/admin/config.php';
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER, OA_ACCOUNT_ADVERTISER);
 
+// Re-load the account's preferences, with additional information
+OA_Preference::loadPreferences(true);
+
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
 
@@ -47,55 +50,22 @@ $aErrormessage = array();
 
 // If the settings page is a submission, deal with the form data
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Register input variables
-    phpAds_registerGlobal('default_tracker_status', 'default_tracker_type',
-                          'default_tracker_linkcampaigns');
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    if (isset($default_tracker_status)) {
-        $oPreferences->setPrefChange('default_tracker_status', $default_tracker_status);
+    // Prepare an array of the HTML elements to process
+    $aElements = array();
+    // Tracker
+    $aElements[] = 'tracker_default_status';
+    $aElements[] = 'tracker_default_type';
+    $aElements[] = 'tracker_link_campaigns';
+    // Save the preferences
+    $result = OA_Preference::processPreferencesFromForm($aElements);
+    if ($result) {
+        // The preferences were written correctly saved to the database,
+        // go to the "next" preferences page from here
+        MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
     }
-    if (isset($default_tracker_type)) {
-        $oPreferences->setPrefChange('default_tracker_type', $default_tracker_type);
-    }
-
-    $oPreferences->setPrefChange('default_tracker_linkcampaigns', isset($default_tracker_linkcampaigns));
-
-    if (!count($aErrormessage)) {
-        if (!$oPreferences->writePrefChange()) {
-            // Unable to update the preferences
-            $aErrormessage[0][] = $strUnableToWritePrefs;
-        } else {
-            MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
-        }
-    }
-
+    // Could not write the preferences to the database, store this
+    // error message and continue
+    $aErrormessage[0][] = $strUnableToWritePrefs;
 }
 
 // Display the settings page's header and sections
@@ -114,18 +84,23 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
     phpAds_ShowSections(array("5.1"));
 }
 
+// Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("tracker");
 
+// Get the details of possible tracker statuses
 $aStatuses = array();
 foreach($GLOBALS['_MAX']['STATUSES'] as $statusId => $statusName) {
     $aStatuses[$statusId] = $GLOBALS[$statusName];
 }
 
+// Get the details of possible tracker types
 $aTrackerTypes = array();
 foreach($GLOBALS['_MAX']['CONN_TYPES'] as $typeId => $typeName) {
     $aTrackerTypes[$typeId] = $GLOBALS[$typeName];
 }
 
+// Prepare an array of HTML elements to display for the form, and
+// output using the $oOption object
 $aSettings = array (
     array (
         'text'  => $strTracker,
