@@ -344,9 +344,25 @@ class OA_Permission
         if (empty($userId)) {
             $userId = OA_Permission::getUserId();
         }
-        // TODOPERM - should admin has access only to MANAGER accounts here?
         return OA_Permission::isUserLinkedToAccount($accountId, $userId)
-            || OA_Permission::isUserLinkedToAdmin();
+            || (OA_Permission::getAccountTypeByAccountId($accountId) == OA_ACCOUNT_MANAGER 
+                && OA_Permission::isUserLinkedToAdmin());
+    }
+    
+    /**
+     * Returns account type for specific accountId
+     *
+     * @param integer $accountId
+     * @return string  Account type
+     */
+    function getAccountTypeByAccountId($accountId)
+    {
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_id = $accountId;
+        if ($doAccounts->find(true)) {
+            return $doAccounts->account_type;
+        }
+        return false;
     }
 
     /**

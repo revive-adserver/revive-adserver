@@ -104,9 +104,9 @@ OA_Permission::enforceAccessToObject('campaigns', $campaignid);
 
 if (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
     OA_Permission::enforceAllowed(OA_PERM_BANNER_EDIT);
-    OA_Permission::enforceAccessToObject('banners',   $bannerid);
+    OA_Permission::enforceAccessToObject('banners', $bannerid);
 } else {
-    OA_Permission::enforceAccessToObject('banners',   $bannerid, true);
+    OA_Permission::enforceAccessToObject('banners', $bannerid, true);
 }
 
 /*-------------------------------------------------------*/
