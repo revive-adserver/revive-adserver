@@ -230,7 +230,7 @@ class OA_Admin_UI
         $this->oTpl->assign('searchUrl', MAX::constructURL(MAX_URL_ADMIN, 'admin-search.php'));
 
         // Show currently logged on user and IP
-        if (($ID != "" && OA_Auth::isLoggedIn()) || defined('phpAds_installing')) {
+        if (OA_Auth::isLoggedIn() || defined('phpAds_installing')) {
             $this->oTpl->assign('helpLink', OA_Admin_Help::getDocLinkFromPhpAdsNavId($OA_Navigation_ID));
             if (!defined('phpAds_installing')) {
                 $this->oTpl->assign('infoUser', OA_Permission::getUsername());
