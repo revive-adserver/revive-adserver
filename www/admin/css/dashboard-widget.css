@@ -133,13 +133,19 @@ img#graph {
   white-space: nowrap;
 }
 
-.campaignOverview .campaigns .started {
+.campaignOverview .campaigns .started, .campaignOverview .campaigns .resumed {
 	color: green;
 }
 
 .campaignOverview .campaigns .finished {
 	color: red;
 }
+
+.campaignOverview .campaigns .added, .campaignOverview .campaigns .paused {
+  color: #777777;
+  font-style: italic;
+}
+
 
 
 
