@@ -1,5 +1,5 @@
 <tr><td>&nbsp;</td>
-    <td id='cell_{$aItem.name}' class='{if $aItem.enabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}' valign='top'>{$aItem.text}</td>
     <td width='100%' valign='top'>
         <table>
             <tr>
@@ -13,7 +13,7 @@
 			    {/if}
                 </td>
                 <td>
-                    <input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='{$aItem.name}' id='{$aItem.name}' {if $aItem.enabled}disabled='disabled'{/if}
+                    <input onBlur='phpAds_refreshEnabled(); max_formValidateElement(this);' class='flat' type='text' name='{$aItem.name}' id='{$aItem.name}' {if $aItem.disabled}disabled='disabled'{/if}
                             size='{$aItem.size}' value="{$aItem.value}" tabindex='{$aItem.tabindex++}'>
                 </td>
            </tr>

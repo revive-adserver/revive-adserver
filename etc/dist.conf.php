@@ -22,6 +22,7 @@ headerForegroundColor               =
 headerBackgroundColor               =
 headerActiveTabColor                =
 headerTextColor                     =
+gzipCompression                     = false
 
 ;------------------------------------------------------------------------------------------;
 ; Database Settings                                                                        ;

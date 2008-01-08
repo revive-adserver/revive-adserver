@@ -1,6 +1,6 @@
 {if $aItem.items}
     <tr><td>&nbsp;</td>
-        <td id='cell_{$aItem.name}' class='{if $aItem.enabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
+        <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
         <td width='100%'>
             <select name='{$aItem.name}' id='{$aItem.name}'
 		    {if $aItem.reload == 'yes'}
@@ -12,7 +12,7 @@
 		        {/if}
 		        "
             {/if}
-            {if $aItem.enabled} disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
+            {if $aItem.disabled} disabled='disabled'{/if} tabindex='{$aItem.tabindex++}'>
             {foreach from=$aItem.items key=k item=v}
                 <option value="{$k}"
                 {if $k == $aItem.value} selected='selected'{/if}>

@@ -20,7 +20,7 @@
 
 <tr>
     <td>&nbsp;</td>
-    <td id='cell_{$aItem.name}' class='{if $aItem.enabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
+    <td id='cell_{$aItem.name}' class='{if $aItem.disabled}celldisabled{else}cellenabled{/if}'>{$aItem.text}</td>
     <td width='100%'>
         <input type='hidden' name='{$aItem.name}' id='{$aItem.name}' value='{$aItem.value}'>
 
@@ -29,22 +29,22 @@
 
 			{if $isAdmin}
 			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$OA_ACCOUNT_ADMIN_ID}' value='true'
-			    {if $aItem.value & $OA_ACCOUNT_ADMIN_ID}checked='true'{/if}{if $aItem.enabled}disabled='disabled'{/if}
+			    {if $aItem.value & $OA_ACCOUNT_ADMIN_ID}checked='true'{/if}{if $aItem.disabled}disabled='disabled'{/if}
 			    onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'>
 			{/if}
 			{if $isAdmin || $isManager}
 			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$OA_ACCOUNT_MANAGER_ID}' value='true'
-			    {if $aItem.value & $OA_ACCOUNT_MANAGER_ID}checked='true'{/if}{if $aItem.enabled}disabled='disabled'{/if}
+			    {if $aItem.value & $OA_ACCOUNT_MANAGER_ID}checked='true'{/if}{if $aItem.disabled}disabled='disabled'{/if}
 			    onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'>
 			{/if}
 			{if $isAdmin || $isManager || $isAdvertiser}
 			    <td width='100'><input type='checkbox' name='{$aItem.name}_{$OA_ACCOUNT_ADVERTISER_ID}' value='true'
-			    {if $aItem.value & $OA_ACCOUNT_ADVERTISER_ID}checked='true'{/if}{if $aItem.enabled}disable='disabled'{/if}
+			    {if $aItem.value & $OA_ACCOUNT_ADVERTISER_ID}checked='true'{/if}{if $aItem.disabled}disable='disabled'{/if}
 			    onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'></td>
 			{/if}
 			{if $isAdmin || $isManager || $isTrafficker}
 	            <td width='100'><input type='checkbox' name='{$aItem.name}_{$OA_ACCOUNT_TRAFFICKER_ID}' value='true'
-	            {if $aItem.value & $OA_ACCOUNT_TRAFFICKER_ID}checked='true'{/if}{if $aItem.enabled}disable='disabled'{/if}
+	            {if $aItem.value & $OA_ACCOUNT_TRAFFICKER_ID}checked='true'{/if}{if $aItem.disabled}disable='disabled'{/if}
 	            onClick="phpAds_UsertypeChange(this);" tabindex='{$aItem.tabindex++}'></td>
 			{/if}
                 </td>

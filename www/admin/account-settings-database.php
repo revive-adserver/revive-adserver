@@ -121,7 +121,7 @@ $oSettings = array (
                 'name'       => 'database_type',
                 'text'       => $strDbType,
                 'items'      => array($GLOBALS['_MAX']['CONF']['database']['type'] => $GLOBALS['_MAX']['CONF']['database']['type']),
-                'enabled'    => true,
+                'disabled'   => true,
             ),
             array (
                 'type'       => 'break'

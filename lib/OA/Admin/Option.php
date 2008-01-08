@@ -48,6 +48,12 @@ class OA_Admin_Option
      */
     var $oTpl;
 
+    /**
+     * Either "account-settings" or "account-preferences" depending on the
+     * type of options that are being displayed.
+     *
+     * @var string
+     */
     var $_optionType;
 
     /**
@@ -65,9 +71,6 @@ class OA_Admin_Option
         Language_Default::load();
         Language_Settings::load();
         Language_SettingsHelp::load();
-
-        // Determine whether the config file is locked or not
-        $phpAds_config_locked = !OA_Admin_Settings::isConfigWritable();
 
         // Set the supplied Settings or Preferences information
         $this->_optionType = 'account-' . $optionType;
@@ -217,8 +220,8 @@ class OA_Admin_Option
         }
 
         // Determine if config file is writable
-        $aConfigLocked = !OA_Admin_Settings::isConfigWritable();
-        $image = $this->configLocked ? 'closed' : 'open';
+        $configLocked = !OA_Admin_Settings::isConfigWritable();
+        $image = $configLocked ? 'closed' : 'open';
 
         $dependbuffer   = "function phpAds_refreshEnabled() {\n";
         $checkbuffer    = '';
@@ -280,18 +283,22 @@ class OA_Admin_Option
                     }
                     // Only display visible items
                     if (!isset($aItem['visible']) || $aItem['visible']) {
+                        // Test to see if the item is a settings item, and if it needs to be disabled
+                        if ($this->_optionType == 'account-settings') {
+                            if (!$aItem['disabled']) {
+                                $aItem['disabled'] = $this->_disabledValue($aItem);
+                            }
+                        }
                         // Test to see if the item is a preference item, and if it needs to be disabled from the account in use
                         if ($this->_optionType == 'account-preferences') {
                             $result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
                             if ($result == 'disable') {
-                                $aItem['enabled'] = false;
+                                $aItem['disabled'] = true;
                             }
                         }
-                        // Deal with items that have been "disabled"
-                        if (!$aItem['enabled']) {
-                            $aItem['enabled'] = $this->_showLocked($aItem);
-                            $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
-                        }
+                        // Update the JavaScript used to enable/disabled option items
+                        $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
+                        // Display the option item
                         if (count($aErrors)) {
                             // Page is the result of an error message, get values from the input,
                             // not from the settings configuration file or preferences in the database
@@ -423,7 +430,7 @@ class OA_Admin_Option
 
         $this->oTpl->assign('this',             $this);
         $this->oTpl->assign('aOption',          $this->aOption);
-        $this->oTpl->assign('configLocked',     $aConfigLocked);
+        $this->oTpl->assign('configLocked',     $configLocked);
         $this->oTpl->assign('image',            $image);
         $this->oTpl->assign('formUrl',          $_SERVER['PHP_SELF']);
         $this->oTpl->assign('checkbuffer',      $checkbuffer);
@@ -511,10 +518,9 @@ class OA_Admin_Option
      */
     function _showCheckDependancies($aData, $aItem)
     {
-        global $phpAds_config_locked;
-        $formName = empty($GLOBALS['settings_formName'])?'settingsform' :$GLOBALS['settings_formName'];
+        $phpAds_config_locked = !OA_Admin_Settings::isConfigWritable();
+        $formName = empty($GLOBALS['settings_formName']) ? 'settingsform' : $GLOBALS['settings_formName'];
         if (isset($aItem['depends'])) {
-            //$miArray  = split('[ & ]+', $aItem['depends']);
             $depends    = split('[ ]+', $aItem['depends']);
             $javascript = "\tenabled = (";
             $result     = true;
@@ -737,9 +743,16 @@ class OA_Admin_Option
         $this->aOption[]    = array('usertype-textboxes.html' => $aItem);
     }
 
+    /**
+     * A private method to determine if the padlock image should be displayed next to
+     * an option item or not, nased on the  and return appropriate HTML output.
+     *
+     * @param array $aItem The option item array.
+     * @return unknown
+     */
     function _showPadLock($aItem)
     {
-        if ($this->_showLocked($aItem) || $aItem['enabled']==true) {
+        if ($aItem['disabled']) {
             return '<img src="images/padlock-closed.gif">';
         } else {
             return '&nbsp;';
@@ -747,31 +760,26 @@ class OA_Admin_Option
     }
 
     /**
-     * A private method to determine if an option should be shown as being locked or not. For
-     * settings options, the result depends on the state of the settings configuration file
-     * (i.e. can the file be written to, or not), while for preference options, the result
-     * depends only on the value of the item's "enabled" field.
+     * A private method to determine if a setting configuration file option item should be
+     * disabled or not, based on the state of settings configuration file (i.e. if the file
+     * be written to, or not).
      *
      * @access private
      * @param array $aItem An array of the option item.
-     * @return boolean True if the option is locked, false otherwise.
+     * @return boolean True if the option should be disabled, false otherwise.
      */
-    function _showLocked($aItem)
+    function _disabledValue($aItem)
     {
-        if ($this->_optionType == 'account-preferences') {
-            if ($aItem['enabled'] === false) {
-                return true;
-            }
-            return false;
-        }
-        $aConf = $GLOBALS['_MAX']['CONF'];
-        if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name']))
-        {
-            $aNameExploded = explode('_', $aItem['name']);
-            $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
-            $aSettingKey     = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
-            if (isset($aConf[$aSettingSection][$aSettingKey]) && (!OA_Admin_Settings::isConfigWritable())) {
-                return true;
+        if ($this->_optionType == 'account-settings') {
+            $aConf = $GLOBALS['_MAX']['CONF'];
+            if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name']))
+            {
+                $aNameExploded = explode('_', $aItem['name']);
+                $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
+                $aSettingKey     = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+                if (isset($aConf[$aSettingSection][$aSettingKey]) && (!OA_Admin_Settings::isConfigWritable())) {
+                    return true;
+                }
             }
         }
         return false;
