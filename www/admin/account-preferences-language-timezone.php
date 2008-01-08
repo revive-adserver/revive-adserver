@@ -127,7 +127,7 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'select',
-                'name'    => 'timezone_location',
+                'name'    => 'timezone',
                 'text'    => $strTimezoneToDisplay,
                 'items'   => $aTimezones
             ),
