@@ -72,7 +72,7 @@ class OA_Admin_Option
         // Set the supplied Settings or Preferences information
         $this->_optionType = 'account-' . $optionType;
 
-        //	Setup template object
+        // Setup template object
         $this->oTpl = new OA_Admin_Template('option.html');
     }
 
@@ -224,24 +224,77 @@ class OA_Admin_Option
         $checkbuffer    = '';
         $usertypebuffer = '';
         $helpbuffer     = '';
-        $i = 0;
+
+        // Iterate over the array of elements to display
         $count = count($aData);
         for ($i = 0; $i < $count; $i++) {
-            $section = $aData[$i];
-            if (!isset($section['visible']) || $section['visible']) {
-                if (isset($aErrors[$i])) {
-                    $this->_showStartSection($section['text'], $aErrors[$i], $disableSubmit, $imgPath);
-                } else {
-                    $this->_showStartSection($section['text'], NULL, $disableSubmit, $imgPath);
-                }
-                foreach ($section['items'] as $aItem) {
+            // Get the section of elements to display
+            $aSection = $aData[$i];
+            if (!isset($aSection['visible']) || $aSection['visible']) {
+                // The section has been set to be displayed, but are there any items in
+                // the section that can be displayed?
+                $showSection = false;
+                foreach ($aSection['items'] as $itemKey => $aItem) {
                     if (!isset($aItem['visible']) || $aItem['visible']) {
+                        // The item has been set to be displayed - however, if this is
+                        // a preference section, it may not end up being shown, so test
+                        // for this
+                        if ($this->_optionType == 'account-preferences') {
+                            // Don't test break items
+                            if ($aItem['type'] != 'break') {
+                                // What is the state of the preference item?
+                                $result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
+                                if ($result == '' || $result == 'disable') {
+                                    // The preference item is to be shown, so display the section
+                                    $showSection = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            // The item is not for a preference section, so display the section
+                            $showSection = true;
+                            break;
+                        }
+                    }
+                }
+                // Where there any items in the section that will be displayed?
+                if ($showSection == false) {
+                    // No, go to the next section
+                    continue;
+                }
+                // This section has been set to be displayed, so show its contents!
+                if (isset($aErrors[$i])) {
+                    // Show the section header with the section error
+                    $this->_showStartSection($aSection['text'], $aErrors[$i], $disableSubmit, $imgPath);
+                } else {
+                    // Show the section header
+                    $this->_showStartSection($aSection['text'], NULL, $disableSubmit, $imgPath);
+                }
+                foreach ($aSection['items'] as $aItem) {
+                    // Test to see if the item is a preference item, and if it needs to be hidden from the account in use
+                    if ($this->_optionType == 'account-preferences') {
+                        $result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
+                        if ($result == 'hide') {
+                            $aItem['visible'] = false;
+                        }
+                    }
+                    // Only display visible items
+                    if (!isset($aItem['visible']) || $aItem['visible']) {
+                        // Test to see if the item is a preference item, and if it needs to be disabled from the account in use
+                        if ($this->_optionType == 'account-preferences') {
+                            $result = $this->_hideOrDisablePreference($aPref[$aItem['name']]['account_type']);
+                            if ($result == 'disable') {
+                                $aItem['enabled'] = false;
+                            }
+                        }
+                        // Deal with items that have been "disabled"
                         if (!$aItem['enabled']) {
                             $aItem['enabled'] = $this->_showLocked($aItem);
                             $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
                         }
                         if (count($aErrors)) {
-                            // Page is the result of an error message, get values from the input
+                            // Page is the result of an error message, get values from the input,
+                            // not from the settings configuration file or preferences in the database
                             $value = '';
                             if (isset($aItem['name']) && isset($GLOBALS[$aItem['name']])) {
                                 $value = $GLOBALS[$aItem['name']];
@@ -252,59 +305,79 @@ class OA_Admin_Option
                                 }
                             }
                         } else {
-                            // Get the values from the config file
-                            $value = '';
+                            // The page had no error, so, get the value for the item from an appropriate source
+                            unset($value);
                             if (isset($aItem['name'])) {
-                                // Split into config sections
-                                $aConfixExploded = explode('_', $aItem['name']);
-                                $aConfigLevel = isset($aConfixExploded[0]) ? $aConfixExploded[0] : null;
-                                $aConfigItem = isset($aConfixExploded[1]) ? $aConfixExploded[1] : null;
+                                // Try to load the item value from the globals array
                                 if (isset($GLOBALS[$aItem['name'].'_defVal'])) {
-                                    // Load value from globals if set
                                     $value = $GLOBALS[$aItem['name'].'_defVal'];
-                                } elseif (isset($aConf[$aConfigLevel][$aConfigItem])) {
-                                    // Load the configuration .php file value
-                                    $value = $aConf[$aConfigLevel][$aConfigItem];
-                                } elseif (isset($aConf[$aItem['name']][0])) {
-                                    // Configuration .php file item is stored as an array,
-                                    // re-constitute into a comma separated list
-                                    $value = implode(', ', $aConf[$aItem['name']]);
-                                } elseif (isset($aPref[$aItem['name']]['value'])) {
-                                    // Are we displaying a preference value to a non-admin account?
-                                    $accountType = OA_Permission::getAccountType();
-                                    if ($accountType == OA_ACCOUNT_ADVERTISER || $accountType == OA_ACCOUNT_TRAFFICKER) {
-                                        // Check to see if the preference value should be displayed or disabled
-                                        $valueType = $aPref[$aItem['name']]['account_type'];
-                                        if ($valueType == OA_ACCOUNT_MANAGER) {
-                                            // Disable the preference, so that it can be seen, but not altered
-                                            $aItem['depends'] = false;
-                                        } else if ($valueType == OA_ACCOUNT_ADVERTISER && $valueType == OA_ACCOUNT_TRAFFICKER) {
-                                            // Hide the preference from being seen!
-                                            $aItem['visible'] = false;
-                                        } else if ($valueType == OA_ACCOUNT_TRAFFICKER && $valueType == OA_ACCOUNT_ADVERTISER) {
-                                            // Hide the preference from being seen!
-                                            $aItem['visible'] = false;
-                                        }
-
+                                }
+                                // If that did not work, and the item is a setting, try to load the
+                                // item value from the settings configuration file
+                                if (is_null($value) && $this->_optionType == 'account-settings') {
+                                    $aNameExploded = explode('_', $aItem['name']);
+                                    $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
+                                    $aSettingKey     = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+                                    if (isset($aConf[$aSettingSection][$aSettingKey])) {
+                                        // Load the configuration .php file value
+                                        $value = $aConf[$aSettingSection][$aSettingKey];
+                                    } elseif (isset($aConf[$aItem['name']][0])) {
+                                        // The value in the settings configuration file is an array,
+                                        // so re-constitute into a comma separated list
+                                        $value = implode(', ', $aConf[$aItem['name']]);
                                     }
-                                    // Load the preference value
-                                    $value = $aPref[$aItem['name']]['value'];
-                                } elseif (isset($aItem['value'])) {
-                                    $value = $aItem['value'];
+                                }
+                                // If that did not work, and the item is a preference, try to load the
+                                // item value from the preferences values in the database
+                                if (is_null($value) && $this->_optionType == 'account-preferences') {
+                                    if (isset($aPref[$aItem['name']]['value'])) {
+                                        $value = $aPref[$aItem['name']]['value'];
+                                    }
+                                }
+                                // If that did not work, try to load the value from the $aItem array itself
+                                if (is_null($value)) {
+                                    if (isset($aItem['value'])) {
+                                        $value = $aItem['value'];
+                                    }
+                                }
+                                // If that did not work, set to an empty string
+                                if (is_null($value)) {
+                                    $value = '';
                                 }
                             }
                         }
+                        // Display the item!
                         switch ($aItem['type']) {
-                            case 'plaintext': $this->_showPlainText($aItem); break;
-                            case 'break':     $this->_showBreak($aItem, $imgPath); break;
-                            case 'checkbox':  $this->_showCheckbox($aItem, $value); break;
-                            case 'text':      $this->_showText($aItem, $value); break;
-                            case 'url':       $this->_showUrl($aItem, $value); break;
-                            case 'urln':      $this->_showUrl($aItem, $value, 'n'); break;
-                            case 'urls':      $this->_showUrl($aItem, $value, 's'); break;
-                            case 'textarea':  $this->_showTextarea($aItem, $value); break;
-                            case 'password':  $this->_showPassword($aItem, $value); break;
-                            case 'select':    $this->_showSelect($aItem, $value, $disableSubmit); break;
+                            case 'plaintext':
+                                $this->_showPlainText($aItem);
+                                break;
+                            case 'break':
+                                $this->_showBreak($aItem, $imgPath);
+                                break;
+                            case 'checkbox':
+                                $this->_showCheckbox($aItem, $value);
+                                break;
+                            case 'text':
+                                $this->_showText($aItem, $value);
+                                break;
+                            case 'url':
+                                $this->_showUrl($aItem, $value);
+                                break;
+                            case 'urln':
+                                $this->_showUrl($aItem, $value, 'n');
+                                break;
+                            case 'urls':
+                                $this->_showUrl($aItem, $value, 's');
+                                break;
+                            case 'textarea':
+                                $this->_showTextarea($aItem, $value);
+                                break;
+                            case 'password':
+                                $this->_showPassword($aItem, $value);
+                                break;
+                            case 'select':
+                                $this->_showSelect($aItem, $value, $disableSubmit);
+                                break;
                             case 'usertype_textboxes':
                                 $this->_showUsertypeTextboxes($aItem, $value);
                                 break;
@@ -313,6 +386,7 @@ class OA_Admin_Option
                                 $usertypebuffer .= "phpAds_UsertypeChange(findObj('".$aItem['name']."'));\n";
                                 break;
                         }
+                        // ???
                         if (isset($aItem['check']) || isset($aItem['req'])) {
                             if (!isset($aItem['check'])) {
                                 $aItem['check'] = '';
@@ -360,8 +434,53 @@ class OA_Admin_Option
         $this->oTpl->display();
     }
 
-
-
+    /**
+     * A private method to test preferences, and determine if the preference
+     * should be displayed or not, based on the current account type in use.
+     *
+     * @access private
+     * @param string $preferenceType The preference type. One of the defined values
+     *                               OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER or
+     *                               OA_ACCOUNT_TRAFFICKER. (That is, the possible
+     *                               types of restricted preferences.)
+     * @return string One of:
+     *                  - "disable" if the preference value should be displayed, but
+     *                     not be abled to be modified by the current acting account
+     *                  - "hide" if the preference value should not be shown at all
+     *                     to the current acting account
+     *                  - A empty string, otherwise.
+     */
+    function _hideOrDisablePreference($preferenceType)
+    {
+        $noRestriction = '';
+        if (is_null($preferenceType) || $preferenceType == '') {
+            // The preference type is not restricted in any way
+            return $noRestriction;
+        }
+        // Get the type of account currently in use
+        $accountType = OA_Permission::getAccountType();
+        if ($accountType == OA_ACCOUNT_ADMIN || $accountType == OA_ACCOUNT_MANAGER) {
+            // The admin and manager accounts can see all preferences
+            return $noRestriction;
+        }
+        // Is the preference type restricted to managers?
+        if ($preferenceType == OA_ACCOUNT_MANAGER) {
+            return 'disable';
+        }
+        if ($accountType == OA_ACCOUNT_ADVERTISER) {
+            // Is the preference type restricted to traffickers?
+            if ($preferenceType == OA_ACCOUNT_TRAFFICKER) {
+                return 'hide';
+            }
+        }
+        if ($accountType == OA_ACCOUNT_TRAFFICKER) {
+            // Is the preference type restricted to advertisers?
+            if ($preferenceType == OA_ACCOUNT_ADVERTISER) {
+                return 'hide';
+            }
+        }
+        return $noRestriction;
+    }
 
     /*-------------------------------------------------------*/
     /* Return Settings Help HTML Code                        */
@@ -633,18 +752,31 @@ class OA_Admin_Option
         }
     }
 
+    /**
+     * A private method to determine if an option should be shown as being locked or not. For
+     * settings options, the result depends on the state of the settings configuration file
+     * (i.e. can the file be written to, or not), while for preference options, the result
+     * depends only on the value of the item's "enabled" field.
+     *
+     * @access private
+     * @param array $aItem An array of the option item.
+     * @return boolean True if the option is locked, false otherwise.
+     */
     function _showLocked($aItem)
     {
+        if ($this->_optionType == 'account-preferences') {
+            if ($aItem['enabled'] === false) {
+                return true;
+            }
+            return false;
+        }
         $aConf = $GLOBALS['_MAX']['CONF'];
-        //if ($aConf['openads']['installed'] && isset($aItem['name']))
         if ((OA_INSTALLATION_STATUS == OA_INSTALLATION_STATUS_INSTALLED) && isset($aItem['name']))
         {
-            // Split into config sections
-            $aConfixExploded = explode('_', $aItem['name']);
-            $aConfigLevel = isset($aConfixExploded[0]) ? $aConfixExploded[0] : null;
-            $aConfigItem = isset($aConfixExploded[1]) ? $aConfixExploded[1] : null;
-            //list($aConfigLevel, $aConfigItem) = explode('_', $aItem['name']);
-            if (isset($aConf[$aConfigLevel][$aConfigItem]) && (!OA_Admin_Settings::isConfigWritable())) {
+            $aNameExploded = explode('_', $aItem['name']);
+            $aSettingSection = isset($aNameExploded[0]) ? $aNameExploded[0] : null;
+            $aSettingKey     = isset($aNameExploded[1]) ? $aNameExploded[1] : null;
+            if (isset($aConf[$aSettingSection][$aSettingKey]) && (!OA_Admin_Settings::isConfigWritable())) {
                 return true;
             }
         }
