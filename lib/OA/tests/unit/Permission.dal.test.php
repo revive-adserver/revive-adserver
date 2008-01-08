@@ -78,9 +78,9 @@ class Test_OA_Permission extends UnitTestCase
         $doClient = OA_Dal::staticGetDO('clients', $clientId);
         $doClient->createUser($aUser);
 
-        $this->assertFalse(OA_Permission::isUsernameAllowed('foo', $username));
+        $this->assertFalse(OA_Permission::isUsernameAllowed($username, 'foo'));
 
-        $this->assertTrue(OA_Permission::isUsernameAllowed('foo', 'newname'));
+        $this->assertTrue(OA_Permission::isUsernameAllowed('newname', 'foo'));
     }
 
     // hasAccessToObject($objectTable, $objectId, $accountId = null)

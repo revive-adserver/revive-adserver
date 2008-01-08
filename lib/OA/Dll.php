@@ -287,7 +287,7 @@ class OA_Dll extends OA_BaseObjectWithErrors
         if (!isset($newUsername) || strlen($newUsername) == 0) {
             return true;
         }
-        if (!OA_Permission::isUsernameAllowed($oldUsername, $newUsername)) {
+        if (!OA_Permission::isUsernameAllowed($newUsername, $oldUsername)) {
         	$this->raiseError('Username must be unique');
 	        return false;
         }

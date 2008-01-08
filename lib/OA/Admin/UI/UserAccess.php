@@ -57,7 +57,7 @@ class OA_Admin_UI_UserAccess
         $aErrormessage = array();
         if (empty($login)) {
             $aErrormessage[] = $GLOBALS['strInvalidUsername'];
-        } elseif (!OA_Permission::isUsernameAllowed('', $login)) {
+        } elseif (OA_Permission::userNameExists($login)) {
             $aErrormessage[] = $GLOBALS['strDuplicateClientName'];
         }
         return $aErrormessage;
@@ -186,6 +186,41 @@ class OA_Admin_UI_UserAccess
                        );
         }
         return $userDetailsFields;
+    }
+    
+    /**
+     * Returns hidden fields used in pages entity-user
+     *
+     * @param string $entityName
+     * @param integer $entityId
+     */
+    function getHiddenFields($login, $link, $entityName = null, $entityId = null)
+    {
+        $hiddenFields = array(
+            array(
+                'name' => 'submit',
+                'value' => true
+            ),
+            array(
+                'name' => 'login',
+                'value' => $login
+            ),
+            array(
+                'name'  => 'link',
+                'value' => $link
+            ),
+            array(
+                'name'  => 'new_user',
+                'value' => !OA_Permission::userNameExists($login)
+            )
+        );
+        if (!empty($entityName)) {
+            $hiddenFields[] = array(
+                'name' => $entityName,
+                'value' => $entityId
+            );
+        }
+        return $hiddenFields;
     }
     
     /**

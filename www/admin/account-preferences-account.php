@@ -66,7 +66,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     if (isset($login)) {
         if (!strlen($login)) {
             $aErrormessage[0][] = $strInvalidUsername;
-        } elseif (!OA_Permission::isUsernameAllowed($doUsers->username, $login)) {
+        } elseif (!OA_Permission::isUsernameAllowed($login, $doUsers->username)) {
             $aErrormessage[0][] = $strDuplicateClientName;
         } else {
             $doUsers->username = $login;

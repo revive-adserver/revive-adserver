@@ -51,7 +51,7 @@ $userid = $doUsers->getUserIdByUserName($login);
 
 $aErrors = array();
 if (!empty($submit)) {
-    if ($link) {
+    if (!OA_Permission::userNameExists($login)) {
         $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
     }
     if (empty($aErrors)) {
@@ -105,20 +105,8 @@ $oTpl->assign('fields', array(
  )
 );
 
-$oTpl->assign('hiddenFields', array(
-    array(
-        'name'  => 'submit',
-        'value' => true
-    ),
-    array(
-        'name'  => 'login',
-        'value' => $login
-    ),
-    array(
-        'name'  => 'link',
-        'value' => $link
-    ),
-));
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link);
+$oTpl->assign('hiddenFields', $aHiddenFields);
 
 $oTpl->display();
 

@@ -682,20 +682,33 @@ class OA_Permission
      * it is allowed to use.
      *
      * @static
-     * @param string $oldName  Old username which we want to change
-     * @param string $newName  New user name to change to
+     * @param string $newName  User name to check
+     * @param string $oldName  When the method check if user name is available it
+     *                         could takes into account existing user name. So
+     *                         the same username as existing username is allowed
      * @return boolean  True if allowed
      */
-    function isUsernameAllowed($oldName, $newName)
+    function isUsernameAllowed($newName, $oldName = null)
     {
         if (!empty($oldName) && $oldName == $newName) {
             return true;
         }
+        return !OA_Permission::userNameExists($newName);
+    }
+    
+    /**
+     * Checks whether such a username already exists
+     *
+     * @param string $userName
+     * @return boolean  True if such username exists else false
+     */
+    function userNameExists($userName)
+    {
         $doUser = OA_Dal::factoryDO('users');
-        if (!PEAR::isError($doUser) && $doUser->userExists($newName)) {
-            return false;
+        if (!PEAR::isError($doUser) && $doUser->userExists($userName)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**

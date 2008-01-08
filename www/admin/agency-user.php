@@ -39,7 +39,8 @@ require_once MAX_PATH . '/lib/OA/Session.php';
 require_once MAX_PATH . '/lib/OA/Admin/UI/UserAccess.php';
 
 // Register input variables
-phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name', 'email_address', 'permissions', 'submit');
+phpAds_registerGlobalUnslashed ('login', 'passwd', 'link', 'contact_name',
+    'email_address', 'permissions', 'submit', 'new_user');
 
 // Security check
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER);
@@ -59,7 +60,7 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN))
 
 $aErrors = array();
 if (!empty($submit)) {
-    if ($link) {
+    if ($new_user) {
         $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
     }    
     if (empty($aErrors)) {
@@ -92,6 +93,8 @@ $oTpl = new OA_Admin_Template('agency-user.html');
 $oTpl->assign('action', 'agency-user.php');
 $oTpl->assign('backUrl', 'agency-user-start.php?agencyid='.$agencyid);
 $oTpl->assign('method', 'POST');
+$oTpl->assign('aErrors', $aErrors);
+
 
 // TODO: will need to know whether we're hosted or downloaded
 $HOSTED = false;
@@ -134,25 +137,8 @@ if (!empty($aPermissionsFields)) {
 }
 $oTpl->assign('fields', $aTplFields);
 
-
-$oTpl->assign('hiddenFields', array(
-    array(
-        'name' => 'submit',
-        'value' => true
-    ),
-    array(
-        'name' => 'agencyid',
-        'value' => $agencyid
-    ),
-    array(
-        'name' => 'login',
-        'value' => $login
-    ),
-    array(
-        'name'  => 'link',
-        'value' => $link
-    ),
-));
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link, 'agencyid', $agencyid);
+$oTpl->assign('hiddenFields', $aHiddenFields);
 
 $oTpl->display();
 

@@ -63,7 +63,7 @@ $aAllowedPermissions[OA_PERM_BANNER_ACTIVATE] = $strAllowClientActivateBanner;
 
 $aErrors = array();
 if (!empty($submit)) {
-    if ($link) {
+    if (!OA_Permission::userNameExists($login)) {
         $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
     }
     if (empty($aErrors)) {
@@ -104,6 +104,7 @@ $oTpl = new OA_Admin_Template('advertiser-user.html');
 $oTpl->assign('action', 'advertiser-user.php');
 $oTpl->assign('backUrl', 'advertiser-user-start.php?clientid='.$clientid);
 $oTpl->assign('method', 'POST');
+$oTpl->assign('aErrors', $aErrors);
 
 // TODO: will need to know whether we're hosted or downloaded
 $HOSTED = false;
@@ -124,24 +125,8 @@ if ($doUsers) {
     $userData['username'] = $login;
 }
 
-$oTpl->assign('hiddenFields', array(
-    array(
-        'name' => 'submit',
-        'value' => true
-    ),
-    array(
-        'name' => 'clientid',
-        'value' => $clientid
-    ),
-    array(
-        'name' => 'login',
-        'value' => $login
-    ),
-    array(
-        'name'  => 'link',
-        'value' => $link
-    ),
-));
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link, 'clientid', $clientid);
+$oTpl->assign('hiddenFields', $aHiddenFields);
 
 $aPermissionsFields = array();
 foreach ($aAllowedPermissions as $permissionId => $permissionName) {

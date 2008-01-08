@@ -65,7 +65,7 @@ $aAllowedPermissions[OA_PERM_ZONE_INVOCATION] = array($strAllowAffiliateGenerate
 
 $aErrors = array();
 if (!empty($submit)) {
-    if ($link) {
+    if (!OA_Permission::userNameExists($login)) {
         $aErrors = OA_Admin_UI_UserAccess::validateUsersData($login, $passwd);
     }
     if (empty($aErrors)) {
@@ -105,6 +105,7 @@ $oTpl = new OA_Admin_Template('affiliate-user.html');
 $oTpl->assign('action', 'affiliate-user.php');
 $oTpl->assign('backUrl', 'affiliate-user-start.php?affiliate='.$affiliateid);
 $oTpl->assign('method', 'POST');
+$oTpl->assign('aErrors', $aErrors);
 
 // TODO: will need to know whether we're hosted or downloaded
 $HOSTED = false;
@@ -126,24 +127,8 @@ if ($doUsers) {
     $userData['username'] = $login;
 }
 
-$oTpl->assign('hiddenFields', array(
-    array(
-        'name' => 'submit',
-        'value' => true
-    ),
-    array(
-        'name' => 'affiliateid',
-        'value' => $affiliateid
-    ),
-    array(
-        'name' => 'login',
-        'value' => $login
-    ),
-    array(
-        'name'  => 'link',
-        'value' => $link
-    ),
-));
+$aHiddenFields = OA_Admin_UI_UserAccess::getHiddenFields($login, $link, 'affiliateid', $affiliateid);
+$oTpl->assign('hiddenFields', $aHiddenFields);
 
 $aPermissionsFields = array();
 $isTrafficker = OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER);
