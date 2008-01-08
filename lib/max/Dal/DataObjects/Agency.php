@@ -98,15 +98,6 @@ class DataObjects_Agency extends DB_DataObjectCommon
             $this->createUser($aUser);
         }
 
-        // Set agency preferences
-        $doPreference = $this->factory('preference');
-        if ($doPreference->get(0)) {
-            // overwrite default ones
-            $doPreference->agencyid = $agencyid;
-            $doPreference = $this->_updatePreferences($doPreference);
-            $doPreference->insert();
-        }
-
         return $agencyid;
     }
 
