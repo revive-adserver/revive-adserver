@@ -39,6 +39,11 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
     var $oTpl;
 
     /**
+     * @var Total items to display
+     */
+    var $totalItems = 6;
+
+    /**
      * The class constructor
      *
      * @param array $aParams The parameters array, usually $_REQUEST
@@ -57,9 +62,24 @@ class OA_Dashboard_Widget_CampaignOverview extends OA_Dashboard_Widget
      */
     function display()
     {
+        $oCampaign = & OA_Dal::factoryDO($GLOBALS['_MAX']['CONF']['table']['campaigns']);
+        $oCampaign->orderBy('updated');
+        $oCampaign->limit($this->totalItems);
+        $numRows = $oCampaign->find();
+        if ($numRows > 0) {
+            while ($oCampaign->fetch()) {
+                $oCampaign->campaignname = (strlen($oCampaign->campaignname) > 30) ? substr($oCampaign->campaignname, 0, 30).'...' : $oCampaign->campaignname;
+                $aCampaign[] = $oCampaign->toArray();
+            }
+        }
+
+        $this->oTpl->assign('baseUrl',      MAX::constructURL(MAX_URL_ADMIN, 'campaign-edit.php'));
+        $this->oTpl->assign('aCampaign',    $aCampaign);
+        $this->oTpl->assign('siteTitle',    'Go to Campaigns page');
+        $this->oTpl->assign('siteUrl',      MAX::constructURL(MAX_URL_ADMIN, 'advertiser-index.php'));
+
         $this->oTpl->display();
     }
 
 }
-
 ?>

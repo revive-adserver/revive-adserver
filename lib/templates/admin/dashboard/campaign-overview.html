@@ -38,45 +38,45 @@ $Id$
 </head>
 
 <body>
-  <div class="campaignOverview">
-  <!-- normal view -->
-	  <ul class="campaigns">
-	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Google AdSense - TextLinks</a></div><div class="started">Started</div></li>
-	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Google AdSense - Banner ads</a></div><div class="started">Started</div></li>
-	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Openads - forum banners</a></div><div class="finished">Completed</div></li>
-	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Kontera - Kontera default campaignn</a></div><div class="started">Started</div></li>
-	    <li><div class="title"><a target="_top" href="www/admin/campaign-edit.php?clientid=1&campaignid=1">Openads - RHSSkycrapers</a></div><div class="finished">Completed</div></li>
-	  </ul>
-	<!-- end of normal view -->
 
-	<!-- no campaigns view -->
-	<!-- 
-  <ul class="no-campaigns">
-    <li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
-    <li>Save time by grouping banners within a campaign and no longer define delivery settings for each add separately</li>
-    <li>Interested in learning more? Read the <a class="site-link" href="http://docs.openads.org/openads-2.4-guide/campaigns.html">Campaign documentation</a></li>
-  </ul>
-  <a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a>
-  -->	
-	<!-- end of no campaigns view -->
-	
-	<!-- no items view  -->
-  <!-- 
-  <ul class="no-items">
-    <li>No campaigns have started or finished during the timeframe you have selected</li>
-  </ul>
-  <a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a>
-  --> 
-  <!-- end of no items view  -->	
-	
+    {if $aCampaign|@count > 0}
+    <div class="campaignOverview">
+        <!-- normal view -->
+        <ul class="campaigns">
+           {foreach from=$aCampaign key=key item=aValue}
+            <li><div class="title">{$aValue.campaignname}</div><div>{showStatusText status=$aValue.status an_status=$aValue.an_status}</div></li>
+            {/foreach}
+        </ul>
+        <div><a class="site-link" target="_top" href="www/admin/stats.php">Go to Campaigns page</a></div>
+        <!-- end of normal view -->
+    </div>
+    {else}
+    <!-- no campaigns view -->
+    <ul class="campaignList">
+        <li>Campaigns let you group together any number of banner ads, of any size, that share common advertising requirements</li>
+        <li>Save time by grouping banners within a campaign and no longer define delivery settings for each add separately</li>
+        <li>Interested in learning more? Read the <a class="site-link" href="http://docs.openads.org/openads-2.4-guide/campaigns.html">Campaign documentation</a></li>
+    </ul>
+    <div><a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a></div>
+    <!-- end of no campaigns view -->
+    {/if}
+
+        <!-- no items view  -->
+        <!--
+        <ul class="no-items">
+            <li>No campaigns have started or finished during the timeframe you have selected</li>
+        </ul>
+        <a class="site-link" target="_top" href="www/admin/advertiser-index.php">Set up a campaign today</a>
+        -->
+        <!-- end of no items view  -->
+
 	<!-- Audit Trail inactive view -->
-  <!-- 
+  <!--
 	<ul class="not-activated">
 	 <li>In order to view campaigns which have started or finished during the timeframe you have selected, the Audit Trail must be activated</li>
 	</ul>
 	<a class="site-link" target="_top" href="www/admin/account-settings-debug.php">Activate Audit Trail</a> to start viewing campaigns
-  --> 
+  -->
   <!-- end of Audit Trail inactive view-->
-</div>
 </body>
 </html>
