@@ -17,7 +17,7 @@ body.hasInterface {
 
 a {
 	color: #0767A8;
-  text-decoration: none;
+	text-decoration: none;
 }
 a:hover {
     text-decoration: underline;
@@ -29,11 +29,9 @@ a:hover {
 	background-color: #fff;
 	height: 56px;
 }
-
-
 #oaHeaderBranding {
 	position: absolute;
-	top: 0;
+	top: 3px;
 	left: 0;
 	z-index: 3;
 }
@@ -77,57 +75,56 @@ a:hover {
 	top: 5px;
 	right: 5px;
 	height: 31px;
-	width: 214px;
-	color: #444444;
-	padding: 0px;
-  border: 0px;
-  margin: 0px;
-	background: url("../images/searchfull.png") no-repeat;
-  /* Fix IE bug: transparent PNG support */ 
-  -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/searchfull.png');
+	width: 194px;
+	color: #444;
+	padding: 0;
+  	border: 0;
+  	margin: 0;
+	background: url(../images/searchfull.png) no-repeat;
 }
 
 #oaSearch form {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 #oaSearch input.search {
 	position: relative;
 	left: 32px;
 	top: 7px;
-	border: 0px;
-	margin: 0px;
+	border: 0;
+	margin: 0;
 	width: 130px;
 	height: 13px;
-		background: none;
+	background: none;
 }
 
 
 #oaSearch input.submit {
-  position: absolute;
-  right: 8px;
-  top: 9px;
-  width: 33px;
-  height: 12px;
+	position: absolute;
+  	right: 9px;
+  	top: 9px;
+  	width: 12px;
+  	height: 12px;
   
-  padding: 0px;
-  margin: 0px;
-  border: 0px;
-  cursor: pointer;
+  	padding: 0;
+  	margin: 0;
+  	border: 0;
+  	cursor: pointer;
   
-  background: url("../images/search-go.png") no-repeat;
-  /* Fix IE bug: transparent PNG support */ 
-  -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go.png');
+  	background: url(../images/search-go.png) no-repeat;
+  
+  	/* Fix IE bug: transparent PNG support */ 
+  	-background: none;
+  	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go.png');
 }
 
 #oaSearch input.submit:hover, #oaSearch input.submit:focus{
-  background: url("../images/search-go-hv.png") no-repeat;
-  /* Fix IE bug: transparent PNG support */ 
-  -background: none;
-  -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go-hv.png');
+  	background: url(../images/search-go-hv.png) no-repeat;
+  
+  	/* Fix IE bug: transparent PNG support */ 
+  	-background: none;
+  	-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/search-go-hv.png');
 }
 
 
@@ -141,7 +138,6 @@ a:hover {
 	
 	background-color: #FFF;
 	height: 24px;
-	/*line-height: 25px;*/
 	border-bottom: 1px solid #d1d1d1;
 }
 #oaNavigation ul, #oaHeader ul {
@@ -158,186 +154,160 @@ a:hover {
 }
 
 ul.tabs {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  min-width: 300px;
-  font-family: Helvetica, Trebuchet MS, sans-serif;
-  font-size: 11px;
+	margin: 0;
+  	padding: 0;
+  	list-style-type: none;
+  	min-width: 300px;
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
+  	font-size: 11px;
 }
 
 
 ul.tabs,
 ul.tabs a
 {
-  color: #444444;
+  	color: #444;
 }
-
 .tabs li.tab {
-  margin: 0;
-  padding: 0;
-  display: block;
-  float: left;
-  /* IE6 fix */
-  -width: 1px;
+  	margin: 0;
+  	padding: 0;
+  	display: block;
+  	float: left;
+
+  	/* IE6 fix */
+  	-width: 1px;
 }
 
 .tabs li.tab div {
-  background-repeat: no-repeat;
+	background-repeat: no-repeat;
 }
-
 .tabs li.passive-first div.tab-left,
 .tabs li.active-first div.tab-left {
-  padding-left: 8px;
+	padding-left: 8px;
 }
-
 .tabs li.passive-first div.tab-right,
 .tabs li.passive-middle div.tab-right,
 .tabs li.active-first div.tab-right,
 .tabs li.active-middle div.tab-right {
-  padding-right: 7px;
-  background-position: top right;
+	padding-right: 7px;
+	background-position: top right;
 }
-
 .tabs li.passive-first div.tab-right,
 .tabs li.passive-middle div.tab-right {
-  background-image: url('../images/tab-passive-passive-link.gif');
+	background-image: url(../images/tab-passive-passive-link.gif);
 }
-
 .tabs li.active-first div.tab-right,
 .tabs li.active-middle div.tab-right {
-  background-image: url('../images/tab-active-passive-link.gif');
+	background-image: url(../images/tab-active-passive-link.gif);
 }
-
 .tabs li.passive-last div.tab-right,
 .tabs li.active-last div.tab-right {
-  padding-right: 8px;
-  background-position: top right;
+	padding-right: 8px;
+	background-position: top right;
 }
-
 .tabs li.passive-last div.tab-right {
-  background-image: url('../images/tab-passive-lead-out.gif');
+	background-image: url(../images/tab-passive-lead-out.gif);
 }
-
 .tabs li.active-last div.tab-right {
-  background-image: url('../images/tab-active-lead-out.gif');
+	background-image: url(../images/tab-active-lead-out.gif);
 }
-
 .tabs li.active-middle div.tab-left,
 .tabs li.active-last div.tab-left {
-  padding-left: 7px;
-  background-image: url('../images/tab-passive-active-link.gif');
+	padding-left: 7px;
+	background-image: url(../images/tab-passive-active-link.gif);
 }
-
 .tabs li.passive-last div.tab-right {
-  background-image: url('../images/tab-passive-lead-out.gif');
+	background-image: url(../images/tab-passive-lead-out.gif);
 }
 
 /** a single tab is first and last at the same time do not move this styles up **/
 .tabs li.active-first div.tab-left {
-  background-image: url('../images/tab-active-lead-in.gif');
+	background-image: url(../images/tab-active-lead-in.gif);
 }
-
 .tabs li.passive-first div.tab-left {
-  background-image: url('../images/tab-passive-lead-in.gif');
+	background-image: url(../images/tab-passive-lead-in.gif);
 }
-
 .tabs li.before-active div.tab-right {
-  padding: 0;
+	padding: 0;
 }
-
 .tabs li.passive-middle div.tab-inside,
 .tabs li.passive-first div.tab-inside,
 .tabs li.passive-last div.tab-inside {
-  background-image: url('../images/tab-passive-body.gif');
+	background-image: url(../images/tab-passive-body.gif);
 }
-
 .tabs li.active-middle div.tab-inside,
 .tabs li.active-first div.tab-inside,
 .tabs li.active-last div.tab-inside {
-  background-image: url('../images/tab-active-body.gif');
+	background-image: url(../images/tab-active-body.gif);
 }
-
 .tabs li.tab div.tab-inside {
-  background-repeat: repeat-x;
-  height: 21px;
-  padding-top: 7px;
+	background-repeat: repeat-x;
+	height: 21px;
+	padding-top: 7px;
 }
-
 .tabs div.label {
-  white-space: nowrap;
-  height: 31px;
-  padding: 0px 10px;
+	white-space: nowrap;
+	height: 31px;
+	padding: 0px 10px;
 }
-
 .tabs li.active div.label {
-  background-image: url("../images/tab-active-inside-down.gif");
-  background-position: center 14px;
+	background-image: url(../images/tab-active-inside-down.gif);
+	background-position: center 14px;
 }
-
 .tabs li.active div.label,
 .tabs li.active div.label a {
-  color: white;
+	color: #fff;
 }
 
-#oaNavigationExtraTop {
-  padding-top: 12px;
-  padding-right: 225px;
-  color: #9c9c9c;
-}
 
 #oaNavigationExtra {
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: 2px;
 	color: #9c9c9c;
 }
-
 #oaNavigationExtra select:focus, #oaNavigationExtraTop select:focus {
-	background-color:  white;
+	background-color: #fff;
 }
-
 #oaNavigationExtra img, #oaNavigationExtraTop img {
 	position: relative;
 	border: none;
 }
-
 #oaNavigationExtra a {
 	color: #0767A8;
 	font-weight: bold;
 }
-
-#oaNavigationExtraTop ul {
-  float: right;
-}
-
-
-#oaNavigationExtraTop li {
-  float: left;
-  padding: 0 7px 0 7px;
-}
-
 #oaNavigationExtra li {
 	float: left;
 	margin: 0 12px 0 0;
 }
 
+#oaNavigationExtraTop {
+	padding-top: 12px;
+	padding-right: 225px;
+	color: #9c9c9c;
+}
+#oaNavigationExtraTop ul {
+  float: right;
+}
+#oaNavigationExtraTop li {
+  float: left;
+  padding: 0 7px 0 7px;
+}
 #oaNavigationExtraTop li.infoUser, #oaNavigationExtraTop li.buttonHelp, #oaNavigationExtraTop li.buttonLogout {
 	border-right: 1px solid #9c9c9c;
 }
-
 #oaNavigationExtraTop .buttonReportBugs {
 } 
-
 #oaNavigationExtraTop .buttonReportBugs a {
-  background: url("../images/bug-fam.png") no-repeat;
+  background: url(../images/bug-fam.png) no-repeat;
   background-position:  center right;
   padding-right: 25px;
+  
   /* Fix IE bug: transparent PNG support */ 
   -background: none;
   -filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bug-fam.png');
 }
-
 #oaNavigationExtraTop .buttonStartOver {
 	font-weight: bold;
 }
@@ -489,16 +459,16 @@ hr {
 }
 
 select.switcher {
-  font-size: 10px;
-  width: 12em;
-  border-width: 1px;
+  	font-size: 10px;
+  	width: 12em;
+  	border: 1px solid #aaa;
 }
 select.switcher option {
-  font-size: 10px;
+  	font-size: 10px;
 }
 select.switcher optgroup {
-  font-family: Helvetica, Tahoma, Verdana, Arial, sans-serif;
-  font-size: 10px;
-  font-style: normal;
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
+  	font-size: 10px;
+  	font-style: normal;
 }
 

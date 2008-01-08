@@ -2,7 +2,7 @@
 /* Fonts */
 
 body, table, td, select, textarea, input  {
-    font-family: Helvetica, Tahoma, Verdana, Arial, sans-serif;
+	font-family: Arial, Helvetica, Tahoma, Verdana, sans-serif;
     font-size: 11px;
 }
 
@@ -672,7 +672,7 @@ select.inline {
   background-color: transparent;
   background-position: 0px 1px;
   cursor: pointer;
-  width: 11px;
+  width: 12px;
 }
 
 .arrow-submit:focus {
