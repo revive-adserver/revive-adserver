@@ -89,7 +89,7 @@ ul#feed {
     white-space: nowrap;*     
 }
 
-ul#feed li {
+ul li {
     margin-left: 12px;    
     margin-bottom: 3px;
 }
@@ -112,14 +112,9 @@ img#graph {
   width: 100%;
 }
 
-.campaignOverview ul li {
-    margin-left: 12px;    
-    margin-bottom: 5px;
-}
-
 .campaignOverview .campaigns li .title {
 	float: left;
-	width: 68%;
+	width: 75%;
 	overflow: hidden;
 	white-space: nowrap;
 	margin-right:2%;
