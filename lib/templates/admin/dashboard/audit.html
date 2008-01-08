@@ -1,0 +1,79 @@
+{*<!--
+
++---------------------------------------------------------------------------+
+| Openads v${RELEASE_MAJOR_MINOR}                                                              |
+| ============                                                              |
+|                                                                           |
+| Copyright (c) 2003-2007 Openads Limited                                   |
+| For contact details, see: http://www.openads.org/                         |
+|                                                                           |
+| Copyright (c) 2000-2003 the phpAdsNew developers                          |
+| For contact details, see: http://www.phpadsnew.com/                       |
+|                                                                           |
+| This program is free software; you can redistribute it and/or modify      |
+| it under the terms of the GNU General Public License as published by      |
+| the Free Software Foundation; either version 2 of the License, or         |
+| (at your option) any later version.                                       |
+|                                                                           |
+| This program is distributed in the hope that it will be useful,           |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+| GNU General Public License for more details.                              |
+|                                                                           |
+| You should have received a copy of the GNU General Public License         |
+| along with this program; if not, write to the Free Software               |
+| Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
++---------------------------------------------------------------------------+
+$Id$
+
+-->*}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Openads Audit Trail</title>
+  <link rel='stylesheet' type='text/css' href='http://knix/oa-150/www/admin/css/dashboard-widget.css'>
+  <!--[if IE]>
+      <link rel="stylesheet" type="text/css" href="http://knix/oa-150/www/admin/css/dashboard-widget-ie.css" />
+  <![endif]-->
+</head>
+
+<body>
+
+{if $screen == 'enabled'}
+    {if $aAuditData|@count > 0}
+    <table class="audit">
+        {foreach item=aValue from=$aAuditData}
+        <tr>
+            <td>
+                <img src="images/listIcon.gif" />
+                <a href="userlog-audit-detailed.php?auditId={$aValue.auditid}">
+                    {$aValue.desc}
+                </a>
+            </td>
+            <td>
+                {$aValue.updated|date_format:"%d %b %Y"}
+            </td>
+        </tr>
+        {/foreach}
+    </table>
+    <div><a class="site-link" href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
+    {else}
+    <table class="audit">
+        <tr>
+            <td>
+                <img src="images/listIcon.gif" />
+                {$noData}
+            </td>
+        </tr>
+    </table>
+    {/if}
+{else}
+    <ul class="auditList">
+        <li>Audit Trail allows you to see who did what and when. Or to put it another way,  it keeps track of system changes within Openads.</li>
+        <li>You are seeing this message, because you have not activated the Audit Trail.</li>
+        <li>Interested in learning more? Read the <a href="http://www.example.com" target="_blank">Audit Trail documentation</a></li>
+    </ul>
+    <div><a class="site-link" href="{$siteUrl}" target="_blank">{$siteTitle}</a></div>
+{/if}
+</body>
+</html>

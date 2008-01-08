@@ -234,11 +234,6 @@ class OA_Dll_Audit extends OA_Dll
 
                 if ($aAudit['actionid'] != OA_AUDIT_ACTION_DELETE) {
                     switch($aAudit['context']) {
-                    case 'Affiliate':
-                        if (empty($aAudit['username'])) {
-                            $aAudit['username'] = 'Installer';
-                        }
-                        break;
                     case 'Banner':
                         $aAudit['parentcontext'] = 'Campaign';
                         break;
@@ -249,6 +244,10 @@ class OA_Dll_Audit extends OA_Dll
                     case 'Zone':
                         $aAudit['parentcontext'] = 'Affiliate';
                         break;
+                    }
+
+                    if (empty($aAudit['username'])) {
+                        $aAudit['username'] = 'Installer';
                     }
 
                     $aAudit['parentcontextid'] = $this->getParentID($aAudit['context'], $aAudit['details']);
