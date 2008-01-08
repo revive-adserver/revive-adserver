@@ -260,7 +260,6 @@ placement_zone_assoc                     = placement_zone_assoc
 plugins_channel_delivery_assoc           = plugins_channel_delivery_assoc
 plugins_channel_delivery_domains         = plugins_channel_delivery_domains
 plugins_channel_delivery_rules           = plugins_channel_delivery_rules
-preference                               = preference
 preference_advertiser                    = preference_advertiser
 preference_publisher                     = preference_publisher
 preferences                              = preferences
