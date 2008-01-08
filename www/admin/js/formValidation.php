@@ -40,11 +40,11 @@ if (!defined('phpAds_installing')) {
     require_once '../../../init.php';
 
     // Required files
-    require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+    require_once MAX_PATH . '/lib/OA/Preference.php';
     require_once MAX_PATH . '/lib/max/language/Default.php';
 
-    // Load the user preferences from the database
-    $pref = OA_Admin_Preferences::loadPrefs();
+    // Load the account preferences from the database
+    OA_Preference::loadPreferences();
 
     // Load the required language files
     Language_Default::load();
