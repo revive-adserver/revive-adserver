@@ -482,10 +482,13 @@ class OA_Admin_Option
         return $noRestriction;
     }
 
-    /*-------------------------------------------------------*/
-    /* Return Settings Help HTML Code                        */
-    /*-------------------------------------------------------*/
-
+    /**
+     * A private method to generate the help string for an option item.
+     *
+     * @access private
+     * @param string $name The name of the option item.
+     * @return string The help string for the option item.
+     */
     function _help($name)
     {
         if (!isset($GLOBALS['phpAds_hlp_'.$name])) {
@@ -542,11 +545,6 @@ class OA_Admin_Option
         return ('');
     }
 
-
-    /*-------------------------------------------------------*/
-    /* Settings GUI Functions Wrappers                       */
-    /*-------------------------------------------------------*/
-
     function _showGetType ($aData, $name)
     {
         foreach ($aData as $section) {
@@ -558,7 +556,6 @@ class OA_Admin_Option
         }
         return false;
     }
-
 
     function _showStartSection($name, $error = array(), $disableSubmit=0, $imgPath="")
     {
@@ -682,10 +679,7 @@ class OA_Admin_Option
             $k = htmlspecialchars($k);
             $aItem['items'][$k] = $v;
         }
-
         $this->aOption[] = array('select.html' => $aItem);
-
-
     }
 
     /**
