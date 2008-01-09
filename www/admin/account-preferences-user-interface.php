@@ -50,15 +50,6 @@ $oOptions = new OA_Admin_Option('preferences');
 $aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
 uasort($aStatisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));
 
-// This page depends on inventoryProperties plugins, so get the required
-// information about all such plugins installed in this installation
-$aInvPlugins = &MAX_Plugin::getPlugins('inventoryProperties');
-foreach ($aInvPlugins as $pluginKey => $oPlugin) {
-    if ($oPlugin->getType() != 'settings-defaults') {
-        unset($aInvPlugins[$pluginKey]);
-    }
-}
-
 // Prepare an array for storing error messages
 $aErrormessage = array();
 
@@ -66,121 +57,39 @@ $aErrormessage = array();
 if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Prepare an array of the HTML elements to process
     $aElements = array();
-    // Default Banners
-    $aElements[] = 'default_banner_image_url';
-    $aElements[] = 'default_banner_destination_url';
-    // HTML Banner Options
-    $aElements[] = 'auto_alter_html_banners_for_click_tracking';
-    // Default Weight
-    $aElements[] = 'default_banner_weight';
-    $aElements[] = 'default_campaign_weight';
+    // Inventory
+    $aElements[] = 'ui_show_campaign_info';
+    $aElements[] = 'ui_show_banner_info';
+    $aElements[] = 'ui_show_campaign_preview';
+    $aElements[] = 'ui_show_banner_html';
+    $aElements[] = 'ui_show_banner_preview';
+    $aElements[] = 'ui_hide_inactive';
+    $aElements[] = 'ui_show_matching';
+    $aElements[] = 'ui_show_parents';
+    $aElements[] = 'ui_show_banner_html';
+    // Confirmation in User Interface
+    $aElements[] = 'ui_novice_user';
+    // Statistics
+    $aElements[] = 'ui_week_start_day';
+    $aElements[] = 'ui_percentage_decimals';
+    // Stats columns in here!
+
+
+    /**
+     * @TODO Insert code for processing statistics column preferences!
+     */
+
+
     // Save the preferences
     $result = OA_Preference::processPreferencesFromForm($aElements);
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here
-        MAX_Admin_Redirect::redirect('account-preferences-campaign-email-reports.php');
+        MAX_Admin_Redirect::redirect('account-preferences-account-preferences.php');
     }
     // Could not write the preferences to the database, store this
     // error message and continue
     $aErrormessage[0][] = $strUnableToWritePrefs;
-}
-
-
-
-
-
-
-
-
-require_once MAX_PATH . '/lib/OA/Admin/Statistics/Common.php';
-
-
-if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
-    // Register input variables
-    phpAds_registerGlobal('gui_show_campaign_info', 'gui_show_banner_info',
-                          'gui_show_campaign_preview', 'gui_show_banner_html',
-                          'gui_show_banner_preview', 'gui_hide_inactive',
-                          'gui_show_matching', 'gui_show_parents', 'begin_of_week',
-                          'percentage_decimals', 'gui_campaign_anonymous'
-                          );
-
-    // Register input variables for inventory plugins
-    foreach ($aInvPlugins as $plugin) {
-        call_user_func_array('phpAds_registerGlobal', $plugin->getGlobalVars());
-    }
-
-    // Set up the preferences object
-    $oPreferences = new OA_Admin_Preferences();
-    if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER))
-    {
-        $oPreferences->setPrefChange('gui_show_campaign_info',       isset($gui_show_campaign_info));
-        $oPreferences->setPrefChange('gui_show_banner_info',         isset($gui_show_banner_info));
-        $oPreferences->setPrefChange('gui_show_campaign_preview',    isset($gui_show_campaign_preview));
-        $oPreferences->setPrefChange('gui_show_banner_html',         isset($gui_show_banner_html));
-        $oPreferences->setPrefChange('gui_show_banner_preview',      isset($gui_show_banner_preview));
-        $oPreferences->setPrefChange('gui_hide_inactive',            isset($gui_hide_inactive));
-        $oPreferences->setPrefChange('gui_show_matching',            isset($gui_show_matching));
-        $oPreferences->setPrefChange('gui_show_parents',             isset($gui_show_parents));
-        $oPreferences->setPrefChange('gui_campaign_anonymous',       isset($gui_campaign_anonymous));
-        if (isset($begin_of_week)) {
-            $oPreferences->setPrefChange('begin_of_week',            $begin_of_week);
-        }
-        if (isset($percentage_decimals)) {
-            $oPreferences->setPrefChange('percentage_decimals',      $percentage_decimals);
-        }
-    }
-
-    // Advertiser / publisher preferences
-    foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
-        $aVars = array_keys($plugin->getVisibilitySettings());
-        $aVars2 = array();
-        foreach ($aVars as $var) {
-            $aVars2[] = $var.'_label';
-            $aVars2[] = $var.'_rank';
-        }
-        call_user_func_array('phpAds_registerGlobal', $aVars);
-        call_user_func_array('phpAds_registerGlobal', $aVars2);
-        foreach ($aVars as $var) {
-            $varlabel = $var.'_label';
-            $varrank  = $var.'_rank';
-            $aFinal    = array();
-            foreach (array(OA_ACCOUNT_ADMIN_ID, OA_ACCOUNT_ADVERTISER_ID, OA_ACCOUNT_TRAFFICKER_ID, OA_ACCOUNT_MANAGER_ID) as $perm) {
-                $aFinal[$perm] = array('show' => true, 'label' => '', 'rank' => 0);
-                if (isset($$var)) {
-                    $aFinal[$perm]['show'] = (bool)($$var & $perm);
-                }
-                if (isset(${$varlabel}[$perm])) {
-                    $aFinal[$perm]['label'] = ${$varlabel}[$perm];
-                }
-                if (isset(${$varrank}[$perm])) {
-                    $aFinal[$perm]['rank'] = (int)${$varrank}[$perm];
-                }
-            }
-
-            $oPreferences->setPrefChange($var, serialize($aFinal));
-        }
-    }
-
-    // Save settings for inventory plugins
-    foreach ($aInvPlugins as $plugin) {
-        foreach ($plugin->prepareVariables() as $k => $v) {
-            $oPreferences->setPrefChange($k, $v);
-        }
-    }
-
-    if (!$oPreferences->writePrefChange()) {
-        // Unable to update the preferences
-        $aErrormessage[0][] = $strUnableToWritePrefs;
-    } else {
-        if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN) || OA_Permission::isAccount(OA_ACCOUNT_MANAGER)) {
-            MAX_Admin_Redirect::redirect('account-preferences-user-interface.php');
-        } elseif (OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER)) {
-            MAX_Admin_Redirect::redirect('account-settings-defaults.php?clientid='.OA_Permission::getEntityId());
-        } else {
-            MAX_Admin_Redirect::redirect('account-settings-defaults.php?affiliateid='.OA_Permission::getEntityId());
-        }
-    }
 }
 
 phpAds_PageHeader("5.1");
@@ -201,6 +110,18 @@ if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
 // Set the correct section of the preference pages and display the drop-down menu
 $oOptions->selection("user-interface");
 
+// Prepare an array of columns to be used shortly
+$aStatistics = array();
+foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
+    $aVars = $oPlugin->getVisibilitySettings();
+    foreach ($aVars as $name => $text) {
+        $aStatistics[] = array(
+            'text' => $text,
+            'name' => $name
+        );
+    }
+}
+
 // Prepare an array of HTML elements to display for the form, and
 // output using the $oOption object
 $aSettings = array (
@@ -210,17 +131,17 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_show_campaign_info',
+                'name'  => 'ui_show_campaign_info',
                 'text'  => $strShowCampaignInfo
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_show_banner_info',
+                'name'  => 'ui_show_banner_info',
                 'text'  => $strShowBannerInfo
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_show_campaign_preview',
+                'name'  => 'ui_show_campaign_preview',
                 'text'  => $strShowCampaignPreview
             ),
             array (
@@ -228,12 +149,12 @@ $aSettings = array (
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_show_banner_html',
+                'name'  => 'ui_show_banner_html',
                 'text'  => $strShowBannerHTML
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_show_banner_preview',
+                'name'  => 'ui_show_banner_preview',
                 'text'  => $strShowBannerPreview
             ),
             array (
@@ -241,7 +162,7 @@ $aSettings = array (
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_hide_inactive',
+                'name'  => 'ui_hide_inactive',
                 'text'  => $strHideInactive
             ),
             array (
@@ -249,21 +170,13 @@ $aSettings = array (
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_show_matching',
+                'name'  => 'ui_show_matching',
                 'text'  => $strGUIShowMatchingBanners
             ),
             array (
                 'type'  => 'checkbox',
-                'name'  => 'gui_show_parents',
+                'name'  => 'ui_show_parents',
                 'text'  => $strGUIShowParentCampaigns
-            ),
-            array (
-                'type'  => 'break'
-            ),
-            array (
-                'type'  => 'checkbox',
-                'name'  => 'gui_campaign_anonymous',
-                'text'  => $strGUIAnonymousCampaignsByDefault
             )
         )
     ),
@@ -272,7 +185,7 @@ $aSettings = array (
         'items' => array (
              array (
                 'type'    => 'checkbox',
-                'name'    => 'novice',
+                'name'    => 'ui_novice_user',
                 'text'    => $strNovice
             ),
         )
@@ -282,7 +195,7 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'  => 'select',
-                'name'  => 'begin_of_week',
+                'name'  => 'ui_week_start_day',
                 'text'  => $strBeginOfWeek,
                 'items' => array($strDayFullNames[0], $strDayFullNames[1])
             ),
@@ -291,102 +204,21 @@ $aSettings = array (
             ),
             array (
                 'type'  => 'select',
-                'name'  => 'percentage_decimals',
+                'name'  => 'ui_percentage_decimals',
                 'text'  => $strPercentageDecimals,
                 'items' => array(0, 1, 2, 3)
             ),
             array (
                 'type'  => 'break'
+            ),
+            array(
+                'type'  => 'statscolumns',
+                'name'  => '',
+                'rows'  => $aStatistics
             )
         )
     )
 );
-
-// Add column visibility settings from plugins
-$i = 0;
-foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
-    $defaultRanks = $plugin->getDefaultRanks();
-    foreach ($plugin->getVisibilitySettings() as $k => $v) {
-        // Prepare fake serialized preferences for the next blocks
-        $GLOBALS['_MAX']['PREF'][$k.'_label'] = array();
-        $GLOBALS['_MAX']['PREF'][$k.'_rank']  = array(1 => $i+1, 2 => $i+1, 4 => $i+1, 8 => $i+1);
-        if (isset($GLOBALS['_MAX']['PREF'][$k.'_array'])) {
-            foreach ($GLOBALS['_MAX']['PREF'][$k.'_array'] as $kk => $vv) {
-                $GLOBALS['_MAX']['PREF'][$k.'_label'][$kk] = $vv['label'];
-                $GLOBALS['_MAX']['PREF'][$k.'_rank'][$kk]  = $vv['rank'];
-            }
-        } elseif ($GLOBALS['_MAX']['PREF'][$k] == -1) {
-            if (isset($defaultRanks[$k])) {
-                $rank = $defaultRanks[$k];
-                $GLOBALS['_MAX']['PREF'][$k] = 15;
-                $GLOBALS['_MAX']['PREF'][$k.'_rank']  = array(1 => $rank, 2 => $rank, 4 => $rank, 8 => $rank);
-            } else {
-                $rank = '';
-                $GLOBALS['_MAX']['PREF'][$k] = 0;
-                $GLOBALS['_MAX']['PREF'][$k.'_rank']  = array(1 => $rank, 2 => $rank, 4 => $rank, 8 => $rank);
-            }
-        }
-        $GLOBALS['_MAX']['PREF'][$k.'_label'] = serialize($GLOBALS['_MAX']['PREF'][$k.'_label']);
-        $GLOBALS['_MAX']['PREF'][$k.'_rank']  = serialize($GLOBALS['_MAX']['PREF'][$k.'_rank']);
-
-        $show_headers = ($i++ == 0) ? $admin_settings : 0;
-        $aSettings[2]['items'][] = array (
-            'type'         => 'usertype_checkboxes',
-            'name'         => $k,
-            'text'         => sprintf(MAX_Plugin_Translation::translate('Show %s column', 'statisticsFieldsDelivery', null), $v),
-            'show_headers' => $show_headers
-        );
-    }
-}
-
-$aSettings[2]['items'][] = array ('type' => 'break');
-
-// Add column labels settings from plugins
-$i = 0;
-foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
-    foreach ($plugin->getVisibilitySettings() as $k => $v) {
-        $show_headers = ($i++ == 0) ? $admin_settings : 0;
-        $aSettings[2]['items'][] = array (
-            'type'         => 'usertype_textboxes',
-            'name'         => $k.'_label',
-            'text'         => sprintf(MAX_Plugin_Translation::translate('Custom label for %s column', 'statisticsFieldsDelivery', null), $v),
-            'show_headers' => $show_headers
-        );
-    }
-}
-
-$aSettings[2]['items'][] = array ('type' => 'break');
-
-// Add column labels settings from plugins
-$i = 0;
-foreach ($aStatisticsFieldsDeliveryPlugins as $plugin) {
-    foreach ($plugin->getVisibilitySettings() as $k => $v) {
-        $show_headers = ($i++ == 0) ? $admin_settings : 0;
-        $aSettings[2]['items'][] = array (
-            'type'         => 'usertype_textboxes',
-            'name'         => $k.'_rank',
-            'text'         => sprintf(MAX_Plugin_Translation::translate('Rank of %s column', 'statisticsFieldsDelivery', null), $v),
-            'show_headers' => $show_headers
-        );
-    }
-}
-
-// Add settings from inventory plugins
-foreach ($aInvPlugins as $plugin) {
-    $plugin->addSettings($aSettings);
-}
-
-
-
-
-
-
-
-
-
-
-
-
 $oOptions->show($aSettings, $aErrormessage);
 
 // Display the page footer

@@ -337,8 +337,23 @@ class OA_Admin_Option
                                 // If that did not work, and the item is a preference, try to load the
                                 // item value from the preferences values in the database
                                 if (is_null($value) && $this->_optionType == 'account-preferences') {
-                                    if (isset($aPref[$aItem['name']]['value'])) {
-                                        $value = $aPref[$aItem['name']]['value'];
+                                    // Deal with statistics column values separately
+                                    if ($aItem['type'] == 'statscolumns') {
+                                        foreach ($aItem['rows'] as $key => $aRow) {
+                                            if (isset($aPref[$aRow['name']]['value'])) {
+                                                $value[$aRow['name']]['base'] = $aPref[$aRow['name']]['value'];
+                                            }
+                                            if (isset($aPref[$aRow['name'] . '_label']['value'])) {
+                                                $value[$aRow['name']]['label'] = $aPref[$aRow['name'] . '_label']['value'];
+                                            }
+                                            if (isset($aPref[$aRow['name'] . '_rank']['value'])) {
+                                                $value[$aRow['name']]['rank'] = $aPref[$aRow['name'] . '_rank']['value'];
+                                            }
+                                        }
+                                    } else {
+                                        if (isset($aPref[$aItem['name']]['value'])) {
+                                            $value = $aPref[$aItem['name']]['value'];
+                                        }
                                     }
                                 }
                                 // If that did not work, try to load the value from the $aItem array itself
@@ -384,6 +399,9 @@ class OA_Admin_Option
                                 break;
                             case 'select':
                                 $this->_showSelect($aItem, $value, $disableSubmit);
+                                break;
+                            case 'statscolumns':
+                                $this->_showStatsColumns($aItem, $value);
                                 break;
                             case 'usertype_textboxes':
                                 $this->_showUsertypeTextboxes($aItem, $value);
@@ -652,40 +670,62 @@ class OA_Admin_Option
     function _showPassword($aItem, $value)
     {
         global $tabindex;
-
         if (!isset($aItem['size'])) {
             $aItem['size'] = 25;
         }
-
         //  if config file is not writeable do not display password
         $hidePassword = false;
         $writeable = OA_Admin_Settings::isConfigWritable();
-
         if ($aItem['name'] == 'database_password' && !$writeable) {
             $value = 'password';
             $hidePassword = true;
         }
-
         $aItem['value'] = $value;
         $aItem['hidePassword'] = $hidePassword;
         $aItem['tabindex'] = $tabindex++;
-
         $this->aOption[] = array('password.html' => $aItem);
     }
 
     function _showSelect($aItem, $value, $showSubmitButton=0)
     {
         global $tabindex;
-
         $aItem['tabindex'] = $tabindex++;
         $aItem['value'] = $value;
         $aItem['showSubmitButton'] = $showSubmitButton;
-
         foreach ($aItem['items'] as $k => $v) {
             $k = htmlspecialchars($k);
             $aItem['items'][$k] = $v;
         }
         $this->aOption[] = array('select.html' => $aItem);
+    }
+
+    /**
+     * A private method to set the required options for column-based output
+     * of option items.
+     *
+     * @access private
+     * @param array $aItem The column option to display.
+     * @param array $aValue An array of the column values.
+     */
+    function _showStatsColumns($aItem, $aValue)
+    {
+        global $tabindex;
+        $aItem['tabindex'] = $tabindex++;
+        foreach ($aItem['rows'] as $key => $aRow) {
+            if (isset($aValue[$aRow['name']]['base'])) {
+                $aItem['rows'][$key]['value'] = $aValue[$aRow['name']]['base'];
+            }
+            if (isset($aValue[$aRow['name']]['label'])) {
+                $aItem['rows'][$key]['label_value'] = $aValue[$aRow['name']]['label'];
+            }
+            if (isset($aValue[$aRow['name']]['rank'])) {
+                $aItem['rows'][$key]['rank_value'] = $aValue[$aRow['name']]['rank'];
+            }
+        }
+        $this->aOption[] = array('statscolumns.html' => $aItem);
+        // Update the global tab index for the number of stats column rows added
+        $rows = count($aItem['rows']);
+        $tabindex += $rows * 3; // Not an exact increment of the tab index, but close enough!
     }
 
     /**
