@@ -78,6 +78,7 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
                                         'pref'   => 'gui_column_ctr',
                                         'rank'   => 3,
                                         'format' => 'percent'),
+            /*
             'sum_conversions'  => array('name'   => MAX_Plugin_Translation::translate('_Conversions', $this->module, $this->package),
                                         'short'  => MAX_Plugin_Translation::translate('Conversions', $this->module, $this->package),
                                         'pref'   => 'gui_column_conversions',
@@ -99,6 +100,7 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
                                         'short'  => MAX_Plugin_Translation::translate('Click SR', $this->module, $this->package),
                                         'pref'   => 'gui_column_sr_clicks',
                                         'format' => 'percent')
+            */
         );
     }
 

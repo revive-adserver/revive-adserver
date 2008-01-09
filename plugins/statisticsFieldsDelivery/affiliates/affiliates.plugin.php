@@ -60,6 +60,7 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                                                 'short'  => MAX_Plugin_Translation::translate('Cost', $this->module, $this->package),
                                                 'pref'   => 'gui_column_cost',
                                                 'format' => 'currency'),
+            /*
             'sum_bv'                    => array('name'   => MAX_Plugin_Translation::translate('_Basket value', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('Basket value', $this->module, $this->package),
                                                 'pref'   => 'gui_column_bv',
@@ -68,6 +69,7 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                                                 'short'  => MAX_Plugin_Translation::translate('Number of items', $this->module, $this->package),
                                                 'pref'   => 'gui_column_num_items',
                                                 'format' => 'default'),
+            */
             'sum_revcpc'                => array('name'   => MAX_Plugin_Translation::translate('_Revenue CPC', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('Revenue CPC', $this->module, $this->package),
                                                 'pref'   => 'gui_column_revcpc',
@@ -105,10 +107,12 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                                                 'short'  => MAX_Plugin_Translation::translate('ERPC', $this->module, $this->package),
                                                 'pref'   => 'gui_column_erpc',
                                                 'format' => 'currency'),
+            /*
             'sum_erps'                  => array('name'   => MAX_Plugin_Translation::translate('_ERPS', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('ERPS', $this->module, $this->package),
                                                 'pref'   => 'gui_column_erps',
                                                 'format' => 'currency'),
+            */
             'sum_eipm'                  => array('name'   => MAX_Plugin_Translation::translate('_EIPM', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('EIPM', $this->module, $this->package),
                                                 'pref'   => 'gui_column_eipm',
@@ -117,10 +121,12 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                                                 'short'  => MAX_Plugin_Translation::translate('EIPC', $this->module, $this->package),
                                                 'pref'   => 'gui_column_eipc',
                                                 'format' => 'currency'),
+            /*
             'sum_eips'                  => array('name'   => MAX_Plugin_Translation::translate('_EIPS', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('EIPS', $this->module, $this->package),
                                                 'pref'   => 'gui_column_eips',
                                                 'format' => 'currency'),
+            */
             'sum_ecpm'                  => array('name'   => MAX_Plugin_Translation::translate('_ECPM', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('ECPM', $this->module, $this->package),
                                                 'rank'   => 5,
@@ -130,10 +136,12 @@ class Plugins_statisticsFieldsDelivery_affiliates_affiliates extends Plugins_sta
                                                 'short'  => MAX_Plugin_Translation::translate('ECPC', $this->module, $this->package),
                                                 'pref'   => 'gui_column_ecpc',
                                                 'format' => 'currency'),
+            /*
             'sum_ecps'                  => array('name'   => MAX_Plugin_Translation::translate('_ECPS', $this->module, $this->package),
                                                 'short'  => MAX_Plugin_Translation::translate('ECPS', $this->module, $this->package),
                                                 'pref'   => 'gui_column_ecps',
                                                 'format' => 'currency')
+            */
         );
     }
 
