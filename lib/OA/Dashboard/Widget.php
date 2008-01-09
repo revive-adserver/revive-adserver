@@ -54,6 +54,13 @@ class OA_Dashboard_Widget extends OA_Central
      */
     function OA_Dashboard_Widget($aParams)
     {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+
+        // Use gzip content compression
+        if (isset($aConf['ui']['gzipCompression']) && $aConf['ui']['gzipCompression']) {
+            ob_start("ob_gzhandler");
+        }
+
         $this->widgetName = isset($aParams['widget']) ? stripslashes($aParams['widget']) : '';
         $this->checkAccess();
     }
