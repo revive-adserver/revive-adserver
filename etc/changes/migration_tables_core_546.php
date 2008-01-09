@@ -1,10 +1,129 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
-require_once MAX_PATH . '/etc/changes/UserMigration.php';
+//require_once MAX_PATH . '/etc/changes/UserMigration.php';
 
 class Migration_546 extends Migration
 {
+
+    var $aPrefOld = array();
+    var $aPrefNew = array();
+    var $aConfNew = array();
+
+
+    var $aConfMap = array(
+                          'email'           => array(
+                                                    'headers'           => 'admin_email_headers',
+                                                    'logOutgoing'       => 'userlog_email',
+                                                    'qmailPatch'        => 'qmail_patch',
+                                                    ),
+                          'delivery'        => array(
+                                                    'clicktracking'     => 'gui_invocation_3rdparty_default',
+                                                    ),
+                          'sync'            => array(
+                                                    'checkForUpdates'   => 'updates_enabled',
+                                                    ),
+                          'allowedTags'     => array(
+                                                    'adviewnocookies'   => 'allow_invocation_plain_nocookies',
+                                                    'adjs'              => 'allow_invocation_js',
+                                                    'adframe'           => 'allow_invocation_frame',
+                                                    'xmlrpc'            => 'allow_invocation_xmlrpc',
+                                                    'local'             => 'allow_invocation_local',
+                                                    'adlayer'           => 'allow_invocation_interstitial',
+                                                    'popup'             => 'allow_invocation_popup',
+                                                    'adview'            => 'allow_invocation_plain',
+                                                    ),
+                          'allowedBanners'  => array(
+                                                    'sql'               => 'type_sql_allow',
+                                                    'url'               => 'type_url_allow',
+                                                    'web'               => 'type_web_allow',
+                                                    'html'              => 'type_html_allow',
+                                                    'txt'               => 'type_txt_allow',
+                                                    ),
+                          'ui'              => array(
+                                                    'headerFilePath'        => 'my_header',
+                                                    'footerFilePath'        => 'my_footer',
+                                                    'logoFilePath'          => 'my_logo',
+                                                    'applicationName'       => 'name',
+                                                    'gzipCompression'       => 'content_gzip_compression',
+                                                    'headerBackgroundColor' => 'gui_header_background_color',
+                                                    'headerForegroundColor' => 'gui_header_foreground_color',
+                                                    'headerActiveTabColor'  => 'gui_header_active_tab_color',
+                                                    'headerTextColor'       => 'gui_header_text_color',
+                                                     ),
+                          );
+
+
+    var $aPrefMap = array(
+                        'language'                          => 'language',
+                        'ui_week_start_day'                 => 'begin_of_week',
+                        'ui_percentage_decimals'            => 'percentage_decimals',
+                        'warn_admin'                        => 'warn_admin',
+                        'warn_email_manager'                => 'warn_agency',
+                        'warn_email_advertiser'             => 'warn_client',
+                        'warn_email_admin_impression_limit' => 'warn_limit',
+                        'warn_email_admin_day_limit'        => 'warn_limit_days',
+                        'ui_novice_user'                    => 'admin_novice',
+                        'default_banner_weight'             => 'default_banner_weight',
+                        'default_campaign_weight'           => 'default_campaign_weight',
+                        'default_banner_image_url'          => 'default_banner_url',
+                        'default_banner_destination_url'    => 'default_banner_destination',
+                        'ui_show_campaign_info'             => 'gui_show_campaign_info',
+                        'ui_show_campaign_preview'          => 'gui_show_campaign_preview',
+                        'ui_show_banner_info'               => 'gui_show_banner_info',
+                        'ui_show_banner_preview'            => 'gui_show_banner_preview',
+                        'ui_show_banner_html'               => 'gui_show_banner_html',
+                        'ui_show_matching_banners'          => 'gui_show_matching',
+                        'ui_show_matching_banners_parents'  => 'gui_show_parents',
+                        'ui_hide_inactive'                  => 'gui_hide_inactive',
+                        'tracker_default_status'            => 'default_tracker_status',
+                        'tracker_default_type'              => 'default_tracker_type',
+                        'tracker_link_campaigns'            => 'default_tracker_linkcampaigns',
+                        );
+
+    var $aPrefDep = array(
+                        'agencyid',
+                        'config_version',
+                        'company_name',
+                        'override_gd_imageformat',
+                        'banner_html_auto',
+                        'admin',
+                        'admin_pw',
+                        'admin_fullname',
+                        'admin_email',
+                        'client_welcome',
+                        'client_welcome_msg',
+                        'publisher_welcome',
+                        'publisher_welcome_msg',
+                        'gui_campaign_anonymous',
+                        'gui_link_compact_limit',
+                        'updates_cache',
+                        'updates_timestamp',
+                        'updates_last_seen',
+                        'allow_invocation_clickonly',
+                        'auto_clean_tables',
+                        'auto_clean_tables_interval',
+                        'auto_clean_userlog',
+                        'auto_clean_userlog_interval',
+                        'auto_clean_tables_vacuum',
+                        'autotarget_factor',
+                        'maintenance_timestamp',
+                        'compact_stats',
+                        'statslastday',
+                        'statslasthour',
+                        'publisher_agreement',
+                        'publisher_agreement_text',
+                        'publisher_payment_modes',
+                        'publisher_currencies',
+                        'publisher_categories',
+                        'publisher_help_files',
+                        'publisher_default_tax_id',
+                        'publisher_default_approved',
+                        'more_reports',
+                        'maintenance_cron_timestamp',
+                        );
+
+
 
     function Migration_546()
     {
@@ -18,7 +137,7 @@ class Migration_546 extends Migration
 
 	function beforeRemoveTable__preference()
 	{
-		return $this->migratePreferences() && $this->beforeRemoveTable('preference');
+		return $this->migratePreferencesAdmin() && $this->beforeRemoveTable('preference');
 	}
 
 	function afterRemoveTable__preference()
@@ -27,31 +146,92 @@ class Migration_546 extends Migration
 	}
 
 
-
-	function migratePreferences()
+	function migratePreferencesAdmin()
 	{
-	    // Migrate old preference table values to new preferences table
+        if ($this->_getOldPreferencesAdmin())
+        {
+            $this->_filterOutDeprecatedPreferencesAdmin();
+            $this->_mapOldPrefsToSettingsAdmin();
+            $this->_mapOldPrefsToPrefsAdmin();
+            $this->_movePreferencesAdmin();
+            return true;
+        }
+        return false;
+	}
 
-        // Migrate old preference table values to config file
+	/**
+	 * Migrate language from affiliates
+	 * preferences.language = preference.language
+ 	 * Migrate language/logout_url from agency
+ 	 * Migrate language from clients
+ 	 * Migrate timezone (is it needed?)
+ 	 * preferences.timezone = ['timezone'] location
+ 	 * Migrate old preference table values to new preferences table	 *
+	 * @return boolean
+	 */
+	function _movePreferencesAdmin()
+	{
+	    $aConf = & $GLOBALS['_MAX']['CONF'];
+	    $tblAccounts = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['accounts'],true);
+        $tblPrefsNew = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preferences'],true);
+        $tblAccPrefs = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['account_preference_assoc'],true);
+
+	    $query = "SELECT account_id
+	               FROM {$tblAccounts}
+	               WHERE account_type = 'ADMIN'";
+	    $accountId = $this->oDBH->queryOne($query);
+
+	    if (PEAR::isError($accountId))
+	    {
+	        $this->_logError('Failed to retrieve admin account record id for '.$key);
+	    }
+
+	    $queryPref = "INSERT INTO
+    	               {$tblPrefsNew}
+    	               (preference_name, account_type)
+    	               VALUES
+    	               ('%s','ADMIN')";
+
+	    $queryAssoc = "INSERT INTO
+    	               {$tblAccPrefs}
+    	               (account_id, preference_id, value)
+    	               VALUES
+    	               (%s,%s,'%s')";
+
+        foreach ($this->aPrefNew as $key => $val)
+        {
+            $queryP = sprintf($queryPref, $key, $name);
+
+    	    $result = $this->oDBH->Exec($queryP);
+
+    	    if (PEAR::isError($result))
+    	    {
+    	        $this->_logError('Failed to insert admin preference record for '.$key);
+    	    }
+
+    	    $prefId = $this->oDBH->lastInsertID($tblPrefsNew, 'preference_id');
+
+    	    if (PEAR::isError($prefId))
+    	    {
+    	        $this->_logError('Failed to retrieve admin preference record id for '.$key);
+    	    }
+
+            $queryA = sprintf($queryAssoc, $accountId, $prefId, $val);
+
+    	    $result = $this->oDBH->Exec($queryA);
+
+    	    if (PEAR::isError($result))
+    	    {
+    	        $this->_logError('Failed to insert admin account preference assoc record for '.$key);
+    	    }
+
+        }
+	    return true;
+	}
 
 
-	    // Migrate language from affiliates
-
-	    // preferences.language = preference.language
-
-
-	    // Migrate language/logout_url from agency
-
-
-	    // Migrate language from clients
-
-
-	    // Migrate timezone (is it needed?)
-
-	    // preferences.timezone = ['timezone'] location
-
-
-
+    function _getOldPreferencesAdmin()
+    {
 	    $aConf = & $GLOBALS['_MAX']['CONF'];
 	    $tblPrefsOld = $this->oDBH->quoteIdentifier($aConf['table']['prefix'].$aConf['table']['preference'],true);
 
@@ -62,126 +242,67 @@ class Migration_546 extends Migration
 
 	    if (PEAR::isError($aResult))
 	    {
-	        // log error
-	        return false;
+	        $this->_logErrorAndReturnFalse($aResult);
 	    }
-	    if (!isset($aResult[0]))
+	    if (!is_array(($aResult)))
 	    {
-	        // log error
-	        return false;
+	        $this->_logError('Failed to retrieve old admin preference record');
 	    }
+        $this->aPrefOld = $aResult[0];
+        return true;
+    }
 
-        $aPrefOld = $aResult[0];
 
-        unset($aPrefOld['agencyid']);
-        unset($aPrefOld['config_version']);
-        $aConfNew['ui']['headerFilePath']	 =	$aPrefOld['my_header']; unset($aPrefOld['my_header']);
-        $aConfNew['ui']['footerFilePath']	 =	$aPrefOld['my_footer']; unset($aPrefOld['my_footer']);
-        $aConfNew['ui']['logoFilePath']	 =	$aPrefOld['my_logo']; unset($aPrefOld['my_logo']);
-        $aPrefNew['language']	         =	$aPrefOld['language']; unset($aPrefOld['language']);
-        $aConfNew['ui']['applicationName']	 =	$aPrefOld['name']; unset($aPrefOld['name']);
-        unset($aPrefOld['company_name']);
-        unset($aPrefOld['override_gd_imageformat']);
-        $aPrefNew['ui_week_start_day']	 =	$aPrefOld['begin_of_week']; unset($aPrefOld['begin_of_week']);
-        $aPrefNew['ui_percentage_decimals']	 =	$aPrefOld['percentage_decimals']; unset($aPrefOld['percentage_decimals']);
-        $aConfNew['allowedBanners']['sql']	 =	$aPrefOld['type_sql_allow']; unset($aPrefOld['type_sql_allow']);
-        $aConfNew['allowedBanners']['url']	 =	$aPrefOld['type_url_allow']; unset($aPrefOld['type_url_allow']);
-        $aConfNew['allowedBanners']['web']	 =	$aPrefOld['type_web_allow']; unset($aPrefOld['type_web_allow']);
-        $aConfNew['allowedBanners']['html']	 =	$aPrefOld['type_html_allow']; unset($aPrefOld['type_html_allow']);
-        $aConfNew['allowedBanners']['txt']	 =	$aPrefOld['type_txt_allow']; unset($aPrefOld['type_txt_allow']);
-        unset($aPrefOld['banner_html_auto']);
-        $aUsers['username']	 =	$aPrefOld['admin']; unset($aPrefOld['admin']);
-        $aUsers['password']	 =	$aPrefOld['admin_pw']; unset($aPrefOld['admin_pw']);
-        $aUsers['contact_name']	 =	$aPrefOld['admin_fullname']; unset($aPrefOld['admin_fullname']);
-        $aUsers['email_address']	 =	$aPrefOld['admin_email']; unset($aPrefOld['admin_email']);
-        $aPrefNew['warn_admin']	 =	$aPrefOld['warn_admin']; unset($aPrefOld['warn_admin']);
-        $aPrefNew['warn_email_manager']	 =	$aPrefOld['warn_agency']; unset($aPrefOld['warn_agency']);
-        $aPrefNew['warn_email_advertiser']	 =	$aPrefOld['warn_client']; unset($aPrefOld['warn_client']);
-        $aPrefNew['warn_email_admin_impression_limit']	 =	$aPrefOld['warn_limit']; unset($aPrefOld['warn_limit']);
-        $aConfNew['email']['headers']	 =	$aPrefOld['admin_email_headers']; unset($aPrefOld['admin_email_headers']);
-        $aPrefNew['ui_novice_user']	 =	$aPrefOld['admin_novice']; unset($aPrefOld['admin_novice']);
-        $aPrefNew['default_banner_weight']	 =	$aPrefOld['default_banner_weight']; unset($aPrefOld['default_banner_weight']);
-        $aPrefNew['default_campaign_weight']	 =	$aPrefOld['default_campaign_weight']; unset($aPrefOld['default_campaign_weight']);
-        $aPrefNew['default_banner_image_url']	 =	$aPrefOld['default_banner_url']; unset($aPrefOld['default_banner_url']);
-        $aPrefNew['default_banner_destination_url']	 =	$aPrefOld['default_banner_destination']; unset($aPrefOld['default_banner_destination']);
-        unset($aPrefOld['client_welcome']);
-        unset($aPrefOld['client_welcome_msg']);
-        unset($aPrefOld['publisher_welcome']);
-        unset($aPrefOld['publisher_welcome_msg']);
-        $aConfNew['ui']['gzipCompression']	 =	$aPrefOld['content_gzip_compression']; unset($aPrefOld['content_gzip_compression']);
-        $aConfNew['email']['logOutgoing']	 =	$aPrefOld['userlog_email']; unset($aPrefOld['userlog_email']);
-        $aPrefNew['ui_show_campaign_info']	 =	$aPrefOld['gui_show_campaign_info']; unset($aPrefOld['gui_show_campaign_info']);
-        $aPrefNew['ui_show_campaign_preview']	 =	$aPrefOld['gui_show_campaign_preview']; unset($aPrefOld['gui_show_campaign_preview']);
-        unset($aPrefOld['gui_campaign_anonymous']);
-        $aPrefNew['ui_show_banner_info']	 =	$aPrefOld['gui_show_banner_info']; unset($aPrefOld['gui_show_banner_info']);
-        $aPrefNew['ui_show_banner_preview']	 =	$aPrefOld['gui_show_banner_preview']; unset($aPrefOld['gui_show_banner_preview']);
-        $aPrefNew['ui_show_banner_html']	 =	$aPrefOld['gui_show_banner_html']; unset($aPrefOld['gui_show_banner_html']);
-        $aPrefNew['ui_show_matching_banners']	 =	$aPrefOld['gui_show_matching']; unset($aPrefOld['gui_show_matching']);
-        $aPrefNew['ui_show_matching_banners_parents']	 =	$aPrefOld['gui_show_parents']; unset($aPrefOld['gui_show_parents']);
-        $aPrefNew['ui_hide_inactive']	 =	$aPrefOld['gui_hide_inactive']; unset($aPrefOld['gui_hide_inactive']);
-        unset($aPrefOld['gui_link_compact_limit']);
-        $aConfNew['ui']['headerBackgroundColor']	 =	$aPrefOld['gui_header_background_color']; unset($aPrefOld['gui_header_background_color']);
-        $aConfNew['ui']['headerForegroundColor']	 =	$aPrefOld['gui_header_foreground_color']; unset($aPrefOld['gui_header_foreground_color']);
-        $aConfNew['ui']['headerActiveTabColor']	 =	$aPrefOld['gui_header_active_tab_color']; unset($aPrefOld['gui_header_active_tab_color']);
-        $aConfNew['ui']['headerTextColor']	 =	$aPrefOld['gui_header_text_color']; unset($aPrefOld['gui_header_text_color']);
-        $aConfNew['delivery']['clicktracking']	 =	$aPrefOld['gui_invocation_3rdparty_default']; unset($aPrefOld['gui_invocation_3rdparty_default']);
-        $aConfNew['email']['qmailPatch']	 =	$aPrefOld['qmail_patch']; unset($aPrefOld['qmail_patch']);
-        $aConfNew['sync']['checkForUpdates']	 =	$aPrefOld['updates_enabled']; unset($aPrefOld['updates_enabled']);
-        unset($aPrefOld['updates_cache']);
-        unset($aPrefOld['updates_timestamp']);
-        unset($aPrefOld['updates_last_seen']);
-        $aConfNew['allowedTags']['adview']	 =	$aPrefOld['allow_invocation_plain']; unset($aPrefOld['allow_invocation_plain']);
-        $aConfNew['allowedTags']['adviewnocookies']	 =	$aPrefOld['allow_invocation_plain_nocookies']; unset($aPrefOld['allow_invocation_plain_nocookies']);
-        $aConfNew['allowedTags']['adjs']	 =	$aPrefOld['allow_invocation_js']; unset($aPrefOld['allow_invocation_js']);
-        $aConfNew['allowedTags']['adframe']	 =	$aPrefOld['allow_invocation_frame']; unset($aPrefOld['allow_invocation_frame']);
-        $aConfNew['allowedTags']['xmlrpc']	 =	$aPrefOld['allow_invocation_xmlrpc']; unset($aPrefOld['allow_invocation_xmlrpc']);
-        $aConfNew['allowedTags']['local']	 =	$aPrefOld['allow_invocation_local']; unset($aPrefOld['allow_invocation_local']);
-        $aConfNew['allowedTags']['adlayer']	 =	$aPrefOld['allow_invocation_interstitial']; unset($aPrefOld['allow_invocation_interstitial']);
-        $aConfNew['allowedTags']['popup']	 =	$aPrefOld['allow_invocation_popup']; unset($aPrefOld['allow_invocation_popup']);
-        unset($aPrefOld['allow_invocation_clickonly']);
-        unset($aPrefOld['auto_clean_tables']);
-        unset($aPrefOld['auto_clean_tables_interval']);
-        unset($aPrefOld['auto_clean_userlog']);
-        unset($aPrefOld['auto_clean_userlog_interval']);
-        unset($aPrefOld['auto_clean_tables_vacuum']);
-        unset($aPrefOld['autotarget_factor']);
-        unset($aPrefOld['maintenance_timestamp']);
-        unset($aPrefOld['compact_stats']);
-        unset($aPrefOld['statslastday']);
-        unset($aPrefOld['statslasthour']);
-        $aPrefNew['tracker_default_status']	 =	$aPrefOld['default_tracker_status']; unset($aPrefOld['default_tracker_status']);
-        $aPrefNew['tracker_default_type']	 =	$aPrefOld['default_tracker_type']; unset($aPrefOld['default_tracker_type']);
-        $aPrefNew['tracker_link_campaigns']	 =	$aPrefOld['default_tracker_linkcampaigns']; unset($aPrefOld['default_tracker_linkcampaigns']);
-        unset($aPrefOld['publisher_agreement']);
-        unset($aPrefOld['publisher_agreement_text']);
-        unset($aPrefOld['publisher_payment_modes']);
-        unset($aPrefOld['publisher_currencies']);
-        unset($aPrefOld['publisher_categories']);
-        unset($aPrefOld['publisher_help_files']);
-        unset($aPrefOld['publisher_default_tax_id']);
-        unset($aPrefOld['publisher_default_approved']);
-        unset($aPrefOld['more_reports']);
-        unset($aPrefOld['maintenance_cron_timestamp']);
-        $aPrefNew['warn_email_admin_day_limit']	 =	$aPrefOld['warn_limit_days']; unset($aPrefOld['warn_limit_days']);
+    function _mapOldPrefsToSettingsAdmin()
+    {
+        foreach ($this->aConfMap AS $section => $aPairs)
+        {
+            foreach ($aPairs AS $nameNew => $nameOld)
+            {
 
-        foreach ($aPrefOld AS $key => $val)
+                $this->aConfNew[$section][$nameNew] = $this->aPrefOld[$nameOld];
+                unset($this->aPrefOld[$nameOld]);
+            }
+        }
+        return true;
+    }
+
+    function _mapOldPrefsToPrefsAdmin()
+    {
+
+        foreach ($this->aPrefMap AS $newName => $oldName)
+        {
+            $this->aPrefNew[$newName] = $this->aPrefOld[$oldName];
+            unset($this->aPrefOld[$oldName]);
+        }
+
+        // only elements left should be the gui_columns that have serialized array values
+        foreach ($this->aPrefOld AS $key => $val)
         {
             $name = substr($key,1);
-            $aPrefNew[$name]            = 't';
-            $aPrefNew[$name.'_label']   = '';
-            $aPrefNew[$name.'_rank']	= 0;
+            $this->aPrefNew[$name]            = 't';
+            $this->aPrefNew[$name.'_label']   = '';
+            $this->aPrefNew[$name.'_rank']    = 0;
 
             $aVal = unserialize($val);
             if (is_array($aVal))
             {
-                $aPrefNew[$name]            = $aVal['show'];
-                $aPrefNew[$name.'_label']   = $aVal['label'];
-                $aPrefNew[$name.'_rank']	= $aVal['rank'];
+                $this->aPrefNew[$name]            = $aVal['show'];
+                $this->aPrefNew[$name.'_label']   = $aVal['label'];
+                $this->aPrefNew[$name.'_rank']    = $aVal['rank'];
             }
         }
-	    return true;
-	}
+        return true;
+    }
 
+    function _filterOutDeprecatedPreferencesAdmin()
+    {
+        foreach ($this->aPrefDep as $name)
+        {
+            unset($this->aPrefOld[$name]);
+        }
+        return true;
+    }
 
 }
 
