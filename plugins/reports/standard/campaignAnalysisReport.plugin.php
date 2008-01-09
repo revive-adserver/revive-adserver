@@ -123,7 +123,7 @@ class Plugins_Reports_Standard_CampaignAnalysisReport extends Plugins_Reports
         $this->_categoryName = MAX_Plugin_Translation::translate('Standard Reports', $this->module, $this->package);
         $this->_author       = 'Rob Hunter';
         $this->_export       = 'xls';
-        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_TRAFFICKER);
+        $this->_authorize    = array(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER);
 
         $this->_import = $this->getDefaults();
         $this->saveDefaults();
