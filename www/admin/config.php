@@ -34,7 +34,7 @@ require_once MAX_PATH . '/lib/max/other/lib-io.inc.php';
 require_once MAX_PATH . '/lib/max/other/lib-userlog.inc.php';
 require_once MAX_PATH . '/www/admin/lib-gui.inc.php';
 
-require_once MAX_PATH . '/lib/OA/Preference.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/Permission.php';
 require_once MAX_PATH . '/lib/OA/Auth.php';
 

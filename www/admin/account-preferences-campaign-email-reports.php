@@ -30,7 +30,7 @@ require_once '../../init.php';
 
 // Required files
 require_once MAX_PATH . '/lib/OA/Admin/Option.php';
-require_once MAX_PATH . '/lib/OA/Preference.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 require_once MAX_PATH . '/lib/max/Admin/Redirect.php';
 require_once MAX_PATH . '/lib/max/Plugin/Translation.php';
