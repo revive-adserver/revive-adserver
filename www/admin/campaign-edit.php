@@ -919,10 +919,11 @@ echo "<tr><td colspan='3'>\n";
     </td>
   </tr>
 
-	<tr>
-	  <td><img src='images/spacer.gif' height='1' width='100%'></td>
-	  <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
-	</tr>
+  <!--
+  <tr>
+    <td><img src='images/spacer.gif' height='1' width='100%'></td>
+    <td colspan='2'><img src='images/break-l.gif' height='1' width='200' vspace='6'></td>
+  </tr>
 
   <tr>
     <td width='30'>&nbsp;</td>
@@ -939,6 +940,7 @@ echo "<tr><td colspan='3'>\n";
       <div style="clear: both;"><input type="radio"  value="unl" name="rd_conv_bkd" id="unlimitedconversions" tabindex='<?php echo ($tabindex++); ?>'><label for="unlimitedconversions"><?php echo $strUnlimited; ?></label></div>
     </td>
   </tr>
+  -->
 
 <?php
 echo "<tr><td height='10' colspan='3'>&nbsp;</td></tr>"."\n";
@@ -980,7 +982,7 @@ echo "&nbsp;&nbsp;";
 echo "<select name='revenue_type' tabindex='".($tabindex++)."'>";
 echo "  <option value='".MAX_FINANCE_CPM."' ".(($row['revenue_type'] == MAX_FINANCE_CPM) ? ' SELECTED ' : '').">$strFinanceCPM</option>";
 echo "  <option value='".MAX_FINANCE_CPC."' ".(($row['revenue_type'] == MAX_FINANCE_CPC) ? ' SELECTED ' : '').">$strFinanceCPC</option>";
-echo "  <option value='".MAX_FINANCE_CPA."' ".(($row['revenue_type'] == MAX_FINANCE_CPA) ? ' SELECTED ' : '').">$strFinanceCPA</option>";
+//echo "  <option value='".MAX_FINANCE_CPA."' ".(($row['revenue_type'] == MAX_FINANCE_CPA) ? ' SELECTED ' : '').">$strFinanceCPA</option>";
 echo "  <option value='".MAX_FINANCE_MT."' ".(($row['revenue_type'] == MAX_FINANCE_MT) ? ' SELECTED ' : '').">$strFinanceMT</option>";
 echo "</select>";
 echo "</td>"."\n";
@@ -1055,7 +1057,7 @@ echo "\t\t\t"."<td valign='top'><input type='radio' name='delivery' value='manua
 echo "\t\t\t"."<td valign='top'> <select name='target_type'>";
 echo "<option value='limit_impression' ".(($target_type == 'target_impression') ? ' SELECTED ' : ''). ">$strImpressions</option>";
 echo "<option value='limit_click' ".(($target_type == 'target_click') ? ' SELECTED ' : '').">$strClicks</option>";
-echo "<option value='limit_conversion' ".(($target_type == 'target_conversion') ? ' SELECTED ' : '').">$strConversions</option>";
+//echo "<option value='limit_conversion' ".(($target_type == 'target_conversion') ? ' SELECTED ' : '').">$strConversions</option>";
 echo "</select> $strTo <input onBlur='phpAds_formPriorityUpdate(this.form);' class='flat' type='text' name='target_value' size='7' value='".(!empty($target_value) ? $target_value : '-')."' tabindex='".($tabindex++)."'> ".$strTargetPerDay."</td>"."\n";
 echo "\t\t"."</tr>"."\n";
 
