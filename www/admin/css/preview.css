@@ -6,7 +6,7 @@
 }
 
 html {
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
 }
 
@@ -104,7 +104,7 @@ html {
 
 .invocationCodes .step .number span {
 	color: #fff;
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 28px;
 	font-weight: bold;
 	line-height: 36px;
@@ -166,7 +166,7 @@ html {
 	right: 8px;
 	
 	color: #638606;  /* #999; */
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 17px;
 	font-weight: bold;
 }

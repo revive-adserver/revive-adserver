@@ -158,7 +158,7 @@ ul.tabs {
   	padding: 0;
   	list-style-type: none;
   	min-width: 300px;
-	  font-family: Helvetica, Arial, sans-serif;
+	  font-family: Arial, Helvetica, sans-serif;
   	font-size: 11px;
 }
 
@@ -467,7 +467,7 @@ select.switcher option {
   	font-size: 10px;
 }
 select.switcher optgroup {
-	font-family: Helvetica, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
   	font-size: 10px;
   	font-style: normal;
 }
