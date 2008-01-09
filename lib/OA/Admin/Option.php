@@ -588,6 +588,14 @@ class OA_Admin_Option
                 if (isset($aItem['name']) && $aItem['name'] == $name) {
                     return ($aItem['type']);
                 }
+                // Deal with statscolumns fields
+                if (isset($aItem['rows']) && is_array($aItem['rows'])) {
+                    foreach ($aItem['rows'] as $aRow) {
+                        if (isset($aRow['name']) && $aRow['name'] == $name) {
+                            return 'checkbox';
+                        }
+                    }
+                }
             }
         }
         return false;
