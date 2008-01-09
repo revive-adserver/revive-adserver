@@ -40,7 +40,7 @@ require_once MAX_PATH . '/www/admin/config.php';
 OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_ADVERTISER, OA_ACCOUNT_TRAFFICKER);
 
 // Re-load the account's preferences, with additional information
-OA_Preference::loadPreferences(true);
+OA_Preferences::loadPreferences(true);
 
 // Create a new option object for displaying the setting's page's HTML form
 $oOptions = new OA_Admin_Option('preferences');
@@ -81,7 +81,7 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
 
 
     // Save the preferences
-    $result = OA_Preference::processPreferencesFromForm($aElements);
+    $result = OA_Preferences::processPreferencesFromForm($aElements);
     if ($result) {
         // The preferences were written correctly saved to the database,
         // go to the "next" preferences page from here

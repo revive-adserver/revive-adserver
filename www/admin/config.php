@@ -74,7 +74,7 @@ unset($session);
 OA_Start();
 
 // Load the account's preferences
-OA_Preference::loadPreferences();
+OA_Preferences::loadPreferences();
 $pref = $GLOBALS['_MAX']['CONF'];
 
 // Load the required language files

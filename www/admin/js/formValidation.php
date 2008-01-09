@@ -44,7 +44,7 @@ if (!defined('phpAds_installing')) {
     require_once MAX_PATH . '/lib/max/language/Default.php';
 
     // Load the account preferences from the database
-    OA_Preference::loadPreferences();
+    OA_Preferences::loadPreferences();
 
     // Load the required language files
     Language_Default::load();
