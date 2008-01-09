@@ -54,7 +54,7 @@ class Plugins_statisticsFieldsDelivery_default_default extends Plugins_statistic
             'id'               => array('name'   => MAX_Plugin_Translation::translate('_ID', $this->module, $this->package),
                                         'short'  => MAX_Plugin_Translation::translate('ID', $this->module, $this->package),
                                         'pref'   => 'gui_column_id',
-                                        'ctrl'     => 'OA_Admin_Statistics_CommonEntity',
+                                        'ctrl'   => 'OA_Admin_Statistics_CommonEntity',
                                         'format' => 'id'),
             'sum_requests'     => array('name'   => MAX_Plugin_Translation::translate('_Requests', $this->module, $this->package),
                                         'short'  => MAX_Plugin_Translation::translate('Requests', $this->module, $this->package),
