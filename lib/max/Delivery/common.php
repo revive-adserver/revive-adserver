@@ -308,12 +308,12 @@ function MAX_commonInitVariables()
             $what = '';
         }
     } elseif (preg_match('/^(.+):(.+)$/', $what, $matches)) {
-        switch ($matches[0]) {
+        switch ($matches[1]) {
             case 'zoneid':
-            case 'zone':        $zoneid     = $matches[1]; break;
-            case 'bannerid':    $bannerid   = $matches[1]; break;
-            case 'campaignid':  $campaignid = $matches[1]; break;
-            case 'clientid':    $clientid   = $matches[1]; break;
+            case 'zone':        $zoneid     = $matches[2]; break;
+            case 'bannerid':    $bannerid   = $matches[2]; break;
+            case 'campaignid':  $campaignid = $matches[2]; break;
+            case 'clientid':    $clientid   = $matches[2]; break;
         }
     }
 
