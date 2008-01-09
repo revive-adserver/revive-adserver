@@ -403,13 +403,6 @@ class OA_Admin_Option
                             case 'statscolumns':
                                 $this->_showStatsColumns($aItem, $value);
                                 break;
-                            case 'usertype_textboxes':
-                                $this->_showUsertypeTextboxes($aItem, $value);
-                                break;
-                            case 'usertype_checkboxes':
-                                $this->_showUsertypeCheckboxes($aItem, $value);
-                                $usertypebuffer .= "phpAds_UsertypeChange(findObj('".$aItem['name']."'));\n";
-                                break;
                         }
                         // ???
                         if (isset($aItem['check']) || isset($aItem['req'])) {
@@ -728,59 +721,12 @@ class OA_Admin_Option
         $tabindex += $rows * 3; // Not an exact increment of the tab index, but close enough!
     }
 
-    /**
-     * @todo The tabindex numeration will only work for situations where there
-     *       are three checkboxes in a row, an alternate solution will be needed
-     *       if we need more checkboxes in a row
-     *
-     * @param array $aItem
-     * @param int $value
-     */
-    function _showUsertypeCheckboxes($aItem, $value)
-    {
-        global $tabindex;
-
-        $aItem['tabindex'] = $tabindex;
-        $tabindex = $tabindex + 3;
-        $aItem['value'] = $value ? (int)$value : 0;
-
-        $this->oTpl->assign('isAdmin', OA_Permission::isAccount(OA_ACCOUNT_ADMIN));
-        $this->oTpl->assign('isManager', OA_Permission::isAccount(OA_ACCOUNT_MANAGER));
-        $this->oTpl->assign('isAdvertiser', OA_Permission::isAccount(OA_ACCOUNT_ADVERTISER));
-        $this->oTpl->assign('isTrafficker', OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER));
-        $this->_assignAccountsIds();
-        $this->aOption[] = array('usertype-checkboxes.html' => $aItem);
-    }
-
     function _assignAccountsIds()
     {
         $this->oTpl->assign('OA_ACCOUNT_ADMIN_ID',      OA_ACCOUNT_ADMIN_ID);
         $this->oTpl->assign('OA_ACCOUNT_MANAGER_ID',    OA_ACCOUNT_MANAGER_ID);
         $this->oTpl->assign('OA_ACCOUNT_ADVERTISER_ID', OA_ACCOUNT_ADVERTISER_ID);
         $this->oTpl->assign('OA_ACCOUNT_TRAFFICKER_ID', OA_ACCOUNT_TRAFFICKER_ID);
-    }
-
-    /**
-     * @todo The tabindex numeration will only work for situations where there
-     *       are three textboxes in a row, an alternate solution will be needed
-     *       if we need more texboxes in a row
-     *
-     * @param array $aItem
-     * @param string $value
-     */
-    function _showUsertypeTextboxes($aItem, $value)
-    {
-        global $tabindex;
-
-        $aItem['tabindex'] = $tabindex;
-        $tabindex = $tabindex + 3;
-
-        $value = unserialize($value);
-        foreach ($value as $key => $value) {
-            $aItem['value'][$key] = htmlspecialchars($value);
-        }
-        $this->_assignAccountsIds();
-        $this->aOption[]    = array('usertype-textboxes.html' => $aItem);
     }
 
     /**
