@@ -223,7 +223,7 @@ class OA_Preference
                     // Insert the preference
                     $doAccount_preference_assoc->value = $aSavePreferences[$aPreferenceType['preference_name']];
                     $result = $doAccount_preference_assoc->insert();
-                    if (!$result) {
+                    if ($result === false) {
                         return false;
                     }
                 } else {
@@ -231,7 +231,7 @@ class OA_Preference
                     $doAccount_preference_assoc->fetch();
                     $doAccount_preference_assoc->value = $aSavePreferences[$aPreferenceType['preference_name']];
                     $result = $doAccount_preference_assoc->update();
-                    if (!$result) {
+                    if ($result === false) {
                         return false;
                     }
                 }
@@ -247,7 +247,7 @@ class OA_Preference
                 if ($doAccount_preference_assoc->getRowCount() == 1) {
                     // Delete the preference
                     $result = $doAccount_preference_assoc->delete();
-                    if (!$result) {
+                    if ($result === false) {
                         return false;
                     }
                 }
