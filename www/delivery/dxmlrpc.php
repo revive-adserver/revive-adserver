@@ -1102,13 +1102,14 @@ $what = 'zone:'.$zoneid;
 } else {
 $what = '';
 }
-} elseif (preg_match('/^.+:.+$/', $what)) {
-list($whatName, $whatValue) = explode(':', $what);
-if ($whatName == 'zone') {
-$whatName = 'zoneid';
+} elseif (preg_match('/^(.+):(.+)$/', $what, $matches)) {
+switch ($matches[0]) {
+case 'zoneid':
+case 'zone':        $zoneid     = $matches[1]; break;
+case 'bannerid':    $bannerid   = $matches[1]; break;
+case 'campaignid':  $campaignid = $matches[1]; break;
+case 'clientid':    $clientid   = $matches[1]; break;
 }
-global $$whatName;
-$$whatName = $whatValue;
 }
 // 2.0 backwards compatibility - clientid parameter was used to fetch a campaign
 if (!isset($clientid))  $clientid = '';
