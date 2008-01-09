@@ -1,5 +1,5 @@
 body, table, td, select, textarea, input {
-    font-family: Helvetica,Tahoma,Verdana,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     font-size: 8pt;
     color: #444444;
 }
@@ -114,7 +114,7 @@ img#graph {
 
 .campaignOverview .campaigns li .title {
 	float: left;
-	width: 75%;
+	width: 73%;
 	overflow: hidden;
 	white-space: nowrap;
 	margin-right:2%;
