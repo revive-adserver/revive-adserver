@@ -297,7 +297,26 @@ class OA_Admin_Option
                             }
                         }
                         // Update the JavaScript used to enable/disabled option items
-                        $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
+                        if ($this->_optionType == 'account-preferences' && $aItem['type'] == 'statscolumns') {
+                            // The statscolumns data type needs to have some conversion work done to match
+                            // the more simple data structure used by other option items
+                            foreach ($aItem['rows'] as $aSubItem) {
+                                // Create two fake items for the label and rank
+                                $aLabelItem = array(
+                                    'name'    => $aSubItem['name'] . '_label',
+                                    'depends' => $aSubItem['name'] . '==true'
+                                );
+                                $aRankItem = array(
+                                    'name'    => $aSubItem['name'] . '_rank',
+                                    'depends' => $aSubItem['name'] . '==true'
+                                );
+                                // Add the fake item dependencies
+                                $dependbuffer .= $this->_showCheckDependancies($aData, $aLabelItem);
+                                $dependbuffer .= $this->_showCheckDependancies($aData, $aRankItem);
+                            }
+                        } else {
+                            $dependbuffer .= $this->_showCheckDependancies($aData, $aItem);
+                        }
                         // Display the option item
                         if (count($aErrors)) {
                             // Page is the result of an error message, get values from the input,
