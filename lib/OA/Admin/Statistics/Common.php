@@ -1472,7 +1472,7 @@ class OA_Admin_Statistics_Common extends OA_Admin_Statistics_Flexy
         foreach ($this->aColumns as $k => $v) {
             $fieldName = explode('sum_', $k);
             $sum = isset($fieldName[1]) ? $fieldName[1] : '';
-            $fieldName = 'gui_column_' . $sum . '_array';
+            $fieldName = 'ui_column_' . $sum . '_array';
             if (isset($GLOBALS['_MAX']['PREF'][$fieldName]) && is_array($GLOBALS['_MAX']['PREF'][$fieldName]) && $GLOBALS['_MAX']['PREF'][$fieldName][$GLOBALS['session']['usertype']]['show'] != 1) {
                 unset($this->aColumns[$k]);
             }
