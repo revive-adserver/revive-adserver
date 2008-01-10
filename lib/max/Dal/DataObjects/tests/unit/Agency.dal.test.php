@@ -51,52 +51,50 @@ class DataObjects_AgencyTest extends DalUnitTestCase
 
     function testInsert()
     {
-        // Insert default preferences
-        $doPreference = OA_Dal::factoryDO('preference');
-        $doPreference->agencyid = 0;
-        $doPreference->statslastday = '2007-04-03';
-        DataGenerator::generateOne($doPreference);
-
         // Insert an agency
+
+        $agencyName = 'Agency name';
+        $agencyContact = 'Agency contact';
+        $agencyContactEmail = 'agencycontact@example.com';
+
         $doAgency = OA_Dal::factoryDO('agency');
+        $doAgency->name = $agencyName;
+        $doAgency->contact = $agencyContact;
+        $doAgency->email = $agencyContactEmail;
+
         $agencyId = $doAgency->insert();
 
-        // and check preferences were inserted.
-        $doPreference = OA_Dal::staticGetDO('preference', $agencyId);
+        $doAgencyResult = OA_Dal::factoryDO('agency');
+        $doAgencyResult->get($agencyId);
 
-        $this->assertTrue($doPreference->getRowCount(), 1);
-        DataGenerator::cleanUp(array('agency', 'preference'));
+        $this->assertTrue($doAgencyResult->getRowCount(), 1);
+        $this->assertEqual($agencyName, $doAgencyResult->name);
+        $this->assertEqual($agencyContact, $doAgencyResult->contact);
+        $this->assertEqual($agencyContactEmail, $doAgencyResult->email);
+        DataGenerator::cleanUp(array('agency'));
     }
 
     function testUpdate()
     {
-        // Insert default prefs
-        $doPreference = OA_Dal::factoryDO('preference');
-        $doPreference->agencyid = 0;
-        $doPreference->statslastday = '2007-04-03';
-        DataGenerator::generateOne($doPreference);
-
         // Insert an agency
         $doAgency = OA_Dal::factoryDO('agency');
         $agencyId = $doAgency->insert();
 
         // Update the agency
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId);
-        $doAgency->language = 'foo';
         $doAgency->name = 'bar';
         $doAgency->contact = 'baz';
         $doAgency->email = 'quux';
         $doAgency->update();
 
-        // Test the prefs were updated too
-        $doPreference = OA_Dal::staticGetDO('preference', $agencyId);
+        $doAgencyResult = OA_Dal::staticGetDO('agency', $agencyId);
 
-        $this->assertEqual($doPreference->language, 'foo');
-        $this->assertEqual($doPreference->name, 'bar');
-        $this->assertEqual($doPreference->admin_fullname, 'baz');
-        $this->assertEqual($doPreference->admin_email, 'quux');
+        $this->assertTrue($doAgencyResult->getRowCount(), 1);
+        $this->assertEqual($doAgencyResult->name, 'bar');
+        $this->assertEqual($doAgencyResult->contact, 'baz');
+        $this->assertEqual($doAgencyResult->email, 'quux');
 
-        DataGenerator::cleanUp(array('agency', 'preference'));
+        DataGenerator::cleanUp(array('agency'));
 
     }
 

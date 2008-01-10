@@ -129,11 +129,6 @@ class DataObjects_Agency extends DB_DataObjectCommon
             $this->createUser($aUser);
         }
 
-        $doPreference = $this->factory('preference');
-        $doPreference->get($this->agencyid);
-        $doPreference = $this->_updatePreferences($doPreference);
-        $doPreference->update();
-
         $this->updateAccountName($this->name);
 
         return $ret;
@@ -152,23 +147,6 @@ class DataObjects_Agency extends DB_DataObjectCommon
         }
 
         return $result;
-    }
-
-    /**
-     * Overwrite preference settings with new
-     * values taken from agency
-     *
-     * @param object $doPreference
-     * @return object
-     */
-    function _updatePreferences($doPreference)
-    {
-        $doPreference->language = $this->language;
-        $doPreference->name     = $this->name;
-        $doPreference->admin_fullname = $this->contact;
-        $doPreference->admin_email = $this->email;
-
-        return $doPreference;
     }
 
     /**
