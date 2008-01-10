@@ -55,7 +55,6 @@ class OA_Test_Data
     var $doCampaignsTrackers;
     var $doChannel;
     var $doTrackers;
-    var $doPreference;
     var $doVariables;
 
 
@@ -72,8 +71,7 @@ class OA_Test_Data
                         'campaigns_trackers'=>array(),
                         'channel'=>array(),
                         'trackers'=>array(),
-                        'variables'=>array(),
-                        'preference'=>array(),
+                        'variables'=>array()
                       );
 
 
@@ -104,7 +102,6 @@ class OA_Test_Data
         $this->doCampaignsTrackers  = OA_Dal::factoryDO('campaigns_trackers');
         $this->doChannel            = OA_Dal::factoryDO('channel');
         $this->doTrackers           = OA_Dal::factoryDO('trackers');
-        $this->doPreference         = OA_Dal::factoryDO('preference');
         $this->doVariables          = OA_Dal::factoryDO('variables');
 
     }
@@ -276,18 +273,6 @@ class OA_Test_Data
     {
         $this->doVariables->setFrom($aData);
         return DataGenerator::generateOne($this->doVariables);
-    }
-
-    function _insertPreference($aData)
-    {
-        $this->doPreference->setFrom($aData);
-        return DataGenerator::generateOne($this->doPreference);
-    }
-
-    function _insertDefaultPreference()
-    {
-        $aData['agencyid'] = 0;
-        return $this->_insertPreference($aData);
     }
 
     /**
