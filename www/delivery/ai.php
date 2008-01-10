@@ -1565,8 +1565,8 @@ if (empty($aCreative)) {
 // Filename not found, show the admin user's default banner
 // (as the agency cannot be determined from a filename)
 $pref = OA_Preferences::loadAdminAccountPreferences(true);
-if ($pref['default_banner_url'] != "") {
-MAX_redirect($pref['default_banner_url']);
+if ($pref['default_banner_image_url'] != "") {
+MAX_redirect($pref['default_banner_image_url']);
 }
 } else {
 // Filename found, dump contents to browser
@@ -1594,8 +1594,8 @@ MAX_sendStatusCode(304);
 // Filename not specified, show the admin user's default banner
 // (as the agency cannot be determined from a filename)
 $aPref = OA_Preferences::loadAdminAccountPreferences(true);
-if ($aPref['default_banner_url'] != "") {
-MAX_redirect($aPref['default_banner_url']);
+if ($aPref['default_banner_image_url'] != "") {
+MAX_redirect($aPref['default_banner_image_url']);
 }
 }
 
