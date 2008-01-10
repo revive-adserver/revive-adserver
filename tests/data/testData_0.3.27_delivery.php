@@ -50,10 +50,6 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         // Disable Auditing while loading the test data:
         $GLOBALS['_MAX']['CONF']['audit']['enabled'] = false;
 
-        // agency 0
-
-        $this->_insertDefaultPreference();
-
         // agency
 
         $aAgency['name'] = 'agency';
