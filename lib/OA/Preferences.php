@@ -59,16 +59,32 @@ class OA_Preferences
      *                               at the current account level. If the current
      *                               account is the admin account, and this option
      *                               is true, no preferences will be loaded!
+     * @param boolean $loadAdminOnly An optional parameter, when set to true, loads
+     *                               the admin preferences only, EVEN IF NO ACCUONT
+     *                               IS LOGGED IN. If set to true, REQUIRES that the
+     *                               $parentOnly parameter is false. Should only
+     *                               ever be set when called from
+     *                               OA_Preferences::loadAdminAccountPreferences().
      * @return mixed The array of preferences if $return is true, otherwise null.
      */
-    function loadPreferences($loadExtraInfo = false, $return = false, $parentOnly = false)
+    function loadPreferences($loadExtraInfo = false, $return = false, $parentOnly = false, $loadAdminOnly = false)
     {
-        // Get the type of the current accout
-        $currentAccountType = OA_Permission::getAccountType();
-        // Is a user logged in?
-        if (is_null($currentAccountType)) {
+        // Ensure $parentOnly and $loadAdminOnly are correctly set
+        if ($parentOnly && $loadAdminOnly) {
+            // Cannot both be true!
             OA_Preferences::_unsetPreferences();
             return;
+        }
+        // Only worry about the current account type and if a user is logged
+        // in if $loadAdminOnly == false
+        if ($loadAdminOnly == false) {
+            // Get the type of the current accout
+            $currentAccountType = OA_Permission::getAccountType();
+            // Is a user logged in?
+            if (is_null($currentAccountType)) {
+                OA_Preferences::_unsetPreferences();
+                return;
+            }
         }
         // Get all of the preference types that exist
         $doPreferences = OA_Dal::factoryDO('preferences');
@@ -100,11 +116,11 @@ class OA_Preferences
         $aPreferences = array();
         // Put the admin account's preferences into the temporary
         // storage array for preferences
-        if (!($currentAccountType == OA_ACCOUNT_ADMIN && $parentOnly)) {
+        if ($loadAdminOnly == true || !($currentAccountType == OA_ACCOUNT_ADMIN && $parentOnly)) {
             OA_Preferences::_setPreferences($aPreferences, $aPreferenceTypes, $aAdminPreferenceValues, $loadExtraInfo);
         }
         // Is the current account NOT the admin account?
-        if ($currentAccountType != OA_ACCOUNT_ADMIN) {
+        if ($loadAdminOnly == false && $currentAccountType != OA_ACCOUNT_ADMIN) {
             // Is the current account not a manager account?
             if ($currentAccountType == OA_ACCOUNT_MANAGER) {
                 // This is a manager account
@@ -163,6 +179,32 @@ class OA_Preferences
             return $aPreferences;
         } else {
             $GLOBALS['_MAX']['PREF'] = $aPreferences;
+        }
+    }
+
+    /**
+     * A static method to load the admin account's preferences from the
+     * database and store them in the global array $GLOBALS['_MAX']['PREF'].
+     *
+     * Intended to be used to load "default" preferences in situations where
+     * there is no currently logged in account - that is, in certain cases
+     * in the delivery engine, for example!
+     *
+     * @static
+     * @param boolean $return An optional parameter, when set to true,
+     *                        returns the preferences instead of setting
+     *                        them into $GLOBALS['_MAX']['PREF'].
+     * @return mixed The array of preferences if $return is true, otherwise null.
+     */
+    function loadAdminAccountPreferences($return = false)
+    {
+        if ($return) {
+            // Return the admin account's preferences
+            $aPrefs = OA_Preferences::loadPreferences(false, true, false, true);
+            return $aPrefs;
+        } else {
+            // Load the admin account's preferences
+            OA_Preferences::loadPreferences(false, false, false, true);
         }
     }
 

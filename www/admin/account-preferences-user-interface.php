@@ -82,7 +82,6 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
             }
         }
     }
-
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements);
     if ($result) {

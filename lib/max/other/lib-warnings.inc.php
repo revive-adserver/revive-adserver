@@ -48,14 +48,12 @@ function phpAds_warningMail($campaign)
 			FROM ".$aConf['table']['prefix'].$aConf['table']['clients'] ."
 			WHERE clientid=". $oDbh->quote($campaign['clientid'], 'integer');
         $res = $oDbh->query($query);
-		if ($client = $res->fetchRow()) {
+        if ($client = $res->fetchRow()) {
             // Load config from the database
             if (!isset($GLOBALS['_MAX']['PREF'])) {
-                //phpAds_LoadDbConfig();
-                $pref = OA_Admin_Preferences::loadPrefs();
-            } else {
-	           $pref = $GLOBALS['_MAX']['PREF'];
+                OA_Preferences::loadPreferences();
             }
+            $pref = $GLOBALS['_MAX']['PREF'];
             // Required files
             include_once MAX_PATH . '/lib/max/language/Default.php';
             // Load the required language files
