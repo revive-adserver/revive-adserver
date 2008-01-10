@@ -50,7 +50,7 @@ define('MAX_DATAGENERATOR_DEFAULT_DATE_VALUE', date('Y-m-d'));
  *
  * Online manual: https://developer.openads.org/wiki/DataGenerator
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @author     Radek Maciaszek <radek.maciaszek@openads.org>
  *
  */
@@ -447,7 +447,7 @@ class DataGenerator
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
         $oDbh = OA_DB::singleton();
-        
+
         if ($aConf['database']['type'] == 'pgsql')
         {
             OA_DB::setCaseSensitive();
