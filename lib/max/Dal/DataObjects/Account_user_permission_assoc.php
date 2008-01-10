@@ -36,7 +36,7 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
 
     function _getContext()
     {
-        return 'Account User Preference Association';
+        return 'Account User Permission Association';
     }
 
     /**
