@@ -28,6 +28,9 @@
 $Id$
 */
 
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
+
+
 /**
  * A class for managing preferences within Openads.
  *
@@ -95,16 +98,7 @@ class OA_Preferences
             return;
         }
         // Get the admin account's ID, as this will be required
-        $doAccount = OA_Dal::factoryDO('accounts');
-        $doAccount->account_type = OA_ACCOUNT_ADMIN;
-        $doAccount->find();
-        if ($doAccount->getRowCount() != 1) {
-            OA_Preferences::_unsetPreferences();
-            return;
-        }
-        $doAccount->fetch();
-        $aAdminAccount = $doAccount->toArray();
-        $adminAccountId = $aAdminAccount['account_id'];
+        $adminAccountId = OA_Dal_ApplicationVariables::get('admin_account_id');
         // Get the admin account's preferences, as these are always required
         $aAdminPreferenceValues = OA_Preferences::_getPreferenceValues($adminAccountId);
         if (empty($aAdminPreferenceValues)) {
