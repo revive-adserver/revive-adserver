@@ -72,13 +72,16 @@ if (isset($_POST['submitok']) && $_POST['submitok'] == 'true') {
     // Statistics
     $aElements[] = 'ui_week_start_day';
     $aElements[] = 'ui_percentage_decimals';
-    // Stats columns in here!
-
-
-    /**
-     * @TODO Insert code for processing statistics column preferences!
-     */
-
+    // Stats columns
+    foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
+        $aVars = $oPlugin->getVisibilitySettings();
+        $aSuffixes = array('', '_label', '_rank');
+        foreach (array_keys($aVars) as $name) {
+            foreach ($aSuffixes as $suffix) {
+                $aElements[] = $name.$suffix;
+            }
+        }
+    }
 
     // Save the preferences
     $result = OA_Preferences::processPreferencesFromForm($aElements);
