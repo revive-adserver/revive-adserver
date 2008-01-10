@@ -1414,30 +1414,13 @@ class OA_Upgrade
     }
 
     /**
-     * insert admin record into preferences table
-     *
-     * @todo Remove admin stuff from prefs
+     * Create the admin user and account, plus a default manager
      *
      * @param array $aAdmin
      * @return boolean
      */
     function putAdmin($aAdmin)
     {
-        require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
-
-        // Insert basic preferences into database
-        $oPrefs = new OA_Admin_Preferences();
-
-        $oPrefs->setPrefChange('admin', $aAdmin['name']);
-        $oPrefs->setPrefChange('admin_email', $aAdmin['email']);
-        $oPrefs->setPrefChange('admin_pw', md5($aAdmin['pword']));
-
-        if (!$oPrefs->writePrefChange())
-        {
-            $this->oLogger->logError('error writing admin preference record');
-            return false;
-        }
-
         // Create Admin account
         $doAccount = OA_Dal::factoryDO('accounts');
         $doAccount->account_name = 'Administrator account';
@@ -1730,6 +1713,11 @@ class OA_Upgrade
         if (in_array($this->aDsn['table']['prefix'].'preference', $aExistingTables))
         {
             $this->oLogger->logError($oldTableMessagePrefix . $this->aDsn['table']['prefix'].'preference. ' . $oldTableMessagePostfix);
+            return false;
+        }
+        if (in_array($this->aDsn['table']['prefix'].'preferences', $aExistingTables))
+        {
+            $this->oLogger->logError($oldTableMessagePrefix . $this->aDsn['table']['prefix'].'preferences. ' . $oldTableMessagePostfix);
             return false;
         }
         $tablePrefixError = false;
