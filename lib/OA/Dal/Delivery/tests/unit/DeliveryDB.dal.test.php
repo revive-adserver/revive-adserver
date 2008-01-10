@@ -34,7 +34,7 @@ require_once 'Log.php';
 /**
  * A class for testing the Delivery Engine DAL class.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage TestSuite
  * @author     Unknown!
  *
