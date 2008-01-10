@@ -291,7 +291,7 @@ class OA_Admin_ExcelWriter
 
     function getPercentageDecimalFormat()
     {
-        for ($cnt = 0 ; $cnt < $GLOBALS['pref']['percentage_decimals']; $cnt++) {
+        for ($cnt = 0 ; $cnt < $GLOBALS['pref']['ui_percentage_decimals']; $cnt++) {
             $strPercentageDecimalPlaces .= '0';
         }
         $strPercentageDecimalFormat = '#,##0.'.$strPercentageDecimalPlaces.'%;-#,##0.'.$strPercentageDecimalPlaces.'%;-';

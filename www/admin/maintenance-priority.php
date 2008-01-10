@@ -117,7 +117,7 @@ function phpAds_showBanners()
 
 			echo "<td height='25'>".$rows[$key]['bannerid']."</td>";
 			echo "<td height='25'>".$rows[$key]['priority']."</td>";
-			echo "<td height='25'>".number_format($rows[$key]['priority'] / $prioritysum * 100, $pref['percentage_decimals'])."%</td>";
+			echo "<td height='25'>".number_format($rows[$key]['priority'] / $prioritysum * 100, $pref['ui_percentage_decimals'])."%</td>";
 
 			echo "</tr>";
 			$i++;

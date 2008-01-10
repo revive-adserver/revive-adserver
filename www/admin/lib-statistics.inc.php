@@ -306,7 +306,7 @@ function phpAds_formatPercentage($number, $decimals=-1)
     $pref = $GLOBALS['_MAX']['PREF'];
     global $phpAds_DecimalPoint, $phpAds_ThousandsSeperator;
     if ($decimals < 0) {
-        $decimals = $pref['percentage_decimals'];
+        $decimals = $pref['ui_percentage_decimals'];
     }
     return number_format($number*100, $decimals, $phpAds_DecimalPoint, $phpAds_ThousandsSeperator).'%';
 }

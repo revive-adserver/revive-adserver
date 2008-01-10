@@ -228,7 +228,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             button     : '{$this->_name}_start_button',
             align      : 'Bl',
             weekNumbers: false,
-            firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
+            firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false
         })
         Calendar.setup({
@@ -237,7 +237,7 @@ class Admin_UI_DaySpanField extends Admin_UI_Field
             button     : '{$this->_name}_end_button',
             align      : 'Bl',
             weekNumbers: false,
-            firstDay   : " . ($GLOBALS['pref']['begin_of_week'] ? 1 : 0) . ",
+            firstDay   : " . ($GLOBALS['pref']['ui_week_start_day'] ? 1 : 0) . ",
             electric   : false
         })
         // Tabindex handling

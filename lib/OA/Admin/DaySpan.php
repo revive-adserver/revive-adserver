@@ -139,8 +139,8 @@ class OA_Admin_DaySpan
      */
     function getBeginOfWeek()
     {
-        if (isset($GLOBALS['_MAX']['PREF']['begin_of_week'])) {
-            return $GLOBALS['_MAX']['PREF']['begin_of_week'];
+        if (isset($GLOBALS['_MAX']['PREF']['ui_week_start_day'])) {
+            return $GLOBALS['_MAX']['PREF']['ui_week_start_day'];
         }
         return 0;
     }

@@ -86,15 +86,15 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
     {
         $oDaySpan = new OA_Admin_DaySpan();
 
-        unset($GLOBALS['_MAX']['PREF']['begin_of_week']);
+        unset($GLOBALS['_MAX']['PREF']['ui_week_start_day']);
         $beginOfWeek = $oDaySpan->getBeginOfWeek();
         $this->assertEqual($beginOfWeek, 0);
 
-        $GLOBALS['_MAX']['PREF']['begin_of_week'] = 0;
+        $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 0;
         $beginOfWeek = $oDaySpan->getBeginOfWeek();
         $this->assertEqual($beginOfWeek, 0);
 
-        $GLOBALS['_MAX']['PREF']['begin_of_week'] = 1;
+        $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 1;
         $beginOfWeek = $oDaySpan->getBeginOfWeek();
         $this->assertEqual($beginOfWeek, 1);
     }
@@ -150,7 +150,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         $oDaySpan = new OA_Admin_DaySpan();
 
         // Test with start of week on Sunday
-        $GLOBALS['_MAX']['PREF']['begin_of_week'] = 0;
+        $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 0;
 
         $oDaySpan->oNowDate = new Date('2007-05-09');
 
@@ -179,7 +179,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-07'); // Only shows to today, not real "end of week".
 
         // Test with start of week on Monday
-        $GLOBALS['_MAX']['PREF']['begin_of_week'] = 1;
+        $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 1;
 
         $oDaySpan->oNowDate = new Date('2007-05-09');
 
@@ -217,7 +217,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         $oDaySpan = new OA_Admin_DaySpan();
 
         // Test with start of week on Sunday
-        $GLOBALS['_MAX']['PREF']['begin_of_week'] = 0;
+        $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 0;
 
         $oDaySpan->oNowDate = new Date('2007-05-09');
 
@@ -246,7 +246,7 @@ class Test_OA_Admin_DaySpan extends UnitTestCase
         $this->assertEqual($aDates['end']->format('%Y-%m-%d'),   '2007-05-05');
 
         // Test with start of week on Monday
-        $GLOBALS['_MAX']['PREF']['begin_of_week'] = 1;
+        $GLOBALS['_MAX']['PREF']['ui_week_start_day'] = 1;
 
         $oDaySpan->oNowDate = new Date('2007-05-09');
 

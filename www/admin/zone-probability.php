@@ -208,7 +208,7 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] * 100;
                 $usedHighProbability += $aLinkedAd['priority'];
                 $exactProbability = ($probability == 0) ? '0.00' : sprintf('%0.64f', $probability);
-                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['percentage_decimals'])."%</acronym></td>";
+                echo "<td height='25'><acronym title='{$exactProbability}%'>".number_format($probability, $pref['ui_percentage_decimals'])."%</acronym></td>";
 
                 // Priority
                 echo "<td height='25'>{$aLinkedAd['campaign_priority']}/10</td>";
@@ -298,7 +298,7 @@ function phpAds_showZoneBanners ($zoneId)
                 $probability = $aLinkedAd['priority'] / $aZoneLinkedAds['priority']['lAds'] * 100;
                 $realProbability = $probability * $ofPriority / 100;
                 $exactProbability = sprintf("%0.64f", $realProbability);
-                echo "<td height='25'><acronym title='{$exactProbability}'>".number_format($realProbability, $pref['percentage_decimals'])."%</acronym> (".number_format($probability, $pref['percentage_decimals'])."% of ".number_format($ofPriority, $pref['percentage_decimals'])."%)</td>";
+                echo "<td height='25'><acronym title='{$exactProbability}'>".number_format($realProbability, $pref['ui_percentage_decimals'])."%</acronym> (".number_format($probability, $pref['ui_percentage_decimals'])."% of ".number_format($ofPriority, $pref['ui_percentage_decimals'])."%)</td>";
 
                 echo "<td height='25'>{$aLinkedAd['campaign_weight']}</td>";
 
