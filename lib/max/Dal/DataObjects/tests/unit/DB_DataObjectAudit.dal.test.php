@@ -27,6 +27,8 @@ $Id$
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/max/Dal/tests/util/DalUnitTestCase.php';
 
+require_once MAX_PATH . '/lib/OA/Preferences.php';
+
 define('OA_TEST_AUDIT_USERNAME', 'username');
 
 /**
@@ -102,6 +104,267 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
             $aResult[$idx]['array']   = unserialize($aRow['details']);
         }
         return $aResult;
+    }
+
+    function testAuditAccounts()
+    {
+        global $session;
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
+        $session['userid']   = rand(11,20);
+        $session['usertype'] = rand(1,10);
+
+        $doAccounts = OA_Dal::factoryDO('accounts');
+        $doAccounts->account_name = 'Administrator Account';
+        $doAccounts->account_type = OA_ACCOUNT_ADMIN;
+        $accountId = DataGenerator::generateOne($doAccounts);
+        $context = 'Account';
+
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$accountId);
+        $this->assertEqual($aAudit['key_desc'],$doAccounts->account_name);
+        $this->assertEqual($aAudit['account_id'],$accountId);
+
+        $doAccounts = OA_Dal::staticGetDO('accounts', $accountId);
+        $doAccounts->account_name = 'Administrator Account Changed';
+        $doAccounts->update();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['account_name']['is'],$doAccounts->account_name);
+        $this->assertEqual($aAudit['account_name']['was'],'Administrator Account');
+
+        $doAccounts->delete();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['account_id'],$accountId);
+
+        DataGenerator::cleanUp(array('accounts', 'audit'));
+
+    }
+
+    function testAuditUsers()
+    {
+        global $session;
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
+        $session['userid']   = rand(11,20);
+        $session['usertype'] = rand(1,10);
+
+        $doUsers = OA_Dal::factoryDO('users');
+        $doUsers->contact_name = 'Test User';
+        $doUsers->email_address = 'test.user@openads.org';
+        $doUsers->username = 'admin';
+        $doUsers->password = md5('password');
+        $doUsers->default_account_id = 1;
+        $userId = DataGenerator::generateOne($doUsers);
+        $context = 'User';
+
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$userId);
+        $this->assertEqual($aAudit['key_desc'],$doUsers->username);
+        $this->assertEqual($aAudit['user_id'],$doUsers->user_id);
+        $this->assertEqual($aAudit['contact_name'],$doUsers->contact_name);
+        $this->assertEqual($aAudit['username'],$doUsers->username);
+        $this->assertEqual($aAudit['password'],'******');
+        $this->assertEqual($aAudit['default_account_id'],$doUsers->default_account_id);
+        $this->assertEqual($aAudit['email_address'],$doUsers->email_address);
+
+        $doUsers = OA_Dal::staticGetDO('users', $userId);
+        $doUsers->contact_name = 'Test User Changed';
+        $doUsers->update();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['contact_name']['is'],$doUsers->contact_name);
+        $this->assertEqual($aAudit['contact_name']['was'],'Test User');
+
+        $doUsers->delete();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['user_id'],$doUsers->user_id);
+
+        DataGenerator::cleanUp(array('users', 'audit'));
+    }
+
+    function testAuditPreferences()
+    {
+        global $session;
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
+        $session['userid']   = rand(11,20);
+        $session['usertype'] = rand(1,10);
+
+        $doPreferences = OA_Dal::factoryDO('preferences');
+        $doPreferences->preference_name = 'Test Preference';
+        $preferenceId = DataGenerator::generateOne($doPreferences);
+        $context = 'Preference';
+
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,$preferenceId);
+        $this->assertEqual($aAudit['key_desc'],$doPreferences->preference_name);
+        $this->assertEqual($aAudit['preference_id'],$preferenceId);
+        $this->assertEqual($aAudit['preference_name'],$doPreferences->preference_name);
+
+        $doPreferences = OA_Dal::staticGetDO('preferences', $preferenceId);
+        $doPreferences->preference_name = 'Test Preference Changed';
+        $doPreferences->update();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['preference_name']['is'],$doPreferences->preference_name);
+        $this->assertEqual($aAudit['preference_name']['was'],'Test Preference');
+
+        $doPreferences->delete();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['preference_id'],$preferenceId);
+
+        DataGenerator::cleanUp(array('users', 'audit'));
+    }
+
+    function testAuditAccountPreferenceAssoc()
+    {
+        global $session;
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
+        $session['userid']   = rand(11,20);
+        $session['usertype'] = rand(1,10);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = 1;
+        $doAccount_Preference_Assoc->preference_id = 1;
+        $doAccount_Preference_Assoc->value = 'foo';
+        DataGenerator::generateOne($doAccount_Preference_Assoc);
+        $context = 'Account Preference Association';
+
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,0);  // there is no unique id
+        $this->assertEqual($aAudit['key_desc'],'Account #1 -> Preference #1');
+        $this->assertEqual($aAudit['account_id'],$doAccount_Preference_Assoc->account_id);
+        $this->assertEqual($aAudit['preference_id'],$doAccount_Preference_Assoc->preference_id);
+        $this->assertEqual($aAudit['value'],$doAccount_Preference_Assoc->value);
+
+        $doAccount_Preference_Assoc = OA_Dal::factoryDO('account_preference_assoc');
+        $doAccount_Preference_Assoc->account_id = 1;
+        $doAccount_Preference_Assoc->preference_id = 1;
+        $doAccount_Preference_Assoc->find(true);
+        $doAccount_Preference_Assoc->value = 'bar';
+        $doAccount_Preference_Assoc->update();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['value']['is'],$doAccount_Preference_Assoc->value);
+        $this->assertEqual($aAudit['value']['was'],'foo');
+
+        $doAccount_Preference_Assoc->delete();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        //$this->assertEqual($aAudit['preference_id'],$preferenceId);
+
+        DataGenerator::cleanUp(array('account_preference_assoc', 'audit'));
+    }
+
+    function testAuditAccountUserPermissionAssoc()
+    {
+        global $session;
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
+        $session['userid']   = rand(11,20);
+        $session['usertype'] = rand(1,10);
+
+        $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->user_id = 2;
+        $doAccount_User_Perm_Assoc->permission_id = 3;
+        $doAccount_User_Perm_Assoc->is_allowed = 1;
+        DataGenerator::generateOne($doAccount_User_Perm_Assoc);
+        $context = 'Account User Permission Association';
+
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,0);  // there is no unique id
+        $this->assertEqual($aAudit['key_desc'],'Account #1 -> User #2 -> Permission #3');
+        $this->assertEqual($aAudit['account_id'],$doAccount_User_Perm_Assoc->account_id);
+        $this->assertEqual($aAudit['user_id'],$doAccount_User_Perm_Assoc->user_id);
+        $this->assertEqual($aAudit['permission_id'],$doAccount_User_Perm_Assoc->permission_id);
+        $this->assertEqual($aAudit['is_allowed'],$doAccount_User_Perm_Assoc->is_allowed);
+
+        $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->user_id = 2;
+        $doAccount_User_Perm_Assoc->permission_id = 3;
+        $doAccount_User_Perm_Assoc->find(true);
+        $doAccount_User_Perm_Assoc->is_allowed = 0;
+        $doAccount_User_Perm_Assoc->update();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['is_allowed']['is'],'0');
+        $this->assertEqual($aAudit['is_allowed']['was'],'1');
+
+        $doAccount_User_Perm_Assoc->delete();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['key_desc'],'Account #1 -> User #2 -> Permission #3');
+        $this->assertEqual($aAudit['account_id'],$doAccount_User_Perm_Assoc->account_id);
+        $this->assertEqual($aAudit['user_id'],$doAccount_User_Perm_Assoc->user_id);
+
+        DataGenerator::cleanUp(array('account_user_permission_assoc', 'audit'));
+    }
+
+    function testAuditAccountUserAssoc()
+    {
+        global $session;
+        $session['username'] = OA_TEST_AUDIT_USERNAME;
+        $session['userid']   = rand(11,20);
+        $session['usertype'] = rand(1,10);
+
+        $doAccount_User_Perm_Assoc = OA_Dal::factoryDO('account_user_permission_assoc');
+        $doAccount_User_Perm_Assoc->account_id = 1;
+        $doAccount_User_Perm_Assoc->user_id = 2;
+        $doAccount_User_Perm_Assoc->permission_id = 3;
+        $doAccount_User_Perm_Assoc->is_allowed = 1;
+        DataGenerator::generateOne($doAccount_User_Perm_Assoc);
+
+        $doAccount_User_Assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_User_Assoc->account_id = 1;
+        $doAccount_User_Assoc->user_id = 2;
+        DataGenerator::generateOne($doAccount_User_Assoc);
+        $context = 'Account User Association';
+
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($oAudit->contextid,0);  // there is no unique id
+        $this->assertEqual($aAudit['key_desc'],'Account #1 -> User #2');
+        $this->assertEqual($aAudit['account_id'],$doAccount_User_Assoc->account_id);
+        $this->assertEqual($aAudit['user_id'],$doAccount_User_Assoc->user_id);
+
+        $doAccount_User_Assoc = OA_Dal::factoryDO('account_user_assoc');
+        $doAccount_User_Assoc->account_id = 1;
+        $doAccount_User_Assoc->user_id = 2;
+
+        // ARE THEY EVER UPDATED?  ONLY INSERTED/DELETED?
+
+        $doAccount_User_Assoc->delete();
+        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
+        $aAudit = unserialize($oAudit->details);
+        $this->assertEqual($oAudit->username,$session['username']);
+        $this->assertEqual($aAudit['key_desc'],'Account #1 -> User #2');
+        $this->assertEqual($aAudit['account_id'],$doAccount_User_Assoc->account_id);
+        $this->assertEqual($aAudit['user_id'],$doAccount_User_Assoc->user_id);
+
+        DataGenerator::cleanUp(array('audit'));
     }
 
     function testAuditZone()
@@ -587,127 +850,6 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         DataGenerator::cleanUp(array('acls', 'audit'));
     }
 
-    function testAuditPreference()
-    {
-        global $session;
-        $session['username'] = OA_TEST_AUDIT_USERNAME;
-        $session['userid']   = rand(11,20);
-        $session['usertype'] =  rand(1,10);
-        $doPreference = OA_Dal::factoryDO('preference');
-
-        $doPreference->agencyid = 0;
-        $doPreference->name = 'Default Agency';
-        // perference DataObject seems to have audit disabled, why do we test preference audit then?
-        $agencyId = DataGenerator::generateOne($doPreference);
-        $context = 'Preference';
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($oAudit->contextid,$doPreference->agencyid);
-        $this->assertEqual($aAudit['key_desc'],$doPreference->name);
-        $this->assertEqual($aAudit['agencyid'],$doPreference->agencyid);
-        $this->assertEqual($aAudit['name'],$doPreference->name);
-
-        $doPreference->name = 'Default Agency Changed';
-        $doPreference->update();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['name']['is'],$doPreference->name);
-        $this->assertEqual($aAudit['name']['was'],'Default Agency');
-
-        $doPreference->delete();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['agencyid'],0);
-        $this->assertEqual($aAudit['name'],$doPreference->name);
-
-        DataGenerator::cleanUp(array('preference','audit'));
-    }
-
-    function testAuditPreferenceAdvertiser()
-    {
-        global $session;
-        $session['username'] = OA_TEST_AUDIT_USERNAME;
-        $session['userid']   = rand(11,20);
-        $session['usertype'] =  rand(1,10);
-        $doAdPreference = OA_Dal::factoryDO('preference_advertiser');
-
-        $doAdPreference->advertiser_id = rand(2,5);
-        $doAdPreference->preference = 'My Ad Pref A';
-        $doAdPreference->value = 'My Ad Value A';
-        $advertiserId = DataGenerator::generateOne($doAdPreference);
-        $context = 'Advertiser Preference';
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($oAudit->contextid,$advertiserId);
-        $this->assertEqual($aAudit['key_desc'],'');
-        $this->assertEqual($aAudit['advertiser_id'],$advertiserId);
-        $this->assertEqual($aAudit['preference'],$doAdPreference->preference);
-        $this->assertEqual($aAudit['value'],$doAdPreference->value);
-
-        $doAdPreference->value = 'My Ad Value B';
-        $doAdPreference->update();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['value']['is'],$doAdPreference->value);
-        $this->assertEqual($aAudit['value']['was'],'My Ad Value A');
-
-        $doAdPreference->delete();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['advertiser_id'],$doAdPreference->advertiser_id);
-        $this->assertEqual($aAudit['preference'],$doAdPreference->preference);
-        $this->assertEqual($aAudit['value'],$doAdPreference->value);
-
-        DataGenerator::cleanUp(array('preference_advertiser','audit'));
-    }
-
-    function testAuditPreferencePublisher()
-    {
-        global $session;
-        $session['username'] = OA_TEST_AUDIT_USERNAME;
-        $session['userid']   = rand(11,20);
-        $session['usertype'] =  rand(1,10);
-        $doPubPreference = OA_Dal::factoryDO('preference_publisher');
-
-        $doPubPreference->publisher_id = rand(2,5);
-        $doPubPreference->preference = 'My Pub Pref A';
-        $doPubPreference->value = 'My Pub Value A';
-        $publisherId = DataGenerator::generateOne($doPubPreference);
-        $context = 'Publisher Preference';
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_INSERT);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($oAudit->contextid,$publisherId);
-        $this->assertEqual($aAudit['key_desc'],'');
-        $this->assertEqual($aAudit['publisher_id'],$publisherId);
-        $this->assertEqual($aAudit['preference'],$doPubPreference->preference);
-        $this->assertEqual($aAudit['value'],$doPubPreference->value);
-
-        $doPubPreference->value = 'My Pub Value B';
-        $doPubPreference->update();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_UPDATE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['value']['is'],$doPubPreference->value);
-        $this->assertEqual($aAudit['value']['was'],'My Pub Value A');
-
-        $doPubPreference->delete();
-        $oAudit = $this->_fetchAuditRecord($context, OA_AUDIT_ACTION_DELETE);
-        $aAudit = unserialize($oAudit->details);
-        $this->assertEqual($oAudit->username,$session['username']);
-        $this->assertEqual($aAudit['publisher_id'],$doPubPreference->publisher_id);
-        $this->assertEqual($aAudit['preference'],$doPubPreference->preference);
-        $this->assertEqual($aAudit['value'],$doPubPreference->value);
-
-        DataGenerator::cleanUp(array('preference_publisher','audit'));
-    }
-
     function testAuditAgency()
     {
         global $session;
@@ -721,18 +863,8 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
 
         $session['user'] = $oUser;
 
-        // setup a default preference record
-        // audit event 1
-        $doPreference = OA_Dal::factoryDO('preference');
-        $doPreference->agencyid = 0;
-        $doPreference->name = 'Default Agency';
-        $doPreference->language = 'English';
-        $doPreference->admin_fullname = 'Default Admin';
-        $doPreference->admin_email = 'admin@default.com';
-        $agencyId0 = DataGenerator::generateOne($doPreference);
-
         // insert an agency record
-        // audit event 2 & 3
+        // audit event 1 & 2
         $doAgency = OA_Dal::factoryDO('agency');
         $doAgency->name = 'Agency';
         $doAgency->language = 'French';
@@ -741,7 +873,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $agencyId1 = DataGenerator::generateOne($doAgency);
 
         // change the agency record
-        // audit event 4 & 5
+        // audit event 3 & 4
         $doAgency = OA_Dal::staticGetDO('agency', $agencyId1);
         $doAgency->name = 'Agency Changed';
         $doAgency->language = 'German';
@@ -750,7 +882,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $doAgency->update();
 
         // add a client for this agency
-        // audit event 6
+        // audit event 5 & 6
         $doClients = OA_Dal::factoryDO('clients');
         $doClients->agencyid = $agencyId1;
         $doClients->clientname = 'Client A';
@@ -758,28 +890,28 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $clientId = DataGenerator::generateOne($doClients);
 
         // delete the agency record
-        // audit event 7 & 8 & 9 (1 agency, 1 client, 1 pref)
+        // audit event 7 & 8 & 9 (1 agency, 1 client, 1 acc)
         $doAgency->delete();
 
         $aAudit = $this->_fetchAuditArrayAll();
         $this->assertEqual(count($aAudit), 9,'wrong number of audit records');
 
-        // test 1: default agency preference insert audited
+        // test 1: default agency account insert audited
         $this->assertTrue(isset($aAudit[1]));
         $aEvent = $aAudit[1];
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],1);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
-        $this->assertEqual($aEvent['context'],'Preference');
+        $this->assertEqual($aEvent['context'],'Account');
         // we decided to remove usertype
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertIsA($aEvent['array'], 'array');
-        $this->assertEqual($aEvent['array']['key_field'],0);
-        $this->assertEqual($aEvent['array']['key_desc'],'Default Agency');
-        $this->assertEqual($aEvent['array']['agencyid'],0);
-        $this->assertEqual($aEvent['array']['name'],'Default Agency');
-        $this->assertEqual($aEvent['array']['admin_fullname'],'Default Admin');
+        //$this->assertEqual($aEvent['array']['key_field'],0);
+        $this->assertEqual($aEvent['array']['key_desc'],'Agency');
+        //$this->assertEqual($aEvent['array']['account_id'],0);
+        $this->assertEqual($aEvent['array']['account_name'],'Agency');
+        $this->assertEqual($aEvent['array']['account_type'],'MANAGER');
 
         // test 2: new agency insert audited
         $this->assertTrue(isset($aAudit[2]));
@@ -797,21 +929,25 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['name'],'Agency');
         $this->assertEqual($aEvent['array']['contact'],'Agency Admin');
 
-        // test 3: new agency preference insert audited
+/*  WORK IN PROGRESS !!!!
+        // test 3: agency account changed
         $this->assertTrue(isset($aAudit[3]));
         $aEvent = $aAudit[3];
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],3);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
-        $this->assertEqual($aEvent['context'],'Preference');
+        $this->assertEqual($aEvent['context'],'Agency');
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
-        $this->assertEqual($aEvent['array']['key_desc'],'Agency');
-        $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
-        $this->assertEqual($aEvent['array']['name'],'Agency');
-        $this->assertEqual($aEvent['array']['admin_fullname'],'Agency Admin');
+        $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
+        $this->assertEqual($aEvent['array']['contact']['is'],'Agency Admin Changed');
+        $this->assertEqual($aEvent['array']['contact']['was'],'Agency Admin');
+        $this->assertEqual($aEvent['array']['email']['is'],'admin@agency.com');
+        $this->assertEqual($aEvent['array']['email']['was'],'newadmin@agency.com');
+        $this->assertEqual($aEvent['array']['name']['is'],'Agency Changed');
+        $this->assertEqual($aEvent['array']['name']['was'],'Agency');
 
         // test 4: new agency update audited
         $this->assertTrue(isset($aAudit[4]));
@@ -819,31 +955,29 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],4);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_UPDATE);
-        $this->assertEqual($aEvent['context'],'Agency');
+        $this->assertEqual($aEvent['context'],'Account');
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
-        $this->assertEqual($aEvent['contextid'],$agencyId1);
+        //$this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
         $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
-        $this->assertEqual($aEvent['array']['name']['is'],'Agency Changed');
-        $this->assertEqual($aEvent['array']['name']['was'],'Agency');
+        $this->assertEqual($aEvent['array']['account_name']['is'],'Agency Changed');
+        $this->assertEqual($aEvent['array']['account_name']['was'],'Agency');
 
-        // test 5: new agency preference update audited
+        // test 5: new agency preferences update audited
         $this->assertTrue(isset($aAudit[5]));
         $aEvent = $aAudit[5];
         $this->assertIsA($aEvent, 'array');
         $this->assertEqual($aEvent['auditid'],5);
-        $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_UPDATE);
-        $this->assertEqual($aEvent['context'],'Preference');
+        $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_INSERT);
+        $this->assertEqual($aEvent['context'],'Account');
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
-        $this->assertEqual($aEvent['contextid'],$agencyId1);
+        //$this->assertEqual($aEvent['contextid'],$agencyId1);
         $this->assertIsA($aEvent['array'], 'array');
-        $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
-        $this->assertEqual($aEvent['array']['name']['is'],'Agency Changed');
-        $this->assertEqual($aEvent['array']['name']['was'],'Agency');
-        $this->assertEqual($aEvent['array']['language']['is'],'German');
-        $this->assertEqual($aEvent['array']['language']['was'],'French');
+        $this->assertEqual($aEvent['array']['key_desc'],'Client A');
+        $this->assertEqual($aEvent['array']['account_name'],'Client A');
+        $this->assertEqual($aEvent['array']['account_type'],'ADVERTISER');
 
         // test 6: new client insert audited
         $this->assertTrue(isset($aAudit[6]));
@@ -892,13 +1026,13 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['clientname'],'Client A');
         $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
 
-        // test 9: new agency preference delete audited
-        $this->assertTrue(isset($aAudit[9]));
-        $aEvent = $aAudit[9];
+        // test 9: new agency preferences delete audited
+        $this->assertTrue(isset($aAudit[10]));
+        $aEvent = $aAudit[10];
         $this->assertIsA($aEvent, 'array');
-        $this->assertEqual($aEvent['auditid'],9);
+        $this->assertEqual($aEvent['auditid'],10);
         $this->assertEqual($aEvent['actionid'],OA_AUDIT_ACTION_DELETE);
-        $this->assertEqual($aEvent['context'],'Preference');
+        $this->assertEqual($aEvent['context'],'Account');
         $this->assertEqual($aEvent['userid'],$userId);
         $this->assertEqual($aEvent['username'],$session['username']);
         $this->assertEqual($aEvent['contextid'],$agencyId1);
@@ -906,9 +1040,8 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($aEvent['array']['key_desc'],'Agency Changed');
         $this->assertEqual($aEvent['array']['agencyid'],$agencyId1);
         $this->assertEqual($aEvent['array']['name'],'Agency Changed');
-
-
-        DataGenerator::cleanUp(array('agency', 'preference', 'audit'));
+*/
+        DataGenerator::cleanUp(array('agency', 'clients', 'audit'));
     }
 
     function testAuditParentId()

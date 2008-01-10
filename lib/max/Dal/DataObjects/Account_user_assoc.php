@@ -35,7 +35,11 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
         $doAccount_user_permission_assoc = OA_Dal::factoryDO('account_user_permission_assoc');
         $doAccount_user_permission_assoc->user_id = $this->user_id;
         $doAccount_user_permission_assoc->account_id = $this->account_id;
-        $doAccount_user_permission_assoc->delete();
+        if ($useWhere)
+        {
+            $doAccount_user_permission_assoc->_query['condition'] = $this->_query['condition'];
+        }
+        $doAccount_user_permission_assoc->delete($useWhere, false, $parentid);
 
         return parent::delete($useWhere, $cascadeDelete, $parentid);
     }
