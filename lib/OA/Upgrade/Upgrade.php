@@ -1484,6 +1484,58 @@ class OA_Upgrade
             return false;
         }
 
+        // Preferences handling
+        $oPreferences = new OA_Preferences();
+        $aPrefs = $oPreferences->getPreferenceDefaults();
+
+        // Override default language
+        if (isset($aPrefs['language'])) {
+            $aPrefs['language']['default'] = $GLOBALS['_MAX']['CONF']['max']['language'];
+        }
+
+        // Override default timezone
+        if (isset($aPrefs['timezone'])) {
+            $aPrefs['timezone']['default'] = $GLOBALS['_MAX']['CONF']['timezone']['location'];
+        }
+
+        // Insert preferences and return
+        return $this->putDefaultPreferences($adminAccountId);
+    }
+
+    /**
+     * A method to inser initialise the preferences table and insert the default prefs
+     *
+     * @param int $adminAccountId
+     * @return bool
+     */
+    function putDefaultPreferences($adminAccountId)
+    {
+        require_once MAX_PATH . '/lib/OA/Preferences.php';
+
+        // Insert default prefs
+        foreach ($aPrefs as $prefName => $aPref) {
+            $doPreferences = OA_Dal::factoryDO('preferences');
+            $doPreferences->preference_name = $prefName;
+            $doPreferences->account_type = empty($aPref['account_type']) ? '' : $aPref['account_type'];
+            $preferenceId = $doPreferences->insert();
+
+            if (!$preferenceId) {
+                $this->oLogger->logError("error adding preference entry: $prefName");
+                return false;
+            }
+
+            $doAPA = OA_Dal::factoryDO('account_preference_assoc');
+            $doAPA->account_id    = $adminAccountId;
+            $doAPA->preference_id = $preferenceId;
+            $doAPA->value         = $aPref['default'];
+            $result = $doAPA->insert();
+
+            if (!$result) {
+                $this->oLogger->logError("error adding preference default for $prefName: '".$aPref['default']."'");
+                return false;
+            }
+        }
+
         return true;
     }
 

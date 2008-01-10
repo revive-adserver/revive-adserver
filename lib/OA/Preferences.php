@@ -400,6 +400,86 @@ class OA_Preferences
         }
     }
 
+    /**
+     * A static method which returns defaults and account_types for the supported preferences
+     *
+     * @static
+     *
+     * @return array A preferences array, with the following format:
+     *
+     *      array(
+     *          'preference_name' => array(
+     *              'account_type' => OA_ACCOUNT_MANAGER,
+     *              'default'      => 'foo'
+     *          ),
+     *          ...
+     *      )
+     */
+    function getPreferenceDefaults()
+    {
+        $aPrefs = array(
+            'default_banner_image_url'                      => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''),
+            'default_banner_destination_url'                => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => ''),
+            'auto_alter_html_banners_for_click_tracking'    => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true),
+            'default_banner_weight'                         => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1),
+            'default_campaign_weight'                       => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1),
+            'warn_email_admin'                              => array('account_type' => OA_ACCOUNT_ADMIN,        'default' => true),
+            'warn_email_admin_impression_limit'             => array('account_type' => OA_ACCOUNT_ADMIN,        'default' => 100),
+            'warn_email_admin_day_limit'                    => array('account_type' => OA_ACCOUNT_ADMIN,        'default' => 1),
+            'warn_email_manager'                            => array('account_type' => OA_ACCOUNT_MANAGER,      'default' => true),
+            'warn_email_manager_impression_limit'           => array('account_type' => OA_ACCOUNT_MANAGER,      'default' => 100),
+            'warn_email_manager_day_limit'                  => array('account_type' => OA_ACCOUNT_MANAGER,      'default' => 1),
+            'warn_email_advertiser'                         => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true),
+            'warn_email_advertiser_impression_limit'        => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 100),
+            'warn_email_advertiser_day_limit'               => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => 1),
+            'language'                                      => array('account_type' => null,                    'default' => ''),
+            'timezone'                                      => array('account_type' => OA_ACCOUNT_MANAGER,      'default' => ''),
+            'tracker_default_status'                        => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_STATUS_APPROVED),
+            'tracker_default_type'                          => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => MAX_CONNECTION_TYPE_SALE),
+            'tracker_link_campaigns'                        => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false),
+            'ui_show_campaign_info'                         => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true),
+            'ui_show_banner_info'                           => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true),
+            'ui_show_campaign_preview'                      => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false),
+            'ui_show_banner_html'                           => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => false),
+            'ui_show_banner_preview'                        => array('account_type' => OA_ACCOUNT_ADVERTISER,   'default' => true),
+            'ui_hide_inactive'                              => array('account_type' => null,                    'default' => false),
+            'ui_show_matching_banners'                      => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => true),
+            'ui_show_matching_banners_parents'              => array('account_type' => OA_ACCOUNT_TRAFFICKER,   'default' => false),
+            'ui_novice_user'                                => array('account_type' => null,                    'default' => true),
+            'ui_week_start_day'                             => array('account_type' => null,                    'default' => 1),
+            'ui_percentage_decimals'                        => array('account_type' => null,                    'default' => 2),
+        );
+
+        $aStatisticsFieldsDeliveryPlugins = &MAX_Plugin::getPlugins('statisticsFieldsDelivery');
+        uasort($aStatisticsFieldsDeliveryPlugins, array('OA_Admin_Statistics_Common', '_pluginSort'));
+
+        foreach ($aStatisticsFieldsDeliveryPlugins as $oPlugin) {
+            foreach (array_keys($oPlugin->getVisibilitySettings()) as $prefName) {
+                $aPrefs[$prefName]          = array('account_type' => OA_ACCOUNT_MANAGER, 'default' => false);
+                $aPrefs[$prefName.'_label'] = array('account_type' => OA_ACCOUNT_MANAGER, 'default' => '');
+                $aPrefs[$prefName.'_rank']  = array('account_type' => OA_ACCOUNT_MANAGER, 'default' => 0);
+            }
+        }
+
+        $aDefaultColumns = array(
+            'ui_column_impressions',
+            'ui_column_clicks',
+            'ui_column_ctr',
+            'ui_column_revenue',
+            'ui_column_ecpm',
+        );
+
+        $rank = 1;
+        foreach ($aDefaultColumns as $prefName) {
+            if (isset($aPrefs[$prefName])) {
+                $aPrefs[$prefName]['default']         = true;
+                $aPrefs[$prefName.'_rank']['default'] = $rank++;
+            }
+        }
+
+        return $aPrefs;
+    }
+
 }
 
 ?>
