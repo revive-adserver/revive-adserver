@@ -33,8 +33,9 @@ $Id:$
 
 
 /**
- * Stistics methods description Ñ?lass.
+ * Satistics methods description class.
  *
+ * @package    OpenadsDal
  */
 class OA_Dal_Statistics extends OA_Dal
 {
