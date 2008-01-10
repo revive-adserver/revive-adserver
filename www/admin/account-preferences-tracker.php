@@ -107,7 +107,7 @@ $aSettings = array (
         'items' => array (
             array (
                 'type'    => 'select',
-                'name'    => 'default_tracker_status',
+                'name'    => 'tracker_default_status',
                 'text'    => $strDefaultTrackerStatus,
                 'items'   => $aStatuses
             ),
@@ -116,7 +116,7 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'select',
-                'name'    => 'default_tracker_type',
+                'name'    => 'tracker_default_type',
                 'text'    => $strDefaultTrackerType,
                 'items'   => $aTrackerTypes
             ),
@@ -125,7 +125,7 @@ $aSettings = array (
             ),
             array (
                 'type'    => 'checkbox',
-                'name'    => 'default_tracker_linkcampaigns',
+                'name'    => 'tracker_link_campaigns',
                 'text'    => $strLinkCampaignsByDefault
             )
         )

@@ -226,7 +226,7 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     $row['trackername']  .= $strDefault." ".$strTracker;
     $row['clickwindow']   = $conf['logging']['defaultImpressionConnectionWindow'];
     $row['viewwindow']    = $conf['logging']['defaultClickConnectionWindow'];
-    $row['status']        = isset($pref['default_tracker_status']) ? $pref['default_tracker_status'] : MAX_CONNECTION_STATUS_APPROVED;
+    $row['status']        = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
     $row['type']          = isset($pref['default_tracker_type']) ? $pref['default_tracker_type'] : MAX_CONNECTION_TYPE_SALE;
     $row['linkcampaigns'] = isset($pref['default_tracker_linkcampaigns']) ? $pref['default_tracker_linkcampaigns'] : 'f';
 
