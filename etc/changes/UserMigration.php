@@ -24,6 +24,7 @@ class UserMigration extends Migration
 	    $tblSource   = $oDbh->quoteIdentifier($prefix.$sourceTable, true);
 	    $tblAccounts = $oDbh->quoteIdentifier($prefix.'accounts', true);
         $tblUsers    = $oDbh->quoteIdentifier($prefix.'users', true);
+        $tblAppVar   = $oDbh->quoteIdentifier($prefix.'application_variable', true);
 
 	    if (!empty($whereAdd)) {
 	        $whereAdd = "WHERE
@@ -82,8 +83,18 @@ class UserMigration extends Migration
             $accountId = $oDbh->lastInsertID($prefix.'accounts', 'account_id');
 
             if ($group == 'ADMIN') {
-        	    // Add the admin account ID to the application variables
-                $result = OA_Dal_ApplicationVariables::set('admin_account_id', $adminAccountId);
+                // Add the admin account ID to the application variables
+                $query = "
+                    INSERT INTO {$tblAppVar} (
+                        name,
+                        value
+                    ) VALUES (
+                        'admin_account_id',
+                        ".$oDbh->quote($adminAccountId)."
+                    )";
+
+                $result = $oDbh->exec($query);
+
                 if (!$result) {
                     $this->oUpgrade->oLogger->logError('Error saving the admin account ID as application variable');
                     return false;
