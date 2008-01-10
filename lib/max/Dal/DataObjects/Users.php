@@ -7,7 +7,7 @@ require_once 'DB_DataObjectCommon.php';
 class DataObjects_Users extends DB_DataObjectCommon
 {
     var $onDeleteCascade = true;
-    
+
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
 
@@ -16,8 +16,8 @@ class DataObjects_Users extends DB_DataObjectCommon
     var $contact_name;                    // string(255)  not_null
     var $email_address;                   // string(64)  not_null
     var $username;                        // string(64)  multiple_key
-    var $password;                        // string(64)  
-    var $default_account_id;              // int(9)  
+    var $password;                        // string(64)
+    var $default_account_id;              // int(9)
     var $comments;                        // blob(65535)  blob
     var $active;                          // int(1)  not_null
 
@@ -52,7 +52,7 @@ class DataObjects_Users extends DB_DataObjectCommon
     {
         return $this->getUniqueValuesFromColumn('username');
     }
-    
+
     /**
      * Check whether user is linked only to one account
      *
@@ -64,7 +64,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         $doAccount_user_assoc->user_id = $this->user_id;
         return $doAccount_user_assoc->count();
     }
-    
+
     /**
      * Returns user ID for specific username
      *
@@ -80,7 +80,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         }
         return false;
     }
-    
+
     /**
      * Fetch user by it's username
      *
@@ -95,7 +95,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         }
         return $this->fetch();
     }
-    
+
     /**
      * Returns array of users linked to entity
      *
@@ -114,7 +114,7 @@ class DataObjects_Users extends DB_DataObjectCommon
         return $this->_buildUsersTable($doUsers);
     }
 
-    
+
     /**
      * Returns array of admin users (@see _buildUsersTable)
      *
@@ -131,9 +131,9 @@ class DataObjects_Users extends DB_DataObjectCommon
         $doUsers->find();
         return $this->_buildUsersTable($doUsers);
     }
-    
+
     /**
-     * Reads users data from database and returns them as array when 
+     * Reads users data from database and returns them as array when
      * key is user id and value is array of user values
      *
      * @param DataObjects_Users $doUsers
@@ -148,6 +148,44 @@ class DataObjects_Users extends DB_DataObjectCommon
             $aUsers[$doUsers->user_id]['toDelete'] = ($doUsers->countLinkedAccounts() == 1);
         }
         return $aUsers;
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->user_id;
+    }
+
+    function _getContext()
+    {
+        return 'User';
+    }
+
+    /**
+     * build an accounts specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = $this->username;
+
+        // Do not log the password hash in the audit record, just the fact that it was changed
+        if (isset($aAuditFields['password'])) { $aAuditFields['password'] = '******'; }
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
     }
 }
 

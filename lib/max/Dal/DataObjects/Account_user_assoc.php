@@ -4,7 +4,7 @@
  */
 require_once 'DB_DataObjectCommon.php';
 
-class DataObjects_Account_user_assoc extends DB_DataObjectCommon 
+class DataObjects_Account_user_assoc extends DB_DataObjectCommon
 {
     ###START_AUTOCODE
     /* the code below is auto generated do not remove the above tag */
@@ -22,13 +22,13 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
-    
+
     function insert()
     {
         $this->linked = date('Y-m-d H:i:s');
         return parent::insert();
     }
-    
+
     function delete($useWhere = false, $cascadeDelete = true, $parentid = null)
     {
         // delete also all permissions linked to this account/user
@@ -36,7 +36,43 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
         $doAccount_user_permission_assoc->user_id = $this->user_id;
         $doAccount_user_permission_assoc->account_id = $this->account_id;
         $doAccount_user_permission_assoc->delete();
-        
+
         return parent::delete($useWhere, $cascadeDelete, $parentid);
+    }
+
+    function _auditEnabled()
+    {
+        return true;
+    }
+
+    function _getContextId()
+    {
+        return $this->account_id . '->' . $this->user_id;
+    }
+
+    function _getContext()
+    {
+        return 'Account User Association';
+    }
+
+    /**
+     * build an accounts specific audit array
+     *
+     * @param integer $actionid
+     * @param array $aAuditFields
+     */
+    function _buildAuditArray($actionid, &$aAuditFields)
+    {
+        $aAuditFields['key_desc']     = 'Account #'.$this->account_id.' -> User #'.$this->user_id;
+
+        switch ($actionid)
+        {
+            case OA_AUDIT_ACTION_INSERT:
+                        break;
+            case OA_AUDIT_ACTION_UPDATE:
+                        break;
+            case OA_AUDIT_ACTION_DELETE:
+                        break;
+        }
     }
 }
