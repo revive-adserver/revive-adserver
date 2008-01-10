@@ -28,7 +28,7 @@ $Id$
 /**
  * The pgsql data access layer code the delivery engine.
  *
- * @package    MaxDal
+ * @package    OpenadsDal
  * @subpackage Delivery
  * @author     Chris Nutting <chris.nutting@openads.org>
  * @author     Andrew Hill <andrew.hill@openads.org>
@@ -129,12 +129,11 @@ function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column =
  *                      or false on failure
  */
 function OA_Dal_Delivery_getZoneInfo($zoneid) {
-    $conf = $GLOBALS['_MAX']['CONF'];
+    $aConf = $GLOBALS['_MAX']['CONF'];
 
     $rZoneInfo = OA_Dal_Delivery_query("
     SELECT
         z.zoneid AS zone_id,
-        z.affiliateid AS publisher_id,
         z.zonename AS name,
         z.delivery AS type,
         z.description AS description,
@@ -149,41 +148,164 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         z.block AS block_zone,
         z.capping AS cap_zone,
         z.session_capping AS session_cap_zone,
-        p.default_banner_url AS default_banner_url,
-        p.default_banner_destination AS default_banner_dest
+        a.account_id AS trafficker_account_id,
+        m.account_id AS manager_account_id
     FROM
-        \"{$conf['table']['prefix']}{$conf['table']['zones']}\" AS z,
-        \"{$conf['table']['prefix']}{$conf['table']['affiliates']}\" AS a,
-        \"{$conf['table']['prefix']}{$conf['table']['preference']}\" AS p
+        \"{$aConf['table']['prefix']}{$aConf['table']['zones']}\" AS z,
+        \"{$aConf['table']['prefix']}{$aConf['table']['affiliates']}\" AS a,
+        \"{$aConf['table']['prefix']}{$aConf['table']['agency']} AS\" m
     WHERE
-        z.zoneid={$zoneid}
+        z.zoneid = {$zoneid}
       AND
         z.affiliateid = a.affiliateid
       AND
-        p.agencyid = a.agencyid
+        a.agencyid = m.agencyid
     ");
 
     if (!is_resource($rZoneInfo)) {
         return false;
     }
-    $aZoneInfo = pg_fetch_assoc($rZoneInfo);
+    $aZoneInfo = mysql_fetch_assoc($rZoneInfo);
 
-    if (empty($aZoneInfo['default_banner_url'])) {
-        // Agency has no default banner, so overwrite with admin's
-        $rAdminDefault = OA_Dal_Delivery_query("
-        SELECT
-            p.default_banner_url AS default_banner_url,
-            p.default_banner_destination AS default_banner_dest
-        FROM
-            \"{$conf['table']['prefix']}{$conf['table']['preference']}\" AS p
-        WHERE
-            p.agencyid = 0
-        ");
-        $aAdminDefaultBanner = pg_fetch_assoc($rAdminDefault);
-        $aZoneInfo['default_banner_url']  = $aAdminDefaultBanner['default_banner_url'];
-        $aZoneInfo['default_banner_dest'] = $aAdminDefaultBanner['default_banner_dest'];
+    // Set the default banner preference information for the zone
+    $rPreferenceInfo = OA_Dal_Delivery_query("
+    SELECT
+        p.preference_id AS preference_id,
+        p.preference_name AS preference_name
+    FROM
+        \"{$aConf['table']['prefix']}{$aConf['table']['preferences']}\" AS p
+    WHERE
+        p.preference_name = 'default_banner_image_url'
+        OR
+        p.preference_name = 'default_banner_destination_url'
+    ");
+
+    if (!is_resource($rPreferenceInfo)) {
+        return false;
     }
-    return ($aZoneInfo);
+    if (mysql_num_rows($rPreferenceInfo) != 2) {
+        // Something went wrong, there should be two preferences, if not,
+        // cannot get the default banner image and destination URLs
+        return $aZoneInfo;
+    }
+    // Set the IDs of the two preferences for default banner image and
+    // destination URLs
+    $aPreferenceInfo = mysql_fetch_assoc($rPreferenceInfo);
+    ${$aPreferenceInfo['preference_name'] . '_id'} = $aPreferenceInfo['preference_id'];
+    $aPreferenceInfo = mysql_fetch_assoc($rPreferenceInfo);
+    ${$aPreferenceInfo['preference_name'] . '_id'} = $aPreferenceInfo['preference_id'];
+
+    // Search for possible default banner preference information for the zone
+    $rDefaultBannerInfo = OA_Dal_Delivery_query("
+    SELECT
+        'default_banner_image_url_trafficker' AS item,
+        apa.value AS value
+    FROM
+        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+    WHERE
+        apa.account_id = {$aZoneInfo['trafficker_account_id']}
+        AND
+        apa.preference_id = $default_banner_image_url_id
+    UNION
+    SELECT
+        'default_banner_image_destination_trafficker' AS item,
+        apa.value AS value
+    FROM
+        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+    WHERE
+        apa.account_id = {$aZoneInfo['trafficker_account_id']}
+        AND
+        apa.preference_id = $default_banner_destination_url_id
+    UNION
+    SELECT
+        'default_banner_image_url_manager' AS item,
+        apa.value AS value
+    FROM
+        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+    WHERE
+        apa.account_id = {$aZoneInfo['manager_account_id']}
+        AND
+        apa.preference_id = $default_banner_image_url_id
+    UNION
+    SELECT
+        'default_banner_destination_url_manager' AS item,
+        apa.value AS value
+    FROM
+        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+    WHERE
+        apa.account_id = {$aZoneInfo['manager_account_id']}
+        AND
+        apa.preference_id = $default_banner_destination_url_id
+    UNION
+    SELECT
+        'default_banner_image_url_admin' AS item,
+        apa.value AS value
+    FROM
+        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
+        \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
+    WHERE
+        apa.account_id = a.account_id
+        AND
+        a.account_type = 'ADMIN'
+        AND
+        apa.preference_id = $default_banner_image_url_id
+    UNION
+    SELECT
+        'default_banner_destination_url_admin' AS item,
+        apa.value AS value
+    FROM
+        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
+        \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
+    WHERE
+        apa.account_id = a.account_id
+        AND
+        a.account_type = 'ADMIN'
+        AND
+        apa.preference_id = $default_banner_destination_url_id
+    ");
+
+    if (!is_resource($rDefaultBannerInfo)) {
+        return false;
+    }
+
+    if (mysql_num_rows($rDefaultBannerInfo) != 0) {
+        // No default banner image or destination URLs to deal with
+        return $aZoneInfo;
+    }
+
+    // Deal with the default banner image or destination URLs found
+    $aDefaultImageURLs = array();
+    $aDefaultDestinationURLs = array();
+    while ($aRow = mysql_fetch_assoc($rDefaultBannerInfo)) {
+        if (stristr($aRow['item'], 'default_banner_image_url')) {
+            $aDefaultImageURLs[$aRow['item']] = $aRow['value'];
+        } else if (stristr($aRow['item'], 'default_banner_destination_url')) {
+            $aDefaultDestinationURLs[$aRow['item']] = $aRow['value'];
+        }
+    }
+
+    // The three possible preference types, in reverse order of preference (i.e.
+    // use admin only if no manger, only if no trafficer
+    $aTypes = array(
+        0 => 'admin',
+        1 => 'manager',
+        2 => 'trafficker'
+    );
+
+    // Iterate over the found default values, setting the admin value(s) (if found)
+    // first, then overriding with the manager value(s), then the trafficer value(s),
+    // again, if found
+    foreach ($aTypes as $type) {
+        if (isset($aDefaultImageURLs['default_banner_image_url_' . $type])) {
+            $aZoneInfo['default_banner_image_url']  = $aDefaultImageURLs['default_banner_image_url_' . $type];
+        }
+        if (isset($aDefaultImageURLs['default_banner_destination_url_' . $type])) {
+            $aZoneInfo['default_banner_destination_url']  = $aDefaultImageURLs['default_banner_destination_url_' . $type];
+        }
+    }
+
+    // Done, at last!
+    return $aZoneInfo;
 }
 
 /**
