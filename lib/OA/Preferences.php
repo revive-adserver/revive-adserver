@@ -342,8 +342,8 @@ class OA_Preferences
                 } else {
                     $aPreferences[$aPreferenceTypes[$aPreferenceValue['preference_id']]['preference_name']] =
                         array(
-                            account_type => $aPreferenceTypes[$aPreferenceValue['preference_id']]['account_type'],
-                            value        => $aPreferenceValue['value']
+                            'account_type' => $aPreferenceTypes[$aPreferenceValue['preference_id']]['account_type'],
+                            'value'        => $aPreferenceValue['value']
                         );
                 }
             }
