@@ -29,7 +29,7 @@ $Id$
 */
 
 require_once MAX_PATH . '/lib/OA/Email.php';
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 /*-------------------------------------------------------*/
 /* Mail warning - preset is reached						 */

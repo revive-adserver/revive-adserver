@@ -43,7 +43,7 @@ if (!empty($filename)) {
 	if (empty($aCreative)) {
 		// Filename not found, show the admin user's default banner
 		// (as the agency cannot be determined from a filename)
-		$pref = OA_Admin_Preferences::loadPrefs(0);
+		$pref = OA_Preferences::loadAdminAccountPreferences(true);
 		if ($pref['default_banner_url'] != "") {
 		    MAX_redirect($pref['default_banner_url']);
 		}

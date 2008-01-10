@@ -31,7 +31,6 @@ $Id$
  * @author     Andrew Hill <andrew.hill@openads.org>
  */
 
-require_once MAX_PATH . '/lib/OA/Admin/Preferences.php';
 
 require_once MAX_PATH . '/lib/OA.php';
 require_once MAX_PATH . '/lib/OA/DB.php';
@@ -40,6 +39,7 @@ require_once MAX_PATH . '/lib/OA/DB/Table/Statistics.php';
 require_once MAX_PATH . '/lib/OA/Dal.php';
 require_once MAX_PATH . '/lib/OA/Dal/Maintenance/Statistics.php';
 require_once MAX_PATH . '/lib/OA/Email.php';
+require_once MAX_PATH . '/lib/OA/Preferences.php';
 
 /**
  * Definitions of class constants.
