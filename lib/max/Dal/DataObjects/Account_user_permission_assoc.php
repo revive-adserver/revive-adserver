@@ -31,7 +31,7 @@ class DataObjects_Account_user_permission_assoc extends DB_DataObjectCommon
 
     function _getContextId()
     {
-        return $this->account_id . '->' . $this->user_id . '->' . $this->permission_id;
+        return 0;
     }
 
     function _getContext()

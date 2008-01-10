@@ -47,7 +47,7 @@ class DataObjects_Account_user_assoc extends DB_DataObjectCommon
 
     function _getContextId()
     {
-        return $this->account_id . '->' . $this->user_id;
+        return 0;
     }
 
     function _getContext()

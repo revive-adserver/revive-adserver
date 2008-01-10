@@ -30,7 +30,7 @@ class DataObjects_Account_preference_assoc extends DB_DataObjectCommon
 
     function _getContextId()
     {
-        return $this->account_id . '->' . $this->preference_id;
+        return 0;
     }
 
     function _getContext()
