@@ -74,7 +74,7 @@ if (!isset($hideinactive)) {
         $hideinactive = $session['prefs']['campaign-banners.php'][$campaignid]['hideinactive'];
     } else {
         $pref =& $GLOBALS['_MAX']['PREF'];
-        $hideinactive = ($pref['gui_hide_inactive'] == 't');
+        $hideinactive = ($pref['ui_hide_inactive'] == 't');
     }
 }
 
@@ -244,7 +244,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         echo "<tr height='25' ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td height='25'>";
         echo "&nbsp;";
 
-        if (!$pref['gui_show_campaign_preview']) {
+        if (!$pref['ui_show_campaign_preview']) {
             if ($banners[$bkey]['expand'] == '1') {
                 echo "<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&collapse=".$banners[$bkey]['bannerid']."'><img src='images/triangle-d.gif' align='absmiddle' border='0' alt=''></a>&nbsp;";
             } else {
@@ -321,7 +321,7 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         echo "</td></tr>";
 
         // Extra banner info
-        if ($pref['gui_show_banner_info']) {
+        if ($pref['ui_show_banner_info']) {
             echo "<tr height='1'>";
             echo "<td ".($i%2==0?"bgcolor='#F6F6F6'":"")."><img src='images/spacer.gif' width='1' height='1'></td>";
             echo "<td colspan='4' bgcolor='#888888'><img src='images/break-l.gif' height='1' width='100%'></td>";
@@ -344,8 +344,8 @@ if (!isset($banners) || !is_array($banners) || count($banners) == 0) {
         }
 
         // Banner preview
-        if ($banners[$bkey]['expand'] == 1 || $pref['gui_show_campaign_preview']) {
-            if (!$pref['gui_show_banner_info']) {
+        if ($banners[$bkey]['expand'] == 1 || $pref['ui_show_campaign_preview']) {
+            if (!$pref['ui_show_banner_info']) {
                 echo "<tr ".($i%2==0?"bgcolor='#F6F6F6'":"")."><td colspan='1'>&nbsp;</td><td colspan='4'>";
             }
 
@@ -378,7 +378,7 @@ if ($hideinactive == true) {
 }
 echo "</td>";
 
-if (!$pref['gui_show_campaign_preview']) {
+if (!$pref['ui_show_campaign_preview']) {
     echo "<td colspan='3' align='".$phpAds_TextAlignRight."' nowrap>";
     echo "<img src='images/triangle-d.gif' align='absmiddle' border='0' alt=''>";
     echo "&nbsp;<a href='campaign-banners.php?clientid=".$clientid."&campaignid=".$campaignid."&expand=all' accesskey='".$keyExpandAll."'>".$strExpandAll."</a>";

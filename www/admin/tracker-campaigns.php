@@ -120,7 +120,7 @@ if (!isset($hideinactive)) {
         $hideinactive = $session['prefs']['tracker-campaigns.php']['hideinactive'];
     } else {
         $pref = &$GLOBALS['_MAX']['PREF'];
-        $hideinactive = ($pref['gui_hide_inactive'] == 't');
+        $hideinactive = ($pref['ui_hide_inactive'] == 't');
     }
 }
 

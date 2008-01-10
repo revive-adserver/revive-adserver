@@ -46,7 +46,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN, OA_ACCOUNT_MANAGER, OA_ACCOUNT_A
 
 // Get input variables
 $pref = $GLOBALS['_MAX']['PREF'];
-$hideinactive   = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
+$hideinactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == 't'));
 $listorder      = MAX_getStoredValue('listorder', 'date_time');
 $orderdirection = MAX_getStoredValue('orderdirection', 'up');
 $aNodes         = MAX_getStoredArray('nodes', array());

@@ -307,7 +307,7 @@ function phpAds_DelConfirm($msg)
 {
     $pref = $GLOBALS['_MAX']['PREF'];
     if (OA_Permission::isAccount(OA_ACCOUNT_ADMIN)) {
-        if ($pref['admin_novice']) {
+        if ($pref['ui_novice_user']) {
             $str = " onclick=\"return confirm('".$msg."');\"";
         } else {
             $str = "";

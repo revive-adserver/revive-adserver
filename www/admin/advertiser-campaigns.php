@@ -97,7 +97,7 @@ if (!isset($hideinactive)) {
 		$hideinactive = $session['prefs']['advertiser-campaigns.php'][$clientid]['hideinactive'];
 	} else {
 	   $pref = &$GLOBALS['_MAX']['PREF'];
-	   $hideinactive = ($pref['gui_hide_inactive'] == 't');
+	   $hideinactive = ($pref['ui_hide_inactive'] == 't');
 	}
 }
 
@@ -457,7 +457,7 @@ if (!isset($campaigns) || !is_array($campaigns) || count($campaigns) == 0) {
 			}
 		}
 
-		if ($pref['gui_show_campaign_info']) {
+		if ($pref['ui_show_campaign_info']) {
 		      //divider
             echo "<tr height='1' bgcolor='#f6f6f6'>";
             echo "<td></td>";

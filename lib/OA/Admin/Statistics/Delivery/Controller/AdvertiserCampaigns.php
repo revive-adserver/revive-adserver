@@ -133,7 +133,7 @@ class OA_Admin_Statistics_Delivery_Controller_AdvertiserCampaigns extends OA_Adm
 
 
 
-        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['gui_hide_inactive'] == 't'));
+        $this->hideInactive = MAX_getStoredValue('hideinactive', ($aPref['ui_hide_inactive'] == 't'));
         $this->showHideInactive = true;
 
         $this->startLevel = MAX_getStoredValue('startlevel', 0);

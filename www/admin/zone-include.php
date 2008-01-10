@@ -56,12 +56,12 @@ if (OA_Permission::isAccount(OA_ACCOUNT_TRAFFICKER)) {
     $adId           = MAX_getValue('bannerid');
     $action         = MAX_getValue('action');
     $aCurrent       = MAX_getValue('includebanner');
-    $hideInactive   = MAX_getStoredValue('hideinactive', ($pref['gui_hide_inactive'] == 't'));
+    $hideInactive   = MAX_getStoredValue('hideinactive', ($pref['ui_hide_inactive'] == 't'));
     $listorder      = MAX_getStoredValue('listorder', 'name');
     $orderdirection = MAX_getStoredValue('orderdirection', 'up');
     $selection      = MAX_getValue('selection');
-    $showMatchingAds = MAX_getStoredValue('showbanners', ($pref['gui_show_matching'] == 't'));
-    $showParentPlacements = MAX_getStoredValue('showcampaigns', ($pref['gui_show_parents'] == 't'));
+    $showMatchingAds = MAX_getStoredValue('showbanners', ($pref['ui_show_matching_banners'] == 't'));
+    $showParentPlacements = MAX_getStoredValue('showcampaigns', ($pref['ui_show_matching_banners_parents'] == 't'));
     $submit         = MAX_getValue('submit');
     $view           = MAX_getStoredValue('view', 'placement');
 
