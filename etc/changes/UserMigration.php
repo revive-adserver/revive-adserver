@@ -90,7 +90,7 @@ class UserMigration extends Migration
                         value
                     ) VALUES (
                         'admin_account_id',
-                        ".$oDbh->quote($adminAccountId)."
+                        ".$oDbh->quote($accountId)."
                     )";
 
                 $result = $oDbh->exec($query);
