@@ -55,6 +55,7 @@ OA_Permission::enforceAccount(OA_ACCOUNT_ADMIN);
 if (!empty($agencyid)) {
     $doAgency = OA_Dal::factoryDO('agency');
     $doAgency->agencyid = $agencyid;
+    $doAgency->get($agencyid);
     $doAgency->delete();
 }
 
