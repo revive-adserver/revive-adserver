@@ -1,7 +1,6 @@
 <?php
 
 require_once(MAX_PATH.'/lib/OA/Upgrade/Migration.php');
-//require_once MAX_PATH . '/etc/changes/UserMigration.php';
 
 class Migration_546 extends Migration
 {
@@ -154,6 +153,7 @@ class Migration_546 extends Migration
             $this->_mapOldPrefsToSettingsAdmin();
             $this->_mapOldPrefsToPrefsAdmin();
             $this->_movePreferencesAdmin();
+            $this->_writeSettings();
             return true;
         }
         return false;
@@ -302,6 +302,18 @@ class Migration_546 extends Migration
             unset($this->aPrefOld[$name]);
         }
         return true;
+    }
+
+    function _writeSettings()
+    {
+        $oConfiguration = & new OA_Upgrade_Config();
+        foreach ($this->aConfMap AS $section => $aPair)
+        {
+            $name = key($aPair);
+            $value = $this->aConfNew[$section][$name];
+            $oConfiguration->setValue($section,$name,$value);
+        }
+        $oConfiguration->writeConfig();
     }
 
 }

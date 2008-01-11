@@ -184,6 +184,7 @@ class Migration_546Test extends MigrationTest
 
         $this->_setupAccounts();
         $this->_setupPreferences();
+        $this->_setupSettings();
     }
 
     function setUp()
@@ -246,6 +247,17 @@ class Migration_546Test extends MigrationTest
         $this->oDbh->exec($query);
     }
 
+    function _setupSettings()
+    {
+        $aConf = &$GLOBALS['_MAX']['CONF'];
+        $aSettingsExpectations = $this->_getSettingsExpectations();
+        foreach ($aSettingsExpectations AS $section => $aPair)
+        {
+            $name = key($aPair);
+            unset($aConf[$section][$name]);
+        }
+    }
+
     function testUpgradeSchema()
     {
         $this->upgradeToVersion(543);
@@ -253,7 +265,23 @@ class Migration_546Test extends MigrationTest
         $this->upgradeToVersion(546);
     }
 
-    function testMigratePreferences()
+    function testMigratePrefsToSettings()
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        $aSettingsExpectations = $this->_getSettingsExpectations();
+        foreach ($aSettingsExpectations AS $section => $aPair)
+        {
+            $name = key($aPair);
+            $value = $aPair[$name];
+            //$value = $oMig->aPrefNew[$section][$aPair[$name]];
+            $this->assertTrue(isset($aConf[$section]),'section missing');
+            $this->assertTrue(isset($aConf[$section][$name]),'key missing');
+            $this->assertEqual($aConf[$section][$name],$value,'incorrect value');
+        }
+        TestEnv::restoreConfig();
+    }
+
+    function testMigratePrefsToPrefs()
     {
         $query = "SELECT p.preference_name AS name, ap.value AS value
                     FROM {$this->tblAccPrefs} AS ap
@@ -626,6 +654,18 @@ class Migration_546Test extends MigrationTest
             'agencyid' => '1',
           ),
         );
+   }
+
+   function _getSettingsExpectations()
+   {
+        $oMig = & new Migration_546();
+        foreach ($oMig->aConfMap AS $section => $aPair)
+        {
+            $name = key($aPair);
+            $value = $this->aPrefsOld[$aPair[$name]];
+            $aResult[$section][$name] = $value;
+        }
+        return $aResult;
    }
 
    function _getPrefsExpectations()
