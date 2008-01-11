@@ -3,6 +3,7 @@
  * Table Definition for accounts
  */
 require_once 'DB_DataObjectCommon.php';
+require_once MAX_PATH . '/lib/OA/Dal/ApplicationVariables.php';
 
 class DataObjects_Accounts extends DB_DataObjectCommon
 {
@@ -25,14 +26,28 @@ class DataObjects_Accounts extends DB_DataObjectCommon
     ###END_AUTOCODE
 
     /**
+     * Handle all necessary operations when a new account is created
+     *
+     * @see DB_DataObject::insert()
+     */
+    function insert()
+    {
+        $result = parent::insert();
+
+        if ($this->account_type == OA_ACCOUNT_ADMIN && $result) {
+            OA_Dal_ApplicationVariables::set('admin_account_id', $result);
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns ADMIN account ID
      *
      */
     function getAdminAccountId()
     {
-        $this->account_type = OA_ACCOUNT_ADMIN;
-        $this->find(true);
-        return $this->account_id;
+        return OA_Dal_ApplicationVariables::get('admin_account_id');
     }
 
     function _auditEnabled()
