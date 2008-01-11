@@ -227,8 +227,8 @@ if ($trackerid != "" || (isset($move) && $move == 't')) {
     $row['clickwindow']   = $conf['logging']['defaultImpressionConnectionWindow'];
     $row['viewwindow']    = $conf['logging']['defaultClickConnectionWindow'];
     $row['status']        = isset($pref['tracker_default_status']) ? $pref['tracker_default_status'] : MAX_CONNECTION_STATUS_APPROVED;
-    $row['type']          = isset($pref['default_tracker_type']) ? $pref['default_tracker_type'] : MAX_CONNECTION_TYPE_SALE;
-    $row['linkcampaigns'] = isset($pref['default_tracker_linkcampaigns']) ? $pref['default_tracker_linkcampaigns'] : 'f';
+    $row['type']          = isset($pref['tracker_default_type']) ? $pref['tracker_default_type'] : MAX_CONNECTION_TYPE_SALE;
+    $row['linkcampaigns'] = isset($pref['tracker_link_campaigns']) ? $pref['tracker_link_campaigns'] : 'f';
 
     $row['description'] = '';
 }
