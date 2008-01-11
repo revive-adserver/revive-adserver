@@ -139,8 +139,8 @@ class Test_OA_Dal_DeliveryDB extends UnitTestCase
 
         $this->assertIsA($aReturn, 'array');
         $this->assertEqual($zoneid, $aReturn['zone_id']);
-        $this->assertEqual($aReturn['default_banner_image_url'], 1);
-        $this->assertEqual($aReturn['default_banner_destination_url'], 1);
+        $this->assertEqual($aReturn['default_banner_image_url'], "http://www.openads.org/themes/openads/images/header_logo.png");
+        $this->assertEqual($aReturn['default_banner_destination_url'], "http://www.openads.org/");
         $this->assertIsA($aReturn['xAds'], 'array');
         $this->assertIsA($aReturn['cAds'], 'array');
         $this->assertIsA($aReturn['clAds'], 'array');

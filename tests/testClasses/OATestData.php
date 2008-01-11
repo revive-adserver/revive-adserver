@@ -89,20 +89,23 @@ class OA_Test_Data
 
         $this->oNow = new Date();
 
-        $this->doAgency             = OA_Dal::factoryDO('agency');
-        $this->doClients            = OA_Dal::factoryDO('clients');
-        $this->doAffiliates         = OA_Dal::factoryDO('affiliates');
-        $this->doCampaigns          = OA_Dal::factoryDO('campaigns');
-        $this->doBanners            = OA_Dal::factoryDO('banners');
-        $this->doZones              = OA_Dal::factoryDO('zones');
-        $this->doAdZoneAssoc        = OA_Dal::factoryDO('ad_zone_assoc');
+        $this->doAgency                     = OA_Dal::factoryDO('agency');
+        $this->doPreferences                = OA_Dal::factoryDO('preferences');
+        $this->doAccount_preference_assoc   = OA_Dal::factoryDO('account_preference_assoc');
 
-        $this->doAcls               = OA_Dal::factoryDO('acls');
-        $this->doAclsChannel        = OA_Dal::factoryDO('acls_channel');
-        $this->doCampaignsTrackers  = OA_Dal::factoryDO('campaigns_trackers');
-        $this->doChannel            = OA_Dal::factoryDO('channel');
-        $this->doTrackers           = OA_Dal::factoryDO('trackers');
-        $this->doVariables          = OA_Dal::factoryDO('variables');
+        $this->doClients                    = OA_Dal::factoryDO('clients');
+        $this->doAffiliates                 = OA_Dal::factoryDO('affiliates');
+        $this->doCampaigns                  = OA_Dal::factoryDO('campaigns');
+        $this->doBanners                    = OA_Dal::factoryDO('banners');
+        $this->doZones                      = OA_Dal::factoryDO('zones');
+        $this->doAdZoneAssoc                = OA_Dal::factoryDO('ad_zone_assoc');
+
+        $this->doAcls                       = OA_Dal::factoryDO('acls');
+        $this->doAclsChannel                = OA_Dal::factoryDO('acls_channel');
+        $this->doCampaignsTrackers          = OA_Dal::factoryDO('campaigns_trackers');
+        $this->doChannel                    = OA_Dal::factoryDO('channel');
+        $this->doTrackers                   = OA_Dal::factoryDO('trackers');
+        $this->doVariables                  = OA_Dal::factoryDO('variables');
 
     }
 
@@ -116,6 +119,30 @@ class OA_Test_Data
         $this->doAgency->updated = $this->oNow->format('%Y-%m-%d %H:%M:%S');
         $this->doAgency->setFrom($aData);
         return DataGenerator::generateOne($this->doAgency);
+    }
+
+    function _insertPreference($aData)
+    {
+        $this->doPreferences->preference_name = 'Test Preference';
+        $this->doPreferences->account_type = 'ADMIN';
+        $this->doPreferences->setFrom($aData);
+
+        return DataGenerator::generateOne($this->doPreferences);
+    }
+
+    function _insertAccountPreferenceAssoc($aData)
+    {
+        $this->doAccount_preference_assoc->value = 'value';
+        $this->doAccount_preference_assoc->setFrom($aData);
+        // setFrom will not overwrite fields which are defined as "keys"
+        if (!empty($aData['account_id'])) {
+            $this->doAccount_preference_assoc->account_id = $aData['account_id'];
+        }
+        if (!empty($aData['preference_id'])) {
+            $this->doAccount_preference_assoc->preference_id = $aData['preference_id'];
+        }
+
+        return DataGenerator::generateOne($this->doAccount_preference_assoc);
     }
 
     function _insertClients($aData)

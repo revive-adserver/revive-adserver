@@ -79,6 +79,28 @@ class OA_Test_Data_0_3_27_delivery extends OA_Test_Data
         $aAgency['active'] = '0';
         $this->aIds['agency'][3] = $this->_insertAgency($aAgency);
 
+        // Preferences (required for default-banner per account testing
+        $aPreference['preference_name'] = 'default_banner_image_url';
+        $aPreference['account_type'] = OA_ACCOUNT_MANAGER;
+        $this->aIds['preference'][1] = $this->_insertPreference($aPreference);
+
+        $aPreference['preference_name'] = 'default_banner_destination_url';
+        $aPreference['account_type'] = OA_ACCOUNT_MANAGER;
+        $this->aIds['preference'][2] = $this->_insertPreference($aPreference);
+
+        // Associate preferences with agencyid $this->aIds['agency'][1]
+        // Default banner URL
+        $aAccountPreferenceAssoc['account_id'] = $this->aIds['agency'][1];
+        $aAccountPreferenceAssoc['preference_id'] = $this->aIds['preference'][1];
+        $aAccountPreferenceAssoc['value'] = 'http://www.openads.org/themes/openads/images/header_logo.png';
+        $this->_insertAccountPreferenceAssoc($aAccountPreferenceAssoc);
+
+        // Default destination URL
+        $aAccountPreferenceAssoc['account_id'] = $this->aIds['agency'][1];
+        $aAccountPreferenceAssoc['preference_id'] = $this->aIds['preference'][2];
+        $aAccountPreferenceAssoc['value'] = 'http://www.openads.org/';
+        $this->_insertAccountPreferenceAssoc($aAccountPreferenceAssoc);
+
         // client
 
         for ($i=1;$i<34;$i++)
