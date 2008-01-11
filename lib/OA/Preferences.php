@@ -68,9 +68,12 @@ class OA_Preferences
      *                               $parentOnly parameter is false. Should only
      *                               ever be set when called from
      *                               OA_Preferences::loadAdminAccountPreferences().
+     * @param integer $accountId     An optional account ID, when set, the preferences
+     *                               for this account will be loaded, provided there
+     *                               is no currently logged in account.
      * @return mixed The array of preferences if $return is true, otherwise null.
      */
-    function loadPreferences($loadExtraInfo = false, $return = false, $parentOnly = false, $loadAdminOnly = false)
+    function loadPreferences($loadExtraInfo = false, $return = false, $parentOnly = false, $loadAdminOnly = false, $accountId = null)
     {
         // Ensure $parentOnly and $loadAdminOnly are correctly set
         if ($parentOnly && $loadAdminOnly) {
@@ -83,8 +86,20 @@ class OA_Preferences
         if ($loadAdminOnly == false) {
             // Get the type of the current accout
             $currentAccountType = OA_Permission::getAccountType();
-            // Is a user logged in?
-            if (is_null($currentAccountType)) {
+            // If no user logged in, and we are supposed to load a specific account's
+            // preferences, load the account type of that specific account
+            if (is_null($currentAccountType) && is_numeric($accountId)) {
+                // Get the account type for the specified account
+                $doAccounts = OA_Dal::factoryDO('accounts');
+                $doAccounts->account_id = $accountId;
+                $doAccounts->find();
+                if ($doAccounts->getRowCount() > 0) {
+                    $aCurrentAccountType = $doAccounts->getAll(array('account_type'), false, true);
+                    $currentAccountType = $aCurrentAccountType[0];
+                }
+            }
+            // If (still) no user logged in or invalid specific account, return
+            if (is_null($currentAccountType) || $currentAccountType == false) {
                 OA_Preferences::_unsetPreferences();
                 return;
             }
@@ -119,7 +134,19 @@ class OA_Preferences
             if ($currentAccountType == OA_ACCOUNT_MANAGER) {
                 // This is a manager account
                 if (!$parentOnly) {
-                    $managerAccountId = OA_Permission::getAccountId();
+                    // Locate the owning manager account ID
+                    if (!is_numeric($accountId)) {
+                        $managerAccountId = OA_Permission::getAccountId();
+                    } else {
+                        $managerAccountId = 0;
+                        $doAgency = OA_Dal::factoryDO('clients');
+                        $doAgency->account_id = $accountId;
+                        $doAgency->find();
+                        if ($doAgency->getRowCount() == 1) {
+                            $aManagerAccountId = $doAgency->getAll(array('agencyid'), false, true);
+                            $managerAccountId = $aManagerAccountId[0];
+                        }
+                    }
                     if ($managerAccountId == 0) {
                         OA_Preferences::_unsetPreferences();
                         return;
@@ -133,7 +160,28 @@ class OA_Preferences
             } else {
                 // This must be an advertiser or trafficker account, so
                 // need to locate the manager account that "owns" this account
-                $owningAgencyId = OA_Permission::getAgencyId();
+                if (!is_numeric($accountId)) {
+                    $owningAgencyId = OA_Permission::getAgencyId();
+                } else {
+                    $owningAgencyId = 0;
+                    if ($currentAccountType == OA_ACCOUNT_ADVERTISER) {
+                        $doClients = OA_Dal::factoryDO('clients');
+                        $doClients->account_id = $accountId;
+                        $doClients->find();
+                        if ($doClients->getRowCount() == 1) {
+                            $aOwningAgencyId = $doClients->getAll(array('agencyid'), false, true);
+                            $owningAgencyId = $aOwningAgencyId[0];
+                        }
+                    } else if ($currentAccountType == OA_ACCOUNT_TRAFFICKER) {
+                        $doAffiliates = OA_Dal::factoryDO('affilates');
+                        $doAffiliates->account_id = $accountId;
+                        $doAffiliates->find();
+                        if ($doAffiliates->getRowCount() == 1) {
+                            $aOwningAgencyId = $doAffiliates->getAll(array('agencyid'), false, true);
+                            $owningAgencyId = $aOwningAgencyId[0];
+                        }
+                    }
+                }
                 if ($owningAgencyId == 0) {
                     OA_Preferences::_unsetPreferences();
                     return;
@@ -141,7 +189,7 @@ class OA_Preferences
                 $doAgency = OA_Dal::factoryDO('agency');
                 $doAgency->agency_id = $owningAgencyId;
                 $doAgency->find();
-                if ($doAgency->getRowCount() > 0) {
+                if ($doAgency->getRowCount() == 1) {
                     // The manager account "owning" the advertiser or
                     // trafficker account has some preferences that
                     // override the admin account preferences
@@ -155,8 +203,12 @@ class OA_Preferences
                 }
                 if (!$parentOnly) {
                     // Get the current account's ID
-                    $currentAccountId = OA_Permission::getAccountId();
-                    if ($currentAccountId == 0) {
+                    if (!is_numeric($accountId)) {
+                        $currentAccountId = OA_Permission::getAccountId();
+                    } else {
+                        $currentAccountId = $accountId;
+                    }
+                    if ($currentAccountId <= 0) {
                         OA_Preferences::_unsetPreferences();
                         return;
                     }
@@ -199,6 +251,33 @@ class OA_Preferences
         } else {
             // Load the admin account's preferences
             OA_Preferences::loadPreferences(false, false, false, true);
+        }
+    }
+
+    /**
+     * A static method to load the preferences from the database and store them
+     * in the global array $GLOBALS['_MAX']['PREF'] for a given account ID.
+     *
+     * Intended to be used to load account preferences in situations where
+     * there is no currently logged in account - that is, in certain cases
+     * in the maintenance engine, for example!
+     *
+     * @static
+     * @param integer $accountId The account ID to load the preferences of.
+     * @param boolean $return    An optional parameter, when set to true,
+     *                           returns the preferences instead of setting
+     *                           them into $GLOBALS['_MAX']['PREF'].
+     * @return mixed The array of preferences if $return is true, otherwise null.
+     */
+    function loadAccountPreferences($accountId, $return = false)
+    {
+        if ($return) {
+            // Return the account's preferences
+            $aPrefs = OA_Preferences::loadPreferences(false, true, false, false, $accountId);
+            return $aPrefs;
+        } else {
+            // Load the account's preferences
+            OA_Preferences::loadPreferences(false, false, false, false, $accountId);
         }
     }
 

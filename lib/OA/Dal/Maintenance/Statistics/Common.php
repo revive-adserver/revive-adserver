@@ -2648,13 +2648,18 @@ class OA_Dal_Maintenance_Statistics_Common
     function managePlacements($oDate)
     {
         $aConf = $GLOBALS['_MAX']['CONF'];
-        global $date_format;
+        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oEmail = &$oServiceLocator->get('OA_Email');
+        if ($oEmail === false) {
+            $oEmail = new OA_Email();
+            $oServiceLocator->register('OA_Email', $oEmail);
+        }
         $report = "\n";
-        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
         // Select all placements in the system
         $query = "
             SELECT
                 cl.clientid AS advertiser_id,
+                cl.account_id AS advertiser_account_id,
                 cl.agencyid AS agency_id,
                 cl.contact AS contact,
                 cl.email AS email,
@@ -2803,9 +2808,9 @@ class OA_Dal_Maintenance_Statistics_Common
                         );
                     }
                     if ($aPlacement['send_activate_deactivate_email'] == 't') {
-                        $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id'], $disableReason);
+                        $aEmail =& $oEmail->preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id'], $disableReason);
                         if ($aEmail !== false) {
-                            OA_Email::sendMail(
+                            $oEmail->sendMail(
                                 $aEmail['subject'],
                                 $aEmail['contents'],
                                 $aEmail['userEmail'],
@@ -2815,95 +2820,8 @@ class OA_Dal_Maintenance_Statistics_Common
                     }
                 } else {
                     // The placement has NOT been deactivated - test to see if it will
-                    // be deactivated soon. Store the current preferences array, and
-                    // load the preferences for this placement's owning agency and
-                    // advertiser
-                    $aCurrentPrefs = $GLOBALS['_MAX']['PREF'];
-                    unset($GLOBALS['_MAX']['PREF']);
-                    OA_Admin_Preferences::loadPrefs($aPlacement['agency_id']);
-                    OA_Admin_Preferences::loadEntityPrefs('advertiser', $aPlacement['advertiser_id']);
-                    // Does a warning need to be send for this placement?
-                    $aPrefs = $GLOBALS['_MAX']['PREF'];
-                    if ($aPrefs['warn_admin'] == 't' || $aPrefs['warn_agency'] == 't' || $aPrefs['warn_client'] == 't') {
-                        // Test the placement to see if the expiration is imminent,
-                        // or not, based on the placement's expiration date
-                        if (isset($aPrefs['warn_limit_days']) &&
-                            $aPrefs['warn_limit_days'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue())
-                        {
-                            // One day is added to the warn days limit, so that it warns at the start of the day
-                            // before the warn limit - eg, if warn days is 1 day, warn at the start of the day
-                            // before the day the placement ends. If that makes sense.... :-)
-                            $warnSeconds = (int) ($aPrefs['warn_limit_days'] + 1) * SECONDS_PER_DAY;
-                            $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
-                            $oTestDate = new Date();
-                            $oTestDate->copy($oDate);
-                            $oTestDate->addSeconds($warnSeconds);
-                            if ($oTestDate->after($oEndDate)) {
-                                // There are less than $aPrefs['warn_limit_days'] days until
-                                // the placement expires! Question is, has this just happened
-                                // in the current operation interval?
-                                $oiSeconds = (int) $aConf['maintenance']['operationInterval'] * 60;
-                                $oTestDate->subtractSeconds($oiSeconds);
-                                if (!$oTestDate->after($oEndDate)) {
-                                    // Yes! This is the operation interval that the boundary
-                                    // was crossed to the point where it's about to expire,
-                                    // so send that email, baby!
-                                    $aEmail =& OA_Email::preparePlacementImpendingExpiryEmail(
-                                        $aPlacement['advertiser_id'],
-                                        $aPlacement['campaign_id'],
-                                        'date',
-                                        $oEndDate->format($date_format)
-                                    );
-                                    if ($aEmail !== false) {
-                                        foreach (array_keys($aEmail) as $key) {
-                                            OA_Email::sendMail(
-                                                $aEmail[$key]['subject'],
-                                                $aEmail[$key]['contents'],
-                                                $aEmail[$key]['userEmail'],
-                                                $aEmail[$key]['userName']
-                                            );
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        // Test the placement to see if the expiraction is imminent,
-                        // or not, based on the placement's impression limitations
-                        if ($aPrefs['warn_limit'] > 0 && $aPlacement['targetimpressions'] > 0) {
-                            $dalCampaigns = OA_Dal::factoryDAL('campaigns');
-                            $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id']);
-                            if ($remainingImpressions < $aPrefs['warn_limit']) {
-                                // There are less than $aPrefs['warn_limit'] impressions until
-                                // the placement expires! Question is, has this just happened
-                                // in the current operation interval?
-                                $previousRemainingImpressions =
-                                    $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id'], $aPreviousOIDates['end']);
-                                if ($previousRemainingImpressions >= $aPrefs['warn_limit']) {
-                                    // Yes! This is the operation interval that the boundary
-                                    // was crossed to the point where it's about to expire,
-                                    // so send that email, baby!
-                                    $aEmail =& OA_Email::preparePlacementImpendingExpiryEmail(
-                                        $aPlacement['advertiser_id'],
-                                        $aPlacement['campaign_id'],
-                                        'impressions',
-                                        $aPrefs['warn_limit']
-                                    );
-                                    if ($aEmail !== false) {
-                                        foreach (array_keys($aEmail) as $key) {
-                                            OA_Email::sendMail(
-                                                $aEmail[$key]['subject'],
-                                                $aEmail[$key]['contents'],
-                                                $aEmail[$key]['userEmail'],
-                                                $aEmail[$key]['userName']
-                                            );
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    // Restore the original preference array
-                    $GLOBALS['_MAX']['PREF'] = $aCurrentPrefs;
+                    // be deactivated soon, and send email(s) warning of this as required
+                    $this->_managePlacementsImpendingExpiry($oDate, $aPlacement);
                 }
             } else {
                 // The placement is not active - does it need to be enabled,
@@ -2994,9 +2912,115 @@ class OA_Dal_Maintenance_Statistics_Common
                                     $advertisementRow['url']);
                         }
                         if ($aPlacement['send_activate_deactivate_email'] == 't') {
-                            $aEmail =& OA_Email::preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
+                            $aEmail =& $oEmail->preparePlacementActivatedDeactivatedEmail($aPlacement['campaign_id']);
                             if ($aEmail !== false) {
-                                OA_Email::sendMail(
+                                $oEmail->sendMail(
+                                    $aEmail['subject'],
+                                    $aEmail['contents'],
+                                    $aEmail['userEmail'],
+                                    $aEmail['userName']
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * A private method to handle the task of sending email warnings
+     * when a campaign is going to expire "soon".
+     *
+     * @access private
+     * @param Date $oDate       The current date/time, as passed to
+     *                          OA_Dal_Maintenance_Statistics_Common::managePlacements().
+     * @param array $aPlacement The placement information as found in the
+     *                          OA_Dal_Maintenance_Statistics_Common::managePlacements()
+     *                          method.
+     */
+    function _managePlacementsImpendingExpiry($oDate, $aPlacement)
+    {
+        $aConf = $GLOBALS['_MAX']['CONF'];
+        global $date_format;
+        $oServiceLocator = &OA_ServiceLocator::instance();
+        $oEmail = &$oServiceLocator->get('OA_Email');
+        if ($oEmail === false) {
+            $oEmail = new OA_Email();
+            $oServiceLocator->register('OA_Email', $oEmail);
+        }
+        $aPreviousOIDates = OA_OperationInterval::convertDateToPreviousOperationIntervalStartAndEndDates($oDate);
+        // Get the account ID of the advertiser that owns the placement being tested
+        $advertiserAccountId =  $aPlacement['advertiser_account_id'];
+        // Load the preferences for that advertiser account
+        $aPrefs = OA_Preferences::loadAccountPreferences($advertiserAccountId, true);
+        // Prepare an array of the account types that need to be tested for warnings
+        $aTypes = array(
+            'admin',
+            'manager',
+            'advertiser'
+        );
+        // Test for, and send warnings for each account type
+        foreach ($aTypes as $accountType) {
+            // Does the account type have email warnings enbled?
+            if ($aPrefs['warn_email_' . $accountType]) {
+                // Does the account type want warnings when the impressions are low?
+                if ($aPrefs['warn_email_' . $accountType . '_impression_limit'] > 0 && $aPlacement['targetimpressions'] > 0) {
+                    // Test to see if the placements impressions remaining are less than the limit
+                    $dalCampaigns = OA_Dal::factoryDAL('campaigns');
+                    $remainingImpressions = $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id']);
+                    if ($remainingImpressions < $aPrefs['warn_email_' . $accountType . '_impression_limit']) {
+                        // Yes, the placement will expire soon! But did the placement just reach
+                        // the point where it is about to expire, or did it happen a while ago?
+                        $previousRemainingImpressions =
+                            $dalCampaigns->getAdImpressionsLeft($aPlacement['campaign_id'], $aPreviousOIDates['end']);
+                        if ($previousRemainingImpressions >= $aPrefs['warn_email_' . $accountType . '_impression_limit']) {
+                            // Yes! This is the operation interval that the boundary
+                            // was crossed to the point where it's about to expire,
+                            // so send that email, baby!
+                            $aEmail =& $oEmail->preparePlacementImpendingExpiryEmail(
+                                $aPlacement['advertiser_id'],
+                                $aPlacement['campaign_id'],
+                                'impressions',
+                                $aPrefs['warn_email_' . $accountType . '_impression_limit']
+                            );
+                            if ($aEmail !== false) {
+                                $oEmail->sendMail(
+                                    $aEmail['subject'],
+                                    $aEmail['contents'],
+                                    $aEmail['userEmail'],
+                                    $aEmail['userName']
+                                );
+                            }
+                        }
+                    }
+                }
+                // Does the account type want warnings when the days are low?
+                if ($aPrefs['warn_email_' . $accountType . '_day_limit'] > 0 && $aPlacement['end'] != OA_Dal::noDateValue()) {
+                    // Calculate the date that should be used to see if the warning needs to be sent
+                    $warnSeconds = (int) ($aPrefs['warn_email_' . $accountType . '_day_limit'] + 1) * SECONDS_PER_DAY;
+                    $oEndDate = new Date($aPlacement['end'] . ' 23:59:59');  // Convert day to end of Date
+                    $oTestDate = new Date();
+                    $oTestDate->copy($oDate);
+                    $oTestDate->addSeconds($warnSeconds);
+                    // Test to see if the test date is after the placement's expiration date
+                    if ($oTestDate->after($oEndDate)) {
+                        // Yes, the placement will expire soon! But did the placement just reach
+                        // the point where it is about to expire, or did it happen a while ago?
+                        $oiSeconds = (int) $aConf['maintenance']['operationInterval'] * 60;
+                        $oTestDate->subtractSeconds($oiSeconds);
+                        if (!$oTestDate->after($oEndDate)) {
+                            // Yes! This is the operation interval that the boundary
+                            // was crossed to the point where it's about to expire,
+                            // so send that email, baby!
+                            $aEmail =& $oEmail->preparePlacementImpendingExpiryEmail(
+                                $aPlacement['advertiser_id'],
+                                $aPlacement['campaign_id'],
+                                'date',
+                                $oEndDate->format($date_format)
+                            );
+                            if ($aEmail !== false) {
+                                $oEmail->sendMail(
                                     $aEmail['subject'],
                                     $aEmail['contents'],
                                     $aEmail['userEmail'],

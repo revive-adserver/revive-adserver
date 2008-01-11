@@ -46,10 +46,9 @@ class OA_Email
 {
 
     /**
-     * A static method for preparing an advertiser's "placement delivery" report
+     * A method for preparing an advertiser's "placement delivery" report
      * email.
      *
-     * @static
      * @param integer    $advertiserId The advertiser's ID.
      * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
      * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
@@ -59,14 +58,11 @@ class OA_Email
      *                          'contents'  => The body of the email report.
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
-     *
-     * @copyright 2003-2007 Openads Limited
-     * @copyright 2000-2003 The phpAdsNew developers
      */
     function preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate)
     {
         OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
 
         // Load the required strings
@@ -83,7 +79,7 @@ class OA_Email
         );
 
         // Get the advertiser's details
-        $aAdvertiser = OA_Email::_loadAdvertiser($advertiserId);
+        $aAdvertiser = $this->_loadAdvertiser($advertiserId);
         if ($aAdvertiser === false) {
             return false;
         }
@@ -100,7 +96,7 @@ class OA_Email
         }
 
         // Prepare the email body
-        $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
+        $aEmailBody = $this->_preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate);
 
         // Was anything found?
         if ($aEmailBody['body'] == '') {
@@ -137,7 +133,7 @@ class OA_Email
         $email .= "{$aEmailBody['body']}\n";
 
         // Prepare the final email - add the "regards" signature
-        $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
+        $email .= $this->_prepareRegards($aAdvertiser['agencyid']);
 
         // Prepare & return the final email array
         $aResult['subject']    = $strMailSubject . ': ' . $aAdvertiser['clientname'];
@@ -149,11 +145,10 @@ class OA_Email
     }
 
     /**
-     * A private, static method to prepare the body of an advertiser's "placement delivery"
+     * A private method to prepare the body of an advertiser's "placement delivery"
      * report email.
      *
      * @access private
-     * @static
      * @param integer    $advertiserId The advertiser's ID.
      * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
      * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
@@ -161,7 +156,7 @@ class OA_Email
     function _preparePlacementDeliveryEmailBody($advertiserId, $oStartDate, $oEndDate)
     {
         // Load the preferences and default language
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
 
         // Load the "Campaign" and "Banner" strings, and prepare formatting strings
@@ -240,7 +235,7 @@ class OA_Email
                                 $emailBody .= sprintf($adTextPrint, $strTotalImpressions) . ': ';
                                 $emailBody .= sprintf('%15s', phpAds_formatNumber($adImpressions)) . "\n";
                                 // Fetch the ad's impressions for the report period, grouped by day
-                                $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
+                                $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'impressions', $adTextPrint);
                                 $emailBody .= $aEmailBody['body'];
                                 $totalAdviewsInPeriod += $aEmailBody['adviews'];
                             }
@@ -250,7 +245,7 @@ class OA_Email
                                 $emailBody .= "\n" . sprintf($adTextPrint, $strTotalClicks) . ': ';
                                 $emailBody .= sprintf('%15s', phpAds_formatNumber($adClicks)) . "\n";
                                 // Fetch the ad's clicks for the report period, grouped by day
-                                $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
+                                $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'clicks', $adTextPrint);
                                 $emailBody .= $aEmailBody['body'];
                                 $totalAdviewsInPeriod += $aEmailBody['adviews'];
                             }
@@ -260,7 +255,7 @@ class OA_Email
                                 $emailBody .= "\n" . sprintf($adTextPrint, $strTotalConversions) . ': ';
                                 $emailBody .= sprintf('%15s', phpAds_formatNumber($adConversions)) . "\n";
                                 // Fetch the ad's conversions for the report period, grouped by day
-                                $aEmailBody = OA_Email::_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
+                                $aEmailBody = $this->_preparePlacementDeliveryEmailBodyStats($aAd['bannerid'], $oStartDate, $oEndDate, 'conversions', $adTextPrint);
                                 $emailBody .= $aEmailBody['body'];
                                 $totalAdviewsInPeriod += $aEmailBody['adviews'];
                             }
@@ -283,11 +278,10 @@ class OA_Email
     }
 
     /**
-     * A private, static method to prepare the statistics part of the body of an
+     * A private method to prepare the statistics part of the body of an
      * advertiser's "placement delivery" report email.
      *
      * @access private
-     * @static
      * @param integer    $advertiserId The advertiser's ID.
      * @param PEAR::Date $oStartDate   The start date of the report, inclusive.
      * @param PEAR::Date $oEndDate     The end date of the report, inclusive.
@@ -303,7 +297,7 @@ class OA_Email
         $oDbh =& OA_DB::singleton();
 
         // Load the preferences and default language
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
 
         // Obtain the required date format
@@ -373,9 +367,8 @@ class OA_Email
     }
 
     /**
-     * A static method for preparing an advertiser's "impending placement expiry" report.
+     * A method for preparing an advertiser's "impending placement expiry" report.
      *
-     * @static
      * @param integer $advertiserId The advertiser's ID.
      * @param integer $placementId  The advertiser's ID.
      * @param string  $reason       The reason for expiration. One of:
@@ -383,6 +376,9 @@ class OA_Email
      * @param mixed   $value        The limit reason (ie. the date or value limit)
      *                              used to decide that the placement is about to
      *                              expire.
+     * @param string  $type         One of "admin", "manager" or "advertiser", describing
+     *                              which of the account types the email should be
+     *                              prepared for.
      * @return boolean|array False, if the report could not be created, otherwise
      *                       an array or arrays of four elements:
      *                          'subject'   => The email subject line.
@@ -390,10 +386,10 @@ class OA_Email
      *                          'userEmail' => The email address to send the report to.
      *                          'userName'  => The real name of the email address, or null.
      */
-    function preparePlacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value)
+    function preparePlacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value, $type)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
 
         // Load the required strings
@@ -437,7 +433,7 @@ class OA_Email
         }
 
         // Get the advertiser's details
-        $aAdvertiser = OA_Email::_loadAdvertiser($advertiserId);
+        $aAdvertiser = $this->_loadAdvertiser($advertiserId);
         if ($aAdvertiser === false) {
             return false;
         }
@@ -451,7 +447,7 @@ class OA_Email
 
         // Get & test the admin user's email address details, if required
         if (isset($aUsers['admin'])) {
-            $aAdminOwner = OA_Email::_loadAdminPreferences();
+            $aAdminOwner = $this->_loadAdminPreferences();
             if ($aAdminOwner === false) {
                 unset($aUsers['admin']);
             } else if (empty($aAdminOwner['admin_email'])) {
@@ -462,7 +458,7 @@ class OA_Email
 
         // Get & test the agency user's email address details, if required
         if (isset($aUsers['agency'])) {
-            $aAgencyOwner = OA_Email::_loadAgency($aAdvertiser['agencyid']);
+            $aAgencyOwner = $this->_loadAgency($aAdvertiser['agencyid']);
             if ($aAgencyOwner === false) {
                 unset($aUsers['agency']);
             } else if (empty($aAgencyOwner['email'])) {
@@ -497,7 +493,7 @@ class OA_Email
         }
 
         // Prepare the email body
-        $emailBody  = OA_Email::_preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement);
+        $emailBody  = $this->_preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement);
 
         // Was anything found?
         if ($emailBody == '') {
@@ -555,9 +551,9 @@ class OA_Email
 
             // Prepare the final email - add the "regards" signature
             if ($user == 'admin') {
-                $email .= OA_Email::_prepareRegards(0);
+                $email .= $this->_prepareRegards(0);
             } else {
-                $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
+                $email .= $this->_prepareRegards($aAdvertiser['agencyid']);
             }
 
             // Prepare the user's final email array
@@ -583,18 +579,17 @@ class OA_Email
     }
 
     /**
-     * A private, static method to prepare the body of an advertiser's "impending placement
+     * A private  method to prepare the body of an advertiser's "impending placement
      * expiry" report email.
      *
      * @access private
-     * @static
      * @param integer $advertiserId The advertiser's ID.
      * @param array   $aPlacement   The placement details.
      */
     function _preparePlacementImpendingExpiryEmailBody($advertiserId, $aPlacement)
     {
         // Load the preferences and default language
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
 
         // Load required strings
@@ -640,10 +635,9 @@ class OA_Email
     }
 
     /**
-     * A static method for preparing an advertiser's "placement activated" or
+     * A method for preparing an advertiser's "placement activated" or
      * "placement deactivated" report.
      *
-     * @static
      * @param string  $placementId The ID of the activated placement.
      * @param integer $reason      An optional binary flag field containting the
      *                             representation of the reason(s) the placement
@@ -666,7 +660,7 @@ class OA_Email
         } else {
             OA::debug('   - Preparing "placement deactivated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
         }
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
 
         // Load the required strings
@@ -677,19 +671,19 @@ class OA_Email
                $strAfterExpire;
 
         // Fetch the placement
-        $aPlacement = OA_Email::_loadPlacement($placementId);
+        $aPlacement = $this->_loadPlacement($placementId);
         if ($aPlacement === false) {
             return false;
         }
 
         // Fetch the placement's owning advertiser
-        $aAdvertiser = OA_Email::_loadAdvertiser($aPlacement['clientid']);
+        $aAdvertiser = $this->_loadAdvertiser($aPlacement['clientid']);
         if ($aAdvertiser === false) {
             return false;
         }
 
         // Prepare the email body
-        $emailBody = OA_Email::_preparePlacementActivatedDeactivatedEmailBody($aPlacement);
+        $emailBody = $this->_preparePlacementActivatedDeactivatedEmailBody($aPlacement);
 
         // Prepare the final email - add the greeting to the advertiser
         $email = "$strMailHeader\n";
@@ -727,7 +721,7 @@ class OA_Email
         $email .= "$emailBody\n";
 
         // Prepare the final email - add the "regards" signature
-        $email .= OA_Email::_prepareRegards($aAdvertiser['agencyid']);
+        $email .= $this->_prepareRegards($aAdvertiser['agencyid']);
 
         // Prepare & return the final email array
         if (is_null($reason)) {
@@ -742,18 +736,17 @@ class OA_Email
     }
 
     /**
-     * A private, static method to prepare the body of an advertiser's "placement activated"
+     * A private method to prepare the body of an advertiser's "placement activated"
      * or "placement deactivated" report email.
      *
      * @access private
-     * @static
      * @param integer $advertiserId The advertiser's ID.
      * @param array   $aPlacement   The placement details.
      */
     function _preparePlacementActivatedDeactivatedEmailBody($aPlacement)
     {
         // Load the preferences and default language
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
 
         // Load the "Campaign" and "Banner" strings, and prepare formatting strings
@@ -800,10 +793,9 @@ class OA_Email
     }
 
     /**
-     * A private, static method to load the preferences required when generating reports.
+     * A private method to load the preferences required when generating reports.
      *
      * @access private
-     * @static
      * @return array The loaded preference array.
      */
     function _loadPrefs()
@@ -816,7 +808,7 @@ class OA_Email
     }
 
     /**
-     * A private, static method to load the details of an placement from the database.
+     * A private method to load the details of an placement from the database.
      *
      * @param integer $placementId The ID of the placement to load.
      * @return false|array False if the placement cannot be loaded, an array of the
@@ -837,7 +829,7 @@ class OA_Email
     }
 
     /**
-     * A private, static method to load the details of an advertiser from the database.
+     * A private method to load the details of an advertiser from the database.
      *
      * @param integer $advertiserId The ID of the advertiser to load.
      * @return false|array False if the advertiser cannot be loaded, an array of the
@@ -858,7 +850,7 @@ class OA_Email
     }
 
     /**
-     * A private, static method to load the details of an agency from the database.
+     * A private method to load the details of an agency from the database.
      *
      * @param integer $agencyId The ID of the agency to load.
      * @return false|array False if the agency cannot be loaded, an array of the
@@ -879,7 +871,7 @@ class OA_Email
     }
 
     /**
-     * A private, static method to load the admin user's preferences.
+     * A private method to load the admin user's preferences.
      *
      * @return false|array False if the preferences cannot be loaded, an array of the
      *                     admin user's preferences from the database otherwise.
@@ -898,7 +890,7 @@ class OA_Email
     }
 
     /**
-     * A private, static method to prepare the "regards" sign off for email reports,
+     * A private method to prepare the "regards" sign off for email reports,
      * based on the "owning" agnecy ID (which can be 0, in the case the "owner" is
      * the admin user).
      *
@@ -907,7 +899,7 @@ class OA_Email
      */
     function _prepareRegards($agencyId)
     {
-        $aPref = OA_Email::_loadPrefs();
+        $aPref = $this->_loadPrefs();
         Language_Default::load();
         global $strMailFooter, $strDefaultMailFooter;
 
@@ -915,7 +907,7 @@ class OA_Email
         $useAgency = false;
         if ($agencyId != 0) {
             // Send regards of the owning agency
-            $aAgency = OA_Email::_loadAgency($agencyId);
+            $aAgency = $this->_loadAgency($agencyId);
             if ($aAgency !== false) {
                 if (!empty($aAgency['contact'])) {
                     $regards .= $aAgency['contact'];
@@ -954,17 +946,13 @@ class OA_Email
     }
 
     /**
-     * A static method to send an email.
+     * A method to send an email.
      *
-     * @static
      * @param string $subject   The subject line of the email.
      * @param string $contents  The body of the email.
      * @param string $userEmail The email address to send the report to.
      * @param string $userName  The readable name of the user. Optional.
      * @return boolean True if the mail was send, false otherwise.
-     *
-     * @copyright 2003-2007 Openads Limited
-     * @copyright 2000-2003 The phpAdsNew developers
      */
     function sendMail($subject, $contents, $userEmail, $userName = null)
     {
