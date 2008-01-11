@@ -208,7 +208,7 @@ class Migration_546 extends Migration
     	        $this->_logError('Failed to insert admin preference record for '.$key);
     	    }
 
-    	    $prefId = $this->oDBH->lastInsertID($tblPrefsNew, 'preference_id');
+    	    $prefId = $this->oDBH->lastInsertID($aConf['table']['prefix'].$aConf['table']['preferences'], 'preference_id');
 
     	    if (PEAR::isError($prefId))
     	    {
