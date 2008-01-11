@@ -131,36 +131,37 @@ function OA_Dal_Delivery_insertId($database = 'database', $table = '', $column =
 function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $aConf = $GLOBALS['_MAX']['CONF'];
 
-    $rZoneInfo = OA_Dal_Delivery_query("
-    SELECT
-        z.zoneid AS zone_id,
-        z.zonename AS name,
-        z.delivery AS type,
-        z.description AS description,
-        z.width AS width,
-        z.height AS height,
-        z.chain AS chain,
-        z.prepend AS prepend,
-        z.append AS append,
-        z.appendtype AS appendtype,
-        z.forceappend AS forceappend,
-        z.inventory_forecast_type AS inventory_forecast_type,
-        z.block AS block_zone,
-        z.capping AS cap_zone,
-        z.session_capping AS session_cap_zone,
-        a.account_id AS trafficker_account_id,
-        m.account_id AS manager_account_id
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['zones']}\" AS z,
-        \"{$aConf['table']['prefix']}{$aConf['table']['affiliates']}\" AS a,
-        \"{$aConf['table']['prefix']}{$aConf['table']['agency']} AS\" m
-    WHERE
-        z.zoneid = {$zoneid}
-      AND
-        z.affiliateid = a.affiliateid
-      AND
-        a.agencyid = m.agencyid
-    ");
+    // Get the zone information
+    $query = "
+        SELECT
+            z.zoneid AS zone_id,
+            z.zonename AS name,
+            z.delivery AS type,
+            z.description AS description,
+            z.width AS width,
+            z.height AS height,
+            z.chain AS chain,
+            z.prepend AS prepend,
+            z.append AS append,
+            z.appendtype AS appendtype,
+            z.forceappend AS forceappend,
+            z.inventory_forecast_type AS inventory_forecast_type,
+            z.block AS block_zone,
+            z.capping AS cap_zone,
+            z.session_capping AS session_cap_zone,
+            a.account_id AS trafficker_account_id,
+            m.account_id AS manager_account_id
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['zones']}\" AS z,
+            \"{$aConf['table']['prefix']}{$aConf['table']['affiliates']}\" AS a,
+            \"{$aConf['table']['prefix']}{$aConf['table']['agency']}\" AS m
+        WHERE
+            z.zoneid = {$zoneid}
+          AND
+            z.affiliateid = a.affiliateid
+          AND
+            a.agencyid = m.agencyid";
+    $rZoneInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rZoneInfo)) {
         return false;
@@ -168,17 +169,17 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     $aZoneInfo = mysql_fetch_assoc($rZoneInfo);
 
     // Set the default banner preference information for the zone
-    $rPreferenceInfo = OA_Dal_Delivery_query("
-    SELECT
-        p.preference_id AS preference_id,
-        p.preference_name AS preference_name
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['preferences']}\" AS p
-    WHERE
-        p.preference_name = 'default_banner_image_url'
-        OR
-        p.preference_name = 'default_banner_destination_url'
-    ");
+    $query = "
+        SELECT
+            p.preference_id AS preference_id,
+            p.preference_name AS preference_name
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['preferences']}\" AS p
+        WHERE
+            p.preference_name = 'default_banner_image_url'
+            OR
+            p.preference_name = 'default_banner_destination_url'";
+    $rPreferenceInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rPreferenceInfo)) {
         return false;
@@ -191,84 +192,86 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
     // Set the IDs of the two preferences for default banner image and
     // destination URLs
     $aPreferenceInfo = mysql_fetch_assoc($rPreferenceInfo);
-    ${$aPreferenceInfo['preference_name'] . '_id'} = $aPreferenceInfo['preference_id'];
+    $variableName = $aPreferenceInfo['preference_name'] . '_id';
+    $$variableName = $aPreferenceInfo['preference_id'];
     $aPreferenceInfo = mysql_fetch_assoc($rPreferenceInfo);
-    ${$aPreferenceInfo['preference_name'] . '_id'} = $aPreferenceInfo['preference_id'];
+    $variableName = $aPreferenceInfo['preference_name'] . '_id';
+    $$variableName = $aPreferenceInfo['preference_id'];
 
     // Search for possible default banner preference information for the zone
-    $rDefaultBannerInfo = OA_Dal_Delivery_query("
-    SELECT
-        'default_banner_image_url_trafficker' AS item,
-        apa.value AS value
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
-    WHERE
-        apa.account_id = {$aZoneInfo['trafficker_account_id']}
-        AND
-        apa.preference_id = $default_banner_image_url_id
-    UNION
-    SELECT
-        'default_banner_image_destination_trafficker' AS item,
-        apa.value AS value
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
-    WHERE
-        apa.account_id = {$aZoneInfo['trafficker_account_id']}
-        AND
-        apa.preference_id = $default_banner_destination_url_id
-    UNION
-    SELECT
-        'default_banner_image_url_manager' AS item,
-        apa.value AS value
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
-    WHERE
-        apa.account_id = {$aZoneInfo['manager_account_id']}
-        AND
-        apa.preference_id = $default_banner_image_url_id
-    UNION
-    SELECT
-        'default_banner_destination_url_manager' AS item,
-        apa.value AS value
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
-    WHERE
-        apa.account_id = {$aZoneInfo['manager_account_id']}
-        AND
-        apa.preference_id = $default_banner_destination_url_id
-    UNION
-    SELECT
-        'default_banner_image_url_admin' AS item,
-        apa.value AS value
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
-        \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
-    WHERE
-        apa.account_id = a.account_id
-        AND
-        a.account_type = 'ADMIN'
-        AND
-        apa.preference_id = $default_banner_image_url_id
-    UNION
-    SELECT
-        'default_banner_destination_url_admin' AS item,
-        apa.value AS value
-    FROM
-        \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
-        \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
-    WHERE
-        apa.account_id = a.account_id
-        AND
-        a.account_type = 'ADMIN'
-        AND
-        apa.preference_id = $default_banner_destination_url_id
-    ");
+    $query = "
+        SELECT
+            'default_banner_image_url_trafficker' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['trafficker_account_id']}
+            AND
+            apa.preference_id = $default_banner_image_url_id
+        UNION
+        SELECT
+            'default_banner_destination_url_trafficker' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['trafficker_account_id']}
+            AND
+            apa.preference_id = $default_banner_destination_url_id
+        UNION
+        SELECT
+            'default_banner_image_url_manager' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['manager_account_id']}
+            AND
+            apa.preference_id = $default_banner_image_url_id
+        UNION
+        SELECT
+            'default_banner_destination_url_manager' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa
+        WHERE
+            apa.account_id = {$aZoneInfo['manager_account_id']}
+            AND
+            apa.preference_id = $default_banner_destination_url_id
+        UNION
+        SELECT
+            'default_banner_image_url_admin' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
+            \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
+        WHERE
+            apa.account_id = a.account_id
+            AND
+            a.account_type = 'ADMIN'
+            AND
+            apa.preference_id = $default_banner_image_url_id
+        UNION
+        SELECT
+            'default_banner_destination_url_admin' AS item,
+            apa.value AS value
+        FROM
+            \"{$aConf['table']['prefix']}{$aConf['table']['account_preference_assoc']}\" AS apa,
+            \"{$aConf['table']['prefix']}{$aConf['table']['accounts']}\" AS a
+        WHERE
+            apa.account_id = a.account_id
+            AND
+            a.account_type = 'ADMIN'
+            AND
+            apa.preference_id = $default_banner_destination_url_id";
+    $rDefaultBannerInfo = OA_Dal_Delivery_query($query);
 
     if (!is_resource($rDefaultBannerInfo)) {
         return false;
     }
 
-    if (mysql_num_rows($rDefaultBannerInfo) != 0) {
+    if (mysql_num_rows($rDefaultBannerInfo) == 0) {
         // No default banner image or destination URLs to deal with
         return $aZoneInfo;
     }
@@ -299,8 +302,8 @@ function OA_Dal_Delivery_getZoneInfo($zoneid) {
         if (isset($aDefaultImageURLs['default_banner_image_url_' . $type])) {
             $aZoneInfo['default_banner_image_url']  = $aDefaultImageURLs['default_banner_image_url_' . $type];
         }
-        if (isset($aDefaultImageURLs['default_banner_destination_url_' . $type])) {
-            $aZoneInfo['default_banner_destination_url']  = $aDefaultImageURLs['default_banner_destination_url_' . $type];
+        if (isset($aDefaultDestinationURLs['default_banner_destination_url_' . $type])) {
+            $aZoneInfo['default_banner_destination_url']  = $aDefaultDestinationURLs['default_banner_destination_url_' . $type];
         }
     }
 
