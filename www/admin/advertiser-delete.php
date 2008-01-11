@@ -40,7 +40,7 @@ require_once MAX_PATH . '/lib/OA/Maintenance/Priority.php';
 phpAds_registerGlobal ('returnurl');
 
 // Security check
-OA_Permission::enforceAccount(OA_ACCOUNT_ADVERTISER);
+OA_Permission::enforceAccount(OA_ACCOUNT_MANAGER);
 OA_Permission::enforceAccessToObject('clients', $clientid);
 
 /*-------------------------------------------------------*/
@@ -58,6 +58,7 @@ if (isset($session['prefs']['advertiser-index.php']['nodes'])) {
 if (!empty($clientid)) {
     $doClients = OA_Dal::factoryDO('clients');
     $doClients->clientid = $clientid;
+    $doClients->get($clientid);
     $doClients->delete();
 
     // Delete the advertiser from the $node_array,
