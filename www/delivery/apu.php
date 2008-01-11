@@ -2292,7 +2292,7 @@ $aLinkedAd['campaignid'] = $aLinkedAd['placement_id'];
 $aLinkedAd['prepend'] = '';
 return $aLinkedAd;
 }
-if (!empty($aDirectLinkedAds['default_banner_url'])) {
+if (!empty($aDirectLinkedAds['default_banner_image_url'])) {
 return array(
 'default'                        => true,
 'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
@@ -2350,7 +2350,7 @@ return ($aLinkedAd);
 $zoneId = _getNextZone($zoneId, $aZoneLinkedAds);
 }
 }
-if (!empty($aZoneLinkedAds['default_banner_url'])) {
+if (!empty($aZoneLinkedAds['default_banner_image_url'])) {
 return array(
 'default'                        => true,
 'default_banner_image_url'       => $aZoneLinkedAds['default_banner_image_url'],
