@@ -62,8 +62,12 @@ class OA_Email
     function preparePlacementDeliveryEmail($advertiserId, $oStartDate, $oEndDate)
     {
         OA::debug('   - Preparing "placement delivery" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-        $aPref = $this->_loadPrefs();
-        Language_Default::load();
+
+        /**
+         * @TODO: Need to update this to load the correct language for the owning advertiser - which
+         *        probably means sending a separate email report to every user linked to the advertiser
+         *        account, based on that user's language (once language has been set as a user property).
+         */
 
         // Load the required strings
         global $strMailHeader, $strSirMadam, $strMailBannerStats, $strMailReportPeriodAll,
@@ -389,8 +393,12 @@ class OA_Email
     function preparePlacementImpendingExpiryEmail($advertiserId, $placementId, $reason, $value, $type)
     {
         OA::debug('   - Preparing "impending expiry" report for advertiser ID ' . $advertiserId . '.', PEAR_LOG_DEBUG);
-        $aPref = $this->_loadPrefs();
-        Language_Default::load();
+
+        /**
+         * @TODO: Need to update this to load the correct language for the owning advertiser - which
+         *        probably means sending a separate email report to every user linked to the advertiser
+         *        account, based on that user's language (once language has been set as a user property).
+         */
 
         // Load the required strings
         global $strImpendingCampaignExpiryDateBody, $strImpendingCampaignExpiryImpsBody, $strMailHeader,
@@ -660,8 +668,12 @@ class OA_Email
         } else {
             OA::debug('   - Preparing "placement deactivated" email for placement ID ' . $placementId. '.', PEAR_LOG_DEBUG);
         }
-        $aPref = $this->_loadPrefs();
-        Language_Default::load();
+
+        /**
+         * @TODO: Need to update this to load the correct language for the owning advertiser - which
+         *        probably means sending a separate email report to every user linked to the advertiser
+         *        account, based on that user's language (once language has been set as a user property).
+         */
 
         // Load the required strings
         global $strMailHeader, $strSirMadam,
