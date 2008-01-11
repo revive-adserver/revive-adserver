@@ -120,7 +120,7 @@ $GLOBALS['_MAX']['MAX_RAND'] = isset($GLOBALS['_MAX']['CONF']['priority']['randm
 $GLOBALS['_MAX']['CONF']['priority']['randmax'] : 2147483647;
 // Always use UTC when outside the installer
 if (substr($_SERVER['SCRIPT_NAME'], -11) != 'install.php') {
-setTimeZoneUTC();
+OA_setTimeZoneUTC();
 }
 }
 function setupServerVariables()
@@ -156,14 +156,14 @@ date_default_timezone_set($location);
 putenv("TZ={$location}");
 }
 }
-function setTimeZoneUTC()
+function OA_setTimeZoneUTC()
 {
 OA_setTimeZone('UTC');
 }
-function setTimeZoneLocal()
+function OA_setTimeZoneLocal()
 {
-$tz = !empty($GLOBALS['_MAX']['CONF']['timezone']['location']) ?
-$GLOBALS['_MAX']['CONF']['timezone']['location'] :
+$tz = !empty($GLOBALS['_MAX']['PREF']['timezone']) ?
+$GLOBALS['_MAX']['PREF']['timezone'] :
 'GMT';
 OA_setTimeZone($tz);
 }
