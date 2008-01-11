@@ -166,7 +166,7 @@ class DB_DataObjectAuditTest extends DalUnitTestCase
         $this->assertEqual($oAudit->username,$session['username']);
         $this->assertEqual($oAudit->contextid,$userId);
         $this->assertEqual($aAudit['key_desc'],$doUsers->username);
-        $this->assertEqual($aAudit['user_id'],$doUsers->user_id);
+        $this->assertEqual($aAudit['user_id'],$userId);
         $this->assertEqual($aAudit['contact_name'],$doUsers->contact_name);
         $this->assertEqual($aAudit['username'],$doUsers->username);
         $this->assertEqual($aAudit['password'],'******');
