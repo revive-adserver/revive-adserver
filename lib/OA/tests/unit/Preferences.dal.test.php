@@ -29,11 +29,11 @@ require_once MAX_PATH . '/lib/OA/Preferences.php';
 require_once MAX_PATH . '/lib/OA/Dal/DataGenerator.php';
 
 /**
- * A class for testing DAL Permission methods
+ * A class for testing the core OA_Preferences class.
  *
  * @package    OpenadsPermission
  * @subpackage TestSuite
- *
+ * @author     Andrew Hill <andrew.hill@openads.org>
  */
 class Test_OA_Preferences extends UnitTestCase
 {
