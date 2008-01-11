@@ -171,19 +171,20 @@ class Migration_546Test extends MigrationTest
     {
         // Ensure that the old preference table conf entry exist
         $GLOBALS['_MAX']['CONF']['table']['preference'] = 'preference';
-
+        $aConf = &$GLOBALS['_MAX']['CONF']['table'];
         $this->oDbh = &OA_DB::singleton();
         $prefix = $this->getPrefix();
-        $this->tblPrefsOld  = $this->oDbh->quoteIdentifier($prefix.'preference', true);
-        $this->tblAgency    = $this->oDbh->quoteIdentifier($prefix.'agency', true);
-        $this->tblAffilates = $this->oDbh->quoteIdentifier($prefix.'affiliates', true);
-        $this->tblChannel   = $this->oDbh->quoteIdentifier($prefix.'channel', true);
-        $this->tblClients   = $this->oDbh->quoteIdentifier($prefix.'clients', true);
-        $this->tblUsers     = $this->oDbh->quoteIdentifier($prefix.'users', true);
 
-        $this->tblAccounts  = $this->oDbh->quoteIdentifier($prefix.'accounts', true);
-        $this->tblPrefsNew  = $this->oDbh->quoteIdentifier($prefix.'preferences',true);
-        $this->tblAccPrefs  = $this->oDbh->quoteIdentifier($prefix.'account_preference_assoc',true);
+        $this->tblPrefsOld  = $this->oDbh->quoteIdentifier($prefix.$aConf['preference'], true);
+        $this->tblAgency    = $this->oDbh->quoteIdentifier($prefix.$aConf['agency'], true);
+        $this->tblAffilates = $this->oDbh->quoteIdentifier($prefix.$aConf['affiliates'], true);
+        $this->tblChannel   = $this->oDbh->quoteIdentifier($prefix.$aConf['channel'], true);
+        $this->tblClients   = $this->oDbh->quoteIdentifier($prefix.$aConf['clients'], true);
+        $this->tblUsers     = $this->oDbh->quoteIdentifier($prefix.$aConf['users'], true);
+
+        $this->tblAccounts  = $this->oDbh->quoteIdentifier($prefix.$aConf['accounts'], true);
+        $this->tblPrefsNew  = $this->oDbh->quoteIdentifier($prefix.$aConf['preferences'],true);
+        $this->tblAccPrefs  = $this->oDbh->quoteIdentifier($prefix.$aConf['account_preference_assoc'],true);
 
         $this->_setupAccounts();
         $this->_setupPreferences();
@@ -252,7 +253,6 @@ class Migration_546Test extends MigrationTest
 
     function _setupSettings()
     {
-        $aConf = &$GLOBALS['_MAX']['CONF'];
         $aSettingsExpectations = $this->_getSettingsExpectations();
         foreach ($aSettingsExpectations AS $section => $aPair)
         {
