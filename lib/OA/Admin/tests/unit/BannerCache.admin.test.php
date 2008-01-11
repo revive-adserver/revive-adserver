@@ -53,13 +53,13 @@ class Test_OA_Admin_BannerCache extends UnitTestCase
 
     function test_getBannerCache()
     {
-        $GLOBALS['_MAX']['PREF']['banner_html_auto'] = 1;
+        $GLOBALS['_MAX']['PREF']['auto_alter_html_banners_for_click_tracking'] = 1;
 
         foreach ($this->aBanners AS $k => $aBanner)
         {
             $expected = $aBanner['expected'];
-           $result = phpAds_getBannerCache($aBanner);
-           $this->assertEqual($expected,$result);
+            $result = phpAds_getBannerCache($aBanner);
+            $this->assertEqual($expected,$result);
         }
     }
 

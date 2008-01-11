@@ -31,8 +31,8 @@ require_once MAX_PATH . '/lib/max/other/common.php';
 
 function phpAds_getBannerCache($banner)
 {
-    $conf = $GLOBALS['_MAX']['CONF'];
-    $pref = $GLOBALS['_MAX']['PREF'];
+    $aConf = $GLOBALS['_MAX']['CONF'];
+    $aPref = $GLOBALS['_MAX']['PREF'];
     $buffer = $banner['htmltemplate'];
 
     // Strip slashes from urls
@@ -46,7 +46,7 @@ function phpAds_getBannerCache($banner)
     // Auto change HTML banner
     if ($banner['storagetype'] == 'html')
     {
-        if ($banner['autohtml'] == 't' && $pref['banner_html_auto'])
+        if ($banner['autohtml'] == 't' && $aPref['auto_alter_html_banners_for_click_tracking'])
         {
             if ($buffer != '')
             {
@@ -59,7 +59,7 @@ function phpAds_getBannerCache($banner)
                 $buffer = preg_replace('#<a(.*?)href\s*=\s*(\\\\?[\'"])http(.*?)\2(.*?) *>#is', "<a$1href=$2{clickurl}http$3$2$4  target=$2{target}$2>", $buffer);
 
                 // Search: <\s*form (.*?)action\s*=\s*['"](.*?)['"](.*?)>
-                // Replace:<form\1 action="{url_prefix}/{$conf['file']['click']}" \3><input type='hidden' name='{clickurlparams}\2'>
+                // Replace:<form\1 action="{url_prefix}/{$aConf['file']['click']}" \3><input type='hidden' name='{clickurlparams}\2'>
                 $target = (!empty($banner['target'])) ? $banner['target'] : "_self";
                 $buffer = preg_replace(
                     '#<\s*form (.*?)action\s*=\s*[\\\\]?[\'"](.*?)[\'\\\"][\'\\\"]?(.*?)>(.*?)</form>#is',
@@ -67,8 +67,8 @@ function phpAds_getBannerCache($banner)
                     $buffer
                 );
 
-                //$buffer = preg_replace("#<form*action='*'*>#i","<form target='{target}' $1action='{url_prefix}/{}$conf['file']['click']'$3><input type='hidden' name='{clickurlparams}$2'>", $buffer);
-                //$buffer = preg_replace("#<form*action=\"*\"*>#i","<form target=\"{target}\" $1action=\"{url_prefix}/{$conf['file']['click']}\"$3><input type=\"hidden\" name=\"{clickurlparams}$2\">", $buffer);
+                //$buffer = preg_replace("#<form*action='*'*>#i","<form target='{target}' $1action='{url_prefix}/{}$aConf['file']['click']'$3><input type='hidden' name='{clickurlparams}$2'>", $buffer);
+                //$buffer = preg_replace("#<form*action=\"*\"*>#i","<form target=\"{target}\" $1action=\"{url_prefix}/{$aConf['file']['click']}\"$3><input type=\"hidden\" name=\"{clickurlparams}$2\">", $buffer);
 
                 // In addition, we need to add our clickURL to the clickTAG parameter if present, for 3rd party flash ads
                 $buffer = preg_replace('#clickTAG\s?=\s?(.*?)([\'"])#', "clickTAG={clickurl}$1$2", $buffer);
